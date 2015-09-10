@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 
 import cp.generator.MusicProperties;
 import cp.midi.MelodyInstrument;
+import cp.model.melody.CpMelody;
 import cp.model.melody.Melody;
 import cp.model.note.Note;
 import cp.model.note.NoteBuilder;
@@ -59,7 +60,7 @@ public class MusicXMLWriter {
 		createXML(id, melodiesForInstrument);
 	}
 
-	public void generateMusicXMLForMelodies(List<Melody> melodies, String id) throws Exception {
+	public void generateMusicXMLForMelodies(List<CpMelody> melodies, String id) throws Exception {
 		Map<Instrument, List<List<Note>>> melodiesForInstrument = getMelodyNotesForInstrument(melodies);
 		createXML(id, melodiesForInstrument);
 	}
@@ -136,17 +137,17 @@ public class MusicXMLWriter {
 	}
 
 	private Map<Instrument, List<List<Note>>> getMelodyNotesForInstrument(
-			List<Melody> melodies) {
+			List<CpMelody> melodies) {
 		Map<Instrument, List<List<Note>>> melodiesForInstrument = new HashMap<Instrument, List<List<Note>>>();
-		for (Melody melody : melodies) {
+		for (CpMelody melody : melodies) {
 			Instrument instrument = getInstrumentForVoice(melody.getVoice());
 			melodiesForInstrument.compute(instrument, (k, v) -> {
 					if (v == null) {
 						List<List<Note>> list = new ArrayList<>();
-						list.add(melody.getMelodieNotes());
+						list.add(melody.getNotes());
 						return list;
 					}else {
-						v.add(melody.getMelodieNotes());
+						v.add(melody.getNotes());
 						return v;
 					}
 				}

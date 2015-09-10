@@ -19,7 +19,7 @@ public abstract class Variation {
 
 	public Variation() {
 		scales = new ArrayList<>();
-		scales.add(new Scale(Scale.MAJOR_SCALE));
+		scales.add(Scale.MAJOR_SCALE);
 		profile = 100;
 		excludedVoices = new ArrayList<>();
 	}

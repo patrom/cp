@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import cp.generator.MusicProperties;
 import cp.midi.MelodyInstrument;
+import cp.model.melody.CpMelody;
 import cp.model.melody.Melody;
 import cp.model.note.NoteBuilder;
 import cp.variation.Embellisher;
@@ -46,13 +47,13 @@ public class ScoreUtilities implements JMC{
 		return r;
 	}
 	
-	public Score createScoreMelodies(List<Melody> melodies, double tempo){
+	public Score createScoreMelodies(List<CpMelody> melodies, double tempo){
 		Score score = new Score();
-		Part[] scoreParts = new Part[melodies.size() * 2];
+		Part[] scoreParts = new Part[melodies.size()];
 		int voice = 0;
-		for (Melody melody : melodies) {
+		for (CpMelody melody : melodies) {
 			Phrase phrase = null;
-			List<cp.model.note.Note> notes = melody.getMelodieNotes();
+			List<cp.model.note.Note> notes = melody.getNotes();
 //			if (melody.getVoice() == 3) {
 //				List<neo.model.note.Note> embellishedNotes = embellisher.embellish(notes);
 //				phrase = createPhrase(embellishedNotes);	
@@ -65,13 +66,13 @@ public class ScoreUtilities implements JMC{
 			scoreParts[voice] = part;
 			voice++;	
 		}
-		for (Melody melody : melodies) {
-			List<cp.model.note.Note> notes = melody.getHarmonyNotes();
-			Phrase phrase = createPhrase(notes);	
-			Part part = new Part(phrase);
-			scoreParts[voice] = part;
-			voice++;	
-		}
+//		for (CpMelody melody : melodies) {
+//			List<cp.model.note.Note> notes = melody.getHarmonyNotes();
+//			Phrase phrase = createPhrase(notes);	
+//			Part part = new Part(phrase);
+//			scoreParts[voice] = part;
+//			voice++;	
+//		}
 		for (int i = scoreParts.length - 1; i > -1; i--) {
 			score.add(scoreParts[i]);
 		}

@@ -1,7 +1,5 @@
 package cp.nsga;
 
-import org.springframework.stereotype.Component;
-
 import jmetal.core.Problem;
 import jmetal.core.Solution;
 
@@ -82,7 +80,7 @@ public class MusicSolution extends Solution {
 	
 	@Override
 	public String toString() {
-		return "MusicSolution [harmony=" + harmony + ", melody=" + melody
+		return "MusicSolution [harmony=" + harmony + ", melody=" + melody + ", rhythm=" + rhythm
 				+ ", voiceLeading=" + voiceLeading +  ", tonality=" + tonality +  "]";
 	}
 

@@ -56,17 +56,17 @@ public class MusicProblem extends Problem {
 
 		FitnessObjectiveValues objectives = fitnessEvaluationTemplate.evaluate(((MusicVariable) variables[0]).getMotive());
 
-		double harmonyObjective = 1 - (objectives.getHarmony());
-		solution.setObjective(0, harmonyObjective);// harmony
-		if (objectives.getVoiceleading() < 4) {
-			solution.setObjective(1, 0);
-		} else {
-			solution.setObjective(1, objectives.getVoiceleading());
-		}
+//		double harmonyObjective = 1 - (objectives.getHarmony());
+//		solution.setObjective(0, harmonyObjective);// harmony
+//		if (objectives.getVoiceleading() < 4) {
+//			solution.setObjective(1, 0);
+//		} else {
+//			solution.setObjective(1, objectives.getVoiceleading());
+//		}
 		double melodyObjective = 1 - melodyMembershipFunction.membership(1 - objectives.getMelody());
 		solution.setObjective(2, melodyObjective);// melody
-		double tonality = 1 - objectives.getTonality();
-		solution.setObjective(3, tonality);
+//		double tonality = 1 - objectives.getTonality();
+//		solution.setObjective(3, tonality);
 
 		// //constraints
 		// objectives[5] = lowestIntervalRegisterValue;
@@ -76,10 +76,11 @@ public class MusicProblem extends Problem {
 		// 10 notes)
 
 		MusicSolution musicSolution = (MusicSolution) solution;
-		musicSolution.setHarmony(harmonyObjective);
+//		musicSolution.setHarmony(harmonyObjective);
 		musicSolution.setVoiceLeading(objectives.getVoiceleading());
 		musicSolution.setMelody(1 - objectives.getMelody());
-		musicSolution.setTonality(tonality);
+//		musicSolution.setTonality(tonality);
+		musicSolution.setRhythm(1 - objectives.getRhythm());
 		// musicSolution.setConstraintLowestInterval(objectives[5]);
 		// musicSolution.setConstraintRhythm(objectives[6]);
 		// musicSolution.setConstraintRepetition(objectives[7]);

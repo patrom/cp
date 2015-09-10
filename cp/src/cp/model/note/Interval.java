@@ -25,7 +25,7 @@ public class Interval  {
 //	    put(12, new Interval(12, 0.0, 0.0, 0.0 , 0)); 
 	    
 	    //cope
-	    put(0, new Interval(0, 0.5, 0.2, 0.0, 0)); //melodisch gelijk aan grote secunde
+	    put(0, new Interval(0, 0.5, 0.2, 0.0, 0)); //octaaf
 	    put(1, new Interval(1, 0.9, 0.05, 0.2, 2)); //harmonic value for geometric mean!!!!
 	    put(2, new Interval(2, 1.0, 0.2, 0.4 , 4));
 	    put(3, new Interval(3, 0.8, 0.775, 0.6, 6)); 
@@ -37,8 +37,8 @@ public class Interval  {
 	    put(9, new Interval(9, 0.3, 0.75, 0.8, 7)); 
 	    put(10, new Interval(10, 0.2, 0.3, 0.3, 3)); 
 	    put(11, new Interval(11, 0.1, 0.1, 0.1, 1)); 
-	    put(12, new Interval(12, 0.8, 0.2, 0.0 , 0)); //verminder melodisch gebruik 
-	    put(13, new Interval(13, 0.0, 0.0, 0.0 , 0)); // vermijd melodisch - harmonisch
+//	    put(12, new Interval(12, 0.8, 0.2, 0.0 , 0)); //verminder melodisch gebruik 
+//	    put(13, new Interval(13, 0.0, 0.0, 0.0 , 0)); // vermijd melodisch - harmonisch
 	    //Roughness - worst interval is highest value!
 //	    put(0, new Interval(0, 1.0, 0.0, 0.0, 0)); 
 //	    put(1, new Interval(1, 0.9, 1 - 0.4779, 0.2, 2)); 
@@ -119,10 +119,10 @@ public class Interval  {
 	}
 	
 	public static Interval getEnumInterval(int difference) {
-		if (Math.abs(difference) > 12) {
-			difference = 13;
-		}
-		return intervalMap.get(Math.abs(difference));
+//		if (Math.abs(difference) > 12) {
+//			difference = 13;
+//		}
+		return intervalMap.get(Math.abs(difference % 12));
 	}
 	
 }

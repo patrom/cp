@@ -40,7 +40,7 @@ public abstract class Generator {
 	
 	public Motive generateMotive() {
 		generateHarmonyBuilders();
-		return new Motive(generateHarmonies(), musicProperties);
+		return null;
 	}
 	
 	private void generateHarmonyBuilders() {

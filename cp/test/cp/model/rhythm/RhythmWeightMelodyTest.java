@@ -64,7 +64,7 @@ public class RhythmWeightMelodyTest extends JFrame{
 			rhythmWeight.setNotes(notes);
 			rhythmWeight.updateRhythmWeight();
 			System.out.println(file.getName());
-			double profileAverage = rhythmObjective.getProfileAverage(notes, 3.0);
+			double profileAverage = rhythmObjective.getProfileAverage(notes, 3.0, 12);
 			System.out.println(profileAverage);
 //			for (Note note : notes) {
 //				System.out.print(note.getPitch() + ", " + note.getPositionWeight() + "; ");

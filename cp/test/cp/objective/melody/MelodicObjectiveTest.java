@@ -168,6 +168,18 @@ public class MelodicObjectiveTest extends AbstractTest {
 		LOGGER.info("Melody value: " + value);
 		assertEquals(1.0, value, 0);
 	}
+	
+	@Test
+	public void testEvaluateMelodySamePitch() {
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pitch(60).pc(0).pos(0).len(6).positionWeight(2.0).build());
+		notes.add(note().pitch(60).pc(2).pos(6).len(6).positionWeight(1.0).build());
+		notes.add(note().pitch(64).pc(4).pos(12).len(6).positionWeight(1.0).build());
+		notes.add(note().pitch(64).pc(4).pos(18).len(6).positionWeight(1.0).build());
+		double value = melodicObjective.evaluateMelody(notes, 1);
+		LOGGER.info("Melody value: " + value);
+		assertEquals(0.7, value, 0);
+	}
 
 
 

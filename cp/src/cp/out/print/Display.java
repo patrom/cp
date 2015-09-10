@@ -20,9 +20,10 @@ import jmetal.util.JMException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cp.NsgaApplication;
+import cp.CpApplication;
 import cp.model.Motive;
 import cp.model.harmony.Harmony;
+import cp.model.melody.CpMelody;
 import cp.model.melody.Melody;
 import cp.nsga.MusicSolution;
 import cp.nsga.MusicVariable;
@@ -44,13 +45,13 @@ public class Display {
 		  int i = 1;
 		  while (iterator.hasNext() && i < 4) {
 			MusicSolution solution = (MusicSolution) iterator.next();
-			String id = dateID + "_" + NsgaApplication.COUNTER.getAndIncrement();
+			String id = dateID + "_" + CpApplication.COUNTER.getAndIncrement();
 			LOGGER.info(id);
 			LOGGER.info(solution.toString());
 			Motive motive = ((MusicVariable)solution.getDecisionVariables()[0]).getMotive();
-			printHarmonies(motive.getHarmonies());
+//			printHarmonies(motive.getHarmonies());
 			viewScore(motive.getMelodies(), id, tempo);
-			List<Melody> reversedMelodies = motive.getMelodies();
+			List<CpMelody> reversedMelodies = motive.getMelodies();
 			Collections.reverse(reversedMelodies);
 			generateMusicXml(reversedMelodies, id);
 			i++;
@@ -77,12 +78,12 @@ public class Display {
 //			harmonies.forEach(h ->  LOGGER.info(h.getNotes() + ", "));
 		}
 		
-		private void generateMusicXml(List<Melody> melodies, String id) throws Exception{
+		private void generateMusicXml(List<CpMelody> melodies, String id) throws Exception{
 			musicXMLWriter.generateMusicXMLForMelodies(melodies, id);
 		}
 
-		private void viewScore(List<Melody> melodies, String id, double tempo) {
-			melodies.forEach(h ->  LOGGER.info(h.getMelodieNotes() + ", "));
+		private void viewScore(List<CpMelody> melodies, String id, double tempo) {
+			melodies.forEach(h ->  LOGGER.info(h.getNotes() + ", "));
 			Score score = scoreUtilities.createScoreMelodies(melodies, tempo);
 			score.setTitle(id);
 			Write.midi(score, "resources/midi/" + id + ".mid");	

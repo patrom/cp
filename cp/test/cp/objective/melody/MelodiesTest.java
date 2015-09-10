@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 
 import javax.sound.midi.InvalidMidiDataException;
 
+import jm.music.data.Part;
+import jm.music.data.Phrase;
 import jm.music.data.Score;
 import jm.util.View;
 
@@ -24,13 +26,19 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import cp.AbstractTest;
 import cp.DefaultConfig;
 import cp.evaluation.FitnessEvaluationTemplate;
+import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
 import cp.midi.MelodyInstrument;
 import cp.midi.MidiConverter;
 import cp.midi.MidiInfo;
 import cp.midi.MidiParser;
 import cp.model.dissonance.Dissonance;
+import cp.model.melody.CpMelody;
 import cp.model.note.Note;
+import cp.model.note.Scale;
+import cp.model.rhythm.Rhythm;
+import cp.model.rhythm.RhythmWeight;
+import cp.objective.rhythm.RhythmObjective;
 import cp.out.print.ScoreUtilities;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -49,6 +57,12 @@ public class MelodiesTest extends AbstractTest{
 	private MelodicObjective melodicObjective;
 	@Autowired
 	private ScoreUtilities scoreUtilities;
+	@Autowired
+	private RhythmWeight rhythmWeight;
+	@Autowired
+	private RhythmObjective rhythmObjective;
+	@Autowired
+	private MelodyGenerator melodyGenerator;
 	
 	@Before
 	public void setUp() throws IOException, InvalidMidiDataException {
@@ -86,12 +100,75 @@ public class MelodiesTest extends AbstractTest{
 		midiFiles = Files.list(new File(MelodiesTest.class.getResource("/melodies/solo").getPath()).toPath()).map(p -> p.toFile()).collect(Collectors.toList());
 		for (File file : midiFiles) {
 			MidiInfo midiInfo = midiParser.readMidi(file);
-			LOGGER.fine(file.getName());
+			LOGGER.info(file.getName());
 			List<MelodyInstrument> melodies = midiInfo.getMelodies();
+			List<Note> notes = melodies.get(0).getNotes();
+			rhythmWeight.setNotes(notes);
+			rhythmWeight.updateRhythmWeight();
+			double value = melodicObjective.evaluateMelody(notes, 1);
+			LOGGER.info("Intervals : " + value);
+			double value2 = melodicObjective.evaluateMelody(notes, 2);
+			LOGGER.info("Intervals 2: " + value2);
+			
+			List<Note> crestNotes = melodicObjective.filterCrestNotes(notes);
+			double crestValue = melodicObjective.evaluateMelody(crestNotes, 1);
+			LOGGER.info("crestValue : " + crestValue);
+			
+			List<Note> keelNotes = melodicObjective.filterKeelNotes(notes);
+			double keelValue = melodicObjective.evaluateMelody(keelNotes, 1);
+			LOGGER.info("keelValue : " + keelValue);
+			
+			List<Note> filteredNotes = rhythmWeight.filterRhythmWeigths(3.0);
+			double filtered = melodicObjective.evaluateMelody(filteredNotes, 1);
+			LOGGER.info("filtered : " + filtered);
+			double profile = rhythmObjective.getProfileAverage(notes, 3.0, 12);
+			LOGGER.info("profile 12: " + profile);
+			double profile2 = rhythmObjective.getProfileAverage(notes, 3.0, 6);
+			LOGGER.info("profile 6: " + profile2);
+			double profile3 = rhythmObjective.getProfileAverage(notes, 3.0, 24);
+			LOGGER.info("profile 24: " + profile3);
 			Score score = scoreUtilities.createScoreFromMelodyInstrument(melodies, (double) midiInfo.getTempo());
 			View.notate(score);
 			jm.util.Play.midi(score, true);
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
+	
+	@Test
+	public void generateMelodies() throws InvalidMidiDataException, IOException {
+		for (int i = 0; i < 10; i++) {
+			CpMelody melody = melodyGenerator.generateMelody(Scale.MAJOR_SCALE, new int[]{0, 96}, 6, 0);
+			List<Note> notes = melody.getNotes();
+			notes.forEach(n -> n.setPitch(n.getPitchClass() + 60));
+			rhythmWeight.setNotes(notes);
+			rhythmWeight.updateRhythmWeight();
+			double value = melodicObjective.evaluateMelody(notes, 1);
+			LOGGER.info("Intervals : " + value);
+			List<Note> filteredNotes = rhythmWeight.filterRhythmWeigths(3.0);
+			double filtered = melodicObjective.evaluateMelody(filteredNotes, 1);
+			LOGGER.info("filtered : " + filtered);
+			double profile = rhythmObjective.getProfileAverage(notes, 3.0, 12);
+			LOGGER.info("profile : " + profile);
+			Phrase phrase = scoreUtilities.createPhrase(notes);
+			Score score = new Score();
+			Part part = new Part();
+			part.add(phrase);
+			score.add(part);
+			View.notate(score);
+			jm.util.Play.midi(score, true);
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	
 
 }

@@ -128,6 +128,14 @@ public class RhythmWeightTest {
 		assertEquals(1 , pitches.get(0).getPositionWeight(), 0);
 		assertEquals(1 , pitches.get(1).getPositionWeight(), 0);
 		assertEquals(1 , pitches.get(3).getPositionWeight(), 0);
+		
+		assertTrue(notes.get(0).isKeel());
+		assertFalse(notes.get(1).isKeel());
+		assertFalse(notes.get(1).isCrest());
+		assertTrue(notes.get(2).isCrest());
+		assertFalse(notes.get(3).isKeel());
+		assertFalse(notes.get(3).isCrest());
+		assertTrue(notes.get(4).isKeel());
 	}
 
 	@Test

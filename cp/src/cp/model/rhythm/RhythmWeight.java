@@ -61,7 +61,7 @@ public class RhythmWeight {
 		}
 	}
 
-	protected List<Note> extractDifferentPitches() {
+	public List<Note> extractDifferentPitches() {
 		List<Note> pitches = new ArrayList<>();
 		int prevPitch = 0;
 		for (Note note : notes) {
@@ -83,12 +83,18 @@ public class RhythmWeight {
 			int interval = nextNote.getPitch() - note.getPitch();
 			if (i == 0) {
 				note.setPositionWeight(note.getPositionWeight() + DIASTEMATY_WEIGHT);
+				if (interval > 0) {
+					note.setKeel(true);
+				} else {
+					note.setCrest(true);
+				}
 			}
 			if (interval > 0) {
 				positive = true;
 				if (negative) {
 					//change keel
 					note.setPositionWeight(note.getPositionWeight() + DIASTEMATY_WEIGHT);
+					note.setKeel(true);
 					negative = false;
 				}
 			}else{
@@ -96,6 +102,7 @@ public class RhythmWeight {
 				if (positive) {
 					//change crest
 					note.setPositionWeight(note.getPositionWeight() + DIASTEMATY_WEIGHT);
+					note.setCrest(true);
 					positive = false;
 				}
 			}

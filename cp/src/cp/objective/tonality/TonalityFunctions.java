@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 
+import cp.model.melody.CpMelody;
 import cp.model.melody.Melody;
 import cp.model.note.Note;
 
@@ -71,9 +72,10 @@ public class TonalityFunctions {
 		return null;
 	}
 
-	public static double getMaxCorrelationTonality(Melody structure,
+	
+	public static double getMaxCorrelationTonality(CpMelody structure,
 			double[] template) {
-		List<cp.model.note.Note> notePositions = structure.getMelodieNotes();
+		List<cp.model.note.Note> notePositions = structure.getNotes();
 		double[] durationVector = new double[12];
 		for (cp.model.note.Note note : notePositions) {
 			int pitchClass = note.getPitch() % 12;
@@ -85,11 +87,11 @@ public class TonalityFunctions {
 	}
 
 	public static double getMaxCorrelationTonality(
-			List<Melody> structures, double[] template,
+			List<CpMelody> structures, double[] template,
 			double[] context) {
 		double[] durationVector = new double[12];
-		for (Melody musicalStructure : structures) {
-			List<Note> notePositions = musicalStructure.getMelodieNotes();
+		for (CpMelody musicalStructure : structures) {
+			List<Note> notePositions = musicalStructure.getNotes();
 			for (Note note : notePositions) {
 				if (!note.isRest()) {
 					double registerValue = calculateRegisterValue(note.getPitch());

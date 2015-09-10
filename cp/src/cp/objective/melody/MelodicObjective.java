@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 import cp.model.Motive;
 import cp.model.dissonance.Dissonance;
 import cp.model.harmony.Chord;
-import cp.model.melody.Melody;
+import cp.model.melody.CpMelody;
 import cp.model.note.Interval;
 import cp.model.note.Note;
 import cp.objective.Objective;
@@ -33,10 +33,10 @@ public class MelodicObjective extends Objective {
 	@Override
 	public double evaluate(Motive motive) {
 		double totalMelodySum = 0;
-		List<Melody> melodies = motive.getMelodies();
+		List<CpMelody> melodies = motive.getMelodies();
 		int melodyCount = melodies.size();
-		for(Melody melody: melodies){
-			List<Note> notes =  melody.getMelodieNotes();
+		for(CpMelody melody: melodies){
+			List<Note> notes =  melody.getNotes();
 			double melodyValue = evaluateMelody(notes, 2);
 //			notes = extractNotesOnLevel(notes, 1);
 			for (double level : musicProperties.getFilterLevels()) {
@@ -91,18 +91,20 @@ public class MelodicObjective extends Objective {
 		int difference = 0;
 		if (note.getPitch() != 0 && nextNote.getPitch() != 0) {
 			difference = nextNote.getPitch() - note.getPitch();
-		}else{
-			difference = Math.abs(note.getPitchClass() - nextNote.getPitchClass());
-		}	
+		}
+//		else{
+//			difference = note.getPitchClass() - nextNote.getPitchClass();
+//		}	
 		return Interval.getEnumInterval(difference).getMelodicValue();
 	}
 	
 	public double evaluateMelody(List<Note> notes, int maxDistance) {
 		if (notes.size() <= 1) {
-			throw new IllegalArgumentException("size");
+			return Double.MIN_VALUE;
 		}
-		double totalPositionWeight = getTotalPositionWeiht(notes);
-		Note[] notePositions = notes.toArray(new Note[notes.size()]);
+		List<Note> pitches = extractDifferentPitches(notes);//repeated note intervals are not calculated!
+		double totalPositionWeight = getTotalPositionWeiht(pitches);
+		Note[] notePositions = pitches.toArray(new Note[pitches.size()]);
 		double melodyIntervalValueSum = 0;
 		for (int distance = 1; distance <= maxDistance; distance++) {
 			for (int j = 0; j < notePositions.length - distance; j++) {
@@ -114,13 +116,33 @@ public class MelodicObjective extends Objective {
 				melodyIntervalValueSum = melodyIntervalValueSum + intervalValue;
 			}
 		}
-		return melodyIntervalValueSum;
+		return melodyIntervalValueSum/maxDistance;
 	}
 	
 	private double getTotalPositionWeiht(List<Note> notes){
 		double sumPositionWeights = notes.stream().mapToDouble(n -> n.getPositionWeight()).sum();
 		double total = (sumPositionWeights * 2) - notes.get(0).getPositionWeight() - notes.get(notes.size() - 1).getPositionWeight();
 		return total;
+	}
+	
+	public List<Note> filterKeelNotes(List<Note> notes){
+		return notes.stream().filter(n -> n.isKeel()).collect(toList());
+	}
+	
+	public List<Note> filterCrestNotes(List<Note> notes){
+		return notes.stream().filter(n -> n.isCrest()).collect(toList());
+	}
+	
+	public List<Note> extractDifferentPitches(List<Note> notes) {
+		List<Note> pitches = new ArrayList<>();
+		int prevPitch = 0;
+		for (Note note : notes) {
+			if (note.getPitch() != prevPitch) {
+				pitches.add(note);
+			}
+			prevPitch = note.getPitch();
+		}
+		return pitches;
 	}
 
 }

@@ -30,24 +30,24 @@ public class MusicVariableTest {
 	
 	@Before
 	public void setup() {
-		List<Note> melodyNotes = new ArrayList<>();
-		melodyNotes.add(note().pc(0).pos(0).len(12).build());
-		melodyNotes.add(note().pc(2).pos(12).len(12).build());
-		int voice = 1;
-		Harmony harmony = harmony().pos(0).len(24).positionWeight(3.0).build();
-		HarmonicMelody harmonicMelody = harmonicMelody().notes(melodyNotes).harmonyNote(note().pc(0).build()).voice(voice).build();
-		harmony.addHarmonicMelody(harmonicMelody);
-		harmony.setPitchSpace(new UniformPitchSpace(range, instruments));
-		harmonies.add(harmony);
-		motive = new Motive(harmonies, musicProperties);
+//		List<Note> melodyNotes = new ArrayList<>();
+//		melodyNotes.add(note().pc(0).pos(0).len(12).build());
+//		melodyNotes.add(note().pc(2).pos(12).len(12).build());
+//		int voice = 1;
+//		Harmony harmony = harmony().pos(0).len(24).positionWeight(3.0).build();
+//		HarmonicMelody harmonicMelody = harmonicMelody().notes(melodyNotes).harmonyNote(note().pc(0).build()).voice(voice).build();
+//		harmony.addHarmonicMelody(harmonicMelody);
+//		harmony.setPitchSpace(new UniformPitchSpace(range, instruments));
+//		harmonies.add(harmony);
+//		motive = new Motive(harmonies, musicProperties);
 	}
 
 
-	@Test
-	public void testCloneMotives() {
-		MusicVariable musicVariable = new MusicVariable(motive);
-		Motive clonedMotive = musicVariable.cloneMotives(motive);
-		assertEquals(harmonies.size(), clonedMotive.getHarmonies().size());
-	}
+//	@Test
+//	public void testCloneMotives() {
+//		MusicVariable musicVariable = new MusicVariable(motive);
+//		Motive clonedMotive = musicVariable.cloneMotives(motive);
+//		assertEquals(harmonies.size(), clonedMotive.getHarmonies().size());
+//	}
 
 }

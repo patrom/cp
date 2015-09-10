@@ -6,8 +6,8 @@ import cp.variation.nonchordtone.Variation;
 public abstract class FreeSuspesion extends Variation {
 	
 	public FreeSuspesion() {
-		scales.add(new Scale(Scale.MIXOLYDIAN_SCALE));
-		scales.add(new Scale(Scale.LYDIAN_SCALE));
+		scales.add(Scale.MIXOLYDIAN_SCALE);
+		scales.add(Scale.LYDIAN_SCALE);
 		profile = 70;
 		excludedVoices.add(0);
 		excludedVoices.add(1);

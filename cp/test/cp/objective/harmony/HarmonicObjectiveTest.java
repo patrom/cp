@@ -35,14 +35,14 @@ public class HarmonicObjectiveTest extends JFrame {
 		musicProperties.setMinimumLength(6);
 	}
 
-	@Test
-	public void testEvaluate() {
-		List<Harmony> harmonies = new ArrayList<>();
-		harmonies.add(harmony().pos(0).len(6).notes(0,4,7).positionWeight(1.0).build());
-		harmonies.add(harmony().pos(6).len(6).notes(1,4,6).positionWeight(0.5).build());
-		harmonies.add(harmony().pos(12).len(12).notes(11,2,7).positionWeight(1.0).build());
-		harmonies.forEach(harmony -> harmony.toChord());
-		double harmonicValue = harmonicObjective.evaluate(new Motive(harmonies, musicProperties));
-	}
+//	@Test
+//	public void testEvaluate() {
+//		List<Harmony> harmonies = new ArrayList<>();
+//		harmonies.add(harmony().pos(0).len(6).notes(0,4,7).positionWeight(1.0).build());
+//		harmonies.add(harmony().pos(6).len(6).notes(1,4,6).positionWeight(0.5).build());
+//		harmonies.add(harmony().pos(12).len(12).notes(11,2,7).positionWeight(1.0).build());
+//		harmonies.forEach(harmony -> harmony.toChord());
+//		double harmonicValue = harmonicObjective.evaluate(new Motive(harmonies, musicProperties));
+//	}
 
 }

@@ -17,16 +17,17 @@ public class MusicProperties {
 	private int harmonyBeatDivider = 12;
 	private int tempo = 100;
 	private Map<Integer, Double> rhythmWeightValues = new TreeMap<>(); //Must match length of harmonies based on division by minimumLength.
-	private int minimumLength;
+	private int minimumLength = 12;
 	private int chordSize;
 	private Integer[] octaveLowestPitchClassRange = {0};
 	private boolean outerBoundaryIncluded = true;
 	private double[] filterLevels = {0.5};
 	private List<Instrument> instruments;
+	private int minimumRhythmFilterLevel = 3;
 	
 	//tonality
-	private Scale scale = new Scale(Scale.CHROMATIC_SCALE);
-	private Scale melodyScale = new Scale(Scale.OCTATCONIC_HALF);
+	private Scale scale = Scale.CHROMATIC_SCALE;
+	private Scale melodyScale = Scale.OCTATCONIC_HALF;
 	
 	//harmony
 	private double harmonyConsDissValue = 0.3;
@@ -276,6 +277,14 @@ public class MusicProperties {
 
 	public void setInstruments(List<Instrument> instruments) {
 		this.instruments = instruments;
+	}
+
+	public int getMinimumRhythmFilterLevel() {
+		return minimumRhythmFilterLevel;
+	}
+
+	public void setMinimumRhythmFilterLevel(int minimumRhythmFilterLevel) {
+		this.minimumRhythmFilterLevel = minimumRhythmFilterLevel;
 	}
 	
 }

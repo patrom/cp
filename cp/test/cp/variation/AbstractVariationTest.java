@@ -18,7 +18,7 @@ public abstract class AbstractVariationTest {
 	protected double[][] pattern;
 
 	protected void setVariation() {
-		variation.setScales(Collections.singletonList(new Scale(Scale.MAJOR_SCALE)));
+		variation.setScales(Collections.singletonList(Scale.MAJOR_SCALE));
 		variationPattern.setPatterns(pattern);
 		List<Integer> allowedLengths = new ArrayList<>();
 		allowedLengths.add(12);

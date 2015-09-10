@@ -22,8 +22,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
+import cp.model.melody.CpMelody;
 import cp.model.note.Note;
 import cp.model.note.NoteBuilder;
+import cp.model.note.Scale;
 import cp.objective.melody.MelodicObjective;
 import cp.objective.rhythm.RhythmObjective;
 import cp.out.print.ScoreUtilities;
@@ -57,7 +59,7 @@ public class MelodyGeneratorTest extends JFrame{
 	
 	@Test
 	public void testGenerateMelodyNotes() {
-		int[] beginEndPosition = {0, 96};
+		int[] beginEndPosition = {12, 96};
 		int minimumNoteValue = 6;
 		List<Note> scaleNotes = new ArrayList<>();
 		scaleNotes.add(NoteBuilder.note().pc(0).build());
@@ -68,9 +70,9 @@ public class MelodyGeneratorTest extends JFrame{
 		scaleNotes.add(NoteBuilder.note().pc(9).build());
 		scaleNotes.add(NoteBuilder.note().pc(11).build());
 		
-		List<Note> melodyNotes = melodyGenerator.generateMelody(scaleNotes, beginEndPosition, minimumNoteValue);
-		melodyNotes.forEach(note -> note.setPitch(note.getPitchClass() + 60));
-		Score score = scoreUtilities.createMelody(melodyNotes);
+		CpMelody melody = melodyGenerator.generateMelody(Scale.MAJOR_SCALE, beginEndPosition, minimumNoteValue, 0);
+		melody.getNotes().forEach(note -> note.setPitch(note.getPitchClass() + 60));
+		Score score = scoreUtilities.createMelody(melody.getNotes());
 		View.notate(score);
 		Play.midi(score, true);
 	}
@@ -80,26 +82,15 @@ public class MelodyGeneratorTest extends JFrame{
 		int[] harmony = {0, 48};
 		int max = 8;
 		int[] positions = melodyGenerator.generateMelodyPositions(harmony, 6, max);
-		List<Note> chordNotes = new ArrayList<>();
-		chordNotes.add(NoteBuilder.note().pc(0).voice(3).build());
-		chordNotes.add(NoteBuilder.note().pc(4).voice(3).build());
-		chordNotes.add(NoteBuilder.note().pc(7).voice(3).build());
-		List<Note> melodyChordNotes = melodyGenerator.generateMelodyChordNotes(positions, chordNotes);
-		for (Note note : melodyChordNotes) {
-			note.setPitch(note.getPitchClass() + 60);
-		}
-		System.out.println(melodyChordNotes);
-		List<Note> embellishedNotes = embellisher.embellish(melodyChordNotes);
+		List<Note> melodyNotes = melodyGenerator.generateMelodyNotes(positions, Scale.MAJOR_SCALE.getScale());
+		melodyNotes.forEach(note -> note.setPitch(note.getPitchClass() + 60));
+		System.out.println(melodyNotes);
 		Score score = new Score();
-		Phrase phrase = scoreUtilities.createPhrase(melodyChordNotes);	
+		Phrase phrase = scoreUtilities.createPhrase(melodyNotes);	
 		Part part = new Part(phrase);
-		score.add(part);
-		phrase = scoreUtilities.createPhrase(embellishedNotes);	
-		part = new Part(phrase);
 		score.add(part);
 		View.notate(score);
 		Play.midi(score, true);
-		
 	}
 
 }

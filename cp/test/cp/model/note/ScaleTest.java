@@ -13,7 +13,7 @@ public class ScaleTest {
 	
 	@Before
 	public void setUp() {
-		scale = new Scale(Scale.MAJOR_SCALE);
+		scale = Scale.MAJOR_SCALE;
 	}
 
 	@Test

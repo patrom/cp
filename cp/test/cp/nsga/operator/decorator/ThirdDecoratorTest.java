@@ -22,7 +22,7 @@ public class ThirdDecoratorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Scale scale = new Scale(Scale.MAJOR_SCALE);
+		Scale scale = Scale.MAJOR_SCALE;
 		int step = 2;
 		noteConsumer = note -> note.setPitchClass(scale.pickLowerStepFromScale(note.getPitchClass(), step));
 	}

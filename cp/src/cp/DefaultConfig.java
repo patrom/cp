@@ -14,7 +14,10 @@ public class DefaultConfig {
 	
 	@Bean
 	public HashMap<String, Object> parameters() {
-		return new HashMap<>();
+		HashMap<String, Object> probabilityParamters = new HashMap<>();
+		probabilityParamters.put("probabilityAddRhythm", 1.0);
+		probabilityParamters.put("probabilityOneNote", 1.0);
+		return probabilityParamters;
 	}
 	
 	@Bean

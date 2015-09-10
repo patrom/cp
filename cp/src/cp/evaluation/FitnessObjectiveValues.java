@@ -6,6 +6,7 @@ public class FitnessObjectiveValues {
 	private double melody;
 	private double voiceleading;
 	private double tonality;
+	private double rhythm;
 	
 	public double getHarmony() {
 		return harmony;
@@ -36,6 +37,12 @@ public class FitnessObjectiveValues {
 	}
 	public void setTonality(double tonality) {
 		this.tonality = tonality;
+	}
+	public double getRhythm() {
+		return rhythm;
+	}
+	public void setRhythm(double rhythm) {
+		this.rhythm = rhythm;
 	}
 	
 }

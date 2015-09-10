@@ -88,13 +88,13 @@ public class HarmonicMelodyTest {
 	
 	@Test
 	public void testMutateHarmonyNextNoteToPitch() {  
-		harmonicMelody.mutateHarmonyNextNoteToPitch(new Scale(Scale.MAJOR_SCALE));
+		harmonicMelody.mutateHarmonyNextNoteToPitch(Scale.MAJOR_SCALE);
 		assertEquals(2, harmonicMelody.getHarmonyNote().getPitchClass());
 	}
 	
 	@Test
 	public void testMutateHarmonyPreviousNoteToPitch() {  
-		harmonicMelody.mutateHarmonyPreviousNoteToPitch(new Scale(Scale.MAJOR_SCALE));
+		harmonicMelody.mutateHarmonyPreviousNoteToPitch(Scale.MAJOR_SCALE);
 		assertEquals(11, harmonicMelody.getHarmonyNote().getPitchClass());
 	}
 	
@@ -107,7 +107,7 @@ public class HarmonicMelodyTest {
 	
 	@Test
 	public void testMutateHarmonyNoteToRandomPitch() {  
-		harmonicMelody.mutateHarmonyNoteToRandomPitch(new Scale(Scale.MAJOR_SCALE));
+		harmonicMelody.mutateHarmonyNoteToRandomPitch(Scale.MAJOR_SCALE);
 		assertTrue(harmonicMelody.getMelodyNotes().stream()
 				.anyMatch(note -> note.getPitchClass() == harmonicMelody.getHarmonyNote().getPitchClass()));
 	}

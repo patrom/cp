@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -33,24 +34,24 @@ import cp.generator.RandomNotesGenerator;
 import cp.generator.TonalChordGenerator;
 import cp.generator.TonalChords;
 import cp.model.Motive;
+import cp.model.melody.CpMelody;
+import cp.model.note.Scale;
 import cp.nsga.MusicSolutionType;
 import cp.nsga.operator.mutation.harmony.HarmonyNoteToPitch;
 import cp.nsga.operator.mutation.harmony.SwapHarmonyNotes;
 import cp.nsga.operator.mutation.melody.MelodyNoteToHarmonyNote;
 import cp.nsga.operator.mutation.melody.OneNoteMutation;
+import cp.nsga.operator.mutation.rhythm.AddRhythm;
 import cp.out.print.Display;
 
 @Import({DefaultConfig.class, VariationConfig.class})
-public class NsgaApplication extends JFrame implements CommandLineRunner{
+public class CpApplication extends JFrame implements CommandLineRunner{
 	
-	private static Logger LOGGER = Logger.getLogger(NsgaApplication.class.getName());
-//	
-//	@Autowired
-//	private Problem problem;
+	private static Logger LOGGER = Logger.getLogger(CpApplication.class.getName());
+	
 	@Autowired
 	private MusicSolutionType solutionType;
 	@Autowired 
-//	@Qualifier(value="crossover")
 	private Operator crossover;
 	@Autowired
 	private OneNoteMutation oneNoteMutation;
@@ -60,6 +61,8 @@ public class NsgaApplication extends JFrame implements CommandLineRunner{
 	private HarmonyNoteToPitch harmonyNoteToPitch;
 	@Autowired
 	private MelodyNoteToHarmonyNote melodyNoteToHarmonyNote;
+	@Autowired
+	private AddRhythm addRhythm;
 	@Autowired
 	private Operator pitchSpaceMutation;
 	@Autowired
@@ -80,7 +83,7 @@ public class NsgaApplication extends JFrame implements CommandLineRunner{
 	public static void main(final String[] args) throws IOException {
 		for (int i = 0; i < 1; i++) {
 			LOGGER.info("RUN: " + i + " START");
-			SpringApplication app = new SpringApplication(NsgaApplication.class);
+			SpringApplication app = new SpringApplication(CpApplication.class);
 		    app.setShowBanner(false);
 		    app.run(args);
 		    LOGGER.info("RUN: " + i + " END");
@@ -90,38 +93,11 @@ public class NsgaApplication extends JFrame implements CommandLineRunner{
 	@Override
 	public void run(String... arg0) throws Exception {
 		deleteMidiFiles(midiFilesPath);
-//		musicProperties.threeFour();
-		musicProperties.fourFour();
-//		int[] generatedHamonies = melodyGenerator.generateHarmonyPositions(12, 4, 4);
-//		int[][] melodyPositions = melodyGenerator.generateMelodies(generatedHamonies, 12);
-		int[] harmonies = {0,12, 24,48,72, 96};
-		int[][] melodies = {{18,24},{0,6,18},{6,12},{0, 18, 24},{0,24},{0,12},{0,12},{0, 18, 24},{0,24},{}};
-//		int[][] melodies2 = {{18,24},{0, 12},{0, 12},{12,24},{0,12},{0,12},{0,12},{0,12},{0,12,24},{}};
-//		int[][] generatedMelodyPositions = new int[harmonies.length - 1][];
-//		for (int i = 0, j = 0; i < harmonies.length - 1; i++, j++) {
-//			int[] harmony = {0, harmonies[i + 1] - harmonies[i]};
-//			int[] melody = melodyGenerator.generateMelodyPositions(harmony, 12, 2);
-//			generatedMelodyPositions[j] = melody;
-//		}
+//		musicProperties.fourFour();
 
-
-//		BeginEndChordGenerator generator = beginEndChordGenerator;
-		
-//		TonalChordGenerator generator = new TonalChordGenerator(harmonies, musicProperties);
-////		generator.generateHarmonicMelodiesForVoice(melodies, 3);
-//		int key = 0;
-//		musicProperties.setKeySignature(key);
-//		generator.setChords(TonalChords.getTriads(key));
-//		generator.addChords(TonalChords.getTriads(key + 7));
-//		generator.addChords(TonalChords.getTriads(key + 5));
-
-		Generator generator = new RandomNotesGenerator(harmonies, musicProperties);
-//		generator.generateHarmonicMelodiesForVoice(generatedMelodyPositions, 5);
-//		generator.generateHarmonicMelodiesForVoice(melodies, 3);
-		
-//		Generator generator = new DiffSizeGenerator(harmonies, musicProperties);
-//		Generator generator = new PerleChordGenerator(harmonies, musicProperties);
-	    Motive motive = generator.generateMotive();
+		CpMelody cpMelody = melodyGenerator.generateMelody(Scale.MAJOR_SCALE, new int[]{0,60}, 6, 0);
+		cpMelody.updatePitches(5);
+	    Motive motive = new Motive(Collections.singletonList(cpMelody), musicProperties);
 	    solutionType.setMotive(motive);
 	    
 	    // Algorithm parameters
@@ -134,32 +110,33 @@ public class NsgaApplication extends JFrame implements CommandLineRunner{
 	    
 	    //harmony
 	    List<Integer> allowedDefaultIndexes = allowedDefaultIndexes();
-	    harmonyNoteToPitch.setParameter("probabilityHarmonyNoteToPitch", 1.0);
+	    harmonyNoteToPitch.setParameter("probabilityHarmonyNoteToPitch", 0.0);
 	    harmonyNoteToPitch.setAllowedMelodyMutationIndexes(allowedDefaultIndexes);
 //	    harmonyNoteToPitch.setOuterBoundaryIncluded(false);//default == true;
 	    
-	    swapHarmonyNotes.setParameter("probabilitySwap", 1.0);
+	    swapHarmonyNotes.setParameter("probabilitySwap", 0.0);
 	    swapHarmonyNotes.setAllowedMelodyMutationIndexes(allowedDefaultIndexes);
 	    
 	    //melody
-	    melodyNoteToHarmonyNote.setParameter("probabilityMelodyNoteToHarmonyNote", 1.0);
+	    melodyNoteToHarmonyNote.setParameter("probabilityMelodyNoteToHarmonyNote", 0.0);
 	    melodyNoteToHarmonyNote.setAllowedMelodyMutationIndexes(allowedDefaultIndexes);
 //	    melodyNoteToHarmonyNote.setOuterBoundaryIncluded(false);
 	    
-	    oneNoteMutation.setParameter("probabilityOneNote", 1.0);
-	    oneNoteMutation.setAllowedMelodyMutationIndexes(allowedDefaultIndexes);
+//	    oneNoteMutation.setParameter("probabilityOneNote", 1.0);
+//	    oneNoteMutation.setAllowedMelodyMutationIndexes(allowedDefaultIndexes);
 //	    oneNoteMutation.setOuterBoundaryIncluded(false);
 	    
 	    //pitch
-	    pitchSpaceMutation.setParameter("probabilityPitchSpace", 1.0);
+	    pitchSpaceMutation.setParameter("probabilityPitchSpace", 0.0);
 	
 	    // Add the operators to the algorithm
 	    algorithm.addOperator("crossover", crossover);
 	    algorithm.addOperator("oneNoteMutation", oneNoteMutation);
-	    algorithm.addOperator("swapHarmonyNotes", swapHarmonyNotes);
-	    algorithm.addOperator("harmonyNoteToPitch", harmonyNoteToPitch);
-	    algorithm.addOperator("melodyNoteToHarmonyNote", melodyNoteToHarmonyNote);
-	    algorithm.addOperator("pitchSpaceMutation", pitchSpaceMutation);
+//	    algorithm.addOperator("swapHarmonyNotes", swapHarmonyNotes);
+//	    algorithm.addOperator("harmonyNoteToPitch", harmonyNoteToPitch);
+//	    algorithm.addOperator("melodyNoteToHarmonyNote", melodyNoteToHarmonyNote);
+	    algorithm.addOperator("addRhythm", addRhythm);
+//	    algorithm.addOperator("pitchSpaceMutation", pitchSpaceMutation);
 	    algorithm.addOperator("selection", SelectionFactory.getSelectionOperator("BinaryTournament2", parameters));
 	
 	    // Execute the Algorithm

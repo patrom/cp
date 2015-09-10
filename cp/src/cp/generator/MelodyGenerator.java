@@ -1,5 +1,7 @@
 package cp.generator;
 
+import static cp.model.note.NoteBuilder.note;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -7,54 +9,17 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import cp.model.melody.CpMelody;
 import cp.model.note.Note;
-import cp.objective.melody.MelodicObjective;
-import cp.objective.rhythm.RhythmObjective;
+import cp.model.note.Scale;
 import cp.util.RandomUtil;
 
 @Component
 public class MelodyGenerator {
 	
-	@Autowired
-	private RhythmObjective rhythmObjective;
-	@Autowired
-	private MelodicObjective melodicObjective;
-
 	private Random random = new Random();
-	@Autowired
-	private MusicProperties musicProperties;
-	
-	public int[] generateHarmonyPositions(int minimumLength, int maxHarmonies, int bars){
-		int limit = (12/minimumLength) * musicProperties.getNumerator() * bars;
-		IntStream intStream = random.ints(limit, 0, limit);
-		List<Integer> positions = intStream
-				.distinct()
-				.map(i -> i * minimumLength)
-				.boxed()
-				.collect(Collectors.toList());
-		int max = (maxHarmonies > positions.size())?positions.size():maxHarmonies;
-		positions = positions.subList(0, max + 1);
-		positions.sort(Comparator.naturalOrder());
-		int[] pos = new int[positions.size()];
-		for (int j = 0; j < pos.length; j++) {
-			pos[j] = positions.get(j);
-		}
-		return pos;
-	}
-	
-	public int[][] generateMelodies(int[] harmonyPositions, int minimumLength){
-		int[][] melodyPositions = new int[harmonyPositions.length - 1][];
-		for (int i = 0; i < harmonyPositions.length - 1; i++) {
-			int[] melPosition = new int[2];
-			melPosition[0] = 0;
-			melPosition[1] = harmonyPositions[i + 1] - harmonyPositions[i];
-			melodyPositions[i] = melPosition;
-		}
-		return melodyPositions;
-	}
 	
 	public int[] generateMelodyPositions(int[] harmony, int minimumLength, int maxMelodyNotes){
 		int[] pos = null;
@@ -83,34 +48,25 @@ public class MelodyGenerator {
 		return harmony;
 	}
 	
-	public List<Note> generateMelodyChordNotes(int[] positions, List<Note> chordNotes){
-		List<Note> melodyChordNotes = new ArrayList<>();
+	public List<Note> generateMelodyNotes(int[] positions, int[] scale){
+		List<Note> melodyNotes = new ArrayList<>();
 		for (int i = 0; i < positions.length - 1; i++) {
-			Note note = RandomUtil.getRandomFromList(chordNotes);
-			Note noteCopy = note.copy();
+			int pc = RandomUtil.getRandomFromIntArray(scale);
+			Note note = note().pc(pc).build();
 			int start = positions[i];
 			int end = positions[i + 1];
-			noteCopy.setLength(end - start);
-			noteCopy.setPosition(start);
-			melodyChordNotes.add(noteCopy);
+			note.setLength(end - start);
+			note.setPosition(start);
+			melodyNotes.add(note);
 		}
-		return melodyChordNotes;
+		return melodyNotes;
 	}
 	
-	public List<Note> generateMelody(List<Note> scaleNotes, int[] beginEndPosition, int minimumNoteValue){
-		for (int i = 0; i < 10000; i++) {
+	public CpMelody generateMelody(Scale scale, int[] beginEndPosition, int minimumNoteValue, int voice){
 			int max = beginEndPosition[1]/minimumNoteValue;
 			int[] positions = generateMelodyPositions(beginEndPosition, minimumNoteValue, max);
-			List<Note> melodyNotes = generateMelodyChordNotes(positions, scaleNotes);
-			double profile = rhythmObjective.getProfileAverage(melodyNotes, 3.0);
-			if (profile >= 0.7 && melodyNotes.size() > 1) {
-				double melodicValue = melodicObjective.evaluateMelody(melodyNotes, 1);
-				if (melodicValue > 0.7) {
-					return melodyNotes;
-				}
-			}
-		}
-		throw new IllegalArgumentException("No melody generated");
+			List<Note> melodyNotes = generateMelodyNotes(positions, scale.getScale());
+			return new CpMelody(melodyNotes, scale, voice);
 	}
 	
 }

@@ -30,6 +30,9 @@ public class Note implements Comparable<Note>, Cloneable{
 	private boolean tieStart;
 	private boolean tieEnd;
 	
+	private boolean keel;
+	private boolean crest;
+	
 	private Articulation articulation = DEFAULT_ARTICULATION;
 	private Dynamic dynamic = DEFAULT_DYNAMIC;
 
@@ -47,6 +50,24 @@ public class Note implements Comparable<Note>, Cloneable{
 		this.length = length;
 	}
 	
+	public Note(Note anotherNote) {
+		this.setLength(anotherNote.getLength());
+		this.setPosition(anotherNote.getPosition());
+		this.setPitch(anotherNote.getPitch());
+		this.setPitchClass(anotherNote.getPitchClass());
+		this.setDuration(anotherNote.getDuration());
+		this.setVoice(anotherNote.getVoice());
+		this.setInnerMetricWeight(anotherNote.getInnerMetricWeight());
+		this.setRhythmValue(anotherNote.getRhythmValue());
+		this.setDynamicLevel(anotherNote.getDynamicLevel());
+		this.setOctave(anotherNote.getOctave());
+		this.setPositionWeight(anotherNote.getPositionWeight());
+		this.setArticulation(anotherNote.getArticulation());
+		this.setDynamic(anotherNote.getDynamic());
+		this.setKeel(anotherNote.isKeel());
+		this.setCrest(anotherNote.isCrest());
+	}
+
 	public void updateNote(Note note){
 		this.pitchClass = note.getPitchClass();
 		this.pitch = note.getPitch();
@@ -199,8 +220,8 @@ public class Note implements Comparable<Note>, Cloneable{
 	}
 	
 	@Override
-	public Object clone() throws CloneNotSupportedException {
-		return super.clone();
+	public Note clone() {
+		return new Note(this);
 	}
 
 	public Articulation getArticulation() {
@@ -231,20 +252,6 @@ public class Note implements Comparable<Note>, Cloneable{
 		return newNote;
 	}
 	
-	public void copy(Note note){
-		this.setLength(note.getLength());
-		this.setPosition(note.getPosition());
-		this.setPitch(note.getPitch());
-		this.setPitchClass(note.getPitchClass());
-		this.setDuration(note.getDuration());
-		this.setVoice(note.getVoice());
-		this.setInnerMetricWeight(note.getInnerMetricWeight());
-		this.setRhythmValue(note.getRhythmValue());
-		this.setDynamicLevel(note.getDynamicLevel());
-		this.setOctave(note.getOctave());
-		this.setPositionWeight(note.getPositionWeight());
-	}
-
 	public boolean isTieStart() {
 		return tieStart;
 	}
@@ -271,6 +278,27 @@ public class Note implements Comparable<Note>, Cloneable{
 
 	public void setDynamic(Dynamic dynamic) {
 		this.dynamic = dynamic;
+	}
+
+	public boolean isKeel() {
+		return keel;
+	}
+
+	public void setKeel(boolean keel) {
+		this.keel = keel;
+	}
+
+	public boolean isCrest() {
+		return crest;
+	}
+
+	public void setCrest(boolean crest) {
+		this.crest = crest;
+	}
+	
+	public void updateNote(int octave){
+		this.octave = octave;
+		this.pitch = this.pitchClass + (this.octave * 12);
 	}
 
 }

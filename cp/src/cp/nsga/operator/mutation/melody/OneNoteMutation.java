@@ -1,8 +1,6 @@
 package cp.nsga.operator.mutation.melody;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 import jmetal.core.Solution;
@@ -15,21 +13,22 @@ import org.springframework.stereotype.Component;
 
 import cp.generator.MusicProperties;
 import cp.model.Motive;
-import cp.model.harmony.Harmony;
-import cp.model.melody.HarmonicMelody;
+import cp.model.melody.CpMelody;
 import cp.nsga.MusicVariable;
 import cp.nsga.operator.mutation.AbstractMutation;
-import cp.util.RandomUtil;
 
 @Component(value="oneNoteMutation")
 public class OneNoteMutation extends AbstractMutation {
+	
+	private static Logger LOGGER = Logger.getLogger(OneNoteMutation.class.getName());
+
+	@Autowired
+	private MusicProperties musicProperties;
 	
 	@Autowired
 	public OneNoteMutation(HashMap<String, Object> parameters) {
 		super(parameters);
 	}
-
-	private static Logger LOGGER = Logger.getLogger(OneNoteMutation.class.getName());
 
 	/**
 	 * Perform the mutation operation
@@ -40,18 +39,10 @@ public class OneNoteMutation extends AbstractMutation {
 	public void doMutation(double probability, Solution solution) throws JMException {
 		if (PseudoRandom.randDouble() < probability) {
 			Motive motive = ((MusicVariable)solution.getDecisionVariables()[0]).getMotive();
-			mutateMelodyNoteRandom(motive.getHarmonies());
-			LOGGER.fine("one note mutated");
+			CpMelody mutableMelody = motive.getRandomMutableMelody();
+			mutableMelody.updateRandomNote();
+			LOGGER.info("one note mutated");
 		} 
-	}
-
-	private void mutateMelodyNoteRandom(List<Harmony> harmonies) {
-		Harmony harmony = harmonies.get(RandomUtil.random(harmonies.size()));
-		Optional<HarmonicMelody> harmonicMelody = harmonicMelodyMutation.randomHarmonicMelodyWithMultipleNotes(harmony);
-		if (harmonicMelody.isPresent()) {
-			int newPitchClass = musicProperties.getMelodyScale().pickRandomPitchClass();
-			harmonicMelody.get().randomUpdateMelodyNotes(newPitchClass);
-		}
 	}
 
 	/**
