@@ -103,6 +103,9 @@ public class MelodicObjective extends Objective {
 			return Double.MIN_VALUE;
 		}
 		List<Note> pitches = extractDifferentPitches(notes);//repeated note intervals are not calculated!
+		if (pitches.isEmpty()) {
+			return 0.8;//only one note (pedal)
+		}
 		double totalPositionWeight = getTotalPositionWeiht(pitches);
 		Note[] notePositions = pitches.toArray(new Note[pitches.size()]);
 		double melodyIntervalValueSum = 0;

@@ -18,14 +18,13 @@ public class TonalityObjective extends Objective {
 	}
 	
 	private double evaluateMajorMinorTonality(List<CpMelody> melodies) {
-//		double major = TonalityFunctions.getMaxCorrelationTonality(melodies, TonalityFunctions.vectorMajorTemplate);
-//		double minor = TonalityFunctions.getMaxCorrelationTonality(melodies, TonalityFunctions.vectorMinorTemplate);
-//		if (major > minor) {
-//			return major;
-//		} else {
-//			return minor;
-//		}
-		return 0;
+		double major = TonalityFunctions.getMaxCorrelationTonality(melodies, TonalityFunctions.vectorMajorTemplate);
+		double minor = TonalityFunctions.getMaxCorrelationTonality(melodies, TonalityFunctions.vectorMinorTemplate);
+		if (major > minor) {
+			return major;
+		} else {
+			return minor;
+		}
 	}
 
 }

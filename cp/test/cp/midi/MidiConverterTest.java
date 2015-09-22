@@ -16,7 +16,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cp.AbstractTest;
 import cp.DefaultConfig;
-import cp.model.harmony.Harmony;
 import cp.model.note.Note;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -31,13 +30,6 @@ public class MidiConverterTest extends AbstractTest {
 	public void setUp() throws InvalidMidiDataException, IOException{
 		midiInfo = midiParser.readMidi(MidiParserTest.class.getResource("/melodies/Wagner-Tristan.mid").getPath());
 		melodies = midiInfo.getMelodies();
-	}
-
-	@Test
-	public void testExtractNoteList() {
-		Integer[] range = {5};
-		List<Harmony> harmonies = MidiConverter.extractHarmony(melodies, range);
-		harmonies.forEach(n -> LOGGER.info(n.getPosition() + ": " + n.getNotes()));
 	}
 
 	@Test

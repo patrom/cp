@@ -24,13 +24,14 @@ public class MusicProperties {
 	private double[] filterLevels = {0.5};
 	private List<Instrument> instruments;
 	private int minimumRhythmFilterLevel = 3;
+	private int[] distance = {2,3,4,5,6,8,9,10,12,14,15,16,18,20,21,22,24,26,27,28,30,32};//atomic beat = 12
 	
 	//tonality
 	private Scale scale = Scale.CHROMATIC_SCALE;
 	private Scale melodyScale = Scale.OCTATCONIC_HALF;
 	
 	//harmony
-	private double harmonyConsDissValue = 0.3;
+	private double harmonyConsDissValue = 0.9;
 	private int allowChordsOfPitchesOrHigher = 3;
 	
 	//melody
@@ -64,7 +65,7 @@ public class MusicProperties {
 	}
 	
 	public void fourFour(){
-		this.minimumLength = 6;
+		this.minimumLength = 12;
 		this.measureWeights = new double[]{1.0, 0.5, 0.75, 0.5, 1.0, 0.5, 0.75, 0.5};
 	    this.numerator = 4;
 	    this.denominator = 4;
@@ -285,6 +286,14 @@ public class MusicProperties {
 
 	public void setMinimumRhythmFilterLevel(int minimumRhythmFilterLevel) {
 		this.minimumRhythmFilterLevel = minimumRhythmFilterLevel;
+	}
+
+	public int[] getDistance() {
+		return distance;
+	}
+
+	public void setDistance(int[] distance) {
+		this.distance = distance;
 	}
 	
 }

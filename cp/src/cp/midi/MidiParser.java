@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
-import java.util.logging.Logger;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MetaMessage;
@@ -18,6 +17,8 @@ import javax.sound.midi.Sequence;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Track;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import cp.model.note.Note;
@@ -25,7 +26,7 @@ import cp.model.note.Note;
 @Component
 public class MidiParser {
 
-	private static Logger LOGGER = Logger.getLogger(MidiParser.class.getName());
+	private static Logger LOGGER = LoggerFactory.getLogger(MidiParser.class.getName());
 	
 	private final int RESOLUTION = 12;
 	public final int TRACK_TIMESIGNATURE = 0x58;
@@ -42,8 +43,8 @@ public class MidiParser {
 	public MidiInfo readMidi(File midiFile)
 			throws InvalidMidiDataException, IOException {
 		Sequence sequence = MidiSystem.getSequence(midiFile);
-		LOGGER.finer("Resolution: " + sequence.getResolution());
-		LOGGER.finer("DivisionType: " + sequence.getDivisionType());
+		LOGGER.debug("Resolution: " + sequence.getResolution());
+		LOGGER.debug("DivisionType: " + sequence.getDivisionType());
 		Track[] tracks = sequence.getTracks();
 		int voice = tracks.length - 1;
 		Map<Integer, MelodyInstrument> map = new TreeMap<Integer, MelodyInstrument>();
@@ -53,15 +54,15 @@ public class MidiParser {
 			List<Note> notes = new ArrayList<>();
 			for (int i = 0; i < track.size(); i++) {
 				MidiEvent event = track.get(i);
-				LOGGER.finer("@" + event.getTick() + " ");
+				LOGGER.debug("@" + event.getTick() + " ");
 				MidiMessage message = event.getMessage();
 				if (message instanceof ShortMessage) {
-					LOGGER.finer("Voice:" + voice);
+					LOGGER.debug("Voice:" + voice);
 					int ticks = (int) Math
 							.round((event.getTick() / (double) sequence
 									.getResolution()) * RESOLUTION) ;
 					ShortMessage sm = (ShortMessage) message;
-					LOGGER.finer("Pitch: " + sm.getData1() + " ");
+					LOGGER.debug("Pitch: " + sm.getData1() + " ");
 					// Er zijn twee manieren om een note-off commando te
 					// versturen.
 					// // Er bestaat een echt note-off commando, maar de meeste
@@ -71,14 +72,14 @@ public class MidiParser {
 					// hetzelfde als die noot uitschakelen.
 					if (sm.getCommand() == ShortMessage.NOTE_ON
 							&& sm.getData2() != 0) {
-						LOGGER.finer("on: " + ticks + " ");
+						LOGGER.debug("on: " + ticks + " ");
 						Note jNote = createNote(voice, ticks, sm);
 						notes.add(jNote);
 					}
 					if (sm.getCommand() == ShortMessage.NOTE_OFF
 							|| (sm.getCommand() == ShortMessage.NOTE_ON && sm
 									.getData2() == 0)) {
-						LOGGER.finer("off:" + ticks);
+						LOGGER.debug("off:" + ticks);
 						int key = sm.getData1();
 						int l = notes.size();
 						for (int k = l - 1; k > -1; k--) {// find note on belonging to note off

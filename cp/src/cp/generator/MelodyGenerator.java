@@ -23,29 +23,34 @@ public class MelodyGenerator {
 	
 	public int[] generateMelodyPositions(int[] harmony, int minimumLength, int maxMelodyNotes){
 		int[] pos = null;
+		int limit = generateLimit(harmony, minimumLength);
+		int from = ((harmony[0])/minimumLength) + 1;
+		int toExlusive = (int)Math.ceil(harmony[1]/(double)minimumLength);
+		IntStream intStream = random.ints(limit,from,toExlusive);
+		List<Integer> positions = intStream
+				.distinct()
+				.map(i -> i * minimumLength)
+				.boxed()
+				.collect(Collectors.toList());
+		int max = (maxMelodyNotes > positions.size())?positions.size():maxMelodyNotes;
+		positions = positions.subList(0, max);
+		positions.sort(Comparator.naturalOrder());
+		pos = new int[positions.size() + 2];
+		pos[0] = harmony[0];
+		pos[pos.length - 1] = harmony[1];
+		for (int j = 1; j < pos.length - 1; j++) {
+			pos[j] = positions.get(j - 1);
+		}
+		return pos;
+	}
+
+	protected int generateLimit(int[] harmony, int minimumLength) {
 		int positionsInHarmony = ((harmony[1] - harmony[0])/minimumLength) - 1;//minus first position
 		int limit = random.nextInt(positionsInHarmony + 1);
-		if (limit > 0) {
-			int from = ((harmony[0])/minimumLength) + 1;
-			int toExlusive = (int)Math.ceil(harmony[1]/(double)minimumLength);
-			IntStream intStream = random.ints(limit,from,toExlusive);
-			List<Integer> positions = intStream
-					.distinct()
-					.map(i -> i * minimumLength)
-					.boxed()
-					.collect(Collectors.toList());
-			int max = (maxMelodyNotes > positions.size())?positions.size():maxMelodyNotes;
-			positions = positions.subList(0, max);
-			positions.sort(Comparator.naturalOrder());
-			pos = new int[positions.size() + 2];
-			pos[0] = harmony[0];
-			pos[pos.length - 1] = harmony[1];
-			for (int j = 1; j < pos.length - 1; j++) {
-				pos[j] = positions.get(j - 1);
-			}
-			return pos;
-		} 
-		return harmony;
+		while (limit < 2) {
+			limit = random.nextInt(positionsInHarmony + 1);
+		}
+		return limit;
 	}
 	
 	public List<Note> generateMelodyNotes(int[] positions, int[] scale){
@@ -59,6 +64,12 @@ public class MelodyGenerator {
 			note.setPosition(start);
 			melodyNotes.add(note);
 		}
+		//add last note
+		int pc = RandomUtil.getRandomFromIntArray(scale);
+		Note note = note().pc(pc).build();
+		note.setLength(12);
+		note.setPosition(positions[positions.length - 1]);
+		melodyNotes.add(note);
 		return melodyNotes;
 	}
 	

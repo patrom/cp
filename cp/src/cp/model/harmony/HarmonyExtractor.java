@@ -2,27 +2,35 @@ package cp.model.harmony;
 
 import static cp.model.note.NoteBuilder.note;
 import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import cp.model.dissonance.Dissonance;
 import cp.model.note.Note;
-import cp.nsga.operator.mutation.melody.OneNoteMutation;
 
 @Component
 public class HarmonyExtractor {
 	
-	private static Logger LOGGER = Logger.getLogger(HarmonyExtractor.class.getName());
+	@Autowired 
+	@Qualifier(value="TonalDissonance")
+	private Dissonance dissonance;
+	
+	private static Logger LOGGER = LoggerFactory.getLogger(HarmonyExtractor.class.getName());
 
-	public Map<Integer, List<Note>> extractHarmony(List<Note> melodyNotes, int voices){
-		Map<Integer, List<Note>> extractedHarmonies = new TreeMap<>();
+	public List<CpHarmony> extractHarmony(List<Note> melodyNotes, int voices){
+		List<CpHarmony>  extractedHarmonies = new ArrayList<>();
 		List<Note> tempHarmonyNotes = new ArrayList<Note>();
 		for (int i = 0; i < voices; i++) {
 			tempHarmonyNotes.add(note().voice(i).build());
@@ -48,12 +56,20 @@ public class HarmonyExtractor {
 						n.setPositionWeight(note.getPositionWeight());
 						});
 			}
-			List<Note> harmonyNotes = tempHarmonyNotes.stream().map(n -> n.clone()).collect(Collectors.toList());
-			extractedHarmonies.put(entry.getKey(), harmonyNotes);
+			List<Note> harmonyNotes = tempHarmonyNotes.stream()
+					.filter(n -> n.getPitch() != 0)
+					.map(n -> n.clone())
+					.collect(toList());
+			if (harmonyNotes.size() > 1) {
+				CpHarmony harmony = new CpHarmony(harmonyNotes);
+				harmony.toChord();
+				extractedHarmonies.add(harmony);
+			}
 		}
 		LOGGER.info(extractedHarmonies.toString());
 		return extractedHarmonies;
 	}
+	
 	
 	protected Map<Integer, List<Note>> getHarmonyMap(TreeMap<Integer, List<Note>> positionsMap){
 		int startingKey = positionsMap.firstKey();

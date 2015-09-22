@@ -1,18 +1,15 @@
 package cp.midi;
 
-import static cp.model.harmony.HarmonyBuilder.harmony;
 import static java.util.stream.Collectors.toCollection;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import cp.model.harmony.Harmony;
 import cp.model.note.Note;
 
 public class MidiConverter {
@@ -71,20 +68,6 @@ public class MidiConverter {
 				}
 			}
 		}
-	}
-
-	public static List<Harmony> extractHarmony(List<MelodyInstrument> melodies, Integer[] range){
-		Map<Integer, List<Note>> chords = extractNoteMapFromMelodies(melodies);
-		List<Harmony> harmonies = new ArrayList<>();
-		for (Entry<Integer, List<Note>> ch : chords.entrySet()) {
-			Harmony harmony = harmony()
-				.pos(ch.getKey())
-				.len(ch.getValue().get(0).getLength())
-				.notes(ch.getValue())
-				.build();
-			harmonies.add(harmony);
-		}
-		return harmonies;
 	}
 
 	public static Map<Integer, List<Note>> extractNoteMapFromMelodies(List<MelodyInstrument> melodies) {

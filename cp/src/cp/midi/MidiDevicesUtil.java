@@ -3,7 +3,6 @@ package cp.midi;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MetaEventListener;
@@ -20,6 +19,8 @@ import javax.sound.midi.SysexMessage;
 import javax.sound.midi.Track;
 import javax.sound.midi.Transmitter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import cp.model.melody.Melody;
@@ -33,7 +34,7 @@ public class MidiDevicesUtil {
 
 	 private static final int SET_TEMPO = 0x51;;
 
-	private static Logger LOGGER = Logger.getLogger(MidiDevicesUtil.class.getName());
+	private static Logger LOGGER = LoggerFactory.getLogger(MidiDevicesUtil.class.getName());
 
 	private final int RESOLUTION = 12;
 	
@@ -98,6 +99,13 @@ public class MidiDevicesUtil {
 		return sequence;
 	}
 	
+	public Sequence createSequenceNotes(List<Note> notes, Instrument instrument)
+			throws InvalidMidiDataException {
+		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
+		createTrack(sequence, notes, instrument);
+		return sequence;
+	}
+	
 	public Sequence createSequence(List<Melody> motives, Instrument instrument)
 			throws InvalidMidiDataException {
 		int motiveSize = motives.size();
@@ -134,13 +142,13 @@ public class MidiDevicesUtil {
 	private void createTrack(Sequence sequence, List<Note> notes, Instrument instrument)
 			throws InvalidMidiDataException {
 		Track track = sequence.createTrack();
-		int prevPerfomance = 0;
+		int prevArticulation = 0;
 		for (Note notePos : notes) {
-			int performance = instrument.getPerformanceValue(notePos.getArticulation());
-			if (performance != prevPerfomance) {
-				MidiEvent changeEvent = createInstrumentChange(instrument, performance);
+			int articulation = instrument.getArticulation(notePos.getArticulation());
+			if (articulation != prevArticulation) {
+				MidiEvent changeEvent = createInstrumentChange(instrument, articulation, notePos.getPosition());
 				track.add(changeEvent);
-				prevPerfomance = performance;
+				prevArticulation = articulation;
 			}
 							
 			MidiEvent eventOn = createNoteMidiEvent(ShortMessage.NOTE_ON, notePos, notePos.getPosition(), instrument.getChannel());
@@ -177,10 +185,10 @@ public class MidiDevicesUtil {
 		return event;
 	}
 
-	private MidiEvent createInstrumentChange(Instrument instrument, int performance) throws InvalidMidiDataException {
+	private MidiEvent createInstrumentChange(Instrument instrument, int performance, int position) throws InvalidMidiDataException {
 		if (instrument.isKeySwitch()) {
 			Note keySwitch = createKeySwitch(performance);
-			MidiEvent change = createNoteMidiEvent(ShortMessage.NOTE_ON, keySwitch, 30, instrument.getChannel());
+			MidiEvent change = createNoteMidiEvent(ShortMessage.NOTE_ON, keySwitch, position, instrument.getChannel());
 			return change;
 		} else {
 			MidiEvent event = createProgramChangeMidiEvent(instrument.getChannel(), instrument.getGeneralMidi().getEvent(), performance);
@@ -188,9 +196,9 @@ public class MidiDevicesUtil {
 		}
 	}
 
-	private Note createKeySwitch(int performance) {
+	private Note createKeySwitch(int articulation) {
 		Note keySwitch = new Note();
-		keySwitch.setPitch(performance);
+		keySwitch.setPitch(articulation);
 		keySwitch.setDynamicLevel(80);
 		return keySwitch;
 	}

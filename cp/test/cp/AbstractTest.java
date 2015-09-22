@@ -3,12 +3,13 @@ package cp;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.swing.JFrame;
 
 import org.junit.Before;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import cp.evaluation.FitnessObjectiveValues;
@@ -17,7 +18,7 @@ import cp.midi.MelodyInstrument;
 
 public abstract class AbstractTest extends JFrame{
 	
-	protected static Logger LOGGER = Logger.getLogger(AbstractTest.class.getName());
+	protected static Logger LOGGER = LoggerFactory.getLogger(AbstractTest.class.getName());
 	
 	protected List<MelodyInstrument> melodies = new ArrayList<>();
 	protected FitnessObjectiveValues objectives;

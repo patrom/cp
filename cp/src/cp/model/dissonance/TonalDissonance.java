@@ -32,8 +32,8 @@ public class TonalDissonance implements Dissonance {
 				return 0.0;
 			case CH1:
 				return 0.0;
-			case CH2:
-				return 0.0;
+//			case CH2:
+//				return 0.0;
 			case CH3:
 				return 0.0;
 			case CH4:

@@ -10,7 +10,9 @@ public enum Articulation {
 	STACCATO("staccato"),
 	STACCATISSIMO("staccatissimo"),
 	TENUTO("tenuto"),
-	MARTELATO("martelato");
+	MARTELATO("martelato"),
+	TREMELO(""),
+	SFORZANDO("");
 	
 	private String musicXmlLabel;
 	

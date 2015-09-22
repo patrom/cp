@@ -1,13 +1,14 @@
 package cp.nsga.operator.mutation.rhythm;
 
 import java.util.HashMap;
-import java.util.logging.Logger;
 
 import jmetal.core.Solution;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
 import jmetal.util.PseudoRandom;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +21,7 @@ import cp.nsga.operator.mutation.AbstractMutation;
 @Component(value="addRhythm")
 public class AddRhythm extends AbstractMutation {
 	
-	private static Logger LOGGER = Logger.getLogger(AddRhythm.class.getName());
+	private static Logger LOGGER = LoggerFactory.getLogger(AddRhythm.class.getName());
 	
 	@Autowired
 	private MusicProperties musicProperties;
@@ -48,7 +49,7 @@ public class AddRhythm extends AbstractMutation {
 	private void doMutation(double probability, Solution solution) {
 		if (PseudoRandom.randDouble() < probability) {
 			Motive motive = ((MusicVariable)solution.getDecisionVariables()[0]).getMotive();
-			CpMelody mutableMelody = motive.getRandomMutableMelody();
+			CpMelody mutableMelody = motive.getRandomRhythmMutableMelody();
 			mutableMelody.addRandomRhythmNote(musicProperties.getMinimumLength());
 			LOGGER.info("rhythm note added");
 		} 

@@ -1,22 +1,9 @@
 package cp.model.rhythm;
 
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.mapping;
-import static java.util.stream.Collectors.toList;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
-
-
-
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import net.sourceforge.jFuzzyLogic.fcl.FclParser.if_clause_return;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cp.model.note.Note;
@@ -33,6 +20,10 @@ public class RhythmWeight {
 	protected double getMinimumNoteValue() {
 		updateNotesLength();
 		return notes.stream().mapToDouble(note -> note.getLength()).min().getAsDouble();
+	}
+	
+	protected void clearPositionWeights(){
+		notes.forEach(note -> note.setPositionWeight(0));
 	}
 	
 	protected void updateNotesLength(){
@@ -128,6 +119,7 @@ public class RhythmWeight {
 	
 	public void updateRhythmWeight(){
 		double min = getMinimumNoteValue();
+		clearPositionWeights();
 		updateRhythmWeightSounds(min);
 		List<Note> pitches = extractDifferentPitches();
 		updateRhythmWeightPitch(pitches, min);

@@ -4,12 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -19,6 +16,8 @@ import javax.swing.JFrame;
 import jm.music.data.Score;
 import jm.util.View;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -32,7 +31,6 @@ import cp.midi.MelodyInstrument;
 import cp.midi.MidiDevicesUtil;
 import cp.midi.MidiInfo;
 import cp.midi.MidiParser;
-import cp.model.melody.Melody;
 import cp.model.note.Note;
 import cp.model.rhythm.Rhythm;
 import cp.out.arrangement.Accompagnement;
@@ -50,7 +48,7 @@ import cp.variation.Embellisher;
 @Import(DefaultConfig.class)
 public class PlayApplication extends JFrame implements CommandLineRunner{
 	
-	private static Logger LOGGER = Logger.getLogger(PlayApplication.class.getName());
+	private static Logger LOGGER = LoggerFactory.getLogger(PlayApplication.class.getName());
 	
 	@Autowired
 	private MidiParser midiParser;
@@ -90,13 +88,13 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 			LOGGER.info(midiFile.getName());
 			MidiInfo midiInfo = midiParser.readMidi(midiFile);
 			List<MelodyInstrument> parsedMelodies = midiInfo.getMelodies();
-			musicProperties.setInstruments(Ensemble.getStringQuartet());
-			mapInstruments(parsedMelodies, Ensemble.getStringQuartet());
+			musicProperties.setInstruments(Ensemble.getStringDuo());
+			mapInstruments(parsedMelodies, Ensemble.getStringDuo());
 			//split
-			int size = parsedMelodies.size();
-			List<MelodyInstrument> melodies = new ArrayList<>(parsedMelodies.subList(0, size/2));
-			List<MelodyInstrument> harmonies = new ArrayList<>(parsedMelodies.subList(size/2, size));
-			arrangement.transpose(melodies.get(3).getNotes(), 12);
+//			int size = parsedMelodies.size();
+//			List<MelodyInstrument> melodies = new ArrayList<>(parsedMelodies.subList(0, size/2));
+//			List<MelodyInstrument> harmonies = new ArrayList<>(parsedMelodies.subList(size/2, size));
+//			arrangement.transpose(melodies.get(3).getNotes(), 12);
 //			arrangement.transpose(melodies.get(4).getNotes(), 12);
 //			arrangement.transpose(melodies.get(5).getNotes(), 12);
 //			List<Integer> voicesForAccomp = new ArrayList<>();
@@ -116,12 +114,12 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 			
 //			embellish(melodies);
 
-			playOnKontakt(melodies, midiInfo.getTempo());
-			Score score = scoreUtilities.createScoreFromMelodyInstrument(melodies, midiInfo.getTempo());
+			playOnKontakt(parsedMelodies, midiInfo.getTempo());
+			Score score = scoreUtilities.createScoreFromMelodyInstrument(parsedMelodies, midiInfo.getTempo());
 			score.setTitle(midiFile.getName());
 			View.notate(score);
-			write(melodies , "resources/transform/" + midiFile.getName(), midiInfo.getTempo());
-			generateMusicXml(melodies, midiFile.getName());
+			write(parsedMelodies , "resources/transform/" + midiFile.getName(), midiInfo.getTempo());
+			generateMusicXml(parsedMelodies, midiFile.getName());
 			Thread.sleep(7000);
 		}
 	}
@@ -192,14 +190,11 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 	}
 	
 	private void mapInstruments(List<MelodyInstrument> melodies, List<Instrument> instruments) {
-		int offset = melodies.size() / 2;
 		for (int i = 0; i < instruments.size(); i++) {
 			MelodyInstrument melodyInstrument = melodies.get(i);
-			MelodyInstrument melodyInstrumentOffset = melodies.get(i + offset);
 			Optional<Instrument> instrument = instruments.stream().filter(instr -> (instr.getVoice()) == melodyInstrument.getVoice()).findFirst();
 			if (instrument.isPresent()) {
 				melodyInstrument.setInstrument(instrument.get());
-				melodyInstrumentOffset.setInstrument(instrument.get());
 			}else{
 				throw new IllegalArgumentException("Instrument for voice " + i + " is missing!");
 			}

@@ -2,7 +2,8 @@ package cp.objective.voiceleading;
 
 import static java.lang.System.arraycopy;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.ArrayTable;
 import com.google.common.collect.HashBasedTable;
@@ -12,7 +13,7 @@ import com.google.common.collect.Table;
 
 public class VoiceLeading {
 	
-	private static Logger LOGGER = Logger.getLogger(VoiceLeading.class.getName());
+	private static Logger LOGGER = LoggerFactory.getLogger(VoiceLeading.class.getName());
 	
 	private static int optimalSize = 9999;
 
@@ -29,7 +30,7 @@ public class VoiceLeading {
 			target = addFirstPitchClass(target);
 			return calculateVoiceLeadingSize(target, source);
 		} else {
-			LOGGER.finest("non common tones");
+			LOGGER.debug("non common tones");
 			source = addFirstPitchClass(source);
 			target = addFirstPitchClass(target);
 			VoiceLeadingSize voiceLeadingSize = calculateVoiceLeadingSize(target, source);

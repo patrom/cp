@@ -14,6 +14,7 @@ public class CpMelody implements Cloneable{
 
 	private int voice;
 	private boolean mutable = true;
+	private boolean rhythmMutable = true;
 	private List<Note> notes;
 	private Scale scale;
 	private int start;
@@ -25,10 +26,12 @@ public class CpMelody implements Cloneable{
 		this.scale = scale;
 		this.start = notes.get(0).getPitchClass();
 		this.end = notes.get(notes.size() - 1).getPosition();
+		notes.forEach(n -> n.setVoice(voice));
 	}
 
 	protected CpMelody(CpMelody anotherMelody) {
-		this.setMutable(anotherMelody.isMutable());
+		this.mutable = anotherMelody.isMutable();
+		this.rhythmMutable = anotherMelody.isRhythmMutable();
 		this.voice = anotherMelody.getVoice();
 		this.notes = anotherMelody.getNotes().stream().map(note -> (Note)note.clone()).collect(toList());
 		this.scale = anotherMelody.getScale();
@@ -78,15 +81,6 @@ public class CpMelody implements Cloneable{
 		noteToUpdate.updateNote(octave);
 	}
 	
-	protected void updatePitchFrom(Note note, List<Note> notesToUpdate, int direction) {
-		Note noteToUpdate = notesToUpdate.get(0);
-		int octaveDifference = getOctaveIndirection(note, noteToUpdate, direction);
-		int octave = note.getOctave() + octaveDifference;
-		notesToUpdate.forEach(n -> {
-			n.updateNote(octave);
-		});
-	}
-	
 	protected int getOctaveIndirection(Note note, Note nextNote, int direction) {
 		int pc = note.getPitchClass();
 		int nextPc = nextNote.getPitchClass();
@@ -114,7 +108,11 @@ public class CpMelody implements Cloneable{
 		if (index == 0) {//first
 			note.setPitch(note.getPitchClass() + (note.getOctave() * 12));
 			List<Note> notesToChange = notes.subList(nextIndex, notes.size());
-			updatePitchFrom(note, notesToChange, direction);
+			int octaveDifference = getOctaveIndirection(note, notesToChange.get(0), direction);
+			int octave = note.getOctave() + octaveDifference;
+			notesToChange.forEach(n -> {
+				n.updateNote(octave);
+			});
 		} else if (nextIndex == notes.size() - 1){//penultimate
 			Note previousNote = notes.get(previousIndex);
 			updatePitchFrom(previousNote, note, direction);
@@ -131,7 +129,11 @@ public class CpMelody implements Cloneable{
 			
 			int dir = RandomUtil.random(2);
 			List<Note> notesToChange = notes.subList(nextIndex, notes.size());
-			updatePitchFrom(note, notesToChange, dir);
+			int octaveDifference = getOctaveIndirection(note, notesToChange.get(0), dir);
+			int octave = note.getOctave() + octaveDifference;
+			notesToChange.forEach(n -> {
+				n.updateNote(octave);
+			});
 		}
 	}
 
@@ -195,6 +197,14 @@ public class CpMelody implements Cloneable{
 			n.setOctave(n.getOctave() + octaveChange);
 			n.setPitch(n.getPitchClass() + (n.getOctave() * 12));
 		});
+	}
+
+	public boolean isRhythmMutable() {
+		return rhythmMutable;
+	}
+
+	public void setRhythmMutable(boolean rhythmMutable) {
+		this.rhythmMutable = rhythmMutable;
 	}
 	
 }

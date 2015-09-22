@@ -1,13 +1,14 @@
 package cp.nsga.operator.mutation.melody;
 
 import java.util.HashMap;
-import java.util.logging.Logger;
 
 import jmetal.core.Solution;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
 import jmetal.util.PseudoRandom;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +21,7 @@ import cp.nsga.operator.mutation.AbstractMutation;
 @Component(value="oneNoteMutation")
 public class OneNoteMutation extends AbstractMutation {
 	
-	private static Logger LOGGER = Logger.getLogger(OneNoteMutation.class.getName());
+	private static Logger LOGGER = LoggerFactory.getLogger(OneNoteMutation.class.getName());
 
 	@Autowired
 	private MusicProperties musicProperties;

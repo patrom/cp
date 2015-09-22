@@ -1,10 +1,13 @@
 package cp.model.harmony;
 
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.Multiset;
 import com.google.common.collect.TreeMultiset;
 
+import cp.model.note.Note;
 import cp.model.setclass.PcSetUnorderedProperties;
 
 public class Chord {
@@ -16,6 +19,11 @@ public class Chord {
 
 	public Chord(int bassNote) {
 		this.bassNote = bassNote;
+	}
+	
+	public Chord(int bassNote, List<Note> notes) {
+		this.bassNote = bassNote;
+		pitchClassMultiSet.addAll(notes.stream().map(n -> n.getPitchClass()).collect(Collectors.toList()));
 	}
 
 	public ChordType getChordType() {
@@ -73,7 +81,7 @@ public class Chord {
 		case 1:
 			return ChordType.CH1;
 		case 2:
-			return ChordType.CH2;
+			return getInterval(chord, bassNote);
 		case 3:
 			return getTriadicChordType(chord, bassNote);
 		case 4:
@@ -85,6 +93,42 @@ public class Chord {
 		default:
 			throw new IllegalArgumentException("chord type doesn't exist?");
 		}
+	}
+
+	private ChordType getInterval(Integer[] chord, int bassNote) {
+		int interval = -1;
+		if (bassNote == chord[1]) {
+			interval =  ((12 + chord[0]) - chord[1]) % 12;
+		} else {
+			interval = chord[1] - chord[0];
+		}
+		switch (interval) {
+		case 1:
+			return ChordType.CH2_KLEINE_SECONDE;
+		case 2:
+			return ChordType.CH2_GROTE_SECONDE;
+		case 3:
+			return ChordType.CH2_KLEINE_TERTS;
+		case 4:
+			return ChordType.CH2_GROTE_TERTS;
+		case 5:
+			return ChordType.CH2_KWART;
+		case 6:
+			return ChordType.CH2_TRITONE;
+		case 7:
+			return ChordType.CH2_KWINT;
+		case 8:
+			return ChordType.CH2_KLEINE_SIXT;
+		case 9:
+			return ChordType.CH2_GROTE_SIXT;
+		case 10:
+			return ChordType.CH2_KLEIN_SEPTIEM;
+		case 11:
+			return ChordType.CH2_GROOT_SEPTIEM;
+		default:
+			break;
+		}
+		throw new IllegalStateException("No interval for: " + interval);
 	}
 
 	private ChordType getTetraChordType(Integer[] chord, int bassNote) {

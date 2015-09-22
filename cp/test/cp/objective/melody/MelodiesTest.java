@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -15,8 +14,11 @@ import jm.music.data.Score;
 import jm.util.View;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.SpringApplicationContextLoader;
@@ -43,9 +45,10 @@ import cp.out.print.ScoreUtilities;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = DefaultConfig.class, loader = SpringApplicationContextLoader.class)
+@Ignore
 public class MelodiesTest extends AbstractTest{
 	
-	private static Logger LOGGER = Logger.getLogger(FitnessEvaluationTemplate.class.getName());
+	private static Logger LOGGER = LoggerFactory.getLogger(FitnessEvaluationTemplate.class.getName());
 	
 	private List<File> midiFiles;
 	@Autowired
@@ -74,7 +77,7 @@ public class MelodiesTest extends AbstractTest{
 		midiFiles = Files.list(new File(MelodiesTest.class.getResource("/melodies").getPath()).toPath()).map(p -> p.toFile()).collect(Collectors.toList());
 		for (File file : midiFiles) {
 			MidiInfo midiInfo = midiParser.readMidi(file);
-			LOGGER.fine(file.getName());
+			LOGGER.debug(file.getName());
 			List<MelodyInstrument> melodies = midiInfo.getMelodies();
 			MidiConverter.updatePositionNotes(melodies, midiInfo.getTimeSignature());
 			for (MelodyInstrument melodyInstrument : melodies) {

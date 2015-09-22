@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.Sequence;
 import javax.swing.JFrame;
 
 import jm.music.data.Part;
@@ -22,12 +24,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
+import cp.midi.MidiDevicesUtil;
 import cp.model.melody.CpMelody;
 import cp.model.note.Note;
 import cp.model.note.NoteBuilder;
 import cp.model.note.Scale;
 import cp.objective.melody.MelodicObjective;
 import cp.objective.rhythm.RhythmObjective;
+import cp.out.instrument.Articulation;
+import cp.out.instrument.KontaktLibFlute;
+import cp.out.instrument.KontaktLibViolin;
+import cp.out.instrument.MidiDevice;
 import cp.out.print.ScoreUtilities;
 import cp.variation.Embellisher;
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -44,6 +51,8 @@ public class MelodyGeneratorTest extends JFrame{
 	private RhythmObjective rhythmObjective;
 	@Autowired
 	private MelodicObjective melodicObjective;
+	@Autowired
+	private MidiDevicesUtil midiDevicesUtil;
 
 	@Before
 	public void setUp() throws Exception {
@@ -58,23 +67,31 @@ public class MelodyGeneratorTest extends JFrame{
 	}
 	
 	@Test
-	public void testGenerateMelodyNotes() {
+	public void testGenerateMelodyNotes() throws InvalidMidiDataException, InterruptedException {
 		int[] beginEndPosition = {12, 96};
 		int minimumNoteValue = 6;
-		List<Note> scaleNotes = new ArrayList<>();
-		scaleNotes.add(NoteBuilder.note().pc(0).build());
-		scaleNotes.add(NoteBuilder.note().pc(2).build());
-		scaleNotes.add(NoteBuilder.note().pc(4).build());
-		scaleNotes.add(NoteBuilder.note().pc(5).build());
-		scaleNotes.add(NoteBuilder.note().pc(7).build());
-		scaleNotes.add(NoteBuilder.note().pc(9).build());
-		scaleNotes.add(NoteBuilder.note().pc(11).build());
 		
-		CpMelody melody = melodyGenerator.generateMelody(Scale.MAJOR_SCALE, beginEndPosition, minimumNoteValue, 0);
-		melody.getNotes().forEach(note -> note.setPitch(note.getPitchClass() + 60));
-		Score score = scoreUtilities.createMelody(melody.getNotes());
+//		CpMelody melody = melodyGenerator.generateMelody(Scale.MAJOR_SCALE, beginEndPosition, minimumNoteValue, 0);
+//		melody.updatePitches(6);
+//		Score score = scoreUtilities.createMelody(melody.getNotes());
+//		View.notate(score);
+//		Play.midi(score, true);
+		
+		List<Note> notes = new ArrayList<>();
+		notes.add(NoteBuilder.note().len(12).pc(4).pitch(64).ocatve(4).pos(0).art(Articulation.LEGATO).build());
+		notes.add(NoteBuilder.note().len(24).pc(2).pitch(62).ocatve(4).pos(12).art(Articulation.STACCATO).build());
+		notes.add(NoteBuilder.note().len(24).pc(4).pitch(64).ocatve(4).pos(36).art(Articulation.STACCATO).build());
+		notes.add(NoteBuilder.note().len(6).pc(5).pitch(65).ocatve(4).pos(60).art(Articulation.LEGATO).build());
+		notes.add(NoteBuilder.note().len(6).pc(7).pitch(67).ocatve(4).pos(66).art(Articulation.STACCATO).build());
+		notes.add(NoteBuilder.note().len(12).pc(9).pitch(69).ocatve(4).pos(72).art(Articulation.LEGATO).build());
+		notes.add(NoteBuilder.note().len(24).pc(11).pitch(71).ocatve(4).pos(84).art(Articulation.LEGATO).build());
+		notes.add(NoteBuilder.note().len(24).pc(0).pitch(60).ocatve(4).pos(108).art(Articulation.STACCATO).build());
+//		notes.forEach(note -> note.setArticulation(Articulation.STACCATO));
+		Score score = scoreUtilities.createMelody(notes);
 		View.notate(score);
-		Play.midi(score, true);
+		Sequence seq = midiDevicesUtil.createSequenceNotes(notes, new  KontaktLibViolin(3, 0));
+		midiDevicesUtil.playOnDevice(seq, 60, MidiDevice.KONTAKT);
+		Thread.sleep(10000);
 	}
 	
 	@Test

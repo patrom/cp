@@ -4,26 +4,20 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-import cp.generator.MusicProperties;
-import cp.model.harmony.Harmony;
+import cp.model.harmony.CpHarmony;
 import cp.model.melody.CpMelody;
-import cp.model.melody.HarmonicMelody;
-import cp.model.note.Note;
 import cp.out.instrument.Instrument;
 import cp.util.RandomUtil;
 
 public class Motive implements Cloneable {
 
-	private List<Harmony> harmonies;
-	private MusicProperties musicProperties;
+	private List<CpHarmony> harmonies;
 	private List<CpMelody> melodies;
 	private List<Instrument> instruments;
-		
-	public Motive(List<CpMelody> melodies, MusicProperties musicProperties) {
+	
+	public Motive(List<CpMelody> melodies){
 		this.melodies = melodies;
-		this.musicProperties = musicProperties;
 	}
 
 	protected Motive(Motive motive) {
@@ -31,23 +25,16 @@ public class Motive implements Cloneable {
 		this.melodies = motive.getMelodies().stream().map(m -> (CpMelody) m.clone()).collect(toList());
 	}
 
-	public List<Harmony> getHarmonies() {
+	public List<CpHarmony> getHarmonies() {
 		return harmonies;
+	}
+	
+	public void setHarmonies(List<CpHarmony> harmonies) {
+		this.harmonies = harmonies;
 	}
 	
 	public List<CpMelody> getMelodies() {
 		return melodies;
-	}
-	
-	protected List<HarmonicMelody> getMelodyForVoice(int voice){
-		return harmonies.stream()
-				.flatMap(harmony -> harmony.getHarmonicMelodies().stream())
-				.filter(harmonicMelody -> harmonicMelody.getVoice() == voice)
-				.collect(toList());
-	}
-	
-	public MusicProperties getMusicProperties() {
-		return musicProperties;
 	}
 	
 	@Override
@@ -60,6 +47,11 @@ public class Motive implements Cloneable {
 		return mutableMelodies.get(RandomUtil.random(mutableMelodies.size()));
 	}
 	
+	public CpMelody getRandomRhythmMutableMelody(){
+		List<CpMelody> mutableMelodies = melodies.stream().filter(m -> m.isRhythmMutable()).collect(toList());
+		return mutableMelodies.get(RandomUtil.random(mutableMelodies.size()));
+	}
+	
 	public void updateMelodiesToInstrumentLimits(){
 		for (CpMelody melody : melodies) {
 			Optional<Instrument> optionalInstrument = instruments.stream().filter(instr -> (instr.getVoice()) == melody.getVoice()).findFirst();
@@ -69,72 +61,5 @@ public class Motive implements Cloneable {
 			}
 		}
 	}
-	
-//	public void extractMelodies(){
-//		this.melodies = new ArrayList<>();
-//		harmonies.stream()
-//			.flatMap(harmony -> harmony.getHarmonicMelodies().stream())
-//			.flatMap(hm -> hm.getMelodyNotes().stream())
-//			.forEach(note -> note.setPitch(0));
-//		harmonies.stream().forEach(harmony -> harmony.translateToPitchSpace());
-//		if(containsZeroPitch()){
-//			throw new IllegalStateException("Contains 0 pitch!");
-//		};
-//		for (int i = 0; i < musicProperties.getChordSize(); i++) {
-//			Melody melody = new Melody(getMelodyForVoice(i), i);
-//			melodies.add(melody);
-//		}
-//	}
-//
-//	private boolean containsZeroPitch() {
-//		return harmonies.stream()
-//			.flatMap(harmony -> harmony.getHarmonicMelodies().stream())
-//			.flatMap(hm -> hm.getMelodyNotes().stream())
-//			.anyMatch(note -> note.getPitch() == 0);
-//	}
-//	
-//	public void updateInnerMetricWeightMelodies() {
-//		for (Melody melody : melodies) {
-//			List<Note> notes = melody.getMelodieNotes();
-//			updateInnerMetricWeightNotes(notes);
-//		}
-//	}
-//
-//	protected void updateInnerMetricWeightNotes(List<Note> notes) {
-//		Map<Integer, Double> normalizedMap = InnerMetricWeightFunctions.getNormalizedInnerMetricWeight(notes, musicProperties.getMinimumLength());
-//		for (Note note : notes) {
-//			Integer key = note.getPosition()/musicProperties.getMinimumLength();
-//			if (normalizedMap.containsKey(key)) {
-//				Double innerMetricValue = normalizedMap.get(key);
-//				note.setInnerMetricWeight(innerMetricValue);
-//			}
-//		}
-//	}
-//	
-//	public void updateInnerMetricWeightHarmonies() {
-//		int[] harmonicRhythm = extractHarmonicRhythm();
-//		Map<Integer, Double> normalizedMap = InnerMetricWeightFunctions.getNormalizedInnerMetricWeight(harmonicRhythm, musicProperties.getMinimumLength());
-//		for (Harmony harmony : harmonies) {
-//			Integer key = harmony.getPosition()/musicProperties.getMinimumLength();
-//			if (normalizedMap.containsKey(key)) {
-//				Double innerMetricValue = normalizedMap.get(key);
-//				harmony.setInnerMetricWeight(innerMetricValue);
-//			}
-//		}
-//	}
-//
-//	private int[] extractHarmonicRhythm() {
-//		int[] rhythm = new int[harmonies.size()];
-//		for (int i = 0; i < rhythm.length; i++) {
-//			Harmony harmony = harmonies.get(i);
-//			rhythm[i] = harmony.getPosition();
-//		}
-//		return rhythm;
-//	}
-//
-//	public void extractChords() {
-//		harmonies.forEach(harmony -> harmony.toChord());
-//		
-//	}
 	
 }

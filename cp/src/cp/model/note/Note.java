@@ -232,8 +232,8 @@ public class Note implements Comparable<Note>, Cloneable{
 		return !articulation.equals(DEFAULT_ARTICULATION);
 	}
 	
-	public void setArticulation(Articulation performance) {
-		this.articulation = performance;
+	public void setArticulation(Articulation articulation) {
+		this.articulation = articulation;
 	}
 	
 	public Note copy(){
@@ -249,6 +249,7 @@ public class Note implements Comparable<Note>, Cloneable{
 		newNote.setDynamicLevel(this.getDynamicLevel());
 		newNote.setOctave(this.getOctave());
 		newNote.setPositionWeight(this.getPositionWeight());
+		newNote.setArticulation(this.articulation);
 		return newNote;
 	}
 	

@@ -27,9 +27,7 @@ import org.springframework.stereotype.Component;
 import cp.generator.MusicProperties;
 import cp.midi.MelodyInstrument;
 import cp.model.melody.CpMelody;
-import cp.model.melody.Melody;
 import cp.model.note.Note;
-import cp.model.note.NoteBuilder;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.KontaktLibPiano;
 
@@ -37,6 +35,8 @@ import cp.out.instrument.KontaktLibPiano;
 public class MusicXMLWriter {
 
 	private static final int DIVISIONS = 256;
+	
+	XMLStreamWriter xmlStreamWriter;
 	
 	@Autowired
 	private MusicProperties musicProperties;
@@ -75,7 +75,7 @@ public class MusicXMLWriter {
 
 	private void createXML(String id, Map<Instrument, List<List<Note>>> melodiesForInstrument) throws FactoryConfigurationError, XMLStreamException, FileNotFoundException {
 		XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newInstance();
-		XMLStreamWriter xmlStreamWriter = xmlOutputFactory.createXMLStreamWriter(new FileOutputStream("resources/xml/" + id + ".xml"), "UTF-8");
+		xmlStreamWriter = xmlOutputFactory.createXMLStreamWriter(new FileOutputStream("resources/xml/" + id + ".xml"), "UTF-8");
 
 		// Generate the XML
 		// Write the default XML declaration
@@ -89,9 +89,9 @@ public class MusicXMLWriter {
 		xmlStreamWriter.writeAttribute("version", "3.0");
 		xmlStreamWriter.writeCharacters("\n");
 
-		createElement(xmlStreamWriter, "work");
-		createElement(xmlStreamWriter, "identification");
-		createElement(xmlStreamWriter, "defaults");
+		createElement("work");
+		createElement("identification");
+		createElement("defaults");
 
 		// part-list element
 		xmlStreamWriter.writeStartElement("part-list");
@@ -99,14 +99,14 @@ public class MusicXMLWriter {
 		
 		Set<Instrument> distinctInstruments = new HashSet<>(musicProperties.getInstruments());
 		for (Instrument instrument : distinctInstruments) {
-			createScorePartElement(xmlStreamWriter, instrument);
+			createScorePartElement(instrument);
 		}
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
 		
 		//part element
 		for (Entry<Instrument, List<List<Note>>> entries : melodiesForInstrument.entrySet()) {
-			createPartElement(xmlStreamWriter, entries.getValue(), entries.getKey());
+			createPartElement(entries.getValue(), entries.getKey());
 		}
 		
 		// End the root element
@@ -156,11 +156,11 @@ public class MusicXMLWriter {
 		return melodiesForInstrument;
 	}
 	
-	private void createBackupElement(XMLStreamWriter xmlStreamWriter,int duration) throws XMLStreamException {
+	private void createBackupElement(int duration) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("backup");
 		xmlStreamWriter.writeCharacters("\n");
 		
-		createElementWithValue(xmlStreamWriter, "duration", String.valueOf(duration));
+		createElementWithValue("duration", String.valueOf(duration));
 		
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
@@ -176,18 +176,18 @@ public class MusicXMLWriter {
 		}
 	}
 
-	private void createPartElement(XMLStreamWriter xmlStreamWriter, List<List<Note>> list, Instrument instrument) throws XMLStreamException {
+	private void createPartElement(List<List<Note>> list, Instrument instrument) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("part");
 		xmlStreamWriter.writeAttribute("id", "P" + instrument.getVoice());
 		xmlStreamWriter.writeCharacters("\n");
 		
-		createMeasureElements(xmlStreamWriter, list, instrument);
+		createMeasureElements(list, instrument);
 		
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
 	}
 
-	private void createMeasureElements(XMLStreamWriter xmlStreamWriter, List<List<Note>> notesLists, Instrument instrument) throws XMLStreamException {
+	private void createMeasureElements(List<List<Note>> notesLists, Instrument instrument) throws XMLStreamException {
 		// only 1 melody
 		if (notesLists.size() == 1) {
 			List<Measure> measures = getMeasures(notesLists.get(0));
@@ -199,8 +199,8 @@ public class MusicXMLWriter {
 				xmlStreamWriter.writeAttribute("number", String.valueOf(i));
 				xmlStreamWriter.writeCharacters("\n");
 				if (i == 0) {
-					createAttributes(xmlStreamWriter, instrument);
-					createDirectionElement(xmlStreamWriter, instrument);
+					createAttributes(instrument);
+					createDirectionElement(instrument);
 				}
 				List<Note> notes = measure.getNotes();
 				int position = -1;
@@ -218,9 +218,9 @@ public class MusicXMLWriter {
 //					}
 					int staff = getStaff(instrument, note);
 					if (position == note.getPosition()) {
-						createNoteElement(xmlStreamWriter, note, instrument, true, -1 , staff);
+						createNoteElement(note, instrument, true, -1 , staff);
 					} else {
-						createNoteElement(xmlStreamWriter, note, instrument, false, -1, staff);
+						createNoteElement(note, instrument, false, -1, staff);
 					}
 					position = note.getPosition();
 				}
@@ -244,8 +244,8 @@ public class MusicXMLWriter {
 				xmlStreamWriter.writeAttribute("number", String.valueOf(start));
 				xmlStreamWriter.writeCharacters("\n");
 				if (start==0) {
-					createAttributes(xmlStreamWriter, instrument);
-					createDirectionElement(xmlStreamWriter, null);
+					createAttributes(instrument);
+					createDirectionElement(null);
 				}
 				List<Measure> measures = startPositions.getValue();
 				int m = 1;
@@ -263,14 +263,14 @@ public class MusicXMLWriter {
 						}
 						position = note.getPosition();
 						if (m <= split) {
-							createNoteElement(xmlStreamWriter, note, instrument, isChordNote, m, 1);
+							createNoteElement(note, instrument, isChordNote, m, 1);
 						}else{
-							createNoteElement(xmlStreamWriter, note, instrument, isChordNote, m, 2);
+							createNoteElement(note, instrument, isChordNote, m, 2);
 						}
 					}
 					if (m != lastMeasure) {
 						int duration = getDuration(notes);
-						createBackupElement(xmlStreamWriter, duration);
+						createBackupElement(duration);
 					}
 					m++;
 				}
@@ -295,33 +295,33 @@ public class MusicXMLWriter {
 		return 1;
 	}
 
-	private void createDirectionElement(XMLStreamWriter xmlStreamWriter, Instrument instrument) throws XMLStreamException {
+	private void createDirectionElement(Instrument instrument) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("direction");
 		xmlStreamWriter.writeCharacters("\n");
 		
-		createDirectionTypeElement(xmlStreamWriter);
+		createDirectionTypeElement();
 //		createElementWithValue(xmlStreamWriter, "voice", String.valueOf(instrument.getVoice()));
 //		createElementWithValue(xmlStreamWriter, "staff", String.valueOf(instrument.getVoice());
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
 	}
 
-	private void createDirectionTypeElement(XMLStreamWriter xmlStreamWriter) throws XMLStreamException {
+	private void createDirectionTypeElement() throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("direction-type");
 		xmlStreamWriter.writeCharacters("\n");
 		
-		createMetronomeElement(xmlStreamWriter);
+		createMetronomeElement();
 
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
 	}
 
-	private void createMetronomeElement(XMLStreamWriter xmlStreamWriter) throws XMLStreamException {
+	private void createMetronomeElement() throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("metronome");
 		xmlStreamWriter.writeCharacters("\n");
 		
-		createElementWithValue(xmlStreamWriter, "beat-unit", "quarter");
-		createElementWithValue(xmlStreamWriter, "per-minute", String.valueOf(musicProperties.getTempo()));
+		createElementWithValue("beat-unit", "quarter");
+		createElementWithValue("per-minute", String.valueOf(musicProperties.getTempo()));
 		
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
@@ -366,7 +366,7 @@ public class MusicXMLWriter {
 		return measures;
 	}
 
-	private void createNoteElement(XMLStreamWriter xmlStreamWriter, Note note, Instrument instrument, boolean isChordNote, int voice, int staff) throws XMLStreamException {
+	private void createNoteElement(Note note, Instrument instrument, boolean isChordNote, int voice, int staff) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("note");
 		xmlStreamWriter.writeCharacters("\n");
 		if (isChordNote) {
@@ -376,46 +376,46 @@ public class MusicXMLWriter {
 		if (note.isRest()) {
 			xmlStreamWriter.writeEmptyElement("rest");
 		} else {
-			createPitchElement(xmlStreamWriter, note);
+			createPitchElement(note);
 		}
 		int length =  note.getLength() * DIVISIONS / 12;
-		createElementWithValue(xmlStreamWriter, "duration", String.valueOf(length));
-		createElementWithAttributeValue(xmlStreamWriter, "instrument", "id", "P" + instrument.getVoice() + "-I" + instrument.getVoice());
+		createElementWithValue("duration", String.valueOf(length));
+		createElementWithAttributeValue("instrument", "id", "P" + instrument.getVoice() + "-I" + instrument.getVoice());
 		if (voice > 0) {
-			createElementWithValue(xmlStreamWriter, "voice", String.valueOf(voice));
+			createElementWithValue("voice", String.valueOf(voice));
 		}
 		NoteType noteType = NoteType.getNoteType(length);
-		createElementWithValue(xmlStreamWriter, "type", noteType.getName());
+		createElementWithValue("type", noteType.getName());
 		if (noteType.isDot()) {
 			xmlStreamWriter.writeEmptyElement("dot");
 		}
 		if (noteType.isTriplet()) {
-			createTimeModification(xmlStreamWriter, noteType);
+			createTimeModification(noteType);
 		}
-		createElementWithValue(xmlStreamWriter, "staff", String.valueOf(staff));
+		createElementWithValue("staff", String.valueOf(staff));
 		if (note.hasArticulation()|| note.isTieStart() || note.isTieEnd()) {
-			createNotationsElement(xmlStreamWriter, note);
+			createNotationsElement(note);
 		}
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
 	}
 	
-	private void createNotationsElement(XMLStreamWriter xmlStreamWriter, Note note) throws XMLStreamException {
+	private void createNotationsElement(Note note) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("notations");
 		xmlStreamWriter.writeCharacters("\n");
 		if (note.isTieStart()) {
-			createElementWithAttributeValue(xmlStreamWriter, "tied", "type", "start");
+			createElementWithAttributeValue("tied", "type", "start");
 		}else if (note.isTieEnd()) {
-			createStopElement(xmlStreamWriter);
+			createStopElement();
 		}
 		if (note.hasArticulation()) {
-			createArticulationElement(xmlStreamWriter, note);
+			createArticulationElement(note);
 		}
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
 	}
 
-	private void createArticulationElement(XMLStreamWriter xmlStreamWriter, Note note) throws XMLStreamException {
+	private void createArticulationElement(Note note) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("Articulation");
 		xmlStreamWriter.writeCharacters("\n");
 		
@@ -426,24 +426,24 @@ public class MusicXMLWriter {
 		
 	}
 
-	private void createTimeModification(XMLStreamWriter xmlStreamWriter,NoteType noteType) throws XMLStreamException {
+	private void createTimeModification(NoteType noteType) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("time-modification");
 		xmlStreamWriter.writeCharacters("\n");
 		
 		if (noteType.equals(NoteType.sixteenthTriplet)) {
-			createElementWithValue(xmlStreamWriter, "actual-notes", "6");
-			createElementWithValue(xmlStreamWriter, "normal-notes", "4");
+			createElementWithValue("actual-notes", "6");
+			createElementWithValue("normal-notes", "4");
 		} else {
-			createElementWithValue(xmlStreamWriter, "actual-notes", "3");
-			createElementWithValue(xmlStreamWriter, "normal-notes", "2");
+			createElementWithValue("actual-notes", "3");
+			createElementWithValue("normal-notes", "2");
 		}
-		createElementWithValue(xmlStreamWriter, "normal-type", noteType.getName());
+		createElementWithValue("normal-type", noteType.getName());
 		
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
 	}
 
-	private void createStopElement(XMLStreamWriter xmlStreamWriter) throws XMLStreamException {
+	private void createStopElement() throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("slur");
 		xmlStreamWriter.writeAttribute("color", "#000000");
 		xmlStreamWriter.writeAttribute("type", "stop");
@@ -451,29 +451,29 @@ public class MusicXMLWriter {
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
 		
-		createElementWithAttributeValue(xmlStreamWriter, "tied", "type", "stop");
+		createElementWithAttributeValue("tied", "type", "stop");
 	}
 
-	private void createNotationsStartElement(XMLStreamWriter xmlStreamWriter) throws XMLStreamException {
+	private void createNotationsStartElement() throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("notations");
 		xmlStreamWriter.writeCharacters("\n");
-		createElementWithAttributeValue(xmlStreamWriter, "tied", "type", "start");
+		createElementWithAttributeValue("tied", "type", "start");
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
 	}
 
-	private void createPitchElement(XMLStreamWriter xmlStreamWriter, Note note)
+	private void createPitchElement(Note note)
 			throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("pitch");
 		xmlStreamWriter.writeCharacters("\n");
 		
-		createElementWithValue(xmlStreamWriter, "step", getNoteName(note.getPitchClass()));
+		createElementWithValue("step", getNoteName(note.getPitchClass()));
 		if (note.getPitchClass() == 1 || note.getPitchClass() == 3 || note.getPitchClass() == 6 || note.getPitchClass() == 8){
-			createElementWithValue(xmlStreamWriter, "alter", String.valueOf(1));
+			createElementWithValue("alter", String.valueOf(1));
 		} else if (note.getPitchClass() == 10 ){
-			createElementWithValue(xmlStreamWriter, "alter", String.valueOf(-1));
+			createElementWithValue("alter", String.valueOf(-1));
 		}
-		createElementWithValue(xmlStreamWriter, "octave", String.valueOf(note.getOctave() - 1));
+		createElementWithValue("octave", String.valueOf(note.getOctave() - 1));
 		
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
@@ -506,32 +506,32 @@ public class MusicXMLWriter {
 		return null;
 	}
 
-	private void createAttributes(XMLStreamWriter xmlStreamWriter, Instrument instrument) throws XMLStreamException {
+	private void createAttributes(Instrument instrument) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("attributes");
 		xmlStreamWriter.writeCharacters("\n");
 		
-		createElementWithValue(xmlStreamWriter, "divisions", String.valueOf(DIVISIONS));
+		createElementWithValue("divisions", String.valueOf(DIVISIONS));
 		createKeyElement(xmlStreamWriter);
-		createTimeElement(xmlStreamWriter);
+		createTimeElement();
 		if (instrument instanceof KontaktLibPiano) {
-			createElementWithValue(xmlStreamWriter, "staves", String.valueOf(2));
-			createPianoClefElement(xmlStreamWriter);
+			createElementWithValue("staves", String.valueOf(2));
+			createPianoClefElement();
 		} else{
-			createElementWithValue(xmlStreamWriter, "staves", String.valueOf(1));
-			createClefElement(xmlStreamWriter, instrument);
+			createElementWithValue("staves", String.valueOf(1));
+			createClefElement(instrument);
 		}
 		
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
 	}
 	
-	private void createPianoClefElement(XMLStreamWriter xmlStreamWriter) throws XMLStreamException {
+	private void createPianoClefElement() throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("clef");
 		xmlStreamWriter.writeAttribute("number", "1");
 		xmlStreamWriter.writeCharacters("\n");
 		
-		createElementWithValue(xmlStreamWriter, "sign", "G");
-		createElementWithValue(xmlStreamWriter, "line", "2");
+		createElementWithValue("sign", "G");
+		createElementWithValue("line", "2");
 
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
@@ -540,22 +540,22 @@ public class MusicXMLWriter {
 		xmlStreamWriter.writeAttribute("number", "2");
 		xmlStreamWriter.writeCharacters("\n");
 		
-		createElementWithValue(xmlStreamWriter, "sign", "F");
-		createElementWithValue(xmlStreamWriter, "line", "4");
+		createElementWithValue("sign", "F");
+		createElementWithValue("line", "4");
 
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
 	}
 
-	private void createClefElement(XMLStreamWriter xmlStreamWriter, Instrument instrument) throws XMLStreamException {
+	private void createClefElement(Instrument instrument) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("clef");
 		
 		if (instrument instanceof KontaktLibPiano) {
 			xmlStreamWriter.writeAttribute("number", "1");
 			xmlStreamWriter.writeCharacters("\n");
 			
-			createElementWithValue(xmlStreamWriter, "sign", "G");
-			createElementWithValue(xmlStreamWriter, "line", "2");
+			createElementWithValue("sign", "G");
+			createElementWithValue("line", "2");
 
 			xmlStreamWriter.writeEndElement();
 			xmlStreamWriter.writeCharacters("\n");
@@ -564,28 +564,28 @@ public class MusicXMLWriter {
 			xmlStreamWriter.writeAttribute("number", "2");
 			xmlStreamWriter.writeCharacters("\n");
 			
-			createElementWithValue(xmlStreamWriter, "sign", "F");
-			createElementWithValue(xmlStreamWriter, "line", "4");
+			createElementWithValue("sign", "F");
+			createElementWithValue("line", "4");
 		}else{
 			xmlStreamWriter.writeCharacters("\n");
 			if (instrument.getClef().equals("F")) {
-				createElementWithValue(xmlStreamWriter, "sign", "F");
-				createElementWithValue(xmlStreamWriter, "line", "4");
+				createElementWithValue("sign", "F");
+				createElementWithValue("line", "4");
 			} else {
-				createElementWithValue(xmlStreamWriter, "sign", "G");
-				createElementWithValue(xmlStreamWriter, "line", "2");
+				createElementWithValue("sign", "G");
+				createElementWithValue("line", "2");
 			}
 		}
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
 	}
 
-	private void createTimeElement(XMLStreamWriter xmlStreamWriter) throws XMLStreamException {
+	private void createTimeElement() throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("time");
 		xmlStreamWriter.writeCharacters("\n");
 		
-		createElementWithValue(xmlStreamWriter, "beats", String.valueOf(musicProperties.getNumerator()));
-		createElementWithValue(xmlStreamWriter, "beat-type", String.valueOf(musicProperties.getDenominator()));
+		createElementWithValue("beats", String.valueOf(musicProperties.getNumerator()));
+		createElementWithValue("beat-type", String.valueOf(musicProperties.getDenominator()));
 		
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
@@ -595,64 +595,64 @@ public class MusicXMLWriter {
 		xmlStreamWriter.writeStartElement("key");
 		xmlStreamWriter.writeCharacters("\n");
 		
-		createElementWithValue(xmlStreamWriter, "fifths", String.valueOf(musicProperties.getKeySignature()));
-		createElementWithValue(xmlStreamWriter, "mode", "major");
+		createElementWithValue("fifths", String.valueOf(musicProperties.getKeySignature()));
+		createElementWithValue("mode", "major");
 		
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
 	}
 
-	private void createScorePartElement(XMLStreamWriter xmlStreamWriter, Instrument instrument) throws XMLStreamException {
+	private void createScorePartElement(Instrument instrument) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("score-part");
 		xmlStreamWriter.writeAttribute("id", "P" + instrument.getVoice());
 		xmlStreamWriter.writeCharacters("\n");
 		
-		createElementWithValue(xmlStreamWriter, "part-name", instrument.getInstrumentName());
-		createInstrumentScoreElement(xmlStreamWriter, instrument);
+		createElementWithValue("part-name", instrument.getInstrumentName());
+		createInstrumentScoreElement(instrument);
 		
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
 	}
 
-	private void createInstrumentScoreElement(XMLStreamWriter xmlStreamWriter, Instrument instrument) throws XMLStreamException {
+	private void createInstrumentScoreElement(Instrument instrument) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("score-instrument");
 		xmlStreamWriter.writeAttribute("id", "P" + instrument.getVoice() + "-I" + instrument.getVoice());
 		xmlStreamWriter.writeCharacters("\n");
 		
-		createElementWithValue(xmlStreamWriter, "instrument-name", instrument.getInstrumentName());
-		createElementWithValue(xmlStreamWriter, "instrument-sound", instrument.getInstrumentSound());
+		createElementWithValue("instrument-name", instrument.getInstrumentName());
+		createElementWithValue("instrument-sound", instrument.getInstrumentSound());
 		
 		xmlStreamWriter.writeEmptyElement("solo");
-		createVirtualInstrumentElement(xmlStreamWriter, instrument);
+		createVirtualInstrumentElement(instrument);
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
 		
 	}
 
-	private void createVirtualInstrumentElement(XMLStreamWriter xmlStreamWriter, Instrument instrument) throws XMLStreamException {
+	private void createVirtualInstrumentElement(Instrument instrument) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("virtual-instrument");
 		xmlStreamWriter.writeCharacters("\n");
-		createElementWithValue(xmlStreamWriter, "virtual-library", instrument.getVirtualLibrary());
-		createElementWithValue(xmlStreamWriter, "virtual-name", instrument.getVirtualName());
+		createElementWithValue("virtual-library", instrument.getVirtualLibrary());
+		createElementWithValue("virtual-name", instrument.getVirtualName());
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
 		
 	}
 
-	private void createElement(XMLStreamWriter xmlStreamWriter, String name) throws XMLStreamException {
+	private void createElement(String name) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement(name);
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
 	}
 	
-	private void createElementWithValue(XMLStreamWriter xmlStreamWriter, String name, String value) throws XMLStreamException {
+	private void createElementWithValue(String name, String value) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement(name);
 		xmlStreamWriter.writeCharacters(value);
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
 	}
 	
-	private void createElementWithAttributeValue(XMLStreamWriter xmlStreamWriter, String elementName, String attributeName, String attributeValue) throws XMLStreamException {
+	private void createElementWithAttributeValue(String elementName, String attributeName, String attributeValue) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement(elementName);
 		xmlStreamWriter.writeAttribute(attributeName, attributeValue);
 		xmlStreamWriter.writeEndElement();

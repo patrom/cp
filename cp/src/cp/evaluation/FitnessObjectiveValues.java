@@ -26,12 +26,6 @@ public class FitnessObjectiveValues {
 	public void setVoiceleading(double voiceleading) {
 		this.voiceleading = voiceleading;
 	}
-	@Override
-	public String toString() {
-		return "FitnessObjectiveValues [harmony=" + harmony + ", melody="
-				+ melody + ", voiceleading=" + voiceleading + ", tonality="
-				+ tonality + "]";
-	}
 	public double getTonality() {
 		return tonality;
 	}
@@ -43,6 +37,12 @@ public class FitnessObjectiveValues {
 	}
 	public void setRhythm(double rhythm) {
 		this.rhythm = rhythm;
+	}
+	@Override
+	public String toString() {
+		return "FitnessObjectiveValues [harmony=" + harmony + ", melody="
+				+ melody + ", voiceleading=" + voiceleading + ", tonality="
+				+ tonality + ", rhythm=" + rhythm + "]";
 	}
 	
 }

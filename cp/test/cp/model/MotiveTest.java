@@ -1,15 +1,6 @@
 package cp.model;
 
-import static cp.model.melody.HarmonicMelodyBuilder.harmonicMelody;
-import static cp.model.note.NoteBuilder.note;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.SpringApplicationContextLoader;
 import org.springframework.test.context.ContextConfiguration;
@@ -17,13 +8,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cp.AbstractTest;
 import cp.DefaultConfig;
-import cp.model.harmony.Harmony;
-import cp.model.melody.HarmonicMelody;
-import cp.model.melody.Melody;
-import cp.model.melody.pitchspace.UniformPitchSpace;
-import cp.model.note.Note;
-import cp.model.note.NoteBuilder;
-import cp.out.instrument.Ensemble;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = DefaultConfig.class, loader = SpringApplicationContextLoader.class)

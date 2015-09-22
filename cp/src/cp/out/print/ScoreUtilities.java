@@ -2,17 +2,7 @@ package cp.out.print;
 
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Logger;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import cp.generator.MusicProperties;
-import cp.midi.MelodyInstrument;
-import cp.model.melody.CpMelody;
-import cp.model.melody.Melody;
-import cp.model.note.NoteBuilder;
-import cp.variation.Embellisher;
 import jm.JMC;
 import jm.music.data.Note;
 import jm.music.data.Part;
@@ -20,10 +10,20 @@ import jm.music.data.Phrase;
 import jm.music.data.Rest;
 import jm.music.data.Score;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import cp.generator.MusicProperties;
+import cp.midi.MelodyInstrument;
+import cp.model.melody.CpMelody;
+import cp.variation.Embellisher;
+
 @Component
 public class ScoreUtilities implements JMC{
 	
-	private Logger LOGGER = Logger.getLogger(ScoreUtilities.class.getName());
+	private Logger LOGGER = LoggerFactory.getLogger(ScoreUtilities.class.getName());
 
 	private final double ATOMIC_VALUE = 12;
 	private Random random = new Random();

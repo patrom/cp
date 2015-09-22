@@ -14,8 +14,8 @@ public class KontaktLibFrenchHorn extends Instrument {
 	}
 
 	@Override
-	public int getPerformanceValue(Articulation performance) {
-		switch (performance) {
+	public int getArticulation(Articulation articulation) {
+		switch (articulation) {
 		case LEGATO:
 			return 24;
 		case MARCATO:
@@ -27,7 +27,7 @@ public class KontaktLibFrenchHorn extends Instrument {
 		case PORTATO:
 			return 24;
 		default:
-			return super.getPerformanceValue(performance);
+			return super.getArticulation(articulation);
 		}
 	}
 }

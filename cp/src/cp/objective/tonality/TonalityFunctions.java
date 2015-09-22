@@ -112,15 +112,15 @@ public class TonalityFunctions {
 	}
 
 	public static double getMaxCorrelationTonality(
-			List<Melody> melodies, double[] template) {
+			List<CpMelody> melodies, double[] template) {
 		double[] durationVector = new double[12];
-		for (Melody melody : melodies) {
-			List<Note> notes = melody.getMelodieNotes();
+		for (CpMelody melody : melodies) {
+			List<Note> notes = melody.getNotes();
 			for (Note note : notes) {
 				if (!note.isRest()) {
 					double registerValue = 1 - (note.getPitch() / 100d);
 					double length = note.getLength();
-					double weight = (note.getPositionWeight() + note.getInnerMetricWeight())/2;
+					double weight = note.getPositionWeight();
 					durationVector[note.getPitchClass()] = durationVector[note.getPitchClass()]
 							+ (length * registerValue * weight);
 				}

@@ -5,6 +5,13 @@ import java.util.List;
 
 //reverse numbering Kontakt!
 public class Ensemble {
+	
+	public static List<Instrument> getStringDuo(){
+		List<Instrument> stringDuo = new ArrayList<Instrument>();
+		stringDuo.add(new KontaktLibViolin(1, 0));
+		stringDuo.add(new KontaktLibCello(0, 2));
+		return stringDuo;
+	}
 
 	public static List<Instrument> getStringQuartet(){
 		List<Instrument> stringQuartet = new ArrayList<Instrument>();

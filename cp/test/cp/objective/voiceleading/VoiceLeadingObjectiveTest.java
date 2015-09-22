@@ -1,13 +1,6 @@
 package cp.objective.voiceleading;
 
-import static cp.model.harmony.HarmonyBuilder.harmony;
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationContextLoader;
@@ -16,9 +9,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cp.AbstractTest;
 import cp.DefaultConfig;
-import cp.generator.MusicProperties;
-import cp.model.Motive;
-import cp.model.harmony.Harmony;
 import cp.objective.Objective;
 
 @RunWith(SpringJUnit4ClassRunner.class)

@@ -14,7 +14,7 @@ public class KontaktLibBassoon extends Instrument {
 	}
 
 	@Override
-	public int getPerformanceValue(Articulation performance) {
+	public int getArticulation(Articulation performance) {
 		switch (performance) {
 		case LEGATO:
 			return 24;
@@ -27,7 +27,7 @@ public class KontaktLibBassoon extends Instrument {
 		case PORTATO:
 			return 24;
 		default:
-			return super.getPerformanceValue(performance);
+			return super.getArticulation(performance);
 		}
 	}
 }

@@ -8,8 +8,9 @@ package cp.nsga;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Logger;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -31,11 +32,11 @@ import jmetal.util.Ranking;
 @Component
 public class NSGAII extends Algorithm {
 
-	private static Logger LOGGER = Logger.getLogger(NSGAII.class.getName());
+	private static Logger LOGGER = LoggerFactory.getLogger(NSGAII.class.getName());
 
-	@Autowired
-	@Qualifier(value="TriadDecorator")
-	private Decorator decorator;
+//	@Autowired
+//	@Qualifier(value="TriadDecorator")
+//	private Decorator decorator;
 	private boolean decorated = false;
 
 	/**
@@ -87,10 +88,6 @@ public class NSGAII extends Algorithm {
 		List<Operator> mutationOperators = new ArrayList<Operator>();
 		mutationOperators.add(operators_.get("oneNoteMutation"));
 		mutationOperators.add(operators_.get("addRhythm"));
-//		mutationOperators.add(operators_.get("harmonyNoteToPitch"));
-//		mutationOperators.add(operators_.get("swapHarmonyNotes"));
-//		mutationOperators.add(operators_.get("melodyNoteToHarmonyNote"));
-//		mutationOperators.add(operators_.get("pitchSpaceMutation"));
 		Operator crossoverOperator = operators_.get("crossover");
 		Operator selectionOperator = operators_.get("selection");
 
@@ -127,10 +124,10 @@ public class NSGAII extends Algorithm {
 						operator.execute(offSpring[0]);
 						operator.execute(offSpring[1]);
 					}
-					if (decorated) {
-						decorator.decorate(offSpring[0]);
-						decorator.decorate(offSpring[1]);
-					}
+//					if (decorated) {
+//						decorator.decorate(offSpring[0]);
+//						decorator.decorate(offSpring[1]);
+//					}
 					problem_.evaluate(offSpring[0]);
 					problem_.evaluateConstraints(offSpring[0]);
 					problem_.evaluate(offSpring[1]);
@@ -205,7 +202,7 @@ public class NSGAII extends Algorithm {
 			List<Solution> frontSolutions = copyList(population);
 			boolean changed = hasPopulationChanged(copySolutions,
 					frontSolutions);
-			LOGGER.fine("Population changed: " + changed + ", evaluations: "
+			LOGGER.debug("Population changed: " + changed + ", evaluations: "
 					+ evaluations + ", change count:" + changeCount);
 			if (changed) {
 				changeCount = 0;

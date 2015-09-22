@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.swing.JFrame;
@@ -23,6 +22,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationContextLoader;
 import org.springframework.test.context.ContextConfiguration;
@@ -43,7 +44,7 @@ import cp.out.print.ScoreUtilities;
 @ContextConfiguration(classes = DefaultConfig.class, loader = SpringApplicationContextLoader.class)
 public class RhythmObjectiveTest extends JFrame {
 	
-	private static Logger LOGGER = Logger.getLogger(RhythmObjectiveTest.class.getName());
+	private static Logger LOGGER = LoggerFactory.getLogger(RhythmObjectiveTest.class.getName());
 	
 	@Autowired
 	private RhythmObjective rhythmObjective;

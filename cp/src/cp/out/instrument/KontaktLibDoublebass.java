@@ -18,20 +18,20 @@ public class KontaktLibDoublebass extends Instrument {
 	}
 
 	@Override
-	public int getPerformanceValue(Articulation performance) {
-		switch (performance) {
+	public int getArticulation(Articulation articulation) {
+		switch (articulation) {
 		case LEGATO:
-			return 24;
-		case MARCATO:
 			return 24;
 		case PIZZICATO:
 			return 29;
 		case STACCATO:
 			return 27;
-		case PORTATO:
-			return 24;
+		case SFORZANDO:
+			return 26;
+		case TREMELO:
+			return 28;
 		default:
-			return super.getPerformanceValue(performance);
+			return super.getArticulation(articulation);
 		}
 	}
 }

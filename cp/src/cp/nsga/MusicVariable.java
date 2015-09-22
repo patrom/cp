@@ -1,6 +1,8 @@
 package cp.nsga;
 
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import jmetal.core.Variable;
 import jmetal.util.JMException;
@@ -8,7 +10,7 @@ import cp.model.Motive;
 
 public class MusicVariable extends Variable {
 
-	private static Logger LOGGER = Logger.getLogger(MusicVariable.class.getName());
+	private static Logger LOGGER = LoggerFactory.getLogger(MusicVariable.class.getName());
 	private Motive motive;
 	
 	public MusicVariable(MusicVariable musicVariable) throws JMException {
@@ -78,7 +80,7 @@ public class MusicVariable extends Variable {
 		try {
 	      return new MusicVariable(this);
 	    } catch (JMException e) {
-	    	LOGGER.severe("MusicVariable.deepCopy.execute: JMException");
+	    	LOGGER.error("MusicVariable.deepCopy.execute: JMException");
 	      return null ;
 	    }
 	}

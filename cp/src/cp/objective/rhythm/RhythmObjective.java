@@ -31,6 +31,8 @@ public class RhythmObjective extends Objective{
 	
 	@Autowired
 	private MusicProperties musicProperties;
+	@Autowired
+	private InnerMetricWeightFunctions innerMetricWeightFunctions;
 
 	@Override
 	public double evaluate(Motive motive) {
@@ -55,8 +57,8 @@ public class RhythmObjective extends Objective{
 		if (filteredNotes.isEmpty()) {
 			return 0;
 		}
-		InnerMetricWeight innerMetricWeight = InnerMetricWeightFunctions.getInnerMetricWeight(filteredNotes , minimumRhythmicValue);
-		LOGGER.fine(innerMetricWeight.getInnerMetricWeightMap().toString());
+		InnerMetricWeight innerMetricWeight = innerMetricWeightFunctions.getInnerMetricWeight(filteredNotes , minimumRhythmicValue);
+		LOGGER.fine("InnerMetricMap: " + innerMetricWeight.getInnerMetricWeightMap().toString());
 		return innerMetricWeight.getInnerMetricWeightAverage();
 	}
 	
@@ -70,7 +72,7 @@ public class RhythmObjective extends Objective{
 			return 0;
 		}
 		Integer[] filteredPos = new Integer[positionsFiltered.size()];
-		InnerMetricWeight innerMetricWeightMerged = InnerMetricWeightFunctions.getInnerMetricWeight(ArrayUtils.toPrimitive(positionsFiltered.toArray(filteredPos)) , musicProperties.getMinimumLength());
+		InnerMetricWeight innerMetricWeightMerged = innerMetricWeightFunctions.getInnerMetricWeight(ArrayUtils.toPrimitive(positionsFiltered.toArray(filteredPos)) , musicProperties.getMinimumLength());
 		LOGGER.fine(innerMetricWeightMerged.getInnerMetricWeightMap().toString());
 		return innerMetricWeightMerged.getInnerMetricWeightAverage();
 	}

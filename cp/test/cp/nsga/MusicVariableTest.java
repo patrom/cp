@@ -1,28 +1,19 @@
 package cp.nsga;
 
-import static cp.model.harmony.HarmonyBuilder.harmony;
-import static cp.model.melody.HarmonicMelodyBuilder.harmonicMelody;
-import static cp.model.note.NoteBuilder.note;
-import static org.junit.Assert.assertEquals;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Test;
 
 import cp.generator.MusicProperties;
 import cp.model.Motive;
-import cp.model.harmony.Harmony;
-import cp.model.melody.HarmonicMelody;
-import cp.model.melody.pitchspace.UniformPitchSpace;
-import cp.model.note.Note;
+import cp.model.harmony.CpHarmony;
 import cp.out.instrument.Ensemble;
 import cp.out.instrument.Instrument;
 
 public class MusicVariableTest {
 
-	private List<Harmony> harmonies = new ArrayList<>();
+	private List<CpHarmony> harmonies = new ArrayList<>();
 	private Motive motive;
 	private Integer[] range = {5};
 	private List<Instrument> instruments = Ensemble.getStringQuartet();

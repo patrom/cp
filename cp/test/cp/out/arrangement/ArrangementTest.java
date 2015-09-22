@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
@@ -14,6 +13,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationContextLoader;
 import org.springframework.test.AssertThrows;
@@ -29,7 +30,7 @@ import cp.out.print.Display;
 @ContextConfiguration(classes = DefaultConfig.class, loader = SpringApplicationContextLoader.class)
 public class ArrangementTest extends JFrame{
 	
-	private static Logger LOGGER = Logger.getLogger(ArrangementTest.class.getName());
+	private static Logger LOGGER = LoggerFactory.getLogger(ArrangementTest.class.getName());
 	
 	@Autowired
 	private Arrangement arrangement;

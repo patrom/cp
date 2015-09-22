@@ -6,16 +6,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.logging.Logger;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cp.model.note.Interval;
 import cp.model.note.Note;
 
 public class MelodicFunctions {
 	
-	private static Logger LOGGER = Logger.getLogger(MelodicFunctions.class.getName());
+	private static Logger LOGGER = LoggerFactory.getLogger(MelodicFunctions.class.getName());
 	
 	public static List<Double> getMelodicWeights2(List<Note> melody, int windowSize){
 		int size = melody.size();
