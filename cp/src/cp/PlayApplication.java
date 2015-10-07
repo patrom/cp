@@ -118,9 +118,9 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 			Score score = scoreUtilities.createScoreFromMelodyInstrument(parsedMelodies, midiInfo.getTempo());
 			score.setTitle(midiFile.getName());
 			View.notate(score);
-			write(parsedMelodies , "resources/transform/" + midiFile.getName(), midiInfo.getTempo());
-			generateMusicXml(parsedMelodies, midiFile.getName());
-			Thread.sleep(7000);
+//			write(parsedMelodies , "resources/transform/" + midiFile.getName(), midiInfo.getTempo());
+//			generateMusicXml(parsedMelodies, midiFile.getName());
+			Thread.sleep(10000);
 		}
 	}
 
@@ -190,7 +190,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 	}
 	
 	private void mapInstruments(List<MelodyInstrument> melodies, List<Instrument> instruments) {
-		for (int i = 0; i < instruments.size(); i++) {
+		for (int i = 0; i < melodies.size(); i++) {
 			MelodyInstrument melodyInstrument = melodies.get(i);
 			Optional<Instrument> instrument = instruments.stream().filter(instr -> (instr.getVoice()) == melodyInstrument.getVoice()).findFirst();
 			if (instrument.isPresent()) {

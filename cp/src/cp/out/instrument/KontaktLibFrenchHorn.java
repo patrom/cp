@@ -20,12 +20,10 @@ public class KontaktLibFrenchHorn extends Instrument {
 			return 24;
 		case MARCATO:
 			return 24;
-		case PIZZICATO:
-			return 29;
 		case STACCATO:
 			return 27;
-		case PORTATO:
-			return 24;
+//		case PORTATO:
+//			return 24;
 		default:
 			return super.getArticulation(articulation);
 		}

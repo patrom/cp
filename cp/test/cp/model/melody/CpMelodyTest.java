@@ -6,13 +6,12 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import cp.model.note.Note;
 import cp.model.note.Scale;
+import cp.out.instrument.Instrument;
 
 public class CpMelodyTest {
 
@@ -55,16 +54,22 @@ public class CpMelodyTest {
 	@Test
 	public void testUpdateMelodyBetween() {
 		List<Note> notes = new ArrayList<>();
-		notes.add(note().pos(0).pc(0).pitch(48).build());
-		notes.add(note().pos(18).pc(11).pitch(71).build());
-		notes.add(note().pos(24).pc(5).pitch(89).build());
-		notes.add(note().pos(48).pc(7).pitch(55).build());
+		notes.add(note().pos(0).pc(0).pitch(48).ocatve(4).build());
+		notes.add(note().pos(18).pc(11).pitch(71).ocatve(5).build());
+		notes.add(note().pos(24).pc(5).pitch(89).ocatve(7).build());
+		notes.add(note().pos(48).pc(7).pitch(55).ocatve(4).build());
 		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0);
-		melody.updateMelodyBetween(60, 80);
+		Instrument instrument = new Instrument();
+		instrument.setLowest(60);
+		instrument.setHighest(80);
+		melody.setInstrument(instrument);
+		melody.updateMelodyBetween();
 		assertEquals(60, notes.get(0).getPitch());
 		assertEquals(71, notes.get(1).getPitch());
 		assertEquals(77, notes.get(2).getPitch());
+		assertEquals(6, notes.get(2).getOctave());
 		assertEquals(67, notes.get(3).getPitch());
+		assertEquals(5, notes.get(3).getOctave());
 	}
 	
 	@Test
@@ -285,11 +290,51 @@ public class CpMelodyTest {
 		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0);
 		melody.changeIntervalFrom(3);
 		assertEquals(60, notes.get(0).getPitch());
-		assertEquals(62, notes.get(1).getPitch() );
+		assertEquals(62, notes.get(1).getPitch());
 		assertEquals(71, notes.get(2).getPitch());
 		assertEquals(6, notes.get(3).getOctave());
 		assertEquals(77, notes.get(3).getPitch());
 		assertEquals(79, notes.get(4).getPitch());
+	}
+	
+	@Test
+	public void testCopyMelodyAbsolute(){
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
+		notes.add(note().pos(12).pc(2).pitch(62).ocatve(5).build());
+		notes.add(note().pos(18).pc(11).pitch(71).ocatve(5).build());
+		notes.add(note().pos(24).pc(5).pitch(65).ocatve(5).build());
+		notes.add(note().pos(48).pc(7).pitch(67).ocatve(5).build());
+		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		CpMelody copy = new CpMelody(Scale.MAJOR_SCALE, 0, 12, 48);
+		copy.copyMelody(melody, -12, Transposition.ABSOLUTE);
+		assertEquals(4, copy.getNotes().size());
+		assertEquals(12, copy.getNotes().get(0).getPosition());
+		assertEquals(48, copy.getNotes().get(0).getPitch());
+		assertEquals(0, copy.getNotes().get(0).getPitchClass());
+		assertEquals(0, copy.getNotes().get(0).getVoice());
+		assertEquals(4, copy.getNotes().get(0).getOctave());
+		assertEquals(36, copy.getNotes().get(3).getPosition());
+	}
+	
+	@Test
+	public void testCopyMelodyRelative(){
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
+		notes.add(note().pos(12).pc(4).pitch(64).ocatve(5).build());
+		notes.add(note().pos(18).pc(11).pitch(71).ocatve(5).build());
+		notes.add(note().pos(24).pc(7).pitch(67).ocatve(5).build());
+		notes.add(note().pos(48).pc(9).pitch(69).ocatve(5).build());
+		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		CpMelody copy = new CpMelody(Scale.HARMONIC_MINOR_SCALE, 0, 12, 48);
+		copy.copyMelody(melody, 2, Transposition.RELATIVE);
+		assertEquals(4, copy.getNotes().size());
+		assertEquals(12, copy.getNotes().get(0).getPosition());
+		assertEquals(62, copy.getNotes().get(0).getPitch());
+		assertEquals(2, copy.getNotes().get(0).getPitchClass());
+		assertEquals(0, copy.getNotes().get(0).getVoice());
+		assertEquals(73, copy.getNotes().get(2).getPitch());
+		assertEquals(6, copy.getNotes().get(2).getOctave());
 	}
 
 }

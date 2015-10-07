@@ -8,6 +8,8 @@ public class Scale {
             CHROMATIC_SCALE = new Scale(new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}),
             MAJOR_SCALE = new Scale(new int[]{0, 2, 4, 5, 7, 9, 11}),
             HARMONIC_MINOR_SCALE = new Scale(new int[]{0, 2, 3, 5, 7, 8, 11}),
+//            HARMONIC_MINOR_SCALE_VI = new Scale(new int[]{0, 2, 4, 5, 8, 9, 11}),
+//            HARMONIC_MINOR_SCALE_II = new Scale(new int[]{1, 2, 4, 5, 7, 9, 10}),
             MELODIC_MINOR_SCALE = new Scale(new int[]{0, 2, 3, 5, 7, 8, 9, 10, 11}), // mix of ascend and descend
             AEOLIAN_SCALE = new Scale(new int[]{0, 2, 3, 5, 7, 8, 10}),
             DORIAN_SCALE = new Scale(new int[]{0, 2, 3, 5, 7, 9, 10}),	
@@ -40,6 +42,15 @@ public class Scale {
 	public int pickRandomPitchClass(){
 	    int index = random.nextInt(scale.length);
 	    return scale[index];
+	}
+	
+	public int getIndex(int pitchClass){
+		for (int i = 0; i < scale.length; i++) {
+			if (pitchClass  == scale[i]) {
+				return i;
+			}
+		}
+		throw new IllegalArgumentException("Scale doesn't contain pitchClass: " + pitchClass);
 	}
 	
 	public int transposePitchClass(int pitchClass, int steps){

@@ -3,6 +3,7 @@ package cp.generator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 
 import org.springframework.stereotype.Component;
@@ -27,8 +28,8 @@ public class MusicProperties {
 	private int[] distance = {2,3,4,5,6,8,9,10,12,14,15,16,18,20,21,22,24,26,27,28,30,32};//atomic beat = 12
 	
 	//tonality
-	private Scale scale = Scale.CHROMATIC_SCALE;
-	private Scale melodyScale = Scale.OCTATCONIC_HALF;
+	private Scale scale = Scale.MAJOR_SCALE;
+	private Scale melodyScale = Scale.MAJOR_SCALE;
 	
 	//harmony
 	private double harmonyConsDissValue = 0.9;
@@ -55,6 +56,15 @@ public class MusicProperties {
 	private int[][] harmonies;
 	private double[] measureWeights;
 	
+	public Instrument findInstrument(int voice){
+		Optional<Instrument> instrument = instruments.stream().filter(instr -> (instr.getVoice()) == voice).findFirst();
+		if (instrument.isPresent()) {
+			return instrument.get();
+		}else{
+			throw new IllegalArgumentException("Instrument for voice " + voice + " is missing!");
+		}
+	}
+	
 	public void threeFour(){
 		this.minimumLength = 6;
 		this.measureWeights = new double[]{1.0, 0.5, 0.75, 0.5, 0.75, 0.5};// measure must correspond to minimumlength!
@@ -69,7 +79,7 @@ public class MusicProperties {
 		this.measureWeights = new double[]{1.0, 0.5, 0.75, 0.5, 1.0, 0.5, 0.75, 0.5};
 	    this.numerator = 4;
 	    this.denominator = 4;
-	    this.instruments = Ensemble.getStringQuartet();
+	    this.instruments = Ensemble.getStringDuo();
 		this.chordSize = instruments.size();
 	}
 	

@@ -33,7 +33,9 @@ import cp.DefaultConfig;
 import cp.midi.MidiInfo;
 import cp.midi.MidiParser;
 import cp.model.Motive;
+import cp.model.melody.CpMelody;
 import cp.model.note.Note;
+import cp.model.note.Scale;
 import cp.objective.rhythm.RhythmObjective;
 import cp.out.print.ScoreUtilities;
 
@@ -64,7 +66,8 @@ public class RhythmWeightMelodyTest extends JFrame{
 			rhythmWeight.setNotes(notes);
 			rhythmWeight.updateRhythmWeight();
 			System.out.println(file.getName());
-			double profileAverage = rhythmObjective.getProfileAverage(notes, 3.0, 12);
+			CpMelody melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0);
+			double profileAverage = rhythmObjective.getProfileAverage(melody, 3.0, 12);
 			System.out.println(profileAverage);
 //			for (Note note : notes) {
 //				System.out.print(note.getPitch() + ", " + note.getPositionWeight() + "; ");

@@ -1,11 +1,17 @@
 package cp;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.function.Function;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+
+import cp.variation.nonchordtone.Variation;
 
 @Configuration
 @EnableAutoConfiguration
@@ -15,8 +21,10 @@ public class DefaultConfig {
 	@Bean
 	public HashMap<String, Object> parameters() {
 		HashMap<String, Object> probabilityParamters = new HashMap<>();
-		probabilityParamters.put("probabilityAddRhythm", 0.5);
+		probabilityParamters.put("probabilityAddRhythm", 1.0);
+		probabilityParamters.put("probabilityRemoveRhythm", 0.0);
 		probabilityParamters.put("probabilityOneNote", 1.0);
+		probabilityParamters.put("probabilityArticulation", 0.2);
 		return probabilityParamters;
 	}
 	

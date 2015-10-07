@@ -52,14 +52,4 @@ public class Motive implements Cloneable {
 		return mutableMelodies.get(RandomUtil.random(mutableMelodies.size()));
 	}
 	
-	public void updateMelodiesToInstrumentLimits(){
-		for (CpMelody melody : melodies) {
-			Optional<Instrument> optionalInstrument = instruments.stream().filter(instr -> (instr.getVoice()) == melody.getVoice()).findFirst();
-			if (optionalInstrument.isPresent()) {
-				Instrument instrument = optionalInstrument.get();
-				melody.updateMelodyBetween(instrument.getLowest(), instrument.getHighest());
-			}
-		}
-	}
-	
 }

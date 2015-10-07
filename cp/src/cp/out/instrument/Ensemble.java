@@ -8,8 +8,8 @@ public class Ensemble {
 	
 	public static List<Instrument> getStringDuo(){
 		List<Instrument> stringDuo = new ArrayList<Instrument>();
-		stringDuo.add(new KontaktLibViolin(1, 0));
-		stringDuo.add(new KontaktLibCello(0, 2));
+		stringDuo.add(new KontaktLibViolin(0, 0));
+		stringDuo.add(new KontaktLibCello(1, 2));
 		return stringDuo;
 	}
 

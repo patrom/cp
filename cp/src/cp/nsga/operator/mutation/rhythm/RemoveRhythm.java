@@ -3,7 +3,6 @@ package cp.nsga.operator.mutation.rhythm;
 import java.util.HashMap;
 
 import jmetal.core.Solution;
-import jmetal.util.Configuration;
 import jmetal.util.JMException;
 import jmetal.util.PseudoRandom;
 

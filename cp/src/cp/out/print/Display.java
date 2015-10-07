@@ -1,5 +1,6 @@
 package cp.out.print;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
@@ -7,9 +8,11 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.Sequence;
+
 import jm.music.data.Score;
 import jm.util.View;
-import jm.util.Write;
 import jmetal.core.Solution;
 import jmetal.core.SolutionSet;
 
@@ -19,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cp.CpApplication;
+import cp.midi.MidiDevicesUtil;
 import cp.model.Motive;
 import cp.model.harmony.CpHarmony;
 import cp.model.melody.CpMelody;
@@ -34,9 +38,11 @@ public class Display {
 	private ScoreUtilities scoreUtilities;
 	@Autowired
 	private MusicXMLWriter musicXMLWriter;
+	@Autowired
+	private MidiDevicesUtil midiDevicesUtil;
 	 
 	 public void view(SolutionSet solutions, double tempo) throws Exception{
-		 solutions.sort(Comparator.comparing(MusicSolution::getHarmony).thenComparing(MusicSolution::getMelody));
+		 solutions.sort(Comparator.comparing(MusicSolution::getMelody).thenComparing(MusicSolution::getHarmony));
 		  Iterator<Solution> iterator = solutions.iterator();
 		  String dateID = generateDateID();
 		  int i = 1;
@@ -46,27 +52,13 @@ public class Display {
 			LOGGER.info(id);
 			LOGGER.info(solution.toString());
 			Motive motive = ((MusicVariable)solution.getDecisionVariables()[0]).getMotive();
-//			printHarmonies(motive.getHarmonies());
-			
+			printHarmonies(motive.getHarmonies());
 			List<CpMelody> reversedMelodies = motive.getMelodies();
-			
 			Collections.reverse(reversedMelodies);
 			viewScore(reversedMelodies, id, tempo);
 			generateMusicXml(reversedMelodies, id);
 			i++;
 			
-//			List<MusicalStructure> structures = FugaUtilities.addTransposedVoices(sentences, inputProps.getScale(), 8, 12);
-//			sentences.addAll(structures);
-//			MusicalStructure structure = FugaUtilities.harmonizeMelody(sentences, inputProps.getScale(), 2, 1, inputProps.getMelodyLength() * 12);
-//			sentences.add(structure);
-//			MusicalStructure structure2 = FugaUtilities.harmonizeMelody(sentences, inputProps.getScale(), 2, 2, inputProps.getMelodyLength() * 12);
-//			sentences.add(structure2);
-//			changeLengths(sentences);
-//			motive.getHarmonies().stream().flatMap(h -> h.getHarmonicMelodies().stream()).forEach(harmony -> harmony.translateToPitchSpace());
-
-//			printNotes(motive.getHarmonies());
-//			motive.getMelodies().stream().forEach(melody -> melody.updateMelodies());
-
 //			printVextab(sentences);
 		  }
 	  }
@@ -81,11 +73,12 @@ public class Display {
 			musicXMLWriter.generateMusicXMLForMelodies(melodies, id);
 		}
 
-		private void viewScore(List<CpMelody> melodies, String id, double tempo) {
+		private void viewScore(List<CpMelody> melodies, String id, double tempo) throws InvalidMidiDataException, IOException {
 			melodies.forEach(h ->  LOGGER.info(h.getNotes() + ", "));
 			Score score = scoreUtilities.createScoreMelodies(melodies, tempo);
 			score.setTitle(id);
-			Write.midi(score, "resources/midi/" + id + ".mid");	
+			Sequence sequence = midiDevicesUtil.createSequence(melodies, (int)tempo);
+			midiDevicesUtil.write(sequence, "resources/midi/" + id + ".mid");
 			View.notate(score);	
 		}
 		

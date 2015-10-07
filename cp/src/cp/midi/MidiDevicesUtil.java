@@ -23,16 +23,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import cp.model.melody.CpMelody;
 import cp.model.melody.Melody;
 import cp.model.note.Note;
 import cp.out.instrument.Instrument;
 
 @Component
 public class MidiDevicesUtil {
-
-	private static final int START_TICK = 0;
-
-	 private static final int SET_TEMPO = 0x51;;
 
 	private static Logger LOGGER = LoggerFactory.getLogger(MidiDevicesUtil.class.getName());
 
@@ -139,6 +136,15 @@ public class MidiDevicesUtil {
 		return sequence;
 	}
 	
+	public Sequence createSequence(List<CpMelody> melodies, int tempo)
+			throws InvalidMidiDataException {
+		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
+		for (CpMelody melody : melodies) {
+				createTrackGeneralMidi(sequence, melody.getNotes(), melody.getInstrument(), tempo);
+		}
+		return sequence;
+	}
+	
 	private void createTrack(Sequence sequence, List<Note> notes, Instrument instrument)
 			throws InvalidMidiDataException {
 		Track track = sequence.createTrack();
@@ -169,7 +175,15 @@ public class MidiDevicesUtil {
 		MidiEvent event = createGeneralMidiEvent(instrument);
 		track.add(event);
 		
+		int prevArticulation = 0;
 		for (Note notePos : notes) {
+			int articulation = instrument.getArticulation(notePos.getArticulation());
+			if (articulation != prevArticulation) {
+				MidiEvent changeEvent = createInstrumentChange(instrument, articulation, notePos.getPosition());
+				track.add(changeEvent);
+				prevArticulation = articulation;
+			}
+			
 			MidiEvent eventOn = createNoteMidiEvent(ShortMessage.NOTE_ON, notePos, notePos.getPosition(), instrument.getChannel());
 			track.add(eventOn);
 			MidiEvent eventOff = createNoteMidiEvent(ShortMessage.NOTE_OFF, notePos, notePos.getPosition() + notePos.getLength(), instrument.getChannel());

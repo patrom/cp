@@ -32,7 +32,7 @@ public class MusicProblem extends Problem {
 	@Autowired
 	public MusicProblem(MusicProperties properties) throws ClassNotFoundException {
 		numberOfVariables_ = 1;
-		numberOfObjectives_ = 5;
+		numberOfObjectives_ = 4;
 		numberOfConstraints_ = 0;
 		problemName_ = "MusicProblem";
 
@@ -65,13 +65,15 @@ public class MusicProblem extends Problem {
 //		} else {
 //			solution.setObjective(1, objectives.getVoiceleading());
 //		}
-//		double melodyObjective = 1 - melodyMembershipFunction.membership(1 - objectives.getMelody());
-		double melodyObjective = 1 - objectives.getMelody();
+		double melodyObjective = 1 - melodyMembershipFunction.membership(1 - objectives.getMelody());
+//		double melodyObjective = 1 - objectives.getMelody();
 		solution.setObjective(1, melodyObjective);// melody
 		double rhythmObjective = 1 - objectives.getRhythm();
 		solution.setObjective(2, rhythmObjective);
 //		double tonality = 1 - objectives.getTonality();
 //		solution.setObjective(3, tonality);
+		double meterObjective = 1 - objectives.getMeter();
+		solution.setObjective(3, meterObjective);
 		
 		// //constraints
 		// objectives[5] = lowestIntervalRegisterValue;
@@ -81,11 +83,12 @@ public class MusicProblem extends Problem {
 		// 10 notes)
 
 		MusicSolution musicSolution = (MusicSolution) solution;
-		musicSolution.setHarmony(objectives.getHarmony());
+		musicSolution.setHarmony(harmonyObjective);
 //		musicSolution.setVoiceLeading(objectives.getVoiceleading());
-		musicSolution.setMelody(objectives.getMelody());
-		musicSolution.setTonality(objectives.getTonality());
-		musicSolution.setRhythm(objectives.getRhythm());
+		musicSolution.setMelody(melodyObjective);
+//		musicSolution.setTonality(tonality);
+		musicSolution.setRhythm(rhythmObjective);
+		musicSolution.setMeter(meterObjective);
 		// musicSolution.setConstraintLowestInterval(objectives[5]);
 		// musicSolution.setConstraintRhythm(objectives[6]);
 		// musicSolution.setConstraintRepetition(objectives[7]);

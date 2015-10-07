@@ -23,9 +23,6 @@ public class InnerMetricWeightFunctions {
 	private final double POWER = 2.0;
 	private final int MINIMUM_SIZE = 3; //size of local meter 
 	
-//	int[] distance = {1,2,3,4,5,6,7,8,9,10};// pulse = 0.5 of 0.25
-//	private int[] distance = {2,3,4,5,6,8,9,10,12,14,15,16,18,20,21,22,24,26,27,28,30,32};//atomic beat = 12
-//	int[] distance = {2,4,8,10,12,14,15,16,18,20,21,22,24,26,27,28,30,32};//atomic beat = 12
 	@Autowired
 	private MusicProperties musicProperties;
 	
@@ -71,8 +68,7 @@ public class InnerMetricWeightFunctions {
 	    return maxValue;  
 	}  
 	
-	public List<List<Integer>> getLocalMeters(Integer[] onSet){
-		int[] distance = musicProperties.getDistance();
+	public List<List<Integer>> getLocalMeters(Integer[] onSet, int[] distance){
 		List<Integer> onSetList = Arrays.asList(onSet);
 		List<List<Integer>> localMeters = new ArrayList<List<Integer>>();
 		for (int j = 0; j < distance.length - 1; j++) {
@@ -140,23 +136,23 @@ public class InnerMetricWeightFunctions {
 		return map;
 	}
 	
-	public InnerMetricWeight getInnerMetricWeight(int[] rhythmPattern, double pulse){
+	public InnerMetricWeight getInnerMetricWeight(int[] rhythmPattern, double pulse, int[] distance){
 		InnerMetricWeight innerMetricWeight = new InnerMetricWeight();
-		Map<Integer, Double> map = getNormalizedInnerMetricWeight(rhythmPattern, pulse);
+		Map<Integer, Double> map = getNormalizedInnerMetricWeight(rhythmPattern, pulse, distance);
 		innerMetricWeight.setInnerMetricWeightMap(map);
 		return innerMetricWeight;
 	}
 	
-	public InnerMetricWeight getInnerMetricWeight(List<Note> notes, double pulse){
+	public InnerMetricWeight getInnerMetricWeight(List<Note> notes, double pulse, int[] distance){
 		InnerMetricWeight innerMetricWeight = new InnerMetricWeight();
-		Map<Integer, Double> map = getNormalizedInnerMetricWeight(notes, pulse);
+		Map<Integer, Double> map = getNormalizedInnerMetricWeight(notes, pulse, distance);
 		innerMetricWeight.setInnerMetricWeightMap(map);
 		return innerMetricWeight;
 	}
 	
-	public Map<Integer, Double> getNormalizedInnerMetricWeight(int[] rhythmPattern, double pulse){
+	public Map<Integer, Double> getNormalizedInnerMetricWeight(int[] rhythmPattern, double pulse, int[] distance){
 		Integer[] onSet = extractOnset(rhythmPattern, pulse);
-		List<List<Integer>> localMeters = getLocalMeters(onSet);
+		List<List<Integer>> localMeters = getLocalMeters(onSet, distance);
 		Map<Integer, Double> map = getInnerMetricWeight(localMeters, onSet);
 		if (!map.isEmpty()) {
 			return normalizeMap(map);
@@ -206,9 +202,9 @@ public class InnerMetricWeightFunctions {
 		return total;
 	}
 
-	public Map<Integer, Double> getNormalizedInnerMetricWeight(List<Note> notes, double pulse) {
+	public Map<Integer, Double> getNormalizedInnerMetricWeight(List<Note> notes, double pulse, int[] distance) {
 		Integer[] onSet = extractOnsetNotes(notes, pulse);
-		List<List<Integer>> localMeters = getLocalMeters(onSet);
+		List<List<Integer>> localMeters = getLocalMeters(onSet, distance);
 		Map<Integer, Double> map = getInnerMetricWeight(localMeters, onSet);
 		if (!map.isEmpty()) {
 			return normalizeMap(map);
@@ -227,8 +223,8 @@ public class InnerMetricWeightFunctions {
 	}
 
 	
-	public Map<Integer, Double> getNormalizedInnerMetricWeight(Integer[] onSet) {
-		List<List<Integer>> localMeters = getLocalMeters(onSet);
+	public Map<Integer, Double> getNormalizedInnerMetricWeight(Integer[] onSet, int[] distance) {
+		List<List<Integer>> localMeters = getLocalMeters(onSet, distance);
 		Map<Integer, Double> map = getInnerMetricWeight(localMeters, onSet);
 		if (!map.isEmpty()) {
 			return normalizeNavigableMap(map);

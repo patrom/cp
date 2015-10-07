@@ -1,11 +1,14 @@
 package cp;
 
+import static cp.model.note.NoteBuilder.note;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -27,10 +30,16 @@ import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
 import cp.model.Motive;
 import cp.model.melody.CpMelody;
+import cp.model.melody.Transposition;
+import cp.model.note.Note;
+import cp.model.note.NoteBuilder;
 import cp.model.note.Scale;
 import cp.nsga.MusicSolutionType;
+import cp.nsga.operator.mutation.melody.ArticulationMutation;
 import cp.nsga.operator.mutation.melody.OneNoteMutation;
 import cp.nsga.operator.mutation.rhythm.AddRhythm;
+import cp.nsga.operator.mutation.rhythm.RemoveRhythm;
+import cp.out.instrument.Instrument;
 import cp.out.print.Display;
 
 @Import({DefaultConfig.class, VariationConfig.class})
@@ -46,6 +55,10 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	private OneNoteMutation oneNoteMutation;
 	@Autowired
 	private AddRhythm addRhythm;
+	@Autowired
+	private RemoveRhythm removeRhythm;
+	@Autowired
+	private ArticulationMutation articulationMutation;
 	@Autowired
 	private Algorithm algorithm;
 	@Autowired
@@ -77,24 +90,36 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		musicProperties.fourFour();
 		List<CpMelody> melodies = new ArrayList<CpMelody>();
 	
-//		for (int i = 0; i < 2; i++) {
-			CpMelody melody = melodyGenerator.generateMelody(Scale.MAJOR_SCALE, new int[]{0,48}, 6, 1);
+			CpMelody melody = melodyGenerator.generateMelody(Scale.MAJOR_SCALE, new int[]{0,144}, 6, 0);
+			melody.setInstrument(musicProperties.findInstrument(0));
 			melody.updatePitches(5);
 			melodies.add(melody);
 			
 //			List<Note> notes = new ArrayList<>();
-//			notes.add(note().pos(0).pc(0).pitch(48).build());
-//			notes.add(note().pos(12).pc(2).pitch(50).build());
-//			notes.add(note().pos(24).pc(5).pitch(53).build());
-//			notes.add(note().pos(36).pc(7).pitch(55).build());
-//			notes.add(note().pos(48).pc(0).pitch(48).build());
-//			CpMelody melody2 = new CpMelody(notes, Scale.MAJOR_SCALE, 0);
-//			melody2.setMutable(false);
+//			notes.add(note().pos(0).pc(0).build());
+//			notes.add(note().pos(24).pc(5).build());
+//			notes.add(note().pos(48).pc(0).build());
+//			notes.add(note().pos(72).pc(0).build());
+//			notes.add(note().pos(96).pc(0).build());
+//			
+//			CpMelody melody2 = melodyGenerator.generateMelody(Scale.HARMONIC_MINOR_SCALE_II, new int[]{0,96}, 6, 1);
+//			melody2.setInstrument(musicProperties.findInstrument(1));
+//			melody2.updatePitches(4);
+//			melodies.add(melody2);
+			
+//			CpMelody melody2 = new CpMelody(notes, Scale.HARMONIC_MINOR_SCALE_VI, 1);
 //			melody2.setRhythmMutable(false);
-			CpMelody melody2 = melodyGenerator.generateMelody(Scale.MAJOR_SCALE, new int[]{0,48}, 6, 0);
-			melody2.updatePitches(4);
-			melodies.add(melody2);
-//		}
+//			melody2.setInstrument(musicProperties.findInstrument(1));
+//			melody2.updatePitches(4);
+//			melodies.add(melody2);
+			
+			//fugue - set fugue in template!
+			CpMelody comes = new CpMelody(Scale.HARMONIC_MINOR_SCALE, 1, 24, 144);
+			comes.copyMelody(melody,  -10 , Transposition.RELATIVE);
+			comes.setMutable(false);
+			comes.setInstrument(musicProperties.findInstrument(1));
+			melodies.add(comes);
+			
 	    Motive motive = new Motive(melodies);
 	    solutionType.setMotive(motive);
 	    
@@ -110,6 +135,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	    algorithm.addOperator("crossover", crossover);
 	    algorithm.addOperator("oneNoteMutation", oneNoteMutation);
 	    algorithm.addOperator("addRhythm", addRhythm);
+	    algorithm.addOperator("removeRhythm", removeRhythm);
+	    algorithm.addOperator("articulationMutation", articulationMutation);
 	    algorithm.addOperator("selection", SelectionFactory.getSelectionOperator("BinaryTournament2", parameters));
 	
 	    // Execute the Algorithm
@@ -126,5 +153,6 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 			file.delete();
 		}
 	}
+	
 }
 

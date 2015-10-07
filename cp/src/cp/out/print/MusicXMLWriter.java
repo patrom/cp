@@ -140,8 +140,7 @@ public class MusicXMLWriter {
 			List<CpMelody> melodies) {
 		Map<Instrument, List<List<Note>>> melodiesForInstrument = new HashMap<Instrument, List<List<Note>>>();
 		for (CpMelody melody : melodies) {
-			Instrument instrument = getInstrumentForVoice(melody.getVoice());
-			melodiesForInstrument.compute(instrument, (k, v) -> {
+			melodiesForInstrument.compute(melody.getInstrument(), (k, v) -> {
 					if (v == null) {
 						List<List<Note>> list = new ArrayList<>();
 						list.add(melody.getNotes());
@@ -416,7 +415,7 @@ public class MusicXMLWriter {
 	}
 
 	private void createArticulationElement(Note note) throws XMLStreamException {
-		xmlStreamWriter.writeStartElement("Articulation");
+		xmlStreamWriter.writeStartElement("articulations");
 		xmlStreamWriter.writeCharacters("\n");
 		
 		xmlStreamWriter.writeEmptyElement(note.getArticulation().getMusicXmlLabel());

@@ -22,14 +22,14 @@ public class KontaktLibViolin extends Instrument {
 		switch (articulation) {
 		case LEGATO:
 			return 24;
-		case PIZZICATO:
-			return 29;
+//		case PIZZICATO:
+//			return 29;
 		case STACCATO:
 			return 27;
-		case SFORZANDO:
-			return 26;
-		case TREMELO:
-			return 28;
+//		case SFORZANDO:
+//			return 26;
+//		case TREMELO:
+//			return 28;
 		default:
 			return super.getArticulation(articulation);
 		}

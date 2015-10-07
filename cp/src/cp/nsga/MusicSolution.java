@@ -10,6 +10,7 @@ public class MusicSolution extends Solution {
 	private double voiceLeading;
 	private double rhythm;
 	private double tonality;
+	private double meter;
 	
 	private double constraintLowestInterval;
 	private double constraintRhythm;
@@ -81,7 +82,7 @@ public class MusicSolution extends Solution {
 	@Override
 	public String toString() {
 		return "MusicSolution [harmony=" + harmony + ", melody=" + melody + ", rhythm=" + rhythm
-				+ ", voiceLeading=" + voiceLeading +  ", tonality=" + tonality +  "]";
+				+ ", voiceLeading=" + voiceLeading +  ", tonality=" + tonality + ", meter=" + meter + "]";
 	}
 
 	@Override
@@ -127,5 +128,13 @@ public class MusicSolution extends Solution {
 				.doubleToLongBits(other.voiceLeading))
 			return false;
 		return true;
+	}
+
+	public double getMeter() {
+		return meter;
+	}
+
+	public void setMeter(double meter) {
+		this.meter = meter;
 	}
 }

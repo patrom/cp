@@ -16,6 +16,10 @@ public class RandomUtil {
 		return array[random(array.length)];
 	}
 	
+	public static <T> T getRandomFromArray(T[] array){
+		return array[random(array.length)];
+	}
+	
 	public static double[] getRandomFromDoubleArray(double[][] array){
 		return array[random(array.length)];
 	}

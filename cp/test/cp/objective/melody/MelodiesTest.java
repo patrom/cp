@@ -124,11 +124,12 @@ public class MelodiesTest extends AbstractTest{
 			List<Note> filteredNotes = rhythmWeight.filterRhythmWeigths(3.0);
 			double filtered = melodicObjective.evaluateMelody(filteredNotes, 1);
 			LOGGER.info("filtered : " + filtered);
-			double profile = rhythmObjective.getProfileAverage(notes, 3.0, 12);
+			CpMelody melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0);
+			double profile = rhythmObjective.getProfileAverage(melody, 3.0, 12);
 			LOGGER.info("profile 12: " + profile);
-			double profile2 = rhythmObjective.getProfileAverage(notes, 3.0, 6);
+			double profile2 = rhythmObjective.getProfileAverage(melody, 3.0, 6);
 			LOGGER.info("profile 6: " + profile2);
-			double profile3 = rhythmObjective.getProfileAverage(notes, 3.0, 24);
+			double profile3 = rhythmObjective.getProfileAverage(melody, 3.0, 24);
 			LOGGER.info("profile 24: " + profile3);
 			Score score = scoreUtilities.createScoreFromMelodyInstrument(melodies, (double) midiInfo.getTempo());
 			View.notate(score);
@@ -154,7 +155,7 @@ public class MelodiesTest extends AbstractTest{
 			List<Note> filteredNotes = rhythmWeight.filterRhythmWeigths(3.0);
 			double filtered = melodicObjective.evaluateMelody(filteredNotes, 1);
 			LOGGER.info("filtered : " + filtered);
-			double profile = rhythmObjective.getProfileAverage(notes, 3.0, 12);
+			double profile = rhythmObjective.getProfileAverage(melody, 3.0, 12);
 			LOGGER.info("profile : " + profile);
 			Phrase phrase = scoreUtilities.createPhrase(notes);
 			Score score = new Score();

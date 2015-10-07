@@ -55,16 +55,18 @@ public class InnerMetricWeightTest extends JFrame {
 	@Autowired
 	private MusicProperties musicProperties;
 	
+	private int[] distance;
+	
 	@Before
 	public void setUp() {
-		int[] distance = {2,3,4,5,6,8,9,10,12,14,15,16,18,20,21,22,24,26,27,28,30,32};//atomic beat = 12
+		distance = new int[]{2,3,4,5,6,8,9,10,12,14,15,16,18,20,21,22,24,26,27,28,30,32};//atomic beat = 12
 		musicProperties.setDistance(distance);
 	}
 
 	@Test
 	public void testGetLocalMeters() {
 		Integer[] onSetArr = {0, 2, 3, 4, 6, 10, 12};
-		List<List<Integer>> localMeters = innerMetricWeightFunctions.getLocalMeters(onSetArr);
+		List<List<Integer>> localMeters = innerMetricWeightFunctions.getLocalMeters(onSetArr, distance);
 		List<Integer> localMeter = new ArrayList<>();
 		localMeter.add(0);
 		localMeter.add(3);
@@ -75,14 +77,14 @@ public class InnerMetricWeightTest extends JFrame {
 
 	@Test
 	public void testGetNormalizedInnerMetricWeight() {
-		Map<Integer, Double> normalizedMap = innerMetricWeightFunctions.getNormalizedInnerMetricWeight(rhythmPattern , minimumRhythmicValue);
+		Map<Integer, Double> normalizedMap = innerMetricWeightFunctions.getNormalizedInnerMetricWeight(rhythmPattern , minimumRhythmicValue, distance);
 		LOGGER.info(normalizedMap.toString());
 	}
 	
 	@Test
 	public void testGetNormalizedInnerMetricWeightNotes() {
 		List<Note> notes = createMelody();
-		Map<Integer, Double> normalizedMap = innerMetricWeightFunctions.getNormalizedInnerMetricWeight(notes, minimumRhythmicValue);
+		Map<Integer, Double> normalizedMap = innerMetricWeightFunctions.getNormalizedInnerMetricWeight(notes, minimumRhythmicValue, distance);
 		LOGGER.info(normalizedMap.toString());
 	}
 
@@ -116,7 +118,7 @@ public class InnerMetricWeightTest extends JFrame {
 	@Test
 	public void testGetInnerMetricWeight() {
 		Integer[] onSetArr = {0, 2, 3, 4, 6, 10, 12};
-		List<List<Integer>> localMeters = innerMetricWeightFunctions.getLocalMeters(onSetArr);
+		List<List<Integer>> localMeters = innerMetricWeightFunctions.getLocalMeters(onSetArr, distance);
 		Map<Integer, Double> innerMetricWeights = innerMetricWeightFunctions.getInnerMetricWeight(localMeters, onSetArr);
 		LOGGER.info(innerMetricWeights.toString());
 		Assert.assertEquals(21.0, innerMetricWeights.get(6).doubleValue(), 0);
@@ -125,7 +127,7 @@ public class InnerMetricWeightTest extends JFrame {
 	@Test
 	public void testGetInnerMetricWeightNotes() {
 		List<Note> notes = createMelody();
-		InnerMetricWeight innerMetricWeights = innerMetricWeightFunctions.getInnerMetricWeight(notes, minimumRhythmicValue);
+		InnerMetricWeight innerMetricWeights = innerMetricWeightFunctions.getInnerMetricWeight(notes, minimumRhythmicValue, distance);
 		LOGGER.info(innerMetricWeights.getInnerMetricWeightMap().toString());
 	}
 	
@@ -181,7 +183,7 @@ public class InnerMetricWeightTest extends JFrame {
 	public void testDisplacement() {
 		rhythmPattern = new int[]{0, 12, 36, 60, 84, 108, 120};
 		minimumRhythmicValue = 12;
-		Map<Integer, Double> normalizedMap = innerMetricWeightFunctions.getNormalizedInnerMetricWeight(rhythmPattern , minimumRhythmicValue);
+		Map<Integer, Double> normalizedMap = innerMetricWeightFunctions.getNormalizedInnerMetricWeight(rhythmPattern , minimumRhythmicValue, distance);
 		LOGGER.info(normalizedMap.toString());
 	}
 	
@@ -228,7 +230,7 @@ public class InnerMetricWeightTest extends JFrame {
 	}
 
 	private void calculateInnerMetricWeight() {
-		InnerMetricWeight innerMetricWeight = innerMetricWeightFunctions.getInnerMetricWeight(rhythmPattern , minimumRhythmicValue);
+		InnerMetricWeight innerMetricWeight = innerMetricWeightFunctions.getInnerMetricWeight(rhythmPattern , minimumRhythmicValue, distance);
 		LOGGER.info(innerMetricWeight.getInnerMetricWeightMap().toString());
 		LOGGER.info(String.valueOf(innerMetricWeight.getInnerMetricWeightAverage()));
 	}

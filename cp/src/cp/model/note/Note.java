@@ -165,7 +165,7 @@ public class Note implements Comparable<Note>, Cloneable{
 	public String toString() {
 		return "np[p=" + ((pitch == Integer.MIN_VALUE) ? "Rest":pitch) + ", pc=" + pitchClass
 		+ ", v=" + voice + ", pos=" + position +  ", l=" + length + ", pos w="
-		+ positionWeight + ", i w=" + innerMetricWeight + "]";
+		+ positionWeight + ", i a=" + articulation + "]";
 	}
 
 	public double getPositionWeight() {
@@ -301,5 +301,15 @@ public class Note implements Comparable<Note>, Cloneable{
 		this.octave = octave;
 		this.pitch = this.pitchClass + (this.octave * 12);
 	}
-
+	
+	public void transpose(int steps){
+		this.pitch = pitch + steps;
+		this.pitchClass = pitch % 12;
+		this.octave  = (int) Math.ceil(pitch/12);
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(Math.ceil(-60/12));
+	}
+	
 }

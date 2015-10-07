@@ -3,11 +3,15 @@ package cp.model.melody;
 import static cp.model.note.NoteBuilder.note;
 import static java.util.stream.Collectors.toList;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
 import cp.model.note.Note;
 import cp.model.note.Scale;
+import cp.out.instrument.Articulation;
+import cp.out.instrument.Instrument;
 import cp.util.RandomUtil;
 
 public class CpMelody implements Cloneable{
@@ -19,14 +23,24 @@ public class CpMelody implements Cloneable{
 	private Scale scale;
 	private int start;
 	private int end;
+	private int[] innerMetricDistance;
+	private Instrument instrument;
 	
 	public CpMelody(List<Note> notes, Scale scale, int voice) {
 		this.voice = voice;
 		this.notes = notes;
 		this.scale = scale;
-		this.start = notes.get(0).getPitchClass();
+		this.start = notes.get(0).getPosition();
 		this.end = notes.get(notes.size() - 1).getPosition();
 		notes.forEach(n -> n.setVoice(voice));
+	}
+	
+	public CpMelody(Scale scale, int voice, int start, int end) {
+		this.voice = voice;
+		this.notes = new ArrayList<>();
+		this.scale = scale;
+		this.start = start;
+		this.end = end;
 	}
 
 	protected CpMelody(CpMelody anotherMelody) {
@@ -35,8 +49,10 @@ public class CpMelody implements Cloneable{
 		this.voice = anotherMelody.getVoice();
 		this.notes = anotherMelody.getNotes().stream().map(note -> (Note)note.clone()).collect(toList());
 		this.scale = anotherMelody.getScale();
-		this.start = anotherMelody.getNotes().get(0).getPitchClass();
+		this.start = anotherMelody.getNotes().get(0).getPosition();
 		this.end = anotherMelody.getNotes().get(anotherMelody.getNotes().size() - 1).getPosition();
+		this.innerMetricDistance = anotherMelody.getInnerMetricDistance();
+		this.instrument = anotherMelody.getInstrument();
 	}
 
 	public boolean isMutable() {
@@ -138,9 +154,9 @@ public class CpMelody implements Cloneable{
 	}
 
 	public void addRandomRhythmNote(int minimumValue) {
-		int newPosition = RandomUtil.randomInt(this.start/minimumValue + 1, this.end/minimumValue) * minimumValue;
-		int pitchClass = getScale().pickRandomPitchClass();
-		insertRhythm(newPosition, pitchClass);
+			int newPosition = RandomUtil.randomInt(this.start/minimumValue + 1, this.end/minimumValue) * minimumValue;
+			int pitchClass = getScale().pickRandomPitchClass();
+			insertRhythm(newPosition, pitchClass);
 	}
 
 	protected void insertRhythm(int newPosition, int pitchClass) {
@@ -149,7 +165,6 @@ public class CpMelody implements Cloneable{
 			Note note = note().pos(newPosition).build();
 			notes.add(note);
 			Collections.sort(notes);
-			
 			int direction = RandomUtil.random(2);//lower or higher
 			updateNote(note, pitchClass, direction);
 		}
@@ -160,20 +175,23 @@ public class CpMelody implements Cloneable{
 		return notes.get(index - 1).getOctave();
 	}
 	
-	public void updateMelodyBetween(int low, int high){
+	public void updateMelodyBetween(){
 		for (Note note : notes) {
-			while (note.getPitch() < low) {
-				note.setPitch(note.getPitch() + 12);
+			while (note.getPitch() < instrument.getLowest()) {
+				note.transpose(12);
 			}
-			while (note.getPitch() > high) {
-				note.setPitch(note.getPitch() - 12);
+			while (note.getPitch() > instrument.getHighest()) {
+				note.transpose(-12);
 			}
 		}
 	}
 
 	public void removeNote() {
-		Note note = RandomUtil.getRandomFromList(notes);
-		notes.remove(note);
+		int size = notes.size() - 1;
+		if (size > 4) {
+			int index = RandomUtil.randomInt(1, size);//don't remove outer notes
+			notes.remove(index);
+		}
 	}
 	
 	public void changeInterval(){
@@ -205,6 +223,71 @@ public class CpMelody implements Cloneable{
 
 	public void setRhythmMutable(boolean rhythmMutable) {
 		this.rhythmMutable = rhythmMutable;
+	}
+
+	public void updateArticulation() {
+//		notes.forEach(note -> note.setArticulation(Note.DEFAULT_ARTICULATION));//reset?
+		Articulation[] articulations = Articulation.class.getEnumConstants();
+		Articulation articulation = RandomUtil.getRandomFromArray(articulations);
+		Note note = RandomUtil.getRandomFromList(notes);
+		note.setArticulation(articulation);
+		
+		Note removeArticulation = RandomUtil.getRandomFromList(notes);
+		removeArticulation.setArticulation(Note.DEFAULT_ARTICULATION);
+	}
+	
+	public void copyMelody(CpMelody melody, int steps, Transposition function){
+		Function<Note, Note> transposition = getFunction(melody, steps, function);
+
+		notes = melody.getNotes().stream()
+			.map(transposition)
+			.filter(n -> n.getPosition() <= end)
+			.collect(toList());
+	}
+
+	private Function<Note, Note> getFunction(CpMelody melody, int steps, Transposition function) {
+		switch (function) {
+			case RELATIVE:
+				return (n -> { 
+							Note note = n.clone();
+							note.setVoice(voice);
+							note.setPosition(n.getPosition() + start);
+							int index = melody.getScale().getIndex(n.getPitchClass());
+							int pitchClass = this.scale.getScale()[index];
+							note.setPitchClass(pitchClass);
+							note.setPitch(pitchClass + (n.getOctave() * 12));
+							
+							note.transpose(steps);
+							return note;
+						});
+			case ABSOLUTE:
+			return  (n -> { 
+					Note note = n.clone();
+					note.setVoice(voice);
+					note.setPosition(n.getPosition() + start);
+					note.transpose(steps);
+					return note;
+				});
+			default:
+				break;
+			}
+		throw new IllegalArgumentException("Unknown transposition function: " + function);
+	}
+
+	public int[] getInnerMetricDistance() {
+		return innerMetricDistance;
+	}
+
+	public void setInnerMetricDistance(int[] innerMetricDistance) {
+		this.innerMetricDistance = innerMetricDistance;
+	}
+
+	public Instrument getInstrument() {
+		return instrument;
+	}
+
+	public void setInstrument(Instrument instrument) {
+		this.instrument = instrument;
 	}
 	
 }

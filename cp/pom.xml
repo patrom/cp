@@ -65,7 +65,12 @@
 	    <artifactId>rxjava</artifactId>
 	    <version>1.0.0</version>
 	</dependency>
-	
+	<dependency>
+		<groupId>com.newscores</groupId>
+		<artifactId>setTheory</artifactId>
+		<version>1.0.0</version>
+	</dependency>
+		
 	<!-- Spring Boot -->
 	<dependency>
         <groupId>org.springframework.boot</groupId>

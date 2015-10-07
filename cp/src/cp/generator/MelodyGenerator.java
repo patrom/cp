@@ -47,7 +47,7 @@ public class MelodyGenerator {
 	protected int generateLimit(int[] harmony, int minimumLength) {
 		int positionsInHarmony = ((harmony[1] - harmony[0])/minimumLength) - 1;//minus first position
 		int limit = random.nextInt(positionsInHarmony + 1);
-		while (limit < 2) {
+		while (limit < 4) {
 			limit = random.nextInt(positionsInHarmony + 1);
 		}
 		return limit;

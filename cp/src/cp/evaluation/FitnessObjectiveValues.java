@@ -7,6 +7,7 @@ public class FitnessObjectiveValues {
 	private double voiceleading;
 	private double tonality;
 	private double rhythm;
+	private double meter;
 	
 	public double getHarmony() {
 		return harmony;
@@ -42,7 +43,13 @@ public class FitnessObjectiveValues {
 	public String toString() {
 		return "FitnessObjectiveValues [harmony=" + harmony + ", melody="
 				+ melody + ", voiceleading=" + voiceleading + ", tonality="
-				+ tonality + ", rhythm=" + rhythm + "]";
+				+ tonality + ", rhythm=" + rhythm + ", meter=" + meter + "]";
+	}
+	public double getMeter() {
+		return meter;
+	}
+	public void setMeter(double meter) {
+		this.meter = meter;
 	}
 	
 }
