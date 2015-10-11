@@ -1,18 +1,8 @@
 package cp.objective.tonality;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import cp.model.melody.CpMelody;
-import cp.model.melody.HarmonicMelody;
-import cp.model.melody.Melody;
-import cp.model.note.Note;
-import cp.model.note.NoteBuilder;
 
 public class TonalityFunctionsTest {
 	

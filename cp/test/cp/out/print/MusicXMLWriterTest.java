@@ -1,13 +1,13 @@
 package cp.out.print;
 
 import static cp.model.note.NoteBuilder.note;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,16 +20,11 @@ import cp.DefaultConfig;
 import cp.VariationConfig;
 import cp.generator.MusicProperties;
 import cp.model.melody.CpMelody;
-import cp.model.melody.HarmonicMelody;
-import cp.model.melody.Melody;
 import cp.model.note.Note;
 import cp.model.note.NoteBuilder;
 import cp.model.note.Scale;
-import cp.out.instrument.Ensemble;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.KontaktLibCello;
-import cp.out.instrument.KontaktLibPiano;
-import cp.out.instrument.KontaktLibViolin;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {DefaultConfig.class, VariationConfig.class}, loader = SpringApplicationContextLoader.class)

@@ -24,7 +24,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import cp.model.melody.CpMelody;
-import cp.model.melody.Melody;
 import cp.model.note.Note;
 import cp.out.instrument.Instrument;
 
@@ -85,12 +84,12 @@ public class MidiDevicesUtil {
 		}
 	}
 
-	public Sequence createSequence(List<Melody> motives, List<Instrument> instruments)
+	public Sequence createSequence(List<CpMelody> motives, List<Instrument> instruments)
 			throws InvalidMidiDataException {
 		int motiveSize = motives.size();
 		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
 		for (int i = 0; i < motiveSize; i++) {
-			List<Note> notes = motives.get(i).getMelodieNotes();
+			List<Note> notes = motives.get(i).getNotes();
 			createTrack(sequence, notes, instruments.get(i));
 		}
 		return sequence;
@@ -103,12 +102,12 @@ public class MidiDevicesUtil {
 		return sequence;
 	}
 	
-	public Sequence createSequence(List<Melody> motives, Instrument instrument)
+	public Sequence createSequence(List<CpMelody> motives, Instrument instrument)
 			throws InvalidMidiDataException {
 		int motiveSize = motives.size();
 		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
 		for (int i = 0; i < motiveSize; i++) {
-			List<Note> notes = motives.get(i).getMelodieNotes();
+			List<Note> notes = motives.get(i).getNotes();
 			createTrack(sequence, notes, instrument);
 		}
 		return sequence;
@@ -217,12 +216,12 @@ public class MidiDevicesUtil {
 		return keySwitch;
 	}
 
-	public Sequence createSequenceFromStructures(List<Melody> motives, List<Instrument> instruments)
+	public Sequence createSequenceFromStructures(List<CpMelody> motives, List<Instrument> instruments)
 			throws InvalidMidiDataException {
 		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION, motives.size());
 		int i = 0;
-		for (Melody motive : motives) {
-			List<Note> notes = motive.getMelodieNotes();
+		for (CpMelody motive : motives) {
+			List<Note> notes = motive.getNotes();
 			createTrack(sequence, notes, instruments.get(i));
 			i++;
 		}

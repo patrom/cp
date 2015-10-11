@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 
 import cp.model.melody.CpMelody;
-import cp.model.melody.Melody;
 import cp.model.note.Note;
 
 public class TonalityFunctions {

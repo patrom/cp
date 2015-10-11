@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import cp.model.Motive;
 import cp.model.melody.CpMelody;
-import cp.model.melody.Melody;
 import cp.objective.Objective;
 
 @Component
