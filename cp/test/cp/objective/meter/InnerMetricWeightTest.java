@@ -224,7 +224,7 @@ public class InnerMetricWeightTest extends JFrame {
 	
 	@Test
 	public void testRandom() {
-		rhythmPattern = new int[]{0, 24, 36, 84, 96,120, 156,    192};
+		rhythmPattern = new int[]{0, 24, 36, 84, 96,120, 156, 192};
 		minimumRhythmicValue = 12;
 		calculateInnerMetricWeight();
 	}

@@ -1,27 +1,30 @@
 package cp.out.print;
 
+
 public enum NoteType {
 
-	sixteenth("16th", false, false), eighth("eighth", false, false), quarter("quarter", false, false), half("half", false, false), whole("whole", false, false),
-	sixteenthDot("16th", true, false), eighthDot("eighth", true, false), quarterDot("quarter", true, false), halfDot("half", true, false), wholeDot("whole", true, false),
-	sixteenthTriplet("16th", false, true), eighthTriplet("eighth", false, true),quarterTriplet("quarter", false, true), halfTriplet("half", false, true), wholeTriplet("whole", false, true);
+	sixteenth("16th", false, false, 3), eighth("eighth", false, false, 6), quarter("quarter", false, false, 12), half("half", false, false, 24), whole("whole", false, false, 48),
+	eighthDot("eighth", true, false, 9), quarterDot("quarter", true, false, 18), halfDot("half", true, false, 36), 
+	sixteenthTriplet("16th", false, true, 2), eighthTriplet("eighth", false, true, 4),quarterTriplet("quarter", false, true, 8), halfTriplet("half", false, true, 16);
 	
 	private String name;
 	private boolean dot;
 	private boolean triplet;
+	private int length;
 	
-	private NoteType(String name, boolean dot, boolean triplet) {
+	private NoteType(String name, boolean dot, boolean triplet, int length) {
 		this.name = name;
 		this.dot = dot;
 		this.triplet = triplet;
+		this.length = length;
 	}
 	
 	public static NoteType getNoteType(int length) {
 		switch (length) {
 			case 64:
 				return sixteenth;
-			case 96://dot
-				return sixteenthDot;
+//			case 96://dot
+//				return sixteenthDot;
 			case 128:
 				return eighth;
 			case 192:
@@ -36,8 +39,8 @@ public enum NoteType {
 				return halfDot;
 			case 1024:
 				return whole;
-			case 1536:
-				return wholeDot;
+//			case 1536:
+//				return wholeDot;
 		}
 		//triplets
 		if (40 <= length && length <= 45) {
@@ -63,4 +66,9 @@ public enum NoteType {
 	public boolean isTriplet() {
 		return triplet;
 	}
+	
+	public int getLength(){
+		return length;
+	}
+	
 }

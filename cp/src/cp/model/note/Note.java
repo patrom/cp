@@ -15,7 +15,7 @@ public class Note implements Comparable<Note>, Cloneable{
 	private int pitch;
 	private int dynamicLevel = DEFAULT_DYNAMIC_LEVEL;
 	private double rhythmValue;
-	private double duration;
+//	private double duration;
 
 	protected int length;
 	protected int position;
@@ -55,7 +55,7 @@ public class Note implements Comparable<Note>, Cloneable{
 		this.setPosition(anotherNote.getPosition());
 		this.setPitch(anotherNote.getPitch());
 		this.setPitchClass(anotherNote.getPitchClass());
-		this.setDuration(anotherNote.getDuration());
+//		this.setDuration(anotherNote.getDuration());
 		this.setVoice(anotherNote.getVoice());
 		this.setInnerMetricWeight(anotherNote.getInnerMetricWeight());
 		this.setRhythmValue(anotherNote.getRhythmValue());
@@ -114,13 +114,13 @@ public class Note implements Comparable<Note>, Cloneable{
 		this.rhythmValue = rhythmValue;
 	}
 
-	public double getDuration() {
-		return duration;
-	}
-
-	public void setDuration(double duration) {
-		this.duration = duration;
-	}
+//	public double getDuration() {
+//		return duration;
+//	}
+//
+//	public void setDuration(double duration) {
+//		this.duration = duration;
+//	}
 
 	public boolean isRest() {
 		if (this.getPitch() == REST)
@@ -242,7 +242,7 @@ public class Note implements Comparable<Note>, Cloneable{
 		newNote.setPosition(this.getPosition());
 		newNote.setPitch(this.getPitch());
 		newNote.setPitchClass(this.getPitchClass());
-		newNote.setDuration(this.getDuration());
+//		newNote.setDuration(this.getDuration());
 		newNote.setVoice(this.getVoice());
 		newNote.setInnerMetricWeight(this.getInnerMetricWeight());
 		newNote.setRhythmValue(this.getRhythmValue());

@@ -5,7 +5,10 @@ import static cp.model.note.NoteBuilder.note;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -15,6 +18,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLOutputFactory;
@@ -41,23 +45,35 @@ public class MusicXMLWriter {
 	@Autowired
 	private MusicProperties musicProperties;
 	
+	private NoteType[] noteTypes = NoteType.values();
+	
 	public void generateMusicXML(List<MelodyInstrument> melodies, String id) throws Exception {
 		Map<Instrument, List<List<Note>>> melodiesForInstrument = new HashMap<Instrument, List<List<Note>>>();
 		for (MelodyInstrument melody : melodies) {
+			List<Note> notes = melody.getNotes();
+			addLeadingRest(notes);
 			Instrument instrument = getInstrumentForVoice(melody.getVoice());
 			melodiesForInstrument.compute(instrument, (k, v) -> {
 					if (v == null) {
 						List<List<Note>> list = new ArrayList<>();
-						list.add(melody.getNotes());
+						list.add(notes);
 						return list;
 					}else {
-						v.add(melody.getNotes());
+						v.add(notes);
 						return v;
 					}
 				}
 			);
 		}
 		createXML(id, melodiesForInstrument);
+	}
+
+	protected void addLeadingRest(List<Note> notes) {
+		Note firsNote = notes.get(0);
+		if (firsNote.getPosition() != 0){
+			Note rest = note().pitch(Note.REST).pos(0).len(firsNote.getPosition()).voice(firsNote.getVoice()).build();
+			notes.add(0, rest);
+		}
 	}
 
 	public void generateMusicXMLForMelodies(List<CpMelody> melodies, String id) throws Exception {
@@ -97,7 +113,7 @@ public class MusicXMLWriter {
 		xmlStreamWriter.writeStartElement("part-list");
 		xmlStreamWriter.writeCharacters("\n");
 		
-		Set<Instrument> distinctInstruments = new HashSet<>(musicProperties.getInstruments());
+		Set<Instrument> distinctInstruments = melodiesForInstrument.keySet();
 		for (Instrument instrument : distinctInstruments) {
 			createScorePartElement(instrument);
 		}
@@ -129,7 +145,7 @@ public class MusicXMLWriter {
 			int endNote = note.getPosition() + note.getLength();
 			if (endNote < nextNote.getPosition()) {
 				int length = nextNote.getPosition() - endNote;
-				Note rest = note().pitch(Integer.MIN_VALUE).pos(endNote).len(length).voice(note.getVoice()).build();
+				Note rest = note().pitch(Note.REST).pos(endNote).len(length).voice(note.getVoice()).build();
 				notesRestsIncluded.add(rest);
 			}
 		}
@@ -140,13 +156,15 @@ public class MusicXMLWriter {
 			List<CpMelody> melodies) {
 		Map<Instrument, List<List<Note>>> melodiesForInstrument = new HashMap<Instrument, List<List<Note>>>();
 		for (CpMelody melody : melodies) {
+			List<Note> notes = melody.getNotes();
+			addLeadingRest(notes);
 			melodiesForInstrument.compute(melody.getInstrument(), (k, v) -> {
 					if (v == null) {
 						List<List<Note>> list = new ArrayList<>();
-						list.add(melody.getNotes());
+						list.add(notes);
 						return list;
 					}else {
-						v.add(melody.getNotes());
+						v.add(notes);
 						return v;
 					}
 				}
@@ -201,7 +219,7 @@ public class MusicXMLWriter {
 					createAttributes(instrument);
 					createDirectionElement(instrument);
 				}
-				List<Note> notes = measure.getNotes();
+				List<Note> notes = addTies(measure.getNotes());
 				int position = -1;
 				for (Note note : notes) {
 //					if (note.hasDynamic()) {
@@ -252,7 +270,7 @@ public class MusicXMLWriter {
 				int lastMeasure = measures.size();
 				boolean isChordNote = false;
 				for (Measure measure : measures) {
-					List<Note> notes = measure.getNotes();
+					List<Note> notes = addTies(measure.getNotes());
 					int position = -1;
 					for (Note note : notes) {
 						if (position == note.getPosition()) {
@@ -326,7 +344,7 @@ public class MusicXMLWriter {
 		xmlStreamWriter.writeCharacters("\n");
 	}
 
-	private List<Measure> getMeasures(List<Note> notes) {
+	protected List<Measure> getMeasures(List<Note> notes) {
 		Note lastNote = notes.get(notes.size() - 1);
 		int totalLength = lastNote.getPosition() + lastNote.getLength();
 		int measureSize = musicProperties.getNumerator() * 12;
@@ -656,5 +674,38 @@ public class MusicXMLWriter {
 		xmlStreamWriter.writeAttribute(attributeName, attributeValue);
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
+	}
+	
+	protected int findNoteTypeLength(int length){
+		Arrays.sort(noteTypes, Comparator.comparing(NoteType::getLength).reversed());
+		Optional<NoteType> optionalLength = Stream.of(noteTypes).filter(note -> note.getLength() <= length).findFirst();
+		if (optionalLength.isPresent()) {
+			return optionalLength.get().getLength();
+		} else {
+			throw new IllegalArgumentException("NoteType (length) not found for length: " + length);
+		}
+	}
+	
+	protected List<Note> addTies(List<Note> notes){
+		List<Note> tiedNotes = new ArrayList<Note>();
+		for (Note note : notes) {
+			int length = findNoteTypeLength(note.getLength());
+			if (length == note.getLength()) {
+				tiedNotes.add(note);
+			} else {
+				int rest = note.getLength() - length;
+				note.setLength(length);
+				note.setTieStart(true);
+				tiedNotes.add(note);
+				//tied
+				int restLength = findNoteTypeLength(rest);
+				Note restNote = note.clone();
+				restNote.setPosition(note.getPosition() + length);
+				restNote.setLength(restLength);
+				restNote.setTieEnd(true);
+				tiedNotes.add(restNote);
+			}
+		}
+		return tiedNotes;
 	}
 }

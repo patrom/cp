@@ -70,7 +70,7 @@ public class FitnessEvaluationTemplate {
 	private void fugue(List<CpMelody> melodies) {
 		CpMelody dux = findMelodyForVoice(melodies, 0);
 		CpMelody comes = findMelodyForVoice(melodies, 1);
-		comes.copyMelody(dux, -10, Transposition.RELATIVE);
+		comes.copyMelody(dux, 4, Transposition.RELATIVE);
 	}
 
 	protected CpMelody findMelodyForVoice(List<CpMelody> melodies, int voice) {

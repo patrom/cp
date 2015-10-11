@@ -114,8 +114,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //			melodies.add(melody2);
 			
 			//fugue - set fugue in template!
-			CpMelody comes = new CpMelody(Scale.HARMONIC_MINOR_SCALE, 1, 24, 144);
-			comes.copyMelody(melody,  -10 , Transposition.RELATIVE);
+			CpMelody comes = new CpMelody(Scale.HARMONIC_MINOR_SCALE, 1, 48, 144);
+			comes.copyMelody(melody,  4 , Transposition.RELATIVE);
 			comes.setMutable(false);
 			comes.setInstrument(musicProperties.findInstrument(1));
 			melodies.add(comes);
