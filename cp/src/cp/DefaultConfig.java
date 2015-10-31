@@ -1,5 +1,6 @@
 package cp;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,25 @@ public class DefaultConfig {
 		// "C:/Dev/git/neo/neo/resources/midi"
 		// /Users/parm/git/neo/neo/resources/midi
 //		return "/Users/parm/git/neo/neo/resources/midi";
+	}
+	
+	@Bean
+	public List<Integer[]> pulseDivisions(){
+		List<Integer[]> pulseDivisions = new ArrayList<>();
+//		pulseDivisions.add(new Integer[]{0,1});
+		pulseDivisions.add(new Integer[]{1,1});
+		pulseDivisions.add(new Integer[]{1,0});
+		
+//		pulseDivisions.add(new Integer[]{1,0,0});//same as {1,0}
+//		pulseDivisions.add(new Integer[]{0,1,0});
+//		pulseDivisions.add(new Integer[]{0,0,1});
+		
+		pulseDivisions.add(new Integer[]{1,1,1});
+		
+//		pulseDivisions.add(new Integer[]{1,1,0});
+//		pulseDivisions.add(new Integer[]{1,0,1});
+//		pulseDivisions.add(new Integer[]{0,1,1});
+		return pulseDivisions;
 	}
 	
 }

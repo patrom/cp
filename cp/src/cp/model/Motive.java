@@ -2,6 +2,7 @@ package cp.model;
 
 import static java.util.stream.Collectors.toList;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +23,7 @@ public class Motive implements Cloneable {
 
 	protected Motive(Motive motive) {
 		// TODO clone implementation
-		this.melodies = motive.getMelodies().stream().map(m -> (CpMelody) m.clone()).collect(toList());
+		this.melodies = motive.getMelodies().stream().map(m -> m.clone()).collect(toList());
 	}
 
 	public List<CpHarmony> getHarmonies() {
@@ -38,7 +39,7 @@ public class Motive implements Cloneable {
 	}
 	
 	@Override
-	public Object clone() {
+	public Motive clone() {
 		return new Motive(this);
 	}
 	

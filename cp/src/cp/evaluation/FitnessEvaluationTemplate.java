@@ -2,9 +2,7 @@ package cp.evaluation;
 
 import static java.util.stream.Collectors.toList;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +14,6 @@ import cp.model.Motive;
 import cp.model.harmony.CpHarmony;
 import cp.model.harmony.HarmonyExtractor;
 import cp.model.melody.CpMelody;
-import cp.model.melody.Transposition;
 import cp.model.note.Note;
 import cp.model.rhythm.RhythmWeight;
 import cp.objective.Objective;
@@ -50,15 +47,10 @@ public class FitnessEvaluationTemplate {
 
 	public FitnessObjectiveValues evaluate(Motive motive) {
 		List<CpMelody> melodies = motive.getMelodies();
-		
-		for (CpMelody melody : melodies) {
-			melody.updateMelodyBetween();
-			List<Note> notes = melody.getNotes();
-			rhythmWeight.setNotes(notes);
-			rhythmWeight.updateRhythmWeight();
-		}
-		
-		fugue(melodies);
+		List<CpMelody> filteredMelodies = melodies.stream().filter(m -> !m.isDenpendant()).collect(toList());
+		updatePitchesFromContour(filteredMelodies);
+		updateRhythmWeight(filteredMelodies);	
+//		dependingMelodies(filteredMelodies);
 		
 		List<Note> allNotes = melodies.stream().flatMap(m -> m.getNotes().stream()).collect(toList());
 		List<CpHarmony> harmonies = harmonyExtractor.extractHarmony(allNotes, motive.getMelodies().size());
@@ -67,10 +59,25 @@ public class FitnessEvaluationTemplate {
 		return evaluateObjectives(motive);
 	}
 
-	private void fugue(List<CpMelody> melodies) {
-		CpMelody dux = findMelodyForVoice(melodies, 0);
-		CpMelody comes = findMelodyForVoice(melodies, 1);
-		comes.copyMelody(dux, 4, Transposition.RELATIVE);
+	private void updatePitchesFromContour(List<CpMelody> melodies) {
+		melodies.forEach(m -> m.updatePitchesFromContour());
+	}
+
+	protected void updateRhythmWeight(List<CpMelody> melodies) {
+		for (CpMelody melody : melodies) {
+//			melody.updateMelodyBetween();
+			List<Note> notes = melody.getNotes();
+			rhythmWeight.setNotes(notes);
+			rhythmWeight.updateRhythmWeight();
+		}
+	}
+
+	private void dependingMelodies(List<CpMelody> melodies) {
+		for (CpMelody dependantMelody : melodies) {
+			CpMelody dux = findMelodyForVoice(melodies, dependantMelody.getDependingVoice());
+			CpMelody comes = findMelodyForVoice(melodies, dependantMelody.getVoice());
+			comes.transformDependingOn2(dux);
+		}
 	}
 
 	protected CpMelody findMelodyForVoice(List<CpMelody> melodies, int voice) {

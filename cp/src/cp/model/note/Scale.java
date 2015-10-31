@@ -104,7 +104,7 @@ public class Scale {
 		return pitchClass;
 	}
 	
-	public int[] getScale() {
+	public int[] getPitchClasses() {
 		return scale;
 	}
 

@@ -9,6 +9,8 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Component;
 
 import cp.model.melody.CpMelody;
@@ -21,9 +23,12 @@ public class MelodyGenerator {
 	
 	private Random random = new Random();
 	
+	@Resource(name="pulseDivisions")
+	private List<Integer[]> pulseDivisions;
+	
 	public int[] generateMelodyPositions(int[] harmony, int minimumLength, int maxMelodyNotes){
 		int[] pos = null;
-		int limit = generateLimit(harmony, minimumLength);
+		int limit = generateLimit(harmony[0], harmony[1], minimumLength);
 		int from = ((harmony[0])/minimumLength) + 1;
 		int toExlusive = (int)Math.ceil(harmony[1]/(double)minimumLength);
 		IntStream intStream = random.ints(limit,from,toExlusive);
@@ -44,10 +49,10 @@ public class MelodyGenerator {
 		return pos;
 	}
 
-	protected int generateLimit(int[] harmony, int minimumLength) {
-		int positionsInHarmony = ((harmony[1] - harmony[0])/minimumLength) - 1;//minus first position
+	protected int generateLimit(int begin, int end, int minimumLength) {
+		int positionsInHarmony = ((end - begin)/minimumLength) - 1;//minus first position
 		int limit = random.nextInt(positionsInHarmony + 1);
-		while (limit < 4) {
+		while (limit < 2) {
 			limit = random.nextInt(positionsInHarmony + 1);
 		}
 		return limit;
@@ -76,8 +81,28 @@ public class MelodyGenerator {
 	public CpMelody generateMelody(Scale scale, int[] beginEndPosition, int minimumNoteValue, int voice){
 			int max = beginEndPosition[1]/minimumNoteValue;
 			int[] positions = generateMelodyPositions(beginEndPosition, minimumNoteValue, max);
-			List<Note> melodyNotes = generateMelodyNotes(positions, scale.getScale());
+			List<Note> melodyNotes = generateMelodyNotes(positions, scale.getPitchClasses());
 			return new CpMelody(melodyNotes, scale, voice);
+	}
+	
+	public CpMelody generateMelodyTactus(Scale scale, int[] beginEndPosition, int minimumTactus, int voice){
+		int limit = generateLimit(beginEndPosition[0], beginEndPosition[1], minimumTactus);
+		int from = ((beginEndPosition[0])/minimumTactus) + 1;
+		int toExlusive = (int)Math.ceil(beginEndPosition[1]/(double)minimumTactus);
+		IntStream intStream = random.ints(limit,from,toExlusive);
+		List<Integer> positions = intStream
+				.distinct()
+				.map(i -> i * minimumTactus)
+				.boxed()
+				.sorted()
+				.collect(Collectors.toList());
+		CpMelody melody = new CpMelody(scale, voice , beginEndPosition[0], beginEndPosition[1]);
+		for (Integer position : positions) {
+			Integer[] pulse = RandomUtil.getRandomFromList(pulseDivisions);
+			melody.insert(position, minimumTactus , pulse);
+		}
+		melody.insert( beginEndPosition[1], minimumTactus , new Integer[]{1,0});//insert last position
+		return melody;
 	}
 	
 }

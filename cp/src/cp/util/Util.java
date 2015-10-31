@@ -54,13 +54,13 @@ public class Util {
 	}
 
 	public static void main(String[] args) {
-		List<Integer> list = new ArrayList<Integer>();
-		list.add(1);
-		list.add(2);
-		list.add(3);
-		for (int i = 0; i < 10; i++) {
-			System.out.println(selectFromListProbability(list, new int[] { 10,
-					10, 10 }));
-		}
+//		List<Integer> list = new ArrayList<Integer>();
+//		list.add(1);
+//		list.add(2);
+//		list.add(3);
+//		for (int i = 0; i < 10; i++) {
+//			System.out.println(selectFromListProbability(list, new int[] { 10,
+//					10, 10 }));
+//		}
 	}
 }

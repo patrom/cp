@@ -12,6 +12,10 @@ public class RandomUtil {
 		return list.get(randomInt(0, list.size()));
 	}
 	
+	public static <T> int getRandomIndex(List<T> list) {
+		return randomInt(0, list.size());
+	}
+	
 	public static int getRandomFromIntArray(int[] array){
 		return array[random(array.length)];
 	}
@@ -40,6 +44,20 @@ public class RandomUtil {
 	
 	public static boolean toggleSelection(){
 		return random.nextBoolean();
+	}
+	
+	public static int randomAscendingOrDescending(){
+		if (random.nextBoolean()) {
+			return 1;
+		} else {
+			return -1;
+		}
+	}
+	
+	public static void main(String[] args) {
+		for (int i = 0; i < 10; i++) {
+			System.out.println(randomAscendingOrDescending());
+		}
 	}
 	
 }

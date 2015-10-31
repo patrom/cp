@@ -74,7 +74,8 @@ public class Display {
 		}
 
 		private void viewScore(List<CpMelody> melodies, String id, double tempo) throws InvalidMidiDataException, IOException {
-			melodies.forEach(h ->  LOGGER.info(h.getNotes() + ", "));
+			melodies.forEach(m ->  LOGGER.info(m.getContour() + ", "));
+			melodies.forEach(m ->  LOGGER.info(m.getNotes() + ", "));
 			Score score = scoreUtilities.createScoreMelodies(melodies, tempo);
 			score.setTitle(id);
 			Sequence sequence = midiDevicesUtil.createSequence(melodies, (int)tempo);

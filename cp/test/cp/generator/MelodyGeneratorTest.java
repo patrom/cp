@@ -99,7 +99,21 @@ public class MelodyGeneratorTest extends JFrame{
 		int[] harmony = {0, 48};
 		int max = 8;
 		int[] positions = melodyGenerator.generateMelodyPositions(harmony, 6, max);
-		List<Note> melodyNotes = melodyGenerator.generateMelodyNotes(positions, Scale.MAJOR_SCALE.getScale());
+		List<Note> melodyNotes = melodyGenerator.generateMelodyNotes(positions, Scale.MAJOR_SCALE.getPitchClasses());
+		melodyNotes.forEach(note -> note.setPitch(note.getPitchClass() + 60));
+		System.out.println(melodyNotes);
+		Score score = new Score();
+		Phrase phrase = scoreUtilities.createPhrase(melodyNotes);	
+		Part part = new Part(phrase);
+		score.add(part);
+		View.notate(score);
+		Play.midi(score, true);
+	}
+	
+	@Test
+	public void testGenerateMelodyTactus() {
+		CpMelody melody = melodyGenerator.generateMelodyTactus(Scale.MAJOR_SCALE, new int[]{0,48}, 12, 0);
+		List<Note> melodyNotes = melody.getNotes();
 		melodyNotes.forEach(note -> note.setPitch(note.getPitchClass() + 60));
 		System.out.println(melodyNotes);
 		Score score = new Score();

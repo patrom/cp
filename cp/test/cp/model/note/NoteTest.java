@@ -24,7 +24,7 @@ public class NoteTest {
 
 	@Test
 	public void testTranspose() {
-		note.transpose(2);
+		note.transposePitch(2);
 		assertEquals(1, note.getPitchClass());
 		assertEquals(61, note.getPitch());
 		assertEquals(5, note.getOctave());
@@ -32,7 +32,7 @@ public class NoteTest {
 	
 	@Test
 	public void testTransposeDown() {
-		note.transpose(-2);
+		note.transposePitch(-2);
 		assertEquals(9, note.getPitchClass());
 		assertEquals(57, note.getPitch());
 		assertEquals(4, note.getOctave());

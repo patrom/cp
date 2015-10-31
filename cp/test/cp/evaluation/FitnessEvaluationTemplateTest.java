@@ -186,7 +186,8 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 	public void testRandom(){
 //		for (int i = 0; i < 2; i++) {
 			CpMelody melody = melodyGenerator.generateMelody(Scale.MAJOR_SCALE, new int[]{0,60}, 6, 1);
-			melody.updatePitches(5);
+//			melody.updatePitches(5);
+			melody.updatePitchesFromContour();
 			melodies.add(melody);
 			
 //			List<Note> notes = new ArrayList<>();
@@ -199,7 +200,8 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 //			melody2.setMutable(false);
 //			melody2.setRhythmMutable(false);
 			CpMelody melody2 = melodyGenerator.generateMelody(Scale.MAJOR_SCALE, new int[]{0,60}, 6, 0);
-			melody2.updatePitches(4);
+//			melody2.updatePitches(4);
+			melody2.updatePitchesFromContour();
 			melodies.add(melody2);
 //		}
 			evaluate();

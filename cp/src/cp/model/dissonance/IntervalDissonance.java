@@ -3,7 +3,6 @@ package cp.model.dissonance;
 import org.springframework.stereotype.Component;
 
 import cp.model.harmony.Chord;
-import cp.model.note.Interval;
 
 @Component(value="IntervalDissonance")
 public class IntervalDissonance implements Dissonance{
