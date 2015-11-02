@@ -83,8 +83,9 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		deleteMidiFiles(midiFilesPath);
 		musicProperties.fourFour();
 		List<CpMelody> melodies = new ArrayList<CpMelody>();
-	
-			CpMelody melody = melodyGenerator.generateMelody(Scale.MAJOR_SCALE, new int[]{0,144}, 6, 0);
+			
+//			CpMelody melody = melodyGenerator.generateMelodyTactus(Scale.MAJOR_SCALE, new int[]{0,144}, 12, 0, 5);
+			CpMelody melody = melodyGenerator.generateMelody(Scale.MAJOR_SCALE, new int[]{0,48}, 6, 0);
 			melody.setInstrument(musicProperties.findInstrument(0));
 			melody.setStartOctave(5);
 			melodies.add(melody);
@@ -96,10 +97,10 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //			notes.add(note().pos(72).pc(0).build());
 //			notes.add(note().pos(96).pc(0).build());
 //			
-			CpMelody melody2 = melodyGenerator.generateMelody(Scale.MAJOR_SCALE, new int[]{0,144}, 6, 1);
-			melody2.setInstrument(musicProperties.findInstrument(1));
-			melody2.setStartOctave(4);
-			melodies.add(melody2);
+//			CpMelody melody2 = melodyGenerator.generateMelody(Scale.MAJOR_SCALE, new int[]{0,144}, 6, 1);
+//			melody2.setInstrument(musicProperties.findInstrument(1));
+//			melody2.setStartOctave(4);
+//			melodies.add(melody2);
 			
 //			CpMelody melody2 = new CpMelody(notes, Scale.HARMONIC_MINOR_SCALE_VI, 1);
 //			melody2.setRhythmMutable(false);
@@ -109,7 +110,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 			
 			//fugue - set fugue in template!
 //			CpMelody comes = new CpMelody(Scale.MAJOR_SCALE, 1, 24, 144);
-//			comes.setOperatorType(new OperatorType(0, cp.model.melody.Operator.R));
+//			comes.setOperatorType(new OperatorType(0, cp.model.melody.Operator.T));
 //			comes.dependsOn(melody.getVoice());
 //			comes.setInstrument(musicProperties.findInstrument(1));
 //			melodies.add(comes);

@@ -47,10 +47,11 @@ public class FitnessEvaluationTemplate {
 
 	public FitnessObjectiveValues evaluate(Motive motive) {
 		List<CpMelody> melodies = motive.getMelodies();
-		List<CpMelody> filteredMelodies = melodies.stream().filter(m -> !m.isDenpendant()).collect(toList());
-		updatePitchesFromContour(filteredMelodies);
-		updateRhythmWeight(filteredMelodies);	
-//		dependingMelodies(filteredMelodies);
+		List<CpMelody> notDependantMelodies = melodies.stream().filter(m -> !m.isDenpendant()).collect(toList());
+		updatePitchesFromContour(notDependantMelodies);
+		updateRhythmWeight(notDependantMelodies);
+
+		dependingMelodies(melodies);
 		
 		List<Note> allNotes = melodies.stream().flatMap(m -> m.getNotes().stream()).collect(toList());
 		List<CpHarmony> harmonies = harmonyExtractor.extractHarmony(allNotes, motive.getMelodies().size());
@@ -65,7 +66,7 @@ public class FitnessEvaluationTemplate {
 
 	protected void updateRhythmWeight(List<CpMelody> melodies) {
 		for (CpMelody melody : melodies) {
-//			melody.updateMelodyBetween();
+			melody.updateMelodyBetween();
 			List<Note> notes = melody.getNotes();
 			rhythmWeight.setNotes(notes);
 			rhythmWeight.updateRhythmWeight();
@@ -73,10 +74,11 @@ public class FitnessEvaluationTemplate {
 	}
 
 	private void dependingMelodies(List<CpMelody> melodies) {
-		for (CpMelody dependantMelody : melodies) {
+		List<CpMelody> dependantMelodies = melodies.stream().filter(m -> m.isDenpendant()).collect(toList());
+		for (CpMelody dependantMelody : dependantMelodies) {
 			CpMelody dux = findMelodyForVoice(melodies, dependantMelody.getDependingVoice());
 			CpMelody comes = findMelodyForVoice(melodies, dependantMelody.getVoice());
-			comes.transformDependingOn2(dux);
+			comes.transformDependingOn(dux);
 		}
 	}
 

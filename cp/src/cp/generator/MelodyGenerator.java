@@ -1,8 +1,10 @@
 package cp.generator;
 
 import static cp.model.note.NoteBuilder.note;
+import static java.util.stream.Collectors.toList;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import cp.model.melody.CpMelody;
 import cp.model.note.Note;
+import cp.model.note.NoteBuilder;
 import cp.model.note.Scale;
 import cp.util.RandomUtil;
 
@@ -85,7 +88,7 @@ public class MelodyGenerator {
 			return new CpMelody(melodyNotes, scale, voice);
 	}
 	
-	public CpMelody generateMelodyTactus(Scale scale, int[] beginEndPosition, int minimumTactus, int voice){
+	public CpMelody generateMelodyTactus(Scale scale, int[] beginEndPosition, int minimumTactus, int voice, int startOctave){
 		int limit = generateLimit(beginEndPosition[0], beginEndPosition[1], minimumTactus);
 		int from = ((beginEndPosition[0])/minimumTactus) + 1;
 		int toExlusive = (int)Math.ceil(beginEndPosition[1]/(double)minimumTactus);
@@ -95,14 +98,61 @@ public class MelodyGenerator {
 				.map(i -> i * minimumTactus)
 				.boxed()
 				.sorted()
-				.collect(Collectors.toList());
-		CpMelody melody = new CpMelody(scale, voice , beginEndPosition[0], beginEndPosition[1]);
+				.collect(toList());
+		List<Note> notes = new ArrayList<>();
 		for (Integer position : positions) {
 			Integer[] pulse = RandomUtil.getRandomFromList(pulseDivisions);
-			melody.insert(position, minimumTactus , pulse);
+			notes = createNotes(position, minimumTactus , pulse, scale, voice);
 		}
-		melody.insert( beginEndPosition[1], minimumTactus , new Integer[]{1,0});//insert last position
+		//insert last position
+		Note note = note().pos(beginEndPosition[1]).len(minimumTactus).pc(scale.pickRandomPitchClass()).voice(voice).build();
+		notes.add(note);
+		CpMelody melody = new CpMelody(notes, scale, voice);
+		melody.setStartOctave(startOctave);
 		return melody;
+	}
+	
+	protected List<Note> createNotes(int position, int minimumPulse, Integer[] pulses, Scale scale, int voice){
+		List<Note> notes = new ArrayList<>();
+		int noteLength = minimumPulse/pulses.length;
+		for (int i = 0; i < pulses.length; i++) {
+			if (pulses[i] == 1) {
+				int notePosition = position + (i * noteLength);
+				Note note = note().pos(notePosition).len(noteLength).pc(scale.pickRandomPitchClass()).voice(voice).build();
+				notes.add(note);
+			}
+		}
+		return notes;
+	}
+	
+	protected List<Note> generatePositions(int position, int maxEditablePosition, int minimumValue, Integer[] pulses){
+		List<Note> notes = new ArrayList<>();
+		int noteLength = maxEditablePosition/pulses.length;
+		if (noteLength < 2) {
+			Note note = note().pos(position).len(maxEditablePosition).build();
+			notes.add(note);
+			return notes;
+		}
+		for (int i = 0; i < pulses.length; i++) {
+			if (pulses[i] == 1) {
+				int notePosition = position + (i * noteLength);
+				if (maxEditablePosition != minimumValue) {
+					if (random.nextBoolean()) {
+						//recursive
+						List<Note> recursiveNotes = generatePositions(notePosition, noteLength, minimumValue, RandomUtil.getRandomFromList(pulseDivisions));
+						notes.addAll(recursiveNotes);
+					}else{
+						Note note = note().pos(notePosition).len(noteLength).build();
+						notes.add(note);
+					}
+				} else {
+					Note note = note().pos(notePosition).len(noteLength).build();
+					notes.add(note);
+				}
+			}
+		}
+		Collections.sort(notes);
+		return notes;
 	}
 	
 }

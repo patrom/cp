@@ -30,9 +30,10 @@ public class CpMelody implements Cloneable{
 	private int[] innerMetricDistance;
 	private Instrument instrument;
 	private OperatorType operatorType;
-	private int dependingVoice;
+	private int dependingVoice = -1;
 	private List<Integer> contour = new ArrayList<>();
 	private int startOctave;
+	private List<Integer> orderedPitchIntervals = new ArrayList<>();
 	
 	public CpMelody(List<Note> notes, Scale scale, int voice) {
 		this.voice = voice;
@@ -41,12 +42,9 @@ public class CpMelody implements Cloneable{
 		this.start = notes.get(0).getPosition();
 		this.end = notes.get(notes.size() - 1).getPosition();
 		notes.forEach(n -> n.setVoice(voice));
-		int size = notes.size() - 1;
-		for (int i = 0; i < size; i++) {
-			contour.add(RandomUtil.randomAscendingOrDescending());
-		}
+		updateContour();
 	}
-	
+
 	public CpMelody(Scale scale, int voice, int start, int end) {
 		this.voice = voice;
 		this.notes = new ArrayList<>();
@@ -69,11 +67,18 @@ public class CpMelody implements Cloneable{
 		this.dependingVoice = anotherMelody.getDependingVoice();
 		this.contour = new ArrayList<>(anotherMelody.getContour());
 		this.startOctave = anotherMelody.getStartOctave();
+		this.orderedPitchIntervals = new ArrayList<>(anotherMelody.getOrderedPitchIntervals());
 	}
 
 	@Override
 	public CpMelody clone() {
 		return new CpMelody(this);
+	}
+	
+	private void updateContour() {
+		for (int i = 0; i < notes.size(); i++) {
+			contour.add(RandomUtil.randomAscendingOrDescending());
+		}
 	}
 	
 //	public void updatePitches(int octave){
@@ -87,32 +92,33 @@ public class CpMelody implements Cloneable{
 //		}
 //	}
 	
-	public void transformDependingOn(CpMelody melody){
-		Function<Note, Note> transformFunction = getFunction(melody);
-		if (operatorType.getOperator().equals(Operator.R)) {
-			List<Note> reversedNotes = melody.getNotes().stream().map(n -> n.clone()).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
-			List<Integer> positions = melody.getNotes().stream().map(n -> n.getPosition()).collect(Collectors.toList());
-			for (int i = 0; i < positions.size(); i++) {
-				Integer position = positions.get(i);
-				Note reversed = reversedNotes.get(i);
-				reversed.setPosition(position);
-			}
-			notes = reversedNotes.stream()
-					.map(transformFunction)
-					.filter(n -> n.getPosition() <= end)
-					.collect(toList());
-		} else {
-			notes = melody.getNotes().stream()
-					.map(transformFunction)
-					.filter(n -> n.getPosition() <= end)
-					.collect(toList());
-		}
-	}
+//	public void transformDependingOn(CpMelody melody){
+//		Function<Note, Note> transformFunction = getFunction(melody);
+//		if (operatorType.getOperator().equals(Operator.R)) {
+//			List<Note> reversedNotes = melody.getNotes().stream().map(n -> n.clone()).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+//			List<Integer> positions = melody.getNotes().stream().map(n -> n.getPosition()).collect(Collectors.toList());
+//			for (int i = 0; i < positions.size(); i++) {
+//				Integer position = positions.get(i);
+//				Note reversed = reversedNotes.get(i);
+//				reversed.setPosition(position);
+//			}
+//			notes = reversedNotes.stream()
+//					.map(transformFunction)
+//					.filter(n -> n.getPosition() <= end)
+//					.collect(toList());
+//		} else {
+//			notes = melody.getNotes().stream()
+//					.map(transformFunction)
+//					.filter(n -> n.getPosition() <= end)
+//					.collect(toList());
+//		}
+//	}
 	
-	public void transformDependingOn2(CpMelody melody){
+	public void transformDependingOn(CpMelody melody){
 		CpMelody clonedMelody = melody.clone();
-		clonedMelody.R();
+		clonedMelody.T(0);
 //		clonedMelody.updatePitches(5);
+		clonedMelody.setStartOctave(4);
 		clonedMelody.updatePitchesFromContour();
 		notes = clonedMelody.getNotes().stream()
 				.map(note -> { 
@@ -125,6 +131,7 @@ public class CpMelody implements Cloneable{
 	}
 	
 	public void updatePitchesFromContour(){
+		orderedPitchIntervals.clear();
 		int size = notes.size() - 1;
 		Note firsNote = notes.get(0);
 		firsNote.setPitch((startOctave * 12) + firsNote.getPitchClass());
@@ -135,6 +142,7 @@ public class CpMelody implements Cloneable{
 			int difference = nextNote.getPitchClass() - note.getPitchClass();
 			int direction = contour.get(i);
 			int interval = calculateInterval(direction, difference);
+			orderedPitchIntervals.add(interval);//store for pattern search
 			nextNote.setPitch(note.getPitch() + interval);
 			nextNote.setOctave(nextNote.getPitch()/12);
 		}
@@ -256,15 +264,8 @@ public class CpMelody implements Cloneable{
 	protected void insertRhythm(int newPosition, int pitchClass) {
 		List<Integer> positions = notes.stream().map(n -> n.getPosition()).collect(toList());
 		if (!positions.contains(newPosition)) {
-			Note note = note().pos(newPosition).build();
-			note.setVoice(voice);
-			note.setPitchClass(pitchClass);
-			notes.add(note);
-			Collections.sort(notes);
-//			int direction = RandomUtil.random(2);//lower or higher
-//			updateNote(note, direction);
-			
-			insertContourDirections(notes.indexOf(note));
+			Note note = note().pos(newPosition).voice(voice).pc(pitchClass).build();
+			insertNote(note);
 		}
 	}
 	
@@ -293,9 +294,13 @@ public class CpMelody implements Cloneable{
 		int size = notes.size() - 1;
 		if (size > 4) {
 			int index = RandomUtil.randomInt(1, size);//don't remove outer notes
-			notes.remove(index);
-			removeContour(index, RandomUtil.randomAscendingOrDescending());
+			removeNoteAt(index);
 		}
+	}
+
+	public void removeNoteAt(int index) {
+		notes.remove(index);
+		removeContour(index, RandomUtil.randomAscendingOrDescending());
 	}
 	
 	public void changeInterval(){
@@ -357,76 +362,82 @@ public class CpMelody implements Cloneable{
 		return this;
 	}
 	
-	public void insert(int position, int minimumPulse, Integer[] pulses){
-		int noteLength = minimumPulse/pulses.length;
-		for (int i = 0; i < pulses.length; i++) {
-			if (pulses[i] == 1) {
-				int notePosition = position + (i * noteLength);
-				Note note = NoteBuilder.note().pos(notePosition).len(noteLength).pc(scale.pickRandomPitchClass()).build();
-				notes.add(note);
-			}
-		}
-		notes.sort(Comparator.naturalOrder());
-	}
+//	public void insert(int position, int minimumPulse, Integer[] pulses){
+//		int noteLength = minimumPulse/pulses.length;
+//		for (int i = 0; i < pulses.length; i++) {
+//			if (pulses[i] == 1) {
+//				int notePosition = position + (i * noteLength);
+//				Note note = NoteBuilder.note().pos(notePosition).len(noteLength).pc(scale.pickRandomPitchClass()).voice(voice).build();
+//				insertNote(note);
+//			}
+//		}
+//		
+//	}
 	
-	protected void remove(int position, int length){
-		notes = notes.stream().filter(n -> n.getPosition() < position || n.getPosition() >= (position + length))
-						.sorted()
-						.collect(Collectors.toList());
-	}
-	
-	public void insertNotes(int position, int minimumPulse, Integer[] pulses){
-		remove(position, minimumPulse);
-		insert(position, minimumPulse, pulses);
+	protected void insertNote(Note note) {
+		notes.add(note);
+		Collections.sort(notes);
+		insertContourDirections(notes.indexOf(note));
 	}
 
-	private Function<Note, Note> getFunction(CpMelody melody) {
-		int steps = operatorType.getSteps();
-		switch (operatorType.getOperator()) {
-			case RELATIVE:
-				return (n -> { 
-							Note note = n.clone();
-							note.setVoice(voice);
-							note.setPosition(n.getPosition() + start);
-							int index = melody.getScale().getIndex(n.getPitchClass());
-							int pitchClass = this.scale.getPitchClasses()[index];
-							note.setPitchClass(pitchClass);
-							note.setPitch(pitchClass + (n.getOctave() * 12));
-							
-							note.transposePitch(steps);
-							return note;
-						});
-			case T:
-				return  (n -> { 
-							Note note = n.clone();
-							note.setVoice(voice);
-							note.setPosition(n.getPosition() + start);
-							note.transposePitch(steps);
-							return note;
-					});
-			case I:
-				return  (n -> { 
-							Note note = n.clone();
-							note.setVoice(voice);
-							note.setPosition(n.getPosition() + start);
-							note.setPitchClass((12 - n.getPitchClass()) % 12);
-							note.setPitch(note.getPitchClass() + (n.getOctave() * 12));
-							
-							note.transposePitch(steps);
-							return note;
-					});
-			case R:
-				return  (n -> { 
-							Note note = n.clone();
-							note.setVoice(voice);
-							note.setPosition(n.getPosition() + start);
-							return note;
-					});
-			default:
-				break;
-			}
-		throw new IllegalArgumentException("Unknown transposition function: " + operatorType.getOperator());
-	}
+//	protected void remove(int position, int length){
+//		notes = notes.stream().filter(n -> n.getPosition() < position || n.getPosition() >= (position + length))
+//						.sorted()
+//						.collect(Collectors.toList());
+//	}
+//	
+//	public void insertNotes(int position, int minimumPulse, Integer[] pulses){
+//		remove(position, minimumPulse);
+//		insert(position, minimumPulse, pulses);
+//	}
+
+//	private Function<Note, Note> getFunction(CpMelody melody) {
+//		int steps = operatorType.getSteps();
+//		switch (operatorType.getOperator()) {
+//			case RELATIVE:
+//				return (n -> { 
+//							Note note = n.clone();
+//							note.setVoice(voice);
+//							note.setPosition(n.getPosition() + start);
+//							int index = melody.getScale().getIndex(n.getPitchClass());
+//							int pitchClass = this.scale.getPitchClasses()[index];
+//							note.setPitchClass(pitchClass);
+//							note.setPitch(pitchClass + (n.getOctave() * 12));
+//							
+//							note.transposePitch(steps);
+//							return note;
+//						});
+//			case T:
+//				return  (n -> { 
+//							Note note = n.clone();
+//							note.setVoice(voice);
+//							note.setPosition(n.getPosition() + start);
+//							note.transposePitch(steps);
+//							return note;
+//					});
+//			case I:
+//				return  (n -> { 
+//							Note note = n.clone();
+//							note.setVoice(voice);
+//							note.setPosition(n.getPosition() + start);
+//							note.setPitchClass((12 - n.getPitchClass()) % 12);
+//							note.setPitch(note.getPitchClass() + (n.getOctave() * 12));
+//							
+//							note.transposePitch(steps);
+//							return note;
+//					});
+//			case R:
+//				return  (n -> { 
+//							Note note = n.clone();
+//							note.setVoice(voice);
+//							note.setPosition(n.getPosition() + start);
+//							return note;
+//					});
+//			default:
+//				break;
+//			}
+//		throw new IllegalArgumentException("Unknown transposition function: " + operatorType.getOperator());
+//	}
 	
 	public boolean isRhythmMutable() {
 		return rhythmMutable;
@@ -508,6 +519,10 @@ public class CpMelody implements Cloneable{
 	
 	public int getStartOctave() {
 		return startOctave;
+	}
+	
+	public List<Integer> getOrderedPitchIntervals() {
+		return orderedPitchIntervals;
 	}
 	
 }
