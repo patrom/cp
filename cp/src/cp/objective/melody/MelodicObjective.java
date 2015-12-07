@@ -19,6 +19,7 @@ import cp.model.Motive;
 import cp.model.dissonance.Dissonance;
 import cp.model.harmony.Chord;
 import cp.model.melody.CpMelody;
+import cp.model.melody.MelodyBlock;
 import cp.model.note.Interval;
 import cp.model.note.Note;
 import cp.objective.Objective;
@@ -33,10 +34,10 @@ public class MelodicObjective extends Objective {
 	@Override
 	public double evaluate(Motive motive) {
 		double totalMelodySum = 0;
-		List<CpMelody> melodies = motive.getMelodies();
+		List<MelodyBlock> melodies = motive.getMelodyBlocks();
 		int melodyCount = melodies.size();
-		for(CpMelody melody: melodies){
-			List<Note> notes =  melody.getNotes();
+		for(MelodyBlock melody: melodies){
+			List<Note> notes =  melody.getMelodyBlockNotes();
 			double melodyValue = evaluateMelody(notes, 2);
 //			notes = extractNotesOnLevel(notes, 1);
 			for (double level : musicProperties.getFilterLevels()) {

@@ -25,14 +25,14 @@ import cp.CpApplication;
 import cp.midi.MidiDevicesUtil;
 import cp.model.Motive;
 import cp.model.harmony.CpHarmony;
-import cp.model.melody.CpMelody;
+import cp.model.melody.MelodyBlock;
 import cp.nsga.MusicSolution;
 import cp.nsga.MusicVariable;
 
 @Component
 public class Display {
 
-	private static Logger LOGGER = LoggerFactory.getLogger(Display.class.getName());
+	private static Logger LOGGER = LoggerFactory.getLogger(Display.class);
 	
 	@Autowired
 	private ScoreUtilities scoreUtilities;
@@ -53,10 +53,8 @@ public class Display {
 			LOGGER.info(solution.toString());
 			Motive motive = ((MusicVariable)solution.getDecisionVariables()[0]).getMotive();
 			printHarmonies(motive.getHarmonies());
-			List<CpMelody> reversedMelodies = motive.getMelodies();
-			Collections.reverse(reversedMelodies);
-			viewScore(reversedMelodies, id, tempo);
-			generateMusicXml(reversedMelodies, id);
+			viewScore(motive.getMelodyBlocks(), id, tempo);
+			generateMusicXml(motive.getMelodyBlocks(), id);
 			i++;
 			
 //			printVextab(sentences);
@@ -64,19 +62,17 @@ public class Display {
 	  }
 	  
 		private void printHarmonies(List<CpHarmony> harmonies) {
-			harmonies.forEach(h ->  LOGGER.info(h.getChord() + ", "));
-//			harmonies.forEach(h ->  LOGGER.info(h.getChord().getPitchClassMultiSet() + ", "));
+			harmonies.forEach(h ->  LOGGER.info(h.getChord() + ", " + h.getHarmonyWeight()));
 //			harmonies.forEach(h ->  LOGGER.info(h.getNotes() + ", "));
 		}
 		
-		private void generateMusicXml(List<CpMelody> melodies, String id) throws Exception{
+		private void generateMusicXml(List<MelodyBlock> melodies, String id) throws Exception{
 			musicXMLWriter.generateMusicXMLForMelodies(melodies, id);
 		}
 
-		private void viewScore(List<CpMelody> melodies, String id, double tempo) throws InvalidMidiDataException, IOException {
-			melodies.forEach(m ->  LOGGER.info(m.getOrderedPitchIntervals() + ", "));
-			melodies.forEach(m ->  LOGGER.info(m.getContour() + ", "));
-			melodies.forEach(m ->  LOGGER.info(m.getNotes() + ", "));
+		private void viewScore(List<MelodyBlock> melodies, String id, double tempo) throws InvalidMidiDataException, IOException {
+			melodies.forEach(m ->  LOGGER.info(m.getMelodyBlockContour() + ", "));
+			melodies.forEach(m ->  LOGGER.info(m.getMelodyBlockNotesWithRests() + ", "));
 			Score score = scoreUtilities.createScoreMelodies(melodies, tempo);
 			score.setTitle(id);
 			Sequence sequence = midiDevicesUtil.createSequence(melodies, (int)tempo);

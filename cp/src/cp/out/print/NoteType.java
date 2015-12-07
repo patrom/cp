@@ -23,8 +23,6 @@ public enum NoteType {
 		switch (length) {
 			case 64:
 				return sixteenth;
-//			case 96://dot
-//				return sixteenthDot;
 			case 128:
 				return eighth;
 			case 192:

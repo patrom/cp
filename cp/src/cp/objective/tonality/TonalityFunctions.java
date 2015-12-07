@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 
 import cp.model.melody.CpMelody;
+import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 
 public class TonalityFunctions {
@@ -72,63 +73,67 @@ public class TonalityFunctions {
 	}
 
 	
-	public static double getMaxCorrelationTonality(CpMelody structure,
+	public static double getMaxCorrelationTonality(List<MelodyBlock> melodyBlocks,
 			double[] template) {
-		List<cp.model.note.Note> notePositions = structure.getNotes();
-		double[] durationVector = new double[12];
-		for (cp.model.note.Note note : notePositions) {
-			int pitchClass = note.getPitch() % 12;
-			durationVector[pitchClass] = durationVector[pitchClass]
-					+ note.getRhythmValue();
+		double max = 0;
+		for (MelodyBlock melodyBlock: melodyBlocks) {
+			List<cp.model.note.Note> notePositions = melodyBlock.getMelodyBlockNotes();
+			double[] durationVector = new double[12];
+			for (cp.model.note.Note note : notePositions) {
+				int pitchClass = note.getPitch() % 12;
+				durationVector[pitchClass] = durationVector[pitchClass]
+						+ note.getRhythmValue();
+			}
+			Double maxBlock = getMaximumCorrelation(template, durationVector);
+			max = max + maxBlock;
 		}
-		Double max = getMaximumCorrelation(template, durationVector);
-		return max;
+		return 0;
 	}
 
-	public static double getMaxCorrelationTonality(
-			List<CpMelody> structures, double[] template,
-			double[] context) {
-		double[] durationVector = new double[12];
-		for (CpMelody musicalStructure : structures) {
-			List<Note> notePositions = musicalStructure.getNotes();
-			for (Note note : notePositions) {
-				if (!note.isRest()) {
-					double registerValue = calculateRegisterValue(note.getPitch());
-					double rhythmValue = note.getRhythmValue();
-					durationVector[note.getPitchClass()] = durationVector[note.getPitchClass()]
-							+ (rhythmValue * context[note.getPosition()])
-							* registerValue;
-				}
-			}
-		}
-		LOGGER.finest("Tonality vector: " + Arrays.toString(durationVector));
-		Double max = getMaximumCorrelation(template, durationVector);
-		return max;
-	}
+//	public static double getMaxCorrelationTonality(
+//			List<CpMelody> structures, double[] template,
+//			double[] context) {
+//		double[] durationVector = new double[12];
+//		for (CpMelody musicalStructure : structures) {
+//			List<Note> notePositions = musicalStructure.getNotesNoRest();
+//			for (Note note : notePositions) {
+//				if (!note.isRest()) {
+//					double registerValue = calculateRegisterValue(note.getPitch());
+//					double rhythmValue = note.getRhythmValue();
+//					durationVector[note.getPitchClass()] = durationVector[note.getPitchClass()]
+//							+ (rhythmValue * context[note.getPosition()])
+//							* registerValue;
+//				}
+//			}
+//		}
+//		LOGGER.finest("Tonality vector: " + Arrays.toString(durationVector));
+//		Double max = getMaximumCorrelation(template, durationVector);
+//		return max;
+//	}
 	
 	public static double calculateRegisterValue(double pitch){
 		return 1 - (pitch / 100);
 	}
 
-	public static double getMaxCorrelationTonality(
-			List<CpMelody> melodies, double[] template) {
-		double[] durationVector = new double[12];
-		for (CpMelody melody : melodies) {
-			List<Note> notes = melody.getNotes();
-			for (Note note : notes) {
-				if (!note.isRest()) {
-					double registerValue = 1 - (note.getPitch() / 100d);
-					double length = note.getLength();
-					double weight = note.getPositionWeight();
-					durationVector[note.getPitchClass()] = durationVector[note.getPitchClass()]
-							+ (length * registerValue * weight);
-				}
-			}
-		}
-		LOGGER.finer(Arrays.toString(durationVector));
-		Double max = getMaximumCorrelation(template, durationVector);
-		return max;
-	}
+//	public static double getMaxCorrelationTonality(
+//			List<CpMelody> melodies, double[] template) {
+//		double[] durationVector = new double[12];
+//		for (CpMelody melody : melodies) {
+//			List<Note> notes = melody.getNotesNoRest();
+//			for (Note note : notes) {
+//				if (!note.isRest()) {
+//					double registerValue = 1 - (note.getPitch() / 100d);
+//					double length = note.getLength();
+//					double weight = note.getPositionWeight();
+//					durationVector[note.getPitchClass()] = durationVector[note.getPitchClass()]
+//							+ (length * registerValue * weight);
+//				}
+//			}
+//		}
+//		LOGGER.finer(Arrays.toString(durationVector));
+//		Double max = getMaximumCorrelation(template, durationVector);
+//		return max;
+//	}
 
 	private static double[] createVector(Note[] melody) {
 		double[] durationVector = new double[12];

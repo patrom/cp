@@ -2,7 +2,7 @@ package cp.out.instrument;
 
 import cp.midi.GeneralMidi;
 
-public class Instrument {
+public class Instrument implements Comparable<Instrument> {
 
 	protected int voice;
 	protected int lowest;
@@ -128,6 +128,15 @@ public class Instrument {
 		} else if (!instrumentSound.equals(other.instrumentSound))
 			return false;
 		return true;
+	}
+	@Override
+	public int compareTo(Instrument instrument) {
+		if (this.voice < instrument.getVoice()) {
+			return 1;
+		}else if (this.voice > instrument.getVoice()){
+			return -1;
+		}
+		return 0;
 	}
 	
 }

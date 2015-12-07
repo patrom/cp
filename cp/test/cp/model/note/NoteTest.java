@@ -16,13 +16,6 @@ public class NoteTest {
 	}
 
 	@Test
-	public void testUpdateNoteInt() {
-		note.updateNote(5);
-		assertEquals(71, note.getPitch());
-		assertEquals(5, note.getOctave());
-	}
-
-	@Test
 	public void testTranspose() {
 		note.transposePitch(2);
 		assertEquals(1, note.getPitchClass());

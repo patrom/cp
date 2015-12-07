@@ -5,19 +5,15 @@ import static cp.model.note.NoteBuilder.note;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.NavigableMap;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.xml.stream.FactoryConfigurationError;
@@ -25,27 +21,32 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cp.generator.MusicProperties;
 import cp.midi.MelodyInstrument;
-import cp.model.melody.CpMelody;
+import cp.model.melody.MelodyBlock;
+import cp.model.note.BeamType;
 import cp.model.note.Note;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.KontaktLibPiano;
+import cp.out.print.note.NoteDisplay;
+import cp.out.print.note.NoteStep;
 
 @Component
 public class MusicXMLWriter {
 
 	private static final int DIVISIONS = 256;
+	private Integer[] nonTieLengths = {48,24,12,9,8,6,4,3};
 	
 	XMLStreamWriter xmlStreamWriter;
 	
 	@Autowired
 	private MusicProperties musicProperties;
-	
-	private NoteType[] noteTypes = NoteType.values();
+	@Autowired
+	private NoteDisplay noteDisplay;
 	
 	public void generateMusicXML(List<MelodyInstrument> melodies, String id) throws Exception {
 		Map<Instrument, List<List<Note>>> melodiesForInstrument = new HashMap<Instrument, List<List<Note>>>();
@@ -76,7 +77,7 @@ public class MusicXMLWriter {
 		}
 	}
 
-	public void generateMusicXMLForMelodies(List<CpMelody> melodies, String id) throws Exception {
+	public void generateMusicXMLForMelodies(List<MelodyBlock> melodies, String id) throws Exception {
 		Map<Instrument, List<List<Note>>> melodiesForInstrument = getMelodyNotesForInstrument(melodies);
 		createXML(id, melodiesForInstrument);
 	}
@@ -153,10 +154,10 @@ public class MusicXMLWriter {
 	}
 
 	private Map<Instrument, List<List<Note>>> getMelodyNotesForInstrument(
-			List<CpMelody> melodies) {
-		Map<Instrument, List<List<Note>>> melodiesForInstrument = new HashMap<Instrument, List<List<Note>>>();
-		for (CpMelody melody : melodies) {
-			List<Note> notes = melody.getNotes();
+			List<MelodyBlock> melodies) {
+		Map<Instrument, List<List<Note>>> melodiesForInstrument = new TreeMap<>();
+		for (MelodyBlock melody : melodies) {
+			List<Note> notes = melody.getMelodyBlockNotesWithRests();
 			addLeadingRest(notes);
 			melodiesForInstrument.compute(melody.getInstrument(), (k, v) -> {
 					if (v == null) {
@@ -198,110 +199,94 @@ public class MusicXMLWriter {
 		xmlStreamWriter.writeAttribute("id", "P" + instrument.getVoice());
 		xmlStreamWriter.writeCharacters("\n");
 		
-		createMeasureElements(list, instrument);
+		createMeasureElements(list.get(0), instrument);
 		
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
 	}
 
-	private void createMeasureElements(List<List<Note>> notesLists, Instrument instrument) throws XMLStreamException {
-		// only 1 melody
-		if (notesLists.size() == 1) {
-			List<Measure> measures = getMeasures(notesLists.get(0));
-			for (int i = 0; i < measures.size(); i++) {
-				Measure measure = measures.get(i);
-				xmlStreamWriter.writeComment("====== Part: " + instrument.getVoice() + " , Measure: " + i + " =======");
-				xmlStreamWriter.writeCharacters("\n");
-				xmlStreamWriter.writeStartElement("measure");
-				xmlStreamWriter.writeAttribute("number", String.valueOf(i));
-				xmlStreamWriter.writeCharacters("\n");
-				if (i == 0) {
-					createAttributes(instrument);
-					createDirectionElement(instrument);
-				}
-				List<Note> notes = addTies(measure.getNotes());
-				int position = -1;
-				for (Note note : notes) {
-//					if (note.hasDynamic()) {
-//						<direction>
-//						<direction-type>
-//							<dynamics default-x="9" default-y="-118" color="#000000" font-family="Opus Text Std" font-style="normal" font-size="11.9365" font-weight="normal">
-//								<p />
-//							</dynamics>
-//						</direction-type>
-//						<voice>1</voice>
-//						<staff>1</staff>
-//					</direction>
+//	private void createMeasureElements(List<List<Note>> notesLists, Instrument instrument) throws XMLStreamException {
+//		// only 1 melody
+//		if (notesLists.size() == 1) {
+////			List<Note> tiedNotes = updateTies(notesLists.get(0), musicProperties.getMelodyBeatValue());
+//			List<Measure> measures = getMeasures(notesLists.get(0), musicProperties.getMelodyBeatValue());
+//			for (int i = 0; i < measures.size(); i++) {
+//				Measure measure = measures.get(i);
+//				xmlStreamWriter.writeComment("====== Part: " + instrument.getVoice() + " , Measure: " + i + " =======");
+//				xmlStreamWriter.writeCharacters("\n");
+//				xmlStreamWriter.writeStartElement("measure");
+//				xmlStreamWriter.writeAttribute("number", String.valueOf(i));
+//				xmlStreamWriter.writeCharacters("\n");
+//				if (i == 0) {
+//					createAttributes(instrument);
+//					createDirectionElement(instrument);
+//				}
+//				List<Note> notes = addTies(measure.getNotes());
+//				updateTripletNotes(notes);
+//				updateBeat(instrument, notes);
+//				xmlStreamWriter.writeEndElement();
+//				xmlStreamWriter.writeCharacters("\n");
+//			}
+//		} else {
+//			//multi voice
+//			List<Measure> multiVoiceMeasures = new ArrayList<>();
+//			for (List<Note> melodyNotes : notesLists) {
+////				List<Note> tiedNotes = updateTies(melodyNotes, 12);
+//				List<Measure> measures = getMeasures(melodyNotes, 12);
+//				multiVoiceMeasures.addAll(measures);
+//			}
+//			Map<Integer, List<Measure>> multiVoiceMeasureStartPositions = multiVoiceMeasures.stream()
+//					.collect(Collectors.groupingBy(Measure::getStart, TreeMap::new, Collectors.toList()));
+//			int start = 0;
+//			for (Entry<Integer, List<Measure>> startPositions : multiVoiceMeasureStartPositions.entrySet()) {
+//				xmlStreamWriter.writeComment("====== Part: " + instrument.getVoice() + " , Measure: " + start + " =======");
+//				xmlStreamWriter.writeCharacters("\n");
+//				xmlStreamWriter.writeStartElement("measure");
+//				xmlStreamWriter.writeAttribute("number", String.valueOf(start));
+//				xmlStreamWriter.writeCharacters("\n");
+//				if (start==0) {
+//					createAttributes(instrument);
+//					createDirectionElement(null);
+//				}
+//				List<Measure> measures = startPositions.getValue();
+//				int m = 1;
+//				int split = notesLists.size()/2;
+//				int lastMeasure = measures.size();
+//				boolean isChordNote = false;
+//				for (Measure measure : measures) {
+//					List<Note> notes = addTies(measure.getNotes());
+//					updateTripletNotes(notes);
+//					int position = -1;
+//					for (Note note : notes) {
+//						if (position == note.getPosition()) {
+//							isChordNote = true;
+//						} else {
+//							isChordNote = false;
+//						}
+//						position = note.getPosition();
+//						if (m <= split) {
+//							createNoteElement(note, instrument, isChordNote, m, 1);
+//						}else{
+//							createNoteElement(note, instrument, isChordNote, m, 2);
+//						}
 //					}
-					int staff = getStaff(instrument, note);
-					if (position == note.getPosition()) {
-						createNoteElement(note, instrument, true, -1 , staff);
-					} else {
-						createNoteElement(note, instrument, false, -1, staff);
-					}
-					position = note.getPosition();
-				}
-				xmlStreamWriter.writeEndElement();
-				xmlStreamWriter.writeCharacters("\n");
-			}
-		} else {
-			//multi voice
-			List<Measure> multiVoiceMeasures = new ArrayList<>();
-			for (List<Note> melodyNotes : notesLists) {
-				List<Measure> measures = getMeasures(melodyNotes);
-				multiVoiceMeasures.addAll(measures);
-			}
-			Map<Integer, List<Measure>> multiVoiceMeasureStartPositions = multiVoiceMeasures.stream()
-					.collect(Collectors.groupingBy(Measure::getStart, TreeMap::new, Collectors.toList()));
-			int start = 0;
-			for (Entry<Integer, List<Measure>> startPositions : multiVoiceMeasureStartPositions.entrySet()) {
-				xmlStreamWriter.writeComment("====== Part: " + instrument.getVoice() + " , Measure: " + start + " =======");
-				xmlStreamWriter.writeCharacters("\n");
-				xmlStreamWriter.writeStartElement("measure");
-				xmlStreamWriter.writeAttribute("number", String.valueOf(start));
-				xmlStreamWriter.writeCharacters("\n");
-				if (start==0) {
-					createAttributes(instrument);
-					createDirectionElement(null);
-				}
-				List<Measure> measures = startPositions.getValue();
-				int m = 1;
-				int split = notesLists.size()/2;
-				int lastMeasure = measures.size();
-				boolean isChordNote = false;
-				for (Measure measure : measures) {
-					List<Note> notes = addTies(measure.getNotes());
-					int position = -1;
-					for (Note note : notes) {
-						if (position == note.getPosition()) {
-							isChordNote = true;
-						} else {
-							isChordNote = false;
-						}
-						position = note.getPosition();
-						if (m <= split) {
-							createNoteElement(note, instrument, isChordNote, m, 1);
-						}else{
-							createNoteElement(note, instrument, isChordNote, m, 2);
-						}
-					}
-					if (m != lastMeasure) {
-						int duration = getDuration(notes);
-						createBackupElement(duration);
-					}
-					m++;
-				}
-				xmlStreamWriter.writeEndElement();
-				xmlStreamWriter.writeCharacters("\n");
-				start++;
-			}
-		}
-	}
+//					if (m != lastMeasure) {
+//						int duration = getDuration(notes);
+//						createBackupElement(duration);
+//					}
+//					m++;
+//				}
+//				xmlStreamWriter.writeEndElement();
+//				xmlStreamWriter.writeCharacters("\n");
+//				start++;
+//			}
+//		}
+//	}
 
-	private int getDuration(List<Note> notes) {
-		int duration = notes.stream().mapToInt(note -> note.getLength()).sum();
-		return (duration * DIVISIONS) / 12;
-	}
+//	private int getDuration(List<Note> notes) {
+//		int duration = notes.stream().mapToInt(note -> note.getLength()).sum();
+//		return (duration * DIVISIONS) / 12;
+//	}
 
 	private int getStaff(Instrument instrument, Note note) {
 		if (instrument instanceof KontaktLibPiano) {
@@ -344,10 +329,10 @@ public class MusicXMLWriter {
 		xmlStreamWriter.writeCharacters("\n");
 	}
 
-	protected List<Measure> getMeasures(List<Note> notes) {
+	protected List<Measure> getMeasures(List<Note> notes, int beat) {
 		Note lastNote = notes.get(notes.size() - 1);
-		int totalLength = lastNote.getPosition() + lastNote.getLength();
-		int measureSize = musicProperties.getNumerator() * 12;
+		int totalLength = lastNote.getPosition() + lastNote.getDisplayLength();
+		int measureSize = musicProperties.getNumerator() * beat;
 		int totalMeasures = (totalLength + measureSize - 1) / measureSize;
 		List<Measure> measures = new ArrayList<>();
 		for (int i = 0; i < totalMeasures; i++) {
@@ -362,7 +347,7 @@ public class MusicXMLWriter {
 			if (note.getPosition() >= measure.getEnd()) {
 				measure = measures.get(++measureIndex);
 			}
-			int length = note.getPosition() + note.getLength();
+			int length = note.getPosition() + note.getDisplayLength();
 			if (length > measure.getEnd()) {
 				//split
 				Note firstNote = note.copy();
@@ -395,7 +380,7 @@ public class MusicXMLWriter {
 		} else {
 			createPitchElement(note);
 		}
-		int length =  note.getLength() * DIVISIONS / 12;
+		int length =  note.getDisplayLength() * DIVISIONS / Note.DEFAULT_LENGTH;
 		createElementWithValue("duration", String.valueOf(length));
 		createElementWithAttributeValue("instrument", "id", "P" + instrument.getVoice() + "-I" + instrument.getVoice());
 		if (voice > 0) {
@@ -403,20 +388,37 @@ public class MusicXMLWriter {
 		}
 		NoteType noteType = NoteType.getNoteType(length);
 		createElementWithValue("type", noteType.getName());
-		if (noteType.isDot()) {
+		if (noteType.isDot() || (noteType.equals(NoteType.eighth) && note.isSextuplet())) {
 			xmlStreamWriter.writeEmptyElement("dot");
+			xmlStreamWriter.writeCharacters("\n");
 		}
-		if (noteType.isTriplet()) {
-			createTimeModification(noteType);
+		if (note.isTriplet() || note.isSextuplet()) {
+			createTimeModification(note, noteType);
 		}
 		createElementWithValue("staff", String.valueOf(staff));
-		if (note.hasArticulation()|| note.isTieStart() || note.isTieEnd()) {
+		if (note.hasBeamType()) {
+			if (note.hasDoubleBeaming()) {
+				createElementBeamType(note.getBeamType().getLabel(), "1");
+				createElementBeamType(note.getBeamType().getSecondLabel(), "2");
+			}else{
+				createElementBeamType(note.getBeamType().getLabel(), "1");
+			}
+		}
+		if (note.hasArticulation()|| note.isTieStart() || note.isTieEnd() || note.isTriplet() || note.isSextuplet()) {
 			createNotationsElement(note);
 		}
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
 	}
 	
+	private void createElementBeamType(String label, String number) throws XMLStreamException {
+		xmlStreamWriter.writeStartElement("beam");
+		xmlStreamWriter.writeAttribute("number", number);
+		xmlStreamWriter.writeCharacters(label);
+		xmlStreamWriter.writeEndElement();
+		xmlStreamWriter.writeCharacters("\n");
+	}
+
 	private void createNotationsElement(Note note) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("notations");
 		xmlStreamWriter.writeCharacters("\n");
@@ -427,6 +429,13 @@ public class MusicXMLWriter {
 		}
 		if (note.hasArticulation()) {
 			createArticulationElement(note);
+		}
+		if (note.hasBeamType() && (note.isTriplet() || note.isSextuplet())) {
+			if (note.getBeamType().equals(BeamType.BEGIN)) {
+				createTripletElementWithAttributeValues("start", note.getDisplayLength());
+			}else if (note.getBeamType().equals(BeamType.END)) {
+				createTripletElementWithAttributeValues("stop", note.getDisplayLength());
+			}
 		}
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
@@ -443,19 +452,19 @@ public class MusicXMLWriter {
 		
 	}
 
-	private void createTimeModification(NoteType noteType) throws XMLStreamException {
+	private void createTimeModification(Note note, NoteType noteType) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("time-modification");
 		xmlStreamWriter.writeCharacters("\n");
 		
-		if (noteType.equals(NoteType.sixteenthTriplet)) {
+		if (note.isSextuplet()) {
 			createElementWithValue("actual-notes", "6");
 			createElementWithValue("normal-notes", "4");
+			createElementWithValue("normal-type", "16th");
 		} else {
 			createElementWithValue("actual-notes", "3");
 			createElementWithValue("normal-notes", "2");
+			createElementWithValue("normal-type", noteType.getName());
 		}
-		createElementWithValue("normal-type", noteType.getName());
-		
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
 	}
@@ -471,56 +480,19 @@ public class MusicXMLWriter {
 		createElementWithAttributeValue("tied", "type", "stop");
 	}
 
-	private void createNotationsStartElement() throws XMLStreamException {
-		xmlStreamWriter.writeStartElement("notations");
-		xmlStreamWriter.writeCharacters("\n");
-		createElementWithAttributeValue("tied", "type", "start");
-		xmlStreamWriter.writeEndElement();
-		xmlStreamWriter.writeCharacters("\n");
-	}
-
-	private void createPitchElement(Note note)
-			throws XMLStreamException {
+	private void createPitchElement(Note note) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("pitch");
 		xmlStreamWriter.writeCharacters("\n");
 		
-		createElementWithValue("step", getNoteName(note.getPitchClass()));
-		if (note.getPitchClass() == 1 || note.getPitchClass() == 3 || note.getPitchClass() == 6 || note.getPitchClass() == 8){
-			createElementWithValue("alter", String.valueOf(1));
-		} else if (note.getPitchClass() == 10 ){
-			createElementWithValue("alter", String.valueOf(-1));
+		NoteStep noteStep = noteDisplay.getNoteStep(note.getPitchClass());
+		createElementWithValue("step", noteStep.getStep());
+		if (StringUtils.isNotEmpty(noteStep.getAlter())) {
+			createElementWithValue("alter", noteStep.getAlter());
 		}
 		createElementWithValue("octave", String.valueOf(note.getOctave() - 1));
 		
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
-	}
-
-	private String getNoteName(int pitchClass) {
-		switch (pitchClass) {
-			case 0:
-			case 1:	
-				return "C";
-			case 2:
-			case 3:
-				return "D";
-			case 4:
-				return "E";
-			case 5:
-			case 6:
-				return "F";
-			case 7:
-			case 8:
-				return "G";
-			case 9:
-				return "A";
-			case 10:
-			case 11:
-				return "B";
-			default:
-				break;
-		}
-		return null;
 	}
 
 	private void createAttributes(Instrument instrument) throws XMLStreamException {
@@ -676,36 +648,167 @@ public class MusicXMLWriter {
 		xmlStreamWriter.writeCharacters("\n");
 	}
 	
+	private void createTripletElementWithAttributeValues(String type, int length) throws XMLStreamException {
+//		<tuplet type="start" bracket="no" number="1" default-y="-20" placement="below" />
+		xmlStreamWriter.writeStartElement("tuplet");
+		xmlStreamWriter.writeAttribute("type", type);
+		if (length <= Note.DEFAULT_LENGTH) {
+			xmlStreamWriter.writeAttribute("bracket", "no");
+		}else{
+			xmlStreamWriter.writeAttribute("bracket", "yes");
+		}
+		xmlStreamWriter.writeAttribute("number", "1");
+		xmlStreamWriter.writeAttribute("default-y", "-20");
+		xmlStreamWriter.writeAttribute("placement", "below");
+		xmlStreamWriter.writeEndElement();
+		xmlStreamWriter.writeCharacters("\n");
+	}
+	
 	protected int findNoteTypeLength(int length){
-		Arrays.sort(noteTypes, Comparator.comparing(NoteType::getLength).reversed());
-		Optional<NoteType> optionalLength = Stream.of(noteTypes).filter(note -> note.getLength() <= length).findFirst();
+		Optional<Integer> optionalLength = Stream.of(nonTieLengths).filter(i -> i <= length).findFirst();
 		if (optionalLength.isPresent()) {
-			return optionalLength.get().getLength();
-		} else {
-			throw new IllegalArgumentException("NoteType (length) not found for length: " + length);
+			return optionalLength.get();
+		} 
+		return length;
+	}
+	
+//	protected List<Note> addTies(List<Note> notes){
+//		List<Note> tiedNotes = new ArrayList<Note>();
+//		for (Note note : notes) {
+//			int length = findNoteTypeLength(note.getDisplayLength());
+//			if (length == note.getDisplayLength()) {
+//				tiedNotes.add(note);
+//			} else {
+//				int rest = note.getDisplayLength() - length;
+//				note.setLength(length);
+//				note.setTieStart(true);
+//				tiedNotes.add(note);
+//				//tied
+//				int restLength = findNoteTypeLength(rest);
+//				Note restNote = note.clone();
+//				restNote.setPosition(note.getPosition() + length);
+//				restNote.setLength(restLength);
+//				restNote.setTieEnd(true);
+//				tiedNotes.add(restNote);
+//			}
+//		}
+//		return tiedNotes;
+//	}
+	
+//	protected void updateTripletNotes(List<Note> notes){
+//		Map<Integer, List<Note>> map = notesForBeat(notes, 12);
+//		for (List<Note> melodyNotes : map.values()) {
+//			if(hasTriplet(melodyNotes)){
+//				melodyNotes.forEach(n -> n.setTriplet(true));
+//			}
+//			if (hasTriplet(melodyNotes) && hasSextuplet(melodyNotes)) {
+//				melodyNotes.forEach(n -> n.setSextuplet(true));
+//			}
+//		}
+//	}
+	
+	protected void createMeasureElements(List<Note> allNotes, Instrument instrument) throws XMLStreamException{
+		int measureSize = getMeasureSize();
+		BeatMap notesPerMeasureBeat = new BeatMap();
+		notesPerMeasureBeat.createBeatMap(allNotes, measureSize);
+		for (int i = 0; i <= notesPerMeasureBeat.size(); i++) {
+			xmlStreamWriter.writeComment("====== Part: " + instrument.getVoice() + " , Measure: " + i + " =======");
+			xmlStreamWriter.writeCharacters("\n");
+			xmlStreamWriter.writeStartElement("measure");
+			xmlStreamWriter.writeAttribute("number", String.valueOf(i));
+			xmlStreamWriter.writeCharacters("\n");
+			if (i == 0) {
+				createAttributes(instrument);
+				createDirectionElement(instrument);
+			}
+			notesPerMeasureBeat.createTies();
+			
+			List<Note> measureNotes = notesPerMeasureBeat.getNoteForBeat(i);
+			if (measureNotes != null) {
+				updateBeat(instrument, measureNotes);
+			}
+			
+			xmlStreamWriter.writeEndElement();
+			xmlStreamWriter.writeCharacters("\n");
+		}
+	}
+
+	private int getMeasureSize() {
+		int numerator = musicProperties.getNumerator();
+		switch (musicProperties.getDenominator()) {
+		case 4:
+			return numerator * Note.DEFAULT_LENGTH;
+		case 8:
+			return numerator * (Note.DEFAULT_LENGTH / 2);
+		case 2:
+			return numerator * (Note.DEFAULT_LENGTH * 2);
+		}
+		throw new IllegalStateException("Denominator unknown; " + musicProperties.getDenominator());
+	}
+
+	private void updateBeat(Instrument instrument, List<Note> notes)
+			throws XMLStreamException {
+		int position = -1;
+		for (Note note : notes) {
+//							if (note.hasDynamic()) {
+//								<direction>
+//								<direction-type>
+//									<dynamics default-x="9" default-y="-118" color="#000000" font-family="Opus Text Std" font-style="normal" font-size="11.9365" font-weight="normal">
+//										<p />
+//									</dynamics>
+//								</direction-type>
+//								<voice>1</voice>
+//								<staff>1</staff>
+//							</direction>
+//							}
+			int staff = getStaff(instrument, note);
+			if (position == note.getPosition()) {
+				createNoteElement(note, instrument, true, -1 , staff);
+			} else {
+				createNoteElement(note, instrument, false, -1, staff);
+			}
+			position = note.getPosition();
 		}
 	}
 	
-	protected List<Note> addTies(List<Note> notes){
-		List<Note> tiedNotes = new ArrayList<Note>();
-		for (Note note : notes) {
-			int length = findNoteTypeLength(note.getLength());
-			if (length == note.getLength()) {
-				tiedNotes.add(note);
-			} else {
-				int rest = note.getLength() - length;
-				note.setLength(length);
-				note.setTieStart(true);
-				tiedNotes.add(note);
-				//tied
-				int restLength = findNoteTypeLength(rest);
-				Note restNote = note.clone();
-				restNote.setPosition(note.getPosition() + length);
-				restNote.setLength(restLength);
-				restNote.setTieEnd(true);
-				tiedNotes.add(restNote);
-			}
-		}
-		return tiedNotes;
-	}
+//	protected List<Note> updateTies(int beat, NavigableMap<Integer, List<Note>> notesPerBeat){
+//		for (int j = 0; j < notesPerBeat.lastKey(); j++) {
+//			if (notesPerBeat.containsKey(j)) {
+//				List<Note> beatNotes = notesPerBeat.get(j);
+////				beatNotes = beatNotes.stream()
+//////						.peek(n -> System.out.println(n.getLength() != 24 || !( n.getLength() == 24 && (n.getPosition() == 0 || n.getPosition() == 12 || n.getPosition() == 24))))
+////						.filter(n -> n.getLength() != 24 || !( n.getLength() == 24 && (n.getPosition() == 0 || n.getPosition() == 12 || n.getPosition() == 24)))
+////						.collect(toList());
+//				if (!beatNotes.isEmpty()) {
+//					Note lastNote = beatNotes.get(beatNotes.size() - 1);
+//					int end = (j + 1) * beat;
+//					if ((lastNote.getPosition() + lastNote.getLength()) > end ) {//split note between beat and next beat
+//						int lastNoteLength = lastNote.getLength();
+//						int newLength = end - lastNote.getPosition();
+//						lastNote.setLength(newLength);
+//						lastNote.setTieStart(true);
+//						Note clone = lastNote.clone();
+//						if (notesPerBeat.containsKey(j + 1)) {
+//							List<Note> nextBeatNotes = notesPerBeat.get(j + 1);
+//							if (!nextBeatNotes.isEmpty()) {
+//								Note firstNote = nextBeatNotes.get(0);
+//								int length = firstNote.getPosition() - end;
+//								clone.setPosition(end);
+//								clone.setLength(length);
+//								clone.setTieEnd(true);
+//								nextBeatNotes.add(0,clone);
+//							}else{
+//								clone.setPosition(end);
+//								clone.setLength(lastNoteLength - newLength);
+//								clone.setTieEnd(true);
+//								nextBeatNotes.add(clone);
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
+//		return notesPerBeat.values().stream().flatMap(list -> list.stream()).sorted().collect(toList());
+//	}
+
 }

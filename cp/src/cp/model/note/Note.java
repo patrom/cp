@@ -11,14 +11,16 @@ public class Note implements Comparable<Note>, Cloneable{
     public static final int DEFAULT_DYNAMIC_LEVEL = Dynamic.MF.getLevel();
     public static final Articulation DEFAULT_ARTICULATION = Articulation.LEGATO;
     public static final Dynamic DEFAULT_DYNAMIC = Dynamic.MF;
+    public static final int DEFAULT_LENGTH = 12;
 
 	private int pitch;
 	private int dynamicLevel = DEFAULT_DYNAMIC_LEVEL;
 	private double rhythmValue;
 //	private double duration;
 
-	protected int length;
-	protected int position;
+	private int length;
+	private int displayLength;
+	private int position;
 
 	private double positionWeight;
 	private double innerMetricWeight;
@@ -33,12 +35,13 @@ public class Note implements Comparable<Note>, Cloneable{
 	private boolean keel;
 	private boolean crest;
 	
+	private boolean triplet;
+	private boolean sextuplet;
+	
+	private BeamType beamType;
+	
 	private Articulation articulation = DEFAULT_ARTICULATION;
 	private Dynamic dynamic = DEFAULT_DYNAMIC;
-
-	public double getBeat(int divider) {
-		return Math.floor(position / divider);
-	}
 
 	public Note() {
 	}
@@ -51,21 +54,25 @@ public class Note implements Comparable<Note>, Cloneable{
 	}
 	
 	public Note(Note anotherNote) {
-		this.setLength(anotherNote.getLength());
-		this.setPosition(anotherNote.getPosition());
-		this.setPitch(anotherNote.getPitch());
-		this.setPitchClass(anotherNote.getPitchClass());
+		this.length = anotherNote.getLength();
+		this.position =anotherNote.getPosition();
+		this.pitch = anotherNote.getPitch();
+		this.pitchClass = anotherNote.getPitchClass();
 //		this.setDuration(anotherNote.getDuration());
-		this.setVoice(anotherNote.getVoice());
-		this.setInnerMetricWeight(anotherNote.getInnerMetricWeight());
-		this.setRhythmValue(anotherNote.getRhythmValue());
-		this.setDynamicLevel(anotherNote.getDynamicLevel());
-		this.setOctave(anotherNote.getOctave());
-		this.setPositionWeight(anotherNote.getPositionWeight());
-		this.setArticulation(anotherNote.getArticulation());
-		this.setDynamic(anotherNote.getDynamic());
-		this.setKeel(anotherNote.isKeel());
-		this.setCrest(anotherNote.isCrest());
+		this.voice = anotherNote.getVoice();
+		this.innerMetricWeight = anotherNote.getInnerMetricWeight();
+		this.rhythmValue = anotherNote.getRhythmValue();
+		this.dynamicLevel = anotherNote.getDynamicLevel();
+		this.octave = anotherNote.getOctave();
+		this.positionWeight = anotherNote.getPositionWeight();
+		this.articulation = anotherNote.getArticulation();
+		this.dynamic = anotherNote.getDynamic();
+		this.keel = anotherNote.isKeel();
+		this.crest = anotherNote.isCrest();
+		this.displayLength = anotherNote.getDisplayLength();
+		this.beamType = anotherNote.getBeamType();
+		this.triplet = anotherNote.isTriplet();
+		this.sextuplet = anotherNote.isSextuplet();
 	}
 
 	public void updateNote(Note note){
@@ -164,7 +171,7 @@ public class Note implements Comparable<Note>, Cloneable{
 	@Override
 	public String toString() {
 		return "np[p=" + ((pitch == Integer.MIN_VALUE) ? "Rest":pitch) + ", pc=" + pitchClass
-		+ ", v=" + voice + ", o=" + octave + ", pos=" + position +  ", l=" + length + ", pos w="
+		+ ", v=" + voice + ", o=" + octave + ", pos=" + position +  ", l=" + length + ", dl= " + displayLength + ", pos w="
 		+ positionWeight + ", a=" + articulation + "]";
 	}
 
@@ -297,19 +304,63 @@ public class Note implements Comparable<Note>, Cloneable{
 		this.crest = crest;
 	}
 	
-	public void updateNote(int octave){
-		this.octave = octave;
-		this.pitch = this.pitchClass + (this.octave * 12);
-	}
-	
 	public void transposePitch(int steps){
 		this.pitch = pitch + steps;
 		this.pitchClass = pitch % 12;
 		this.octave  = (int) Math.ceil(pitch/12);
 	}
+
 	
-	public static void main(String[] args) {
-		System.out.println(Math.ceil(-60/12));
+	public double getBeat(int divider) {
+		return Math.floor(position / divider);
 	}
 	
+	public int beat(int beat){
+		return position/beat;
+	}
+
+	public boolean isTriplet() {
+		return triplet;
+	}
+
+	public void setTriplet(boolean triplet) {
+		this.triplet = triplet;
+	}
+
+	public boolean isSextuplet() {
+		return sextuplet;
+	}
+
+	public void setSextuplet(boolean sextuplet) {
+		this.sextuplet = sextuplet;
+	}
+
+	public int getDisplayLength() {
+		return displayLength;
+	}
+
+	public void setDisplayLength(int displayLength) {
+		this.displayLength = displayLength;
+	}
+
+	public BeamType getBeamType() {
+		return beamType;
+	}
+	
+	public boolean hasBeamType() {
+		return beamType != null;
+	}
+	
+//	public boolean hasBeamTypeBeginOrEnd() {
+//		return beamType != null && (beamType.equals(BeamType.BEGIN) || beamType.equals(BeamType.END));
+//	}
+
+	public void setBeamType(BeamType beamType) {
+		this.beamType = beamType;
+	}
+
+	public boolean hasDoubleBeaming() {
+		return beamType != null && beamType.isDoubleBeam();
+	}
+
 }

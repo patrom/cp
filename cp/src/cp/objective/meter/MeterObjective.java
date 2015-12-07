@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import cp.generator.MusicProperties;
 import cp.model.Motive;
 import cp.model.melody.CpMelody;
+import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.objective.Objective;
 @Component
@@ -32,8 +33,8 @@ public class MeterObjective extends Objective{
 
 	@Override
 	public double evaluate(Motive motive) {
-		List<CpMelody> melodies = motive.getMelodies();
-		List<Note> mergedMelodyNotes = melodies.stream().flatMap(m -> m.getNotes().stream()).collect(Collectors.toList());
+		List<MelodyBlock> melodies = motive.getMelodyBlocks();
+		List<Note> mergedMelodyNotes = melodies.stream().flatMap(m -> m.getMelodyBlockNotes().stream()).collect(Collectors.toList());
 		double globalFilterLevel = musicProperties.getMinimumRhythmFilterLevel() * melodies.size();
 		return getProfileMergedMelodiesAverage(mergedMelodyNotes, globalFilterLevel);
 	}

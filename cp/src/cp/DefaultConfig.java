@@ -7,11 +7,14 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Function;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import cp.combination.RhythmCombination;
+import cp.combination.even.OneNoteEven;
 import cp.variation.nonchordtone.Variation;
 
 @Configuration
@@ -22,10 +25,11 @@ public class DefaultConfig {
 	@Bean
 	public HashMap<String, Object> parameters() {
 		HashMap<String, Object> probabilityParamters = new HashMap<>();
-		probabilityParamters.put("probabilityAddRhythm", 1.0);
+		probabilityParamters.put("probabilityAddRhythm", 0.0);
 		probabilityParamters.put("probabilityRemoveRhythm", 0.0);
 		probabilityParamters.put("probabilityOneNote", 1.0);
-		probabilityParamters.put("probabilityArticulation", 0.2);
+		probabilityParamters.put("probabilityArticulation", 0.0);
+		probabilityParamters.put("probabilityReplaceMelody", 1.0);
 		return probabilityParamters;
 	}
 	
@@ -46,9 +50,9 @@ public class DefaultConfig {
 	}
 	
 	@Bean
-	public List<Integer[]> pulseDivisions(){
+	public List<Integer[]> evenPulseDivisions(){
 		List<Integer[]> pulseDivisions = new ArrayList<>();
-//		pulseDivisions.add(new Integer[]{0,1});
+		pulseDivisions.add(new Integer[]{0,1});
 		pulseDivisions.add(new Integer[]{1,1});
 		pulseDivisions.add(new Integer[]{1,0});
 		
@@ -62,6 +66,25 @@ public class DefaultConfig {
 //		pulseDivisions.add(new Integer[]{1,0,1});
 //		pulseDivisions.add(new Integer[]{0,1,1});
 		return pulseDivisions;
+	}
+	
+	@Bean
+	public List<Integer[]> oddPulseDivisions(){
+		List<Integer[]> oddDivisions = new ArrayList<>();
+//		oddDivisions.add(new Integer[]{0,1});
+//		oddDivisions.add(new Integer[]{1,1});
+//		oddDivisions.add(new Integer[]{1,0,0});
+		
+//		oddDivisions.add(new Integer[]{1,0,0});//same as {1,0}
+//		oddDivisions.add(new Integer[]{0,1,0});
+//		oddDivisions.add(new Integer[]{0,0,1});
+		
+//		oddDivisions.add(new Integer[]{1,1,1});
+		
+//		oddDivisions.add(new Integer[]{1,1,0});
+		oddDivisions.add(new Integer[]{1,0,1});
+//		oddDivisions.add(new Integer[]{0,1,1});
+		return oddDivisions;
 	}
 	
 }

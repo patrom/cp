@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import cp.model.harmony.CpHarmony;
 import cp.model.melody.CpMelody;
+import cp.model.melody.MelodyBlock;
 import cp.out.instrument.Instrument;
 import cp.util.RandomUtil;
 
@@ -16,14 +17,20 @@ public class Motive implements Cloneable {
 	private List<CpHarmony> harmonies;
 	private List<CpMelody> melodies;
 	private List<Instrument> instruments;
+	private List<MelodyBlock> melodyBlocks;
 	
-	public Motive(List<CpMelody> melodies){
-		this.melodies = melodies;
+//	public Motive(List<CpMelody> melodies){
+//		this.melodies = melodies;
+//	}
+	
+	public Motive(List<MelodyBlock> melodyBlocks){
+		this.melodyBlocks = melodyBlocks;
 	}
 
 	protected Motive(Motive motive) {
 		// TODO clone implementation
-		this.melodies = motive.getMelodies().stream().map(m -> m.clone()).collect(toList());
+//		this.melodies = motive.getMelodies().stream().map(m -> m.clone()).collect(toList());
+		this.melodyBlocks = motive.getMelodyBlocks().stream().map(m -> m.clone()).collect(toList());
 	}
 
 	public List<CpHarmony> getHarmonies() {
@@ -34,8 +41,12 @@ public class Motive implements Cloneable {
 		this.harmonies = harmonies;
 	}
 	
-	public List<CpMelody> getMelodies() {
-		return melodies;
+//	public List<CpMelody> getMelodies() {
+//		return melodies;
+//	}
+	
+	public List<MelodyBlock> getMelodyBlocks() {
+		return melodyBlocks;
 	}
 	
 	@Override
@@ -43,13 +54,13 @@ public class Motive implements Cloneable {
 		return new Motive(this);
 	}
 	
-	public CpMelody getRandomMutableMelody(){
-		List<CpMelody> mutableMelodies = melodies.stream().filter(m -> m.isMutable()).collect(toList());
+	public MelodyBlock getRandomMutableMelody(){
+		List<MelodyBlock> mutableMelodies = melodyBlocks.stream().filter(m -> m.isMutable()).collect(toList());
 		return mutableMelodies.get(RandomUtil.random(mutableMelodies.size()));
 	}
 	
-	public CpMelody getRandomRhythmMutableMelody(){
-		List<CpMelody> mutableMelodies = melodies.stream().filter(m -> m.isRhythmMutable()).collect(toList());
+	public MelodyBlock getRandomRhythmMutableMelody(){
+		List<MelodyBlock> mutableMelodies = melodyBlocks.stream().filter(m -> m.isRhythmMutable()).collect(toList());
 		return mutableMelodies.get(RandomUtil.random(mutableMelodies.size()));
 	}
 	

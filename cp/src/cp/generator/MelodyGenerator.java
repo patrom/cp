@@ -13,9 +13,12 @@ import java.util.stream.IntStream;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import cp.combination.NoteCombination;
 import cp.model.melody.CpMelody;
+import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.note.NoteBuilder;
 import cp.model.note.Scale;
@@ -26,8 +29,46 @@ public class MelodyGenerator {
 	
 	private Random random = new Random();
 	
-	@Resource(name="pulseDivisions")
-	private List<Integer[]> pulseDivisions;
+	@Resource(name="evenPulseDivisions")
+	private List<Integer[]> evenPulseDivisions;
+	
+	@Resource(name="oddPulseDivisions")
+	private List<Integer[]> oddPulseDivisions;
+	@Autowired
+	private MusicProperties musicProperties;
+	@Autowired
+	private NoteCombination noteCombination;
+	
+	public MelodyBlock generateMelodyBlock(final int voice, Scale scale, int key, int start, int stop, int octave, List<Integer> beats){
+		MelodyBlock melodyBlock = new MelodyBlock(octave);
+		melodyBlock.setVoice(voice);
+		int beat = RandomUtil.getRandomFromList(beats);
+		int end = start + beat;
+		while (end <= stop) {
+			CpMelody melody = generateMelody(voice, scale, key, start, beat);
+			melodyBlock.addMelodyBlock(melody);
+			
+			beat = RandomUtil.getRandomFromList(beats);
+			start = end;
+			end = start + beat;
+		}
+		return melodyBlock;
+	}
+
+	public CpMelody generateMelody(int voice, Scale scale, int key, int start,
+			int beat) {
+		List<Note> melodyNotes = noteCombination.getNotes(beat, voice);
+		int offset = start;
+		melodyNotes.forEach(n -> {
+			n.setPosition(n.getPosition() + offset);
+			int pitchClass = (scale.pickRandomPitchClass() + key) % 12;
+			n.setPitchClass(pitchClass);
+		});
+		CpMelody melody = new CpMelody(melodyNotes, scale, voice, start, start + beat);
+		melody.setBeat(beat);
+		melody.setKey(key);
+		return melody;
+	}
 	
 	public int[] generateMelodyPositions(int[] harmony, int minimumLength, int maxMelodyNotes){
 		int[] pos = null;
@@ -101,14 +142,13 @@ public class MelodyGenerator {
 				.collect(toList());
 		List<Note> notes = new ArrayList<>();
 		for (Integer position : positions) {
-			Integer[] pulse = RandomUtil.getRandomFromList(pulseDivisions);
+			Integer[] pulse = RandomUtil.getRandomFromList(evenPulseDivisions);
 			notes = createNotes(position, minimumTactus , pulse, scale, voice);
 		}
 		//insert last position
 		Note note = note().pos(beginEndPosition[1]).len(minimumTactus).pc(scale.pickRandomPitchClass()).voice(voice).build();
 		notes.add(note);
 		CpMelody melody = new CpMelody(notes, scale, voice);
-		melody.setStartOctave(startOctave);
 		return melody;
 	}
 	
@@ -125,10 +165,10 @@ public class MelodyGenerator {
 		return notes;
 	}
 	
-	protected List<Note> generatePositions(int position, int maxEditablePosition, int minimumValue, Integer[] pulses){
+	public List<Note> generatePositions(int position, int maxEditablePosition, int minimumValue, Integer[] pulses, int type){
 		List<Note> notes = new ArrayList<>();
 		int noteLength = maxEditablePosition/pulses.length;
-		if (noteLength < 2) {
+		if (noteLength < minimumValue) {
 			Note note = note().pos(position).len(maxEditablePosition).build();
 			notes.add(note);
 			return notes;
@@ -139,7 +179,7 @@ public class MelodyGenerator {
 				if (maxEditablePosition != minimumValue) {
 					if (random.nextBoolean()) {
 						//recursive
-						List<Note> recursiveNotes = generatePositions(notePosition, noteLength, minimumValue, RandomUtil.getRandomFromList(pulseDivisions));
+						List<Note> recursiveNotes = generatePositions(notePosition, noteLength, minimumValue, getPulses(type), type);
 						notes.addAll(recursiveNotes);
 					}else{
 						Note note = note().pos(notePosition).len(noteLength).build();
@@ -153,6 +193,34 @@ public class MelodyGenerator {
 		}
 		Collections.sort(notes);
 		return notes;
+	}
+	
+//	public List<Note> generatePulses(int type, int beatValue, int minimumValue){
+//		return generatePositions(0, type * beatValue, minimumValue, getPulses(type), type);
+//	}
+	
+	public CpMelody generateMelody(int start, int minimumValue){
+		int type = musicProperties.getMelodyType();
+		int end = type * musicProperties.getMelodyBeatValue();
+		List<Note> melodyNotes = generatePositions(start, end, minimumValue, getPulses(type), type);
+		Scale scale = musicProperties.getMelodyScale();
+		CpMelody melody = new CpMelody(melodyNotes, scale, start, end);
+		melody.setType(type);
+		return melody;
+	}
+
+	public Integer[] getPulses(int type) {
+		Integer[] pulses = null;
+		if (type == 2) {
+			pulses = RandomUtil.getRandomFromList(evenPulseDivisions);
+		}
+		if (type == 3) {
+			pulses = RandomUtil.getRandomFromList(oddPulseDivisions);
+		}
+		if (pulses == null) {
+			throw new IllegalArgumentException("No pulses for type: " + type);
+		}
+		return pulses;
 	}
 	
 }

@@ -1,6 +1,5 @@
 package cp.generator;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -9,7 +8,6 @@ import java.util.TreeMap;
 import org.springframework.stereotype.Component;
 
 import cp.model.note.Scale;
-import cp.out.instrument.Ensemble;
 import cp.out.instrument.Instrument;
 
 @Component
@@ -18,14 +16,15 @@ public class MusicProperties {
 	private int harmonyBeatDivider = 12;
 	private int tempo = 100;
 	private Map<Integer, Double> rhythmWeightValues = new TreeMap<>(); //Must match length of harmonies based on division by minimumLength.
-	private int minimumLength = 12;
-	private int chordSize;
+	private int minimumLength = 6;
 	private Integer[] octaveLowestPitchClassRange = {0};
 	private boolean outerBoundaryIncluded = true;
 	private double[] filterLevels = {0.5};
 	private List<Instrument> instruments;
-	private int minimumRhythmFilterLevel = 3;
+	private int minimumRhythmFilterLevel = 1;
 	private int[] distance = {2,3,4,5,6,8,9,10,12,14,15,16,18,20,21,22,24,26,27,28,30,32};//atomic beat = 12
+	private int melodyType = 2; //or 3
+	private int melodyBeatValue = 12; // for musicXML
 	
 	//tonality
 	private Scale scale = Scale.MAJOR_SCALE;
@@ -43,7 +42,7 @@ public class MusicProperties {
 	private String voiceLeadingStrategy;
 
 	//score
-	private int numerator = 4;
+	private int numerator = 3;
 	private int denominator = 4;
 	private int keySignature = 0;//1 = 1 kruis / -1 = 1 bemol
 	
@@ -54,7 +53,6 @@ public class MusicProperties {
 	private double mutationProbability;
 	
 	private int[][] harmonies;
-	private double[] measureWeights;
 	
 	public Instrument findInstrument(int voice){
 		Optional<Instrument> instrument = instruments.stream().filter(instr -> (instr.getVoice()) == voice).findFirst();
@@ -63,42 +61,6 @@ public class MusicProperties {
 		}else{
 			throw new IllegalArgumentException("Instrument for voice " + voice + " is missing!");
 		}
-	}
-	
-	public void threeFour(){
-		this.minimumLength = 6;
-		this.measureWeights = new double[]{1.0, 0.5, 0.75, 0.5, 0.75, 0.5};// measure must correspond to minimumlength!
-		this.numerator = 3;
-		this.denominator = 4;
-		this.instruments = Ensemble.getPiano(4);
-		this.chordSize = instruments.size();
-	}
-	
-	public void fourFour(){
-		this.minimumLength = 12;
-		this.measureWeights = new double[]{1.0, 0.5, 0.75, 0.5, 1.0, 0.5, 0.75, 0.5};
-	    this.numerator = 4;
-	    this.denominator = 4;
-	    this.instruments = Ensemble.getStringDuo();
-		this.chordSize = instruments.size();
-	}
-	
-	public void twoFour(){
-		this.minimumLength = 6;
-		this.measureWeights = new double[]{1.0, 0.5, 0.75, 0.5, 1.0, 0.5, 0.75, 0.5};
-		this.numerator = 2;
-		this.denominator = 4;
-		this.instruments = Ensemble.getStringQuartet();
-		this.chordSize = instruments.size();
-	}
-	
-	public void sixEight(){
-		this.minimumLength = 6;
-		this.measureWeights = new double[]{1.0, 0.5, 0.75, 0.5, 0.75, 0.5};
-		this.numerator = 6;
-		this.denominator = 8;
-		this.instruments = Ensemble.getStringQuartet();
-		this.chordSize = instruments.size();
 	}
 	
 	public String getVoiceLeadingStrategy() {
@@ -197,14 +159,6 @@ public class MusicProperties {
 		this.minimumLength = minimumLength;
 	}
 	
-	public int getChordSize() {
-		return chordSize;
-	}
-	
-	public void setChordSize(int chordSize) {
-		this.chordSize = chordSize;
-	}
-	
 	public void setScale(Scale scale) {
 		this.scale = scale;
 	}
@@ -266,14 +220,6 @@ public class MusicProperties {
 		this.rhythmWeightValues = rhythmWeightValues;
 	}
 
-	public double[] getMeasureWeights() {
-		return measureWeights;
-	}
-
-	public void setMeasureWeights(double[] measureWeights) {
-		this.measureWeights = measureWeights;
-	}
-
 	public int[][] getHarmonies() {
 		return harmonies;
 	}
@@ -304,6 +250,22 @@ public class MusicProperties {
 
 	public void setDistance(int[] distance) {
 		this.distance = distance;
+	}
+
+	public int getMelodyType() {
+		return melodyType;
+	}
+
+	public void setMelodyType(int melodyType) {
+		this.melodyType = melodyType;
+	}
+
+	public int getMelodyBeatValue() {
+		return melodyBeatValue;
+	}
+
+	public void setMelodyBeatValue(int melodyBeatValue) {
+		this.melodyBeatValue = melodyBeatValue;
 	}
 	
 }

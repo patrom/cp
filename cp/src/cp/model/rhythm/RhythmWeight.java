@@ -27,7 +27,10 @@ public class RhythmWeight {
 	}
 	
 	protected void updateNotesLength(){
-		notes.forEach(note -> note.setLength(Integer.MAX_VALUE));
+		Note lastNote = notes.get(notes.size() - 1);
+		if (lastNote.getLength() == 0) {
+			lastNote.setLength(Note.DEFAULT_LENGTH);
+		}
 		int size = notes.size() - 1;
 		for (int i = 0; i < size; i++) {
 			Note note = notes.get(i);
@@ -38,7 +41,7 @@ public class RhythmWeight {
 
 	protected void updateRhythmWeightSounds(double min) {
 		updateNotesLength();
-		notes.get(notes.size() - 1).setLength((int) min);
+//		notes.get(notes.size() - 1).setLength((int) min);
 		notes.forEach(note -> note.setPositionWeight(note.getPositionWeight() + (note.getLength()/min))); 
 	}
 
@@ -117,8 +120,7 @@ public class RhythmWeight {
 		});
 	}
 	
-	public void updateRhythmWeight(){
-		double min = getMinimumNoteValue();
+	public void updateRhythmWeightMinimum(double min){
 		clearPositionWeights();
 		updateRhythmWeightSounds(min);
 		List<Note> pitches = extractDifferentPitches();
@@ -126,6 +128,11 @@ public class RhythmWeight {
 		updateRhythmWeightDiastematy(pitches);
 		updateRhythmWeightDynamics();
 		updateRhythmWeightArticulation();
+	}
+	
+	public void updateRhythmWeight(){
+		double min = getMinimumNoteValue();
+		updateRhythmWeightMinimum(min);
 	}
 	
 	public List<Note> filterRhythmWeigths(double minimumWeight){

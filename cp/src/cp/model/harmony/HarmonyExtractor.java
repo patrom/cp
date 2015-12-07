@@ -66,7 +66,7 @@ public class HarmonyExtractor {
 				extractedHarmonies.add(harmony);
 			}
 		}
-		LOGGER.info(extractedHarmonies.toString());
+		LOGGER.debug(extractedHarmonies.toString());
 		return extractedHarmonies;
 	}
 	

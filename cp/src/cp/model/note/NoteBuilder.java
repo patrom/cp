@@ -16,6 +16,8 @@ public class NoteBuilder {
 //	private int dynamicLevel = Note.DEFAULT_DYNAMIC_LEVEL;
 	private Articulation articulation = Note.DEFAULT_ARTICULATION;
 	private Dynamic dynamic = Dynamic.MF;
+	private int displayLength;
+	private BeamType beamType;
 
 	public static NoteBuilder note(){
 		return new NoteBuilder();
@@ -33,6 +35,7 @@ public class NoteBuilder {
 	
 	public NoteBuilder len(int length){
 		this.length = length;
+		this.displayLength = length;
 		return this;
 	}
 	
@@ -71,6 +74,16 @@ public class NoteBuilder {
 		return this;
 	}
 	
+	public NoteBuilder rest() {
+		this.pitch = Note.REST;
+		return this;
+	}
+	
+	public NoteBuilder beam(BeamType beamType) {
+		this.beamType = beamType;
+		return this;
+	}
+	
 	public Note build(){
 		Note note = new Note();
 		note.setPitchClass(pitchClass);
@@ -84,6 +97,8 @@ public class NoteBuilder {
 //		note.setDynamicLevel(dynamicLevel);
 		note.setArticulation(articulation);
 		note.setDynamic(dynamic);
+		note.setDisplayLength(displayLength);
+		note.setBeamType(beamType);
 		return note;
 	}
 

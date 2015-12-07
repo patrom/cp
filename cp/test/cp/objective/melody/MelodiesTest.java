@@ -36,6 +36,7 @@ import cp.midi.MidiInfo;
 import cp.midi.MidiParser;
 import cp.model.dissonance.Dissonance;
 import cp.model.melody.CpMelody;
+import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.model.rhythm.Rhythm;
@@ -125,11 +126,13 @@ public class MelodiesTest extends AbstractTest{
 			double filtered = melodicObjective.evaluateMelody(filteredNotes, 1);
 			LOGGER.info("filtered : " + filtered);
 			CpMelody melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0);
-			double profile = rhythmObjective.getProfileAverage(melody, 3.0, 12);
+			MelodyBlock melodyBlock = new MelodyBlock(5);
+			melodyBlock.addMelodyBlock(melody);
+			double profile = rhythmObjective.getProfileAverage(melodyBlock, 3.0, 12);
 			LOGGER.info("profile 12: " + profile);
-			double profile2 = rhythmObjective.getProfileAverage(melody, 3.0, 6);
+			double profile2 = rhythmObjective.getProfileAverage(melodyBlock, 3.0, 6);
 			LOGGER.info("profile 6: " + profile2);
-			double profile3 = rhythmObjective.getProfileAverage(melody, 3.0, 24);
+			double profile3 = rhythmObjective.getProfileAverage(melodyBlock, 3.0, 24);
 			LOGGER.info("profile 24: " + profile3);
 			Score score = scoreUtilities.createScoreFromMelodyInstrument(melodies, (double) midiInfo.getTempo());
 			View.notate(score);
@@ -146,6 +149,8 @@ public class MelodiesTest extends AbstractTest{
 	public void generateMelodies() throws InvalidMidiDataException, IOException {
 		for (int i = 0; i < 10; i++) {
 			CpMelody melody = melodyGenerator.generateMelody(Scale.MAJOR_SCALE, new int[]{0, 96}, 6, 0);
+			MelodyBlock melodyBlock = new MelodyBlock(5);
+			melodyBlock.addMelodyBlock(melody);
 			List<Note> notes = melody.getNotes();
 			notes.forEach(n -> n.setPitch(n.getPitchClass() + 60));
 			rhythmWeight.setNotes(notes);
@@ -155,7 +160,7 @@ public class MelodiesTest extends AbstractTest{
 			List<Note> filteredNotes = rhythmWeight.filterRhythmWeigths(3.0);
 			double filtered = melodicObjective.evaluateMelody(filteredNotes, 1);
 			LOGGER.info("filtered : " + filtered);
-			double profile = rhythmObjective.getProfileAverage(melody, 3.0, 12);
+			double profile = rhythmObjective.getProfileAverage(melodyBlock, 3.0, 12);
 			LOGGER.info("profile : " + profile);
 			Phrase phrase = scoreUtilities.createPhrase(notes);
 			Score score = new Score();

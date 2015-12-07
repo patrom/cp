@@ -2,10 +2,10 @@ package cp.out.print;
 
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.Before;
@@ -20,6 +20,8 @@ import cp.DefaultConfig;
 import cp.VariationConfig;
 import cp.generator.MusicProperties;
 import cp.model.melody.CpMelody;
+import cp.model.melody.MelodyBlock;
+import cp.model.note.BeamType;
 import cp.model.note.Note;
 import cp.model.note.NoteBuilder;
 import cp.model.note.Scale;
@@ -32,53 +34,66 @@ public class MusicXMLWriterTest {
 	
 	@Autowired
 	private MusicXMLWriter musicXMLWriter;
-	private List<CpMelody> melodies;
+	private List<MelodyBlock> melodyBlocks;
 	@Autowired
 	private MusicProperties musicProperties;
+	private Instrument instrument;
 
 	@Before
 	public void setUp() throws Exception {
-		List<Instrument> instruments = new ArrayList<>();
-		Instrument instrument = new KontaktLibCello(0, 1);
-//		instruments.add(instrument);
-//		instrument = new KontaktLibPiano(1, 1);
-//		instruments.add(instrument);
-//		musicProperties.setInstruments(instruments);
-		melodies = new ArrayList<>();
-		List<Note> notes = new ArrayList<>();
-//		notes.add(NoteBuilder.note().len(12).pc(4).pitch(64).ocatve(4).pos(0).build());
-		notes.add(NoteBuilder.note().len(24).pc(2).pitch(62).ocatve(4).pos(12).build());
-		notes.add(NoteBuilder.note().len(24).pc(11).pitch(59).ocatve(3).pos(12).build());
-		notes.add(NoteBuilder.note().len(24).pc(7).pitch(55).ocatve(3).pos(12).build());
-		notes.add(NoteBuilder.note().len(24).pc(4).pitch(64).ocatve(4).pos(36).build());
-		notes.add(NoteBuilder.note().len(6).pc(5).pitch(65).ocatve(4).pos(60).build());
-		notes.add(NoteBuilder.note().len(6).pc(7).pitch(67).ocatve(4).pos(66).build());
-		notes.add(NoteBuilder.note().len(12).pc(9).pitch(69).ocatve(4).pos(72).build());
-		notes.add(NoteBuilder.note().len(24).pc(11).pitch(71).ocatve(4).pos(84).build());
-		notes.add(NoteBuilder.note().len(24).pc(0).pitch(60).ocatve(4).pos(108).build());
+		melodyBlocks = new ArrayList<>();
+		instrument = new KontaktLibCello(0, 1);
+	}
+
+	private void addToMelodyBlock(Instrument instrument, List<Note> notes) {
 		CpMelody melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0);
-		melody.setInstrument(instrument);
-		melodies.add(melody);
-		
-//		notes = new ArrayList<>();
-//		notes.add(NoteBuilder.note().len(48).pc(0).pitch(36).ocatve(3).pos(0).build());
-//		notes.add(NoteBuilder.note().len(48).pc(2).pitch(38).ocatve(3).pos(48).build());
-//		notes.add(NoteBuilder.note().len(24).pc(4).pitch(40).ocatve(3).pos(96).build());
-////		notes.add(NoteBuilder.note().len(6).pc(5).pitch(53).ocatve(3).pos(60).build());
-////		notes.add(NoteBuilder.note().len(6).pc(7).pitch(43).ocatve(3).pos(66).build());
-////		notes.add(NoteBuilder.note().len(12).pc(9).pitch(57).ocatve(3).pos(72).build());
-////		notes.add(NoteBuilder.note().len(24).pc(11).pitch(59).ocatve(3).pos(84).build());
-////		notes.add(NoteBuilder.note().len(24).pc(0).pitch(48).ocatve(3).pos(108).build());
-//		harmonicMelody = new HarmonicMelody(NoteBuilder.note().build(), notes, 1, 0);
-//		harmonicMelodies = new ArrayList<HarmonicMelody>();
-//		harmonicMelodies.add(harmonicMelody);
-//		melody = new Melody(harmonicMelodies, 1);
-//		melodies.add(melody);
+		MelodyBlock melodyBlock = new MelodyBlock(5);
+		melodyBlock.setInstrument(instrument);
+		melodyBlock.addMelodyBlock(melody);
+		melodyBlocks.add(melodyBlock);
 	}
 
 	@Test
 	public void testGenerateMusicXML() throws Exception {
-		musicXMLWriter.generateMusicXMLForMelodies(melodies, "test");
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().len(15).pc(4).pitch(64).ocatve(4).pos(0).build());
+		notes.add(note().len(3).pc(2).pitch(62).ocatve(5).pos(15).build());
+		notes.add(note().len(12).pc(11).pitch(59).ocatve(4).pos(18).build());
+		notes.add(note().len(24).pc(7).pitch(55).ocatve(4).pos(30).build());
+		
+		notes.add(note().len(6).pc(2).pitch(62).ocatve(5).pos(54).build());
+		
+		addToMelodyBlock(instrument, notes);
+		musicXMLWriter.generateMusicXMLForMelodies(melodyBlocks, "test");
+	}
+	
+	@Test
+	public void testGenerateMusicXMLTriplet() throws Exception {
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().len(6).pc(4).pitch(64).ocatve(4).pos(0).build());
+		notes.add(note().len(2).pc(2).pitch(62).ocatve(5).pos(6).build());
+		notes.add(note().len(2).pc(11).pitch(59).ocatve(4).pos(8).build());
+		notes.add(note().len(2).pc(7).pitch(55).ocatve(4).pos(10).build());
+		
+		notes.add(note().len(12).pc(2).pitch(62).ocatve(5).pos(12).build());
+		
+		addToMelodyBlock(instrument, notes);
+		musicXMLWriter.generateMusicXMLForMelodies(melodyBlocks, "testTriplet");
+	}
+	
+	@Test
+	public void testGenerateMusicXMLTriplet2() throws Exception {
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().len(2).pc(4).pitch(64).ocatve(4).pos(0).build());
+		notes.add(note().len(6).pc(2).pitch(62).ocatve(5).pos(2).build());
+//		notes.add(note().len(2).pc(2).pitch(62).ocatve(5).pos(6).build());
+		notes.add(note().len(2).pc(11).pitch(59).ocatve(4).pos(8).build());
+		notes.add(note().len(2).pc(7).pitch(55).ocatve(4).pos(10).build());
+		
+		notes.add(note().len(12).pc(2).pitch(62).ocatve(5).pos(12).build());
+		
+		addToMelodyBlock(instrument, notes);
+		musicXMLWriter.generateMusicXMLForMelodies(melodyBlocks, "testTriplet");
 	}
 	
 	@Test
@@ -92,18 +107,46 @@ public class MusicXMLWriterTest {
 	}
 	
 	@Test
-	public void testTies(){
-		Note note = note().pc(0).pitch(60).len(12).pos(24).build();
-		List<Note> notes = musicXMLWriter.addTies(Collections.singletonList(note));
-		assertEquals(note, notes.get(0));
+	public void testGenerateMusicXMLTripletBeaming() throws Exception {
+		List<Note> notes = new ArrayList<>();
+//		notes.add(note().len(4).rest().pos(0).beam(BeamType.BEGIN).build());
+//		notes.add(note().len(4).pc(7).pitch(55).ocatve(4).pos(4).beam(BeamType.CONTINUE).build());
+//		notes.add(note().len(4).pc(7).pitch(55).ocatve(4).pos(8).beam(BeamType.END).build());
+//		notes.forEach(n -> n.setTriplet(true));
+//		
+//		notes.add(note().len(12).rest().pos(12).build());
+//		notes.add(note().len(24).rest().pos(24).build());
 		
-		note = note().pc(0).pitch(60).len(14).pos(24).build();
-		notes = musicXMLWriter.addTies(Collections.singletonList(note));
-		assertEquals(note, notes.get(0));
-		Note tieNote = notes.get(1);
-		assertEquals(2, tieNote.getLength());
-		assertEquals(36, tieNote.getPosition());
-		assertTrue(tieNote.isTieEnd());
+		
+		notes.add(note().len(8).pc(4).pitch(64).ocatve(4).pos(0).beam(BeamType.BEGIN).build());
+		notes.add(note().len(8).pc(2).pitch(62).ocatve(5).pos(8).beam(BeamType.CONTINUE).build());
+		notes.add(note().len(8).pc(11).pitch(59).ocatve(4).pos(16).beam(BeamType.END).build());
+		notes.add(note().len(4).pc(7).pitch(55).ocatve(4).pos(24).beam(BeamType.BEGIN).build());
+		notes.add(note().len(4).pc(7).pitch(55).ocatve(4).pos(28).beam(BeamType.CONTINUE).build());
+		notes.add(note().len(4).pc(7).pitch(55).ocatve(4).pos(32).beam(BeamType.END).build());
+		notes.add(note().len(4).rest().pos(36).beam(BeamType.BEGIN).build());
+		notes.add(note().len(4).pc(7).pitch(55).ocatve(4).pos(40).beam(BeamType.CONTINUE).build());
+		notes.add(note().len(4).pc(7).pitch(55).ocatve(4).pos(44).beam(BeamType.END).build());
+		notes.forEach(n -> n.setTriplet(true));
+		addToMelodyBlock(instrument, notes);
+		musicXMLWriter.generateMusicXMLForMelodies(melodyBlocks, "testTriplet");
 	}
-
+	
+//	@Test
+//	public void testUpdateTripletNotes(){
+//		List<Note> notes = new ArrayList<>();
+////		notes.add(NoteBuilder.note().len(12).pc(4).pitch(64).ocatve(4).pos(0).build());
+//		notes.add(NoteBuilder.note().len(2).pc(2).pitch(62).ocatve(5).pos(0).build());
+////		notes.add(NoteBuilder.note().len(2).pc(11).pitch(59).ocatve(4).pos(2).build());
+//		notes.add(NoteBuilder.note().len(2).pc(7).pitch(55).ocatve(4).pos(4).build());
+//		
+//		notes.add(NoteBuilder.note().len(2).pc(2).pitch(62).ocatve(5).pos(6).build());
+//		notes.add(NoteBuilder.note().len(2).pc(11).pitch(59).ocatve(4).pos(8).build());
+//		notes.add(NoteBuilder.note().len(2).pc(7).pitch(55).ocatve(4).pos(10).build());
+//		notes.add(NoteBuilder.note().len(24).pc(4).pitch(64).ocatve(4).pos(12).build());
+//		musicXMLWriter.updateTripletNotes(notes);
+//		assertTrue(notes.get(0).isSextuplet());
+//		assertFalse(notes.get(5).isSextuplet());
+//	}
+//	
 }

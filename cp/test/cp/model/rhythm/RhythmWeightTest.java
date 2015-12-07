@@ -112,6 +112,24 @@ public class RhythmWeightTest {
 		assertEquals(1 , notes.get(2).getPositionWeight(), 0);
 		assertEquals(6 , notes.get(3).getPositionWeight(), 0);
 	}
+	
+	@Test
+	public void testUpdateRhythmWeightPitch2() {
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pitch(60).build());
+		notes.add(note().pos(12).pitch(64).build());
+		notes.add(note().pos(18).pitch(62).build());
+		notes.add(note().pos(24).pitch(61).build());
+		notes.add(note().pos(27).pitch(64).build());
+		notes.add(note().pos(30).pitch(60).build());
+		rhythmWeight.setNotes(notes);
+		rhythmWeight.updateRhythmWeightPitch(notes, 12);
+		assertEquals(1 , notes.get(0).getPositionWeight(), 0);
+		assertEquals(0.5 , notes.get(1).getPositionWeight(), 0);
+		assertEquals(0.5 , notes.get(2).getPositionWeight(), 0);
+		assertEquals(0.25 , notes.get(3).getPositionWeight(), 0);
+		assertEquals(0.25 , notes.get(3).getPositionWeight(), 0);
+	}
 
 	@Test
 	public void testUpdateRhythmWeightDiastematy() {
@@ -205,6 +223,34 @@ public class RhythmWeightTest {
 		assertEquals(4 , notes.get(7).getPositionWeight(), 0);
 		assertEquals(1 , notes.get(8).getPositionWeight(), 0);
 		assertEquals(4 , notes.get(9).getPositionWeight(), 0);
+	}
+	
+	@Test
+	public void testUpdateRhythmWeight2() {
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pitch(60).build());
+		notes.add(note().pos(4).pitch(62).build());
+		notes.add(note().pos(6).pitch(64).build());
+		notes.add(note().pos(8).pitch(63).build());
+		notes.add(note().pos(12).pitch(64).build());
+		notes.add(note().pos(18).pitch(65).build());
+		notes.add(note().pos(21).pitch(66).build());
+		notes.add(note().pos(24).pitch(67).build());
+		
+		rhythmWeight.setNotes(notes);
+		rhythmWeight.updateRhythmWeightMinimum(12);
+		
+		notes.forEach(n -> System.out.println(n.getPositionWeight()));
+//		assertEquals(4 , notes.get(0).getPositionWeight(), 0);
+//		assertEquals(2 , notes.get(1).getPositionWeight(), 0);
+//		assertEquals(5 , notes.get(2).getPositionWeight(), 0);
+//		assertEquals(2 , notes.get(3).getPositionWeight(), 0);
+//		assertEquals(4 , notes.get(4).getPositionWeight(), 0);
+//		assertEquals(2 , notes.get(5).getPositionWeight(), 0);
+//		assertEquals(10 , notes.get(6).getPositionWeight(), 0);
+//		assertEquals(4 , notes.get(7).getPositionWeight(), 0);
+//		assertEquals(1 , notes.get(8).getPositionWeight(), 0);
+//		assertEquals(4 , notes.get(9).getPositionWeight(), 0);
 	}
 	
 	@Test

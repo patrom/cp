@@ -34,6 +34,7 @@ import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
 import cp.model.Motive;
 import cp.model.melody.CpMelody;
+import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.note.NoteBuilder;
 import cp.model.note.Scale;
@@ -63,10 +64,6 @@ public class RhythmObjectiveTest extends JFrame {
 	}
 
 	@Test
-	public void testEvaluate() {
-	}
-
-	@Test
 	public void testGetProfile() {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pitch(60).positionWeight(4.0).build());
@@ -77,7 +74,9 @@ public class RhythmObjectiveTest extends JFrame {
 		notes.add(note().pos(60).pitch(60).positionWeight(1.0).build());
 		notes.add(note().pos(96).pitch(62).positionWeight(4.0).build());
 		CpMelody melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0);
-		double profileAverage = rhythmObjective.getProfileAverage(melody, 3.0, 12);
+		MelodyBlock melodyBlock = new MelodyBlock(5);
+		melodyBlock.addMelodyBlock(melody);
+		double profileAverage = rhythmObjective.getProfileAverage(melodyBlock, 3.0, 12);
 		assertEquals(0.75 , profileAverage, 0);
 	}
 

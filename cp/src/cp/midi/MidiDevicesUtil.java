@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import cp.model.melody.CpMelody;
+import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.out.instrument.Instrument;
 
@@ -135,11 +136,11 @@ public class MidiDevicesUtil {
 		return sequence;
 	}
 	
-	public Sequence createSequence(List<CpMelody> melodies, int tempo)
+	public Sequence createSequence(List<MelodyBlock> melodies, int tempo)
 			throws InvalidMidiDataException {
 		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
-		for (CpMelody melody : melodies) {
-				createTrackGeneralMidi(sequence, melody.getNotes(), melody.getInstrument(), tempo);
+		for (MelodyBlock melody : melodies) {
+				createTrackGeneralMidi(sequence, melody.getMelodyBlockNotesWithRests(), melody.getInstrument(), tempo);
 		}
 		return sequence;
 	}
@@ -158,7 +159,7 @@ public class MidiDevicesUtil {
 							
 			MidiEvent eventOn = createNoteMidiEvent(ShortMessage.NOTE_ON, notePos, notePos.getPosition(), instrument.getChannel());
 			track.add(eventOn);
-			MidiEvent eventOff = createNoteMidiEvent(ShortMessage.NOTE_OFF, notePos, notePos.getPosition() + notePos.getLength(), instrument.getChannel());
+			MidiEvent eventOff = createNoteMidiEvent(ShortMessage.NOTE_OFF, notePos, notePos.getPosition() + notePos.getDisplayLength(), instrument.getChannel());
 			track.add(eventOff);	
 		}
 	}
@@ -185,7 +186,7 @@ public class MidiDevicesUtil {
 			
 			MidiEvent eventOn = createNoteMidiEvent(ShortMessage.NOTE_ON, notePos, notePos.getPosition(), instrument.getChannel());
 			track.add(eventOn);
-			MidiEvent eventOff = createNoteMidiEvent(ShortMessage.NOTE_OFF, notePos, notePos.getPosition() + notePos.getLength(), instrument.getChannel());
+			MidiEvent eventOff = createNoteMidiEvent(ShortMessage.NOTE_OFF, notePos, notePos.getPosition() + notePos.getDisplayLength(), instrument.getChannel());
 			track.add(eventOff);	
 		}
 	}

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import cp.generator.MusicProperties;
 import cp.model.Motive;
 import cp.model.melody.CpMelody;
+import cp.model.melody.MelodyBlock;
 import cp.nsga.MusicVariable;
 import cp.nsga.operator.mutation.AbstractMutation;
 
@@ -35,9 +36,8 @@ public class RemoveRhythm extends AbstractMutation {
 		Solution solution = (Solution) object;
 		if (PseudoRandom.randDouble() < (double)getParameter("probabilityRemoveRhythm")) {
 			Motive motive = ((MusicVariable)solution.getDecisionVariables()[0]).getMotive();
-			CpMelody mutableMelody = motive.getRandomRhythmMutableMelody();
+			MelodyBlock mutableMelody = motive.getRandomRhythmMutableMelody();
 			mutableMelody.removeNote();
-			LOGGER.info("rhythm note removed");
 		} 
 		return solution;
 	}

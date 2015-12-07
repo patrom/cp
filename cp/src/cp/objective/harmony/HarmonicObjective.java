@@ -37,14 +37,14 @@ public class HarmonicObjective extends Objective {
 		return harmonies.stream()
 				.mapToDouble(h -> {
 					double harmonyWeight = h.getHarmonyWeight();
-//					LOGGER.info("harmonyWeight: " + harmonyWeight);
+					LOGGER.debug("harmonyWeight: " + harmonyWeight);
 					Chord chord = h.getChord();
-//					LOGGER.info("chord: " + chord);
+					LOGGER.debug("chord: " + chord);
 					double dissonanceChord = dissonance.getDissonance(chord);
 					double chordWeight = dissonanceChord* (harmonyWeight / totalHarmonyWeight);
 					return chordWeight;
 				})
-//				.peek(w -> LOGGER.info("Weight: " + w))
+				.peek(w -> LOGGER.debug("Weight: " + w))
 				.average().getAsDouble();
 	}
 

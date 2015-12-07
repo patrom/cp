@@ -3,6 +3,7 @@ package cp.evaluation;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import cp.model.Motive;
 import cp.model.harmony.CpHarmony;
 import cp.model.harmony.HarmonyExtractor;
 import cp.model.melody.CpMelody;
+import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.rhythm.RhythmWeight;
 import cp.objective.Objective;
@@ -46,43 +48,57 @@ public class FitnessEvaluationTemplate {
 	private MusicProperties musicProperties;
 
 	public FitnessObjectiveValues evaluate(Motive motive) {
-		List<CpMelody> melodies = motive.getMelodies();
-		List<CpMelody> notDependantMelodies = melodies.stream().filter(m -> !m.isDenpendant()).collect(toList());
+		List<MelodyBlock> melodies = motive.getMelodyBlocks();
+		List<MelodyBlock> notDependantMelodies = melodies.stream().filter(m -> !m.isDependant()).collect(toList());
 		updatePitchesFromContour(notDependantMelodies);
 		updateRhythmWeight(notDependantMelodies);
 
 		dependingMelodies(melodies);
-		
-		List<Note> allNotes = melodies.stream().flatMap(m -> m.getNotes().stream()).collect(toList());
-		List<CpHarmony> harmonies = harmonyExtractor.extractHarmony(allNotes, motive.getMelodies().size());
+		List<Note> allNotes = melodies.stream().flatMap(m -> m.getMelodyBlockNotes().stream()).collect(toList());
+		List<CpHarmony> harmonies = harmonyExtractor.extractHarmony(allNotes, motive.getMelodyBlocks().size());
 		motive.setHarmonies(harmonies);
-		melodies.forEach(h ->  LOGGER.debug(h.getNotes() + ", "));
+		melodies.forEach(h ->  LOGGER.debug(h.getMelodyBlockNotes() + ", "));
 		return evaluateObjectives(motive);
 	}
+	
+//	public FitnessObjectiveValues evaluate(Motive motive) {
+//		List<CpMelody> melodies = motive.getMelodies();
+//		List<CpMelody> notDependantMelodies = melodies.stream().filter(m -> !m.isDenpendant()).collect(toList());
+//		updatePitchesFromContour(notDependantMelodies);
+//		updateRhythmWeight(notDependantMelodies);
+//
+//		dependingMelodies(melodies);
+//		
+//		List<Note> allNotes = melodies.stream().flatMap(m -> m.getNotes().stream()).collect(toList());
+//		List<CpHarmony> harmonies = harmonyExtractor.extractHarmony(allNotes, motive.getMelodies().size());
+//		motive.setHarmonies(harmonies);
+//		melodies.forEach(h ->  LOGGER.debug(h.getNotes() + ", "));
+//		return evaluateObjectives(motive);
+//	}
 
-	private void updatePitchesFromContour(List<CpMelody> melodies) {
+	private void updatePitchesFromContour(List<MelodyBlock> melodies) {
 		melodies.forEach(m -> m.updatePitchesFromContour());
 	}
 
-	protected void updateRhythmWeight(List<CpMelody> melodies) {
-		for (CpMelody melody : melodies) {
+	protected void updateRhythmWeight(List<MelodyBlock> melodies) {
+		for (MelodyBlock melody : melodies) {
 			melody.updateMelodyBetween();
-			List<Note> notes = melody.getNotes();
+			List<Note> notes = melody.getMelodyBlockNotes();
 			rhythmWeight.setNotes(notes);
-			rhythmWeight.updateRhythmWeight();
+			rhythmWeight.updateRhythmWeightMinimum(musicProperties.getMelodyBeatValue());
 		}
 	}
 
-	private void dependingMelodies(List<CpMelody> melodies) {
-		List<CpMelody> dependantMelodies = melodies.stream().filter(m -> m.isDenpendant()).collect(toList());
-		for (CpMelody dependantMelody : dependantMelodies) {
-			CpMelody dux = findMelodyForVoice(melodies, dependantMelody.getDependingVoice());
-			CpMelody comes = findMelodyForVoice(melodies, dependantMelody.getVoice());
+	private void dependingMelodies(List<MelodyBlock> melodies) {
+		List<MelodyBlock> dependantMelodies = melodies.stream().filter(m -> m.isDependant()).collect(toList());
+		for (MelodyBlock dependantMelody : dependantMelodies) {
+			MelodyBlock dux = findMelodyForVoice(melodies, dependantMelody.getDependingVoice());
+			MelodyBlock comes = findMelodyForVoice(melodies, dependantMelody.getVoice());
 			comes.transformDependingOn(dux);
 		}
 	}
 
-	protected CpMelody findMelodyForVoice(List<CpMelody> melodies, int voice) {
+	protected MelodyBlock findMelodyForVoice(List<MelodyBlock> melodies, int voice) {
 		return melodies.stream().filter(m -> m.getVoice() == voice).findFirst().get();
 	}
 

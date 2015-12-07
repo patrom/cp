@@ -9,13 +9,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
-import cp.nsga.operator.decorator.Decorator;
 import jmetal.core.Algorithm;
 import jmetal.core.Operator;
 import jmetal.core.Problem;
@@ -25,6 +18,11 @@ import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.util.Distance;
 import jmetal.util.JMException;
 import jmetal.util.Ranking;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * This class implements the NSGA-II algorithm.
@@ -86,9 +84,10 @@ public class NSGAII extends Algorithm {
 
 		// Read the operators
 		List<Operator> mutationOperators = new ArrayList<Operator>();
-		mutationOperators.add(operators_.get("oneNoteMutation"));
+		mutationOperators.add(operators_.get("replaceMelody"));
 		mutationOperators.add(operators_.get("addRhythm"));
 		mutationOperators.add(operators_.get("removeRhythm"));
+		mutationOperators.add(operators_.get("oneNoteMutation"));
 		mutationOperators.add(operators_.get("articulationMutation"));
 		Operator crossoverOperator = operators_.get("crossover");
 		Operator selectionOperator = operators_.get("selection");

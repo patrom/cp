@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import cp.generator.MusicProperties;
 import cp.model.Motive;
 import cp.model.melody.CpMelody;
+import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.objective.Objective;
 import cp.objective.meter.InnerMetricWeight;
@@ -28,16 +29,16 @@ public class RhythmObjective extends Objective{
 
 	@Override
 	public double evaluate(Motive motive) {
-		List<CpMelody> melodies = motive.getMelodies();
+		List<MelodyBlock> melodies = motive.getMelodyBlocks();
 		double profileAverage = melodies.stream()
-				.mapToDouble(melody -> getProfileAverage(melody, musicProperties.getMinimumRhythmFilterLevel(), musicProperties.getMinimumLength()))
+				.mapToDouble(melody -> getProfileAverage(melody, musicProperties.getMinimumRhythmFilterLevel(), musicProperties.getMelodyBeatValue()))
 				.average()
 				.getAsDouble();
 		return profileAverage;
 	}
 	
-	public double getProfileAverage(CpMelody melody, double minimumFilterLevel, int minimumRhythmicValue){
-		List<Note> filteredNotes = filterRhythmWeigths(melody.getNotes(), minimumFilterLevel);
+	public double getProfileAverage(MelodyBlock melody, double minimumFilterLevel, int minimumRhythmicValue){
+		List<Note> filteredNotes = filterRhythmWeigths(melody.getMelodyBlockNotes(), minimumFilterLevel);
 		LOGGER.debug(filteredNotes.toString());
 		if (filteredNotes.isEmpty()) {
 			return 0;

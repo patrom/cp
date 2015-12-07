@@ -14,6 +14,7 @@ import jmetal.util.PseudoRandom;
 import cp.generator.MusicProperties;
 import cp.model.Motive;
 import cp.model.melody.CpMelody;
+import cp.model.melody.MelodyBlock;
 import cp.nsga.MusicVariable;
 import cp.nsga.operator.mutation.AbstractMutation;
 
@@ -36,7 +37,7 @@ public class ArticulationMutation extends AbstractMutation{
 	public void doMutation(double probability, Solution solution) throws JMException {
 		if (PseudoRandom.randDouble() < probability) {
 			Motive motive = ((MusicVariable)solution.getDecisionVariables()[0]).getMotive();
-			CpMelody mutableMelody = motive.getRandomMutableMelody();
+			MelodyBlock mutableMelody = motive.getRandomMutableMelody();
 			mutableMelody.updateArticulation();
 			LOGGER.info("articulation mutated");
 		} 
