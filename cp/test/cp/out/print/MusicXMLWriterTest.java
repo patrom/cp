@@ -47,7 +47,7 @@ public class MusicXMLWriterTest {
 
 	private void addToMelodyBlock(Instrument instrument, List<Note> notes) {
 		CpMelody melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0);
-		MelodyBlock melodyBlock = new MelodyBlock(5);
+		MelodyBlock melodyBlock = new MelodyBlock(5, 0);
 		melodyBlock.setInstrument(instrument);
 		melodyBlock.addMelodyBlock(melody);
 		melodyBlocks.add(melodyBlock);

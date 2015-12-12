@@ -32,7 +32,7 @@ public class MelodyBlockTest {
 
 	@Before
 	public void setUp() throws Exception {
-		melodyBlock = new MelodyBlock(5);
+		melodyBlock = new MelodyBlock(5, 1);
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
 		notes.add(note().pos(12).pc(4).pitch(64).ocatve(5).build());
@@ -57,28 +57,10 @@ public class MelodyBlockTest {
 		LOGGER.info("Notes: " + melodyBlock.getMelodyBlockContour());
 	}
 	
-	@Test
-	public void testAddRandomRhythmNote() {
-//		melodyBlock = new MelodyBlock();
-//		melody = new CpMelody(Scale.MAJOR_SCALE, 1,  0 , 12);
-//		melodyBlock.addMelodyBlock(melody);
-//		melody = new CpMelody(Scale.MAJOR_SCALE, 1,  12 , 24);
-//		melodyBlock.addMelodyBlock(melody);
-		melodyBlock.addRandomRhythmNote(3);
-		LOGGER.info("Notes: " + melodyBlock.getMelodyBlockNotes());
-		LOGGER.info("Notes: " + melodyBlock.getMelodyBlockContour());
-	}
-	
-	@Test
-	public void testRemoveNote() {
-		melodyBlock.removeNote();
-		LOGGER.info("Notes: " + melodyBlock.getMelodyBlockNotes());
-		LOGGER.info("Notes: " + melodyBlock.getMelodyBlockContour());
-	}
 	
 	@Test
 	public void testReplaceMelody() {
-		melodyBlock = new MelodyBlock(5);
+		melodyBlock = new MelodyBlock(5,1);
 		CpMelodyBuilder cpMelodyBuilder = new CpMelodyBuilder();
 		CpMelody melody = cpMelodyBuilder.start(0).build();
 		melodyBlock.addMelodyBlock(melody);
@@ -94,7 +76,7 @@ public class MelodyBlockTest {
 	
 	@Test
 	public void testUpdatePitchesFromContour() {
-		melodyBlock = new MelodyBlock(4);
+		melodyBlock = new MelodyBlock(4,1);
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).build());
 		notes.add(note().pos(12).pc(4).build());
@@ -121,7 +103,7 @@ public class MelodyBlockTest {
 	
 	@Test
 	public void testTransformDependingOn() {
-		melodyBlock = new MelodyBlock(5);
+		melodyBlock = new MelodyBlock(5,1);
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
 		notes.add(note().pos(12).pc(4).pitch(64).ocatve(5).build());
@@ -134,7 +116,7 @@ public class MelodyBlockTest {
 		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1, 24 , 36);
 		melodyBlock.addMelodyBlock(melody);
 		
-		MelodyBlock melodyBlockCopy = new MelodyBlock(5);
+		MelodyBlock melodyBlockCopy = new MelodyBlock(5,1);
 		melodyBlockCopy.setOffset(24);
 		melodyBlockCopy.transformDependingOn(melodyBlock);
 		assertEquals(1, melodyBlockCopy.getMelodyBlockNotes().size());
@@ -146,7 +128,7 @@ public class MelodyBlockTest {
 	
 	@Test
 	public void testUpdatePitches() {
-		melodyBlock = new MelodyBlock(5);
+		melodyBlock = new MelodyBlock(5,1);
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).build());
 		notes.add(note().pos(12).pc(2).build());
@@ -167,7 +149,7 @@ public class MelodyBlockTest {
 	
 	@Test
 	public void testUpdateMelodyBetween() {
-		melodyBlock = new MelodyBlock(5);
+		melodyBlock = new MelodyBlock(5,1);
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).pitch(48).ocatve(4).build());
 		notes.add(note().pos(18).pc(11).pitch(71).ocatve(5).build());
@@ -190,7 +172,7 @@ public class MelodyBlockTest {
 	
 	@Test
 	public void testCalculateInterval(){
-		melodyBlock = new MelodyBlock(5);
+		melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
 		melody = new CpMelody(Scale.MAJOR_SCALE,0,0, 12);
 		int interval = melodyBlock.calculateInterval(1, 4);
@@ -205,7 +187,7 @@ public class MelodyBlockTest {
 	
 	@Test
 	public void testUpdatePitchesFromContour2(){
-		melodyBlock = new MelodyBlock(5);
+		melodyBlock = new MelodyBlock(5,1);
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).build());
 		notes.add(note().pos(12).pc(4).build());
@@ -234,7 +216,7 @@ public class MelodyBlockTest {
 	
 	@Test
 	public void testUpdatePitchesFromContourRepeat(){
-		melodyBlock = new MelodyBlock(5);
+		melodyBlock = new MelodyBlock(5,1);
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).build());
 		notes.add(note().pos(12).pc(4).build());
@@ -263,7 +245,7 @@ public class MelodyBlockTest {
 	
 	@Test
 	public void testT(){
-		melodyBlock = new MelodyBlock(5);
+		melodyBlock = new MelodyBlock(5,1);
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
 		notes.add(note().pos(12).pc(4).pitch(64).ocatve(5).build());
@@ -280,7 +262,7 @@ public class MelodyBlockTest {
 	
 	@Test
 	public void testI(){
-		melodyBlock = new MelodyBlock(5);
+		melodyBlock = new MelodyBlock(5,1);
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
 		notes.add(note().pos(12).pc(4).pitch(64).ocatve(5).build());
@@ -297,7 +279,7 @@ public class MelodyBlockTest {
 	
 	@Test
 	public void testM(){
-		melodyBlock = new MelodyBlock(5);
+		melodyBlock = new MelodyBlock(5,1);
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
 		notes.add(note().pos(12).pc(4).pitch(64).ocatve(5).build());
@@ -314,7 +296,7 @@ public class MelodyBlockTest {
 	
 	@Test
 	public void testTI(){
-		melodyBlock = new MelodyBlock(5);
+		melodyBlock = new MelodyBlock(5,1);
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
 		notes.add(note().pos(12).pc(4).pitch(64).ocatve(5).build());
@@ -331,7 +313,7 @@ public class MelodyBlockTest {
 	
 	@Test
 	public void testR(){
-		melodyBlock = new MelodyBlock(5);
+		melodyBlock = new MelodyBlock(5,1);
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
 		notes.add(note().pos(12).pc(4).pitch(64).ocatve(5).build());
@@ -348,7 +330,7 @@ public class MelodyBlockTest {
 	
 	@Test
 	public void testRTI(){
-		melodyBlock = new MelodyBlock(5);
+		melodyBlock = new MelodyBlock(5,1);
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
 		notes.add(note().pos(12).pc(4).pitch(64).ocatve(5).build());

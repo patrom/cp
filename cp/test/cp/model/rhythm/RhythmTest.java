@@ -109,7 +109,6 @@ public class RhythmTest {
 		Integer[] texture = {1,1,1,1,1,1};
 		List<Note> notes = rhythm.getRhythm(harmonyPositions, contour, 1, 2, 3);
 //		List<Note> notes = rhythm.getRhythm(harmonyPositions, sounds, texture, contour, 1);
-		musicXMLWriter.generateMusicXMLForNotes(notes, new KontaktLibPiano(0, 0) , "rhythm");
 		
 		MelodyInstrument melodyInstrument = new MelodyInstrument(notes, 0);
 		melodyInstrument.setInstrument(new KontaktLibPiano(0, 0));
@@ -160,7 +159,6 @@ public class RhythmTest {
 		chordNotes.add(note().pc(7).pitch(67).ocatve(5).voice(2).build());
 		Integer[] sounds = {0,6,12,18,24,36,48};
 		List<Note> notes = rhythm.getRhythmRandomContourTexture(chordNotes, sounds, 0, 2);
-		musicXMLWriter.generateMusicXMLForNotes(notes, new KontaktLibPiano(0, 0) , "rhythm");
 		
 		MelodyInstrument melodyInstrument = new MelodyInstrument(notes, 0);
 		melodyInstrument.setInstrument(new KontaktLibPiano(0, 0));
@@ -195,8 +193,6 @@ public class RhythmTest {
 		assertEquals(60, note.getPitch());
 		assertEquals(contourNote.getPosition(), note.getPosition());
 		assertEquals(contourNote.getLength(), note.getLength());
-		
-		musicXMLWriter.generateMusicXMLForNotes(textureNotes, new KontaktLibPiano(0, 1) , "texture");
 	}
 
 	

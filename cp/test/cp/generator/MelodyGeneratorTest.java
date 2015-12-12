@@ -51,6 +51,7 @@ import cp.out.instrument.KontaktLibViolin;
 import cp.out.instrument.MidiDevice;
 import cp.out.print.Display;
 import cp.out.print.ScoreUtilities;
+import cp.out.print.note.NoteStep;
 import cp.variation.Embellisher;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {DefaultConfig.class, VariationConfig.class}, loader = SpringApplicationContextLoader.class)
@@ -73,11 +74,15 @@ public class MelodyGeneratorTest extends JFrame{
 	private MidiDevicesUtil midiDevicesUtil;
 	@Mock
 	private NoteCombination noteCombination;
-	private int key = 0;
+	@Autowired
+	private NoteStep C;
+	@Autowired
+	private MusicProperties musicProperties;
 
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
+		musicProperties.setKey(C);
 	}
 
 	@Test
@@ -152,7 +157,7 @@ public class MelodyGeneratorTest extends JFrame{
 		int length = 24;
 		List<Note> melodyNotes = melodyGenerator.generatePositions(start, length, 6, new Integer[]{1,1}, 2);
 		CpMelody melody = new CpMelody(melodyNotes, Scale.MAJOR_SCALE, 1, start, start + length);
-		MelodyBlock melodyBlock = new MelodyBlock(5);
+		MelodyBlock melodyBlock = new MelodyBlock(5, 1);
 		melodyBlock.addMelodyBlock(melody);
 		melodyBlock.updatePitchesFromContour();
 		LOGGER.info(melodyBlock.getMelodyBlockContour() + ", ");
@@ -168,7 +173,7 @@ public class MelodyGeneratorTest extends JFrame{
 	@Test
 	public void testGenerateMelody2() {
 		CpMelody melody = melodyGenerator.generateMelody(12, 4);
-		MelodyBlock melodyBlock = new MelodyBlock(5);
+		MelodyBlock melodyBlock = new MelodyBlock(5, 1);
 		melodyBlock.addMelodyBlock(melody);
 		melodyBlock.updatePitchesFromContour();
 		LOGGER.info(melodyBlock.getMelodyBlockContour() + ", ");
@@ -185,7 +190,7 @@ public class MelodyGeneratorTest extends JFrame{
 	public void testGenerateMelody3() {
 		List<Note> notes = new ArrayList<>();
 		when(noteCombination.getNotes(Mockito.anyInt(), Mockito.anyInt())).thenReturn(notes);
-		CpMelody melody = melodyGenerator.generateMelody(1, Scale.MAJOR_SCALE, key, 0, 12);
+		CpMelody melody = melodyGenerator.generateMelody(1, Scale.MAJOR_SCALE, 0, 12);
 		assertEquals(1, melody.getVoice());
 		assertEquals(12, melody.getBeat());
 		assertEquals(0, melody.getStart());
@@ -196,7 +201,7 @@ public class MelodyGeneratorTest extends JFrame{
 	public void testGenerateMelody4() {
 		List<Note> notes = new ArrayList<>();
 		when(noteCombination.getNotes(Mockito.anyInt(), Mockito.anyInt())).thenReturn(notes);
-		CpMelody melody = melodyGenerator.generateMelody(1, Scale.MAJOR_SCALE, key, 0, 12);
+		CpMelody melody = melodyGenerator.generateMelody(1, Scale.MAJOR_SCALE, 0, 12);
 		assertEquals(1, melody.getVoice());
 		assertEquals(12, melody.getBeat());
 		assertEquals(0, melody.getStart());
@@ -210,7 +215,7 @@ public class MelodyGeneratorTest extends JFrame{
 		when(noteCombination.getNotes(Mockito.anyInt(), Mockito.anyInt())).thenReturn(notes);
 		List<Integer> beats = new ArrayList<>();
 		beats.add(12);
-		MelodyBlock melody = melodyGenerator.generateMelodyBlock(1, Scale.MAJOR_SCALE, key, 0, 48, 5, beats);
+		MelodyBlock melody = melodyGenerator.generateMelodyBlock(1, Scale.MAJOR_SCALE, 0, 48, 5, beats);
 		assertEquals(1, melody.getVoice());
 		assertEquals(4, melody.getMelodyBlocks().size());
 	}
@@ -223,7 +228,7 @@ public class MelodyGeneratorTest extends JFrame{
 		notes.add(note().pc(7).pos(24).len(12).build());
 		when(noteCombination.getNotes(Mockito.anyInt(), Mockito.anyInt())).thenReturn(notes);
 		int key = 3;
-		CpMelody melody = melodyGenerator.generateMelody(1, Scale.MAJOR_SCALE, key, 0, 12);
+		CpMelody melody = melodyGenerator.generateMelody(1, Scale.MAJOR_SCALE, 0, 12);
 		List<Note> melodyNotes = melody.getNotes();
 		LOGGER.info(melodyNotes + ", ");
 		melodyNotes.forEach(note -> note.setPitch(note.getPitchClass() + 60));

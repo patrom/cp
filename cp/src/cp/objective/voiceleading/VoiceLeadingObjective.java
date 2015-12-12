@@ -1,9 +1,11 @@
 package cp.objective.voiceleading;
 
+import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import cp.model.Motive;
 import cp.model.harmony.CpHarmony;
+import cp.model.note.Note;
 import cp.objective.Objective;
 
 @Component
@@ -35,6 +38,10 @@ public class VoiceLeadingObjective extends Objective {
 		DoubleSummaryStatistics stats = harmonies.stream().collect(Collectors.summarizingDouble(CpHarmony::getHarmonyWeight));
 		LOGGER.debug("filtered at: " + stats.getAverage());
 		return harmonies.stream().filter(h -> h.getHarmonyWeight() > stats.getAverage()).collect(toList());
+	}
+	
+	private TreeMap<Integer, List<CpHarmony>> harmoniesForBeat(List<CpHarmony> harmonies, int beat){
+		return  harmonies.stream().collect(groupingBy(h -> h.beat(beat), TreeMap::new, Collectors.toList()));
 	}
 
 }

@@ -1,6 +1,7 @@
 package cp.nsga.operator.mutation.melody;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 import jmetal.core.Solution;
 import jmetal.util.Configuration;
@@ -41,8 +42,11 @@ public class OneNoteMutation extends AbstractMutation {
 	public void doMutation(double probability, Solution solution) throws JMException {
 		if (PseudoRandom.randDouble() < probability) {
 			Motive motive = ((MusicVariable)solution.getDecisionVariables()[0]).getMotive();
-			MelodyBlock mutableMelody = motive.getRandomMutableMelody();
-			mutableMelody.updateRandomNote();
+			MelodyBlock mutableMelodyBlock = motive.getRandomMutableMelody();
+			Optional<CpMelody> optionalMelody = mutableMelodyBlock.getRandomMelody(m -> m.isMutable());
+			if (optionalMelody.isPresent()) {
+				optionalMelody.get().updateRandomNote();
+			}
 		} 
 	}
 

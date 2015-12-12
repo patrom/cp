@@ -159,7 +159,7 @@ public class MidiDevicesUtil {
 							
 			MidiEvent eventOn = createNoteMidiEvent(ShortMessage.NOTE_ON, notePos, notePos.getPosition(), instrument.getChannel());
 			track.add(eventOn);
-			MidiEvent eventOff = createNoteMidiEvent(ShortMessage.NOTE_OFF, notePos, notePos.getPosition() + notePos.getDisplayLength(), instrument.getChannel());
+			MidiEvent eventOff = createNoteMidiEvent(ShortMessage.NOTE_OFF, notePos, notePos.getPosition() + notePos.getLength(), instrument.getChannel());
 			track.add(eventOff);	
 		}
 	}
@@ -186,7 +186,7 @@ public class MidiDevicesUtil {
 			
 			MidiEvent eventOn = createNoteMidiEvent(ShortMessage.NOTE_ON, notePos, notePos.getPosition(), instrument.getChannel());
 			track.add(eventOn);
-			MidiEvent eventOff = createNoteMidiEvent(ShortMessage.NOTE_OFF, notePos, notePos.getPosition() + notePos.getDisplayLength(), instrument.getChannel());
+			MidiEvent eventOff = createNoteMidiEvent(ShortMessage.NOTE_OFF, notePos, notePos.getPosition() + notePos.getLength(), instrument.getChannel());
 			track.add(eventOff);	
 		}
 	}

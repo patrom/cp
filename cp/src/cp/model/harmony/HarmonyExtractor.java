@@ -61,7 +61,7 @@ public class HarmonyExtractor {
 					.map(n -> n.clone())
 					.collect(toList());
 			if (harmonyNotes.size() > 1) {
-				CpHarmony harmony = new CpHarmony(harmonyNotes);
+				CpHarmony harmony = new CpHarmony(harmonyNotes, entry.getKey());
 				harmony.toChord();
 				extractedHarmonies.add(harmony);
 			}

@@ -33,31 +33,27 @@ public class MeterObjective extends Objective{
 
 	@Override
 	public double evaluate(Motive motive) {
-		List<MelodyBlock> melodies = motive.getMelodyBlocks();
-		List<Note> mergedMelodyNotes = melodies.stream().flatMap(m -> m.getMelodyBlockNotes().stream()).collect(Collectors.toList());
-		double globalFilterLevel = musicProperties.getMinimumRhythmFilterLevel() * melodies.size();
-		return getProfileMergedMelodiesAverage(mergedMelodyNotes, globalFilterLevel);
-	}
-	
-	
-	public double getProfileMergedMelodiesAverage(List<Note> notes, double minimumFilterLevel){
-		Map<Integer, Double> profile = extractRhythmProfile(notes);
+		Map<Integer, Double> profile = motive.extractRhythmProfile();
+		double globalFilterLevel = musicProperties.getMinimumRhythmFilterLevel() * motive.getMelodyBlocks().size();
 		List<Integer> positionsFiltered = profile.entrySet().stream()
-												.filter(p -> p.getValue().doubleValue() >= minimumFilterLevel)
-												.map(p -> p.getKey()).sorted()
-												.collect(toList());
+				.filter(p -> p.getValue().doubleValue() >= globalFilterLevel)
+				.map(p -> p.getKey())
+				.sorted()
+				.collect(toList());
+		LOGGER.debug("Filtered positions: " + positionsFiltered);
 		if (positionsFiltered.isEmpty()) {
 			return 0;
 		}
+		return getProfileMergedMelodiesAverage(positionsFiltered);
+	}
+	
+	
+	public double getProfileMergedMelodiesAverage(List<Integer> positionsFiltered){
 		Integer[] filteredPos = new Integer[positionsFiltered.size()];
 		InnerMetricWeight innerMetricWeightMerged = innerMetricWeightFunctions.getInnerMetricWeight(ArrayUtils.toPrimitive(positionsFiltered.toArray(filteredPos)) 
 				,musicProperties.getMinimumLength(), musicProperties.getDistance());
 		LOGGER.debug(innerMetricWeightMerged.getInnerMetricWeightMap().toString());
 		return innerMetricWeightMerged.getInnerMetricWeightAverage();
-	}
-	
-	protected  Map<Integer, Double> extractRhythmProfile(List<Note> notes){
-		return  notes.stream().collect(groupingBy(Note::getPosition, TreeMap::new, summingDouble(Note::getPositionWeight)));
 	}
 	
 }

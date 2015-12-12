@@ -21,7 +21,7 @@ public class CpHarmonyTest {
 		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).positionWeight(3.0).build());
 		notes.add(note().pos(12).pc(4).pitch(76).ocatve(6).positionWeight(1.0).build());
 		notes.add(note().pos(18).pc(7).pitch(79).ocatve(6).positionWeight(3.0).build());
-		cpHarmony = new CpHarmony(notes);
+		cpHarmony = new CpHarmony(notes, 0);
 	}
 
 	@Test

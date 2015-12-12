@@ -53,13 +53,13 @@ public class HarmonicObjectiveTest extends JFrame {
 		notes.add(note().pos(0).pitch(60).positionWeight(4.0).build());
 		notes.add(note().pos(0).pitch(60).positionWeight(1.0).build());
 		notes.add(note().pos(0).pitch(62).positionWeight(2.0).build());
-		harmonies.add(new CpHarmony(notes));
+		harmonies.add(new CpHarmony(notes, 0));
 		
 		notes = new ArrayList<>();
 		notes.add(note().pos(12).pitch(58).positionWeight(1.0).build());
 		notes.add(note().pos(12).pitch(61).positionWeight(2.0).build());
 		notes.add(note().pos(12).pitch(59).positionWeight(3.0).build());
-		harmonies.add(new CpHarmony(notes));
+		harmonies.add(new CpHarmony(notes, 12));
 		
 		double totalHarmonyWeight = harmonicObjective.getHarmonyWeights(harmonies);
 		assertEquals((7.0/13.0 + 6.0/13.0)/harmonies.size(), totalHarmonyWeight, 0);
@@ -72,13 +72,13 @@ public class HarmonicObjectiveTest extends JFrame {
 		notes.add(note().pos(0).pitch(60).positionWeight(4.0).build());
 		notes.add(note().pos(12).pitch(60).positionWeight(1.0).build());
 		notes.add(note().pos(24).pitch(62).positionWeight(2.0).build());
-		harmonies.add(new CpHarmony(notes));
+		harmonies.add(new CpHarmony(notes, 0));
 		
 		notes = new ArrayList<>();
 		notes.add(note().pos(18).pitch(58).positionWeight(1.0).build());
 		notes.add(note().pos(36).pitch(61).positionWeight(2.0).build());
 		notes.add(note().pos(48).pitch(59).positionWeight(3.0).build());
-		harmonies.add(new CpHarmony(notes));
+		harmonies.add(new CpHarmony(notes, 0));
 		double totalHarmonyWeight = harmonicObjective.getTotalHarmonyWeight(harmonies);
 		assertEquals(13, totalHarmonyWeight, 0);
 	}

@@ -1,5 +1,7 @@
 package cp;
 
+import static cp.model.note.NoteBuilder.note;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -28,13 +30,12 @@ import cp.generator.MusicProperties;
 import cp.model.Motive;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
+import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.nsga.MusicSolutionType;
 import cp.nsga.operator.mutation.melody.ArticulationMutation;
 import cp.nsga.operator.mutation.melody.OneNoteMutation;
 import cp.nsga.operator.mutation.melody.ReplaceMelody;
-import cp.nsga.operator.mutation.rhythm.AddRhythm;
-import cp.nsga.operator.mutation.rhythm.RemoveRhythm;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.KontaktLibCello;
 import cp.out.instrument.KontaktLibViolin;
@@ -78,10 +79,6 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	@Autowired
 	private OneNoteMutation oneNoteMutation;
 	@Autowired
-	private AddRhythm addRhythm;
-	@Autowired
-	private RemoveRhythm removeRhythm;
-	@Autowired
 	private ArticulationMutation articulationMutation;
 	@Autowired
 	private ReplaceMelody replaceMelody;
@@ -110,83 +107,54 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		}
 	}
 	
-	private void composeInMeter(int numerator, int denominator){
-		musicProperties.setNumerator(numerator);
-		musicProperties.setDenominator(denominator);
-	}
-	
 	@Override
 	public void run(String... arg0) throws Exception {
 		deleteMidiFiles(midiFilesPath);
 		
 		composeInMeter(4,4);
-		composeInKey(C);
+		composeInKey(D);
 		
 		List<Integer> beats = new ArrayList<>();
 		beats.add(12);
-//		beats.add(24);
+		beats.add(24);
 //		beats.add(48);
 		
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
 		
+		//harmonization
+		Instrument cello = new KontaktLibCello(0, 3);
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pc(2).len(24).build());
+		notes.add(note().pos(24).pc(4).len(24).build());
+		notes.add(note().pos(48).pc(6).len(24).build());
+		notes.add(note().pos(72).pc(7).len(24).build());
+		notes.add(note().pos(96).pc(2).len(12).build());
+		CpMelody melody = new CpMelody(notes, Scale.MAJOR_SCALE, cello.getVoice());
+		MelodyBlock melodyBlock = new MelodyBlock(3, cello.getVoice());
+		melodyBlock.addMelodyBlock(melody);
+		melodyBlock.setMutable(false);
+		melodyBlock.setInstrument(cello);
+		
+		melodyBlocks.add(melodyBlock);
+		
 //		Instrument cello = new KontaktLibCello(0, 3);
-//		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(cello.getVoice(), Scale.MAJOR_SCALE, C.getInterval(), 0, 96, 3, beats);
+//		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(cello.getVoice(), Scale.MAJOR_SCALE, 0, 96, 3, beats);
 //		melodyBlock.setInstrument(cello);
 //		melodyBlocks.add(melodyBlock);
 		
-		
 		Instrument violin = new KontaktLibViolin(1, 2);
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(violin.getVoice(), Scale.MAJOR_SCALE, C.getInterval(), 12, 96, 5, beats);
+		melodyBlock = melodyGenerator.generateMelodyBlock(violin.getVoice(), Scale.MAJOR_SCALE, 0, 96, 5, beats);
 		melodyBlock.setInstrument(violin);
 		melodyBlocks.add(melodyBlock);
-		
-//		int voice = 0;
-//		int key = 0;
-//		MelodyBlock melodyBlock = new MelodyBlock(5);
-//		melodyBlock.setVoice(voice);
-//		CpMelody melody = melodyGenerator.generateMelody(voice, Scale.MAJOR_SCALE, key, 0, 12);
-//		melodyBlock.addMelodyBlock(melody);
-//		
-//		melody = melodyGenerator.generateMelody(voice, Scale.MAJOR_SCALE, key, 12, 18);
-//		melodyBlock.addMelodyBlock(melody);
-//		
-//		key = 9;
-//		melody = melodyGenerator.generateMelody(voice, Scale.HARMONIC_MINOR_SCALE, key, 30, 12);
-//		melodyBlock.addMelodyBlock(melody);
-//		
-//		melody = melodyGenerator.generateMelody(voice, Scale.HARMONIC_MINOR_SCALE, key, 42, 18);
-//		melodyBlock.addMelodyBlock(melody);
-//		
-//		melodyBlock.setInstrument(musicProperties.findInstrument(voice));
-//		melodyBlocks.add(melodyBlock);
-	
-		
-//		melody = cpMelodyBuilder.start(24).voice(voice).build();
-//		melodyBlock.addMelodyBlock(melody);
-//		
-//		melody = cpMelodyBuilder.start(48).voice(voice).build();
-//		melodyBlock.addMelodyBlock(melody);
-//		
-//		melody = cpMelodyBuilder.start(72).voice(voice).beat(12).build();
-//		melodyBlock.addMelodyBlock(melody);
-//		melody = cpMelodyBuilder.start(84).voice(voice).beat(12).build();
-//		melodyBlock.addMelodyBlock(melody);
-//		
-//		Note note = NoteBuilder.note().pc(0).voice(voice).pos(96).len(12).build();
-//		melody = new CpMelody(Collections.singletonList(note), Scale.MAJOR_SCALE, voice, 96, 108);
-//		melody.setReplaceable(false);
-//		melodyBlock.addMelodyBlock(melody);
-//		melodyBlock.setInstrument(musicProperties.findInstrument(voice));
-//		melodyBlocks.add(melodyBlock);
-//		
 	
 		//fugue
+//		Instrument cello = new KontaktLibCello(0, 3);
 //		MelodyBlock melodyBlock2 = new MelodyBlock(4);
-//		melodyBlock2.setVoice(1);
+//		melodyBlock2.setVoice(cello.getVoice());
 //		melodyBlock2.setOffset(24);
 //		melodyBlock2.setOperatorType(new OperatorType(0, cp.model.melody.Operator.T));
 //		melodyBlock2.dependsOn(melodyBlock.getVoice());
-//		melodyBlock2.setInstrument(musicProperties.findInstrument(1));
+//		melodyBlock2.setInstrument(cello);
 //		melodyBlocks.add(melodyBlock2);
 		
 	    Motive motive = new Motive(melodyBlocks);
@@ -203,8 +171,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	    // Add the operators to the algorithm
 	    algorithm.addOperator("crossover", crossover);
 	    algorithm.addOperator("oneNoteMutation", oneNoteMutation);
-	    algorithm.addOperator("addRhythm", addRhythm);
-	    algorithm.addOperator("removeRhythm", removeRhythm);
+//	    algorithm.addOperator("addRhythm", addRhythm);
+//	    algorithm.addOperator("removeRhythm", removeRhythm);
 	    algorithm.addOperator("articulationMutation", articulationMutation);
 	    algorithm.addOperator("replaceMelody", replaceMelody);
 	    algorithm.addOperator("selection", SelectionFactory.getSelectionOperator("BinaryTournament2", parameters));
@@ -219,6 +187,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 
 	private void composeInKey(NoteStep key) {
 		musicProperties.setKeySignature(key.getKeySignature());
+		musicProperties.setKey(key);
 	}
 
 	private void deleteMidiFiles(String midiFilesPath) throws IOException{
@@ -226,6 +195,11 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		for (File file : midiFiles) {
 			file.delete();
 		}
+	}
+	
+	private void composeInMeter(int numerator, int denominator){
+		musicProperties.setNumerator(numerator);
+		musicProperties.setDenominator(denominator);
 	}
 }
 

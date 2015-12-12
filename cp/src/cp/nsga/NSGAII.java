@@ -85,8 +85,8 @@ public class NSGAII extends Algorithm {
 		// Read the operators
 		List<Operator> mutationOperators = new ArrayList<Operator>();
 		mutationOperators.add(operators_.get("replaceMelody"));
-		mutationOperators.add(operators_.get("addRhythm"));
-		mutationOperators.add(operators_.get("removeRhythm"));
+//		mutationOperators.add(operators_.get("addRhythm"));
+//		mutationOperators.add(operators_.get("removeRhythm"));
 		mutationOperators.add(operators_.get("oneNoteMutation"));
 		mutationOperators.add(operators_.get("articulationMutation"));
 		Operator crossoverOperator = operators_.get("crossover");

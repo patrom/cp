@@ -39,13 +39,13 @@ public class MelodyGenerator {
 	@Autowired
 	private NoteCombination noteCombination;
 	
-	public MelodyBlock generateMelodyBlock(final int voice, Scale scale, int key, int start, int stop, int octave, List<Integer> beats){
-		MelodyBlock melodyBlock = new MelodyBlock(octave);
+	public MelodyBlock generateMelodyBlock(final int voice, Scale scale, int start, int stop, int octave, List<Integer> beats){
+		MelodyBlock melodyBlock = new MelodyBlock(octave, voice);
 		melodyBlock.setVoice(voice);
 		int beat = RandomUtil.getRandomFromList(beats);
 		int end = start + beat;
 		while (end <= stop) {
-			CpMelody melody = generateMelody(voice, scale, key, start, beat);
+			CpMelody melody = generateMelody(voice, scale, start, beat);
 			melodyBlock.addMelodyBlock(melody);
 			
 			beat = RandomUtil.getRandomFromList(beats);
@@ -55,18 +55,18 @@ public class MelodyGenerator {
 		return melodyBlock;
 	}
 
-	public CpMelody generateMelody(int voice, Scale scale, int key, int start,
+	public CpMelody generateMelody(int voice, Scale scale, int start,
 			int beat) {
 		List<Note> melodyNotes = noteCombination.getNotes(beat, voice);
 		int offset = start;
 		melodyNotes.forEach(n -> {
 			n.setPosition(n.getPosition() + offset);
-			int pitchClass = (scale.pickRandomPitchClass() + key) % 12;
+			int pitchClass = (scale.pickRandomPitchClass() + musicProperties.getKey().getInterval()) % 12;
 			n.setPitchClass(pitchClass);
 		});
 		CpMelody melody = new CpMelody(melodyNotes, scale, voice, start, start + beat);
 		melody.setBeat(beat);
-		melody.setKey(key);
+		melody.setKey(musicProperties.getKey().getInterval());
 		return melody;
 	}
 	

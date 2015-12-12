@@ -25,8 +25,8 @@ public class DefaultConfig {
 	@Bean
 	public HashMap<String, Object> parameters() {
 		HashMap<String, Object> probabilityParamters = new HashMap<>();
-		probabilityParamters.put("probabilityAddRhythm", 0.0);
-		probabilityParamters.put("probabilityRemoveRhythm", 0.0);
+//		probabilityParamters.put("probabilityAddRhythm", 0.0);
+//		probabilityParamters.put("probabilityRemoveRhythm", 0.0);
 		probabilityParamters.put("probabilityOneNote", 1.0);
 		probabilityParamters.put("probabilityArticulation", 0.0);
 		probabilityParamters.put("probabilityReplaceMelody", 1.0);

@@ -51,7 +51,7 @@ public class ReplaceMelody extends AbstractMutation{
 		if (PseudoRandom.randDouble() < probability) {
 			Motive motive = ((MusicVariable)solution.getDecisionVariables()[0]).getMotive();
 			MelodyBlock melodyBlock = motive.getRandomMutableMelody();
-			Optional<CpMelody> optionalMelody = melodyBlock.getRandomMelody();
+			Optional<CpMelody> optionalMelody = melodyBlock.getRandomMelody(m -> m.isReplaceable());
 			if (optionalMelody.isPresent()) {
 				CpMelody melody = optionalMelody.get();
 				List<Note> melodyNotes = noteCombination.getNotes(melody.getBeat(), melody.getVoice());

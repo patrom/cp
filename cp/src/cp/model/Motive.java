@@ -1,22 +1,21 @@
 package cp.model;
 
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.summingDouble;
 import static java.util.stream.Collectors.toList;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+import java.util.TreeMap;
 
 import cp.model.harmony.CpHarmony;
-import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
-import cp.out.instrument.Instrument;
+import cp.model.note.Note;
 import cp.util.RandomUtil;
 
 public class Motive implements Cloneable {
 
 	private List<CpHarmony> harmonies;
-	private List<CpMelody> melodies;
-	private List<Instrument> instruments;
 	private List<MelodyBlock> melodyBlocks;
 	
 //	public Motive(List<CpMelody> melodies){
@@ -41,9 +40,10 @@ public class Motive implements Cloneable {
 		this.harmonies = harmonies;
 	}
 	
-//	public List<CpMelody> getMelodies() {
-//		return melodies;
-//	}
+	public  Map<Integer, Double> extractRhythmProfile(){
+		List<Note> mergedMelodyNotes = melodyBlocks.stream().flatMap(m -> m.getMelodyBlockNotes().stream()).collect(toList());
+		return  mergedMelodyNotes.stream().collect(groupingBy(Note::getPosition, TreeMap::new, summingDouble(Note::getPositionWeight)));
+	}
 	
 	public List<MelodyBlock> getMelodyBlocks() {
 		return melodyBlocks;
@@ -56,11 +56,6 @@ public class Motive implements Cloneable {
 	
 	public MelodyBlock getRandomMutableMelody(){
 		List<MelodyBlock> mutableMelodies = melodyBlocks.stream().filter(m -> m.isMutable()).collect(toList());
-		return mutableMelodies.get(RandomUtil.random(mutableMelodies.size()));
-	}
-	
-	public MelodyBlock getRandomRhythmMutableMelody(){
-		List<MelodyBlock> mutableMelodies = melodyBlocks.stream().filter(m -> m.isRhythmMutable()).collect(toList());
 		return mutableMelodies.get(RandomUtil.random(mutableMelodies.size()));
 	}
 	

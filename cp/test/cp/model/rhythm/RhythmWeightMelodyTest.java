@@ -68,7 +68,7 @@ public class RhythmWeightMelodyTest extends JFrame{
 			rhythmWeight.updateRhythmWeight();
 			System.out.println(file.getName());
 			CpMelody melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0);
-			MelodyBlock melodyBlock = new MelodyBlock(5);
+			MelodyBlock melodyBlock = new MelodyBlock(5,0);
 			melodyBlock.addMelodyBlock(melody);
 			double profileAverage = rhythmObjective.getProfileAverage(melodyBlock, 3.0, 12);
 			System.out.println(profileAverage);

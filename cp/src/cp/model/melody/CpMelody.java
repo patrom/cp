@@ -147,24 +147,6 @@ public class CpMelody implements Cloneable{
 		}
 	}
 
-	public void addRandomRhythmNote(int minimumValue) {
-		int newPosition = RandomUtil.randomInt(this.start/minimumValue, this.end/minimumValue) * minimumValue;
-		int pitchClass = getScale().pickRandomPitchClass();
-		insertRhythm(newPosition, pitchClass);
-	}
-
-	protected void insertRhythm(int newPosition, int pitchClass) {
-		List<Note> notesNoRest = getNotesNoRest();
-		List<Integer> positions = notesNoRest.stream().map(n -> n.getPosition()).collect(toList());
-		if (!positions.contains(newPosition)) {
-			Note note = note().pos(newPosition).voice(voice).pc(pitchClass).build();
-			notesNoRest.add(note);
-			Collections.sort(notesNoRest);
-			insertContourDirections(notesNoRest.indexOf(note));
-			LOGGER.info("rhythm note added");
-		}
-	}
-	
 	protected void insertContourDirections(int index){
 		contour.add(index, RandomUtil.randomAscendingOrDescending());
 		updatePreviousContour(index, RandomUtil.randomAscendingOrDescending());

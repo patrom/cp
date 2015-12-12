@@ -6,6 +6,7 @@ import static java.util.stream.Collectors.toList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import org.springframework.stereotype.Component;
 
@@ -28,8 +29,13 @@ public class MelodyBlock {
 	private int voice = -1;
 	private int offset;
 	
-	public MelodyBlock(int startOctave) {
+//	public MelodyBlock(int startOctave) {
+//		this.startOctave = startOctave;
+//	}
+	
+	public MelodyBlock(int startOctave, int voice) {
 		this.startOctave = startOctave;
+		this.voice = voice;
 	}
 	
 	private MelodyBlock(MelodyBlock anotherBlock) {
@@ -84,16 +90,6 @@ public class MelodyBlock {
 		melody.updateRandomNote();
 	}
 	
-	public void addRandomRhythmNote(int minimumValue) {
-		CpMelody melody = RandomUtil.getRandomFromList(melodyBlocks);
-		melody.addRandomRhythmNote(minimumValue);
-	}
-	
-	public void removeNote() {
-		CpMelody melody = RandomUtil.getRandomFromList(melodyBlocks);
-		melody.removeNote();
-	}
-	
 	public void updateArticulation(){
 		CpMelody melody = RandomUtil.getRandomFromList(melodyBlocks);
 		melody.updateArticulation();
@@ -112,9 +108,9 @@ public class MelodyBlock {
 		}
 	}
 	
-	public Optional<CpMelody> getRandomMelody(){
+	public Optional<CpMelody> getRandomMelody(Predicate<CpMelody> filterPredicate){
 		List<CpMelody> melodies = melodyBlocks.stream()
-				.filter(m -> m.isReplaceable())
+				.filter(filterPredicate)
 				.collect(toList());
 		if (!melodies.isEmpty()) {
 			return Optional.of(RandomUtil.getRandomFromList(melodies));
@@ -223,6 +219,10 @@ public class MelodyBlock {
 		return mutable;
 	}
 	
+	public void setMutable(boolean mutable) {
+		this.mutable = mutable;
+	}
+	
 	public boolean isRhythmMutable() {
 		return rhythmMutable;
 	}
@@ -289,5 +289,5 @@ public class MelodyBlock {
 		int last = this.melodyBlocks.size() - 1;
 		return this.melodyBlocks.get(last);
 	}
-
+	
 }

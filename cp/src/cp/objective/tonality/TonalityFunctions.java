@@ -75,19 +75,16 @@ public class TonalityFunctions {
 	
 	public static double getMaxCorrelationTonality(List<MelodyBlock> melodyBlocks,
 			double[] template) {
-		double max = 0;
+		double[] durationVector = new double[12];
 		for (MelodyBlock melodyBlock: melodyBlocks) {
 			List<cp.model.note.Note> notePositions = melodyBlock.getMelodyBlockNotes();
-			double[] durationVector = new double[12];
 			for (cp.model.note.Note note : notePositions) {
 				int pitchClass = note.getPitch() % 12;
 				durationVector[pitchClass] = durationVector[pitchClass]
-						+ note.getRhythmValue();
+						+ note.getLength();
 			}
-			Double maxBlock = getMaximumCorrelation(template, durationVector);
-			max = max + maxBlock;
 		}
-		return 0;
+		return getMaximumCorrelation(template, durationVector);
 	}
 
 //	public static double getMaxCorrelationTonality(

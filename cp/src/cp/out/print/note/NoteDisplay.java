@@ -16,12 +16,16 @@ public class NoteDisplay {
 	private MusicProperties musicProperties;
 	@Resource(name = "keyOfC")
 	private Map<Integer, NoteStep> keyOfC;
+	@Resource(name = "keyOfD")
+	private Map<Integer, NoteStep> keyOfD;
 	
 
 	public NoteStep getNoteStep(int pitchClass){
 		switch (musicProperties.getKeySignature()) {
 		case 0:
 			return keyOfC.get(pitchClass);
+		case 2:
+			return keyOfD.get(pitchClass);
 		default:
 			break;
 		}

@@ -8,9 +8,11 @@ public class CpHarmony {
 
 	private List<Note> notes;
 	private Chord chord;
+	private int position;
 
-	public CpHarmony(List<Note> notes) {
+	public CpHarmony(List<Note> notes, int position) {
 		this.notes = notes;
+		this.position = position;
 	}
 	
 	public double getHarmonyWeight(){
@@ -31,6 +33,10 @@ public class CpHarmony {
 				.findFirst()
 				.get()
 				.getPitchClass();
+	}
+	
+	public int beat(int beat){
+		return position/beat;
 	}
 	
 	public List<Note> getNotes() {

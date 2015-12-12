@@ -31,7 +31,7 @@ public class RhythmObjective extends Objective{
 	public double evaluate(Motive motive) {
 		List<MelodyBlock> melodies = motive.getMelodyBlocks();
 		double profileAverage = melodies.stream()
-				.mapToDouble(melody -> getProfileAverage(melody, musicProperties.getMinimumRhythmFilterLevel(), musicProperties.getMelodyBeatValue()))
+				.mapToDouble(melody -> getProfileAverage(melody, musicProperties.getMinimumRhythmFilterLevel(), musicProperties.getMinimumLength()))
 				.average()
 				.getAsDouble();
 		return profileAverage;

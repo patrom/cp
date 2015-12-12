@@ -3,7 +3,6 @@ package cp.evaluation;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +13,6 @@ import cp.generator.MusicProperties;
 import cp.model.Motive;
 import cp.model.harmony.CpHarmony;
 import cp.model.harmony.HarmonyExtractor;
-import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.rhythm.RhythmWeight;
@@ -85,7 +83,7 @@ public class FitnessEvaluationTemplate {
 			melody.updateMelodyBetween();
 			List<Note> notes = melody.getMelodyBlockNotes();
 			rhythmWeight.setNotes(notes);
-			rhythmWeight.updateRhythmWeightMinimum(musicProperties.getMelodyBeatValue());
+			rhythmWeight.updateRhythmWeightMinimum(musicProperties.getMinimumLength());
 		}
 	}
 
@@ -112,8 +110,8 @@ public class FitnessEvaluationTemplate {
 		double melodic = melodicObjective.evaluate(motive);
 		LOGGER.debug("melodic = " + melodic);
 		
-//		double tonality = tonalityObjective.evaluate(motive);
-//		LOGGER.debug("tonality = " + tonality);
+		double tonality = tonalityObjective.evaluate(motive);
+		LOGGER.debug("tonality = " + tonality);
 		
 		double rhythm = rhythmObjective.evaluate(motive);
 		LOGGER.debug("rhythm = " + rhythm);
@@ -125,7 +123,7 @@ public class FitnessEvaluationTemplate {
 		fitnessObjectives.setHarmony(harmony);
 		fitnessObjectives.setMelody(melodic);
 //		fitnessObjectives.setVoiceleading(voiceLeading);
-//		fitnessObjectives.setTonality(tonality);
+		fitnessObjectives.setTonality(tonality);
 		fitnessObjectives.setRhythm(rhythm);
 		fitnessObjectives.setMeter(meter);
 

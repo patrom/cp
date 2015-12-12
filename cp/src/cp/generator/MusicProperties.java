@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import cp.model.note.Scale;
 import cp.out.instrument.Instrument;
+import cp.out.print.note.NoteStep;
 
 @Component
 public class MusicProperties {
@@ -16,15 +17,16 @@ public class MusicProperties {
 	private int harmonyBeatDivider = 12;
 	private int tempo = 100;
 	private Map<Integer, Double> rhythmWeightValues = new TreeMap<>(); //Must match length of harmonies based on division by minimumLength.
-	private int minimumLength = 6;
+	private int minimumLength = 3; //for rhythm weight
 	private Integer[] octaveLowestPitchClassRange = {0};
 	private boolean outerBoundaryIncluded = true;
 	private double[] filterLevels = {0.5};
 	private List<Instrument> instruments;
-	private int minimumRhythmFilterLevel = 1;
+	private int minimumRhythmFilterLevel = 3; //levels pitch, crest/keel, ...
 	private int[] distance = {2,3,4,5,6,8,9,10,12,14,15,16,18,20,21,22,24,26,27,28,30,32};//atomic beat = 12
 	private int melodyType = 2; //or 3
 	private int melodyBeatValue = 12; // for musicXML
+	private NoteStep key;
 	
 	//tonality
 	private Scale scale = Scale.MAJOR_SCALE;
@@ -266,6 +268,14 @@ public class MusicProperties {
 
 	public void setMelodyBeatValue(int melodyBeatValue) {
 		this.melodyBeatValue = melodyBeatValue;
+	}
+
+	public NoteStep getKey() {
+		return key;
+	}
+
+	public void setKey(NoteStep key) {
+		this.key = key;
 	}
 	
 }

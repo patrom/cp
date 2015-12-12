@@ -24,48 +24,6 @@ public class CpMelodyTest {
 	public void setUp() throws Exception {
 	}
 
-
-	
-	@Test
-	public void testInsertRhythm() {
-		List<Note> notes = new ArrayList<>();
-		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
-		notes.add(note().pos(12).pc(2).pitch(62).ocatve(5).build());
-		notes.add(note().pos(18).pc(11).pitch(71).ocatve(5).build());
-		notes.add(note().pos(24).pc(5).pitch(65).ocatve(5).build());
-		notes.add(note().pos(48).pc(7).pitch(67).ocatve(5).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0);
-		melody.insertRhythm(6, 7);
-		assertEquals(6 ,notes.size());
-		assertEquals(0, notes.get(0).getPitchClass());
-		assertEquals(6, notes.get(1).getPosition() );
-//		assertEquals(67, notes.get(1).getPitch());
-		assertEquals(2, notes.get(2).getPitchClass());
-		
-//		assertEquals(62, notes.get(2).getPitch());
-	}
-	
-	@Test
-	public void testInsertRhythmOctaveChange() {
-		List<Note> notes = new ArrayList<>();
-		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
-		notes.add(note().pos(12).pc(4).pitch(76).ocatve(6).build());
-		notes.add(note().pos(18).pc(11).pitch(71).ocatve(6).build());
-		notes.add(note().pos(24).pc(5).pitch(77).ocatve(6).build());
-		notes.add(note().pos(48).pc(7).pitch(79).ocatve(6).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0);
-		melody.insertRhythm(6, 2);
-		assertEquals(6 ,notes.size());
-		assertEquals(0, notes.get(0).getPitchClass());
-		assertEquals(6, notes.get(1).getPosition() );
-//		assertEquals(62, notes.get(1).getPitch());
-//		assertEquals(64, notes.get(2).getPitch());
-//		assertEquals(5, notes.get(2).getOctave());
-	}
-	
-	
-
-	
 	@Test
 	public void testRandomAscDesc(){
 		List<Note> notes = new ArrayList<>();
