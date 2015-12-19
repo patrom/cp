@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import jmetal.core.Solution;
@@ -16,6 +17,8 @@ import jmetal.util.PseudoRandom;
 import cp.combination.NoteCombination;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
+import cp.generator.pitchclass.PitchClassGenerator;
+import cp.generator.pitchclass.RandomPitchClasses;
 import cp.model.Motive;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
@@ -35,6 +38,12 @@ public class ReplaceMelody extends AbstractMutation{
 	private MelodyGenerator melodyGenerator;
 	@Autowired
 	private NoteCombination noteCombination;
+
+	private PitchClassGenerator pitchClassGenerator;
+	
+	public void setPitchClassGenerator(PitchClassGenerator pitchClassGenerator) {
+		this.pitchClassGenerator = pitchClassGenerator;
+	}
 	
 	@Autowired
 	public ReplaceMelody(HashMap<String, Object> parameters) {
@@ -58,9 +67,8 @@ public class ReplaceMelody extends AbstractMutation{
 				melodyNotes.forEach(n -> {
 					n.setVoice(melody.getVoice());
 					n.setPosition(n.getPosition() + melody.getStart());
-					int pitchClass = (melody.getScale().pickRandomPitchClass() + melody.getKey()) % 12;
-					n.setPitchClass(pitchClass);
 				});
+				melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes, melody.getScale(), melody.getKey());
 				melody.updateNotes(melodyNotes);
 				LOGGER.info("Melody replaced");
 			}

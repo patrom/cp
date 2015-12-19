@@ -52,35 +52,21 @@ public class FitnessEvaluationTemplate {
 		updateRhythmWeight(notDependantMelodies);
 
 		dependingMelodies(melodies);
+		
 		List<Note> allNotes = melodies.stream().flatMap(m -> m.getMelodyBlockNotes().stream()).collect(toList());
 		List<CpHarmony> harmonies = harmonyExtractor.extractHarmony(allNotes, motive.getMelodyBlocks().size());
 		motive.setHarmonies(harmonies);
-		melodies.forEach(h ->  LOGGER.debug(h.getMelodyBlockNotes() + ", "));
+//		melodies.forEach(h ->  LOGGER.debug(h.getMelodyBlockNotes() + ", "));
 		return evaluateObjectives(motive);
 	}
 	
-//	public FitnessObjectiveValues evaluate(Motive motive) {
-//		List<CpMelody> melodies = motive.getMelodies();
-//		List<CpMelody> notDependantMelodies = melodies.stream().filter(m -> !m.isDenpendant()).collect(toList());
-//		updatePitchesFromContour(notDependantMelodies);
-//		updateRhythmWeight(notDependantMelodies);
-//
-//		dependingMelodies(melodies);
-//		
-//		List<Note> allNotes = melodies.stream().flatMap(m -> m.getNotes().stream()).collect(toList());
-//		List<CpHarmony> harmonies = harmonyExtractor.extractHarmony(allNotes, motive.getMelodies().size());
-//		motive.setHarmonies(harmonies);
-//		melodies.forEach(h ->  LOGGER.debug(h.getNotes() + ", "));
-//		return evaluateObjectives(motive);
-//	}
-
 	private void updatePitchesFromContour(List<MelodyBlock> melodies) {
 		melodies.forEach(m -> m.updatePitchesFromContour());
+		melodies.forEach(m -> m.updateMelodyBetween());
 	}
 
 	protected void updateRhythmWeight(List<MelodyBlock> melodies) {
 		for (MelodyBlock melody : melodies) {
-			melody.updateMelodyBetween();
 			List<Note> notes = melody.getMelodyBlockNotes();
 			rhythmWeight.setNotes(notes);
 			rhythmWeight.updateRhythmWeightMinimum(musicProperties.getMinimumLength());
@@ -110,8 +96,8 @@ public class FitnessEvaluationTemplate {
 		double melodic = melodicObjective.evaluate(motive);
 		LOGGER.debug("melodic = " + melodic);
 		
-		double tonality = tonalityObjective.evaluate(motive);
-		LOGGER.debug("tonality = " + tonality);
+//		double tonality = tonalityObjective.evaluate(motive);
+//		LOGGER.debug("tonality = " + tonality);
 		
 		double rhythm = rhythmObjective.evaluate(motive);
 		LOGGER.debug("rhythm = " + rhythm);
@@ -123,7 +109,7 @@ public class FitnessEvaluationTemplate {
 		fitnessObjectives.setHarmony(harmony);
 		fitnessObjectives.setMelody(melodic);
 //		fitnessObjectives.setVoiceleading(voiceLeading);
-		fitnessObjectives.setTonality(tonality);
+//		fitnessObjectives.setTonality(tonality);
 		fitnessObjectives.setRhythm(rhythm);
 		fitnessObjectives.setMeter(meter);
 

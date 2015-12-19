@@ -51,5 +51,31 @@ public class ScaleTest {
 		int lower = scale.pickLowerStepFromScale(4, 3);
 		assertEquals(11, lower);
 	}
+	
+	@Test
+	public void testInversedPitchClass() {
+		int pc = scale.getInversedPitchClass(1,2);
+		assertEquals(11, pc);
+		pc = scale.getInversedPitchClass(1,4);
+		assertEquals(9, pc);
+		pc = scale.getInversedPitchClass(1,5);
+		assertEquals(7, pc);
+		
+		pc = scale.getInversedPitchClass(2,4);
+		assertEquals(0, pc);
+		pc = scale.getInversedPitchClass(2,5);
+		assertEquals(11, pc);
+		
+		pc = scale.getInversedPitchClass(7,0);
+		assertEquals(9, pc);
+		pc = scale.getInversedPitchClass(7,2);
+		assertEquals(7, pc);
+		
+		scale = Scale.HARMONIC_MINOR_SCALE;
+		pc = scale.getInversedPitchClass(2,3);
+		assertEquals(0, pc);
+		pc = scale.getInversedPitchClass(2,5);
+		assertEquals(11, pc);
+	}
 
 }

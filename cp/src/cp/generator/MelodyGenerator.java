@@ -14,9 +14,11 @@ import java.util.stream.IntStream;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import cp.combination.NoteCombination;
+import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
@@ -38,6 +40,11 @@ public class MelodyGenerator {
 	private MusicProperties musicProperties;
 	@Autowired
 	private NoteCombination noteCombination;
+	private PitchClassGenerator pitchClassGenerator;
+	
+	public void setPitchClassGenerator(PitchClassGenerator pitchClassGenerator) {
+		this.pitchClassGenerator = pitchClassGenerator;
+	}
 	
 	public MelodyBlock generateMelodyBlock(final int voice, Scale scale, int start, int stop, int octave, List<Integer> beats){
 		MelodyBlock melodyBlock = new MelodyBlock(octave, voice);
@@ -61,9 +68,13 @@ public class MelodyGenerator {
 		int offset = start;
 		melodyNotes.forEach(n -> {
 			n.setPosition(n.getPosition() + offset);
-			int pitchClass = (scale.pickRandomPitchClass() + musicProperties.getKey().getInterval()) % 12;
-			n.setPitchClass(pitchClass);
 		});
+		melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes, scale, musicProperties.getKey().getInterval());
+		for (Note note : melodyNotes) {
+			if (note.getPitchClass() > 11) {
+				System.out.println("stop");
+			}
+		}
 		CpMelody melody = new CpMelody(melodyNotes, scale, voice, start, start + beat);
 		melody.setBeat(beat);
 		melody.setKey(musicProperties.getKey().getInterval());

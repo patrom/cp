@@ -9,7 +9,7 @@ public class KontaktLibFlute extends Instrument {
 		super(voice, channel);
 		setLowest(60);
 		setHighest(84);
-		setKeySwitch(true);
+		setKeySwitch(false);
 		setGeneralMidi(GeneralMidi.FLUTE);
 	}
 

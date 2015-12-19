@@ -29,10 +29,6 @@ public class MelodyBlock {
 	private int voice = -1;
 	private int offset;
 	
-//	public MelodyBlock(int startOctave) {
-//		this.startOctave = startOctave;
-//	}
-	
 	public MelodyBlock(int startOctave, int voice) {
 		this.startOctave = startOctave;
 		this.voice = voice;
@@ -158,8 +154,29 @@ public class MelodyBlock {
 		int end = melody.getLastMelody().getEnd();
 		MelodyBlock melodyBlock = melody.clone(end - offset);
 		melodyBlocks = melodyBlock.getMelodyBlocks();
-		T(0);
+		switch (operatorType.getOperator()) {
+		case T:
+			T(operatorType.getSteps());
+			break;
+		case I:
+			I();
+			break;
+		case R:
+			R();
+		case M:
+			M(operatorType.getSteps());
+			break;
+		case T_RELATIVE:
+			Trelative(operatorType.getSteps());
+			break;
+		case I_RELATIVE:
+			Irelative(operatorType.getFunctionalDegreeCenter());
+			break;
+		default:
+			break;
+		}
 		updatePitchesFromContour();
+		updateMelodyBetween();
 		melodyBlocks.stream()
 			.flatMap(m -> m.getNotes().stream())
 			.forEach(note -> { 
@@ -177,6 +194,24 @@ public class MelodyBlock {
 				note.transposePitch(-12);
 			}
 		}
+	}
+	
+	/**
+	 * @param steps Steps are functional degrees of scale.
+	 * @return
+	 */
+	public MelodyBlock Trelative(int steps){
+		melodyBlocks.stream().forEach(m -> m.transposePitchClasses(steps));
+		return this;
+	}
+	
+	/**
+	 * @param functional degree center pitch class
+	 * @return
+	 */
+	public MelodyBlock Irelative(int functionalDegreeCenter){
+		melodyBlocks.stream().forEach(m -> m.inversePitchClasses(functionalDegreeCenter));
+		return this;
 	}
 	
 	public MelodyBlock T(int steps){

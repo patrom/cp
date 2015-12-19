@@ -1,7 +1,7 @@
 package cp.model.melody;
 
 import static cp.model.note.NoteBuilder.note;
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -343,6 +343,25 @@ public class MelodyBlockTest {
 		assertEquals(5, melody.getNotes().get(0).getPitchClass());
 		assertEquals(7, melody.getNotes().get(1).getPitchClass());
 		assertEquals(3, melody.getNotes().get(2).getPitchClass());
+	}
+	
+	@Test
+	public void testTrelative(){
+		melodyBlock = new MelodyBlock(5,1);
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
+		notes.add(note().pos(12).pc(4).pitch(64).ocatve(5).build());
+		notes.add(note().pos(18).pc(11).pitch(71).ocatve(5).build());
+		notes.add(note().pos(24).pc(7).pitch(67).ocatve(5).build());
+		notes.add(note().pos(48).pc(9).pitch(69).ocatve(5).build());
+		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		melodyBlock.addMelodyBlock(melody);
+		melodyBlock.Trelative(2);
+		assertEquals(4, melody.getNotes().get(0).getPitchClass());
+		assertEquals(7, melody.getNotes().get(1).getPitchClass());
+		assertEquals(2, melody.getNotes().get(2).getPitchClass());
+		assertEquals(11, melody.getNotes().get(3).getPitchClass());
+		assertEquals(0, melody.getNotes().get(4).getPitchClass());
 	}
 
 

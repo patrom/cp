@@ -8,6 +8,7 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MetaEventListener;
 import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiDevice;
+import javax.sound.midi.MidiDevice.Info;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
@@ -40,7 +41,7 @@ public class MidiDevicesUtil {
 		MidiDevice.Info[] infos = MidiSystem.getMidiDeviceInfo();
 		for (int i = 0; i < infos.length; i++) {
 			try {
-				LOGGER.info(infos[i].toString());
+//				LOGGER.info(infos[i].getName());
 				if (infos[i].getName().equals(kontakt.getName())) {
 					final MidiDevice device = MidiSystem
 							.getMidiDevice(infos[i]);
@@ -78,7 +79,7 @@ public class MidiDevicesUtil {
 					break;
 				}
 			} catch (MidiUnavailableException e) {
-				e.printStackTrace();
+//				e.printStackTrace();
 			} catch (InvalidMidiDataException e) {
 				e.printStackTrace();
 			}

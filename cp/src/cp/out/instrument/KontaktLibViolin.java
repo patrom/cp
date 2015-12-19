@@ -9,7 +9,7 @@ public class KontaktLibViolin extends Instrument {
 		super(voice, channel);
 		setLowest(55);
 		setHighest(84);
-		setKeySwitch(true);
+		setKeySwitch(false);
 		setGeneralMidi(GeneralMidi.VIOLIN);
 		
 		setInstrumentName("Violin");

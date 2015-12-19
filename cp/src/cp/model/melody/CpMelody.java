@@ -181,6 +181,22 @@ public class CpMelody implements Cloneable{
 		removeArticulation.setArticulation(Note.DEFAULT_ARTICULATION);
 	}
 	
+	public void transposePitchClasses(int steps){
+		notes.stream().filter(n -> !n.isRest())
+					.sorted()
+					.forEach(n -> n.setPitchClass((scale.transposePitchClass(pitchClassNoKey(n.getPitchClass()), steps) + key) % 12));
+	}
+
+	private int pitchClassNoKey(int pitchClass) {
+		return (12 + pitchClass - key) % 12;
+	}
+	
+	public void inversePitchClasses(int functionalDegreeCenter){
+		notes.stream().filter(n -> !n.isRest())
+					.sorted()
+					.forEach(n -> n.setPitchClass((scale.getInversedPitchClass(functionalDegreeCenter, pitchClassNoKey(n.getPitchClass())) + key) % 12));
+	}
+	
 	public boolean isRhythmMutable() {
 		return rhythmMutable;
 	}

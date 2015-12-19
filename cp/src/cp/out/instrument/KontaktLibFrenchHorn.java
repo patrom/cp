@@ -9,7 +9,7 @@ public class KontaktLibFrenchHorn extends Instrument {
 		super(voice, channel);
 		setLowest(34);
 		setHighest(70);
-		setKeySwitch(true);
+		setKeySwitch(false);
 		setGeneralMidi(GeneralMidi.FRENCH_HORN);
 	}
 

@@ -19,9 +19,11 @@ public class HarmonicObjective extends Objective {
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(HarmonicObjective.class.getName());
 
-	@Autowired
-	@Qualifier(value = "IntervalDissonance")
 	private Dissonance dissonance;
+	
+	public void setDissonance(Dissonance dissonance) {
+		this.dissonance = dissonance;
+	}
 
 	@Override
 	public double evaluate(Motive motive) {

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cp.generator.MusicProperties;
+import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.Motive;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
@@ -27,7 +28,7 @@ public class OneNoteMutation extends AbstractMutation {
 
 	@Autowired
 	private MusicProperties musicProperties;
-	
+
 	@Autowired
 	public OneNoteMutation(HashMap<String, Object> parameters) {
 		super(parameters);

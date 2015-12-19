@@ -36,6 +36,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import cp.DefaultConfig;
 import cp.VariationConfig;
 import cp.combination.NoteCombination;
+import cp.generator.pitchclass.RandomPitchClasses;
 import cp.midi.MidiDevicesUtil;
 import cp.model.harmony.Chord;
 import cp.model.melody.CpMelody;
@@ -78,11 +79,14 @@ public class MelodyGeneratorTest extends JFrame{
 	private NoteStep C;
 	@Autowired
 	private MusicProperties musicProperties;
+	@Autowired
+	private RandomPitchClasses randomPitchClasses;
 
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		musicProperties.setKey(C);
+		melodyGenerator.setPitchClassGenerator(randomPitchClasses::randomPitchClasses);
 	}
 
 	@Test

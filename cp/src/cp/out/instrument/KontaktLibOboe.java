@@ -9,7 +9,7 @@ public class KontaktLibOboe extends Instrument {
 		super(voice, channel);
 		setLowest(58);
 		setHighest(84);
-		setKeySwitch(true);
+		setKeySwitch(false);
 		setGeneralMidi(GeneralMidi.OBOE);
 	}
 

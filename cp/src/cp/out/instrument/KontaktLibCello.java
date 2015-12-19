@@ -9,7 +9,7 @@ public class KontaktLibCello extends Instrument {
 		super(voice, channel);
 		setLowest(36);
 		setHighest(70);
-		setKeySwitch(true);
+		setKeySwitch(false);
 		setGeneralMidi(GeneralMidi.CELLO);
 		
 		setInstrumentName("Violoncello");

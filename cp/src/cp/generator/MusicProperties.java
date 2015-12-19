@@ -44,7 +44,7 @@ public class MusicProperties {
 	private String voiceLeadingStrategy;
 
 	//score
-	private int numerator = 3;
+	private int numerator = 4;
 	private int denominator = 4;
 	private int keySignature = 0;//1 = 1 kruis / -1 = 1 bemol
 	

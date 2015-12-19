@@ -11,6 +11,7 @@ import java.util.List;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
 
+import jm.midi.MidiParser;
 import jm.music.data.Score;
 import jm.util.View;
 import jmetal.core.Solution;

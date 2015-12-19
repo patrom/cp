@@ -80,6 +80,9 @@ public class TonalityFunctions {
 			List<cp.model.note.Note> notePositions = melodyBlock.getMelodyBlockNotes();
 			for (cp.model.note.Note note : notePositions) {
 				int pitchClass = note.getPitch() % 12;
+				if (pitchClass < 0) {
+					System.out.println("pcsdfsdf sd");
+				}
 				durationVector[pitchClass] = durationVector[pitchClass]
 						+ note.getLength();
 			}

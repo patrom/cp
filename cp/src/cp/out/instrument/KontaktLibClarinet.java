@@ -9,7 +9,7 @@ public class KontaktLibClarinet extends Instrument {
 		super(voice, channel);
 		setLowest(50);
 		setHighest(84);
-		setKeySwitch(true);
+		setKeySwitch(false);
 		setGeneralMidi(GeneralMidi.CLARINET);
 	}
 

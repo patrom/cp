@@ -1,5 +1,5 @@
 package cp.model.melody;
 
 public enum Operator {
-	RELATIVE, T, I, M, R;
+	T, I, M, R, T_RELATIVE, I_RELATIVE;
 }

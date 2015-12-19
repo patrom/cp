@@ -8,7 +8,7 @@ public class KontaktLibViola extends Instrument {
 		super(voice, channel);
 		setLowest(48);
 		setHighest(72);
-		setKeySwitch(true);
+		setKeySwitch(false);
 		setGeneralMidi(GeneralMidi.VIOLA);
 		
 		setInstrumentName("Viola");

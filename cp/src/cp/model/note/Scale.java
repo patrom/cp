@@ -53,6 +53,17 @@ public class Scale {
 		throw new IllegalArgumentException("Scale doesn't contain pitchClass: " + pitchClass);
 	}
 	
+	/**
+	 * @param functionalDegreeCenter functional degree (I = 1, II = 2, ..., VII = 7)
+	 * @param pitchClass pc to inverse
+	 * @return
+	 */
+	public int getInversedPitchClass(int functionalDegreeCenter, int pitchClass){
+		int index = getIndex(pitchClass);
+		int inversionIndex = (scale.length + (functionalDegreeCenter - 1) + (functionalDegreeCenter - 1 - index)) % scale.length;
+		return scale[inversionIndex];
+	}
+	
 	public int transposePitchClass(int pitchClass, int steps){
 		for (int i = 0; i < scale.length; i++) {
 			if (pitchClass  == scale[i]) {

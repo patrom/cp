@@ -127,4 +127,71 @@ public class CpMelodyTest {
 		LOGGER.info("Contour: " + melody.getContour());
 	}
 	
+	@Test
+	public void testUpdatePitchClasses(){
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pc(0).build());
+		notes.add(note().pos(12).rest().build());
+		notes.add(note().pos(18).pc(2).build());
+		notes.add(note().pos(24).pc(4).build());
+		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
+		melody.getNotes().forEach(n -> System.out.println( n.getPitchClass()));
+		melody.transposePitchClasses(2);
+		List<Note> updatedNotes = melody.getNotes();
+		assertEquals(4, updatedNotes.get(0).getPitchClass());
+		assertEquals(5, updatedNotes.get(2).getPitchClass());
+		assertEquals(7, updatedNotes.get(3).getPitchClass());
+	}
+	
+	@Test
+	public void testTransposePitchClassesInKeyD(){
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pc(2).build());
+		notes.add(note().pos(12).rest().build());
+		notes.add(note().pos(18).pc(4).build());
+		notes.add(note().pos(24).pc(6).build());
+		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
+		melody.setKey(2);
+		melody.getNotes().forEach(n -> System.out.println( n.getPitchClass()));
+		melody.transposePitchClasses(2);
+		List<Note> updatedNotes = melody.getNotes();
+		assertEquals(6, updatedNotes.get(0).getPitchClass());
+		assertEquals(7, updatedNotes.get(2).getPitchClass());
+		assertEquals(9, updatedNotes.get(3).getPitchClass());
+	}
+	
+	@Test
+	public void testInversePitchClasses(){
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pc(0).build());
+		notes.add(note().pos(12).rest().build());
+		notes.add(note().pos(18).pc(2).build());
+		notes.add(note().pos(24).pc(4).build());
+		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
+		melody.setKey(0);
+		melody.getNotes().forEach(n -> System.out.println( n.getPitchClass()));
+		melody.inversePitchClasses(1);
+		List<Note> updatedNotes = melody.getNotes();
+		assertEquals(0, updatedNotes.get(0).getPitchClass());
+		assertEquals(11, updatedNotes.get(2).getPitchClass());
+		assertEquals(9, updatedNotes.get(3).getPitchClass());
+	}
+	
+	@Test
+	public void testInversePitchClassesDegree2(){
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pc(2).build());
+		notes.add(note().pos(12).rest().build());
+		notes.add(note().pos(18).pc(1).build());
+		notes.add(note().pos(24).pc(6).build());
+		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
+		melody.setKey(2);
+		melody.getNotes().forEach(n -> System.out.println( n.getPitchClass()));
+		melody.inversePitchClasses(2);
+		List<Note> updatedNotes = melody.getNotes();
+		assertEquals(6, updatedNotes.get(0).getPitchClass());
+		assertEquals(7, updatedNotes.get(2).getPitchClass());
+		assertEquals(2, updatedNotes.get(3).getPitchClass());
+	}
+	
 }
