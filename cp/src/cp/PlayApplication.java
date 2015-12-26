@@ -38,9 +38,9 @@ import cp.out.arrangement.Arrangement;
 import cp.out.arrangement.Pattern;
 import cp.out.instrument.Ensemble;
 import cp.out.instrument.Instrument;
-import cp.out.instrument.KontaktLibPiano;
-import cp.out.instrument.KontaktLibViolin;
+import cp.out.instrument.Piano;
 import cp.out.instrument.MidiDevice;
+import cp.out.instrument.strings.Violin;
 import cp.out.print.MusicXMLWriter;
 import cp.out.print.ScoreUtilities;
 import cp.variation.Embellisher;
@@ -88,8 +88,8 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 			LOGGER.info(midiFile.getName());
 			MidiInfo midiInfo = midiParser.readMidi(midiFile);
 			List<MelodyInstrument> parsedMelodies = midiInfo.getMelodies();
-			musicProperties.setInstruments(Ensemble.getStrings());
-			mapInstruments(parsedMelodies, Ensemble.getStrings());
+			musicProperties.setInstruments(Ensemble.getPiano(2));
+			mapInstruments(parsedMelodies, Ensemble.getPiano(2));
 			//split
 //			int size = parsedMelodies.size();
 //			List<MelodyInstrument> melodies = new ArrayList<>(parsedMelodies.subList(0, size/2));
@@ -172,19 +172,19 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 		Accompagnement[] compStrategy = {Accompagnement::arpeggio};
 		List<Note> accompagnement = arrangement.accompagnement(harmonyPositions, compPatterns, compStrategy);
 		MelodyInstrument accomp = new MelodyInstrument(accompagnement, melodies.size() + 1);
-		accomp.setInstrument(new KontaktLibPiano(0, 0));
+		accomp.setInstrument(new Piano(0, 0));
 		arrangement.transpose(accomp.getNotes(), -12);
 		accomp.addNotes(melodies.get(0).getNotes());//add bass notes
 		playList.add(accomp);
 //		arrangement.applyFixedPattern(melodies.get(0).getNotes(), 6);
 		//harmony
-		melodies.get(1).setInstrument(new KontaktLibPiano(0, 0));
-		melodies.get(2).setInstrument(new KontaktLibPiano(0, 0));
+		melodies.get(1).setInstrument(new Piano(0, 0));
+		melodies.get(2).setInstrument(new Piano(0, 0));
 		arrangement.transpose(melodies.get(3).getNotes(), -12);
-		melodies.get(3).setInstrument(new KontaktLibPiano(0, 0));
+		melodies.get(3).setInstrument(new Piano(0, 0));
 		//melody
 		arrangement.transpose(melodies.get(7).getNotes(), -12);
-		melodies.get(7).setInstrument(new KontaktLibViolin(0, 1));
+		melodies.get(7).setInstrument(new Violin(0, 1));
 		playList.add(melodies.get(7));
 		return playList;
 	}
@@ -215,7 +215,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 			List<MelodyInstrument> melodies = midiInfo.getMelodies();
 			melodies.forEach(m -> m.setInstrument(instrument));
 			playOnKontakt(melodies, midiInfo.getTempo());
-			Thread.sleep(13000);
+			Thread.sleep(10000);
 		}
 	}
 	
@@ -227,7 +227,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 	private void write(List<MelodyInstrument> melodies, String outputPath, int tempo) throws InvalidMidiDataException, IOException{
 		Sequence seq = null;
 		if (containsInstrument(melodies, GeneralMidi.PIANO)) {
-			MelodyInstrument piano = mergeMelodies(melodies, 2, new KontaktLibPiano(1, 2));
+			MelodyInstrument piano = mergeMelodies(melodies, 2, new Piano(1, 2));
 			List<MelodyInstrument> otherInstruments = melodies.stream()
 				.filter(m -> !m.getInstrument().getGeneralMidi().equals(GeneralMidi.PIANO))
 				.collect(Collectors.toList());

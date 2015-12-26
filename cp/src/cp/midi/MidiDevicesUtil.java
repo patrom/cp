@@ -201,7 +201,7 @@ public class MidiDevicesUtil {
 	}
 
 	private MidiEvent createInstrumentChange(Instrument instrument, int performance, int position) throws InvalidMidiDataException {
-		if (instrument.isKeySwitch()) {
+		if (instrument.hasKeySwitch()) {
 			Note keySwitch = createKeySwitch(performance);
 			MidiEvent change = createNoteMidiEvent(ShortMessage.NOTE_ON, keySwitch, position, instrument.getChannel());
 			return change;

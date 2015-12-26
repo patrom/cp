@@ -148,27 +148,36 @@ public class InnerMetricWeightTest extends JFrame {
 	
 	@Test
 	public void testMeasureThreeFour() {
-		int[] distance = {3,6,9,12,15,18,20,21,22,24,26,27,28,30,32};//atomic beat = 12 - measure 3/4
-		musicProperties.setDistance(distance);
-		rhythmPattern = new int[]{0, 48, 96, 144, 192};
+		distance = new int[]{3,6,9,12,15,18,20,21,22,24,26,27,28,30,32};//minimumRhythmicValue = 12 - measure 3/4
 		minimumRhythmicValue = 12;
+		
+		rhythmPattern = new int[]{0, 48, 96, 144, 192};
 		calculateInnerMetricWeight();
 		
 		rhythmPattern = new int[]{0, 36, 72, 108, 144, 180};
-		minimumRhythmicValue = 12;
 		calculateInnerMetricWeight();
 	}
 	
 	@Test
 	public void testMeasureFourFour() {
-		int[] distance = {2,4,8,10,12,14,16,18,20,21,22,24,26,27,28,30,32};//atomic beat = 12 4/4
-		musicProperties.setDistance(distance);
-		rhythmPattern = new int[]{0, 48, 96, 144, 192};
+		distance = new int[]{2,4,8,10,12,14,16,18,20,21,22,24,26,27,28,30,32};//minimumRhythmicValue = 12 4/4
 		minimumRhythmicValue = 12;
+		
+		rhythmPattern = new int[]{0, 48, 96, 144, 192};
 		calculateInnerMetricWeight();
 		
 		rhythmPattern = new int[]{0, 36, 72, 108, 144, 180};
+		calculateInnerMetricWeight();
+	}
+	
+	@Test
+	public void testMeasureDefault() {
 		minimumRhythmicValue = 12;
+		
+		rhythmPattern = new int[]{0, 48, 96, 144, 192};
+		calculateInnerMetricWeight();
+		
+		rhythmPattern = new int[]{0, 36, 72, 108, 144, 180};
 		calculateInnerMetricWeight();
 	}
 	
@@ -230,6 +239,7 @@ public class InnerMetricWeightTest extends JFrame {
 	}
 
 	private void calculateInnerMetricWeight() {
+		LOGGER.info("Distance: " + Arrays.toString(distance));
 		InnerMetricWeight innerMetricWeight = innerMetricWeightFunctions.getInnerMetricWeight(rhythmPattern , minimumRhythmicValue, distance);
 		LOGGER.info(innerMetricWeight.getInnerMetricWeightMap().toString());
 		LOGGER.info(String.valueOf(innerMetricWeight.getInnerMetricWeightAverage()));

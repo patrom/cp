@@ -47,4 +47,19 @@ public class CpHarmony {
 		return chord;
 	}
 	
+	public boolean isDissonant(){
+		switch (chord.getChordType()) {
+			case CH2_GROTE_SECONDE:
+			case CH2_GROOT_SEPTIEM:
+			case CH2_KLEIN_SEPTIEM:
+			case CH2_KLEINE_SECONDE:
+			case CH2_TRITONE:
+			case CH2_KWART:
+				return true;
+			default:
+				break;
+		}
+		return false;
+	}
+	
 }

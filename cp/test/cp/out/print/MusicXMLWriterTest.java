@@ -26,7 +26,7 @@ import cp.model.note.Note;
 import cp.model.note.NoteBuilder;
 import cp.model.note.Scale;
 import cp.out.instrument.Instrument;
-import cp.out.instrument.KontaktLibCello;
+import cp.out.instrument.strings.Cello;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {DefaultConfig.class, VariationConfig.class}, loader = SpringApplicationContextLoader.class)
@@ -42,7 +42,7 @@ public class MusicXMLWriterTest {
 	@Before
 	public void setUp() throws Exception {
 		melodyBlocks = new ArrayList<>();
-		instrument = new KontaktLibCello(0, 1);
+		instrument = new Cello(0, 1);
 	}
 
 	private void addToMelodyBlock(Instrument instrument, List<Note> notes) {

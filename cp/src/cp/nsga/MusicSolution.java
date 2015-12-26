@@ -11,6 +11,7 @@ public class MusicSolution extends Solution {
 	private double rhythm;
 	private double tonality;
 	private double meter;
+	private double resolution;
 	
 	private double constraintLowestInterval;
 	private double constraintRhythm;
@@ -80,12 +81,6 @@ public class MusicSolution extends Solution {
 	}
 	
 	@Override
-	public String toString() {
-		return "MusicSolution [harmony=" + harmony + ", melody=" + melody + ", rhythm=" + rhythm
-				+ ", voiceLeading=" + voiceLeading +  ", tonality=" + tonality + ", meter=" + meter + "]";
-	}
-
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -136,5 +131,21 @@ public class MusicSolution extends Solution {
 
 	public void setMeter(double meter) {
 		this.meter = meter;
+	}
+
+	public double getResolution() {
+		return resolution;
+	}
+
+	public void setResolution(double resolution) {
+		this.resolution = resolution;
+	}
+
+	@Override
+	public String toString() {
+		return "MusicSolution [harmony=" + harmony + ", melody=" + melody
+				+ ", voiceLeading=" + voiceLeading + ", rhythm=" + rhythm
+				+ ", tonality=" + tonality + ", meter=" + meter
+				+ ", resolution=" + resolution + "]";
 	}
 }

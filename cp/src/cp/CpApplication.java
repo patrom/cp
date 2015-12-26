@@ -40,8 +40,9 @@ import cp.nsga.operator.mutation.melody.OneNoteMutation;
 import cp.nsga.operator.mutation.melody.ReplaceMelody;
 import cp.objective.harmony.HarmonicObjective;
 import cp.out.instrument.Instrument;
-import cp.out.instrument.KontaktLibCello;
-import cp.out.instrument.KontaktLibViolin;
+import cp.out.instrument.keyswitch.KontactStringsKeySwitch;
+import cp.out.instrument.strings.Cello;
+import cp.out.instrument.strings.Violin;
 import cp.out.print.Display;
 import cp.out.print.note.NoteStep;
 
@@ -123,9 +124,9 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	@Override
 	public void run(String... arg0) throws Exception {
 		deleteMidiFiles(midiFilesPath);
-		composeInMeter(4,4);
-		composeInKey(D);
-		inTempo(100);
+		composeInMeter(3,4);
+		composeInKey(C);
+		inTempo(120);
 		replaceMelody.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
 		melodyGenerator.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
 		
@@ -133,8 +134,9 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		
 		List<Integer> beats = new ArrayList<>();
 //		beats.add(12);
-		beats.add(24);
+//		beats.add(24);
 //		beats.add(48);
+		beats.add(36);
 		
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
 		
@@ -154,28 +156,30 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		
 //		melodyBlocks.add(melodyBlock);
 		
-		Instrument cello = new KontaktLibCello(0, 3);
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(cello.getVoice(), Scale.OCTATCONIC_HALF, 0, 192, 3, beats);
+		Instrument cello = new Cello(0, 3);
+//		cello.setKeySwitch(new KontactStringsKeySwitch());
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(cello.getVoice(), Scale.MAJOR_SCALE, 0, 144, 3, beats);
 		melodyBlock.setInstrument(cello);
 		melodyBlocks.add(melodyBlock);
 		
 		List<Integer> beats2 = new ArrayList<>();
-		beats2.add(12);
+//		beats2.add(12);
 //		beats2.add(24);
+		beats2.add(36);
 		
-		Instrument violin = new KontaktLibViolin(1, 2);
-		melodyBlock = melodyGenerator.generateMelodyBlock(violin.getVoice(), Scale.OCTATCONIC_HALF, 0, 192, 5, beats2);
+		Instrument violin = new Violin(1, 2);
+		melodyBlock = melodyGenerator.generateMelodyBlock(violin.getVoice(), Scale.MAJOR_SCALE, 0, 144, 5, beats2);
 		melodyBlock.setInstrument(violin);
 		melodyBlocks.add(melodyBlock);
 	
 		//fugue
 //		Instrument cello = new KontaktLibCello(0, 3);
-//		MelodyBlock melodyBlock2 = new MelodyBlock(3, cello.getVoice());
+//		MelodyBlock melodyBlock2 = new MelodyBlock(4, cello.getVoice());
 //		melodyBlock2.setVoice(cello.getVoice());
-//		melodyBlock2.setOffset(48);
-//		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.I_RELATIVE);
+//		melodyBlock2.setOffset(36);
+//		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.T_RELATIVE);
 ////		operatorType.setSteps(1);
-//		operatorType.setFunctionalDegreeCenter(3);
+////		operatorType.setFunctionalDegreeCenter(3);
 //		melodyBlock2.setOperatorType(operatorType);
 //		melodyBlock2.dependsOn(melodyBlock.getVoice());
 //		melodyBlock2.setInstrument(cello);

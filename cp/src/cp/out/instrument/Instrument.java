@@ -1,6 +1,7 @@
 package cp.out.instrument;
 
 import cp.midi.GeneralMidi;
+import cp.out.instrument.keyswitch.KeySwitch;
 
 public class Instrument implements Comparable<Instrument> {
 
@@ -8,7 +9,7 @@ public class Instrument implements Comparable<Instrument> {
 	protected int lowest;
 	protected int highest;
 	protected int channel;
-	protected boolean keySwitch;
+	protected KeySwitch keySwitch;
 	protected GeneralMidi generalMidi;
 	//musicXML properties
 	protected String instrumentName;
@@ -25,8 +26,8 @@ public class Instrument implements Comparable<Instrument> {
 	}
 	
 	public int getArticulation(Articulation articulation) {
-		if (isKeySwitch()) {
-			return 24;
+		if (hasKeySwitch()) {
+			return keySwitch.getArticulation(articulation);
 		} else {
 			return 0;
 		}
@@ -56,10 +57,10 @@ public class Instrument implements Comparable<Instrument> {
 	public void setChannel(int channel) {
 		this.channel = channel;
 	}
-	public boolean isKeySwitch() {
-		return keySwitch;
+	public boolean hasKeySwitch() {
+		return keySwitch != null;
 	}
-	public void setKeySwitch(boolean keySwitch) {
+	public void setKeySwitch(KeySwitch keySwitch) {
 		this.keySwitch = keySwitch;
 	}
 	public GeneralMidi getGeneralMidi() {

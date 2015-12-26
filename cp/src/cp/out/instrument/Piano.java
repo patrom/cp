@@ -2,9 +2,9 @@ package cp.out.instrument;
 
 import cp.midi.GeneralMidi;
 
-public class KontaktLibPiano extends Instrument {
+public class Piano extends Instrument {
 
-	public KontaktLibPiano(int voice, int channel) {
+	public Piano(int voice, int channel) {
 		super(voice, channel);
 		setLowest(40);
 		setHighest(108);

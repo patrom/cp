@@ -28,6 +28,8 @@ public class FitnessEvaluationTemplate {
 	@Autowired
 	private Objective harmonicObjective;
 	@Autowired
+	private Objective harmonicResolutionObjective;
+	@Autowired
 	private Objective melodicObjective;
 	@Autowired
 	private Objective voiceLeadingObjective;
@@ -90,6 +92,9 @@ public class FitnessEvaluationTemplate {
 		double harmony = harmonicObjective.evaluate(motive);
 		LOGGER.debug("harmonic: " + harmony);
 
+		double harmonyResolution = harmonicResolutionObjective.evaluate(motive);
+		LOGGER.debug("harmonyResolution: " + harmonyResolution);
+		
 //		double voiceLeading = voiceLeadingObjective.evaluate(motive);
 //		LOGGER.fine("voiceLeadingSize: " + voiceLeading);
 		
@@ -112,6 +117,7 @@ public class FitnessEvaluationTemplate {
 //		fitnessObjectives.setTonality(tonality);
 		fitnessObjectives.setRhythm(rhythm);
 		fitnessObjectives.setMeter(meter);
+		fitnessObjectives.setResolution(harmonyResolution);
 
 		//constraints
 //		objectives[5] = lowestIntervalRegisterValue;

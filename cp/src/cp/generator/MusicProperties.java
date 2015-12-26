@@ -22,8 +22,10 @@ public class MusicProperties {
 	private boolean outerBoundaryIncluded = true;
 	private double[] filterLevels = {0.5};
 	private List<Instrument> instruments;
-	private int minimumRhythmFilterLevel = 3; //levels pitch, crest/keel, ...
-	private int[] distance = {2,3,4,5,6,8,9,10,12,14,15,16,18,20,21,22,24,26,27,28,30,32};//atomic beat = 12
+	private int minimumRhythmFilterLevel = 12; //levels pitch, crest/keel, ...
+//	private int[] distance = {2,3,4,5,6,8,9,10,12,14,15,16,18,20,21,22,24,26,27,28,30,32};//minimumRhythmicValue = 12 - default
+	private int[] distance = {3,6,9,12,15,18,20,21,22,24,26,27,28,30,32};//minimumRhythmicValue = 12 -  3/4
+//	private int[] distance = {2,4,8,10,12,14,16,18,20,21,22,24,26,27,28,30,32};//minimumRhythmicValue = 12 - 4/4
 	private int melodyType = 2; //or 3
 	private int melodyBeatValue = 12; // for musicXML
 	private NoteStep key;

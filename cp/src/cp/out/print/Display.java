@@ -43,7 +43,8 @@ public class Display {
 	private MidiDevicesUtil midiDevicesUtil;
 	 
 	 public void view(SolutionSet solutions, double tempo) throws Exception{
-		 solutions.sort(Comparator.comparing(MusicSolution::getMelody).thenComparing(MusicSolution::getHarmony));
+//		 solutions.sort(Comparator.comparing(MusicSolution::getMelody).thenComparing(MusicSolution::getHarmony));
+		 solutions.sort(Comparator.comparing(MusicSolution::getResolution).thenComparing(MusicSolution::getHarmony).thenComparing(MusicSolution::getMelody));
 		  Iterator<Solution> iterator = solutions.iterator();
 		  String dateID = generateDateID();
 		  int i = 1;

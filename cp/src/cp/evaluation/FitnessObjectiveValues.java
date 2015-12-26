@@ -8,6 +8,7 @@ public class FitnessObjectiveValues {
 	private double tonality;
 	private double rhythm;
 	private double meter;
+	private double resolution;
 	
 	public double getHarmony() {
 		return harmony;
@@ -39,17 +40,25 @@ public class FitnessObjectiveValues {
 	public void setRhythm(double rhythm) {
 		this.rhythm = rhythm;
 	}
-	@Override
-	public String toString() {
-		return "FitnessObjectiveValues [harmony=" + harmony + ", melody="
-				+ melody + ", voiceleading=" + voiceleading + ", tonality="
-				+ tonality + ", rhythm=" + rhythm + ", meter=" + meter + "]";
-	}
+	
 	public double getMeter() {
 		return meter;
 	}
 	public void setMeter(double meter) {
 		this.meter = meter;
+	}
+	public double getResolution() {
+		return resolution;
+	}
+	public void setResolution(double resolution) {
+		this.resolution = resolution;
+	}
+	@Override
+	public String toString() {
+		return "FitnessObjectiveValues [harmony=" + harmony + ", melody="
+				+ melody + ", voiceleading=" + voiceleading + ", tonality="
+				+ tonality + ", rhythm=" + rhythm + ", meter=" + meter
+				+ ", resolution=" + resolution + "]";
 	}
 	
 }

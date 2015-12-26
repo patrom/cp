@@ -31,7 +31,7 @@ import cp.model.melody.MelodyBlock;
 import cp.model.note.BeamType;
 import cp.model.note.Note;
 import cp.out.instrument.Instrument;
-import cp.out.instrument.KontaktLibPiano;
+import cp.out.instrument.Piano;
 import cp.out.print.note.NoteDisplay;
 import cp.out.print.note.NoteStep;
 
@@ -289,7 +289,7 @@ public class MusicXMLWriter {
 //	}
 
 	private int getStaff(Instrument instrument, Note note) {
-		if (instrument instanceof KontaktLibPiano) {
+		if (instrument instanceof Piano) {
 			if (note.getPitch() < 60) {
 				return 2;
 			}
@@ -502,7 +502,7 @@ public class MusicXMLWriter {
 		createElementWithValue("divisions", String.valueOf(DIVISIONS));
 		createKeyElement(xmlStreamWriter);
 		createTimeElement();
-		if (instrument instanceof KontaktLibPiano) {
+		if (instrument instanceof Piano) {
 			createElementWithValue("staves", String.valueOf(2));
 			createPianoClefElement();
 		} else{
@@ -539,7 +539,7 @@ public class MusicXMLWriter {
 	private void createClefElement(Instrument instrument) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("clef");
 		
-		if (instrument instanceof KontaktLibPiano) {
+		if (instrument instanceof Piano) {
 			xmlStreamWriter.writeAttribute("number", "1");
 			xmlStreamWriter.writeCharacters("\n");
 			

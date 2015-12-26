@@ -14,6 +14,7 @@ import cp.combination.even.OneNoteEven;
 import cp.combination.even.ThreeNoteEven;
 import cp.combination.even.TwoNoteEven;
 import cp.combination.uneven.ThreeNoteUneven;
+import cp.combination.uneven.TwoNoteUneven;
 
 @Configuration
 public class CombinationConfig {
@@ -29,6 +30,8 @@ public class CombinationConfig {
 	
 	@Autowired
 	private ThreeNoteUneven threeNoteUneven;
+	@Autowired
+	private TwoNoteUneven twoNoteUneven;
 	
 	@Bean(name="combinationsEvenBeat")
 	public Map<Integer, List<RhythmCombination>> combinationsEvenBeat() {
@@ -56,14 +59,14 @@ public class CombinationConfig {
 	@Bean
 	public List<RhythmCombination> evenBeat12(){
 		List<RhythmCombination> rhythmCombinations = new ArrayList<>();
-//		rhythmCombinations.add(oneNoteEven::pos1);
+		rhythmCombinations.add(oneNoteEven::pos1);
 //		rhythmCombinations.add(oneNoteEven::pos2);
 		rhythmCombinations.add(oneNoteEven::pos3);
-		rhythmCombinations.add(oneNoteEven::pos4);
+//		rhythmCombinations.add(oneNoteEven::pos4);
 //		
 //		rhythmCombinations.add(twoNoteEven::pos12);
 		rhythmCombinations.add(twoNoteEven::pos13);
-//		rhythmCombinations.add(twoNoteEven::pos14);
+		rhythmCombinations.add(twoNoteEven::pos14);
 //		rhythmCombinations.add(twoNoteEven::pos34);
 //		rhythmCombinations.add(twoNoteEven::pos23);
 //		rhythmCombinations.add(twoNoteEven::pos24);
@@ -73,7 +76,7 @@ public class CombinationConfig {
 //		rhythmCombinations.add(threeNoteEven::pos124);
 //		rhythmCombinations.add(threeNoteEven::pos234);
 		
-		rhythmCombinations.add(fourNoteEven::pos1234);
+//		rhythmCombinations.add(fourNoteEven::pos1234);
 		
 //		rhythmCombinations.add(threeNoteUneven::pos123);
 		return rhythmCombinations;
@@ -88,9 +91,9 @@ public class CombinationConfig {
 //		rhythmCombinations.add(oneNoteEven::pos4);
 //		
 //		rhythmCombinations.add(twoNoteEven::pos12);
-//		rhythmCombinations.add(twoNoteEven::pos13);
-		rhythmCombinations.add(twoNoteEven::pos14);
-		rhythmCombinations.add(twoNoteEven::pos34);
+		rhythmCombinations.add(twoNoteEven::pos13);
+//		rhythmCombinations.add(twoNoteEven::pos14);
+//		rhythmCombinations.add(twoNoteEven::pos34);
 //		rhythmCombinations.add(twoNoteEven::pos23);
 //		rhythmCombinations.add(twoNoteEven::pos24);
 		
@@ -126,6 +129,9 @@ public class CombinationConfig {
 //		rhythmCombinations.add(threeNoteEven::pos234);
 		
 //		rhythmCombinations.add(fourNoteEven::pos1234);
+		
+		rhythmCombinations.add(twoNoteUneven::pos13);
+		rhythmCombinations.add(twoNoteUneven::pos12);
 		
 		rhythmCombinations.add(threeNoteUneven::pos123);
 		return rhythmCombinations;

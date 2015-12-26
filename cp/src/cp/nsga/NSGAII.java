@@ -32,11 +32,6 @@ public class NSGAII extends Algorithm {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(NSGAII.class.getName());
 
-//	@Autowired
-//	@Qualifier(value="TriadDecorator")
-//	private Decorator decorator;
-	private boolean decorated = false;
-
 	/**
 	 * Constructor
 	 * 
@@ -125,10 +120,6 @@ public class NSGAII extends Algorithm {
 						operator.execute(offSpring[0]);
 						operator.execute(offSpring[1]);
 					}
-//					if (decorated) {
-//						decorator.decorate(offSpring[0]);
-//						decorator.decorate(offSpring[1]);
-//					}
 					problem_.evaluate(offSpring[0]);
 					problem_.evaluateConstraints(offSpring[0]);
 					problem_.evaluate(offSpring[1]);
