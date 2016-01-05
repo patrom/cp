@@ -39,14 +39,14 @@ public class MusicProperties {
 	private int allowChordsOfPitchesOrHigher = 3;
 	
 	//melody
-	private double melodyConsDissValue = 0.2;//hoe lager, hoe cons - stapsgewijs
+	private double melodyConsDissValue = 0.3;//hoe lager, hoe cons - stapsgewijs
 	
 	//voice leading
 	private double voiceLeadingConsDissValue;
 	private String voiceLeadingStrategy;
 
 	//score
-	private int numerator = 4;
+	private int numerator = 3;
 	private int denominator = 4;
 	private int keySignature = 0;//1 = 1 kruis / -1 = 1 bemol
 	

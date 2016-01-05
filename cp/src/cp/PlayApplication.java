@@ -215,7 +215,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 			List<MelodyInstrument> melodies = midiInfo.getMelodies();
 			melodies.forEach(m -> m.setInstrument(instrument));
 			playOnKontakt(melodies, midiInfo.getTempo());
-			Thread.sleep(10000);
+			Thread.sleep(8000);
 		}
 	}
 	

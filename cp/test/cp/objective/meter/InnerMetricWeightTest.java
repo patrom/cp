@@ -137,6 +137,9 @@ public class InnerMetricWeightTest extends JFrame {
 		rhythmPattern = new int[]{0, 12, 24, 36, 48, 60, 72, 84, 96};
 		minimumRhythmicValue = 12;
 		calculateInnerMetricWeight();
+		
+		minimumRhythmicValue = 6;
+		calculateInnerMetricWeight();
 	}
 	
 	@Test

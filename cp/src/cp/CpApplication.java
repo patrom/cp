@@ -40,7 +40,7 @@ import cp.nsga.operator.mutation.melody.OneNoteMutation;
 import cp.nsga.operator.mutation.melody.ReplaceMelody;
 import cp.objective.harmony.HarmonicObjective;
 import cp.out.instrument.Instrument;
-import cp.out.instrument.keyswitch.KontactStringsKeySwitch;
+import cp.out.instrument.keyswitch.KontaktStringsKeySwitch;
 import cp.out.instrument.strings.Cello;
 import cp.out.instrument.strings.Violin;
 import cp.out.print.Display;
@@ -126,7 +126,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		deleteMidiFiles(midiFilesPath);
 		composeInMeter(3,4);
 		composeInKey(C);
-		inTempo(120);
+		inTempo(130);
 		replaceMelody.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
 		melodyGenerator.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
 		
@@ -158,7 +158,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		
 		Instrument cello = new Cello(0, 3);
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(cello.getVoice(), Scale.MAJOR_SCALE, 0, 144, 3, beats);
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(cello.getVoice(), Scale.HARMONIC_MINOR_SCALE, 0, 144, 4, beats);
 		melodyBlock.setInstrument(cello);
 		melodyBlocks.add(melodyBlock);
 		
@@ -168,7 +168,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		beats2.add(36);
 		
 		Instrument violin = new Violin(1, 2);
-		melodyBlock = melodyGenerator.generateMelodyBlock(violin.getVoice(), Scale.MAJOR_SCALE, 0, 144, 5, beats2);
+		melodyBlock = melodyGenerator.generateMelodyBlock(violin.getVoice(), Scale.HARMONIC_MINOR_SCALE, 0, 144, 5, beats2);
 		melodyBlock.setInstrument(violin);
 		melodyBlocks.add(melodyBlock);
 	

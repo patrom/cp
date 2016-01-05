@@ -8,11 +8,14 @@ import java.util.TreeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import cp.combination.even.FourNoteEven;
 import cp.combination.even.OneNoteEven;
 import cp.combination.even.ThreeNoteEven;
 import cp.combination.even.TwoNoteEven;
+import cp.combination.uneven.OneNoteUneven;
+import cp.combination.uneven.ThreeNoteSexTuplet;
 import cp.combination.uneven.ThreeNoteUneven;
 import cp.combination.uneven.TwoNoteUneven;
 
@@ -32,6 +35,10 @@ public class CombinationConfig {
 	private ThreeNoteUneven threeNoteUneven;
 	@Autowired
 	private TwoNoteUneven twoNoteUneven;
+	@Autowired
+	private OneNoteUneven oneNoteUneven;
+	@Autowired
+	private ThreeNoteSexTuplet threeNoteSexTuplet;
 	
 	@Bean(name="combinationsEvenBeat")
 	public Map<Integer, List<RhythmCombination>> combinationsEvenBeat() {
@@ -130,10 +137,18 @@ public class CombinationConfig {
 		
 //		rhythmCombinations.add(fourNoteEven::pos1234);
 		
+		//3 divisions
+		rhythmCombinations.add(oneNoteUneven::pos1);
+//		rhythmCombinations.add(oneNoteUneven::pos2);
+//		rhythmCombinations.add(oneNoteUneven::pos3);
+		
 		rhythmCombinations.add(twoNoteUneven::pos13);
-		rhythmCombinations.add(twoNoteUneven::pos12);
+//		rhythmCombinations.add(twoNoteUneven::pos12);
+//		rhythmCombinations.add(twoNoteUneven::pos23);
 		
 		rhythmCombinations.add(threeNoteUneven::pos123);
+
+		rhythmCombinations.add(threeNoteSexTuplet::pos145);
 		return rhythmCombinations;
 	}
 }

@@ -2,7 +2,7 @@ package cp.out.instrument.keyswitch;
 
 import cp.out.instrument.Articulation;
 
-public class KontactStringsKeySwitch implements KeySwitch{
+public class KontaktStringsKeySwitch implements KeySwitch{
 
 	@Override
 	public int getArticulation(Articulation articulation) {
