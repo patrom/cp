@@ -1,26 +1,23 @@
 package cp;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.function.Function;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import cp.combination.RhythmCombination;
-import cp.combination.even.OneNoteEven;
-import cp.variation.nonchordtone.Variation;
-
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
 public class DefaultConfig {
+	
+	@Value("${computer}")
+    private String computer;
 	
 	@Bean
 	public HashMap<String, Object> parameters() {
@@ -42,11 +39,11 @@ public class DefaultConfig {
 	}
 	
 	@Bean
-	public String midiFilesPath(){
-		return "C:/Users/prombouts/git/cp/cp/resources/midi";
-		// "C:/Dev/git/neo/neo/resources/midi"
-		// /Users/parm/git/neo/neo/resources/midi
-//		return "/Users/parm/git/neo/neo/resources/midi";
+	public String getMidiFilesPath() throws IOException{
+		if (computer.equals("mac")) {
+			return "/Users/parm/git/cp/cp/resources/midi";
+		}
+		return "C:/Users/prombouts/git/cp/cp/resources/midi";	
 	}
 	
 	@Bean

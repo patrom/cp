@@ -123,7 +123,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	
 	@Override
 	public void run(String... arg0) throws Exception {
-		deleteMidiFiles(midiFilesPath);
+		deleteMidiFiles();
 		composeInMeter(3,4);
 		composeInKey(C);
 		inTempo(130);
@@ -222,7 +222,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		musicProperties.setKey(key);
 	}
 
-	private void deleteMidiFiles(String midiFilesPath) throws IOException{
+	private void deleteMidiFiles() throws IOException{
 		List<File> midiFiles = Files.list(new File(midiFilesPath).toPath()).map(p -> p.toFile()).collect(Collectors.toList());
 		for (File file : midiFiles) {
 			file.delete();
