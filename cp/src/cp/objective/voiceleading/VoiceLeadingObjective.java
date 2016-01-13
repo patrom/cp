@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 
 import cp.model.Motive;
 import cp.model.harmony.CpHarmony;
-import cp.model.note.Note;
 import cp.objective.Objective;
 
 @Component

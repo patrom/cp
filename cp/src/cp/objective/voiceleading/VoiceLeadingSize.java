@@ -128,7 +128,5 @@ public class VoiceLeadingSize implements Comparable<VoiceLeadingSize>{
 	public int compareTo(VoiceLeadingSize voiceLeadingSize) {
 		return this.sourceForteName.compareTo(voiceLeadingSize.getSourceForteName());
 	}
-
-	
      
 }

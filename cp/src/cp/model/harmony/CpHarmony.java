@@ -23,6 +23,11 @@ public class CpHarmony {
 		chord = new Chord(getBassNote(), notes);
 	}
 	
+	public void transpose(int t){
+		notes.forEach(note -> note.setPitchClass((note.getPitchClass() + t) % 12));
+		toChord();
+	}
+	
 	private int getBassNote(){
 		int minimumPitch = notes.stream()
 					.mapToInt(n -> n.getPitch())
