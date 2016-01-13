@@ -2,6 +2,8 @@ package cp;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -112,7 +114,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	public static AtomicInteger COUNTER = new AtomicInteger();
 	
 	public static void main(final String[] args) throws IOException {
-		for (int i = 0; i < 1; i++) {
+		clean();
+		for (int i = 0; i < 2; i++) {
 			LOGGER.info("RUN: " + i + " START");
 			SpringApplication app = new SpringApplication(CpApplication.class);
 		    app.setShowBanner(false);
@@ -123,7 +126,6 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	
 	@Override
 	public void run(String... arg0) throws Exception {
-		deleteMidiFiles();
 		composeInMeter(3,4);
 		composeInKey(C);
 		inTempo(130);
@@ -221,10 +223,15 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		musicProperties.setKeySignature(key.getKeySignature());
 		musicProperties.setKey(key);
 	}
+	
+	private static void clean() throws IOException{
+		deleteFiles("resources/midi");
+		deleteFiles("resources/xml");
+	}
 
-	private void deleteMidiFiles() throws IOException{
-		List<File> midiFiles = Files.list(new File(midiFilesPath).toPath()).map(p -> p.toFile()).collect(Collectors.toList());
-		for (File file : midiFiles) {
+	private static void deleteFiles(String path) throws IOException{
+		File dir = new File(path);
+		for (File file : dir.listFiles()) {
 			file.delete();
 		}
 	}
