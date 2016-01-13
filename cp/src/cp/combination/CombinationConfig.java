@@ -78,12 +78,12 @@ public class CombinationConfig {
 //		rhythmCombinations.add(twoNoteEven::pos23);
 //		rhythmCombinations.add(twoNoteEven::pos24);
 		
-//		rhythmCombinations.add(threeNoteEven::pos123);
+		rhythmCombinations.add(threeNoteEven::pos123);
 		rhythmCombinations.add(threeNoteEven::pos134);
 //		rhythmCombinations.add(threeNoteEven::pos124);
 //		rhythmCombinations.add(threeNoteEven::pos234);
 		
-//		rhythmCombinations.add(fourNoteEven::pos1234);
+		rhythmCombinations.add(fourNoteEven::pos1234);
 		
 //		rhythmCombinations.add(threeNoteUneven::pos123);
 		return rhythmCombinations;
