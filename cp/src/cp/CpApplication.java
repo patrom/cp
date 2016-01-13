@@ -1,9 +1,9 @@
 package cp;
 
-import static cp.model.note.NoteBuilder.note;
-
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,11 +32,9 @@ import cp.generator.pitchclass.PitchClassGenerator;
 import cp.generator.pitchclass.RandomPitchClasses;
 import cp.model.Motive;
 import cp.model.dissonance.IntervalDissonance;
-import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.melody.OperatorType;
 import cp.model.note.Note;
-import cp.model.note.NoteBuilder;
 import cp.model.note.Scale;
 import cp.nsga.MusicSolutionType;
 import cp.nsga.operator.mutation.melody.ArticulationMutation;
@@ -44,7 +42,6 @@ import cp.nsga.operator.mutation.melody.OneNoteMutation;
 import cp.nsga.operator.mutation.melody.ReplaceMelody;
 import cp.objective.harmony.HarmonicObjective;
 import cp.out.instrument.Instrument;
-import cp.out.instrument.Piano;
 import cp.out.instrument.keyswitch.KontaktStringsKeySwitch;
 import cp.out.instrument.strings.Cello;
 import cp.out.instrument.strings.Violin;
@@ -117,7 +114,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	public static AtomicInteger COUNTER = new AtomicInteger();
 	
 	public static void main(final String[] args) throws IOException {
-		for (int i = 0; i < 1; i++) {
+		clean();
+		for (int i = 0; i < 2; i++) {
 			LOGGER.info("RUN: " + i + " START");
 			SpringApplication app = new SpringApplication(CpApplication.class);
 		    app.setShowBanner(false);
@@ -128,10 +126,9 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	
 	@Override
 	public void run(String... arg0) throws Exception {
-		deleteMidiFiles();
-		composeInMeter(4,4);
-		composeInKey(D);
-		inTempo(100);
+		composeInMeter(3,4);
+		composeInKey(C);
+		inTempo(130);
 		replaceMelody.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
 		melodyGenerator.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
 		
@@ -146,40 +143,34 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
 		
 		//harmonization
-		Instrument piano = new Piano(0, 3);
-		List<Note> notes = new ArrayList<>();
-		notes.add(note().pos(6).pc(2).len(3).build());
-		notes.add(note().pos(9).pc(9).len(3).build());
-		notes.add(note().pos(12).pc(6).len(3).build());
-		notes.add(note().pos(15).pc(9).len(3).build());
-		notes.add(note().pos(18).pc(2).len(6).build());
-		
-		notes.add(note().pos(33).pc(1).len(3).build());
-		notes.add(note().pos(36).pc(11).len(6).build());
-		notes.add(note().pos(42).pc(1).len(3).build());
-		notes.add(note().pos(45).pc(11).len(3).build());
-		notes.add(note().pos(48).pc(9).len(12).build());
-		CpMelody melody = new CpMelody(notes, Scale.MAJOR_SCALE, piano.getVoice());
-		MelodyBlock melodyBlock = new MelodyBlock(3, piano.getVoice());
-		melodyBlock.addMelodyBlock(melody);
-		melodyBlock.setMutable(false);
-		melodyBlock.setInstrument(piano);
-		
-		melodyBlocks.add(melodyBlock);
-		
-//		Instrument cello = new Cello(0, 3);
-////		cello.setKeySwitch(new KontactStringsKeySwitch());
-//		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(cello.getVoice(), Scale.HARMONIC_MINOR_SCALE, 0, 144, 4, beats);
+//		Instrument cello = new KontaktLibCello(0, 3);
+//		List<Note> notes = new ArrayList<>();
+//		notes.add(note().pos(0).pc(2).len(24).build());
+//		notes.add(note().pos(24).pc(4).len(24).build());
+//		notes.add(note().pos(48).pc(6).len(24).build());
+//		notes.add(note().pos(72).pc(7).len(24).build());
+//		notes.add(note().pos(96).pc(2).len(12).build());
+//		CpMelody melody = new CpMelody(notes, Scale.MAJOR_SCALE, cello.getVoice());
+//		MelodyBlock melodyBlock = new MelodyBlock(3, cello.getVoice());
+//		melodyBlock.addMelodyBlock(melody);
+//		melodyBlock.setMutable(false);
 //		melodyBlock.setInstrument(cello);
+//		
 //		melodyBlocks.add(melodyBlock);
 		
+		Instrument cello = new Cello(0, 3);
+//		cello.setKeySwitch(new KontactStringsKeySwitch());
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(cello.getVoice(), Scale.HARMONIC_MINOR_SCALE, 0, 144, 4, beats);
+		melodyBlock.setInstrument(cello);
+		melodyBlocks.add(melodyBlock);
+		
 		List<Integer> beats2 = new ArrayList<>();
-		beats2.add(12);
-		beats2.add(24);
-//		beats2.add(36);
+//		beats2.add(12);
+//		beats2.add(24);
+		beats2.add(36);
 		
 		Instrument violin = new Violin(1, 2);
-		melodyBlock = melodyGenerator.generateMelodyBlock(violin.getVoice(), Scale.MAJOR_SCALE, 0, 60, 5, beats2);
+		melodyBlock = melodyGenerator.generateMelodyBlock(violin.getVoice(), Scale.HARMONIC_MINOR_SCALE, 0, 144, 5, beats2);
 		melodyBlock.setInstrument(violin);
 		melodyBlocks.add(melodyBlock);
 	
@@ -232,10 +223,15 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		musicProperties.setKeySignature(key.getKeySignature());
 		musicProperties.setKey(key);
 	}
+	
+	private static void clean() throws IOException{
+		deleteFiles("resources/midi");
+		deleteFiles("resources/xml");
+	}
 
-	private void deleteMidiFiles() throws IOException{
-		List<File> midiFiles = Files.list(new File(midiFilesPath).toPath()).map(p -> p.toFile()).collect(Collectors.toList());
-		for (File file : midiFiles) {
+	private static void deleteFiles(String path) throws IOException{
+		File dir = new File(path);
+		for (File file : dir.listFiles()) {
 			file.delete();
 		}
 	}
