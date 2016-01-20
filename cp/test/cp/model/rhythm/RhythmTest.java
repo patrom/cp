@@ -154,9 +154,9 @@ public class RhythmTest {
 	@Test
 	public void testRhythm() throws Exception {
 		List<Note> chordNotes = new ArrayList<>();
-		chordNotes.add(note().pc(0).pitch(60).ocatve(5).voice(0).build());
-		chordNotes.add(note().pc(4).pitch(64).ocatve(5).voice(1).build());
-		chordNotes.add(note().pc(7).pitch(67).ocatve(5).voice(2).build());
+		chordNotes.add(note().pc(0).pitch(60).ocatve(5).build());
+		chordNotes.add(note().pc(4).pitch(64).ocatve(5).build());
+		chordNotes.add(note().pc(7).pitch(67).ocatve(5).build());
 		Integer[] sounds = {0,6,12,18,24,36,48};
 		List<Note> notes = rhythm.getRhythmRandomContourTexture(chordNotes, sounds, 0, 2);
 		

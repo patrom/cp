@@ -96,9 +96,21 @@ public class Interval  {
 	public int getInterval() {
 		return interval;
 	}
+	
+	public String getIntervalName() {
+		if (interval == 10) {
+			return "A";
+		}
+		if (interval == 11) {
+			return "B";
+		}
+		return String.valueOf(interval);
+	}
+	
 	public double getMelodicValue() {
 		return melodicValue;
 	}
+	
 	public double getHarmonicValue() {
 		return harmonicValue;
 	}

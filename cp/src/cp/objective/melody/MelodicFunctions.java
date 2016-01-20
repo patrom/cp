@@ -113,32 +113,6 @@ public class MelodicFunctions {
 //		return ArrayUtils.toPrimitive(melodicWeights);
 //	}
 	
-	public static double[] getMelodicWeights2(Note[] melody, int allowIntervalsBelowValue){
-		List<Double> list = new ArrayList<Double>();
-		int count = 0;
-		for (int i = 0; i < melody.length - 1; i++) {
-			int difference = (melody[i + 1].getPitch() - melody[i].getPitch());
-			if (difference > allowIntervalsBelowValue) {
-				count++;
-				list.add(-1.0);
-			} else {
-				Interval interval = Interval.getEnumInterval(difference % 12);
-				switch (interval.getInterval()) {//don't count note repetitions and octaves
-				case 0:
-				case 12:
-					break;
-				default:
-					count++;
-					list.add(interval.getMelodicValue());
-					break;
-				}
-			}	
-		}
-		Double[] melodicWeights = new Double[count];
-		melodicWeights = list.toArray(melodicWeights);
-		return ArrayUtils.toPrimitive(melodicWeights);
-	}
-	
 	public static double getMelodicContour(Note[] melody){
 		double sum = 0.0;
 		int count = 0;
