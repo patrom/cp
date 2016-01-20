@@ -1,26 +1,20 @@
 package cp;
 
+import static cp.model.note.NoteBuilder.note;
+
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 import javax.swing.JFrame;
-
-import jmetal.core.Algorithm;
-import jmetal.core.Operator;
-import jmetal.core.SolutionSet;
-import jmetal.operators.selection.SelectionFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner.Mode;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Import;
@@ -28,12 +22,11 @@ import org.springframework.context.annotation.Import;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
 import cp.generator.pitchclass.PassingPitchClasses;
-import cp.generator.pitchclass.PitchClassGenerator;
 import cp.generator.pitchclass.RandomPitchClasses;
 import cp.model.Motive;
 import cp.model.dissonance.IntervalDissonance;
+import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
-import cp.model.melody.OperatorType;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.nsga.MusicSolutionType;
@@ -42,11 +35,16 @@ import cp.nsga.operator.mutation.melody.OneNoteMutation;
 import cp.nsga.operator.mutation.melody.ReplaceMelody;
 import cp.objective.harmony.HarmonicObjective;
 import cp.out.instrument.Instrument;
-import cp.out.instrument.keyswitch.KontaktStringsKeySwitch;
+import cp.out.instrument.Piano;
 import cp.out.instrument.strings.Cello;
 import cp.out.instrument.strings.Violin;
 import cp.out.print.Display;
 import cp.out.print.note.NoteStep;
+import jmetal.core.Algorithm;
+import jmetal.core.Operator;
+import jmetal.core.SolutionSet;
+import jmetal.operators.selection.SelectionFactory;
+import jmetal.util.JMException;
 
 @Import({DefaultConfig.class, VariationConfig.class})
 public class CpApplication extends JFrame implements CommandLineRunner{
@@ -97,8 +95,6 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	@Autowired
 	private HashMap<String, Object> parameters;
 	@Autowired
-	private String midiFilesPath;
-	@Autowired
 	private MelodyGenerator melodyGenerator;
 
 	@Autowired
@@ -115,24 +111,29 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	
 	public static void main(final String[] args) throws IOException {
 		clean();
-		for (int i = 0; i < 2; i++) {
-			LOGGER.info("RUN: " + i + " START");
-			SpringApplication app = new SpringApplication(CpApplication.class);
-		    app.setShowBanner(false);
-		    app.run(args);
-		    LOGGER.info("RUN: " + i + " END");
-		}
+		SpringApplication app = new SpringApplication(CpApplication.class);
+	    app.setBannerMode(Mode.OFF);
+	    app.run(args);
 	}
 	
 	@Override
 	public void run(String... arg0) throws Exception {
+		musicProperties.setOutputCountRun(2);
 		composeInMeter(3,4);
-		composeInKey(C);
-		inTempo(130);
+		composeInKey(D);
+		inTempo(90);
 		replaceMelody.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
 		melodyGenerator.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
-		
 		harmonicObjective.setDissonance(intervalDissonance::getDissonance);
+		
+		for (int i = 0; i < 10; i++) {
+			LOGGER.info("RUN: " + i + " START");		
+			compose();
+		    LOGGER.info("RUN: " + i + " END");
+		}
+	}
+
+	private void compose() throws Exception {
 		
 		List<Integer> beats = new ArrayList<>();
 //		beats.add(12);
@@ -143,24 +144,30 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
 		
 		//harmonization
-//		Instrument cello = new KontaktLibCello(0, 3);
+//		Instrument piano = new Piano(0, 3);
 //		List<Note> notes = new ArrayList<>();
-//		notes.add(note().pos(0).pc(2).len(24).build());
-//		notes.add(note().pos(24).pc(4).len(24).build());
-//		notes.add(note().pos(48).pc(6).len(24).build());
-//		notes.add(note().pos(72).pc(7).len(24).build());
-//		notes.add(note().pos(96).pc(2).len(12).build());
-//		CpMelody melody = new CpMelody(notes, Scale.MAJOR_SCALE, cello.getVoice());
-//		MelodyBlock melodyBlock = new MelodyBlock(3, cello.getVoice());
+//		notes.add(note().pos(6).pc(2).len(3).build());
+//		notes.add(note().pos(9).pc(9).len(3).build());
+//		notes.add(note().pos(12).pc(6).len(3).build());
+//		notes.add(note().pos(15).pc(9).len(3).build());
+//		notes.add(note().pos(18).pc(2).len(6).build());
+//		
+//		notes.add(note().pos(33).pc(1).len(3).build());
+//		notes.add(note().pos(36).pc(11).len(6).build());
+//		notes.add(note().pos(42).pc(1).len(3).build());
+//		notes.add(note().pos(45).pc(11).len(3).build());
+//		notes.add(note().pos(48).pc(9).len(12).build());
+//		CpMelody melody = new CpMelody(notes, Scale.MAJOR_SCALE, piano.getVoice());
+//		MelodyBlock melodyBlock = new MelodyBlock(3, piano.getVoice());
 //		melodyBlock.addMelodyBlock(melody);
 //		melodyBlock.setMutable(false);
-//		melodyBlock.setInstrument(cello);
+//		melodyBlock.setInstrument(piano);
 //		
 //		melodyBlocks.add(melodyBlock);
 		
 		Instrument cello = new Cello(0, 3);
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(cello.getVoice(), Scale.HARMONIC_MINOR_SCALE, 0, 144, 4, beats);
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(cello.getVoice(), Scale.MAJOR_SCALE, 0, 144, 4, beats);
 		melodyBlock.setInstrument(cello);
 		melodyBlocks.add(melodyBlock);
 		
@@ -170,7 +177,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		beats2.add(36);
 		
 		Instrument violin = new Violin(1, 2);
-		melodyBlock = melodyGenerator.generateMelodyBlock(violin.getVoice(), Scale.HARMONIC_MINOR_SCALE, 0, 144, 5, beats2);
+		melodyBlock = melodyGenerator.generateMelodyBlock(violin.getVoice(), Scale.MAJOR_SCALE, 0, 144, 5, beats2);
 		melodyBlock.setInstrument(violin);
 		melodyBlocks.add(melodyBlock);
 	

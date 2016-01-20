@@ -29,6 +29,7 @@ public class MusicProperties {
 	private int melodyType = 2; //or 3
 	private int melodyBeatValue = 12; // for musicXML
 	private NoteStep key;
+	private int outputCountRun = 10;
 	
 	//tonality
 	private Scale scale = Scale.MAJOR_SCALE;
@@ -278,6 +279,14 @@ public class MusicProperties {
 
 	public void setKey(NoteStep key) {
 		this.key = key;
+	}
+
+	public int getOutputCountRun() {
+		return outputCountRun;
+	}
+
+	public void setOutputCountRun(int outputCountRun) {
+		this.outputCountRun = outputCountRun;
 	}
 	
 }

@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cp.CpApplication;
+import cp.generator.MusicProperties;
 import cp.midi.MidiDevicesUtil;
 import cp.model.Motive;
 import cp.model.harmony.CpHarmony;
@@ -41,6 +42,8 @@ public class Display {
 	private MusicXMLWriter musicXMLWriter;
 	@Autowired
 	private MidiDevicesUtil midiDevicesUtil;
+	@Autowired
+	private MusicProperties musicProperties;
 	 
 	 public void view(SolutionSet solutions, double tempo) throws Exception{
 //		 solutions.sort(Comparator.comparing(MusicSolution::getMelody).thenComparing(MusicSolution::getHarmony));
@@ -48,7 +51,7 @@ public class Display {
 		  Iterator<Solution> iterator = solutions.iterator();
 		  String dateID = generateDateID();
 		  int i = 1;
-		  while (iterator.hasNext() && i < 11) {
+		  while (iterator.hasNext() && i < musicProperties.getOutputCountRun()) {
 			MusicSolution solution = (MusicSolution) iterator.next();
 			String id = dateID + "_" + CpApplication.COUNTER.getAndIncrement();
 			LOGGER.info(id);

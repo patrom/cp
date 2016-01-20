@@ -2,7 +2,7 @@ mvn install:install-file -DgroupId=JFuzzyLogic  -DartifactId=JFuzzyLogic  -Dvers
 
 mvn install:install-file -DgroupId=JMetal  -DartifactId=JMetal  -Dversion=1.0  -Dfile=jmetal-1.0.jar -Dpackaging=jar -DgeneratePom=true
 
-mvn install:install-file -DgroupId=JMetal  -DartifactId=JMetal  -Dversion=4.5  -Dfile=jmetal4.5.jar -Dpackaging=jar -DgeneratePom=true
+mvn install:install-file -DgroupId=JMetal  -DartifactId=JMetal  -Dversion=4.5  -Dfile=jmetal-4.5.jar -Dpackaging=jar -DgeneratePom=true
 mvn install:install-file -DgroupId=JMusic  -DartifactId=JMusic  -Dversion=1.6.3  -Dfile=jMusic-1.6.3.jar -Dpackaging=jar -DgeneratePom=true
 
 mvn install:install-file -DgroupId=com.newscores  -DartifactId=setTheory  -Dversion=1.0.0  -Dfile=setTheory-1.0.0.jar -Dpackaging=jar -DgeneratePom=true

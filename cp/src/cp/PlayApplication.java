@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.Banner.Mode;
 import org.springframework.context.annotation.Import;
 
 import cp.generator.MelodyGenerator;
@@ -61,8 +62,6 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 	@Autowired
 	private ScoreUtilities scoreUtilities;
 	@Autowired
-	private String midiFilesPath;
-	@Autowired
 	private Embellisher embellisher;
 	@Autowired
 	private Rhythm rhythm;
@@ -73,7 +72,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 	
 	public static void main(final String[] args) {
 	 	SpringApplication app = new SpringApplication(PlayApplication.class);
-	    app.setShowBanner(false);
+	    app.setBannerMode(Mode.OFF);
 	    app.run(args);
 	}
 
@@ -83,8 +82,8 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 	}
 	
 	public void playMidiFilesOnKontaktFor() throws Exception {
-		List<File> midiFiles = Files.list(new File(midiFilesPath).toPath()).map(p -> p.toFile()).collect(Collectors.toList());
-		for (File midiFile : midiFiles) {
+		File dir = new File("resources/midi");
+		for (File midiFile : dir.listFiles()) {
 			LOGGER.info(midiFile.getName());
 			MidiInfo midiInfo = midiParser.readMidi(midiFile);
 			List<MelodyInstrument> parsedMelodies = midiInfo.getMelodies();
@@ -208,8 +207,8 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 	}
 
 	public void playMidiFilesOnKontaktFor(Instrument instrument) throws IOException, InvalidMidiDataException, InterruptedException {
-		List<File> midiFiles = Files.list(new File(midiFilesPath).toPath()).map(p -> p.toFile()).collect(Collectors.toList());
-		for (File midiFile : midiFiles) {
+		File dir = new File("resources/midi");
+		for (File midiFile : dir.listFiles()) {
 			LOGGER.info(midiFile.getName());
 			MidiInfo midiInfo = midiParser.readMidi(midiFile);
 			List<MelodyInstrument> melodies = midiInfo.getMelodies();

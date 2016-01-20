@@ -1,11 +1,9 @@
 package cp;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,9 +13,6 @@ import org.springframework.context.annotation.Configuration;
 @EnableAutoConfiguration
 @ComponentScan
 public class DefaultConfig {
-	
-	@Value("${computer}")
-    private String computer;
 	
 	@Bean
 	public HashMap<String, Object> parameters() {
@@ -36,14 +31,6 @@ public class DefaultConfig {
 		int[] distance = {2,3,4,5,6,8,9,10,12,14,15,16,18,20,21,22,24,26,27,28,30,32};//atomic beat = 12
 		map.put("distance", distance);
 		return map;
-	}
-	
-	@Bean
-	public String getMidiFilesPath() throws IOException{
-		if (computer.equals("mac")) {
-			return "/Users/parm/git/cp/cp/resources/midi";
-		}
-		return "C:/Users/prombouts/git/cp/cp/resources/midi";	
 	}
 	
 	@Bean
