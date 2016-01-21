@@ -57,7 +57,7 @@ public abstract class AbstractTest extends JFrame {
 		}
 	}
 	
-	private void playOnKontakt(List<MelodyInstrument> melodies, int tempo, long playTime ){
+	protected void playOnKontakt(List<MelodyInstrument> melodies, int tempo, long playTime ){
 		try {
 			Sequence seq = midiDevicesUtil.createSequence(melodies);
 			midiDevicesUtil.playOnDevice(seq, tempo, MidiDevice.KONTAKT);

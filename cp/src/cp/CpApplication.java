@@ -121,7 +121,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		musicProperties.setOutputCountRun(2);
 		composeInMeter(3,4);
 		composeInKey(D);
-		inTempo(90);
+		inTempo(60);
 		replaceMelody.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
 		melodyGenerator.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
 		harmonicObjective.setDissonance(intervalDissonance::getDissonance);

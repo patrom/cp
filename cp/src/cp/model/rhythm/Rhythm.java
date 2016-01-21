@@ -74,7 +74,7 @@ public class Rhythm {
 		Integer[] contour = getRandomContour(chordNotes.size() - 1, positions.length - 2);
 		LOGGER.debug("Contour: " + Arrays.toString(contour));
 		List<Note> contourNotes = getContour(chordNotes, soundNotes, contour, voice);
-		Integer[] texture = getRandomTexture(maxTexture + 1, positions.length - 2);
+		Integer[] texture = getRandomTexture(maxTexture + 1, positions.length - 1);
 		LOGGER.debug("texture: " + Arrays.toString(texture));
 		List<Note> textureNotes = getTexture(chordNotes, contourNotes, texture);
 		return textureNotes;
