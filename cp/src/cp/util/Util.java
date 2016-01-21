@@ -52,6 +52,24 @@ public class Util {
 			;
 		return selections.get(i);
 	}
+	
+	public static int calculateInterval(int direction, int difference){
+		if(isAscending(direction) && difference < 0){
+			return difference + 12;
+		}
+		if(!isAscending(direction) && difference > 0){
+			return difference - 12;
+		}
+		return difference;
+	}
+	
+	private static boolean isAscending(int direction) {
+		if (direction == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	public static void main(String[] args) {
 //		List<Integer> list = new ArrayList<Integer>();

@@ -1,6 +1,7 @@
 package cp.model.rhythm;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -9,13 +10,18 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import cp.midi.HarmonyPosition;
 import cp.model.note.Note;
+import cp.util.Util;
 
 @Component
 public class Rhythm {
+	
+	private static Logger LOGGER = LoggerFactory.getLogger(Rhythm.class);
 	
 	private Random random = new Random();
 	
@@ -65,9 +71,11 @@ public class Rhythm {
 	
 	public List<Note> getRhythmRandomContourTexture(List<Note> chordNotes, Integer[] positions, int voice, int maxTexture){
 		List<Note> soundNotes = getSounds(0, positions);
-		Integer[] contour = getRandomContour(chordNotes.size() - 1, positions.length - 1);
+		Integer[] contour = getRandomContour(chordNotes.size() - 1, positions.length - 2);
+		LOGGER.debug("Contour: " + Arrays.toString(contour));
 		List<Note> contourNotes = getContour(chordNotes, soundNotes, contour, voice);
-		Integer[] texture = getRandomTexture(maxTexture + 1, positions.length - 1);
+		Integer[] texture = getRandomTexture(maxTexture + 1, positions.length - 2);
+		LOGGER.debug("texture: " + Arrays.toString(texture));
 		List<Note> textureNotes = getTexture(chordNotes, contourNotes, texture);
 		return textureNotes;
 	}
@@ -193,40 +201,59 @@ public class Rhythm {
 //	}
 	
 	protected List<Note> getContour(List<Note> chordNotes, List<Note> sounds, Integer[] contour, int voice){
-		List<Note> contours = new ArrayList<>();
+		List<Note> contourNotes = new ArrayList<>();
 		int index = 0;
 		int nextContour = 0;
 		int size = sounds.size();
+		int chordSize = chordNotes.size();
 		for (int i = 0; i < size; i++) {
 			Note sound = sounds.get(i);
 			index = index + nextContour;
-			Note note = getNextNote(chordNotes, index);
+			index = Math.abs((index + chordSize) % chordSize);
+			Note note = getNextNote2(chordNotes, index);
 			note.setPosition(sound.getPosition());
 			note.setLength(sound.getLength());
 			note.setVoice(voice);
-			if (!contours.isEmpty()) {
-				Note lastNote = contours.get(contours.size() - 1);
-				if (nextContour > 0) {
-					while (lastNote.getPitch() > note.getPitch()) {
-						note.setPitch(note.getPitch() + 12);
-						note.setOctave(note.getOctave() + 1);
-					}
-				} else if (nextContour < 0) {
-					while (lastNote.getPitch() < note.getPitch()) {
-						note.setPitch(note.getPitch() - 12);
-						note.setOctave(note.getOctave() - 1);
-					}
-				} else if (nextContour == 0) {
-					note.setPitch(lastNote.getPitch());
-					note.setOctave(lastNote.getOctave());
-				}  
-			}
+//			if (!contours.isEmpty()) {
+//				Note lastNote = contours.get(contours.size() - 1);
+//				if (nextContour > 0) {
+//					while (lastNote.getPitch() > note.getPitch()) {
+//						note.setPitch(note.getPitch() + 12);
+//						note.setOctave(note.getOctave() + 1);
+//					}
+//				} else if (nextContour < 0) {
+//					while (lastNote.getPitch() < note.getPitch()) {
+//						note.setPitch(note.getPitch() - 12);
+//						note.setOctave(note.getOctave() - 1);
+//					}
+//				} else if (nextContour == 0) {
+//					note.setPitch(lastNote.getPitch());
+//					note.setOctave(lastNote.getOctave());
+//				}  
+//			}
 			nextContour = getNextContour(contour, i);
-			contours.add(note);
+			contourNotes.add(note);
 		}
-		return contours;
+		updatePitchesFromContour(contourNotes, contour);
+		return contourNotes;
 	}
 	
+	public void updatePitchesFromContour(List<Note> notes, Integer[] contour){
+		int startOctave = notes.get(0).getOctave();
+		int size = notes.size() - 1;
+		Note firstNote = notes.get(0);
+		firstNote.setPitch((startOctave * 12) + firstNote.getPitchClass());
+		firstNote.setOctave(startOctave);
+		for (int i = 0; i < size; i++) {
+			Note note = notes.get(i);
+			Note nextNote = notes.get(i + 1);
+			int difference = nextNote.getPitchClass() - note.getPitchClass();
+			int direction = contour[i];
+			int interval = Util.calculateInterval(direction, difference);
+			nextNote.setPitch(note.getPitch() + interval);
+			nextNote.setOctave(nextNote.getPitch()/12);
+		}
+	}
 	
 	protected void updateContour(List<RhythmPosition> sounds, Integer[] contour, int voice){
 		List<Note> contours = new ArrayList<>();
@@ -274,6 +301,10 @@ public class Rhythm {
 	
 	private int getNextTexture(Integer[] texture, int i) {
 		return texture[i % texture.length];
+	}
+	
+	private Note getNextNote2(List<Note> notes, int index) {
+		return notes.get(index).copy();
 	}
 
 	private Note getNextNote(List<Note> notes, int index) {

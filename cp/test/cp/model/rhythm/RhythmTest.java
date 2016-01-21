@@ -35,7 +35,8 @@ import cp.out.print.MusicXMLWriter;
 @ContextConfiguration(classes = DefaultConfig.class, loader = SpringApplicationContextLoader.class)
 public class RhythmTest {
 	
-	private Rhythm rhythm = new Rhythm();
+	@Autowired
+	private Rhythm rhythm;
 	@Autowired
 	private MusicXMLWriter musicXMLWriter;
 	@Autowired
@@ -227,5 +228,31 @@ public class RhythmTest {
 		assertEquals(64, contourNotes.get(1).getPitch());
 		assertEquals(55, contourNotes.get(2).getPitch());
 		assertEquals(60, contourNotes.get(3).getPitch());
+	}
+	
+	@Test
+	public void testGetContours2(){
+		List<Note> chordNotes = new ArrayList<>();
+		chordNotes.add(note().pc(4).pitch(64).ocatve(5).voice(0).build());
+		chordNotes.add(note().pc(7).pitch(67).ocatve(5).voice(1).build()); 
+		chordNotes.add(note().pc(0).pitch(72).ocatve(6).voice(2).build());
+		List<Note> sounds = new ArrayList<>();
+		sounds.add(note().pos(0).len(6).build());
+		sounds.add(note().pos(6).len(12).build());
+		sounds.add(note().pos(18).len(6).build());
+		sounds.add(note().pos(24).len(6).build());
+		sounds.add(note().pos(30).len(6).build());
+		sounds.add(note().pos(36).len(6).build());
+		sounds.add(note().pos(42).len(6).build());
+		Integer[] contour = new Integer[]{-2, -1, 1, 1, -2, -2};
+		List<Note> contourNotes = rhythm.getContour(chordNotes, sounds, contour, 1);
+		assertTrue(contourNotes.size() == 7);
+		assertEquals(64, contourNotes.get(0).getPitch());
+		assertEquals(55, contourNotes.get(1).getPitch());
+		assertEquals(52, contourNotes.get(2).getPitch());
+		assertEquals(55, contourNotes.get(3).getPitch());
+		assertEquals(60, contourNotes.get(4).getPitch());
+		assertEquals(52, contourNotes.get(5).getPitch());
+		assertEquals(43, contourNotes.get(6).getPitch());
 	}
 }

@@ -15,6 +15,7 @@ import com.google.common.base.Objects;
 import cp.model.note.Note;
 import cp.out.instrument.Instrument;
 import cp.util.RandomUtil;
+import cp.util.Util;
 
 public class MelodyBlock {
 
@@ -126,27 +127,9 @@ public class MelodyBlock {
 			Note nextNote = notes.get(i + 1);
 			int difference = nextNote.getPitchClass() - note.getPitchClass();
 			int direction = contour.get(i);
-			int interval = calculateInterval(direction, difference);
+			int interval = Util.calculateInterval(direction, difference);
 			nextNote.setPitch(note.getPitch() + interval);
 			nextNote.setOctave(nextNote.getPitch()/12);
-		}
-	}
-	
-	protected int calculateInterval(int direction, int difference){
-		if(isAscending(direction) && difference < 0){
-			return difference + 12;
-		}
-		if(!isAscending(direction) && difference > 0){
-			return difference - 12;
-		}
-		return difference;
-	}
-	
-	private boolean isAscending(int direction) {
-		if (direction == 1) {
-			return true;
-		} else {
-			return false;
 		}
 	}
 	
@@ -176,7 +159,7 @@ public class MelodyBlock {
 			break;
 		}
 		updatePitchesFromContour();
-		updateMelodyBetween();
+		updateMelodyBetween(getMelodyBlockNotes());
 		melodyBlocks.stream()
 			.flatMap(m -> m.getNotes().stream())
 			.forEach(note -> { 
@@ -185,15 +168,8 @@ public class MelodyBlock {
 			});
 	}
 	
-	public void updateMelodyBetween(){
-		for (Note note : getMelodyBlockNotes()) {
-			while (note.getPitch() < instrument.getLowest()) {
-				note.transposePitch(12);
-			}
-			while (note.getPitch() > instrument.getHighest()) {
-				note.transposePitch(-12);
-			}
-		}
+	public void updateMelodyBetween(List<Note> notes){
+		instrument.updateMelodyBetween(notes);
 	}
 	
 	/**

@@ -1,6 +1,9 @@
 package cp.out.instrument;
 
+import java.util.List;
+
 import cp.midi.GeneralMidi;
+import cp.model.note.Note;
 import cp.out.instrument.keyswitch.KeySwitch;
 
 public class Instrument implements Comparable<Instrument> {
@@ -30,6 +33,17 @@ public class Instrument implements Comparable<Instrument> {
 			return keySwitch.getArticulation(articulation);
 		} else {
 			return 0;
+		}
+	}
+	
+	public void updateMelodyBetween(List<Note> notes){
+		for (Note note : notes) {
+			while (note.getPitch() < getLowest()) {
+				note.transposePitch(12);
+			}
+			while (note.getPitch() > getHighest()) {
+				note.transposePitch(-12);
+			}
 		}
 	}
 	

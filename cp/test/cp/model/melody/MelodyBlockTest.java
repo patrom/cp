@@ -20,6 +20,7 @@ import cp.VariationConfig;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.out.instrument.Instrument;
+import cp.util.Util;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {DefaultConfig.class, VariationConfig.class}, loader = SpringApplicationContextLoader.class)
@@ -161,7 +162,7 @@ public class MelodyBlockTest {
 		instrument.setHighest(80);
 		melodyBlock.setInstrument(instrument);
 		melodyBlock.addMelodyBlock(melody);
-		melodyBlock.updateMelodyBetween();
+		melodyBlock.updateMelodyBetween(notes);
 		assertEquals(60, notes.get(0).getPitch());
 		assertEquals(71, notes.get(1).getPitch());
 		assertEquals(77, notes.get(2).getPitch());
@@ -175,13 +176,13 @@ public class MelodyBlockTest {
 		melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
 		melody = new CpMelody(Scale.MAJOR_SCALE,0,0, 12);
-		int interval = melodyBlock.calculateInterval(1, 4);
+		int interval = Util.calculateInterval(1, 4);
 		assertEquals(4, interval);
-		interval = melodyBlock.calculateInterval(-1, 4);
+		interval = Util.calculateInterval(-1, 4);
 		assertEquals(-8, interval);
-		interval = melodyBlock.calculateInterval(-1, -4);
+		interval = Util.calculateInterval(-1, -4);
 		assertEquals(-4, interval);
-		interval = melodyBlock.calculateInterval(1, -4);
+		interval = Util.calculateInterval(1, -4);
 		assertEquals(8, interval);
 	}
 	
