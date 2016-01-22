@@ -59,6 +59,28 @@ public class ThreeNoteSexTuplet {
 		}
 	}
 	
+	public List<Note> pos156(int beat) {
+		List<Note> notes;
+		int noteLength = beat/6;
+		int length4 = noteLength * 4;
+		switch (beat) {
+//		case 12:
+//			notes =  posWithBeam(beat/3);
+//			notes.forEach(n -> n.setTriplet(true));
+//			return notes;
+//		case 24:
+//			notes =  pos(beat/3);
+//			notes.forEach(n -> n.setTriplet(true));
+//			return notes;
+		case 18:
+			notes =  posWithBeam(length4, noteLength, noteLength);
+			return notes;
+		default:
+			notes =  pos(length4, noteLength, noteLength);
+			return notes;
+		}
+	}
+	
 	private List<Note> posWithBeam(int first, int second, int third){
 		List<Note> notes = new ArrayList<Note>();
 		notes.add(note().pos(0).len(first).beam(BeamType.BEGIN).build());
@@ -80,13 +102,16 @@ public class ThreeNoteSexTuplet {
 		List<Note > notes = threeNoteSexTuplet.pos145(18);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 		
-		notes = threeNoteSexTuplet.pos145(36);
-		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
+//		notes = threeNoteSexTuplet.pos145(36);
+//		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
+//		
+//		notes = threeNoteSexTuplet.pos136(18);
+//		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
+//		
+//		notes = threeNoteSexTuplet.pos136(36);
+//		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 		
-		notes = threeNoteSexTuplet.pos136(18);
-		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
-		
-		notes = threeNoteSexTuplet.pos136(36);
+		notes = threeNoteSexTuplet.pos156(36);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 	}
 }

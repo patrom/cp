@@ -14,7 +14,10 @@ import cp.combination.even.FourNoteEven;
 import cp.combination.even.OneNoteEven;
 import cp.combination.even.ThreeNoteEven;
 import cp.combination.even.TwoNoteEven;
+import cp.combination.uneven.FiveNoteSexTuplet;
+import cp.combination.uneven.FourNoteSexTuplet;
 import cp.combination.uneven.OneNoteUneven;
+import cp.combination.uneven.SixNoteSexTuplet;
 import cp.combination.uneven.ThreeNoteSexTuplet;
 import cp.combination.uneven.ThreeNoteUneven;
 import cp.combination.uneven.TwoNoteUneven;
@@ -39,6 +42,12 @@ public class CombinationConfig {
 	private OneNoteUneven oneNoteUneven;
 	@Autowired
 	private ThreeNoteSexTuplet threeNoteSexTuplet;
+	@Autowired
+	private FourNoteSexTuplet fourNoteSexTuplet;
+	@Autowired
+	private FiveNoteSexTuplet fiveNoteSexTuplet;
+	@Autowired
+	private SixNoteSexTuplet sixNoteSexTuplet;
 	
 	@Bean(name="combinationsEvenBeat")
 	public Map<Integer, List<RhythmCombination>> combinationsEvenBeat() {
@@ -150,6 +159,15 @@ public class CombinationConfig {
 
 		rhythmCombinations.add(threeNoteSexTuplet::pos145);
 		rhythmCombinations.add(threeNoteSexTuplet::pos136);
+		rhythmCombinations.add(threeNoteSexTuplet::pos156);
+		
+		rhythmCombinations.add(fourNoteSexTuplet::pos1456);
+		rhythmCombinations.add(fourNoteSexTuplet::pos1346);
+		rhythmCombinations.add(fourNoteSexTuplet::pos1356);
+		
+		rhythmCombinations.add(fiveNoteSexTuplet::pos13456);
+		
+		rhythmCombinations.add(sixNoteSexTuplet::pos123456);
 		return rhythmCombinations;
 	}
 }
