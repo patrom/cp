@@ -14,7 +14,6 @@ import java.util.stream.IntStream;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import cp.combination.NoteCombination;
@@ -22,7 +21,6 @@ import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
-import cp.model.note.NoteBuilder;
 import cp.model.note.Scale;
 import cp.util.RandomUtil;
 
@@ -48,13 +46,12 @@ public class MelodyGenerator {
 	
 	public MelodyBlock generateMelodyBlock(final int voice, Scale scale, int start, int stop, int octave, List<Integer> beats){
 		MelodyBlock melodyBlock = new MelodyBlock(octave, voice);
-		melodyBlock.setVoice(voice);
 		int beat = RandomUtil.getRandomFromList(beats);
 		int end = start + beat;
+		int key = musicProperties.getKey().getInterval();
 		while (end <= stop) {
-			CpMelody melody = generateMelody(voice, scale, start, beat);
+			CpMelody melody = generateMelody(voice, scale, start, beat, key);
 			melodyBlock.addMelodyBlock(melody);
-			
 			beat = RandomUtil.getRandomFromList(beats);
 			start = end;
 			end = start + beat;
@@ -62,22 +59,16 @@ public class MelodyGenerator {
 		return melodyBlock;
 	}
 
-	public CpMelody generateMelody(int voice, Scale scale, int start,
-			int beat) {
+	public CpMelody generateMelody(int voice, Scale scale, int start, int beat, int key) {
 		List<Note> melodyNotes = noteCombination.getNotes(beat, voice);
 		int offset = start;
 		melodyNotes.forEach(n -> {
 			n.setPosition(n.getPosition() + offset);
 		});
-		melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes, scale, musicProperties.getKey().getInterval());
-		for (Note note : melodyNotes) {
-			if (note.getPitchClass() > 11) {
-				System.out.println("stop");
-			}
-		}
+		melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes, scale, key);
 		CpMelody melody = new CpMelody(melodyNotes, scale, voice, start, start + beat);
 		melody.setBeat(beat);
-		melody.setKey(musicProperties.getKey().getInterval());
+		melody.setKey(key);
 		return melody;
 	}
 	

@@ -194,7 +194,7 @@ public class MelodyGeneratorTest extends JFrame{
 	public void testGenerateMelody3() {
 		List<Note> notes = new ArrayList<>();
 		when(noteCombination.getNotes(Mockito.anyInt(), Mockito.anyInt())).thenReturn(notes);
-		CpMelody melody = melodyGenerator.generateMelody(1, Scale.MAJOR_SCALE, 0, 12);
+		CpMelody melody = melodyGenerator.generateMelody(1, Scale.MAJOR_SCALE, 0, 12, 0);
 		assertEquals(1, melody.getVoice());
 		assertEquals(12, melody.getBeat());
 		assertEquals(0, melody.getStart());
@@ -205,7 +205,7 @@ public class MelodyGeneratorTest extends JFrame{
 	public void testGenerateMelody4() {
 		List<Note> notes = new ArrayList<>();
 		when(noteCombination.getNotes(Mockito.anyInt(), Mockito.anyInt())).thenReturn(notes);
-		CpMelody melody = melodyGenerator.generateMelody(1, Scale.MAJOR_SCALE, 0, 12);
+		CpMelody melody = melodyGenerator.generateMelody(1, Scale.MAJOR_SCALE, 0, 12, 0);
 		assertEquals(1, melody.getVoice());
 		assertEquals(12, melody.getBeat());
 		assertEquals(0, melody.getStart());
@@ -232,7 +232,7 @@ public class MelodyGeneratorTest extends JFrame{
 		notes.add(note().pc(7).pos(24).len(12).build());
 		when(noteCombination.getNotes(Mockito.anyInt(), Mockito.anyInt())).thenReturn(notes);
 		int key = 3;
-		CpMelody melody = melodyGenerator.generateMelody(1, Scale.MAJOR_SCALE, 0, 12);
+		CpMelody melody = melodyGenerator.generateMelody(1, Scale.MAJOR_SCALE, 0, 12, 0);
 		List<Note> melodyNotes = melody.getNotes();
 		LOGGER.info(melodyNotes + ", ");
 		melodyNotes.forEach(note -> note.setPitch(note.getPitchClass() + 60));
