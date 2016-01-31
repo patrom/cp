@@ -5,9 +5,11 @@ import static cp.model.note.NoteBuilder.note;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import cp.model.note.BeamType;
 import cp.model.note.Note;
-
+@Component
 public class FourNoteSexTuplet {
 
 	public List<Note> pos1456(int beat) {

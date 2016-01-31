@@ -87,8 +87,8 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 			LOGGER.info(midiFile.getName());
 			MidiInfo midiInfo = midiParser.readMidi(midiFile);
 			List<MelodyInstrument> parsedMelodies = midiInfo.getMelodies();
-			musicProperties.setInstruments(Ensemble.getPiano(2));
-			mapInstruments(parsedMelodies, Ensemble.getPiano(2));
+			musicProperties.setInstruments(Ensemble.getStringDuo());
+			mapInstruments(parsedMelodies, Ensemble.getStringDuo());
 			//split
 //			int size = parsedMelodies.size();
 //			List<MelodyInstrument> melodies = new ArrayList<>(parsedMelodies.subList(0, size/2));
@@ -119,7 +119,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 			View.notate(score);
 //			write(parsedMelodies , "resources/transform/" + midiFile.getName(), midiInfo.getTempo());
 //			generateMusicXml(parsedMelodies, midiFile.getName());
-			Thread.sleep(15000);
+			Thread.sleep(10000);
 		}
 	}
 
