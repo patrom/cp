@@ -83,10 +83,10 @@ public class MelodyBlock {
 		return melodyBlocks.stream().flatMap(m -> m.getContour().stream()).collect(toList());
 	}
 	
-	public void updateRandomNote() {
-		CpMelody melody = RandomUtil.getRandomFromList(melodyBlocks);
-		melody.updateRandomNote();
-	}
+//	public void updateRandomNote() {
+//		CpMelody melody = RandomUtil.getRandomFromList(melodyBlocks);
+//		melody.updateRandomNote();
+//	}
 	
 	public void updateArticulation(){
 		CpMelody melody = RandomUtil.getRandomFromList(melodyBlocks);

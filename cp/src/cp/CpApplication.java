@@ -171,10 +171,10 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		
 		CpMelody melody = melodyGenerator.generateMelody(violin.getVoice(), Scale.MAJOR_SCALE, 0, 12, C);
 		melodyBlock.addMelodyBlock(melody);
-		melody = melodyGenerator.generateMelody(violin.getVoice(), Scale.HARMONIC_MINOR_SCALE, 12, 12, A);
+		melody = melodyGenerator.generateMelody(violin.getVoice(), Scale.MAJOR_SCALE, 12, 12, G);
 		melodyBlock.addMelodyBlock(melody);
-		melody = melodyGenerator.generateMelody(violin.getVoice(), Scale.MAJOR_SCALE, 24, 12, C);
-		melodyBlock.addMelodyBlock(melody);
+//		melody = melodyGenerator.generateMelody(violin.getVoice(), Scale.MAJOR_SCALE, 24, 12, C);
+//		melodyBlock.addMelodyBlock(melody);
 //		melody = melodyGenerator.generateMelody(violin.getVoice(), Scale.HARMONIC_MINOR_SCALE, 36, 12, D);
 //		melodyBlock.addMelodyBlock(melody);
 		melodyBlocks.add(melodyBlock);
@@ -214,7 +214,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	    // Algorithm parameters
 	    int populationSize = 30;
 	    algorithm.setInputParameter("populationSize", populationSize);
-	    algorithm.setInputParameter("maxEvaluations", populationSize * 15);
+	    algorithm.setInputParameter("maxEvaluations", populationSize * 1);
 	    
 	    // Mutation and Crossover
 	    crossover.setParameter("probabilityCrossover", 1.0); 
