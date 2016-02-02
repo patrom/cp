@@ -27,6 +27,7 @@ import cp.model.Motive;
 import cp.model.dissonance.IntervalDissonance;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
+import cp.model.melody.OperatorType;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.nsga.MusicSolutionType;
@@ -120,7 +121,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	public void run(String... arg0) throws Exception {
 		musicProperties.setOutputCountRun(2);
 		composeInMeter(3,4);
-		composeInKey(D);
+		composeInKey(C);
 		inTempo(60);
 		replaceMelody.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
 		melodyGenerator.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
@@ -164,35 +165,48 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		melodyBlock.setInstrument(piano);
 //		
 //		melodyBlocks.add(melodyBlock);
+		Instrument violin = new Violin(1, 2);
+		MelodyBlock melodyBlock = new MelodyBlock(5, violin.getVoice());
+		melodyBlock.setInstrument(violin);
 		
-		Instrument cello = new Cello(0, 3);
-//		cello.setKeySwitch(new KontactStringsKeySwitch());
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(cello.getVoice(), Scale.MAJOR_SCALE, 0, 144, 4, beats);
-		melodyBlock.setInstrument(cello);
+		CpMelody melody = melodyGenerator.generateMelody(violin.getVoice(), Scale.MAJOR_SCALE, 0, 12, C);
+		melodyBlock.addMelodyBlock(melody);
+		melody = melodyGenerator.generateMelody(violin.getVoice(), Scale.HARMONIC_MINOR_SCALE, 12, 12, A);
+		melodyBlock.addMelodyBlock(melody);
+		melody = melodyGenerator.generateMelody(violin.getVoice(), Scale.MAJOR_SCALE, 24, 12, C);
+		melodyBlock.addMelodyBlock(melody);
+//		melody = melodyGenerator.generateMelody(violin.getVoice(), Scale.HARMONIC_MINOR_SCALE, 36, 12, D);
+//		melodyBlock.addMelodyBlock(melody);
 		melodyBlocks.add(melodyBlock);
+		
+//		Instrument cello = new Cello(0, 3);
+////		cello.setKeySwitch(new KontactStringsKeySwitch());
+//		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(cello.getVoice(), Scale.MAJOR_SCALE, 0, 144, 4, beats);
+//		melodyBlock.setInstrument(cello);
+//		melodyBlocks.add(melodyBlock);
 		
 		List<Integer> beats2 = new ArrayList<>();
 //		beats2.add(12);
 //		beats2.add(24);
 		beats2.add(36);
 		
-		Instrument violin = new Violin(1, 2);
-		melodyBlock = melodyGenerator.generateMelodyBlock(violin.getVoice(), Scale.MAJOR_SCALE, 0, 144, 5, beats2);
-		melodyBlock.setInstrument(violin);
-		melodyBlocks.add(melodyBlock);
+//		Instrument violin = new Violin(1, 2);
+//		melodyBlock = melodyGenerator.generateMelodyBlock(violin.getVoice(), Scale.MAJOR_SCALE, 0, 144, 5, beats2);
+//		melodyBlock.setInstrument(violin);
+//		melodyBlocks.add(melodyBlock);
 	
 		//fugue
-//		Instrument cello = new KontaktLibCello(0, 3);
-//		MelodyBlock melodyBlock2 = new MelodyBlock(4, cello.getVoice());
-//		melodyBlock2.setVoice(cello.getVoice());
-//		melodyBlock2.setOffset(36);
-//		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.T_RELATIVE);
-////		operatorType.setSteps(1);
-////		operatorType.setFunctionalDegreeCenter(3);
-//		melodyBlock2.setOperatorType(operatorType);
-//		melodyBlock2.dependsOn(melodyBlock.getVoice());
-//		melodyBlock2.setInstrument(cello);
-//		melodyBlocks.add(melodyBlock2);
+		Instrument cello = new Cello(0, 3);
+		MelodyBlock melodyBlock2 = new MelodyBlock(4, cello.getVoice());
+		melodyBlock2.setVoice(cello.getVoice());
+		melodyBlock2.setOffset(12);
+		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.T_RELATIVE);
+//		operatorType.setSteps(1);
+//		operatorType.setFunctionalDegreeCenter(3);
+		melodyBlock2.setOperatorType(operatorType);
+		melodyBlock2.dependsOn(melodyBlock.getVoice());
+		melodyBlock2.setInstrument(cello);
+		melodyBlocks.add(melodyBlock2);
 		
 	    Motive motive = new Motive(melodyBlocks);
 	    solutionType.setMotive(motive);
@@ -200,7 +214,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	    // Algorithm parameters
 	    int populationSize = 30;
 	    algorithm.setInputParameter("populationSize", populationSize);
-	    algorithm.setInputParameter("maxEvaluations", populationSize * 1500);
+	    algorithm.setInputParameter("maxEvaluations", populationSize * 15);
 	    
 	    // Mutation and Crossover
 	    crossover.setParameter("probabilityCrossover", 1.0); 

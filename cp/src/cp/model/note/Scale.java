@@ -2,6 +2,8 @@ package cp.model.note;
 
 import java.util.Random;
 
+import cp.out.print.note.NoteStep;
+
 public class Scale {
 	
 	public static final Scale 
@@ -67,7 +69,7 @@ public class Scale {
 	public int transposePitchClass(int pitchClass, int steps){
 		for (int i = 0; i < scale.length; i++) {
 			if (pitchClass  == scale[i]) {
-				int index = (i + steps)% scale.length;
+				int index = (i + steps) % scale.length;
 				return scale[index];
 			}
 		}

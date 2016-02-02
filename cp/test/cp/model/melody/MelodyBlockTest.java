@@ -2,6 +2,7 @@ package cp.model.melody;
 
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +10,10 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationContextLoader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,6 +23,7 @@ import cp.VariationConfig;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.out.instrument.Instrument;
+import cp.out.print.note.NoteStep;
 import cp.util.Util;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -30,6 +34,12 @@ public class MelodyBlockTest {
 	
 	private MelodyBlock melodyBlock;
 	private CpMelody melody;
+	
+	@Autowired
+	private NoteStep D;
+	@Autowired
+	private NoteStep Csharp;
+	
 
 	@Before
 	public void setUp() throws Exception {
@@ -357,12 +367,31 @@ public class MelodyBlockTest {
 		notes.add(note().pos(48).pc(9).pitch(69).ocatve(5).build());
 		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
 		melodyBlock.addMelodyBlock(melody);
-		melodyBlock.Trelative(2);
+		melodyBlock.Trelative(2, melodyBlock);
 		assertEquals(4, melody.getNotes().get(0).getPitchClass());
 		assertEquals(7, melody.getNotes().get(1).getPitchClass());
 		assertEquals(2, melody.getNotes().get(2).getPitchClass());
 		assertEquals(11, melody.getNotes().get(3).getPitchClass());
 		assertEquals(0, melody.getNotes().get(4).getPitchClass());
+	}
+	
+	@Test
+	public void testTransposePitchClasses() {
+		melodyBlock.getMelodyBlocks().clear();
+		List<Note> notes = new ArrayList<>();
+		CpMelody offsetMelody = new CpMelody(notes, Scale.HARMONIC_MINOR_SCALE, 1, 24, 48);
+		offsetMelody.setNoteStep(D);
+		melodyBlock.addMelodyBlock(offsetMelody);
+		notes = new ArrayList<>();
+		notes.add(note().pos(0).pc(0).pitch(59).ocatve(4).build());
+		notes.add(note().pos(12).pc(4).pitch(64).ocatve(5).build());
+		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		melody.setNoteStep(Csharp);
+		melodyBlock.setOffset(24);
+		melodyBlock.transposePitchClasses(0, melody, melodyBlock);
+		 melody.getNotes().forEach(n -> System.out.println(n.getPitchClass() + ", "));
+		assertEquals(1, melody.getNotes().get(0).getPitchClass());
+		assertEquals(4, melody.getNotes().get(1).getPitchClass());
 	}
 
 

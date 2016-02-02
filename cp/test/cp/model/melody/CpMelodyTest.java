@@ -8,17 +8,35 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.SpringApplicationContextLoader;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import cp.DefaultConfig;
+import cp.VariationConfig;
 import cp.model.note.Note;
 import cp.model.note.Scale;
-
+import cp.out.print.note.NoteStep;
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {DefaultConfig.class, VariationConfig.class}, loader = SpringApplicationContextLoader.class)
 public class CpMelodyTest {
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(CpMelodyTest.class);
 	
 	private CpMelody melody;
+	
+	@Autowired
+	private NoteStep C;
+	@Autowired
+	private NoteStep D;
+	@Autowired
+	private NoteStep F;
+	@Autowired
+	private NoteStep G;
 
 	@Before
 	public void setUp() throws Exception {
@@ -151,7 +169,7 @@ public class CpMelodyTest {
 		notes.add(note().pos(18).pc(4).build());
 		notes.add(note().pos(24).pc(6).build());
 		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
-		melody.setKey(2);
+		melody.setNoteStep(D);
 		melody.getNotes().forEach(n -> System.out.println( n.getPitchClass()));
 		melody.transposePitchClasses(2);
 		List<Note> updatedNotes = melody.getNotes();
@@ -168,7 +186,7 @@ public class CpMelodyTest {
 		notes.add(note().pos(18).pc(2).build());
 		notes.add(note().pos(24).pc(4).build());
 		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
-		melody.setKey(0);
+		melody.setNoteStep(C);
 		melody.getNotes().forEach(n -> System.out.println( n.getPitchClass()));
 		melody.inversePitchClasses(1);
 		List<Note> updatedNotes = melody.getNotes();
@@ -185,13 +203,99 @@ public class CpMelodyTest {
 		notes.add(note().pos(18).pc(1).build());
 		notes.add(note().pos(24).pc(6).build());
 		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
-		melody.setKey(2);
+		melody.setNoteStep(D);
 		melody.getNotes().forEach(n -> System.out.println( n.getPitchClass()));
 		melody.inversePitchClasses(2);
 		List<Note> updatedNotes = melody.getNotes();
 		assertEquals(6, updatedNotes.get(0).getPitchClass());
 		assertEquals(7, updatedNotes.get(2).getPitchClass());
 		assertEquals(2, updatedNotes.get(3).getPitchClass());
+	}
+	
+	@Test
+	public void testConvertPitchClassToNewKey(){
+		List<Note> notes = new ArrayList<>();
+		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
+		int convertedPC = melody.convertPitchClassToNewKey(10, F.getInterval(), G.getInterval());
+		assertEquals(0, convertedPC);
+		
+		convertedPC = melody.convertPitchClassToNewKey(4, F.getInterval(), G.getInterval());
+		assertEquals(6, convertedPC);
+		
+		convertedPC = melody.convertPitchClassToNewKey(0, F.getInterval(), G.getInterval());
+		assertEquals(2, convertedPC);
+	}
+	
+	@Test
+	public void testTransposeInKeySameScale() {
+		List<Note> notes = new ArrayList<>();
+		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
+		melody.setNoteStep(G);
+		notes = new ArrayList<>();
+		CpMelody dependingMelody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
+		dependingMelody.setNoteStep(C);
+		int convertedPC = melody.convertPitchClass(0, dependingMelody, 0);
+		assertEquals(7, convertedPC);
+	}
+	
+	@Test
+	public void testTransposeInKeyDifferentScale() {
+		List<Note> notes = new ArrayList<>();
+		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
+		melody.setNoteStep(C);
+		notes = new ArrayList<>();
+		CpMelody dependingMelody = new CpMelody(notes, Scale.HARMONIC_MINOR_SCALE, 0, 48);
+		dependingMelody.setNoteStep(G);
+		int convertedPC = melody.convertPitchClass(3, dependingMelody, 0);
+		assertEquals(9, convertedPC);
+	}
+	
+	@Test
+	public void testTransposeInKeyDifferentScale2() {
+		List<Note> notes = new ArrayList<>();
+		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
+		melody.setNoteStep(D);
+		notes = new ArrayList<>();
+		CpMelody dependingMelody = new CpMelody(notes, Scale.HARMONIC_MINOR_SCALE, 0, 48);
+		dependingMelody.setNoteStep(G);
+		int convertedPC = melody.convertPitchClass(6, dependingMelody, 0);
+		assertEquals(1, convertedPC);
+	}
+	
+	@Test
+	public void testTransposePitchClass() {
+		List<Note> notes = new ArrayList<>();
+		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
+		melody.setNoteStep(G);
+		notes = new ArrayList<>();
+		CpMelody dependingMelody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
+		dependingMelody.setNoteStep(C);
+		int convertedPC = melody.transposePitchClass(11, dependingMelody);
+		assertEquals(11, convertedPC);
+	}
+	
+	@Test
+	public void testTransposePitchClass2() {
+		List<Note> notes = new ArrayList<>();
+		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
+		melody.setNoteStep(G);
+		notes = new ArrayList<>();
+		CpMelody dependingMelody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
+		dependingMelody.setNoteStep(D);
+		int convertedPC = melody.transposePitchClass(1, dependingMelody);
+		assertEquals(0, convertedPC);
+	}
+	
+	@Test
+	public void testTransposePitchClassDiffScale() {
+		List<Note> notes = new ArrayList<>();
+		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
+		melody.setNoteStep(G);
+		notes = new ArrayList<>();
+		CpMelody dependingMelody = new CpMelody(notes, Scale.HARMONIC_MINOR_SCALE, 0, 48);
+		dependingMelody.setNoteStep(D);
+		int convertedPC = melody.transposePitchClass(5, dependingMelody);
+		assertEquals(6, convertedPC);
 	}
 	
 }

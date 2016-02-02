@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import com.google.common.base.Objects;
 
 import cp.model.note.Note;
+import cp.model.note.Scale;
 import cp.out.instrument.Instrument;
 import cp.util.RandomUtil;
 import cp.util.Util;
@@ -150,7 +151,7 @@ public class MelodyBlock {
 			M(operatorType.getSteps());
 			break;
 		case T_RELATIVE:
-			Trelative(operatorType.getSteps());
+			Trelative(operatorType.getSteps(), melody);
 			break;
 		case I_RELATIVE:
 			Irelative(operatorType.getFunctionalDegreeCenter());
@@ -168,19 +169,36 @@ public class MelodyBlock {
 			});
 	}
 	
+	protected CpMelody getMelodyAtPosition(int position){
+		Optional<CpMelody> melody = melodyBlocks.stream().filter(m -> m.getStart() <= position && position < m.getEnd()).findFirst();
+		return melody.get();
+	}
+	
 	public void updateMelodyBetween(List<Note> notes){
 		instrument.updateMelodyBetween(notes);
 	}
 	
 	/**
 	 * @param steps Steps are functional degrees of scale.
+	 * @param melody 
 	 * @return
 	 */
-	public MelodyBlock Trelative(int steps){
-		melodyBlocks.stream().forEach(m -> m.transposePitchClasses(steps));
+	public MelodyBlock Trelative(int steps, MelodyBlock dependingMelodyBlock){
+		melodyBlocks.stream().forEach(m -> transposePitchClasses(steps, m, dependingMelodyBlock));
 		return this;
 	}
 	
+	protected void transposePitchClasses(int steps, CpMelody melody, MelodyBlock dependingMelodyBlock){
+		melody.getNotes().stream().filter(n -> !n.isRest())
+			.sorted()
+			.forEach(n -> {
+				CpMelody dependingMelody = dependingMelodyBlock.getMelodyAtPosition(n.getPosition() + offset);
+				int transposedPc = melody.transposePitchClass(n.getPitchClass(), dependingMelody);
+				//TODO steps
+				n.setPitchClass(transposedPc);
+			});
+	}
+
 	/**
 	 * @param functional degree center pitch class
 	 * @return
