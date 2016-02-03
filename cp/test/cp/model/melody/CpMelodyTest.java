@@ -140,42 +140,10 @@ public class CpMelodyTest {
 		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
 		melody.getNotes().forEach(n -> System.out.println( n.getPitchClass()));
 		LOGGER.info("Contour: " + melody.getContour());
+		melody.setNoteStep(C);
 		melody.updateRandomNote();
 		melody.getNotes().forEach(n -> System.out.println( n.getPitchClass()));
 		LOGGER.info("Contour: " + melody.getContour());
-	}
-	
-	@Test
-	public void testUpdatePitchClasses(){
-		List<Note> notes = new ArrayList<>();
-		notes.add(note().pos(0).pc(0).build());
-		notes.add(note().pos(12).rest().build());
-		notes.add(note().pos(18).pc(2).build());
-		notes.add(note().pos(24).pc(4).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
-		melody.getNotes().forEach(n -> System.out.println( n.getPitchClass()));
-		melody.transposePitchClasses(2);
-		List<Note> updatedNotes = melody.getNotes();
-		assertEquals(4, updatedNotes.get(0).getPitchClass());
-		assertEquals(5, updatedNotes.get(2).getPitchClass());
-		assertEquals(7, updatedNotes.get(3).getPitchClass());
-	}
-	
-	@Test
-	public void testTransposePitchClassesInKeyD(){
-		List<Note> notes = new ArrayList<>();
-		notes.add(note().pos(0).pc(2).build());
-		notes.add(note().pos(12).rest().build());
-		notes.add(note().pos(18).pc(4).build());
-		notes.add(note().pos(24).pc(6).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
-		melody.setNoteStep(D);
-		melody.getNotes().forEach(n -> System.out.println( n.getPitchClass()));
-		melody.transposePitchClasses(2);
-		List<Note> updatedNotes = melody.getNotes();
-		assertEquals(6, updatedNotes.get(0).getPitchClass());
-		assertEquals(7, updatedNotes.get(2).getPitchClass());
-		assertEquals(9, updatedNotes.get(3).getPitchClass());
 	}
 	
 	@Test
@@ -213,20 +181,6 @@ public class CpMelodyTest {
 	}
 	
 	@Test
-	public void testConvertPitchClassToNewKey(){
-		List<Note> notes = new ArrayList<>();
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
-		int convertedPC = melody.convertPitchClassToNewKey(10, F.getInterval(), G.getInterval());
-		assertEquals(0, convertedPC);
-		
-		convertedPC = melody.convertPitchClassToNewKey(4, F.getInterval(), G.getInterval());
-		assertEquals(6, convertedPC);
-		
-		convertedPC = melody.convertPitchClassToNewKey(0, F.getInterval(), G.getInterval());
-		assertEquals(2, convertedPC);
-	}
-	
-	@Test
 	public void testTransposeInKeySameScale() {
 		List<Note> notes = new ArrayList<>();
 		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
@@ -235,7 +189,19 @@ public class CpMelodyTest {
 		CpMelody dependingMelody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
 		dependingMelody.setNoteStep(C);
 		int convertedPC = melody.convertPitchClass(0, dependingMelody, 0);
-		assertEquals(7, convertedPC);
+		assertEquals(5, convertedPC);
+	}
+	
+	@Test
+	public void testTransposeInKeySameScale2() {
+		List<Note> notes = new ArrayList<>();
+		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
+		melody.setNoteStep(D);
+		notes = new ArrayList<>();
+		CpMelody dependingMelody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
+		dependingMelody.setNoteStep(G);
+		int convertedPC = melody.convertPitchClass(1, dependingMelody, 0);
+		assertEquals(6, convertedPC);
 	}
 	
 	@Test
@@ -246,8 +212,8 @@ public class CpMelodyTest {
 		notes = new ArrayList<>();
 		CpMelody dependingMelody = new CpMelody(notes, Scale.HARMONIC_MINOR_SCALE, 0, 48);
 		dependingMelody.setNoteStep(G);
-		int convertedPC = melody.convertPitchClass(3, dependingMelody, 0);
-		assertEquals(9, convertedPC);
+		int convertedPC = melody.convertPitchClass(4, dependingMelody, 0);
+		assertEquals(10, convertedPC);
 	}
 	
 	@Test
@@ -259,11 +225,23 @@ public class CpMelodyTest {
 		CpMelody dependingMelody = new CpMelody(notes, Scale.HARMONIC_MINOR_SCALE, 0, 48);
 		dependingMelody.setNoteStep(G);
 		int convertedPC = melody.convertPitchClass(6, dependingMelody, 0);
-		assertEquals(1, convertedPC);
+		assertEquals(10, convertedPC);
 	}
 	
 	@Test
 	public void testTransposePitchClass() {
+		List<Note> notes = new ArrayList<>();
+		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
+		melody.setNoteStep(C);
+		notes = new ArrayList<>();
+		CpMelody dependingMelody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
+		dependingMelody.setNoteStep(G);
+		int convertedPC = melody.transposePitchClass(11, dependingMelody);
+		assertEquals(11, convertedPC);
+	}
+	
+	@Test
+	public void testTransposePitchClassReverseKey() {
 		List<Note> notes = new ArrayList<>();
 		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
 		melody.setNoteStep(G);
@@ -282,8 +260,8 @@ public class CpMelodyTest {
 		notes = new ArrayList<>();
 		CpMelody dependingMelody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
 		dependingMelody.setNoteStep(D);
-		int convertedPC = melody.transposePitchClass(1, dependingMelody);
-		assertEquals(0, convertedPC);
+		int convertedPC = melody.transposePitchClass(0, dependingMelody);
+		assertEquals(1, convertedPC);
 	}
 	
 	@Test
@@ -294,8 +272,8 @@ public class CpMelodyTest {
 		notes = new ArrayList<>();
 		CpMelody dependingMelody = new CpMelody(notes, Scale.HARMONIC_MINOR_SCALE, 0, 48);
 		dependingMelody.setNoteStep(D);
-		int convertedPC = melody.transposePitchClass(5, dependingMelody);
-		assertEquals(6, convertedPC);
+		int convertedPC = melody.transposePitchClass(6, dependingMelody);
+		assertEquals(5, convertedPC);
 	}
 	
 }

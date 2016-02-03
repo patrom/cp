@@ -120,7 +120,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	@Override
 	public void run(String... arg0) throws Exception {
 		musicProperties.setOutputCountRun(2);
-		composeInMeter(3,4);
+		composeInMeter(4,4);
 		composeInKey(C);
 		inTempo(60);
 		replaceMelody.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
@@ -169,9 +169,9 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		MelodyBlock melodyBlock = new MelodyBlock(5, violin.getVoice());
 		melodyBlock.setInstrument(violin);
 		
-		CpMelody melody = melodyGenerator.generateMelody(violin.getVoice(), Scale.MAJOR_SCALE, 0, 12, C);
+		CpMelody melody = melodyGenerator.generateMelody(violin.getVoice(), Scale.HARMONIC_MINOR_SCALE, 0, 24, G);
 		melodyBlock.addMelodyBlock(melody);
-		melody = melodyGenerator.generateMelody(violin.getVoice(), Scale.MAJOR_SCALE, 12, 12, G);
+		melody = melodyGenerator.generateMelody(violin.getVoice(), Scale.MAJOR_SCALE, 24, 24, C);
 		melodyBlock.addMelodyBlock(melody);
 //		melody = melodyGenerator.generateMelody(violin.getVoice(), Scale.MAJOR_SCALE, 24, 12, C);
 //		melodyBlock.addMelodyBlock(melody);
@@ -199,7 +199,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		Instrument cello = new Cello(0, 3);
 		MelodyBlock melodyBlock2 = new MelodyBlock(4, cello.getVoice());
 		melodyBlock2.setVoice(cello.getVoice());
-		melodyBlock2.setOffset(12);
+		melodyBlock2.setOffset(24);
 		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.T_RELATIVE);
 //		operatorType.setSteps(1);
 //		operatorType.setFunctionalDegreeCenter(3);

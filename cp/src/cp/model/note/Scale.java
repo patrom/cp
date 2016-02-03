@@ -69,7 +69,7 @@ public class Scale {
 	public int transposePitchClass(int pitchClass, int steps){
 		for (int i = 0; i < scale.length; i++) {
 			if (pitchClass  == scale[i]) {
-				int index = (i + steps) % scale.length;
+				int index = (scale.length + (i + steps)) % scale.length;
 				return scale[index];
 			}
 		}

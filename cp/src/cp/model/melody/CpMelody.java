@@ -182,12 +182,6 @@ public class CpMelody implements Cloneable{
 		Note removeArticulation = RandomUtil.getRandomFromList(notesNoRest);
 		removeArticulation.setArticulation(Note.DEFAULT_ARTICULATION);
 	}
-	
-	public void transposePitchClasses(int steps){
-		notes.stream().filter(n -> !n.isRest())
-					.sorted()
-					.forEach(n -> n.setPitchClass((scale.transposePitchClass(pitchClassNoKey(n.getPitchClass()), steps) + noteStep.getInterval()) % 12));
-	}
 
 	private int pitchClassNoKey(int pitchClass) {
 		return (12 + pitchClass - noteStep.getInterval()) % 12;
@@ -206,13 +200,14 @@ public class CpMelody implements Cloneable{
 	 * @return
 	 */
 	protected int transposePitchClass(int pitchClass, CpMelody dependingMelody){
-		int scaleDistance = Math.abs(this.getNoteStep().getInterval() - dependingMelody.getNoteStep().getInterval());
-		int steps = Util.getSteps(scaleDistance);
-		return convertPitchClass(pitchClass, dependingMelody, steps);
+		int scaleDistance = dependingMelody.getNoteStep().getInterval() - this.getNoteStep().getInterval() ;
+		int sign = (int) Math.signum(scaleDistance);
+		int steps = Util.getSteps(Math.abs(scaleDistance));
+		return convertPitchClass(pitchClass, dependingMelody, sign * steps);
 	}
 	
 	/**
-	 * Converts pitch class of the depending melody to the same functional degree in this melody
+	 * Converts pitch class of the melody to the same functional degree in the depending melody
 	 * eg. F sharp in G = C sharp in D
 	 * @param pitchClass
 	 * @param dependingMelody
@@ -225,27 +220,24 @@ public class CpMelody implements Cloneable{
 			throw new IllegalArgumentException("Scales should have the same length");
 		}
 		
-		int pitchClassKeyOfC = convertToKeyOfC(pitchClass, dependingMelody.getNoteStep().getInterval());
-		int transposedPC = dependingScale.transposePitchClass(pitchClassKeyOfC, steps);
+		int pitchClassKeyOfC = convertToKeyOfC(pitchClass);
 		
 		int transposedPitchClass;
 		if (scale != dependingScale) {
-			int indexPitchClass = dependingScale.getIndex(transposedPC);
-			int transformPitchClass = scale.getPitchClasses()[indexPitchClass];
-			transposedPitchClass = (transformPitchClass + getNoteStep().getInterval()) % 12;
+			int indexPitchClass = scale.getIndex(pitchClassKeyOfC);
+			int transformPitchClass = dependingScale.getPitchClasses()[indexPitchClass];
+			int rotatedPC = dependingScale.transposePitchClass(transformPitchClass, steps);
+			transposedPitchClass = (rotatedPC + dependingMelody.getNoteStep().getInterval()) % 12;
 		} else {
-			transposedPitchClass = (transposedPC + getNoteStep().getInterval()) % 12;
+			int rotatedPC = dependingScale.transposePitchClass(pitchClassKeyOfC, steps);
+			transposedPitchClass = (rotatedPC + dependingMelody.getNoteStep().getInterval()) % 12;
 		}
+		
 		return transposedPitchClass;
 	}
 	
-	private int convertToKeyOfC(int pitchClass, int key) {
-		return (12 + pitchClass - key) % 12;
-	}
-	
-	protected int convertPitchClassToNewKey(int pitchClass, int oldKey, int newKey){
-		int pitchClassKeyOfC = convertToKeyOfC(pitchClass, oldKey);
-		return (pitchClassKeyOfC + newKey) % 12;
+	private int convertToKeyOfC(int pitchClass) {
+		return (12 + pitchClass - noteStep.getInterval()) % 12;
 	}
 	
 	public boolean isRhythmMutable() {

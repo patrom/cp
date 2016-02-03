@@ -103,7 +103,7 @@ public class CombinationConfig {
 		List<RhythmCombination> rhythmCombinations = new ArrayList<>();
 		rhythmCombinations.add(oneNoteEven::pos1);
 //		rhythmCombinations.add(oneNoteEven::pos2);
-		rhythmCombinations.add(oneNoteEven::pos3);
+//		rhythmCombinations.add(oneNoteEven::pos3);
 //		rhythmCombinations.add(oneNoteEven::pos4);
 //		
 //		rhythmCombinations.add(twoNoteEven::pos12);
@@ -118,7 +118,7 @@ public class CombinationConfig {
 //		rhythmCombinations.add(threeNoteEven::pos124);
 //		rhythmCombinations.add(threeNoteEven::pos234);
 //		
-//		rhythmCombinations.add(fourNoteEven::pos1234);
+		rhythmCombinations.add(fourNoteEven::pos1234);
 		
 //		rhythmCombinations.add(threeNoteUneven::pos123);
 		return rhythmCombinations;

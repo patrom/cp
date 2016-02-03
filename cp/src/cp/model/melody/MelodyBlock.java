@@ -134,9 +134,9 @@ public class MelodyBlock {
 		}
 	}
 	
-	public void transformDependingOn(MelodyBlock melody){
-		int end = melody.getLastMelody().getEnd();
-		MelodyBlock melodyBlock = melody.clone(end - offset);
+	public void transformDependingOn(MelodyBlock dependingMelodyBlock){
+		int end = dependingMelodyBlock.getLastMelody().getEnd();
+		MelodyBlock melodyBlock = dependingMelodyBlock.clone(end - offset);
 		melodyBlocks = melodyBlock.getMelodyBlocks();
 		switch (operatorType.getOperator()) {
 		case T:
@@ -151,7 +151,7 @@ public class MelodyBlock {
 			M(operatorType.getSteps());
 			break;
 		case T_RELATIVE:
-			Trelative(operatorType.getSteps(), melody);
+			Trelative(operatorType.getSteps(), dependingMelodyBlock);
 			break;
 		case I_RELATIVE:
 			Irelative(operatorType.getFunctionalDegreeCenter());
