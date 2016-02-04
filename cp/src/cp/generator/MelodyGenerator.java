@@ -22,7 +22,6 @@ import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.note.Scale;
-import cp.out.print.note.NoteStep;
 import cp.util.RandomUtil;
 
 @Component
@@ -50,7 +49,7 @@ public class MelodyGenerator {
 		int beat = RandomUtil.getRandomFromList(beats);
 		int end = start + beat;
 		while (end <= stop) {
-			CpMelody melody = generateMelody(voice, scale, start, beat, musicProperties.getKey());
+			CpMelody melody = generateMelody(voice, scale, start, beat);
 			melodyBlock.addMelodyBlock(melody);
 			beat = RandomUtil.getRandomFromList(beats);
 			start = end;
@@ -59,16 +58,15 @@ public class MelodyGenerator {
 		return melodyBlock;
 	}
 
-	public CpMelody generateMelody(int voice, Scale scale, int start, int beat, NoteStep noteStep) {
+	public CpMelody generateMelody(int voice, Scale scale, int start, int beat) {
 		List<Note> melodyNotes = noteCombination.getNotes(beat, voice);
 		int offset = start;
 		melodyNotes.forEach(n -> {
 			n.setPosition(n.getPosition() + offset);
 		});
-		melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes, scale, noteStep.getInterval());
+		melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes, scale);
 		CpMelody melody = new CpMelody(melodyNotes, scale, voice, start, start + beat);
 		melody.setBeat(beat);
-		melody.setNoteStep(noteStep);
 		return melody;
 	}
 	

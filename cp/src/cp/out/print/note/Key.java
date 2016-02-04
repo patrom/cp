@@ -1,6 +1,6 @@
 package cp.out.print.note;
 
-public interface NoteStep {
+public interface Key {
 
 	public  String getStep();
 

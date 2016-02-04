@@ -3,23 +3,21 @@ package cp.nsga.operator.mutation.melody;
 import java.util.HashMap;
 import java.util.Optional;
 
-import jmetal.core.Solution;
-import jmetal.util.Configuration;
-import jmetal.util.JMException;
-import jmetal.util.PseudoRandom;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cp.generator.MusicProperties;
-import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.Motive;
+import cp.model.TimeLine;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.nsga.MusicVariable;
 import cp.nsga.operator.mutation.AbstractMutation;
+import jmetal.core.Solution;
+import jmetal.util.Configuration;
+import jmetal.util.JMException;
+import jmetal.util.PseudoRandom;
 
 @Component(value="oneNoteMutation")
 public class OneNoteMutation extends AbstractMutation {
@@ -27,7 +25,7 @@ public class OneNoteMutation extends AbstractMutation {
 	private static Logger LOGGER = LoggerFactory.getLogger(OneNoteMutation.class.getName());
 
 	@Autowired
-	private MusicProperties musicProperties;
+	private TimeLine timeLine;
 
 	@Autowired
 	public OneNoteMutation(HashMap<String, Object> parameters) {
@@ -46,7 +44,7 @@ public class OneNoteMutation extends AbstractMutation {
 			MelodyBlock mutableMelodyBlock = motive.getRandomMutableMelody();
 			Optional<CpMelody> optionalMelody = mutableMelodyBlock.getRandomMelody(m -> m.isMutable());
 			if (optionalMelody.isPresent()) {
-				optionalMelody.get().updateRandomNote();
+				optionalMelody.get().updateRandomNote(timeLine);
 			}
 		} 
 	}

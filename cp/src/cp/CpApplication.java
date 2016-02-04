@@ -5,6 +5,7 @@ import static cp.model.note.NoteBuilder.note;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -24,6 +25,8 @@ import cp.generator.MusicProperties;
 import cp.generator.pitchclass.PassingPitchClasses;
 import cp.generator.pitchclass.RandomPitchClasses;
 import cp.model.Motive;
+import cp.model.TimeLine;
+import cp.model.TimeLineKey;
 import cp.model.dissonance.IntervalDissonance;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
@@ -40,7 +43,7 @@ import cp.out.instrument.Piano;
 import cp.out.instrument.strings.Cello;
 import cp.out.instrument.strings.Violin;
 import cp.out.print.Display;
-import cp.out.print.note.NoteStep;
+import cp.out.print.note.Key;
 import jmetal.core.Algorithm;
 import jmetal.core.Operator;
 import jmetal.core.SolutionSet;
@@ -53,29 +56,29 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	private static Logger LOGGER = LoggerFactory.getLogger(CpApplication.class.getName());
 	
 	@Autowired
-	private NoteStep C;
+	private Key C;
 	@Autowired
-	private NoteStep Csharp;
+	private Key Csharp;
 	@Autowired
-	private NoteStep D;
+	private Key D;
 	@Autowired
-	private NoteStep Dsharp;
+	private Key Dsharp;
 	@Autowired
-	private NoteStep E;
+	private Key E;
 	@Autowired
-	private NoteStep F;
+	private Key F;
 	@Autowired
-	private NoteStep Fsharp;
+	private Key Fsharp;
 	@Autowired
-	private NoteStep G;
+	private Key G;
 	@Autowired
-	private NoteStep Gsharp;
+	private Key Gsharp;
 	@Autowired
-	private NoteStep A;
+	private Key A;
 	@Autowired
-	private NoteStep Bflat;
+	private Key Bflat;
 	@Autowired
-	private NoteStep B;
+	private Key B;
 	
 	@Autowired
 	private MusicSolutionType solutionType;
@@ -107,6 +110,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	private HarmonicObjective harmonicObjective;
 	@Autowired
 	private IntervalDissonance intervalDissonance;
+	@Autowired
+	private TimeLine timeLine;
 	
 	public static AtomicInteger COUNTER = new AtomicInteger();
 	
@@ -121,6 +126,10 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	public void run(String... arg0) throws Exception {
 		musicProperties.setOutputCountRun(2);
 		composeInMeter(4,4);
+		List<TimeLineKey> keys = new ArrayList<>();
+		keys.add(new TimeLineKey(C, 0, 48));
+		keys.add(new TimeLineKey(D, 48, 144));
+		timeLine.setKeys(keys);
 		composeInKey(C);
 		inTempo(60);
 		replaceMelody.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
@@ -165,48 +174,50 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		melodyBlock.setInstrument(piano);
 //		
 //		melodyBlocks.add(melodyBlock);
-		Instrument violin = new Violin(1, 2);
-		MelodyBlock melodyBlock = new MelodyBlock(5, violin.getVoice());
-		melodyBlock.setInstrument(violin);
 		
-		CpMelody melody = melodyGenerator.generateMelody(violin.getVoice(), Scale.HARMONIC_MINOR_SCALE, 0, 24, G);
-		melodyBlock.addMelodyBlock(melody);
-		melody = melodyGenerator.generateMelody(violin.getVoice(), Scale.MAJOR_SCALE, 24, 24, C);
-		melodyBlock.addMelodyBlock(melody);
-//		melody = melodyGenerator.generateMelody(violin.getVoice(), Scale.MAJOR_SCALE, 24, 12, C);
-//		melodyBlock.addMelodyBlock(melody);
-//		melody = melodyGenerator.generateMelody(violin.getVoice(), Scale.HARMONIC_MINOR_SCALE, 36, 12, D);
-//		melodyBlock.addMelodyBlock(melody);
-		melodyBlocks.add(melodyBlock);
 		
-//		Instrument cello = new Cello(0, 3);
-////		cello.setKeySwitch(new KontactStringsKeySwitch());
-//		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(cello.getVoice(), Scale.MAJOR_SCALE, 0, 144, 4, beats);
-//		melodyBlock.setInstrument(cello);
+//		Instrument violin = new Violin(1, 2);
+//		MelodyBlock melodyBlock = new MelodyBlock(5, violin.getVoice());
+//		melodyBlock.setInstrument(violin);
+		
+//		CpMelody melody = melodyGenerator.generateMelody(violin.getVoice(), Scale.HARMONIC_MINOR_SCALE, 0, 24);
+//		melodyBlock.addMelodyBlock(melody);
+//		melody = melodyGenerator.generateMelody(violin.getVoice(), Scale.MAJOR_SCALE, 24, 24);
+//		melodyBlock.addMelodyBlock(melody);
+//		melody = melodyGenerator.generateMelody(violin.getVoice(), Scale.MAJOR_SCALE, 24, 12);
+//		melodyBlock.addMelodyBlock(melody);
+//		melody = melodyGenerator.generateMelody(violin.getVoice(), Scale.HARMONIC_MINOR_SCALE, 36, 12);
+//		melodyBlock.addMelodyBlock(melody);
 //		melodyBlocks.add(melodyBlock);
+		
+		Instrument cello = new Cello(0, 3);
+//		cello.setKeySwitch(new KontactStringsKeySwitch());
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(cello.getVoice(), Scale.MAJOR_SCALE, 0, 144, 4, beats);
+		melodyBlock.setInstrument(cello);
+		melodyBlocks.add(melodyBlock);
 		
 		List<Integer> beats2 = new ArrayList<>();
 //		beats2.add(12);
 //		beats2.add(24);
 		beats2.add(36);
 		
-//		Instrument violin = new Violin(1, 2);
-//		melodyBlock = melodyGenerator.generateMelodyBlock(violin.getVoice(), Scale.MAJOR_SCALE, 0, 144, 5, beats2);
-//		melodyBlock.setInstrument(violin);
-//		melodyBlocks.add(melodyBlock);
+		Instrument violin = new Violin(1, 2);
+		melodyBlock = melodyGenerator.generateMelodyBlock(violin.getVoice(), Scale.MAJOR_SCALE, 0, 144, 5, beats2);
+		melodyBlock.setInstrument(violin);
+		melodyBlocks.add(melodyBlock);
 	
 		//fugue
-		Instrument cello = new Cello(0, 3);
-		MelodyBlock melodyBlock2 = new MelodyBlock(4, cello.getVoice());
-		melodyBlock2.setVoice(cello.getVoice());
-		melodyBlock2.setOffset(24);
-		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.T_RELATIVE);
-//		operatorType.setSteps(1);
-//		operatorType.setFunctionalDegreeCenter(3);
-		melodyBlock2.setOperatorType(operatorType);
-		melodyBlock2.dependsOn(melodyBlock.getVoice());
-		melodyBlock2.setInstrument(cello);
-		melodyBlocks.add(melodyBlock2);
+//		Instrument cello = new Cello(0, 3);
+//		MelodyBlock melodyBlock2 = new MelodyBlock(4, cello.getVoice());
+//		melodyBlock2.setVoice(cello.getVoice());
+//		melodyBlock2.setOffset(24);
+//		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.T_RELATIVE);
+////		operatorType.setSteps(1);
+////		operatorType.setFunctionalDegreeCenter(3);
+//		melodyBlock2.setOperatorType(operatorType);
+//		melodyBlock2.dependsOn(melodyBlock.getVoice());
+//		melodyBlock2.setInstrument(cello);
+//		melodyBlocks.add(melodyBlock2);
 		
 	    Motive motive = new Motive(melodyBlocks);
 	    solutionType.setMotive(motive);
@@ -214,7 +225,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	    // Algorithm parameters
 	    int populationSize = 30;
 	    algorithm.setInputParameter("populationSize", populationSize);
-	    algorithm.setInputParameter("maxEvaluations", populationSize * 1);
+	    algorithm.setInputParameter("maxEvaluations", populationSize * 1500);
 	    
 	    // Mutation and Crossover
 	    crossover.setParameter("probabilityCrossover", 1.0); 
@@ -240,7 +251,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		musicProperties.setTempo(tempo);
 	}
 
-	private void composeInKey(NoteStep key) {
+	private void composeInKey(Key key) {
 		musicProperties.setKeySignature(key.getKeySignature());
 		musicProperties.setKey(key);
 	}

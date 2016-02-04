@@ -20,12 +20,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
+import cp.model.TimeLine;
+import cp.model.TimeLineKey;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.strings.Cello;
-import cp.out.print.note.NoteStep;
+import cp.out.instrument.strings.Violin;
+import cp.out.print.note.Key;
 import cp.util.Util;
+import javafx.animation.Timeline;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {DefaultConfig.class, VariationConfig.class}, loader = SpringApplicationContextLoader.class)
@@ -37,14 +41,15 @@ public class MelodyBlockTest {
 	private CpMelody melody;
 	
 	@Autowired
-	private NoteStep D;
+	private Key D;
 	@Autowired
-	private NoteStep Csharp;
+	private Key Csharp;
 	@Autowired
-	private NoteStep C;
+	private Key C;
 	@Autowired
-	private NoteStep G;
-	
+	private Key G;
+	@Autowired
+	private TimeLine timeLine;
 
 	@Before
 	public void setUp() throws Exception {
@@ -134,7 +139,14 @@ public class MelodyBlockTest {
 		
 		MelodyBlock melodyBlockCopy = new MelodyBlock(5,1);
 		melodyBlockCopy.setOffset(24);
-		melodyBlockCopy.transformDependingOn(melodyBlock);
+		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.T);
+		melodyBlockCopy.setOperatorType(operatorType);
+		melodyBlockCopy.setInstrument(new Violin(0, 0));
+		List<TimeLineKey> keys = new ArrayList<>();
+		keys.add(new TimeLineKey(C, 0, 24));
+		keys.add(new TimeLineKey(D, 24, 48));
+		timeLine.setKeys(keys);
+		melodyBlockCopy.transformDependingOn(melodyBlock, timeLine);
 		assertEquals(1, melodyBlockCopy.getMelodyBlockNotes().size());
 		LOGGER.info("Notes: " + melodyBlock.getMelodyBlockNotes());
 		LOGGER.info("Notes: " + melodyBlock.getMelodyBlockContour());
@@ -370,7 +382,6 @@ public class MelodyBlockTest {
 		notes.add(note().pos(18).pc(11).pitch(71).ocatve(5).build());
 		notes.add(note().pos(24).pc(7).pitch(67).ocatve(5).build());
 		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
-		melody.setNoteStep(C);
 		melodyBlock.addMelodyBlock(melody);
 		
 		notes = new ArrayList<>();
@@ -378,7 +389,6 @@ public class MelodyBlockTest {
 		notes.add(note().pos(60).pc(6).pitch(66).ocatve(5).build());
 		notes.add(note().pos(72).pc(11).pitch(71).ocatve(5).build());
 		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 48, 96);
-		melody.setNoteStep(G);
 		melodyBlock.addMelodyBlock(melody);
 		
 		Instrument cello = new Cello(0, 3);
@@ -392,8 +402,11 @@ public class MelodyBlockTest {
 		melodyBlock2.dependsOn(melodyBlock.getVoice());
 		melodyBlock2.setInstrument(cello);
 
-		
-		melodyBlock2.transformDependingOn(melodyBlock);
+		List<TimeLineKey> keys = new ArrayList<>();
+		keys.add(new TimeLineKey(C, 0, 48));
+		keys.add(new TimeLineKey(G, 48, 144));
+		timeLine.setKeys(keys);
+		melodyBlock2.transformDependingOn(melodyBlock, timeLine);
 		melodyBlock2.getMelodyBlockNotes().forEach(n -> System.out.println(n.getPitchClass() + ", " + n.getPosition()));
 //		assertEquals(4, melody.getNotes().get(0).getPitchClass());
 //		assertEquals(7, melody.getNotes().get(1).getPitchClass());

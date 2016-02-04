@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.base.Objects;
 
+import cp.model.TimeLine;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.out.instrument.Instrument;
@@ -134,7 +135,7 @@ public class MelodyBlock {
 		}
 	}
 	
-	public void transformDependingOn(MelodyBlock dependingMelodyBlock){
+	public void transformDependingOn(MelodyBlock dependingMelodyBlock, TimeLine timeLine){
 		int end = dependingMelodyBlock.getLastMelody().getEnd();
 		MelodyBlock melodyBlock = dependingMelodyBlock.clone(end - offset);
 		melodyBlocks = melodyBlock.getMelodyBlocks();
@@ -151,7 +152,7 @@ public class MelodyBlock {
 			M(operatorType.getSteps());
 			break;
 		case T_RELATIVE:
-			Trelative(operatorType.getSteps(), dependingMelodyBlock);
+			Trelative(operatorType.getSteps(), dependingMelodyBlock, timeLine);
 			break;
 		case I_RELATIVE:
 			Irelative(operatorType.getFunctionalDegreeCenter());
@@ -180,20 +181,23 @@ public class MelodyBlock {
 	
 	/**
 	 * @param steps Steps are functional degrees of scale.
+	 * @param timeLine 
 	 * @param melody 
 	 * @return
 	 */
-	public MelodyBlock Trelative(int steps, MelodyBlock dependingMelodyBlock){
-		melodyBlocks.stream().forEach(m -> transposePitchClasses(steps, m, dependingMelodyBlock));
+	public MelodyBlock Trelative(int steps, MelodyBlock dependingMelodyBlock, TimeLine timeLine){
+		melodyBlocks.stream().forEach(m -> transposePitchClasses(steps, m, dependingMelodyBlock, timeLine));
 		return this;
 	}
 	
-	protected void transposePitchClasses(int steps, CpMelody melody, MelodyBlock dependingMelodyBlock){
+	protected void transposePitchClasses(int steps, CpMelody melody, MelodyBlock dependingMelodyBlock, TimeLine timeLine){
 		melody.getNotes().stream().filter(n -> !n.isRest())
 			.sorted()
 			.forEach(n -> {
 				CpMelody dependingMelody = dependingMelodyBlock.getMelodyAtPosition(n.getPosition() + offset);
-				int transposedPc = melody.transposePitchClass(n.getPitchClass(), dependingMelody);
+				int key = timeLine.getKeyAtPosition(n.getPosition()).getInterval();
+				int dependingKey = timeLine.getKeyAtPosition(n.getPosition() + offset).getInterval();
+				int transposedPc = melody.transposePitchClass(n.getPitchClass(), dependingMelody.getScale(), key, dependingKey);
 				//TODO steps
 				n.setPitchClass(transposedPc);
 			});
@@ -204,7 +208,7 @@ public class MelodyBlock {
 	 * @return
 	 */
 	public MelodyBlock Irelative(int functionalDegreeCenter){
-		melodyBlocks.stream().forEach(m -> m.inversePitchClasses(functionalDegreeCenter));
+//		melodyBlocks.stream().forEach(m -> m.inversePitchClasses(functionalDegreeCenter));
 		return this;
 	}
 	

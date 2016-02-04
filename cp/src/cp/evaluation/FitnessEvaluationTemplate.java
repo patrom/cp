@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import cp.generator.MusicProperties;
 import cp.model.Motive;
+import cp.model.TimeLine;
 import cp.model.harmony.CpHarmony;
 import cp.model.harmony.HarmonyExtractor;
 import cp.model.melody.MelodyBlock;
@@ -46,6 +47,8 @@ public class FitnessEvaluationTemplate {
 	private HarmonyExtractor harmonyExtractor;
 	@Autowired
 	private MusicProperties musicProperties;
+	@Autowired
+	private TimeLine timeLine;
 
 	public FitnessObjectiveValues evaluate(Motive motive) {
 		List<MelodyBlock> melodies = motive.getMelodyBlocks();
@@ -80,7 +83,7 @@ public class FitnessEvaluationTemplate {
 		for (MelodyBlock dependantMelody : dependantMelodies) {
 			MelodyBlock dux = findMelodyForVoice(melodies, dependantMelody.getDependingVoice());
 			MelodyBlock comes = findMelodyForVoice(melodies, dependantMelody.getVoice());
-			comes.transformDependingOn(dux);
+			comes.transformDependingOn(dux, timeLine);
 		}
 	}
 

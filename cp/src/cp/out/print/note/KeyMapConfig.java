@@ -11,48 +11,48 @@ import org.springframework.context.annotation.Configuration;
 public class KeyMapConfig {
 	
 	@Autowired
-	private NoteStep C;
+	private Key C;
 	@Autowired
-	private NoteStep Csharp;
+	private Key Csharp;
 	@Autowired
-	private NoteStep D;
+	private Key D;
 	@Autowired
-	private NoteStep Dflat;
+	private Key Dflat;
 	@Autowired
-	private NoteStep Dsharp;
+	private Key Dsharp;
 	@Autowired
-	private NoteStep E;
+	private Key E;
 	@Autowired
-	private NoteStep Eflat;
+	private Key Eflat;
 	@Autowired
-	private NoteStep Esharp;
+	private Key Esharp;
 	@Autowired
-	private NoteStep F;
+	private Key F;
 	@Autowired
-	private NoteStep Fsharp;
+	private Key Fsharp;
 	@Autowired
-	private NoteStep G;
+	private Key G;
 	@Autowired
-	private NoteStep Gflat;
+	private Key Gflat;
 	@Autowired
-	private NoteStep Gsharp;
+	private Key Gsharp;
 	@Autowired
-	private NoteStep A;
+	private Key A;
 	@Autowired
-	private NoteStep Aflat;
+	private Key Aflat;
 	@Autowired
-	private NoteStep Asharp;
+	private Key Asharp;
 	@Autowired
-	private NoteStep Bflat;
+	private Key Bflat;
 	@Autowired
-	private NoteStep B;
+	private Key B;
 	@Autowired
-	private NoteStep Bsharp;
+	private Key Bsharp;
 	
 	
 	@Bean(name="keyOfC")
-	public Map<Integer, NoteStep> keyOfC() {
-		Map<Integer, NoteStep> map = new TreeMap<>();
+	public Map<Integer, Key> keyOfC() {
+		Map<Integer, Key> map = new TreeMap<>();
 		map.put(0, C);
 		map.put(1, Csharp);
 		map.put(2, D);
@@ -69,8 +69,8 @@ public class KeyMapConfig {
 	}
 	
 	@Bean(name="keyOfG")
-	public Map<Integer, NoteStep> keyOfG() {
-		Map<Integer, NoteStep> map = new TreeMap<>();
+	public Map<Integer, Key> keyOfG() {
+		Map<Integer, Key> map = new TreeMap<>();
 		map.put(0, C);
 		map.put(1, Csharp);
 		map.put(2, D);
@@ -87,8 +87,8 @@ public class KeyMapConfig {
 	}
 	
 	@Bean(name="keyOfD")
-	public Map<Integer, NoteStep> keyOfD() {
-		Map<Integer, NoteStep> map = new TreeMap<>();
+	public Map<Integer, Key> keyOfD() {
+		Map<Integer, Key> map = new TreeMap<>();
 		map.put(0, Bsharp);
 		map.put(1, Csharp);
 		map.put(2, D);
@@ -105,8 +105,8 @@ public class KeyMapConfig {
 	}
 	
 	@Bean(name="keyOfA")
-	public Map<Integer, NoteStep> keyOfA() {
-		Map<Integer, NoteStep> map = new TreeMap<>();
+	public Map<Integer, Key> keyOfA() {
+		Map<Integer, Key> map = new TreeMap<>();
 		map.put(0, Bsharp);
 		map.put(1, Csharp);
 		map.put(2, D);
@@ -123,8 +123,8 @@ public class KeyMapConfig {
 	}
 	
 	@Bean(name="keyOfE")
-	public Map<Integer, NoteStep> keyOfE() {
-		Map<Integer, NoteStep> map = new TreeMap<>();
+	public Map<Integer, Key> keyOfE() {
+		Map<Integer, Key> map = new TreeMap<>();
 		map.put(0, Bsharp);
 		map.put(1, Csharp);
 		map.put(2, D);
@@ -141,8 +141,8 @@ public class KeyMapConfig {
 	}
 	
 	@Bean(name="keyOfB")
-	public Map<Integer, NoteStep> keyOfB() {
-		Map<Integer, NoteStep> map = new TreeMap<>();
+	public Map<Integer, Key> keyOfB() {
+		Map<Integer, Key> map = new TreeMap<>();
 		map.put(0, Bsharp);
 		map.put(1, Csharp);
 		map.put(2, D);
@@ -159,8 +159,8 @@ public class KeyMapConfig {
 	}
 	
 	@Bean(name="keyOfFsharp")
-	public Map<Integer, NoteStep> keyOfFsharp() {
-		Map<Integer, NoteStep> map = new TreeMap<>();
+	public Map<Integer, Key> keyOfFsharp() {
+		Map<Integer, Key> map = new TreeMap<>();
 		map.put(0, Bsharp);
 		map.put(1, Csharp);
 		map.put(2, D);
@@ -177,8 +177,8 @@ public class KeyMapConfig {
 	}
 	
 	@Bean(name="keyOfF")
-	public Map<Integer, NoteStep> keyOfF() {
-		Map<Integer, NoteStep> map = new TreeMap<>();
+	public Map<Integer, Key> keyOfF() {
+		Map<Integer, Key> map = new TreeMap<>();
 		map.put(0, C);
 		map.put(1, Csharp);
 		map.put(2, D);
@@ -195,8 +195,8 @@ public class KeyMapConfig {
 	}
 	
 	@Bean(name="keyOfBflat")
-	public Map<Integer, NoteStep> keyOfBflat() {
-		Map<Integer, NoteStep> map = new TreeMap<>();
+	public Map<Integer, Key> keyOfBflat() {
+		Map<Integer, Key> map = new TreeMap<>();
 		map.put(0, C);
 		map.put(1, Csharp);
 		map.put(2, D);
@@ -213,8 +213,8 @@ public class KeyMapConfig {
 	}
 	
 	@Bean(name="keyOfEflat")
-	public Map<Integer, NoteStep> keyOfEflat() {
-		Map<Integer, NoteStep> map = new TreeMap<>();
+	public Map<Integer, Key> keyOfEflat() {
+		Map<Integer, Key> map = new TreeMap<>();
 		map.put(0, C);
 		map.put(1, Dflat);
 		map.put(2, D);
@@ -231,8 +231,8 @@ public class KeyMapConfig {
 	}
 	
 	@Bean(name="keyOfAflat")
-	public Map<Integer, NoteStep> keyOfAflat() {
-		Map<Integer, NoteStep> map = new TreeMap<>();
+	public Map<Integer, Key> keyOfAflat() {
+		Map<Integer, Key> map = new TreeMap<>();
 		map.put(0, C);
 		map.put(1, Dflat);
 		map.put(2, D);
@@ -249,8 +249,8 @@ public class KeyMapConfig {
 	}
 	
 	@Bean(name="keyOfDflat")
-	public Map<Integer, NoteStep> keyOfDflat() {
-		Map<Integer, NoteStep> map = new TreeMap<>();
+	public Map<Integer, Key> keyOfDflat() {
+		Map<Integer, Key> map = new TreeMap<>();
 		map.put(0, C);
 		map.put(1, Dflat);
 		map.put(2, D);
@@ -267,8 +267,8 @@ public class KeyMapConfig {
 	}
 	
 	@Bean(name="keyOfGflat")
-	public Map<Integer, NoteStep> keyOfGflat() {
-		Map<Integer, NoteStep> map = new TreeMap<>();
+	public Map<Integer, Key> keyOfGflat() {
+		Map<Integer, Key> map = new TreeMap<>();
 		map.put(0, C);
 		map.put(1, Dflat);
 		map.put(2, D);

@@ -15,34 +15,34 @@ public class NoteDisplay {
 	@Autowired
 	private MusicProperties musicProperties;
 	@Resource(name = "keyOfC")
-	private Map<Integer, NoteStep> keyOfC;
+	private Map<Integer, Key> keyOfC;
 	@Resource(name = "keyOfG")
-	private Map<Integer, NoteStep> keyOfG;
+	private Map<Integer, Key> keyOfG;
 	@Resource(name = "keyOfD")
-	private Map<Integer, NoteStep> keyOfD;
+	private Map<Integer, Key> keyOfD;
 	@Resource(name = "keyOfA")
-	private Map<Integer, NoteStep> keyOfA;
+	private Map<Integer, Key> keyOfA;
 	@Resource(name = "keyOfE")
-	private Map<Integer, NoteStep> keyOfE;
+	private Map<Integer, Key> keyOfE;
 	@Resource(name = "keyOfB")
-	private Map<Integer, NoteStep> keyOfB;
+	private Map<Integer, Key> keyOfB;
 	@Resource(name = "keyOfFsharp")
-	private Map<Integer, NoteStep> keyOfFsharp;
+	private Map<Integer, Key> keyOfFsharp;
 	@Resource(name = "keyOfF")
-	private Map<Integer, NoteStep> keyOfF;
+	private Map<Integer, Key> keyOfF;
 	@Resource(name = "keyOfBflat")
-	private Map<Integer, NoteStep> keyOfBflat;
+	private Map<Integer, Key> keyOfBflat;
 	@Resource(name = "keyOfEflat")
-	private Map<Integer, NoteStep> keyOfEflat;
+	private Map<Integer, Key> keyOfEflat;
 	@Resource(name = "keyOfAflat")
-	private Map<Integer, NoteStep> keyOfAflat;
+	private Map<Integer, Key> keyOfAflat;
 	@Resource(name = "keyOfDflat")
-	private Map<Integer, NoteStep> keyOfDflat;
+	private Map<Integer, Key> keyOfDflat;
 	@Resource(name = "keyOfGflat")
-	private Map<Integer, NoteStep> keyOfGflat;
+	private Map<Integer, Key> keyOfGflat;
 	
 
-	public NoteStep getNoteStep(int pitchClass){
+	public Key getNoteStep(int pitchClass){
 		switch (musicProperties.getKeySignature()) {
 		case 0:
 			return keyOfC.get(pitchClass);

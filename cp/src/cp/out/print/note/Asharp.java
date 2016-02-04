@@ -3,7 +3,7 @@ package cp.out.print.note;
 import org.springframework.stereotype.Component;
 
 @Component(value="Asharp")
-public class Asharp implements NoteStep{
+public class Asharp implements Key{
 	
 	@Override
 	public String getStep() {

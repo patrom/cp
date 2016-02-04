@@ -8,5 +8,5 @@ import cp.model.note.Scale;
 @FunctionalInterface
 public interface PitchClassGenerator {
 
-	List<Note> updatePitchClasses(List<Note> notes, Scale scale, int key);
+	List<Note> updatePitchClasses(List<Note> notes, Scale scale);
 }

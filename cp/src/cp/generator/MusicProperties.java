@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import cp.model.note.Scale;
 import cp.out.instrument.Instrument;
-import cp.out.print.note.NoteStep;
+import cp.out.print.note.Key;
 
 @Component
 public class MusicProperties {
@@ -28,7 +28,7 @@ public class MusicProperties {
 //	private int[] distance = {2,4,8,10,12,14,16,18,20,21,22,24,26,27,28,30,32};//minimumRhythmicValue = 12 - 4/4
 	private int melodyType = 2; //or 3
 	private int melodyBeatValue = 12; // for musicXML
-	private NoteStep key;
+	private Key key;
 	private int outputCountRun = 10;
 	
 	//tonality
@@ -273,11 +273,11 @@ public class MusicProperties {
 		this.melodyBeatValue = melodyBeatValue;
 	}
 
-	public NoteStep getKey() {
+	public Key getKey() {
 		return key;
 	}
 
-	public void setKey(NoteStep key) {
+	public void setKey(Key key) {
 		this.key = key;
 	}
 

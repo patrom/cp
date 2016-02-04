@@ -52,7 +52,7 @@ import cp.out.instrument.strings.Violin;
 import cp.out.instrument.woodwinds.Flute;
 import cp.out.print.Display;
 import cp.out.print.ScoreUtilities;
-import cp.out.print.note.NoteStep;
+import cp.out.print.note.Key;
 import cp.variation.Embellisher;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {DefaultConfig.class, VariationConfig.class}, loader = SpringApplicationContextLoader.class)
@@ -76,7 +76,7 @@ public class MelodyGeneratorTest extends JFrame{
 	@Mock
 	private NoteCombination noteCombination;
 	@Autowired
-	private NoteStep C;
+	private Key C;
 	@Autowired
 	private MusicProperties musicProperties;
 	@Autowired
@@ -194,7 +194,7 @@ public class MelodyGeneratorTest extends JFrame{
 	public void testGenerateMelody3() {
 		List<Note> notes = new ArrayList<>();
 		when(noteCombination.getNotes(Mockito.anyInt(), Mockito.anyInt())).thenReturn(notes);
-		CpMelody melody = melodyGenerator.generateMelody(1, Scale.MAJOR_SCALE, 0, 12, C);
+		CpMelody melody = melodyGenerator.generateMelody(1, Scale.MAJOR_SCALE, 0, 12);
 		assertEquals(1, melody.getVoice());
 		assertEquals(12, melody.getBeat());
 		assertEquals(0, melody.getStart());
@@ -205,7 +205,7 @@ public class MelodyGeneratorTest extends JFrame{
 	public void testGenerateMelody4() {
 		List<Note> notes = new ArrayList<>();
 		when(noteCombination.getNotes(Mockito.anyInt(), Mockito.anyInt())).thenReturn(notes);
-		CpMelody melody = melodyGenerator.generateMelody(1, Scale.MAJOR_SCALE, 0, 12, C);
+		CpMelody melody = melodyGenerator.generateMelody(1, Scale.MAJOR_SCALE, 0, 12);
 		assertEquals(1, melody.getVoice());
 		assertEquals(12, melody.getBeat());
 		assertEquals(0, melody.getStart());
@@ -232,7 +232,7 @@ public class MelodyGeneratorTest extends JFrame{
 		notes.add(note().pc(7).pos(24).len(12).build());
 		when(noteCombination.getNotes(Mockito.anyInt(), Mockito.anyInt())).thenReturn(notes);
 		int key = 3;
-		CpMelody melody = melodyGenerator.generateMelody(1, Scale.MAJOR_SCALE, 0, 12, C);
+		CpMelody melody = melodyGenerator.generateMelody(1, Scale.MAJOR_SCALE, 0, 12);
 		List<Note> melodyNotes = melody.getNotes();
 		LOGGER.info(melodyNotes + ", ");
 		melodyNotes.forEach(note -> note.setPitch(note.getPitchClass() + 60));

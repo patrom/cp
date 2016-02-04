@@ -33,7 +33,7 @@ import cp.model.note.Note;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.Piano;
 import cp.out.print.note.NoteDisplay;
-import cp.out.print.note.NoteStep;
+import cp.out.print.note.Key;
 
 @Component
 public class MusicXMLWriter {
@@ -484,7 +484,7 @@ public class MusicXMLWriter {
 		xmlStreamWriter.writeStartElement("pitch");
 		xmlStreamWriter.writeCharacters("\n");
 		
-		NoteStep noteStep = noteDisplay.getNoteStep(note.getPitchClass());
+		Key noteStep = noteDisplay.getNoteStep(note.getPitchClass());
 		createElementWithValue("step", noteStep.getStep());
 		if (StringUtils.isNotEmpty(noteStep.getAlter())) {
 			createElementWithValue("alter", noteStep.getAlter());

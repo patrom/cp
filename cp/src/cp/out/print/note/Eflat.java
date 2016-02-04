@@ -3,7 +3,7 @@ package cp.out.print.note;
 import org.springframework.stereotype.Component;
 
 @Component(value="Eflat")
-public class Eflat implements NoteStep{
+public class Eflat implements Key{
 
 	@Override
 	public String getStep() {

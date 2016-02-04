@@ -68,7 +68,7 @@ public class ReplaceMelody extends AbstractMutation{
 					n.setVoice(melody.getVoice());
 					n.setPosition(n.getPosition() + melody.getStart());
 				});
-				melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes, melody.getScale(), melody.getNoteStep().getInterval());
+				melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes, melody.getScale());
 				melody.updateNotes(melodyNotes);
 				LOGGER.info("Melody replaced");
 			}

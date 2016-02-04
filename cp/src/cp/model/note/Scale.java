@@ -2,7 +2,7 @@ package cp.model.note;
 
 import java.util.Random;
 
-import cp.out.print.note.NoteStep;
+import cp.out.print.note.Key;
 
 public class Scale {
 	
