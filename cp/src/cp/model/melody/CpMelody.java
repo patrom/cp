@@ -30,7 +30,6 @@ public class CpMelody implements Cloneable{
 	private List<Integer> contour = new ArrayList<>();
 	private int type = 2;
 	private int beat;
-//	private Key noteStep;
 	
 	public CpMelody(List<Note> notes, Scale scale, int voice) {
 		this.voice = voice;
@@ -91,7 +90,6 @@ public class CpMelody implements Cloneable{
 		this.type = anotherMelody.getType();
 		this.replaceable = anotherMelody.isReplaceable();
 		this.beat = anotherMelody.getBeat();
-//		this.noteStep = anotherMelody.getNoteStep();
 	}
 
 	@Override
@@ -182,10 +180,23 @@ public class CpMelody implements Cloneable{
 		removeArticulation.setArticulation(Note.DEFAULT_ARTICULATION);
 	}
 	
-	public void inversePitchClasses(int functionalDegreeCenter){
-//		notes.stream().filter(n -> !n.isRest())
-//					.sorted()
-//					.forEach(n -> n.setPitchClass((scale.getInversedPitchClass(functionalDegreeCenter, pitchClassNoKey(n.getPitchClass())) + noteStep.getInterval()) % 12));
+	protected int invertPitchClass(int functionalDegreeCenter, int pitchClass, Scale dependingScale, int key, int dependingKey){
+		if (scale.getPitchClasses().length != dependingScale.getPitchClasses().length) {
+			throw new IllegalArgumentException("Scales should have the same length");
+		}
+		
+		int pitchClassKeyOfC = convertToKeyOfC(pitchClass, key);
+		
+		int invertedPC;
+		if (scale != dependingScale) {
+			int indexPitchClass = scale.getIndex(pitchClassKeyOfC);
+			int transformPitchClass = dependingScale.getPitchClasses()[indexPitchClass];
+			invertedPC = dependingScale.getInversedPitchClass(functionalDegreeCenter, transformPitchClass);
+		} else {
+			invertedPC = dependingScale.getInversedPitchClass(functionalDegreeCenter, pitchClassKeyOfC);
+		}
+		int transposedPitchClass = (invertedPC + dependingKey) % 12;
+		return transposedPitchClass;
 	}
 	
 	/**
@@ -194,10 +205,10 @@ public class CpMelody implements Cloneable{
 	 * @param dependingMelody
 	 * @return
 	 */
-	protected int transposePitchClass(int pitchClass, Scale dependingScale, int key, int dependingKey){
+	protected int transposePitchClass(int pitchClass, Scale dependingScale, int key, int dependingKey, int steps){
 		int scaleDistance = dependingKey - key;
-		int steps = Util.getSteps(scaleDistance);
-		return convertPitchClass(pitchClass, dependingScale, steps, key, dependingKey);
+		int totalSteps = Util.getSteps(scaleDistance) + steps;
+		return convertPitchClass(pitchClass, dependingScale, totalSteps, key, dependingKey);
 	}
 	
 	/**
@@ -307,12 +318,4 @@ public class CpMelody implements Cloneable{
 		this.replaceable = replaceable;
 	}
 	
-//	public void setNoteStep(Key noteStep) {
-//		this.noteStep = noteStep;
-//	}
-//	
-//	public Key getNoteStep() {
-//		return noteStep;
-//	}
-
 }

@@ -61,6 +61,9 @@ public class Scale {
 	 * @return
 	 */
 	public int getInversedPitchClass(int functionalDegreeCenter, int pitchClass){
+		if (functionalDegreeCenter < 1 || functionalDegreeCenter > 7) {
+			throw new IllegalArgumentException("Unknown functional degree: " + functionalDegreeCenter);
+		}
 		int index = getIndex(pitchClass);
 		int inversionIndex = (scale.length + (functionalDegreeCenter - 1) + (functionalDegreeCenter - 1 - index)) % scale.length;
 		return scale[inversionIndex];

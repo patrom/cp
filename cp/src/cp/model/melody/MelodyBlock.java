@@ -155,7 +155,7 @@ public class MelodyBlock {
 			Trelative(operatorType.getSteps(), dependingMelodyBlock, timeLine);
 			break;
 		case I_RELATIVE:
-			Irelative(operatorType.getFunctionalDegreeCenter());
+			Irelative(operatorType.getFunctionalDegreeCenter(), dependingMelodyBlock, timeLine);
 			break;
 		default:
 			break;
@@ -197,8 +197,7 @@ public class MelodyBlock {
 				CpMelody dependingMelody = dependingMelodyBlock.getMelodyAtPosition(n.getPosition() + offset);
 				int key = timeLine.getKeyAtPosition(n.getPosition()).getInterval();
 				int dependingKey = timeLine.getKeyAtPosition(n.getPosition() + offset).getInterval();
-				int transposedPc = melody.transposePitchClass(n.getPitchClass(), dependingMelody.getScale(), key, dependingKey);
-				//TODO steps
+				int transposedPc = melody.transposePitchClass(n.getPitchClass(), dependingMelody.getScale(), key, dependingKey, steps);
 				n.setPitchClass(transposedPc);
 			});
 	}
@@ -207,11 +206,24 @@ public class MelodyBlock {
 	 * @param functional degree center pitch class
 	 * @return
 	 */
-	public MelodyBlock Irelative(int functionalDegreeCenter){
-//		melodyBlocks.stream().forEach(m -> m.inversePitchClasses(functionalDegreeCenter));
+	public MelodyBlock Irelative(int functionalDegreeCenter, MelodyBlock dependingMelodyBlock, TimeLine timeLine){
+		melodyBlocks.stream().forEach(m -> inversePitchClasses(functionalDegreeCenter, m, dependingMelodyBlock, timeLine));
 		return this;
 	}
 	
+	private void inversePitchClasses(int functionalDegreeCenter, CpMelody melody, MelodyBlock dependingMelodyBlock,
+			TimeLine timeLine) {
+		melody.getNotes().stream().filter(n -> !n.isRest())
+			.sorted()
+			.forEach(n -> {
+				CpMelody dependingMelody = dependingMelodyBlock.getMelodyAtPosition(n.getPosition() + offset);
+				int key = timeLine.getKeyAtPosition(n.getPosition()).getInterval();
+				int dependingKey = timeLine.getKeyAtPosition(n.getPosition() + offset).getInterval();
+				int invertedPC = melody.invertPitchClass(functionalDegreeCenter, n.getPitchClass(), dependingMelody.getScale(), key, dependingKey);
+				n.setPitchClass(invertedPC);
+			});
+	}
+
 	public MelodyBlock T(int steps){
 		melodyBlocks.stream().flatMap(m -> m.getNotesNoRest().stream()).forEach(note -> note.setPitchClass((note.getPitchClass() + steps) % 12));
 		return this;
