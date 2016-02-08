@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cp.model.TimeLine;
+import cp.model.TimeLineKey;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.util.RandomUtil;
@@ -19,24 +20,25 @@ public class PassingPitchClasses{
 	@Autowired
 	private TimeLine timeLine;
 
-	public List<Note> updatePitchClasses(List<Note> notes, Scale scale) {
+	public List<Note> updatePitchClasses(List<Note> notes) {
 		
 		List<Note> melodyNotes = notes.stream().filter(n -> !n.isRest()).collect(toList());
-		int tempPC = scale.pickRandomPitchClass();
 		Note firstNote = melodyNotes.get(0);
-		int key = timeLine.getKeyAtPosition(firstNote.getPosition()).getInterval();
-		firstNote.setPitchClass((tempPC + key) % 12);
+		TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(firstNote.getPosition());
+		int tempPC = timeLineKey.getScale().pickRandomPitchClass();
+		
+		firstNote.setPitchClass((tempPC + timeLineKey.getKey().getInterval()) % 12);
 		for (int i = 1; i < melodyNotes.size(); i++) {
 			Note nextNote = melodyNotes.get(i);
+			timeLineKey = timeLine.getTimeLineKeyAtPosition(nextNote.getPosition());
 			int pitchClass;
 			if (RandomUtil.toggleSelection()) {
-				pitchClass = scale.pickNextPitchFromScale(tempPC);
+				pitchClass = timeLineKey.getScale().pickNextPitchFromScale(tempPC);
 			} else {
-				pitchClass = scale.pickPreviousPitchFromScale(tempPC);
+				pitchClass = timeLineKey.getScale().pickPreviousPitchFromScale(tempPC);
 			}
 			tempPC = pitchClass;
-			key = timeLine.getKeyAtPosition(nextNote.getPosition()).getInterval();
-			nextNote.setPitchClass((pitchClass + key) % 12);
+			nextNote.setPitchClass((pitchClass + timeLineKey.getKey().getInterval()) % 12);
 		}
 		return notes;
 	}

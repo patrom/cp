@@ -55,7 +55,7 @@ public class CpMelodyTest {
 		notes.add(note().pos(18).pc(11).build());
 		notes.add(note().pos(24).pc(7).build());
 		notes.add(note().pos(48).pc(9).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		melody = new CpMelody(notes, 1, 0, 60);
 		LOGGER.info("Contour: " + melody.getContour());
 		assertEquals(5, melody.getContour().size());
 	}
@@ -68,7 +68,7 @@ public class CpMelodyTest {
 		notes.add(note().pos(18).rest().build());
 		notes.add(note().pos(24).pc(7).build());
 		notes.add(note().pos(48).pc(9).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		melody = new CpMelody(notes, 1, 0, 60);
 		LOGGER.info("Contour: " + melody.getContour());
 		assertEquals(3, melody.getContour().size());
 	}
@@ -81,7 +81,7 @@ public class CpMelodyTest {
 		notes.add(note().pos(18).pc(11).build());
 		notes.add(note().pos(24).pc(7).build());
 		notes.add(note().pos(48).pc(9).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		melody = new CpMelody(notes, 1, 0, 60);
 		melody.updateNextContour(3, 1);
 		LOGGER.info("Contour: " + melody.getContour());
 		assertEquals(5, melody.getContour().size());
@@ -96,7 +96,7 @@ public class CpMelodyTest {
 		notes.add(note().pos(18).pc(11).build());
 		notes.add(note().pos(24).pc(7).build());
 		notes.add(note().pos(48).pc(9).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		melody = new CpMelody(notes, 1, 0, 60);
 		melody.updatePreviousContour(1, 1);
 		LOGGER.info("Contour: " + melody.getContour());
 		assertEquals(5, melody.getContour().size());
@@ -111,7 +111,7 @@ public class CpMelodyTest {
 		notes.add(note().pos(18).pc(11).build());
 		notes.add(note().pos(24).pc(7).build());
 		notes.add(note().pos(48).pc(9).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		melody = new CpMelody(notes, 1, 0, 60);
 		melody.removeContour(3, 1);
 		LOGGER.info("Contour: " + melody.getContour());
 		assertEquals(4, melody.getContour().size());
@@ -125,7 +125,7 @@ public class CpMelodyTest {
 		notes.add(note().pos(12).pc(4).build());
 		notes.add(note().pos(18).pc(11).build());
 		notes.add(note().pos(24).pc(7).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
+		melody = new CpMelody(notes, 0, 0, 60);
 		notes = new ArrayList<>();
 		notes.add(note().pos(12).pc(2).build());
 		notes.add(note().pos(24).pc(3).build());
@@ -137,13 +137,13 @@ public class CpMelodyTest {
 	
 	@Test
 	public void testUpdateRandomNote(){
-		timeLine.setKeys(Collections.singletonList(new TimeLineKey(C, 0, 48)));
+		timeLine.setKeys(Collections.singletonList(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, 48)));
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).build());
 		notes.add(note().pos(12).rest().build());
 		notes.add(note().pos(18).pc(11).build());
 		notes.add(note().pos(24).pc(7).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
+		melody = new CpMelody(notes, 0, 0, 60);
 		melody.getNotes().forEach(n -> System.out.println( n.getPitchClass()));
 		LOGGER.info("Contour: " + melody.getContour());
 		melody.updateRandomNote(timeLine);
@@ -154,88 +154,88 @@ public class CpMelodyTest {
 	@Test
 	public void testTransposeInKeySameScale() {
 		List<Note> notes = new ArrayList<>();
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
-		int convertedPC = melody.convertPitchClass(0, Scale.MAJOR_SCALE, 0, G.getInterval(), C.getInterval());
+		melody = new CpMelody(notes, 0, 0, 60);
+		int convertedPC = melody.convertPitchClass(0,Scale.MAJOR_SCALE, Scale.MAJOR_SCALE, 0, G.getInterval(), C.getInterval());
 		assertEquals(5, convertedPC);
 	}
 	
 	@Test
 	public void testTransposeInKeySameScale2() {
 		List<Note> notes = new ArrayList<>();
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
-		int convertedPC = melody.convertPitchClass(1, Scale.MAJOR_SCALE, 0, D.getInterval(), G.getInterval());
+		melody = new CpMelody(notes, 0, 0, 60);
+		int convertedPC = melody.convertPitchClass(1,Scale.MAJOR_SCALE, Scale.MAJOR_SCALE, 0, D.getInterval(), G.getInterval());
 		assertEquals(6, convertedPC);
 	}
 	
 	@Test
 	public void testTransposeInKeyDifferentScale() {
 		List<Note> notes = new ArrayList<>();
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
-		int convertedPC = melody.convertPitchClass(4, Scale.HARMONIC_MINOR_SCALE, 0, C.getInterval(), G.getInterval());
+		melody = new CpMelody(notes, 0, 0, 60);
+		int convertedPC = melody.convertPitchClass(4,Scale.MAJOR_SCALE, Scale.HARMONIC_MINOR_SCALE, 0, C.getInterval(), G.getInterval());
 		assertEquals(10, convertedPC);
 	}
 	
 	@Test
 	public void testTransposeInKeyDifferentScale2() {
 		List<Note> notes = new ArrayList<>();
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
-		int convertedPC = melody.convertPitchClass(6, Scale.HARMONIC_MINOR_SCALE, 0, D.getInterval(), G.getInterval());
+		melody = new CpMelody(notes, 0, 0, 60);
+		int convertedPC = melody.convertPitchClass(6,Scale.MAJOR_SCALE, Scale.HARMONIC_MINOR_SCALE, 0, D.getInterval(), G.getInterval());
 		assertEquals(10, convertedPC);
 	}
 	
 	@Test
 	public void testTransposePitchClass() {
 		List<Note> notes = new ArrayList<>();
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
-		int convertedPC = melody.transposePitchClass(11, Scale.MAJOR_SCALE, C.getInterval(), G.getInterval(), 0);
+		melody = new CpMelody(notes, 0, 0, 60);
+		int convertedPC = melody.transposePitchClass(11,Scale.MAJOR_SCALE, Scale.MAJOR_SCALE, C.getInterval(), G.getInterval(), 0);
 		assertEquals(11, convertedPC);
 	}
 	
 	@Test
 	public void testTransposePitchClassReverseKey() {
 		List<Note> notes = new ArrayList<>();
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
-		int convertedPC = melody.transposePitchClass(11, Scale.MAJOR_SCALE, G.getInterval(), G.getInterval(), 0);
+		melody = new CpMelody(notes, 0, 0, 60);
+		int convertedPC = melody.transposePitchClass(11,Scale.MAJOR_SCALE, Scale.MAJOR_SCALE, G.getInterval(), G.getInterval(), 0);
 		assertEquals(11, convertedPC);
 	}
 	
 	@Test
 	public void testTransposePitchClass2() {
 		List<Note> notes = new ArrayList<>();
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
-		int convertedPC = melody.transposePitchClass(0, Scale.MAJOR_SCALE, G.getInterval(), D.getInterval(), 0);
+		melody = new CpMelody(notes, 0, 0, 60);
+		int convertedPC = melody.transposePitchClass(0,Scale.MAJOR_SCALE, Scale.MAJOR_SCALE, G.getInterval(), D.getInterval(), 0);
 		assertEquals(1, convertedPC);
 	}
 	
 	@Test
 	public void testTransposePitchClassDiffScale() {
 		List<Note> notes = new ArrayList<>();
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
-		int convertedPC = melody.transposePitchClass(6, Scale.HARMONIC_MINOR_SCALE, G.getInterval(), D.getInterval(), 0);
+		melody = new CpMelody(notes, 0, 0, 60);
+		int convertedPC = melody.transposePitchClass(6,Scale.MAJOR_SCALE, Scale.HARMONIC_MINOR_SCALE, G.getInterval(), D.getInterval(), 0);
 		assertEquals(5, convertedPC);
 	}
 	
 	@Test
 	public void testTransposePitchClassDiffScaleSteps() {
 		List<Note> notes = new ArrayList<>();
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
-		int convertedPC = melody.transposePitchClass(6, Scale.HARMONIC_MINOR_SCALE, G.getInterval(), D.getInterval(), 1);
+		melody = new CpMelody(notes, 0, 0, 60);
+		int convertedPC = melody.transposePitchClass(6,Scale.MAJOR_SCALE, Scale.HARMONIC_MINOR_SCALE, G.getInterval(), D.getInterval(), 1);
 		assertEquals(7, convertedPC);
 	}
 	
 	@Test
 	public void testInvertInKeySameScale() {
 		List<Note> notes = new ArrayList<>();
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
-		int convertedPC = melody.invertPitchClass(1, 2, Scale.MAJOR_SCALE, C.getInterval(), G.getInterval());
+		melody = new CpMelody(notes, 0, 0, 60);
+		int convertedPC = melody.invertPitchClass(1, 2,Scale.MAJOR_SCALE, Scale.MAJOR_SCALE, C.getInterval(), G.getInterval());
 		assertEquals(6, convertedPC);
 	}
 	
 	@Test
 	public void testInvertInKeySameDiffScale() {
 		List<Note> notes = new ArrayList<>();
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
-		int convertedPC = melody.invertPitchClass(1, 4, Scale.HARMONIC_MINOR_SCALE, C.getInterval(), G.getInterval());
+		melody = new CpMelody(notes, 0, 0, 60);
+		int convertedPC = melody.invertPitchClass(1, 4,Scale.MAJOR_SCALE, Scale.HARMONIC_MINOR_SCALE, C.getInterval(), G.getInterval());
 		assertEquals(3, convertedPC);
 	}
 	

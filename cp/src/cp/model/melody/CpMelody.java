@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cp.model.TimeLine;
+import cp.model.TimeLineKey;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.out.instrument.Articulation;
@@ -24,48 +25,20 @@ public class CpMelody implements Cloneable{
 	private boolean rhythmMutable = true;
 	private boolean replaceable = true;
 	private List<Note> notes;
-	private Scale scale;
 	private int start;
 	private int end;
 	private List<Integer> contour = new ArrayList<>();
 	private int type = 2;
 	private int beat;
 	
-	public CpMelody(List<Note> notes, Scale scale, int voice) {
+	public CpMelody(List<Note> notes, int voice, int start, int end) {
 		this.voice = voice;
-		this.notes = notes;
-		this.scale = scale;
-		this.start = notes.get(0).getPosition();
-		this.end = notes.get(notes.size() - 1).getPosition();
-		this.notes.forEach(n -> n.setVoice(voice));
-		updateContour();
-	}
-	
-	public CpMelody(List<Note> notes, Scale scale, int voice, int start, int end) {
-		this.voice = voice;
-		this.scale = scale;
 		this.start = start;
 		this.end = end;
 		this.notes = notes;
 		updateContour();
 	}
 	
-	public CpMelody(List<Note> notes, Scale scale, int start, int end) {
-		this.start = start;
-		this.end = end;
-		this.scale = scale;
-		this.notes = notes;
-		updateContour();
-	}
-
-	public CpMelody(Scale scale, int voice, int start, int end) {
-		this.voice = voice;
-		this.notes = new ArrayList<>();
-		this.scale = scale;
-		this.start = start;
-		this.end = end;
-	}
-
 	private CpMelody(CpMelody anotherMelody) {
 		this.notes = anotherMelody.getNotes().stream().map(note -> note.clone()).collect(toList());
 		clone(anotherMelody);
@@ -83,7 +56,6 @@ public class CpMelody implements Cloneable{
 		this.mutable = anotherMelody.isMutable();
 		this.rhythmMutable = anotherMelody.isRhythmMutable();
 		this.voice = anotherMelody.getVoice();
-		this.scale = anotherMelody.getScale();
 		this.start = anotherMelody.getStart();
 		this.end = anotherMelody.getEnd();
 		this.contour = new ArrayList<>(anotherMelody.getContour());
@@ -113,12 +85,12 @@ public class CpMelody implements Cloneable{
 		if (!notesNoRest.isEmpty()) {
 			int index = RandomUtil.getRandomIndex(notesNoRest);
 			Note note = notesNoRest.get(index);
-			int key = timeline.getKeyAtPosition(note.getPosition()).getInterval();
-			int pitchClass = (getScale().pickRandomPitchClass() + key) % 12;
+			TimeLineKey timeLineKey = timeline.getTimeLineKeyAtPosition(note.getPosition());
+			int pitchClass = (timeLineKey.getScale().pickRandomPitchClass() + timeLineKey.getKey().getInterval()) % 12;
 			note.setPitchClass(pitchClass);
 			
 			updateContourDirections(index);
-			LOGGER.info("one note mutated");
+//			LOGGER.info("one note mutated");
 		}
 	}
 	
@@ -180,7 +152,7 @@ public class CpMelody implements Cloneable{
 		removeArticulation.setArticulation(Note.DEFAULT_ARTICULATION);
 	}
 	
-	protected int invertPitchClass(int functionalDegreeCenter, int pitchClass, Scale dependingScale, int key, int dependingKey){
+	protected int invertPitchClass(int functionalDegreeCenter, int pitchClass, Scale scale, Scale dependingScale, int key, int dependingKey){
 		if (scale.getPitchClasses().length != dependingScale.getPitchClasses().length) {
 			throw new IllegalArgumentException("Scales should have the same length");
 		}
@@ -202,24 +174,26 @@ public class CpMelody implements Cloneable{
 	/**
 	 * Converts pitch class of the depending melody to the same functional degree in this melody and rotates to match the note
 	 * @param pitchClass
+	 * @param dependingScale 
 	 * @param dependingMelody
 	 * @return
 	 */
-	protected int transposePitchClass(int pitchClass, Scale dependingScale, int key, int dependingKey, int steps){
+	protected int transposePitchClass(int pitchClass, Scale scale, Scale dependingScale, int key, int dependingKey, int steps){
 		int scaleDistance = dependingKey - key;
 		int totalSteps = Util.getSteps(scaleDistance) + steps;
-		return convertPitchClass(pitchClass, dependingScale, totalSteps, key, dependingKey);
+		return convertPitchClass(pitchClass, scale, dependingScale, totalSteps, key, dependingKey);
 	}
 	
 	/**
 	 * Converts pitch class of the melody to the same functional degree in the depending melody
 	 * eg. F sharp in G = C sharp in D
 	 * @param pitchClass
+	 * @param dependingScale 
 	 * @param dependingMelody
 	 * @param steps
 	 * @return
 	 */
-	protected int convertPitchClass(int pitchClass, Scale dependingScale, int steps, int key, int dependingKey){
+	protected int convertPitchClass(int pitchClass, Scale scale, Scale dependingScale, int steps, int key, int dependingKey){
 		if (scale.getPitchClasses().length != dependingScale.getPitchClasses().length) {
 			throw new IllegalArgumentException("Scales should have the same length");
 		}
@@ -280,14 +254,6 @@ public class CpMelody implements Cloneable{
 	
 	public List<Note> getNotesNoRest() {
 		return notes.stream().filter(n -> !n.isRest()).sorted().collect(toList());
-	}
-	
-	public Scale getScale() {
-		return scale;
-	}
-	
-	public void setScale(Scale scale) {
-		this.scale = scale;
 	}
 	
 	public int getEnd() {

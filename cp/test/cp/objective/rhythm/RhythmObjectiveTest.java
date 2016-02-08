@@ -73,7 +73,7 @@ public class RhythmObjectiveTest extends JFrame {
 		notes.add(note().pos(48).pitch(59).positionWeight(3.0).build());
 		notes.add(note().pos(60).pitch(60).positionWeight(1.0).build());
 		notes.add(note().pos(96).pitch(62).positionWeight(4.0).build());
-		CpMelody melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0);
+		CpMelody melody = new CpMelody(notes, 0, 0, 96);
 		MelodyBlock melodyBlock = new MelodyBlock(5, 0);
 		melodyBlock.addMelodyBlock(melody);
 		double profileAverage = rhythmObjective.getProfileAverage(melodyBlock, 3.0, 12);

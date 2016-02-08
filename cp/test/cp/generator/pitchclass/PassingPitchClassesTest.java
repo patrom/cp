@@ -22,6 +22,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import cp.DefaultConfig;
 import cp.VariationConfig;
 import cp.model.TimeLine;
+import cp.model.TimeLineKey;
 import cp.model.note.Note;
 import cp.model.note.NoteBuilder;
 import cp.model.note.Scale;
@@ -43,8 +44,9 @@ public class PassingPitchClassesTest {
 
 	@Before
 	public void setUp() throws Exception {
+		TimeLineKey timeLineKey = new TimeLineKey(D, Scale.MAJOR_SCALE, 0, 48);
 		MockitoAnnotations.initMocks(this);
-		when(timeLine.getKeyAtPosition(Mockito.anyInt())).thenReturn(D);
+		when(timeLine.getTimeLineKeyAtPosition(Mockito.anyInt())).thenReturn(timeLineKey);
 	}
 
 	@Test
@@ -54,7 +56,7 @@ public class PassingPitchClassesTest {
 		notes.add(NoteBuilder.note().pc(0).build());
 		notes.add(NoteBuilder.note().pc(0).build());
 		notes.add(NoteBuilder.note().pc(0).build());
-		notes = passingPitchClasses.updatePitchClasses(notes, Scale.MAJOR_SCALE);
+		notes = passingPitchClasses.updatePitchClasses(notes);
 		LOGGER.info("Notes: " + notes);
 	}
 

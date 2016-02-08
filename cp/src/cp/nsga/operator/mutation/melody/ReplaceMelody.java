@@ -7,35 +7,26 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import jmetal.core.Solution;
-import jmetal.util.Configuration;
-import jmetal.util.JMException;
-import jmetal.util.PseudoRandom;
 import cp.combination.NoteCombination;
-import cp.generator.MelodyGenerator;
-import cp.generator.MusicProperties;
 import cp.generator.pitchclass.PitchClassGenerator;
-import cp.generator.pitchclass.RandomPitchClasses;
 import cp.model.Motive;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
-import cp.model.note.Scale;
 import cp.nsga.MusicVariable;
 import cp.nsga.operator.mutation.AbstractMutation;
+import jmetal.core.Solution;
+import jmetal.util.Configuration;
+import jmetal.util.JMException;
+import jmetal.util.PseudoRandom;
 
 @Component(value="replaceMelody")
 public class ReplaceMelody extends AbstractMutation{
 
 	private static Logger LOGGER = LoggerFactory.getLogger(ReplaceMelody.class);
 
-	@Autowired
-	private MusicProperties musicProperties;
-	@Autowired
-	private MelodyGenerator melodyGenerator;
 	@Autowired
 	private NoteCombination noteCombination;
 
@@ -68,9 +59,9 @@ public class ReplaceMelody extends AbstractMutation{
 					n.setVoice(melody.getVoice());
 					n.setPosition(n.getPosition() + melody.getStart());
 				});
-				melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes, melody.getScale());
+				melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes);
 				melody.updateNotes(melodyNotes);
-				LOGGER.info("Melody replaced");
+//				LOGGER.info("Melody replaced");
 			}
 		} 
 	}

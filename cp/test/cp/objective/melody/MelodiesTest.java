@@ -125,7 +125,7 @@ public class MelodiesTest extends AbstractTest{
 			List<Note> filteredNotes = rhythmWeight.filterRhythmWeigths(3.0);
 			double filtered = melodicObjective.evaluateMelody(filteredNotes, 1);
 			LOGGER.info("filtered : " + filtered);
-			CpMelody melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0);
+			CpMelody melody = new CpMelody(notes, 0, 0, 200);
 			MelodyBlock melodyBlock = new MelodyBlock(5,0);
 			melodyBlock.addMelodyBlock(melody);
 			double profile = rhythmObjective.getProfileAverage(melodyBlock, 3.0, 12);
@@ -148,7 +148,7 @@ public class MelodiesTest extends AbstractTest{
 	@Test
 	public void generateMelodies() throws InvalidMidiDataException, IOException {
 		for (int i = 0; i < 10; i++) {
-			CpMelody melody = melodyGenerator.generateMelody(Scale.MAJOR_SCALE, new int[]{0, 96}, 6, 0);
+			CpMelody melody = melodyGenerator.generateMelody(0, 0, 12);
 			MelodyBlock melodyBlock = new MelodyBlock(5,0);
 			melodyBlock.addMelodyBlock(melody);
 			List<Note> notes = melody.getNotes();

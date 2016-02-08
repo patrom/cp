@@ -127,17 +127,19 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		musicProperties.setOutputCountRun(2);
 		composeInMeter(4,4);
 		List<TimeLineKey> keys = new ArrayList<>();
-		keys.add(new TimeLineKey(C, 0, 48));
-		keys.add(new TimeLineKey(A, 48, 96));
-		keys.add(new TimeLineKey(C, 96, 144));
+		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, 24));
+		keys.add(new TimeLineKey(F, Scale.MAJOR_SCALE, 24, 48));
+		keys.add(new TimeLineKey(D, Scale.HARMONIC_MINOR_SCALE, 48, 72));
+		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 72, 96));
+		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 96, 144));
 		timeLine.setKeys(keys);
 		composeInKey(C);
-		inTempo(60);
+		inTempo(110);
 		replaceMelody.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
 		melodyGenerator.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
 		harmonicObjective.setDissonance(intervalDissonance::getDissonance);
 		
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < 3; i++) {
 			LOGGER.info("RUN: " + i + " START");		
 			compose();
 		    LOGGER.info("RUN: " + i + " END");
@@ -193,7 +195,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		
 //		Instrument cello = new Cello(0, 3);
 ////		cello.setKeySwitch(new KontactStringsKeySwitch());
-//		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(cello.getVoice(), Scale.MAJOR_SCALE, 0, 144, 4, beats);
+//		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(cello.getVoice(), 0, 144, 4, beats);
 //		melodyBlock.setInstrument(cello);
 //		melodyBlocks.add(melodyBlock);
 		
@@ -203,7 +205,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		beats2.add(36);
 		
 		Instrument violin = new Violin(1, 2);
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(violin.getVoice(), Scale.MAJOR_SCALE, 0, 144, 5, beats2);
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(violin.getVoice(), 0, 144, 5, beats2);
 		melodyBlock.setInstrument(violin);
 		melodyBlocks.add(melodyBlock);
 	
@@ -211,10 +213,10 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		Instrument cello = new Cello(0, 3);
 		MelodyBlock melodyBlock2 = new MelodyBlock(4, cello.getVoice());
 		melodyBlock2.setVoice(cello.getVoice());
-		melodyBlock2.setOffset(48);
-		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.I_RELATIVE);
+		melodyBlock2.setOffset(24);
+		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.T_RELATIVE);
 //		operatorType.setSteps(1);
-		operatorType.setFunctionalDegreeCenter(1);
+//		operatorType.setFunctionalDegreeCenter(1);
 		melodyBlock2.setOperatorType(operatorType);
 		melodyBlock2.dependsOn(melodyBlock.getVoice());
 		melodyBlock2.setInstrument(cello);

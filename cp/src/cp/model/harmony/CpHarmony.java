@@ -53,18 +53,48 @@ public class CpHarmony {
 	}
 	
 	public boolean isDissonant(){
-		switch (chord.getChordType()) {
-			case CH2_GROTE_SECONDE:
-			case CH2_GROOT_SEPTIEM:
-			case CH2_KLEIN_SEPTIEM:
-			case CH2_KLEINE_SECONDE:
-			case CH2_TRITONE:
-			case CH2_KWART:
-				return true;
+		int size = chord.getPitchClassSet().size();
+		switch (size) {
+			case 2:
+				return isIntervalDissonant();
+			case 3:
+				return isTriadDissonant();
 			default:
 				break;
 		}
+
 		return false;
+	}
+
+	private boolean isTriadDissonant() {
+		switch (chord.getChordType()) {
+		case CH2_GROTE_SECONDE:
+		case CH2_GROOT_SEPTIEM:
+		case CH2_KLEIN_SEPTIEM:
+		case CH2_KLEINE_SECONDE:
+		case CH2_TRITONE:
+		case CH2_KWART:
+			return true;
+		default:
+			break;
+		}
+		return false;
+	}
+
+	private boolean isIntervalDissonant() {
+		switch (chord.getChordType()) {			
+			case MAJOR:
+			case MAJOR_1:
+			case MINOR:
+			case MINOR_1:
+			case MINOR7_OMIT5:
+			case MINOR7_OMIT5_1:
+			case MAJOR7_OMIT5:
+				return false;
+			default:
+				break;
+		}
+		return true;
 	}
 	
 }

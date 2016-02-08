@@ -100,7 +100,7 @@ public class MotiveTest extends AbstractTest{
 		
 		notes.add(note().pos(24).pitch(58).positionWeight(1.0).build());
 		notes.add(note().pos(36).pitch(61).positionWeight(2.0).build());
-		CpMelody melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5, 1);
 		melodyBlock.addMelodyBlock(melody);
 		List<MelodyBlock> melodyBlocks = new ArrayList<MelodyBlock>();

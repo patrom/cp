@@ -7,16 +7,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import cp.model.Motive;
+import cp.model.melody.MelodyBlock;
+import cp.nsga.MusicVariable;
+import cp.nsga.operator.mutation.AbstractMutation;
 import jmetal.core.Solution;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
 import jmetal.util.PseudoRandom;
-import cp.generator.MusicProperties;
-import cp.model.Motive;
-import cp.model.melody.CpMelody;
-import cp.model.melody.MelodyBlock;
-import cp.nsga.MusicVariable;
-import cp.nsga.operator.mutation.AbstractMutation;
 
 @Component(value="articulationMutation")
 public class ArticulationMutation extends AbstractMutation{

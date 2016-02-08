@@ -1,6 +1,5 @@
 package cp.generator;
 
-import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -12,13 +11,6 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
 import javax.swing.JFrame;
 
-import jm.music.data.Part;
-import jm.music.data.Phrase;
-import jm.music.data.Score;
-import jm.util.Play;
-import jm.util.View;
-
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,7 +30,6 @@ import cp.VariationConfig;
 import cp.combination.NoteCombination;
 import cp.generator.pitchclass.RandomPitchClasses;
 import cp.midi.MidiDevicesUtil;
-import cp.model.harmony.Chord;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
@@ -49,11 +40,14 @@ import cp.objective.rhythm.RhythmObjective;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.MidiDevice;
 import cp.out.instrument.strings.Violin;
-import cp.out.instrument.woodwinds.Flute;
-import cp.out.print.Display;
 import cp.out.print.ScoreUtilities;
 import cp.out.print.note.Key;
 import cp.variation.Embellisher;
+import jm.music.data.Part;
+import jm.music.data.Phrase;
+import jm.music.data.Score;
+import jm.util.Play;
+import jm.util.View;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {DefaultConfig.class, VariationConfig.class}, loader = SpringApplicationContextLoader.class)
 public class MelodyGeneratorTest extends JFrame{
@@ -142,25 +136,11 @@ public class MelodyGeneratorTest extends JFrame{
 	}
 	
 	@Test
-	public void testGenerateMelodyTactus() {
-		CpMelody melody = melodyGenerator.generateMelodyTactus(Scale.MAJOR_SCALE, new int[]{0,48}, 12, 0, 5);
-		List<Note> melodyNotes = melody.getNotes();
-//		melodyNotes.forEach(note -> note.setPitch(note.getPitchClass() + 60));
-		System.out.println(melodyNotes);
-		Score score = new Score();
-		Phrase phrase = scoreUtilities.createPhrase(melodyNotes);	
-		Part part = new Part(phrase);
-		score.add(part);
-		View.notate(score);
-		Play.midi(score, true);
-	}
-	
-	@Test
 	public void testGeneratePositions() {
 		int start = 0;
 		int length = 24;
 		List<Note> melodyNotes = melodyGenerator.generatePositions(start, length, 6, new Integer[]{1,1}, 2);
-		CpMelody melody = new CpMelody(melodyNotes, Scale.MAJOR_SCALE, 1, start, start + length);
+		CpMelody melody = new CpMelody(melodyNotes, 1, start, start + length);
 		MelodyBlock melodyBlock = new MelodyBlock(5, 1);
 		melodyBlock.addMelodyBlock(melody);
 		melodyBlock.updatePitchesFromContour();
@@ -175,72 +155,15 @@ public class MelodyGeneratorTest extends JFrame{
 	}
 	
 	@Test
-	public void testGenerateMelody2() {
-		CpMelody melody = melodyGenerator.generateMelody(12, 4);
-		MelodyBlock melodyBlock = new MelodyBlock(5, 1);
-		melodyBlock.addMelodyBlock(melody);
-		melodyBlock.updatePitchesFromContour();
-		LOGGER.info(melodyBlock.getMelodyBlockContour() + ", ");
-		LOGGER.info(melodyBlock.getMelodyBlockNotes() + ", ");
-		Score score = new Score();
-		Phrase phrase = scoreUtilities.createPhrase(melodyBlock.getMelodyBlockNotes());	
-		Part part = new Part(phrase);
-		score.add(part);
-		View.notate(score);
-		Play.midi(score, true);
-	}
-	
-	@Test
-	public void testGenerateMelody3() {
-		List<Note> notes = new ArrayList<>();
-		when(noteCombination.getNotes(Mockito.anyInt(), Mockito.anyInt())).thenReturn(notes);
-		CpMelody melody = melodyGenerator.generateMelody(1, Scale.MAJOR_SCALE, 0, 12);
-		assertEquals(1, melody.getVoice());
-		assertEquals(12, melody.getBeat());
-		assertEquals(0, melody.getStart());
-		assertEquals(12, melody.getEnd());
-	}
-	
-	@Test
-	public void testGenerateMelody4() {
-		List<Note> notes = new ArrayList<>();
-		when(noteCombination.getNotes(Mockito.anyInt(), Mockito.anyInt())).thenReturn(notes);
-		CpMelody melody = melodyGenerator.generateMelody(1, Scale.MAJOR_SCALE, 0, 12);
-		assertEquals(1, melody.getVoice());
-		assertEquals(12, melody.getBeat());
-		assertEquals(0, melody.getStart());
-		assertEquals(12, melody.getEnd());
-	}
-	
-	@Test
 	public void testGenerateMelodyBlock() {
 		List<Note> notes = new ArrayList<>();
 		notes.add(NoteBuilder.note().pos(0).build());
 		when(noteCombination.getNotes(Mockito.anyInt(), Mockito.anyInt())).thenReturn(notes);
 		List<Integer> beats = new ArrayList<>();
 		beats.add(12);
-		MelodyBlock melody = melodyGenerator.generateMelodyBlock(1, Scale.MAJOR_SCALE, 0, 48, 5, beats);
+		MelodyBlock melody = melodyGenerator.generateMelodyBlock(1, 0, 48, 5, beats);
 		assertEquals(1, melody.getVoice());
 		assertEquals(4, melody.getMelodyBlocks().size());
 	}
 	
-	@Test
-	public void testGenerateMelodyKey() {
-		List<Note> notes = new ArrayList<>();
-		notes.add(note().pc(0).pos(0).len(12).build());
-		notes.add(note().pc(11).pos(12).len(12).build());
-		notes.add(note().pc(7).pos(24).len(12).build());
-		when(noteCombination.getNotes(Mockito.anyInt(), Mockito.anyInt())).thenReturn(notes);
-		int key = 3;
-		CpMelody melody = melodyGenerator.generateMelody(1, Scale.MAJOR_SCALE, 0, 12);
-		List<Note> melodyNotes = melody.getNotes();
-		LOGGER.info(melodyNotes + ", ");
-		melodyNotes.forEach(note -> note.setPitch(note.getPitchClass() + 60));
-		Score score = new Score();
-		Phrase phrase = scoreUtilities.createPhrase(melodyNotes);	
-		Part part = new Part(phrase);
-		score.add(part);
-		View.notate(score);
-		Play.midi(score, true);
-	}
 }

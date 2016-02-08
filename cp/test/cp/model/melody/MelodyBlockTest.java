@@ -57,15 +57,14 @@ public class MelodyBlockTest {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
 		notes.add(note().pos(12).pc(4).pitch(64).ocatve(5).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
-		melody.getContour().set(0, 2);
+		melody = new CpMelody(notes, 1, 0, 60);
 		melody.getContour().set(1, 3);
 		melodyBlock.addMelodyBlock(melody);
 		
 		notes = new ArrayList<>();
 		notes.add(note().pos(24).pc(5).pitch(65).ocatve(5).build());
 		notes.add(note().pos(36).pc(7).pitch(67).ocatve(5).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		melody = new CpMelody(notes, 1, 0, 60);
 		melody.getContour().set(0, 4);
 		melody.getContour().set(1, 5);
 		melodyBlock.addMelodyBlock(melody);
@@ -81,13 +80,14 @@ public class MelodyBlockTest {
 	
 	@Test
 	public void testReplaceMelody() {
+		List<Note> notes = new ArrayList<>();
 		melodyBlock = new MelodyBlock(5,1);
 		CpMelodyBuilder cpMelodyBuilder = new CpMelodyBuilder();
 		CpMelody melody = cpMelodyBuilder.start(0).build();
 		melodyBlock.addMelodyBlock(melody);
 		melody = cpMelodyBuilder.start(24).build();
 		melodyBlock.addMelodyBlock(melody);
-		melody  = new CpMelody(Scale.MAJOR_SCALE, 0, 0 , 12);
+		melody  = new CpMelody(notes, 0, 0 , 12);
 		melody.setType(2);
 		melodyBlock.replaceMelody(melody);
 //		assertEquals(50, melodyBlock.getMelodyBlockNotes().get(3).getPitch());
@@ -101,7 +101,7 @@ public class MelodyBlockTest {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).build());
 		notes.add(note().pos(12).pc(4).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		melody = new CpMelody(notes, 1, 0, 60);
 		melody.getContour().set(0, 1);
 		melody.getContour().set(1, -1);
 		melodyBlock.addMelodyBlock(melody);
@@ -109,7 +109,7 @@ public class MelodyBlockTest {
 		notes = new ArrayList<>();
 		notes.add(note().pos(24).pc(5).build());
 		notes.add(note().pos(36).pc(7).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		melody = new CpMelody(notes, 1, 0, 60);
 		melody.getContour().set(0, 1);
 		melody.getContour().set(1, -1);
 		melodyBlock.addMelodyBlock(melody);
@@ -128,13 +128,13 @@ public class MelodyBlockTest {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
 		notes.add(note().pos(12).pc(4).pitch(64).ocatve(5).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1, 0 , 24);
+		melody = new CpMelody(notes, 1, 0 , 24);
 		melodyBlock.addMelodyBlock(melody);
 		
 		notes = new ArrayList<>();
 		notes.add(note().pos(24).pc(5).pitch(65).ocatve(5).build());
 		notes.add(note().pos(36).pc(7).pitch(67).ocatve(5).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1, 24 , 36);
+		melody = new CpMelody(notes, 1, 24 , 36);
 		melodyBlock.addMelodyBlock(melody);
 		
 		MelodyBlock melodyBlockCopy = new MelodyBlock(5,1);
@@ -143,8 +143,8 @@ public class MelodyBlockTest {
 		melodyBlockCopy.setOperatorType(operatorType);
 		melodyBlockCopy.setInstrument(new Violin(0, 0));
 		List<TimeLineKey> keys = new ArrayList<>();
-		keys.add(new TimeLineKey(C, 0, 24));
-		keys.add(new TimeLineKey(D, 24, 48));
+		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, 24));
+		keys.add(new TimeLineKey(D, Scale.MAJOR_SCALE, 24, 48));
 		timeLine.setKeys(keys);
 		melodyBlockCopy.transformDependingOn(melodyBlock, timeLine);
 		assertEquals(1, melodyBlockCopy.getMelodyBlockNotes().size());
@@ -163,7 +163,7 @@ public class MelodyBlockTest {
 		notes.add(note().pos(18).pc(11).build());
 		notes.add(note().pos(24).pc(5).build());
 		notes.add(note().pos(48).pc(7).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0);
+		melody = new CpMelody(notes, 0, 0, 60);
 		melodyBlock.addMelodyBlock(melody);
 		melodyBlock.updatePitchesFromContour();
 		assertEquals(0, notes.get(0).getPitch() % 12);
@@ -183,7 +183,7 @@ public class MelodyBlockTest {
 		notes.add(note().pos(18).pc(11).pitch(71).ocatve(5).build());
 		notes.add(note().pos(24).pc(5).pitch(89).ocatve(7).build());
 		notes.add(note().pos(48).pc(7).pitch(55).ocatve(4).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0);
+		melody = new CpMelody(notes, 0, 0, 60);
 		Instrument instrument = new Instrument();
 		instrument.setLowest(60);
 		instrument.setHighest(80);
@@ -202,7 +202,8 @@ public class MelodyBlockTest {
 	public void testCalculateInterval(){
 		melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
-		melody = new CpMelody(Scale.MAJOR_SCALE,0,0, 12);
+		List<Note> notes = new ArrayList<>();
+		melody = new CpMelody(notes,0,0, 12);
 		int interval = Util.calculateInterval(1, 4);
 		assertEquals(4, interval);
 		interval = Util.calculateInterval(-1, 4);
@@ -222,7 +223,7 @@ public class MelodyBlockTest {
 		notes.add(note().pos(18).pc(11).build());
 		notes.add(note().pos(24).pc(7).build());
 		notes.add(note().pos(48).pc(9).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		melody = new CpMelody(notes, 1, 0, 60);
 		melody.getContour().set(0, 1);
 		melody.getContour().set(1, -1);
 		melody.getContour().set(2, 1);
@@ -251,7 +252,7 @@ public class MelodyBlockTest {
 		notes.add(note().pos(18).pc(4).build());
 		notes.add(note().pos(24).pc(7).build());
 		notes.add(note().pos(48).pc(7).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		melody = new CpMelody(notes, 1, 0, 60);
 		melody.getContour().set(0, 1);
 		melody.getContour().set(1, 1);
 		melody.getContour().set(2, 1);
@@ -280,7 +281,7 @@ public class MelodyBlockTest {
 		notes.add(note().pos(18).pc(11).pitch(71).ocatve(5).build());
 		notes.add(note().pos(24).pc(7).pitch(67).ocatve(5).build());
 		notes.add(note().pos(48).pc(9).pitch(69).ocatve(5).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		melody = new CpMelody(notes, 1, 0, 60);
 		melodyBlock.addMelodyBlock(melody);
 		melodyBlock.T(2);
 		assertEquals(2, melody.getNotes().get(0).getPitchClass());
@@ -297,7 +298,7 @@ public class MelodyBlockTest {
 		notes.add(note().pos(18).pc(11).pitch(71).ocatve(5).build());
 		notes.add(note().pos(24).pc(7).pitch(67).ocatve(5).build());
 		notes.add(note().pos(48).pc(9).pitch(69).ocatve(5).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		melody = new CpMelody(notes, 1, 0, 60);
 		melodyBlock.addMelodyBlock(melody);
 		melodyBlock.I();
 		assertEquals(0, melody.getNotes().get(0).getPitchClass());
@@ -314,7 +315,7 @@ public class MelodyBlockTest {
 		notes.add(note().pos(18).pc(11).pitch(71).ocatve(5).build());
 		notes.add(note().pos(24).pc(7).pitch(67).ocatve(5).build());
 		notes.add(note().pos(48).pc(9).pitch(69).ocatve(5).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		melody = new CpMelody(notes, 1, 0, 60);
 		melodyBlock.addMelodyBlock(melody);
 		melodyBlock.M(5);
 		assertEquals(0, melody.getNotes().get(0).getPitchClass());
@@ -331,7 +332,7 @@ public class MelodyBlockTest {
 		notes.add(note().pos(18).pc(11).pitch(71).ocatve(5).build());
 		notes.add(note().pos(24).pc(7).pitch(67).ocatve(5).build());
 		notes.add(note().pos(48).pc(9).pitch(69).ocatve(5).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		melody = new CpMelody(notes, 1, 0, 60);
 		melodyBlock.addMelodyBlock(melody);
 		melodyBlock.I().T(2);
 		assertEquals(2, melody.getNotes().get(0).getPitchClass());
@@ -348,7 +349,7 @@ public class MelodyBlockTest {
 		notes.add(note().pos(18).pc(11).pitch(71).ocatve(5).build());
 		notes.add(note().pos(24).pc(7).pitch(67).ocatve(5).build());
 		notes.add(note().pos(48).pc(9).pitch(69).ocatve(5).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		melody = new CpMelody(notes, 1, 0, 60);
 		melodyBlock.addMelodyBlock(melody);
 		melodyBlock.R();
 		assertEquals(9, melody.getNotes().get(0).getPitchClass());
@@ -365,7 +366,7 @@ public class MelodyBlockTest {
 		notes.add(note().pos(18).pc(11).pitch(71).ocatve(5).build());
 		notes.add(note().pos(24).pc(7).pitch(67).ocatve(5).build());
 		notes.add(note().pos(48).pc(9).pitch(69).ocatve(5).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		melody = new CpMelody(notes, 1, 0, 60);
 		melodyBlock.addMelodyBlock(melody);
 		melodyBlock.I().T(2).R();
 		assertEquals(5, melody.getNotes().get(0).getPitchClass());
@@ -381,14 +382,14 @@ public class MelodyBlockTest {
 		notes.add(note().pos(12).pc(4).pitch(64).ocatve(5).build());
 		notes.add(note().pos(18).pc(11).pitch(71).ocatve(5).build());
 		notes.add(note().pos(24).pc(7).pitch(67).ocatve(5).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0, 48);
+		melody = new CpMelody(notes, 0, 0, 60);
 		melodyBlock.addMelodyBlock(melody);
 		
 		notes = new ArrayList<>();
 		notes.add(note().pos(48).pc(2).pitch(62).ocatve(5).build());
 		notes.add(note().pos(60).pc(6).pitch(66).ocatve(5).build());
 		notes.add(note().pos(72).pc(11).pitch(71).ocatve(5).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 48, 96);
+		melody = new CpMelody(notes,0 , 0, 60);
 		melodyBlock.addMelodyBlock(melody);
 		
 		Instrument cello = new Cello(0, 3);
@@ -403,8 +404,8 @@ public class MelodyBlockTest {
 		melodyBlock2.setInstrument(cello);
 
 		List<TimeLineKey> keys = new ArrayList<>();
-		keys.add(new TimeLineKey(C, 0, 48));
-		keys.add(new TimeLineKey(G, 48, 144));
+		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, 48));
+		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE,  48, 144));
 		timeLine.setKeys(keys);
 		melodyBlock2.transformDependingOn(melodyBlock, timeLine);
 		melodyBlock2.getMelodyBlockNotes().forEach(n -> System.out.println(n.getPitchClass() + ", " + n.getPosition()));

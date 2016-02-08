@@ -69,7 +69,7 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		notes.add(note().pos(48).pc(5).pitch(65).build());
 		notes.add(note().pos(60).pc(2).pitch(62).build());
 		notes.add(note().pos(96).pc(7).pitch(67).build());
-		CpMelody melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
 		melodies.add(melodyBlock);
@@ -98,7 +98,7 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		notes.add(note().pos(0).pc(0).pitch(60).build());
 		notes.add(note().pos(12).pc(2).pitch(62).build());
 		notes.add(note().pos(24).pc(4).pitch(64).build());
-		CpMelody melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
 		melodies.add(melodyBlock);
@@ -106,7 +106,7 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(4).pitch(52).build());
 		notes.add(note().pos(24).pc(0).pitch(48).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0);
+		melody = new CpMelody(notes, 0, 0 , 60);
 		melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
 		melodies.add(melodyBlock);
@@ -120,7 +120,7 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		notes.add(note().pos(0).pc(2).pitch(62).build());
 		notes.add(note().pos(12).pc(0).pitch(60).build());
 		notes.add(note().pos(24).pc(4).pitch(64).build());
-		CpMelody melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
 		melodies.add(melodyBlock);
@@ -128,7 +128,7 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(4).pitch(52).build());
 		notes.add(note().pos(24).pc(0).pitch(48).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0);
+		melody = new CpMelody(notes, 0, 0 , 60);
 		melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
 		melodies.add(melodyBlock);
@@ -142,7 +142,7 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		notes.add(note().pos(0).pc(4).build());
 		notes.add(note().pos(12).pc(5).build());
 		notes.add(note().pos(24).pc(4).build());
-		CpMelody melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
 		melodies.add(melodyBlock);
@@ -150,7 +150,7 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).build());
 		notes.add(note().pos(24).pc(0).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0);
+		melody = new CpMelody(notes, 0, 0 , 60);
 		melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
 		melodies.add(melodyBlock);
@@ -165,7 +165,7 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		notes.add(note().pos(24).pc(0).pitch(72).build());
 		notes.add(note().pos(36).pc(11).pitch(71).build());
 		notes.add(note().pos(48).pc(0).pitch(72).build());
-		CpMelody melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
 		melodies.add(melodyBlock);
@@ -174,7 +174,7 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		notes.add(note().pos(0).pc(5).pitch(65).build());
 		notes.add(note().pos(24).pc(7).pitch(67).build());
 		notes.add(note().pos(48).pc(4).pitch(64).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0);
+		melody = new CpMelody(notes, 0, 0 , 60);
 		melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
 		melodies.add(melodyBlock);
@@ -188,7 +188,7 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		notes.add(note().pos(0).pc(2).pitch(62).build());
 		notes.add(note().pos(12).pc(9).pitch(69).build());
 		notes.add(note().pos(24).pc(7).pitch(67).build());
-		CpMelody melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
 		melodies.add(melodyBlock);
@@ -196,40 +196,12 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(11).pitch(59).build());
 		notes.add(note().pos(24).pc(4).pitch(64).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0);
+		melody = new CpMelody(notes, 0, 0 , 60);
 		melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
 		melodies.add(melodyBlock);
 		
 		evaluate();
-	}
-	
-	@Test
-	public void testRandom(){
-//		for (int i = 0; i < 2; i++) {
-			CpMelody melody = melodyGenerator.generateMelody(Scale.MAJOR_SCALE, new int[]{0,60}, 6, 1);
-//			melody.updatePitches(5);
-			MelodyBlock melodyBlock = new MelodyBlock(5,1);
-			melodyBlock.addMelodyBlock(melody);
-			melodyBlock.updatePitchesFromContour();
-			melodies.add(melodyBlock);
-			
-//			List<Note> notes = new ArrayList<>();
-//			notes.add(note().pos(0).pc(0).pitch(48).build());
-//			notes.add(note().pos(12).pc(2).pitch(50).build());
-//			notes.add(note().pos(24).pc(5).pitch(53).build());
-//			notes.add(note().pos(36).pc(7).pitch(55).build());
-//			notes.add(note().pos(48).pc(0).pitch(48).build());
-//			CpMelody melody2 = new CpMelody(notes, Scale.MAJOR_SCALE, 0);
-//			melody2.setMutable(false);
-//			melody2.setRhythmMutable(false);
-			CpMelody melody2 = melodyGenerator.generateMelody(Scale.MAJOR_SCALE, new int[]{0,60}, 6, 0);
-			melodyBlock = new MelodyBlock(5,1);
-			melodyBlock.addMelodyBlock(melody2);
-			melodyBlock.updatePitchesFromContour();
-			melodies.add(melodyBlock);
-//		}
-			evaluate();
 	}
 	
 	@Test
@@ -245,7 +217,7 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 //		notes.add(note().pos(42).pc(0).pitch(60).build());
 //		notes.add(note().pos(48).pc(5).pitch(65).len(6).build());
 
-		CpMelody melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
 		melodies.add(melodyBlock);
@@ -259,7 +231,7 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 //		notes.add(note().pos(42).pc(11).pitch(59).build());
 //		notes.add(note().pos(48).pc(9).pitch(57).len(6).build());
 //		notes.add(note().pos(60).pc(0).pitch(48).build());
-		melody = new CpMelody(notes, Scale.MAJOR_SCALE, 0);
+		melody = new CpMelody(notes, 0, 0 , 60);
 		melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
 		melodies.add(melodyBlock);
@@ -280,7 +252,7 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		notes.add(note().pos(42).pc(2).pitch(62).build());
 		notes.add(note().pos(48).pc(5).pitch(65).build());
 		musicProperties.setMinimumLength(6);
-		CpMelody melody = new CpMelody(notes, Scale.MAJOR_SCALE, 1);
+		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
 		melodies.add(melodyBlock);
