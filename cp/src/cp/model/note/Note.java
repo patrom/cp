@@ -243,23 +243,6 @@ public class Note implements Comparable<Note>, Cloneable{
 		this.articulation = articulation;
 	}
 	
-	public Note copy(){
-		Note newNote = new Note();
-		newNote.setLength(this.getLength());
-		newNote.setPosition(this.getPosition());
-		newNote.setPitch(this.getPitch());
-		newNote.setPitchClass(this.getPitchClass());
-//		newNote.setDuration(this.getDuration());
-		newNote.setVoice(this.getVoice());
-		newNote.setInnerMetricWeight(this.getInnerMetricWeight());
-		newNote.setRhythmValue(this.getRhythmValue());
-		newNote.setDynamicLevel(this.getDynamicLevel());
-		newNote.setOctave(this.getOctave());
-		newNote.setPositionWeight(this.getPositionWeight());
-		newNote.setArticulation(this.articulation);
-		return newNote;
-	}
-	
 	public boolean isTieStart() {
 		return tieStart;
 	}

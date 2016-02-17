@@ -12,7 +12,7 @@ public class DefaultVariation extends Variation {
 
 	@Override
 	public List<Note> createVariation(Note note, Note secondNote) {
-		return Collections.singletonList(note.copy());
+		return Collections.singletonList(note.clone());
 	}
 
 }

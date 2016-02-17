@@ -22,7 +22,7 @@ public class EscapeScaleUp extends Escape {
 			int newPitch = firstNote.getPitch() + ic;
 			return generateNonChordNote(firstNote, newPitchClass, newPitch, pattern);
 		} else {
-			return Collections.singletonList(firstNote.copy());
+			return Collections.singletonList(firstNote.clone());
 		}
 	}
 

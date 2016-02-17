@@ -96,7 +96,7 @@ public class Arrangement {
 			List<Note> notes = patterns.get(i);
 			HarmonyPosition harmonyPosition = harmonyPositions.get(i);
 			for (Note note : notes) {
-				Note newNote = note.copy();
+				Note newNote = note.clone();
 				newNote.setPosition(note.getPosition() + harmonyPosition.getPosition());
 				melodyPattern.add(newNote);
 			}
@@ -112,7 +112,7 @@ public class Arrangement {
 			while ((position + note.getLength()) > tempPosition) {
 				Optional<Note> patternNote = getPatternNote(compPattern, tempPosition);
 				if (patternNote.isPresent()) {
-					Note newNote = patternNote.get().copy();
+					Note newNote = patternNote.get().clone();
 					newNote.setPitch(note.getPitch());
 					newNote.setPitchClass(note.getPitchClass());
 					newNote.setOctave(note.getOctave());

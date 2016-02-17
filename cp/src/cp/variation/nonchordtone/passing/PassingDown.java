@@ -23,7 +23,7 @@ public class PassingDown extends Passing {
 			int newPitch = note.getPitch() - ic;
 			return generateNonChordNote(note, newPitchClass, newPitch, pattern);
 		} else {
-			return Collections.singletonList(note.copy());
+			return Collections.singletonList(note.clone());
 		}
 	}
 

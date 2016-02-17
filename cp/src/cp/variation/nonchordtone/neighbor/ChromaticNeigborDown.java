@@ -20,7 +20,7 @@ public class ChromaticNeigborDown extends Neighbor{
 			int pitch = note.getPitch() - 1;
 			return generateNeighborNote(note, pitchClass, pitch, pattern);
 		} else {
-			return Collections.singletonList(note.copy());
+			return Collections.singletonList(note.clone());
 		}
 	}
 }

@@ -26,7 +26,7 @@ public class FreeSuspensionScaleUp extends FreeSuspesion {
 			int newPitch = firstNote.getPitch() - ic;
 			return generateAccentedNonChordNote(firstNote, newPitchClass, newPitch, pattern);
 		} else {
-			return Collections.singletonList(firstNote.copy());
+			return Collections.singletonList(firstNote.clone());
 		}
 	}
 

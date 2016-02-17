@@ -24,7 +24,7 @@ public class Anticipation extends Variation {
 			double[] pattern = RandomUtil.getRandomFromDoubleArray(variationPattern.getPatterns());
 			return generateNonChordNote(firstNote, secondNote.getPitchClass(), secondNote.getPitch(), pattern);
 		} 
-		return Collections.singletonList(firstNote.copy());
+		return Collections.singletonList(firstNote.clone());
 	}
 
 }

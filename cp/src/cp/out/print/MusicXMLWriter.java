@@ -350,11 +350,11 @@ public class MusicXMLWriter {
 			int length = note.getPosition() + note.getDisplayLength();
 			if (length > measure.getEnd()) {
 				//split
-				Note firstNote = note.copy();
+				Note firstNote = note.clone();
 				firstNote.setLength(measure.getEnd() - note.getPosition());
 				firstNote.setTieStart(true);
 				measure.addNote(firstNote);
-				Note secondNote = note.copy();
+				Note secondNote = note.clone();
 				secondNote.setPosition(measure.getEnd());
 				secondNote.setLength(length - measure.getEnd());
 				secondNote.setTieEnd(true);

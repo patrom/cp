@@ -23,7 +23,7 @@ public class EscapeScaleDown extends Escape {
 			int newPitch = note.getPitch() - ic;
 			return generateNonChordNote(note, newPitchClass, newPitch, pattern);
 		} else {
-			return Collections.singletonList(note.copy());
+			return Collections.singletonList(note.clone());
 		}
 	}
 }

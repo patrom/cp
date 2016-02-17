@@ -104,7 +104,7 @@ public class Rhythm {
 				textureNotes.add(melodyNote);
 				int index = getIndexOfNote(melodyNote, chordNotes);
 				for (int j = 1; j < nextTexture; j++) {
-					 Note note = chordNotes.get(((index - j) + size) % size).copy();
+					 Note note = chordNotes.get(((index - j) + size) % size).clone();
 					 note.setVoice(melodyNote.getVoice());
 					 note.setPosition(melodyNote.getPosition());
 					 note.setLength(melodyNote.getLength());
@@ -135,7 +135,7 @@ public class Rhythm {
 						textureNotes.add(melodyNote);
 						int index = getIndexOfNote(melodyNote, rhythmPosition.getSelectableNotes());
 						for (int j = 1; j < nextTexture; j++) {
-							 Note note = rhythmPosition.getSelectableNotes().get(((index - j) + size) % size).copy();
+							 Note note = rhythmPosition.getSelectableNotes().get(((index - j) + size) % size).clone();
 							 note.setVoice(melodyNote.getVoice());
 							 note.setPosition(melodyNote.getPosition());
 							 note.setLength(melodyNote.getLength());
@@ -304,21 +304,21 @@ public class Rhythm {
 	}
 	
 	private Note getNextNote2(List<Note> notes, int index) {
-		return notes.get(index).copy();
+		return notes.get(index).clone();
 	}
 
 	private Note getNextNote(List<Note> notes, int index) {
 		int size = notes.size();
-		return notes.get(Math.abs((index + size) % size)).copy();
+		return notes.get(Math.abs((index + size) % size)).clone();
 	}
 	
 	protected List<Note> getNextNotes(List<Note> notes, int index, int texture) {
 		int size = notes.size();
 		List<Note> textureNotes = new ArrayList<>();
-		Note firstNote = notes.get((index + size) % size).copy();
+		Note firstNote = notes.get((index + size) % size).clone();
 		textureNotes.add(firstNote);
 		for (int i = 1; i < texture; i++) {
-			 Note note = notes.get(((index - i) + size) % size).copy();
+			 Note note = notes.get(((index - i) + size) % size).clone();
 //			 note.setVoice(note.getVoice() - 1);
 			 Note lastNote = textureNotes.get(textureNotes.size() - 1);
 			 while (lastNote.getPitch() < note.getPitch()) {

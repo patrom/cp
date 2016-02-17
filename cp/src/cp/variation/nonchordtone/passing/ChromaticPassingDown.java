@@ -23,7 +23,7 @@ public class ChromaticPassingDown extends Passing {
 			int newPitch = note.getPitch() - 1;
 			return generateNonChordNote(note, newPitchClass, newPitch, pattern);
 		} else {
-			return Collections.singletonList(note.copy());
+			return Collections.singletonList(note.clone());
 		}
 	}
 
