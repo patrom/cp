@@ -21,15 +21,15 @@ public class IntervalAndTriads {
 			case MAJOR:
 				return 1.0;
 			case MAJOR_1:
-				return 0.98;
+				return 1.0;
 			case MAJOR_2:
-				return 0.97;
+				return 0.98;
 			case MINOR:
 				return 1.0;
 			case MINOR_1:
-				return 0.98;
+				return 1.0;
 			case MINOR_2:
-				return 0.97;
+				return 0.98;
 			case DIM:
 				return 0.99;
 			case AUGM:
@@ -39,7 +39,7 @@ public class IntervalAndTriads {
 			case KWARTEN:
 				return 0.98;
 			case ADD9:
-				return 1.0;
+				return 0.99;
 			case MAJOR7_OMIT5:
 				return 1.0;
 			case MINOR7_OMIT5:
@@ -55,20 +55,20 @@ public class IntervalAndTriads {
 	private double intervals(Chord chord) {
 		switch (chord.getChordType()) {
 			case CH2_GROTE_TERTS:
-				return 1.0;
+				return 0.99;
 			case CH2_KLEINE_TERTS:
-				return 1.0;
+				return 0.99;
 			case CH2_GROTE_SIXT:
-				return 1.0;
+				return 0.99;
 			case CH2_KLEINE_SIXT:
-				return 1.0;
+				return 0.99;
 				
 			case CH1://octaaf
-				return 0.6;
+				return 0.9;
 			case CH2_KWART:
-				return 0.7;
+				return 0.9;
 			case CH2_KWINT:
-				return 0.8;
+				return 0.9;
 			
 			case CH2_GROTE_SECONDE:
 				return 0.4;

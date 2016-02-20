@@ -42,9 +42,12 @@ import cp.nsga.operator.mutation.melody.ReplaceMelody;
 import cp.objective.harmony.HarmonicObjective;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.Piano;
+import cp.out.instrument.brass.FrenchHorn;
 import cp.out.instrument.strings.Cello;
 import cp.out.instrument.strings.Viola;
 import cp.out.instrument.strings.Violin;
+import cp.out.instrument.woodwinds.Clarinet;
+import cp.out.instrument.woodwinds.Flute;
 import cp.out.print.Display;
 import cp.out.print.note.Key;
 import jmetal.core.Algorithm;
@@ -66,6 +69,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	private Key D;
 	@Autowired
 	private Key Dsharp;
+	@Autowired
+	private Key Eflat;
 	@Autowired
 	private Key E;
 	@Autowired
@@ -133,10 +138,10 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		composeInMeter(4,4);
 		List<TimeLineKey> keys = new ArrayList<>();
 		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, 24));
-		keys.add(new TimeLineKey(F, Scale.MAJOR_SCALE, 24, 48));
-		keys.add(new TimeLineKey(D, Scale.HARMONIC_MINOR_SCALE, 48, 72));
-		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 72, 96));
-		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 96, 144));
+		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 24, 48));
+		keys.add(new TimeLineKey(C, Scale.HARMONIC_MINOR_SCALE, 48, 72));
+		keys.add(new TimeLineKey(C, Scale.HARMONIC_MINOR_SCALE, 72, 96));
+		keys.add(new TimeLineKey(Eflat, Scale.MAJOR_SCALE, 96, 144));
 		timeLine.setKeys(keys);
 		composeInKey(C);
 		inTempo(110);
@@ -144,7 +149,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		melodyGenerator.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
 		harmonicObjective.setDissonance(intervalAndTriads::getDissonance);
 		
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 10; i++) {
 			LOGGER.info("RUN: " + i + " START");		
 			compose();
 		    LOGGER.info("RUN: " + i + " END");
@@ -154,7 +159,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	private void compose() throws Exception {
 		
 		List<Integer> beats = new ArrayList<>();
-//		beats.add(12);
+		beats.add(12);
 		beats.add(24);
 //		beats.add(48);
 //		beats.add(36);
@@ -183,25 +188,25 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		
 //		melodyBlocks.add(melodyBlock);
 		
-		Instrument cello = new Cello(0, 3);
+		Instrument frenchHorn = new FrenchHorn(0, 3);
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(cello.getVoice(), 0, 144, 3, beats);
-		melodyBlock.setInstrument(cello);
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(frenchHorn.getVoice(), 0, 144, 4, beats);
+		melodyBlock.setInstrument(frenchHorn);
 		melodyBlocks.add(melodyBlock);
 		
 		List<Integer> beats2 = new ArrayList<>();
 		beats2.add(12);
-//		beats2.add(24);
+		beats2.add(24);
 //		beats2.add(36);
 		
-		Instrument viola = new Viola(1, 2);
-		melodyBlock = melodyGenerator.generateMelodyBlock(viola.getVoice(), 0, 144, 4, beats);
-		melodyBlock.setInstrument(viola);
+		Instrument clarinet = new Clarinet(1, 2);
+		melodyBlock = melodyGenerator.generateMelodyBlock(clarinet.getVoice(), 0, 144, 5, beats);
+		melodyBlock.setInstrument(clarinet);
 		melodyBlocks.add(melodyBlock);
 		
-		Instrument violin = new Violin(2, 1);
-		melodyBlock = melodyGenerator.generateMelodyBlock(violin.getVoice(), 0, 144, 5, beats2);
-		melodyBlock.setInstrument(violin);
+		Instrument flute = new Flute(2, 1);
+		melodyBlock = melodyGenerator.generateMelodyBlock(flute.getVoice(), 0, 144, 6, beats2);
+		melodyBlock.setInstrument(flute);
 		melodyBlocks.add(melodyBlock);
 	
 		//fugue
