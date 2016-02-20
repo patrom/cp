@@ -25,8 +25,8 @@ import cp.model.TimeLineKey;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.out.instrument.Instrument;
-import cp.out.instrument.strings.Cello;
-import cp.out.instrument.strings.Violin;
+import cp.out.instrument.strings.CelloSolo;
+import cp.out.instrument.strings.ViolinSolo;
 import cp.out.print.note.Key;
 import cp.util.Util;
 import javafx.animation.Timeline;
@@ -141,7 +141,7 @@ public class MelodyBlockTest {
 		melodyBlockCopy.setOffset(24);
 		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.T);
 		melodyBlockCopy.setOperatorType(operatorType);
-		melodyBlockCopy.setInstrument(new Violin(0, 0));
+		melodyBlockCopy.setInstrument(new ViolinSolo(0, 0));
 		List<TimeLineKey> keys = new ArrayList<>();
 		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, 24));
 		keys.add(new TimeLineKey(D, Scale.MAJOR_SCALE, 24, 48));
@@ -392,7 +392,7 @@ public class MelodyBlockTest {
 		melody = new CpMelody(notes,0 , 0, 60);
 		melodyBlock.addMelodyBlock(melody);
 		
-		Instrument cello = new Cello(0, 3);
+		Instrument cello = new CelloSolo(0, 3);
 		MelodyBlock melodyBlock2 = new MelodyBlock(4, cello.getVoice());
 		melodyBlock2.setVoice(cello.getVoice());
 		melodyBlock2.setOffset(48);

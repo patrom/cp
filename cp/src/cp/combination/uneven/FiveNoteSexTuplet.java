@@ -17,10 +17,10 @@ public class FiveNoteSexTuplet {
 		int noteLength = beat/6;
 		int length2 = noteLength * 2;
 		switch (beat) {
-//		case 12:
-//			notes =  posWithBeam(beat/3);
-//			notes.forEach(n -> n.setTriplet(true));
-//			return notes;
+		case 12:
+			notes =  posWithBeam(length2, noteLength, noteLength, noteLength, noteLength);
+			notes.forEach(n -> n.setSextuplet(true));
+			return notes;
 //		case 24:
 //			notes =  pos(beat/3);
 //			notes.forEach(n -> n.setTriplet(true));

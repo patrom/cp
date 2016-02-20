@@ -3,7 +3,6 @@ package cp.out.instrument.strings;
 import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 
-
 public class Doublebass extends Instrument {
 
 	public Doublebass(int voice, int channel) {
@@ -11,9 +10,9 @@ public class Doublebass extends Instrument {
 		setLowest(38);
 		setGeneralMidi(GeneralMidi.CONTRABASS);
 		
-		setInstrumentName("Contrabass");
+		setInstrumentName("Contrabass (2)");
 		setInstrumentSound("strings.Contrabass");
-		setVirtualName("Bass 1 solo");
+		setVirtualName("Basses");
 		setClef("F");
 	}
 

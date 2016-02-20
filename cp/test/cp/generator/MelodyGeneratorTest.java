@@ -39,7 +39,7 @@ import cp.objective.melody.MelodicObjective;
 import cp.objective.rhythm.RhythmObjective;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.MidiDevice;
-import cp.out.instrument.strings.Violin;
+import cp.out.instrument.strings.ViolinSolo;
 import cp.out.print.ScoreUtilities;
 import cp.out.print.note.Key;
 import cp.variation.Embellisher;
@@ -114,7 +114,7 @@ public class MelodyGeneratorTest extends JFrame{
 //		notes.forEach(note -> note.setArticulation(Articulation.STACCATO));
 		Score score = scoreUtilities.createMelody(notes);
 		View.notate(score);
-		Sequence seq = midiDevicesUtil.createSequenceNotes(notes, new  Violin(3, 0));
+		Sequence seq = midiDevicesUtil.createSequenceNotes(notes, new  ViolinSolo(3, 0));
 		midiDevicesUtil.playOnDevice(seq, 60, MidiDevice.KONTAKT);
 		Thread.sleep(10000);
 	}

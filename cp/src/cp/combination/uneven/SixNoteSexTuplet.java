@@ -16,10 +16,10 @@ public class SixNoteSexTuplet {
 		List<Note> notes;
 		int noteLength = beat/6;
 		switch (beat) {
-//		case 12:
-//			notes =  posWithBeam(beat/3);
-//			notes.forEach(n -> n.setTriplet(true));
-//			return notes;
+		case 12:
+			notes =  posWithBeam(noteLength, noteLength, noteLength, noteLength, noteLength, noteLength);
+			notes.forEach(n -> n.setSextuplet(true));
+			return notes;
 //		case 24:
 //			notes =  pos(beat/3);
 //			notes.forEach(n -> n.setTriplet(true));

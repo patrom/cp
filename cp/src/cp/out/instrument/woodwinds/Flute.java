@@ -11,6 +11,10 @@ public class Flute extends Instrument {
 		setLowest(60);
 		setHighest(84);
 		setGeneralMidi(GeneralMidi.FLUTE);
+		
+		setInstrumentName("Flute (2)");
+		setInstrumentSound("wind.flutes.flute");
+		setVirtualName("Flute 1");
 	}
 
 }

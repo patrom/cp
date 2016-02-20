@@ -42,9 +42,9 @@ import cp.nsga.operator.mutation.melody.ReplaceMelody;
 import cp.objective.harmony.HarmonicObjective;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.Piano;
-import cp.out.instrument.strings.Cello;
-import cp.out.instrument.strings.Viola;
-import cp.out.instrument.strings.Violin;
+import cp.out.instrument.strings.CelloSolo;
+import cp.out.instrument.strings.ViolaSolo;
+import cp.out.instrument.strings.ViolinSolo;
 import cp.out.print.Display;
 import cp.out.print.note.Key;
 import jmetal.core.Algorithm;
@@ -183,7 +183,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		
 //		melodyBlocks.add(melodyBlock);
 		
-		Instrument cello = new Cello(0, 3);
+		Instrument cello = new CelloSolo(0, 3);
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(cello.getVoice(), 0, 144, 3, beats);
 		melodyBlock.setInstrument(cello);
@@ -194,12 +194,12 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		beats2.add(24);
 //		beats2.add(36);
 		
-		Instrument viola = new Viola(1, 2);
+		Instrument viola = new ViolaSolo(1, 2);
 		melodyBlock = melodyGenerator.generateMelodyBlock(viola.getVoice(), 0, 144, 4, beats);
 		melodyBlock.setInstrument(viola);
 		melodyBlocks.add(melodyBlock);
 		
-		Instrument violin = new Violin(2, 1);
+		Instrument violin = new ViolinSolo(2, 1);
 		melodyBlock = melodyGenerator.generateMelodyBlock(violin.getVoice(), 0, 144, 5, beats2);
 		melodyBlock.setInstrument(violin);
 		melodyBlocks.add(melodyBlock);

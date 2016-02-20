@@ -11,9 +11,10 @@ public class Viola extends Instrument {
 		setHighest(72);
 		setGeneralMidi(GeneralMidi.VIOLA);
 		
-		setInstrumentName("Viola");
+		setInstrumentName("Viola (2)");
 		setInstrumentSound("strings.viola");
-		setVirtualName("Viola 1 solo");
+		setVirtualName("Violas");
 	}
 
 }
+

@@ -3,10 +3,10 @@ package cp.out.instrument;
 import java.util.ArrayList;
 import java.util.List;
 
-import cp.out.instrument.strings.Cello;
-import cp.out.instrument.strings.Doublebass;
-import cp.out.instrument.strings.Viola;
-import cp.out.instrument.strings.Violin;
+import cp.out.instrument.strings.CelloSolo;
+import cp.out.instrument.strings.DoublebassSolo;
+import cp.out.instrument.strings.ViolaSolo;
+import cp.out.instrument.strings.ViolinSolo;
 import cp.out.instrument.voice.Alto;
 import cp.out.instrument.voice.Bass;
 import cp.out.instrument.voice.Soprano;
@@ -21,17 +21,17 @@ public class Ensemble {
 	
 	public static List<Instrument> getStringDuo(){
 		List<Instrument> stringDuo = new ArrayList<Instrument>();
-		stringDuo.add(new Violin(1, 1));
-		stringDuo.add(new Cello(0, 0));
+		stringDuo.add(new ViolinSolo(1, 1));
+		stringDuo.add(new CelloSolo(0, 0));
 		return stringDuo;
 	}
 
 	public static List<Instrument> getStringQuartet(){
 		List<Instrument> stringQuartet = new ArrayList<Instrument>();
-		stringQuartet.add(new Violin(3, 0));
-		stringQuartet.add(new Violin(2, 0));
-		stringQuartet.add(new Viola(1, 1));
-		stringQuartet.add(new Cello(0, 2));
+		stringQuartet.add(new ViolinSolo(3, 0));
+		stringQuartet.add(new ViolinSolo(2, 0));
+		stringQuartet.add(new ViolaSolo(1, 1));
+		stringQuartet.add(new CelloSolo(0, 2));
 		return stringQuartet;
 	}
 	
@@ -46,7 +46,7 @@ public class Ensemble {
 	
 	public static List<Instrument> getPianoAndViolin(){
 		List<Instrument> voices = new ArrayList<Instrument>();
-		voices.add(new Violin(4, 1));
+		voices.add(new ViolinSolo(4, 1));
 		voices.add(new Piano(3, 0));
 		voices.add(new Piano(2, 0));
 		voices.add(new Piano(1, 0));
@@ -94,21 +94,21 @@ public class Ensemble {
 	
 	public static List<Instrument> getStrings(){
 		List<Instrument> strings = new ArrayList<Instrument>();
-		strings.add(new Violin(3, 0));
-		strings.add(new Viola(2, 1));
-		strings.add(new Cello(1, 2));
-		strings.add(new Doublebass(0, 3));
+		strings.add(new ViolinSolo(3, 0));
+		strings.add(new ViolaSolo(2, 1));
+		strings.add(new CelloSolo(1, 2));
+		strings.add(new DoublebassSolo(0, 3));
 		return strings;
 	}
 	
 	public static List<Instrument> getStringsDoubleTriads(){
 		List<Instrument> strings = new ArrayList<Instrument>();
-		strings.add(new Violin(5, 0));
-		strings.add(new Violin(4, 0));
-		strings.add(new Violin(3, 0));
-		strings.add(new Cello(2, 2));
-		strings.add(new Cello(1, 2));
-		strings.add(new Doublebass(0, 3));
+		strings.add(new ViolinSolo(5, 0));
+		strings.add(new ViolinSolo(4, 0));
+		strings.add(new ViolinSolo(3, 0));
+		strings.add(new CelloSolo(2, 2));
+		strings.add(new CelloSolo(1, 2));
+		strings.add(new DoublebassSolo(0, 3));
 		return strings;
 	}
 }

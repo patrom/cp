@@ -11,6 +11,10 @@ public class Clarinet extends Instrument {
 		setLowest(50);
 		setHighest(84);
 		setGeneralMidi(GeneralMidi.CLARINET);
+		
+		setInstrumentName("Clarinet in B^b");
+		setInstrumentSound("wind.reed.clarinet");
+		setVirtualName("Clarinet Bb 1");
 	}
 
 }

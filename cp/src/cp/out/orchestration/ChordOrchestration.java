@@ -21,15 +21,14 @@ public class ChordOrchestration {
 
 	public List<Note> getRhythmNotes(RhythmCombination rhythmCombination, int beat) {
 		List<Note> rhythmNotes = new ArrayList<>();
-		int length = start + beat;
-		while (length <= end) {
+		int length = start;
+		while (length < end) {
 			List<Note> rNotes = rhythmCombination.getNotes(beat);
 			for (Note note : rNotes) {
-				note.setPosition(note.getPosition() + start);
+				note.setPosition(note.getPosition() + length);
 				rhythmNotes.add(note);
 			}
-			start = length;
-			length = start + beat;
+			length = length + beat;
 		}
 		return rhythmNotes;
 	}
@@ -37,13 +36,20 @@ public class ChordOrchestration {
 	public List<Note> orchestrateChord(List<Note> rhythmNotes, Note... chordNotes){
 		List<Note> notes = new ArrayList<>();
 		int size = rhythmNotes.size();
+		int j = 0;
 		for (int i = 0; i < size; i++) {
-			Note chordNote = getNextChordNote(i, chordNotes);
 			Note rhythmNote = rhythmNotes.get(i).clone();
-			rhythmNote.setPitchClass(chordNote.getPitchClass());
-			rhythmNote.setOctave(chordNote.getOctave());
-			rhythmNote.setPitch(chordNote.getPitch());
-			notes.add(rhythmNote);
+			if (rhythmNote.isRest()) {
+				notes.add(rhythmNote);
+				continue;
+			} else {
+				Note chordNote = getNextChordNote(j, chordNotes);
+				rhythmNote.setPitchClass(chordNote.getPitchClass());
+				rhythmNote.setOctave(chordNote.getOctave());
+				rhythmNote.setPitch(chordNote.getPitch());
+				notes.add(rhythmNote);
+				j++;
+			}
 		}
 		return notes;
 	}
