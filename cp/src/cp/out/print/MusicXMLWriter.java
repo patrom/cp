@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.NavigableMap;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
@@ -32,8 +31,8 @@ import cp.model.note.BeamType;
 import cp.model.note.Note;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.Piano;
-import cp.out.print.note.NoteDisplay;
 import cp.out.print.note.Key;
+import cp.out.print.note.NoteDisplay;
 
 @Component
 public class MusicXMLWriter {
@@ -49,18 +48,18 @@ public class MusicXMLWriter {
 	private NoteDisplay noteDisplay;
 	
 	public void generateMusicXML(List<MelodyInstrument> melodies, String id) throws Exception {
-		Map<Instrument, List<List<Note>>> melodiesForInstrument = new HashMap<Instrument, List<List<Note>>>();
+		Map<Instrument, List<Note>> melodiesForInstrument = new HashMap<>();
 		for (MelodyInstrument melody : melodies) {
 			List<Note> notes = melody.getNotes();
 			addLeadingRest(notes);
 			Instrument instrument = getInstrumentForVoice(melody.getVoice());
 			melodiesForInstrument.compute(instrument, (k, v) -> {
 					if (v == null) {
-						List<List<Note>> list = new ArrayList<>();
-						list.add(notes);
+						List<Note> list = new ArrayList<>();
+						list.addAll(notes);
 						return list;
 					}else {
-						v.add(notes);
+						v.addAll(notes);
 						return v;
 					}
 				}
@@ -78,7 +77,7 @@ public class MusicXMLWriter {
 	}
 
 	public void generateMusicXMLForMelodies(List<MelodyBlock> melodies, String id) throws Exception {
-		Map<Instrument, List<List<Note>>> melodiesForInstrument = getMelodyNotesForInstrument(melodies);
+		Map<Instrument, List<Note>> melodiesForInstrument = getMelodyNotesForInstrument(melodies);
 		createXML(id, melodiesForInstrument);
 	}
 	
@@ -90,7 +89,7 @@ public class MusicXMLWriter {
 		generateMusicXML(Collections.singletonList(melodyInstrument), id);
 	}
 
-	private void createXML(String id, Map<Instrument, List<List<Note>>> melodiesForInstrument) throws FactoryConfigurationError, XMLStreamException, FileNotFoundException {
+	public void createXML(String id, Map<Instrument, List<Note>> melodiesForInstrument) throws FactoryConfigurationError, XMLStreamException, FileNotFoundException {
 		XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newInstance();
 		xmlStreamWriter = xmlOutputFactory.createXMLStreamWriter(new FileOutputStream("resources/xml/" + id + ".xml"), "UTF-8");
 
@@ -122,7 +121,7 @@ public class MusicXMLWriter {
 		xmlStreamWriter.writeCharacters("\n");
 		
 		//part element
-		for (Entry<Instrument, List<List<Note>>> entries : melodiesForInstrument.entrySet()) {
+		for (Entry<Instrument, List<Note>> entries : melodiesForInstrument.entrySet()) {
 			createPartElement(entries.getValue(), entries.getKey());
 		}
 		
@@ -153,19 +152,19 @@ public class MusicXMLWriter {
 		return notesRestsIncluded;
 	}
 
-	private Map<Instrument, List<List<Note>>> getMelodyNotesForInstrument(
+	private Map<Instrument, List<Note>> getMelodyNotesForInstrument(
 			List<MelodyBlock> melodies) {
-		Map<Instrument, List<List<Note>>> melodiesForInstrument = new TreeMap<>();
+		Map<Instrument, List<Note>> melodiesForInstrument = new TreeMap<>();
 		for (MelodyBlock melody : melodies) {
 			List<Note> notes = melody.getMelodyBlockNotesWithRests();
 			addLeadingRest(notes);
 			melodiesForInstrument.compute(melody.getInstrument(), (k, v) -> {
 					if (v == null) {
-						List<List<Note>> list = new ArrayList<>();
-						list.add(notes);
+						List<Note> list = new ArrayList<>();
+						list.addAll(notes);
 						return list;
 					}else {
-						v.add(notes);
+						v.addAll(notes);
 						return v;
 					}
 				}
@@ -194,12 +193,12 @@ public class MusicXMLWriter {
 		}
 	}
 
-	private void createPartElement(List<List<Note>> list, Instrument instrument) throws XMLStreamException {
+	private void createPartElement(List<Note> list, Instrument instrument) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("part");
 		xmlStreamWriter.writeAttribute("id", "P" + instrument.getVoice());
 		xmlStreamWriter.writeCharacters("\n");
 		
-		createMeasureElements(list.get(0), instrument);
+		createMeasureElements(list, instrument);
 		
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
