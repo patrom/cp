@@ -48,10 +48,6 @@ public class BeatMap {
 		for (int j = 0; j < notesPerBeat.lastKey(); j++) {
 			if (notesPerBeat.containsKey(j)) {
 				List<Note> beatNotes = notesPerBeat.get(j);
-//				beatNotes = beatNotes.stream()
-////						.peek(filteredNotes)
-//						.filter(filteredNotes)
-//						.collect(toList());
 				if (!beatNotes.isEmpty()) {
 					Note lastNote = beatNotes.get(beatNotes.size() - 1);
 					int end = (j + 1) * beat;
@@ -59,7 +55,10 @@ public class BeatMap {
 						int lastNoteLength = lastNote.getDisplayLength();
 						int newLength = end - lastNote.getPosition();
 						lastNote.setLength(newLength);
-						lastNote.setTieStart(true);
+						lastNote.setDisplayLength(newLength);
+						if (!lastNote.isRest()) {
+							lastNote.setTieStart(true);
+						}
 						Note clone = lastNote.clone();
 						if (notesPerBeat.containsKey(j + 1)) {
 							List<Note> nextBeatNotes = notesPerBeat.get(j + 1);
@@ -68,12 +67,18 @@ public class BeatMap {
 								int length = firstNote.getPosition() - end;
 								clone.setPosition(end);
 								clone.setLength(length);
-								clone.setTieEnd(true);
+								clone.setDisplayLength(length);
+								if (!lastNote.isRest()) {
+									clone.setTieEnd(true);
+								}
 								nextBeatNotes.add(0,clone);
 							}else{
 								clone.setPosition(end);
 								clone.setLength(lastNoteLength - newLength);
-								clone.setTieEnd(true);
+								clone.setDisplayLength(lastNoteLength - newLength);
+								if (!lastNote.isRest()) {
+									clone.setTieEnd(true);
+								}
 								nextBeatNotes.add(clone);
 							}
 						}

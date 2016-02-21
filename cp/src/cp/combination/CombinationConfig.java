@@ -59,7 +59,7 @@ public class CombinationConfig {
 	@Bean(name="combinationsEvenBeat12")
 	public Map<Integer, List<RhythmCombination>> combinationsEvenBeat12() {
 		Map<Integer, List<RhythmCombination>> map = new TreeMap<>();
-		map.put(0, defaultCombinations());
+		map.put(0, evenBeat12());
 		map.put(1, evenBeat12());
 		map.put(2, evenBeat12());
 		return map;
