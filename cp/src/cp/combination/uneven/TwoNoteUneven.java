@@ -15,60 +15,66 @@ public class TwoNoteUneven {
 	
 	public List<Note> pos13(int beat) {
 		List<Note> notes;
+		int noteLength = beat/3;
+		int noteLength2 = noteLength * 2;
 		switch (beat) {
-//		case 12:
-//			notes =  posWithBeam(beat/3);
-//			notes.forEach(n -> n.setTriplet(true));
-//			return notes;
+		case 12:
+			notes =  posWithBeam(noteLength2, noteLength);
+			notes.forEach(n -> n.setTriplet(true));
+			return notes;
 //		case 24:
 //			notes =  pos(beat/3);
 //			notes.forEach(n -> n.setTriplet(true));
 //			return notes;
 		case 18:
-			notes =  posWithBeam((beat/3) * 2, beat/3);
+			notes =  posWithBeam(noteLength2, noteLength);
 			return notes;
 		default:
-			notes =  pos((beat/3) * 2, beat/3);
+			notes =  pos(noteLength2, noteLength);
 			return notes;
 		}
 	}
 	
 	public List<Note> pos12(int beat) {
 		List<Note> notes;
+		int noteLength = beat/3;
+		int noteLength2 = noteLength * 2;
 		switch (beat) {
-//		case 12:
-//			notes =  posWithBeam(beat/3);
-//			notes.forEach(n -> n.setTriplet(true));
-//			return notes;
+		case 12:
+			notes =  posWithBeam(noteLength, noteLength2);
+			notes.forEach(n -> n.setTriplet(true));
+			return notes;
 //		case 24:
 //			notes =  pos(beat/3);
 //			notes.forEach(n -> n.setTriplet(true));
 //			return notes;
 		case 18:
-			notes =  posWithBeam(beat/3, (beat/3) * 2);
+			notes =  posWithBeam(noteLength, noteLength2);
 			return notes;
 		default:
-			notes =  pos(beat/3, (beat/3) * 2);
+			notes =  pos(noteLength, noteLength2);
 			return notes;
 		}
 	}
 	
 	public List<Note> pos23(int beat) {
 		List<Note> notes;
+		int noteLength = beat/3;
+		int noteLength2 = noteLength * 2;
 		switch (beat) {
-//		case 12:
-//			notes =  posWithBeam(beat/3);
-//			notes.forEach(n -> n.setTriplet(true));
-//			return notes;
+		case 12:
+			notes =  posWithBeamStartRest(noteLength, noteLength2);
+			notes.forEach(n -> n.setTriplet(true));
+			return notes;
 //		case 24:
 //			notes =  pos(beat/3);
 //			notes.forEach(n -> n.setTriplet(true));
 //			return notes;
 		case 18:
-			notes =  posWithBeamStartRest(beat/3, (beat/3) * 2);
+			notes =  posWithBeamStartRest(noteLength, noteLength2);
 			return notes;
 		default:
-			notes =  posStartRest(beat/3, (beat/3) * 2);
+			notes =  posStartRest(noteLength, noteLength2);
 			return notes;
 		}
 	}

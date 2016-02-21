@@ -43,9 +43,9 @@ import cp.objective.harmony.HarmonicObjective;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.Piano;
 import cp.out.instrument.brass.FrenchHorn;
-import cp.out.instrument.strings.Cello;
-import cp.out.instrument.strings.Viola;
-import cp.out.instrument.strings.Violin;
+import cp.out.instrument.strings.CelloSolo;
+import cp.out.instrument.strings.ViolaSolo;
+import cp.out.instrument.strings.ViolinSolo;
 import cp.out.instrument.woodwinds.Clarinet;
 import cp.out.instrument.woodwinds.Flute;
 import cp.out.print.Display;
@@ -188,6 +188,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		
 //		melodyBlocks.add(melodyBlock);
 		
+
 		Instrument frenchHorn = new FrenchHorn(0, 3);
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(frenchHorn.getVoice(), 0, 144, 4, beats);
@@ -199,14 +200,17 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		beats2.add(24);
 //		beats2.add(36);
 		
+
 		Instrument clarinet = new Clarinet(1, 2);
 		melodyBlock = melodyGenerator.generateMelodyBlock(clarinet.getVoice(), 0, 144, 5, beats);
 		melodyBlock.setInstrument(clarinet);
+
 		melodyBlocks.add(melodyBlock);
-		
+
 		Instrument flute = new Flute(2, 1);
 		melodyBlock = melodyGenerator.generateMelodyBlock(flute.getVoice(), 0, 144, 6, beats2);
 		melodyBlock.setInstrument(flute);
+
 		melodyBlocks.add(melodyBlock);
 	
 		//fugue

@@ -28,7 +28,7 @@ public class Embellisher {
 			int interval = nextNote.getPitch() - note.getPitch();
 			variation = variationSelector.selectVariation(interval);
 			if (variation.getExcludedVoices().contains(note.getVoice())) {
-				embellishedMelody.add(note.copy());
+				embellishedMelody.add(note.clone());
 				continue;
 			}
 			List<Note> embellishedNotes  = variation.createVariation(note, nextNote);

@@ -11,6 +11,10 @@ public class Oboe extends Instrument {
 		setLowest(58);
 		setHighest(84);
 		setGeneralMidi(GeneralMidi.OBOE);
+		
+		setInstrumentName("Oboe");
+		setInstrumentSound("wind.reed.oboe");
+		setVirtualName("Oboe 1");
 	}
 
 }

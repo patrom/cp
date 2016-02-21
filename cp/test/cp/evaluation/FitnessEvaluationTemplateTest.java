@@ -33,7 +33,7 @@ import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.out.instrument.Ensemble;
-import cp.out.instrument.strings.Violin;
+import cp.out.instrument.strings.ViolinSolo;
 import cp.out.print.ScoreUtilities;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -78,7 +78,7 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 	}
 
 	protected void evaluate() {
-		melodies.forEach(m -> m.setInstrument(new Violin(0, 0)));
+		melodies.forEach(m -> m.setInstrument(new ViolinSolo(0, 0)));
 		Motive motive = new Motive(melodies);
 		FitnessObjectiveValues objectives = fitnessEvaluationTemplate.evaluate(motive);
 		LOGGER.info(objectives.toString());

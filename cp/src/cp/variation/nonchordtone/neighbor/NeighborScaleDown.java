@@ -23,7 +23,7 @@ public class NeighborScaleDown extends Neighbor {
 			int pitch = note.getPitch() - ic;
 			return generateNeighborNote(note, pitchClass, pitch, pattern);
 		} else {
-			return Collections.singletonList(note.copy());
+			return Collections.singletonList(note.clone());
 		}
 	}
 }

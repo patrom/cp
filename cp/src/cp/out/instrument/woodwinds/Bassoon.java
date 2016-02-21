@@ -11,6 +11,11 @@ public class Bassoon extends Instrument {
 		setLowest(34);
 		setHighest(70);
 		setGeneralMidi(GeneralMidi.BASSOON);
+		
+		setInstrumentName("Bassoon");
+		setInstrumentSound("wind.reed.bassoon");
+		setVirtualName("Bassoon 1");
+		setClef("F");
 	}
 
 }

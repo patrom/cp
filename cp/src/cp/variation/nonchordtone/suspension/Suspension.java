@@ -28,12 +28,12 @@ public class Suspension extends Variation {
 				double[] pattern = RandomUtil.getRandomFromDoubleArray(variationPattern.getPatterns());
 				int secondNoteLength = secondNote.getLength();
 				int firstNewLength =  firstNote.getLength() + (int)(secondNoteLength * pattern[0]);
-				Note copyFirstNote = firstNote.copy();
+				Note copyFirstNote = firstNote.clone();
 				copyFirstNote.setLength(firstNewLength);
 				notes.add(copyFirstNote);
 				
 				int secondNewLength = (int) (secondNoteLength * pattern[1]);
-				Note copySecondNote = secondNote.copy();
+				Note copySecondNote = secondNote.clone();
 				int position = firstNote.getPosition() + firstNewLength;
 				copySecondNote.setPosition(position);
 				copySecondNote.setLength(secondNewLength);
@@ -41,7 +41,7 @@ public class Suspension extends Variation {
 				return notes;
 			}
 		} 
-		return Collections.singletonList(firstNote.copy());
+		return Collections.singletonList(firstNote.clone());
 	}
 
 }

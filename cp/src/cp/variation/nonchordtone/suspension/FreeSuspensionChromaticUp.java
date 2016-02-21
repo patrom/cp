@@ -22,7 +22,7 @@ public class FreeSuspensionChromaticUp extends FreeSuspesion {
 			int newPitch = firstNote.getPitch() - 1;
 			return generateAccentedNonChordNote(firstNote, newPitchClass, newPitch, pattern);
 		} else {
-			return Collections.singletonList(firstNote.copy());
+			return Collections.singletonList(firstNote.clone());
 		}
 	}
 

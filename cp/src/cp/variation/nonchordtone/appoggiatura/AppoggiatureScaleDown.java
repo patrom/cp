@@ -26,7 +26,7 @@ public class AppoggiatureScaleDown extends Appoggiature {
 			notes.add(0, firstNote);
 			return notes;
 		} else {
-			return Collections.singletonList(firstNote.copy());
+			return Collections.singletonList(firstNote.clone());
 		}
 	}
 

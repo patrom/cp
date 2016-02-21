@@ -41,7 +41,7 @@ import cp.out.instrument.Ensemble;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.Piano;
 import cp.out.instrument.MidiDevice;
-import cp.out.instrument.strings.Violin;
+import cp.out.instrument.strings.ViolinSolo;
 import cp.out.print.MusicXMLWriter;
 import cp.out.print.ScoreUtilities;
 import cp.variation.Embellisher;
@@ -183,7 +183,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 		melodies.get(3).setInstrument(new Piano(0, 0));
 		//melody
 		arrangement.transpose(melodies.get(7).getNotes(), -12);
-		melodies.get(7).setInstrument(new Violin(0, 1));
+		melodies.get(7).setInstrument(new ViolinSolo(0, 1));
 		playList.add(melodies.get(7));
 		return playList;
 	}
