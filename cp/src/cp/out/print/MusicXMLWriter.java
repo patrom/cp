@@ -29,6 +29,7 @@ import cp.midi.MelodyInstrument;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.BeamType;
 import cp.model.note.Note;
+import cp.model.note.TupletType;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.Piano;
 import cp.out.print.note.Key;
@@ -429,10 +430,10 @@ public class MusicXMLWriter {
 		if (note.hasArticulation()) {
 			createArticulationElement(note);
 		}
-		if (note.hasBeamType() && (note.isTriplet() || note.isSextuplet())) {
-			if (note.getBeamType().equals(BeamType.BEGIN)) {
+		if (note.hasTupletType()) {
+			if (note.getTupletType().equals(TupletType.START)) {
 				createTripletElementWithAttributeValues("start", note.getDisplayLength());
-			}else if (note.getBeamType().equals(BeamType.END)) {
+			}else if (note.getTupletType().equals(TupletType.STOP)) {
 				createTripletElementWithAttributeValues("stop", note.getDisplayLength());
 			}
 		}
@@ -459,10 +460,10 @@ public class MusicXMLWriter {
 			createElementWithValue("actual-notes", "6");
 			createElementWithValue("normal-notes", "4");
 			createElementWithValue("normal-type", "16th");
-		} else {
+		} else if(note.isTriplet()){
 			createElementWithValue("actual-notes", "3");
 			createElementWithValue("normal-notes", "2");
-			createElementWithValue("normal-type", noteType.getName());
+			createElementWithValue("normal-type", "eighth");
 		}
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
@@ -769,45 +770,5 @@ public class MusicXMLWriter {
 			position = note.getPosition();
 		}
 	}
-	
-//	protected List<Note> updateTies(int beat, NavigableMap<Integer, List<Note>> notesPerBeat){
-//		for (int j = 0; j < notesPerBeat.lastKey(); j++) {
-//			if (notesPerBeat.containsKey(j)) {
-//				List<Note> beatNotes = notesPerBeat.get(j);
-////				beatNotes = beatNotes.stream()
-//////						.peek(n -> System.out.println(n.getLength() != 24 || !( n.getLength() == 24 && (n.getPosition() == 0 || n.getPosition() == 12 || n.getPosition() == 24))))
-////						.filter(n -> n.getLength() != 24 || !( n.getLength() == 24 && (n.getPosition() == 0 || n.getPosition() == 12 || n.getPosition() == 24)))
-////						.collect(toList());
-//				if (!beatNotes.isEmpty()) {
-//					Note lastNote = beatNotes.get(beatNotes.size() - 1);
-//					int end = (j + 1) * beat;
-//					if ((lastNote.getPosition() + lastNote.getLength()) > end ) {//split note between beat and next beat
-//						int lastNoteLength = lastNote.getLength();
-//						int newLength = end - lastNote.getPosition();
-//						lastNote.setLength(newLength);
-//						lastNote.setTieStart(true);
-//						Note clone = lastNote.clone();
-//						if (notesPerBeat.containsKey(j + 1)) {
-//							List<Note> nextBeatNotes = notesPerBeat.get(j + 1);
-//							if (!nextBeatNotes.isEmpty()) {
-//								Note firstNote = nextBeatNotes.get(0);
-//								int length = firstNote.getPosition() - end;
-//								clone.setPosition(end);
-//								clone.setLength(length);
-//								clone.setTieEnd(true);
-//								nextBeatNotes.add(0,clone);
-//							}else{
-//								clone.setPosition(end);
-//								clone.setLength(lastNoteLength - newLength);
-//								clone.setTieEnd(true);
-//								nextBeatNotes.add(clone);
-//							}
-//						}
-//					}
-//				}
-//			}
-//		}
-//		return notesPerBeat.values().stream().flatMap(list -> list.stream()).sorted().collect(toList());
-//	}
 
 }

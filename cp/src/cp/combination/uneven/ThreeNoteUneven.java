@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import cp.model.note.BeamType;
 import cp.model.note.Note;
+import cp.model.note.TupletType;
 
 @Component
 public class ThreeNoteUneven {
@@ -17,11 +18,11 @@ public class ThreeNoteUneven {
 		List<Note> notes;
 		switch (beat) {
 		case 12:
-			notes =  posWithBeam(beat/3);
+			notes =  posWithBeamTuplet(beat/3);
 			notes.forEach(n -> n.setTriplet(true));
 			return notes;
 		case 24:
-			notes =  pos(beat/3);
+			notes =  posTuplet(beat/3);
 			notes.forEach(n -> n.setTriplet(true));
 			return notes;
 		case 18:
@@ -41,11 +42,27 @@ public class ThreeNoteUneven {
 		return notes;
 	}
 	
+	private List<Note> posWithBeamTuplet(int noteLength){
+		List<Note> notes = new ArrayList<Note>();
+		notes.add(note().pos(0).len(noteLength).beam(BeamType.BEGIN).tuplet(TupletType.START).build());
+		notes.add(note().pos(noteLength).len(noteLength).beam(BeamType.CONTINUE).build());
+		notes.add(note().pos(2 * noteLength).len(noteLength).beam(BeamType.END).tuplet(TupletType.STOP).build());
+		return notes;
+	}
+	
 	private List<Note> pos(int noteLength){
 		List<Note> notes = new ArrayList<Note>();
 		notes.add(note().pos(0).len(noteLength).build());
 		notes.add(note().pos(noteLength).len(noteLength).build());
 		notes.add(note().pos(2 * noteLength).len(noteLength).build());
+		return notes;
+	}
+	
+	private List<Note> posTuplet(int noteLength){
+		List<Note> notes = new ArrayList<Note>();
+		notes.add(note().pos(0).len(noteLength).tuplet(TupletType.START).build());
+		notes.add(note().pos(noteLength).len(noteLength).build());
+		notes.add(note().pos(2 * noteLength).len(noteLength).tuplet(TupletType.STOP).build());
 		return notes;
 	}
 	

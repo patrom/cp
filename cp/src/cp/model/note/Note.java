@@ -35,10 +35,13 @@ public class Note implements Comparable<Note>, Cloneable{
 	private boolean keel;
 	private boolean crest;
 	
+	//time modification
 	private boolean triplet;
 	private boolean sextuplet;
 	
 	private BeamType beamType;
+	//begin or end of tuplet
+	private TupletType tupletType;
 	
 	private Articulation articulation = DEFAULT_ARTICULATION;
 	private Dynamic dynamic = DEFAULT_DYNAMIC;
@@ -73,6 +76,7 @@ public class Note implements Comparable<Note>, Cloneable{
 		this.beamType = anotherNote.getBeamType();
 		this.triplet = anotherNote.isTriplet();
 		this.sextuplet = anotherNote.isSextuplet();
+		this.tupletType = anotherNote.getTupletType();
 	}
 
 	public void updateNote(Note note){
@@ -344,6 +348,18 @@ public class Note implements Comparable<Note>, Cloneable{
 
 	public boolean hasDoubleBeaming() {
 		return beamType != null && beamType.isDoubleBeam();
+	}
+	
+	public void setTupletType(TupletType tupletType) {
+		this.tupletType = tupletType;
+	}
+	
+	public TupletType getTupletType() {
+		return tupletType;
+	}
+	
+	public boolean hasTupletType() {
+		return tupletType != null;
 	}
 
 }

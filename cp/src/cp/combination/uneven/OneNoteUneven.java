@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import cp.model.note.Note;
+import cp.model.note.TupletType;
 
 @Component
 public class OneNoteUneven {
@@ -19,17 +20,60 @@ public class OneNoteUneven {
 	}
 	
 	public List<Note> pos2(int beat) {
-		return posRest(beat/3, beat);
+		List<Note> notes;
+		int noteLength = beat/3;
+		int noteLength2 = noteLength * 2;
+		switch (beat) {
+			case 12:
+				notes =  posRestTuplet(noteLength, noteLength2);
+				notes.forEach(n -> n.setTriplet(true));
+				return notes;
+	//		case 24:
+	//			notes =  pos(beat/3);
+	//			notes.forEach(n -> n.setTriplet(true));
+	//			return notes;
+			case 18:
+				notes =  posRest(noteLength, noteLength2);
+				return notes;
+			default:
+				notes =  posRest(noteLength, noteLength2);
+				return notes;
+		}
 	}
 	
 	public List<Note> pos3(int beat) {
-		return posRest((beat/3) * 2, beat);
+		List<Note> notes;
+		int noteLength = beat/3;
+		int noteLength2 = noteLength * 2;
+		switch (beat) {
+			case 12:
+				notes =  posRestTuplet(noteLength2, noteLength);
+				notes.forEach(n -> n.setTriplet(true));
+				return notes;
+	//		case 24:
+	//			notes =  pos(beat/3);
+	//			notes.forEach(n -> n.setTriplet(true));
+	//			return notes;
+			case 18:
+				notes =  posRest(noteLength2, noteLength);
+				return notes;
+			default:
+				notes =  posRest(noteLength2, noteLength);
+				return notes;
+		}
 	}
 	
-	private List<Note> posRest(int noteLength, int length){
+	private List<Note> posRest(int firstLength, int secondLength){
 		List<Note> notes = new ArrayList<Note>();
-		notes.add(note().pos(0).rest().len(noteLength).build());
-		notes.add(note().pos(noteLength).len(length - noteLength).build());
+		notes.add(note().pos(0).rest().len(firstLength).build());
+		notes.add(note().pos(firstLength).len(secondLength).build());
+		return notes;
+	}
+	
+	private List<Note> posRestTuplet(int firstLength, int secondLength){
+		List<Note> notes = new ArrayList<Note>();
+		notes.add(note().pos(0).rest().len(firstLength).tuplet(TupletType.START).build());
+		notes.add(note().pos(firstLength).len(secondLength).tuplet(TupletType.STOP).build());
 		return notes;
 	}
 	

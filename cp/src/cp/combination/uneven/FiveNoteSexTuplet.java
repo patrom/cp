@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import cp.model.note.BeamType;
 import cp.model.note.Note;
+import cp.model.note.TupletType;
 @Component
 public class FiveNoteSexTuplet {
 
@@ -36,11 +37,11 @@ public class FiveNoteSexTuplet {
 	
 	private List<Note> posWithBeam(int first, int second, int third, int fourth, int fifth){
 		List<Note> notes = new ArrayList<Note>();
-		notes.add(note().pos(0).len(first).beam(BeamType.BEGIN).build());
+		notes.add(note().pos(0).len(first).beam(BeamType.BEGIN).tuplet(TupletType.START).build());
 		notes.add(note().pos(first).len(second).beam(BeamType.CONTINUE).build());
 		notes.add(note().pos(first + second).len(third).beam(BeamType.CONTINUE).build());
 		notes.add(note().pos(first + second + third).len(fourth).beam(BeamType.CONTINUE).build());
-		notes.add(note().pos(first + second + third + fourth).len(fifth).beam(BeamType.END).build());
+		notes.add(note().pos(first + second + third + fourth).len(fifth).beam(BeamType.END).tuplet(TupletType.STOP).build());
 		return notes;
 	}
 	

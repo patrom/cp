@@ -104,7 +104,7 @@ public class Orchestrator {
 //		map.put(new Clarinet(7, 3), chordOrchestration.orchestrate(threeNoteUneven::pos123, 12, G(5), Fsharp(5)));
 //		map.put(new Bassoon(8, 3), chordOrchestration.orchestrate(sixNoteSexTuplet::pos123456, 12, C(4), E(4)));
 //		map.put(new Trombone(4, 4), chordOrchestration.orchestrate(oneNoteEven::pos1, 48, C(5)));
-		map.put(new Trumpet(9, 4), chordOrchestration.orchestrate(twoNoteUneven::pos13, 12, C(5), D(5)));
+		map.put(new Trumpet(9, 4), chordOrchestration.orchestrate(oneNoteUneven::pos3, 12, C(5), D(5)));
 		String id = "test";
 		int tempo = 100;
 		generateMusicXml(id);

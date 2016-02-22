@@ -18,6 +18,7 @@ public class NoteBuilder {
 	private Dynamic dynamic = Dynamic.MF;
 	private int displayLength;
 	private BeamType beamType;
+	private TupletType tupletType;
 
 	public static NoteBuilder note(){
 		return new NoteBuilder();
@@ -84,6 +85,11 @@ public class NoteBuilder {
 		return this;
 	}
 	
+	public NoteBuilder tuplet(TupletType tupletType) {
+		this.tupletType = tupletType;
+		return this;
+	}
+	
 	public Note build(){
 		Note note = new Note();
 		note.setPitchClass(pitchClass);
@@ -99,6 +105,7 @@ public class NoteBuilder {
 		note.setDynamic(dynamic);
 		note.setDisplayLength(displayLength);
 		note.setBeamType(beamType);
+		note.setTupletType(tupletType);
 		return note;
 	}
 

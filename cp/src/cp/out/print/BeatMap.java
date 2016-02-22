@@ -54,7 +54,6 @@ public class BeatMap {
 					if ((lastNote.getPosition() + lastNote.getDisplayLength()) > end ) {//split note between beat and next beat
 						int lastNoteLength = lastNote.getDisplayLength();
 						int newLength = end - lastNote.getPosition();
-						lastNote.setLength(newLength);
 						lastNote.setDisplayLength(newLength);
 						if (!lastNote.isRest()) {
 							lastNote.setTieStart(true);
@@ -66,7 +65,6 @@ public class BeatMap {
 								Note firstNote = nextBeatNotes.get(0);
 								int length = firstNote.getPosition() - end;
 								clone.setPosition(end);
-								clone.setLength(length);
 								clone.setDisplayLength(length);
 								if (!lastNote.isRest()) {
 									clone.setTieEnd(true);
@@ -74,7 +72,6 @@ public class BeatMap {
 								nextBeatNotes.add(0,clone);
 							}else{
 								clone.setPosition(end);
-								clone.setLength(lastNoteLength - newLength);
 								clone.setDisplayLength(lastNoteLength - newLength);
 								if (!lastNote.isRest()) {
 									clone.setTieEnd(true);
