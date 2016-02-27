@@ -1,25 +1,36 @@
 package cp.out.orchestration;
 
+import static cp.model.note.NoteBuilder.note;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import cp.combination.RhythmCombination;
 import cp.model.note.Note;
+import cp.out.orchestration.notetemplate.NoteTemplate;
 
 public class ChordOrchestration {
 	
 	private int start;
 	private int end;
-	private Map<Integer, List<Note>> map = new TreeMap<>();
+	private int octave;
 
-	public ChordOrchestration(int start, int end) {
+	public ChordOrchestration(int start, int end, int octave) {
 		this.start = start;
 		this.end = end;
+		this.octave = octave;
+	}
+	
+	public Note[] applyNoteTemplate(NoteTemplate noteTemplate, int[] pitchClasses) {
+		int[] noteIndices = noteTemplate.getNoteTemplate();
+		Note[] notes = new Note[noteIndices.length];
+		for (int i = 0; i < noteIndices.length; i++) {
+			notes[i] = note().pc(pitchClasses[noteIndices[i]]).ocatve(octave).build();
+		}
+		return notes;
 	}
 
-	public List<Note> getRhythmNotes(RhythmCombination rhythmCombination, int beat) {
+	public List<Note> applyRhythmCombination(RhythmCombination rhythmCombination, int beat) {
 		List<Note> rhythmNotes = new ArrayList<>();
 		int length = start;
 		while (length < end) {
@@ -33,7 +44,7 @@ public class ChordOrchestration {
 		return rhythmNotes;
 	}
 	
-	public List<Note> orchestrateChord(List<Note> rhythmNotes, Note... chordNotes){
+	public List<Note> orchestrateChord(List<Note> rhythmNotes, Note[] chordNotes){
 		List<Note> notes = new ArrayList<>();
 		int size = rhythmNotes.size();
 		int j = 0;
@@ -46,7 +57,7 @@ public class ChordOrchestration {
 				Note chordNote = getNextChordNote(j, chordNotes);
 				rhythmNote.setPitchClass(chordNote.getPitchClass());
 				rhythmNote.setOctave(chordNote.getOctave());
-				rhythmNote.setPitch(chordNote.getPitch());
+				rhythmNote.setPitch(chordNote.getPitchClass() + (chordNote.getOctave() * 12));
 				notes.add(rhythmNote);
 				j++;
 			}
@@ -54,13 +65,14 @@ public class ChordOrchestration {
 		return notes;
 	}
 	
-	private Note getNextChordNote(int i, Note... chordNotes) {
+	private Note getNextChordNote(int i, Note[] chordNotes) {
 		return chordNotes[i % chordNotes.length];
 	}
 	
-	public List<Note> orchestrate(RhythmCombination rhythmCombination, int beat, Note... chordNotes){
-		List<Note> rhythmNotes = getRhythmNotes(rhythmCombination, beat);
-		return orchestrateChord(rhythmNotes, chordNotes);
+	public List<Note> orchestrate(NoteTemplate noteTemplate, RhythmCombination rhythmCombination, int[] pitchClasses, int beat){
+		Note[] notes = applyNoteTemplate(noteTemplate, pitchClasses);
+		List<Note> rhythmNotes = applyRhythmCombination(rhythmCombination, beat);
+		return orchestrateChord(rhythmNotes, notes);
 	}
 
 }

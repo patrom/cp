@@ -3,6 +3,9 @@ package cp.out.orchestration;
 import static cp.model.note.NoteName.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +14,8 @@ import java.util.Map.Entry;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.math3.random.RandomDataGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +99,7 @@ public class Orchestrator {
 		musicProperties.setKeySignature(C.getKeySignature());
 		musicProperties.setNumerator(4);
 		musicProperties.setDenominator(4);
-		ChordOrchestration chordOrchestration = new ChordOrchestration(0,48);
+		ChordOrchestration chordOrchestration = new ChordOrchestration(0, 48, 5);
 //		map.put(new CelloSolo(0, 1), chordOrchestration.orchestrate(oneNoteEven::pos3, 12, C(4)));
 //		map.put(new Doublebass(5, 1), chordOrchestration.orchestrate(twoNoteEven::pos13, 48, C(3), E(3)));
 //		map.put(new ViolaSolo(1, 2), chordOrchestration.orchestrate(twoNoteEven::pos13, 24, C(5), E(5)));
@@ -104,7 +109,7 @@ public class Orchestrator {
 //		map.put(new Clarinet(7, 3), chordOrchestration.orchestrate(threeNoteUneven::pos123, 12, G(5), Fsharp(5)));
 //		map.put(new Bassoon(8, 3), chordOrchestration.orchestrate(sixNoteSexTuplet::pos123456, 12, C(4), E(4)));
 //		map.put(new Trombone(4, 4), chordOrchestration.orchestrate(oneNoteEven::pos1, 48, C(5)));
-		map.put(new Trumpet(9, 4), chordOrchestration.orchestrate(oneNoteUneven::pos3, 12, C(5), D(5)));
+//		map.put(new Trumpet(9, 4), chordOrchestration.orchestrate(oneNoteUneven::pos3, 12, C(5), D(5)));
 		String id = "test";
 		int tempo = 100;
 		generateMusicXml(id);
@@ -121,5 +126,23 @@ public class Orchestrator {
 			Sequence sequence = midiDevicesUtil.createSequenceNotes(entry.getValue(), entry.getKey());
 			midiDevicesUtil.write(sequence, "resources/midi/" + id + ".mid");
 		}
+	}
+	
+	public static void main(String[] args) {
+		RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
+		int[] permutation = randomDataGenerator.nextPermutation(2, 2);
+		Arrays.stream(permutation).forEach(n -> System.out.println(n));
+		Collection<Integer> pcs = new ArrayList<>();
+		pcs.add(2);
+		pcs.add(1);
+		pcs.add(3);
+		Collection<List<Integer>> permutatons = CollectionUtils.permutations(pcs);
+		for (List<Integer> list : permutatons) {
+			list.forEach(n -> System.out.print(n + ","));
+			System.out.println();
+		}
+		
+		
+		
 	}
 }
