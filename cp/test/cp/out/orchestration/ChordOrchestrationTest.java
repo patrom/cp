@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import cp.DefaultConfig;
 import cp.combination.even.TwoNoteEven;
 import cp.model.note.Note;
+import cp.out.instrument.Articulation;
 import cp.out.orchestration.notetemplate.TwoNoteTemplate;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -41,20 +42,39 @@ public class ChordOrchestrationTest {
 	@Test
 	public void testOrchestrate() {
 		int[] pitchClasses = {0, 4, 7};
-		List<Note> notes = chordOrchestration.orchestrate(twoNoteTemplate::getNoteTemplate,twoNoteEven::pos12, pitchClasses, 12);
+		List<Note> notes = chordOrchestration.orchestrate(pitchClasses, twoNoteTemplate::note01, twoNoteEven::pos12, 12);
 		notes.forEach(n -> System.out.println(n.getPitch() + ", " + n.getPosition()));
 	}
 	
 	@Test
 	public void testApplyNoteTemplate() {
 		int[] pitchClasses = {0, 4};
-		Note[] notes = chordOrchestration.applyNoteTemplate(twoNoteTemplate::getNoteTemplate, pitchClasses);
+		Note[] notes = chordOrchestration.applyNoteTemplate(twoNoteTemplate::note01, pitchClasses);
 		
-		assertEquals(3, notes.length);
+		assertEquals(2, notes.length);
+		assertEquals(0, notes[0].getPitchClass());
+		assertEquals(4, notes[1].getPitchClass());
 		Arrays.stream(notes).forEach(n -> System.out.println(n.getPitchClass()));
 	}
 	
+	@Test
+	public void testApplyArticulation() {
+		List<Note> rhythmNotes = chordOrchestration.applyRhythmCombination(twoNoteEven::pos13, 12);
+		
+		List<Note> articulationNotes = chordOrchestration.applyRhythmCombination(twoNoteEven::pos13, 24);
+		articulationNotes.forEach(n -> n.setArticulation(Articulation.MARCATO));
+		
+		List<Note> notes = chordOrchestration.applyArticulation(rhythmNotes, articulationNotes);
+		assertEquals(Articulation.MARCATO, notes.get(0).getArticulation());
+		assertEquals(Articulation.LEGATO, notes.get(1).getArticulation());
+		notes.forEach(n -> System.out.println(n.getArticulation() + ", " + n.getPosition()));
+	}
 	
-
+	@Test
+	public void testOrchestrateArticulation() {
+		int[] pitchClasses = {0, 4, 7};
+		List<Note> notes = chordOrchestration.orchestrate(pitchClasses, twoNoteTemplate::note01, twoNoteEven::pos12, 12, twoNoteEven::pos13, 24, Articulation.MARCATO);
+		notes.forEach(n -> System.out.println(n.getPitch() + ", " + n.getPosition() + ", " + n.getArticulation()));
+	}
 
 }

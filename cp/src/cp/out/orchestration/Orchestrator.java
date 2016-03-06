@@ -1,11 +1,6 @@
 package cp.out.orchestration;
 
-import static cp.model.note.NoteName.*;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,8 +9,6 @@ import java.util.Map.Entry;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
 
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.math3.random.RandomDataGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,18 +28,11 @@ import cp.combination.uneven.TwoNoteUneven;
 import cp.generator.MusicProperties;
 import cp.midi.MidiDevicesUtil;
 import cp.model.note.Note;
-import cp.model.note.NoteName;
+import cp.out.instrument.Articulation;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.brass.Trombone;
 import cp.out.instrument.brass.Trumpet;
-import cp.out.instrument.strings.CelloSolo;
-import cp.out.instrument.strings.Doublebass;
-import cp.out.instrument.strings.ViolaSolo;
-import cp.out.instrument.strings.ViolinSolo;
-import cp.out.instrument.woodwinds.Bassoon;
-import cp.out.instrument.woodwinds.Clarinet;
-import cp.out.instrument.woodwinds.Flute;
-import cp.out.instrument.woodwinds.Oboe;
+import cp.out.orchestration.notetemplate.TwoNoteTemplate;
 import cp.out.print.MusicXMLWriter;
 import cp.out.print.ScoreUtilities;
 import cp.out.print.note.Key;
@@ -91,6 +77,8 @@ public class Orchestrator {
 	
 	@Autowired
 	private Key C;
+	@Autowired
+	private TwoNoteTemplate twoNoteTemplate;
 	
 	Map<Instrument, List<Note>> map = new HashMap<>();
 	
@@ -108,8 +96,8 @@ public class Orchestrator {
 //		map.put(new Oboe(6, 3), chordOrchestration.orchestrate(fourNoteEven::pos1234, 12, G(5), Fsharp(5)));
 //		map.put(new Clarinet(7, 3), chordOrchestration.orchestrate(threeNoteUneven::pos123, 12, G(5), Fsharp(5)));
 //		map.put(new Bassoon(8, 3), chordOrchestration.orchestrate(sixNoteSexTuplet::pos123456, 12, C(4), E(4)));
-//		map.put(new Trombone(4, 4), chordOrchestration.orchestrate(oneNoteEven::pos1, 48, C(5)));
-//		map.put(new Trumpet(9, 4), chordOrchestration.orchestrate(oneNoteUneven::pos3, 12, C(5), D(5)));
+		map.put(new Trombone(4, 4), chordOrchestration.orchestrate(new int[]{0,4},twoNoteTemplate::note011Repetition,threeNoteUneven::pos123, 12, twoNoteUneven::pos13, 12, Articulation.STACCATO));
+		map.put(new Trumpet(9, 4), chordOrchestration.orchestrate(new int[]{4,0},twoNoteTemplate::note01,twoNoteEven::pos13, 12));
 		String id = "test";
 		int tempo = 100;
 		generateMusicXml(id);
@@ -128,21 +116,4 @@ public class Orchestrator {
 		}
 	}
 	
-	public static void main(String[] args) {
-		RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
-		int[] permutation = randomDataGenerator.nextPermutation(2, 2);
-		Arrays.stream(permutation).forEach(n -> System.out.println(n));
-		Collection<Integer> pcs = new ArrayList<>();
-		pcs.add(2);
-		pcs.add(1);
-		pcs.add(3);
-		Collection<List<Integer>> permutatons = CollectionUtils.permutations(pcs);
-		for (List<Integer> list : permutatons) {
-			list.forEach(n -> System.out.print(n + ","));
-			System.out.println();
-		}
-		
-		
-		
-	}
 }

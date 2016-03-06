@@ -7,6 +7,7 @@ import java.util.List;
 
 import cp.combination.RhythmCombination;
 import cp.model.note.Note;
+import cp.out.instrument.Articulation;
 import cp.out.orchestration.notetemplate.NoteTemplate;
 
 public class ChordOrchestration {
@@ -69,10 +70,35 @@ public class ChordOrchestration {
 		return chordNotes[i % chordNotes.length];
 	}
 	
-	public List<Note> orchestrate(NoteTemplate noteTemplate, RhythmCombination rhythmCombination, int[] pitchClasses, int beat){
+	public List<Note> orchestrate(int[] pitchClasses, NoteTemplate noteTemplate, RhythmCombination rhythmCombination, int beat){
 		Note[] notes = applyNoteTemplate(noteTemplate, pitchClasses);
 		List<Note> rhythmNotes = applyRhythmCombination(rhythmCombination, beat);
 		return orchestrateChord(rhythmNotes, notes);
+	}
+	
+	public List<Note> orchestrate(int[] pitchClasses, NoteTemplate noteTemplate, RhythmCombination rhythmCombination, int beat, RhythmCombination articulationRhythm, int articulationBeat, Articulation articulation ){
+		Note[] notes = applyNoteTemplate(noteTemplate, pitchClasses);
+		List<Note> rhythmNotes = applyRhythmCombination(rhythmCombination, beat);
+		List<Note> articulationNotes = applyRhythmCombination(articulationRhythm, articulationBeat);
+		articulationNotes.forEach(n -> n.setArticulation(articulation));
+		List<Note> articulationRhythmNotes = applyArticulation(rhythmNotes, articulationNotes);
+		return orchestrateChord(articulationRhythmNotes, notes);
+	}
+	
+	public List<Note> applyArticulation(List<Note> rhythmNotes, List<Note> articulationNotes){
+		int rhythmSize = rhythmNotes.size();
+		int articulationSize = articulationNotes.size();
+		for (int i = 0, j = 0; i < rhythmSize && j < articulationSize; i++) {
+			Note rhythmNote = rhythmNotes.get(i);
+			Note articulationNote = articulationNotes.get(j);
+			if (rhythmNote.getPosition() == articulationNote.getPosition()) {
+				rhythmNote.setArticulation(articulationNote.getArticulation());
+				j++;
+			} else if (rhythmNote.getPosition() > articulationNote.getPosition()) {
+				j++;
+			}
+		}
+		return rhythmNotes;
 	}
 
 }
