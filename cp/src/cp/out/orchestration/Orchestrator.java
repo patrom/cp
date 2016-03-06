@@ -1,6 +1,7 @@
 package cp.out.orchestration;
 
 import static cp.model.note.NoteName.*;
+import static java.util.stream.Collectors.toList;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
@@ -34,6 +36,8 @@ import cp.combination.uneven.ThreeNoteUneven;
 import cp.combination.uneven.TwoNoteUneven;
 import cp.generator.MusicProperties;
 import cp.midi.MidiDevicesUtil;
+import cp.model.Motive;
+import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.note.NoteName;
 import cp.out.instrument.Instrument;
@@ -92,8 +96,40 @@ public class Orchestrator {
 	@Autowired
 	private Key C;
 	
-	Map<Instrument, List<Note>> map = new HashMap<>();
+	private Motive motive;
 	
+	Map<Instrument, List<Note>> map = new HashMap<>();
+	private Instrument flute = new Flute(0, 1);
+	private Instrument oboe = new Oboe(1, 2);
+	
+	public Orchestrator() {
+		map.put(flute, new ArrayList<>());
+		map.put(oboe, new ArrayList<>());
+	}
+	
+	public Instrument getFlute() {
+		return flute;
+	}
+	
+	public Instrument getOboe() {
+		return oboe;
+	}
+	
+	public List<Note> duplicate(int voice, Instrument instrument, int octave) {
+		MelodyBlock melodyBlock = motive.getMelodyBlocks().stream().filter(m -> m.getVoice() == voice).findFirst().get();
+		List<Note> duplicateNotes = melodyBlock.getMelodyBlockNotesWithRests().stream()
+				.map(n -> n.clone())
+				.collect(toList());
+		duplicateNotes.forEach(n ->{
+			if (!n.isRest()) {
+				n.transposePitch(octave);
+			}
+		});
+		instrument.updateMelodyBetween(duplicateNotes);
+		return duplicateNotes;
+	}
+
+
 	public void orchestrate() throws Exception {
 		musicProperties.setKey(C);
 		musicProperties.setKeySignature(C.getKeySignature());

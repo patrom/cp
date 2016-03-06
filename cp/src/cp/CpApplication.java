@@ -43,6 +43,8 @@ import cp.objective.harmony.HarmonicObjective;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.Piano;
 import cp.out.instrument.brass.FrenchHorn;
+import cp.out.instrument.register.InstrumentRegister;
+import cp.out.instrument.register.ViolaPleasant;
 import cp.out.instrument.strings.CelloSolo;
 import cp.out.instrument.strings.ViolaSolo;
 import cp.out.instrument.strings.ViolinSolo;
@@ -187,10 +189,15 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		beats.add(48);
 //		beats.add(36);
 
+//		InstrumentRegister violaPleasant = new ViolaPleasant();
 		Instrument frenchHorn = new FrenchHorn(0, 3);
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
+//		violaPleasant.getInstrument().setVoice(0);
+//		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(violaPleasant.getInstrument().getVoice(), violaPleasant.pickRandomOctaveFromRange(), 192, 4, beats);
+
 		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(frenchHorn.getVoice(), 0, 192, 4, beats);
 		melodyBlock.setInstrument(frenchHorn);
+//		melodyBlock.setInstrumentRegister(violaPleasant);
 		melodyBlocks.add(melodyBlock);
 		
 		List<Integer> beats2 = new ArrayList<>();
@@ -204,17 +211,17 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		melodyBlock.setInstrument(clarinet);
 //		melodyBlocks.add(melodyBlock);
 		
-		Instrument clarinet = new Clarinet(1, 2);
-		MelodyBlock melodyBlock2 = new MelodyBlock(5, clarinet.getVoice());
-		melodyBlock2.setVoice(clarinet.getVoice());
-		melodyBlock2.setOffset(48);
-		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.T_RELATIVE);
-//		operatorType.setSteps(1);
-//		operatorType.setFunctionalDegreeCenter(1);
-		melodyBlock2.setOperatorType(operatorType);
-		melodyBlock2.dependsOn(melodyBlock.getVoice());
-		melodyBlock2.setInstrument(clarinet);
-		melodyBlocks.add(melodyBlock2);
+//		Instrument clarinet = new Clarinet(1, 2);
+//		MelodyBlock melodyBlock2 = new MelodyBlock(5, clarinet.getVoice());
+//		melodyBlock2.setVoice(clarinet.getVoice());
+//		melodyBlock2.setOffset(48);
+//		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.T_RELATIVE);
+////		operatorType.setSteps(1);
+////		operatorType.setFunctionalDegreeCenter(1);
+//		melodyBlock2.setOperatorType(operatorType);
+//		melodyBlock2.dependsOn(melodyBlock.getVoice());
+//		melodyBlock2.setInstrument(clarinet);
+//		melodyBlocks.add(melodyBlock2);
 
 //		Instrument flute = new Flute(2, 1);
 //		melodyBlock = melodyGenerator.generateMelodyBlock(flute.getVoice(), 0, 144, 6, beats2);
@@ -223,17 +230,17 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		melodyBlocks.add(melodyBlock);
 	
 		//fugue
-		Instrument flute = new Flute(2, 1);
-		melodyBlock2 = new MelodyBlock(6, flute.getVoice());
-		melodyBlock2.setVoice(flute.getVoice());
-		melodyBlock2.setOffset(96);
-		operatorType = new OperatorType(cp.model.melody.Operator.T_RELATIVE);
-//		operatorType.setSteps(1);
-//		operatorType.setFunctionalDegreeCenter(1);
-		melodyBlock2.setOperatorType(operatorType);
-		melodyBlock2.dependsOn(melodyBlock.getVoice());
-		melodyBlock2.setInstrument(flute);
-		melodyBlocks.add(melodyBlock2);
+//		Instrument flute = new Flute(2, 1);
+//		melodyBlock2 = new MelodyBlock(6, flute.getVoice());
+//		melodyBlock2.setVoice(flute.getVoice());
+//		melodyBlock2.setOffset(96);
+//		operatorType = new OperatorType(cp.model.melody.Operator.T_RELATIVE);
+////		operatorType.setSteps(1);
+////		operatorType.setFunctionalDegreeCenter(1);
+//		melodyBlock2.setOperatorType(operatorType);
+//		melodyBlock2.dependsOn(melodyBlock.getVoice());
+//		melodyBlock2.setInstrument(flute);
+//		melodyBlocks.add(melodyBlock2);
 		
 	    Motive motive = new Motive(melodyBlocks);
 	    solutionType.setMotive(motive);

@@ -98,8 +98,8 @@ public class TwoNoteEven {
 	}
 	
 	public static void main(String[] args) {
-		TwoNoteEven oneNoteEven = new TwoNoteEven();
-		List<Note > notes = oneNoteEven.pos13(12);
+		TwoNoteEven twoNoteEven = new TwoNoteEven();
+		List<Note > notes = twoNoteEven.pos13(12);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 	}
 

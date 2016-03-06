@@ -1,6 +1,9 @@
 package cp.model.note;
 
+import java.util.Arrays;
 import java.util.Random;
+
+import org.apache.commons.lang.ArrayUtils;
 
 import cp.out.print.note.Key;
 
@@ -44,6 +47,10 @@ public class Scale {
 	public int pickRandomPitchClass(){
 	    int index = random.nextInt(scale.length);
 	    return scale[index];
+	}
+	
+	public boolean contains(int pitchClass){
+		return ArrayUtils.contains(scale, pitchClass);
 	}
 	
 	public int getIndex(int pitchClass){

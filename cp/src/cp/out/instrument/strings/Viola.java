@@ -4,6 +4,9 @@ import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 
 public class Viola extends Instrument {
+	
+	public Viola(){
+	}
 
 	public Viola(int voice, int channel) {
 		super(voice, channel);
