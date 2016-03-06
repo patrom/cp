@@ -5,6 +5,10 @@ import cp.out.instrument.Instrument;
 
 
 public class ViolinSolo extends Instrument {
+	
+	public ViolinSolo() {
+
+	}
 
 	public ViolinSolo(int voice, int channel) {
 		super(voice, channel);
