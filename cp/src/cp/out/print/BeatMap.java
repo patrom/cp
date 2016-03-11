@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.NavigableMap;
 import java.util.TreeMap;
@@ -25,10 +26,12 @@ public class BeatMap {
 	public void createBeatMap(List<Note> notes, int beat){
 		this.beat = beat;
 		notesPerBeat = notesForBeat(notes, beat);
-		Note last = notes.get(notes.size() - 1);
-		int lastIndex = (last.getPosition() + last.getLength())/beat;
-		for (int key = 0; key < lastIndex; key++) {
-			notesPerBeat.computeIfAbsent(key, v -> new ArrayList<Note>());
+		if (!notes.isEmpty()) {
+			Note last = notes.get(notes.size() - 1);
+			int lastIndex = (last.getPosition() + last.getLength())/beat;
+			for (int key = 0; key < lastIndex; key++) {
+				notesPerBeat.computeIfAbsent(key, v -> new ArrayList<Note>());
+			}
 		}
 	}
 	
@@ -45,45 +48,48 @@ public class BeatMap {
 	}
 	
 	public List<Note> createTies(){
-		for (int j = 0; j < notesPerBeat.lastKey(); j++) {
-			if (notesPerBeat.containsKey(j)) {
-				List<Note> beatNotes = notesPerBeat.get(j);
-				if (!beatNotes.isEmpty()) {
-					Note lastNote = beatNotes.get(beatNotes.size() - 1);
-					int end = (j + 1) * beat;
-					if ((lastNote.getPosition() + lastNote.getDisplayLength()) > end ) {//split note between beat and next beat
-						int lastNoteLength = lastNote.getDisplayLength();
-						int newLength = end - lastNote.getPosition();
-						lastNote.setDisplayLength(newLength);
-						if (!lastNote.isRest()) {
-							lastNote.setTieStart(true);
-						}
-						Note clone = lastNote.clone();
-						if (notesPerBeat.containsKey(j + 1)) {
-							List<Note> nextBeatNotes = notesPerBeat.get(j + 1);
-							if (!nextBeatNotes.isEmpty()) {
-								Note firstNote = nextBeatNotes.get(0);
-								int length = firstNote.getPosition() - end;
-								clone.setPosition(end);
-								clone.setDisplayLength(length);
-								if (!lastNote.isRest()) {
-									clone.setTieEnd(true);
+		if (!notesPerBeat.isEmpty()) {
+			for (int j = 0; j < notesPerBeat.lastKey(); j++) {
+				if (notesPerBeat.containsKey(j)) {
+					List<Note> beatNotes = notesPerBeat.get(j);
+					if (!beatNotes.isEmpty()) {
+						Note lastNote = beatNotes.get(beatNotes.size() - 1);
+						int end = (j + 1) * beat;
+						if ((lastNote.getPosition() + lastNote.getDisplayLength()) > end ) {//split note between beat and next beat
+							int lastNoteLength = lastNote.getDisplayLength();
+							int newLength = end - lastNote.getPosition();
+							lastNote.setDisplayLength(newLength);
+							if (!lastNote.isRest()) {
+								lastNote.setTieStart(true);
+							}
+							Note clone = lastNote.clone();
+							if (notesPerBeat.containsKey(j + 1)) {
+								List<Note> nextBeatNotes = notesPerBeat.get(j + 1);
+								if (!nextBeatNotes.isEmpty()) {
+									Note firstNote = nextBeatNotes.get(0);
+									int length = firstNote.getPosition() - end;
+									clone.setPosition(end);
+									clone.setDisplayLength(length);
+									if (!lastNote.isRest()) {
+										clone.setTieEnd(true);
+									}
+									nextBeatNotes.add(0,clone);
+								}else{
+									clone.setPosition(end);
+									clone.setDisplayLength(lastNoteLength - newLength);
+									if (!lastNote.isRest()) {
+										clone.setTieEnd(true);
+									}
+									nextBeatNotes.add(clone);
 								}
-								nextBeatNotes.add(0,clone);
-							}else{
-								clone.setPosition(end);
-								clone.setDisplayLength(lastNoteLength - newLength);
-								if (!lastNote.isRest()) {
-									clone.setTieEnd(true);
-								}
-								nextBeatNotes.add(clone);
 							}
 						}
 					}
 				}
 			}
+			return notesPerBeat.values().stream().flatMap(list -> list.stream()).sorted().collect(toList());
 		}
-		return notesPerBeat.values().stream().flatMap(list -> list.stream()).sorted().collect(toList());
+		return Collections.EMPTY_LIST;
 	}
 	
 //	public List<Note> createTies(){

@@ -8,12 +8,11 @@ import cp.model.note.Scale;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.Instrument;
 
-public abstract class InstrumentRegister {
+public class InstrumentRegister {
 
 	protected Random random = new Random();
 	protected Note low;
 	protected Note high;
-	protected Instrument instrument;
 	protected Articulation articulation;
 	protected String intensity;
 	
@@ -57,7 +56,19 @@ public abstract class InstrumentRegister {
 		System.out.println(new ViolaPleasant().pickRandomNoteFromRange(Scale.MAJOR_SCALE));
 	}
 	
-	public Instrument getInstrument() {
-		return instrument;
+	public Note getHigh() {
+		return high;
+	}
+	
+	public void setHigh(Note high) {
+		this.high = high;
+	}
+	
+	public Note getLow() {
+		return low;
+	}
+	
+	public void setLow(Note low) {
+		this.low = low;
 	}
 }

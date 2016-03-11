@@ -27,7 +27,6 @@ public class MelodyBlock {
 	private int startOctave;
 	private int[] innerMetricDistance;
 	private Instrument instrument;
-	private InstrumentRegister instrumentRegister;
 	private OperatorType operatorType;
 	private int dependingVoice = -1;
 	private boolean mutable = true;
@@ -63,7 +62,6 @@ public class MelodyBlock {
 		this.dependingVoice = anotherBlock.getDependingVoice();
 		this.voice = anotherBlock.getVoice();
 		this.offset = anotherBlock.getOffset();
-		this.instrumentRegister = anotherBlock.getInstrumentRegister();
 	}
 
 	@Override
@@ -175,11 +173,7 @@ public class MelodyBlock {
 	}
 	
 	public void updateMelodyBetween(List<Note> notes){
-		if (instrumentRegister != null) {
-			instrumentRegister.updateMelodyBetween(notes);
-		}else{
-			instrument.updateMelodyBetween(notes);
-		}
+		instrument.updateMelodyBetween(notes);
 	}
 	
 	/**
@@ -281,9 +275,6 @@ public class MelodyBlock {
 	}
 	
 	public Instrument getInstrument() {
-		if (instrument == null) {
-			return instrumentRegister.getInstrument();
-		}
 		return instrument;
 	}
 	
@@ -336,14 +327,6 @@ public class MelodyBlock {
 	private CpMelody getLastMelody(){
 		int last = this.melodyBlocks.size() - 1;
 		return this.melodyBlocks.get(last);
-	}
-
-	public InstrumentRegister getInstrumentRegister() {
-		return instrumentRegister;
-	}
-
-	public void setInstrumentRegister(InstrumentRegister instrumentRegister) {
-		this.instrumentRegister = instrumentRegister;
 	}
 	
 }

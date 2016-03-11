@@ -1,16 +1,19 @@
 package cp.out.instrument;
 
+import static cp.model.note.NoteBuilder.note;
+
 import java.util.List;
 
 import cp.midi.GeneralMidi;
 import cp.model.note.Note;
 import cp.out.instrument.keyswitch.KeySwitch;
+import cp.out.instrument.register.InstrumentRegister;
 
 public class Instrument implements Comparable<Instrument> {
 
 	protected int voice;
-	protected int lowest;
-	protected int highest;
+//	protected int lowest;
+//	protected int highest;
 	protected int channel;
 	protected KeySwitch keySwitch;
 	protected GeneralMidi generalMidi;
@@ -20,11 +23,13 @@ public class Instrument implements Comparable<Instrument> {
 	protected String virtualLibrary = "Sibelius 7 Sounds";
 	protected String virtualName;
 	protected String clef = "G";
+	private InstrumentRegister instrumentRegister = new InstrumentRegister();
 	
 	public Instrument(int voice, int channel) {
 		this.voice = voice;
 		this.channel = channel;
 	}
+	
 	public Instrument() {
 	}
 	
@@ -54,16 +59,17 @@ public class Instrument implements Comparable<Instrument> {
 		this.voice = voice;
 	}
 	public int getLowest() {
-		return lowest;
+		return instrumentRegister.getLow().getPitch();
 	}
 	public void setLowest(int lowest) {
-		this.lowest = lowest;
+		this.instrumentRegister.setLow(note().pitch(lowest).build());
 	}
+
 	public int getHighest() {
-		return highest;
+		return instrumentRegister.getHigh().getPitch();
 	}
 	public void setHighest(int highest) {
-		this.highest = highest;
+		this.instrumentRegister.setHigh(note().pitch(highest).build());
 	}
 	public int getChannel() {
 		return channel;
@@ -147,11 +153,19 @@ public class Instrument implements Comparable<Instrument> {
 	@Override
 	public int compareTo(Instrument instrument) {
 		if (this.voice < instrument.getVoice()) {
-			return 1;
-		}else if (this.voice > instrument.getVoice()){
 			return -1;
+		}else if (this.voice > instrument.getVoice()){
+			return 1;
 		}
 		return 0;
+	}
+
+	public InstrumentRegister getInstrumentRegister() {
+		return instrumentRegister;
+	}
+
+	public void setInstrumentRegister(InstrumentRegister instrumentRegister) {
+		this.instrumentRegister = instrumentRegister;
 	}
 	
 }

@@ -5,6 +5,7 @@ import static cp.model.note.NoteName.*;
 import static java.util.stream.Collectors.toList;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,10 @@ import cp.out.instrument.Articulation;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.brass.Trombone;
 import cp.out.instrument.brass.Trumpet;
+import cp.out.instrument.woodwinds.Flute;
+import cp.out.instrument.woodwinds.Oboe;
+import cp.out.orchestration.method.Duplication;
+import cp.out.orchestration.method.Duplicator;
 import cp.out.orchestration.notetemplate.TwoNoteTemplate;
 import cp.out.print.MusicXMLWriter;
 import cp.out.print.ScoreUtilities;
@@ -86,42 +91,17 @@ public class Orchestrator {
 	private Key C;
 	@Autowired
 	private TwoNoteTemplate twoNoteTemplate;
-	
-	private Motive motive;
-	
-	Map<Instrument, List<Note>> map = new HashMap<>();
-//	private Instrument flute = new Flute(0, 1);
-//	private Instrument oboe = new Oboe(1, 2);
-	
-	public Orchestrator() {
-//		map.put(flute, new ArrayList<>());
-//		map.put(oboe, new ArrayList<>());
-	}
-	
-//	public Instrument getFlute() {
-//		return flute;
-//	}
-//	
-//	public Instrument getOboe() {
-//		return oboe;
-//	}
-	
-	public List<Note> duplicate(int voice, Instrument instrument, int octave) {
-		MelodyBlock melodyBlock = motive.getMelodyBlocks().stream().filter(m -> m.getVoice() == voice).findFirst().get();
-		List<Note> duplicateNotes = melodyBlock.getMelodyBlockNotesWithRests().stream()
-				.map(n -> n.clone())
-				.collect(toList());
-		duplicateNotes.forEach(n ->{
-			if (!n.isRest()) {
-				n.transposePitch(octave);
-			}
-		});
-		instrument.updateMelodyBetween(duplicateNotes);
-		return duplicateNotes;
-	}
+	@Autowired
+	private Duplicator duplicator;
+	@Autowired
+	private ClassicalOrchestra orchestra;
 
-
-	public void orchestrate() throws Exception {
+	public void orchestrate(List<MelodyBlock> melodyBlocks) throws Exception {
+		MelodyBlock melodyBlock = melodyBlocks.get(0);
+		orchestra.setFlute(melodyBlock.getMelodyBlockNotesWithRests());
+		
+		orchestra.setOboe(duplicator.duplicate(orchestra.getFlute(), orchestra.getOboe(), 0));
+		
 		musicProperties.setKey(C);
 		musicProperties.setKeySignature(C.getKeySignature());
 		musicProperties.setNumerator(4);
@@ -135,21 +115,21 @@ public class Orchestrator {
 //		map.put(new Oboe(6, 3), chordOrchestration.orchestrate(fourNoteEven::pos1234, 12, G(5), Fsharp(5)));
 //		map.put(new Clarinet(7, 3), chordOrchestration.orchestrate(threeNoteUneven::pos123, 12, G(5), Fsharp(5)));
 //		map.put(new Bassoon(8, 3), chordOrchestration.orchestrate(sixNoteSexTuplet::pos123456, 12, C(4), E(4)));
-		map.put(new Trombone(4, 4), chordOrchestration.orchestrate(new int[]{0,4},twoNoteTemplate::note011Repetition,threeNoteUneven::pos123, 12, twoNoteUneven::pos13, 12, Articulation.STACCATO));
-		map.put(new Trumpet(9, 4), chordOrchestration.orchestrate(new int[]{4,0},twoNoteTemplate::note01,twoNoteEven::pos13, 12));
+//		orchestra.setOboe(chordOrchestration.orchestrate(new int[]{0,4},twoNoteTemplate::note011Repetition,threeNoteUneven::pos123, 12, twoNoteUneven::pos13, 12, Articulation.STACCATO));
+//		map.put(new Trumpet(9, 4), chordOrchestration.orchestrate(new int[]{4,0},twoNoteTemplate::note01,twoNoteEven::pos13, 12));
 		String id = "test";
 		int tempo = 100;
-		generateMusicXml(id);
-		writeMidi(id, tempo);
+		generateMusicXml(id, orchestra);
+		writeMidi(id, orchestra,  tempo);
 	}
 
 	
-	private void generateMusicXml(String id) throws Exception{
-		musicXMLWriter.createXML(id, map);
+	private void generateMusicXml(String id, Orchestra orchestra) throws Exception{
+		musicXMLWriter.createXML(id, orchestra.getOrchestra());
 	}
 
-	private void writeMidi(String id, double tempo) throws InvalidMidiDataException, IOException {
-		for (Entry<Instrument, List<Note>> entry: map.entrySet()) {
+	private void writeMidi(String id, Orchestra orchestra, double tempo) throws InvalidMidiDataException, IOException {
+		for (Entry<Instrument, List<Note>> entry: orchestra.getOrchestra().entrySet()) {
 			Sequence sequence = midiDevicesUtil.createSequenceNotes(entry.getValue(), entry.getKey());
 			midiDevicesUtil.write(sequence, "resources/midi/" + id + ".mid");
 		}

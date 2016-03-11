@@ -3,21 +3,15 @@ package cp.out.orchestration.quality;
 import java.util.ArrayList;
 import java.util.List;
 
-import cp.out.instrument.register.InstrumentRegister;
+import cp.out.instrument.Instrument;
 
 public abstract class OrchestralQuality {
 
 	protected String quality;
 	protected String color;
 	protected String type;
-	protected List<InstrumentRegister> instrumentRegisters = new ArrayList<>();
+	protected List<Instrument> instruments = new ArrayList<>();
 	
-	public List<InstrumentRegister> getInstrumentRegisters() {
-		return instrumentRegisters;
-	}
-	public void setInstrumentRegisters(List<InstrumentRegister> instrumentRegisters) {
-		this.instrumentRegisters = instrumentRegisters;
-	}
 	public String getQuality() {
 		return quality;
 	}
@@ -35,6 +29,12 @@ public abstract class OrchestralQuality {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public List<Instrument> getInstruments() {
+		return instruments;
+	}
+	public void setInstruments(List<Instrument> instruments) {
+		this.instruments = instruments;
 	}
 	
 }
