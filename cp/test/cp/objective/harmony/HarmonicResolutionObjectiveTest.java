@@ -1,33 +1,25 @@
 package cp.objective.harmony;
 
 import static cp.model.note.NoteBuilder.note;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationContextLoader;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cp.DefaultConfig;
-import cp.generator.MusicProperties;
-import cp.model.dissonance.Dissonance;
-import cp.model.harmony.Chord;
 import cp.model.harmony.CpHarmony;
 import cp.model.note.Note;
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DefaultConfig.class, loader = SpringApplicationContextLoader.class)
+@SpringApplicationConfiguration(classes = DefaultConfig.class)
 public class HarmonicResolutionObjectiveTest {
 
 	@Autowired

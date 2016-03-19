@@ -10,8 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationContextLoader;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cp.DefaultConfig;
@@ -20,7 +19,7 @@ import cp.model.note.Note;
 import cp.variation.AbstractVariationTest;
 import cp.variation.pattern.AnticipationVariationPattern;
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {DefaultConfig.class, VariationConfig.class}, loader = SpringApplicationContextLoader.class)
+@SpringApplicationConfiguration(classes = {DefaultConfig.class, VariationConfig.class})
 public class AnticipationTest extends AbstractVariationTest{
 	
 	@Autowired

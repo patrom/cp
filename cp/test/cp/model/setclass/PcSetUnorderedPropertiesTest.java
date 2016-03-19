@@ -15,8 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationContextLoader;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cp.AbstractTest;
@@ -28,7 +27,7 @@ import cp.midi.MidiParserTest;
 import cp.model.note.Note;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DefaultConfig.class, loader = SpringApplicationContextLoader.class)
+@SpringApplicationConfiguration(classes = DefaultConfig.class)
 public class PcSetUnorderedPropertiesTest extends AbstractTest{
 
 	private PcSetUnorderedProperties pcSetUnorderedProperties;

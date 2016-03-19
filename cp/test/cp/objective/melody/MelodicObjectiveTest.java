@@ -14,21 +14,17 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.SpringApplicationContextLoader;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cp.AbstractTest;
 import cp.DefaultConfig;
-import cp.generator.MusicProperties;
 import cp.model.dissonance.Dissonance;
-import cp.model.harmony.Chord;
-import cp.model.harmony.ChordType;
 import cp.model.note.Interval;
 import cp.model.note.Note;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DefaultConfig.class, loader = SpringApplicationContextLoader.class)
+@SpringApplicationConfiguration(classes = DefaultConfig.class)
 public class MelodicObjectiveTest extends AbstractTest {
 
 	@Autowired

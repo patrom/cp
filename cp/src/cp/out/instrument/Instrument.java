@@ -1,13 +1,18 @@
 package cp.out.instrument;
 
 import static cp.model.note.NoteBuilder.note;
+import static java.util.stream.Collectors.toList;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import cp.midi.GeneralMidi;
 import cp.model.note.Note;
+import cp.model.note.Scale;
 import cp.out.instrument.keyswitch.KeySwitch;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.util.RandomUtil;
 
 public class Instrument implements Comparable<Instrument> {
 
@@ -52,6 +57,37 @@ public class Instrument implements Comparable<Instrument> {
 		}
 	}
 	
+	public List<Note> removeMelodyNotBetween(List<Note> notes){
+		return notes.stream()
+				.filter(n -> n.getPitch() >= getLowest() || n.getPitch() <= getHighest())
+				.collect(toList());
+	}
+	
+	public int pickRandomNoteFromRange(Scale scale){
+		int max = instrumentRegister.getHigh() + 1;
+		int min = instrumentRegister.getLow();
+		int pitch = RandomUtil.randomInt(min, max);
+		if (scale == null) {
+			return pitch;
+		}else{
+			int octave = pitch / 12;
+			int pc = pitch - (12 * octave);
+			while (!scale.contains(pc)) {
+				pitch = RandomUtil.randomInt(min, max);
+				octave = pitch / 12;
+				pc = pitch - (12 * octave);
+			}
+			return pitch;
+		}
+	}
+	
+	public int pickRandomOctaveFromRange(){
+		int max = instrumentRegister.getHigh() + 1;
+		int min = instrumentRegister.getLow();
+		int pitch = RandomUtil.randomInt(min, max);
+		return pitch / 12;
+	}
+	
 	public int getVoice() {
 		return voice;
 	}
@@ -59,17 +95,17 @@ public class Instrument implements Comparable<Instrument> {
 		this.voice = voice;
 	}
 	public int getLowest() {
-		return instrumentRegister.getLow().getPitch();
+		return instrumentRegister.getLow();
 	}
 	public void setLowest(int lowest) {
-		this.instrumentRegister.setLow(note().pitch(lowest).build());
+		this.instrumentRegister.setLow(lowest);
 	}
 
 	public int getHighest() {
-		return instrumentRegister.getHigh().getPitch();
+		return instrumentRegister.getHigh();
 	}
 	public void setHighest(int highest) {
-		this.instrumentRegister.setHigh(note().pitch(highest).build());
+		this.instrumentRegister.setHigh(highest);
 	}
 	public int getChannel() {
 		return channel;

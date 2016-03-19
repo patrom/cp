@@ -21,8 +21,7 @@ import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationContextLoader;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cp.DefaultConfig;
@@ -49,7 +48,7 @@ import jm.music.data.Score;
 import jm.util.Play;
 import jm.util.View;
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {DefaultConfig.class, VariationConfig.class}, loader = SpringApplicationContextLoader.class)
+@SpringApplicationConfiguration(classes = {DefaultConfig.class, VariationConfig.class})
 public class MelodyGeneratorTest extends JFrame{
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(MelodyGeneratorTest.class);

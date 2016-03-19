@@ -31,10 +31,6 @@
       </plugin>
     </plugins>
   </build>
-  
-  <properties>
-    <powermock.version>1.5.6</powermock.version>
-  </properties>
 
   <dependencies>
 	<dependency>
@@ -103,7 +99,7 @@
         <scope>provided</scope>
     </dependency> -->
 	
-	<!-- Test -->
+	<!-- Test
 	<dependency>
 		<groupId>org.hamcrest</groupId>
 		<artifactId>hamcrest-core</artifactId>
@@ -120,7 +116,7 @@
       	<artifactId>powermock-api-mockito</artifactId>
       	<version>${powermock.version}</version>
       	<scope>test</scope>
-   </dependency>
-  </dependencies>
+   </dependency> -->
+  </dependencies> 
   
 </project>

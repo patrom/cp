@@ -16,8 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationContextLoader;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cp.DefaultConfig;
@@ -27,12 +26,11 @@ import cp.midi.HarmonyPosition;
 import cp.midi.MelodyInstrument;
 import cp.midi.MidiDevicesUtil;
 import cp.model.note.Note;
-import cp.out.arrangement.Accompagnement;
-import cp.out.instrument.Piano;
 import cp.out.instrument.MidiDevice;
+import cp.out.instrument.Piano;
 import cp.out.print.MusicXMLWriter;
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DefaultConfig.class, loader = SpringApplicationContextLoader.class)
+@SpringApplicationConfiguration(classes = DefaultConfig.class)
 public class RhythmTest {
 	
 	@Autowired

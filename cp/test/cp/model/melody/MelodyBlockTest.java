@@ -2,7 +2,6 @@ package cp.model.melody;
 
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,12 +9,10 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationContextLoader;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cp.DefaultConfig;
@@ -29,10 +26,9 @@ import cp.out.instrument.strings.CelloSolo;
 import cp.out.instrument.strings.ViolinSolo;
 import cp.out.print.note.Key;
 import cp.util.Util;
-import javafx.animation.Timeline;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {DefaultConfig.class, VariationConfig.class}, loader = SpringApplicationContextLoader.class)
+@SpringApplicationConfiguration(classes = {DefaultConfig.class, VariationConfig.class})
 public class MelodyBlockTest {
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(MelodyBlockTest.class);

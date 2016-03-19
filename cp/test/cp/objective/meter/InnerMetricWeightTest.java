@@ -10,12 +10,6 @@ import java.util.Map;
 
 import javax.swing.JFrame;
 
-import jm.music.data.Part;
-import jm.music.data.Phrase;
-import jm.music.data.Score;
-import jm.util.Play;
-import jm.util.View;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,8 +17,7 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationContextLoader;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cp.DefaultConfig;
@@ -35,9 +28,14 @@ import cp.model.note.Note;
 import cp.model.note.NoteBuilder;
 import cp.model.rhythm.RhythmWeight;
 import cp.out.print.ScoreUtilities;
+import jm.music.data.Part;
+import jm.music.data.Phrase;
+import jm.music.data.Score;
+import jm.util.Play;
+import jm.util.View;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {DefaultConfig.class, VariationConfig.class}, loader = SpringApplicationContextLoader.class)
+@SpringApplicationConfiguration(classes = {DefaultConfig.class, VariationConfig.class})
 public class InnerMetricWeightTest extends JFrame {
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(InnerMetricWeightTest.class.getName());
@@ -101,7 +99,7 @@ public class InnerMetricWeightTest extends JFrame {
 	}
 	
 	@Test
-	public void testExtractOnsetNotes() {
+	public void s() {
 		List<Note> notes = createMelody();
 		Integer[] onSetArr = innerMetricWeightFunctions.extractOnsetNotes(notes, minimumRhythmicValue);
 		Integer[] expected = {0, 2, 3, 4, 6, 10, 12};

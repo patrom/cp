@@ -1,16 +1,11 @@
 package cp.out.orchestration;
 
 
-import static cp.model.note.NoteName.*;
-import static java.util.stream.Collectors.toList;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
@@ -33,25 +28,22 @@ import cp.combination.uneven.ThreeNoteUneven;
 import cp.combination.uneven.TwoNoteUneven;
 import cp.generator.MusicProperties;
 import cp.midi.MidiDevicesUtil;
-import cp.model.Motive;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
-import cp.out.instrument.Articulation;
 import cp.out.instrument.Instrument;
-import cp.out.instrument.brass.Trombone;
-import cp.out.instrument.brass.Trumpet;
 import cp.out.instrument.woodwinds.Flute;
 import cp.out.instrument.woodwinds.Oboe;
-import cp.out.orchestration.method.Duplication;
 import cp.out.orchestration.method.Duplicator;
 import cp.out.orchestration.notetemplate.TwoNoteTemplate;
+import cp.out.orchestration.orchestra.ClassicalOrchestra;
+import cp.out.orchestration.orchestra.Orchestra;
 import cp.out.print.MusicXMLWriter;
 import cp.out.print.ScoreUtilities;
 import cp.out.print.note.Key;
 
 @Component
 public class Orchestrator {
-
+	
 	private static Logger LOGGER = LoggerFactory.getLogger(Orchestrator.class);
 	
 	@Autowired
@@ -88,24 +80,20 @@ public class Orchestrator {
 	private SixNoteSexTuplet sixNoteSexTuplet;
 	
 	@Autowired
-	private Key C;
-	@Autowired
 	private TwoNoteTemplate twoNoteTemplate;
 	@Autowired
 	private Duplicator duplicator;
 	@Autowired
 	private ClassicalOrchestra orchestra;
+	
 
-	public void orchestrate(List<MelodyBlock> melodyBlocks) throws Exception {
+	public void orchestrate(List<MelodyBlock> melodyBlocks, String id) throws Exception {
+		id = id + "_orch";
 		MelodyBlock melodyBlock = melodyBlocks.get(0);
 		orchestra.setFlute(melodyBlock.getMelodyBlockNotesWithRests());
 		
-		orchestra.setOboe(duplicator.duplicate(orchestra.getFlute(), orchestra.getOboe(), 0));
-		
-		musicProperties.setKey(C);
-		musicProperties.setKeySignature(C.getKeySignature());
-		musicProperties.setNumerator(4);
-		musicProperties.setDenominator(4);
+		orchestra.setOboe(melodyBlocks.get(1).getMelodyBlockNotesWithRests());
+		orchestra.setClarinet(duplicator.duplicateRemoveNotBetween(orchestra.getFlute(), orchestra.getClarinet(), -12));
 		ChordOrchestration chordOrchestration = new ChordOrchestration(0, 48, 5);
 //		map.put(new CelloSolo(0, 1), chordOrchestration.orchestrate(oneNoteEven::pos3, 12, C(4)));
 //		map.put(new Doublebass(5, 1), chordOrchestration.orchestrate(twoNoteEven::pos13, 48, C(3), E(3)));
@@ -117,22 +105,17 @@ public class Orchestrator {
 //		map.put(new Bassoon(8, 3), chordOrchestration.orchestrate(sixNoteSexTuplet::pos123456, 12, C(4), E(4)));
 //		orchestra.setOboe(chordOrchestration.orchestrate(new int[]{0,4},twoNoteTemplate::note011Repetition,threeNoteUneven::pos123, 12, twoNoteUneven::pos13, 12, Articulation.STACCATO));
 //		map.put(new Trumpet(9, 4), chordOrchestration.orchestrate(new int[]{4,0},twoNoteTemplate::note01,twoNoteEven::pos13, 12));
-		String id = "test";
-		int tempo = 100;
 		generateMusicXml(id, orchestra);
-		writeMidi(id, orchestra,  tempo);
+		writeMidi(id, orchestra);
 	}
-
 	
 	private void generateMusicXml(String id, Orchestra orchestra) throws Exception{
 		musicXMLWriter.createXML(id, orchestra.getOrchestra());
 	}
 
-	private void writeMidi(String id, Orchestra orchestra, double tempo) throws InvalidMidiDataException, IOException {
-		for (Entry<Instrument, List<Note>> entry: orchestra.getOrchestra().entrySet()) {
-			Sequence sequence = midiDevicesUtil.createSequenceNotes(entry.getValue(), entry.getKey());
+	private void writeMidi(String id, Orchestra orchestra) throws InvalidMidiDataException, IOException {
+			Sequence sequence = midiDevicesUtil.createSequence(orchestra.getOrchestra(), musicProperties.getTempo());
 			midiDevicesUtil.write(sequence, "resources/midi/" + id + ".mid");
-		}
 	}
 	
 }

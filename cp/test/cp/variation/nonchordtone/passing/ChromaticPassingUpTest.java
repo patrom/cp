@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationContextLoader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -20,7 +19,7 @@ import cp.model.note.Note;
 import cp.variation.AbstractVariationTest;
 import cp.variation.pattern.PassingVariationPattern;
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {DefaultConfig.class, VariationConfig.class}, loader = SpringApplicationContextLoader.class)
+@ContextConfiguration(classes = {DefaultConfig.class, VariationConfig.class})
 public class ChromaticPassingUpTest extends AbstractVariationTest{
 
 	@Autowired

@@ -3,6 +3,8 @@ package cp.midi;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MetaEventListener;
@@ -86,6 +88,15 @@ public class MidiDevicesUtil {
 		}
 	}
 
+	public Sequence createSequence(Map<Instrument, List<Note>> map, int tempo)
+			throws InvalidMidiDataException {
+		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
+		for (Entry<Instrument, List<Note>> entry: map.entrySet()) {
+			createTrackGeneralMidi(sequence, entry.getValue(), entry.getKey(), tempo);
+		}
+		return sequence;
+	}
+	
 	public Sequence createSequence(List<CpMelody> motives, List<Instrument> instruments)
 			throws InvalidMidiDataException {
 		int motiveSize = motives.size();
@@ -100,7 +111,9 @@ public class MidiDevicesUtil {
 	public Sequence createSequenceNotes(List<Note> notes, Instrument instrument)
 			throws InvalidMidiDataException {
 		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
-		createTrack(sequence, notes, instrument);
+		if (!notes.isEmpty()) {
+			createTrack(sequence, notes, instrument);
+		}
 		return sequence;
 	}
 	

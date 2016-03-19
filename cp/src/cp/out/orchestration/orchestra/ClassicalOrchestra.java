@@ -1,4 +1,4 @@
-package cp.out.orchestration;
+package cp.out.orchestration.orchestra;
 
 import static java.util.stream.Collectors.toList;
 
@@ -9,11 +9,33 @@ import org.springframework.stereotype.Component;
 
 import cp.model.note.Note;
 import cp.out.instrument.Instrument;
+import cp.out.instrument.brass.FrenchHorn;
+import cp.out.instrument.brass.Trumpet;
+import cp.out.instrument.strings.Cello;
+import cp.out.instrument.strings.Doublebass;
+import cp.out.instrument.strings.Viola;
+import cp.out.instrument.strings.ViolinsI;
+import cp.out.instrument.strings.ViolinsII;
+import cp.out.instrument.woodwinds.Bassoon;
+import cp.out.instrument.woodwinds.Clarinet;
+import cp.out.instrument.woodwinds.Flute;
+import cp.out.instrument.woodwinds.Oboe;
 
 @Component
 public class ClassicalOrchestra extends Orchestra {
 
 	public ClassicalOrchestra() {
+		flute = new Flute(0, 1);
+		oboe = new Oboe(1, 2);
+		clarinet = new Clarinet(2, 3);
+		bassoon = new Bassoon(3, 4);
+		horn = new FrenchHorn(4, 5);
+		trumpet = new Trumpet(5, 6);
+		violin1 = new ViolinsI(6, 7);
+		violin2 = new ViolinsII(7, 8);
+		viola = new Viola(8, 9);
+		cello = new Cello(9, 10);
+		bass = new Doublebass(10, 11);
 		map.put(flute, new ArrayList<>());
 		map.put(oboe, new ArrayList<>());
 		map.put(clarinet, new ArrayList<>());

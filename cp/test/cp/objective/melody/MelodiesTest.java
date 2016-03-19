@@ -8,11 +8,6 @@ import java.util.stream.Collectors;
 
 import javax.sound.midi.InvalidMidiDataException;
 
-import jm.music.data.Part;
-import jm.music.data.Phrase;
-import jm.music.data.Score;
-import jm.util.View;
-
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -21,15 +16,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.SpringApplicationContextLoader;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cp.AbstractTest;
 import cp.DefaultConfig;
 import cp.evaluation.FitnessEvaluationTemplate;
 import cp.generator.MelodyGenerator;
-import cp.generator.MusicProperties;
 import cp.midi.MelodyInstrument;
 import cp.midi.MidiConverter;
 import cp.midi.MidiInfo;
@@ -38,14 +31,16 @@ import cp.model.dissonance.Dissonance;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
-import cp.model.note.Scale;
-import cp.model.rhythm.Rhythm;
 import cp.model.rhythm.RhythmWeight;
 import cp.objective.rhythm.RhythmObjective;
 import cp.out.print.ScoreUtilities;
+import jm.music.data.Part;
+import jm.music.data.Phrase;
+import jm.music.data.Score;
+import jm.util.View;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DefaultConfig.class, loader = SpringApplicationContextLoader.class)
+@SpringApplicationConfiguration(classes = DefaultConfig.class)
 @Ignore
 public class MelodiesTest extends AbstractTest{
 	

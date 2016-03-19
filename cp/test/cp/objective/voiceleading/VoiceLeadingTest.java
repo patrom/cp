@@ -8,8 +8,7 @@ import java.util.TreeSet;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationContextLoader;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.google.common.collect.Multiset;
@@ -24,7 +23,7 @@ import cp.model.setclass.Set;
 import cp.model.setclass.TnTnIType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DefaultConfig.class, loader = SpringApplicationContextLoader.class)
+@SpringApplicationConfiguration(classes = DefaultConfig.class)
 public class VoiceLeadingTest extends AbstractTest{
 	//bug for latest in calculation display duplicates pc?
 

@@ -1,50 +1,31 @@
 package cp.objective.rhythm;
 
 import static cp.model.note.NoteBuilder.note;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.swing.JFrame;
 
-import jm.music.data.Part;
-import jm.music.data.Phrase;
-import jm.music.data.Score;
-import jm.util.Play;
-import jm.util.View;
-
-import org.apache.commons.lang.ArrayUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationContextLoader;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cp.DefaultConfig;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
-import cp.model.Motive;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
-import cp.model.note.NoteBuilder;
-import cp.model.note.Scale;
-import cp.model.rhythm.RhythmWeight;
-import cp.objective.meter.InnerMetricWeight;
-import cp.objective.meter.InnerMetricWeightFunctions;
-import cp.objective.meter.InnerMetricWeightTest;
 import cp.out.print.ScoreUtilities;
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DefaultConfig.class, loader = SpringApplicationContextLoader.class)
+@SpringApplicationConfiguration(classes = DefaultConfig.class)
 public class RhythmObjectiveTest extends JFrame {
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(RhythmObjectiveTest.class.getName());

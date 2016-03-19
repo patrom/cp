@@ -1,7 +1,8 @@
 package cp.variation.nonchordtone.escape;
 
 import static cp.model.note.NoteBuilder.note;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -9,19 +10,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationContextLoader;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
 import cp.model.note.Note;
 import cp.variation.AbstractVariationTest;
-import cp.variation.nonchordtone.anticipation.Anticipation;
-import cp.variation.pattern.AnticipationVariationPattern;
 import cp.variation.pattern.EscapeVariationPattern;
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {DefaultConfig.class, VariationConfig.class}, loader = SpringApplicationContextLoader.class)
+@SpringApplicationConfiguration(classes = {DefaultConfig.class, VariationConfig.class})
 public class EscapeScaleUpTest extends AbstractVariationTest{
 
 	@Autowired

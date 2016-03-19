@@ -22,7 +22,6 @@ import cp.midi.MidiDevicesUtil;
 import cp.model.note.Note;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.MidiDevice;
-import cp.out.instrument.Piano;
 @Component
 public abstract class AbstractTest extends JFrame {
 
