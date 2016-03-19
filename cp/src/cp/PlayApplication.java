@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -42,6 +43,7 @@ import cp.out.instrument.Instrument;
 import cp.out.instrument.Piano;
 import cp.out.instrument.MidiDevice;
 import cp.out.instrument.strings.ViolinSolo;
+import cp.out.orchestration.orchestra.ClassicalOrchestra;
 import cp.out.print.MusicXMLWriter;
 import cp.out.print.ScoreUtilities;
 import cp.variation.Embellisher;
@@ -69,6 +71,8 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 	private MelodyGenerator melodyGenerator;
 	@Autowired
 	private MusicXMLWriter musicXMLWriter;
+	@Autowired
+	private ClassicalOrchestra classicalOrchestra;
 	
 	public static void main(final String[] args) {
 	 	SpringApplication app = new SpringApplication(PlayApplication.class);
@@ -87,8 +91,8 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 			LOGGER.info(midiFile.getName());
 			MidiInfo midiInfo = midiParser.readMidi(midiFile);
 			List<MelodyInstrument> parsedMelodies = midiInfo.getMelodies();
-			musicProperties.setInstruments(Ensemble.getStringQuartet());
-			mapInstruments(parsedMelodies, Ensemble.getStringQuartet());
+//			musicProperties.setInstruments(Ensemble.getStringQuartet());
+			mapInstruments(parsedMelodies);
 			//split
 //			int size = parsedMelodies.size();
 //			List<MelodyInstrument> melodies = new ArrayList<>(parsedMelodies.subList(0, size/2));
@@ -188,10 +192,11 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 		return playList;
 	}
 	
-	private void mapInstruments(List<MelodyInstrument> melodies, List<Instrument> instruments) {
+	private void mapInstruments(List<MelodyInstrument> melodies) {
+		Map<Instrument, List<Note>> orchestra = classicalOrchestra.getOrchestra();
 		for (int i = 0; i < melodies.size(); i++) {
 			MelodyInstrument melodyInstrument = melodies.get(i);
-			Optional<Instrument> instrument = instruments.stream().filter(instr -> (instr.getVoice()) == melodyInstrument.getVoice()).findFirst();
+			Optional<Instrument> instrument = orchestra.keySet().stream().filter(instr -> (instr.getVoice()) == melodyInstrument.getVoice()).findFirst();
 			if (instrument.isPresent()) {
 				melodyInstrument.setInstrument(instrument.get());
 			}else{

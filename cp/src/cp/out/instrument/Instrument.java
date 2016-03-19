@@ -59,8 +59,51 @@ public class Instrument implements Comparable<Instrument> {
 	
 	public List<Note> removeMelodyNotBetween(List<Note> notes){
 		return notes.stream()
-				.filter(n -> n.getPitch() >= getLowest() || n.getPitch() <= getHighest())
+				.filter(n -> inRange(n.getPitch()))
 				.collect(toList());
+	}
+	
+	public List<Note> updateInQualityRange(List<Note> notes){
+		List<Note> rangeNotes = new ArrayList<>();
+		for (Note note : notes) {
+			//in range
+			if (inRange(note.getPitch())) {
+				rangeNotes.add(note);
+			}else{
+				//note is higher than range
+				if (note.getPitch() > getHighest()) {
+					int pitchOctaveDown = note.getPitch() - 12;
+					while (pitchOctaveDown > getHighest()) {
+						pitchOctaveDown = pitchOctaveDown - 12;
+					}
+					if (!inRange(pitchOctaveDown) && pitchOctaveDown < getLowest()) {
+						pitchOctaveDown = pitchOctaveDown + 12;
+					}
+					Note copy = note.clone();
+					copy.setPitch(pitchOctaveDown);
+					copy.setOctave((int) Math.ceil(pitchOctaveDown/12));
+					rangeNotes.add(copy);
+				//note is lower than range
+				} else {
+					int pitchOctaveUp = note.getPitch() + 12;
+					while (pitchOctaveUp < getLowest()) {
+						pitchOctaveUp = pitchOctaveUp + 12;
+					}
+					if (!inRange(pitchOctaveUp) && pitchOctaveUp > getHighest()) {
+						pitchOctaveUp = pitchOctaveUp - 12;
+					}
+					Note copy = note.clone();
+					copy.setPitch(pitchOctaveUp);
+					copy.setOctave((int) Math.ceil(pitchOctaveUp/12));
+					rangeNotes.add(copy);
+				}
+			}
+		}
+		return rangeNotes;
+	}
+
+	private boolean inRange(int pitch) {
+		return pitch >= getLowest() && pitch <= getHighest();
 	}
 	
 	public int pickRandomNoteFromRange(Scale scale){

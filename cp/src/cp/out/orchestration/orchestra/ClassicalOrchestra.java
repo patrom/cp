@@ -25,17 +25,17 @@ import cp.out.instrument.woodwinds.Oboe;
 public class ClassicalOrchestra extends Orchestra {
 
 	public ClassicalOrchestra() {
-		flute = new Flute(0, 1);
-		oboe = new Oboe(1, 2);
-		clarinet = new Clarinet(2, 3);
-		bassoon = new Bassoon(3, 4);
-		horn = new FrenchHorn(4, 5);
-		trumpet = new Trumpet(5, 6);
-		violin1 = new ViolinsI(6, 7);
-		violin2 = new ViolinsII(7, 8);
-		viola = new Viola(8, 9);
-		cello = new Cello(9, 10);
-		bass = new Doublebass(10, 11);
+		flute = new Flute(0, 0);
+		oboe = new Oboe(1, 1);
+		clarinet = new Clarinet(2, 2);
+		bassoon = new Bassoon(3, 3);
+		horn = new FrenchHorn(4, 4);
+		trumpet = new Trumpet(5, 5);
+		violin1 = new ViolinsI(6, 6);
+		violin2 = new ViolinsII(7, 7);
+		viola = new Viola(8, 8);
+		cello = new Cello(9, 9);
+		bass = new Doublebass(10, 10);
 		map.put(flute, new ArrayList<>());
 		map.put(oboe, new ArrayList<>());
 		map.put(clarinet, new ArrayList<>());

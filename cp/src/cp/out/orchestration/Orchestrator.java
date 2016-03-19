@@ -94,6 +94,10 @@ public class Orchestrator {
 		
 		orchestra.setOboe(melodyBlocks.get(1).getMelodyBlockNotesWithRests());
 		orchestra.setClarinet(duplicator.duplicateRemoveNotBetween(orchestra.getFlute(), orchestra.getClarinet(), -12));
+		orchestra.setBassoon(duplicator.duplicateRemoveNotBetween(orchestra.getOboe(), orchestra.getBassoon(), -12));
+		
+		orchestra.setViolin1(duplicator.duplicateRemoveNotBetween(orchestra.getFlute(), orchestra.getViolin1(), 0));
+		orchestra.setCello(duplicator.duplicateRemoveNotBetween(orchestra.getOboe(), orchestra.getCello(), -24));
 		ChordOrchestration chordOrchestration = new ChordOrchestration(0, 48, 5);
 //		map.put(new CelloSolo(0, 1), chordOrchestration.orchestrate(oneNoteEven::pos3, 12, C(4)));
 //		map.put(new Doublebass(5, 1), chordOrchestration.orchestrate(twoNoteEven::pos13, 48, C(3), E(3)));

@@ -46,7 +46,7 @@ public class MidiParser {
 		LOGGER.debug("Resolution: " + sequence.getResolution());
 		LOGGER.debug("DivisionType: " + sequence.getDivisionType());
 		Track[] tracks = sequence.getTracks();
-		int voice = tracks.length - 1;
+//		int voice = tracks.length - 1;
 		Map<Integer, MelodyInstrument> map = new TreeMap<Integer, MelodyInstrument>();
 		MidiInfo midiInfo = new MidiInfo();
 		for (int j = 0; j < tracks.length; j++) {
@@ -57,7 +57,7 @@ public class MidiParser {
 				LOGGER.debug("@" + event.getTick() + " ");
 				MidiMessage message = event.getMessage();
 				if (message instanceof ShortMessage) {
-					LOGGER.debug("Voice:" + voice);
+					LOGGER.debug("Voice:" + j);
 					int ticks = (int) Math
 							.round((event.getTick() / (double) sequence
 									.getResolution()) * RESOLUTION) ;
@@ -73,7 +73,7 @@ public class MidiParser {
 					if (sm.getCommand() == ShortMessage.NOTE_ON
 							&& sm.getData2() != 0) {
 						LOGGER.debug("on: " + ticks + " ");
-						Note jNote = createNote(voice, ticks, sm);
+						Note jNote = createNote(j, ticks, sm);
 						notes.add(jNote);
 					}
 					if (sm.getCommand() == ShortMessage.NOTE_OFF
@@ -96,11 +96,11 @@ public class MidiParser {
 				}
 			}
 
-			if (!notes.isEmpty()) {
-				MelodyInstrument melody = new MelodyInstrument(notes, voice);
-				map.put(voice, melody);
-			}
-			voice--;
+//			if (!notes.isEmpty()) {
+				MelodyInstrument melody = new MelodyInstrument(notes, j);
+				map.put(j, melody);
+//			}
+//			voice--;
 		}
 		List<MelodyInstrument> melodies = new ArrayList<MelodyInstrument>(map.values());
 		midiInfo.setMelodies(melodies);
