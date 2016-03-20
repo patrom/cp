@@ -46,7 +46,7 @@ public class Instrument implements Comparable<Instrument> {
 		}
 	}
 	
-	public void updateMelodyBetween(List<Note> notes){
+	public void updateMelodyInRange(List<Note> notes){
 		for (Note note : notes) {
 			while (note.getPitch() < getLowest()) {
 				note.transposePitch(12);
@@ -57,7 +57,7 @@ public class Instrument implements Comparable<Instrument> {
 		}
 	}
 	
-	public List<Note> removeMelodyNotBetween(List<Note> notes){
+	public List<Note> removeMelodyNotInRange(List<Note> notes){
 		return notes.stream()
 				.filter(n -> inRange(n.getPitch()))
 				.collect(toList());

@@ -1,5 +1,7 @@
 package cp.out.orchestration.orchestra;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -8,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import cp.model.note.Note;
 import cp.out.instrument.Instrument;
+import cp.out.instrument.InstrumentUpdate;
+
 @Component
 public class Orchestra {
 
@@ -39,9 +43,17 @@ public class Orchestra {
 	public void setFlute(List<Note> notes) {
 		map.get(flute).addAll(notes);
 	}
+	
+	public void setFlute(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(flute).addAll(instrumentUpdate.updateInstrumentNotes(notes));
+	}
 
 	public void setOboe(List<Note> notes) {
 		map.get(oboe).addAll(notes);
+	}
+	
+	public void setOboe(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(oboe).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 
 	public Map<Instrument, List<Note>> getOrchestra() {
@@ -59,6 +71,10 @@ public class Orchestra {
 	public void setClarinet(List<Note> notes) {
 		map.get(clarinet).addAll(notes);
 	}
+	
+	public void setClarinet(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(clarinet).addAll(instrumentUpdate.updateInstrumentNotes(notes));
+	}
 
 	public Instrument getBassoon() {
 		return bassoon;
@@ -66,6 +82,10 @@ public class Orchestra {
 
 	public void setBassoon(List<Note> notes) {
 		map.get(bassoon).addAll(notes);
+	}
+	
+	public void setBassoon(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(bassoon).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 
 	public Instrument getHorn() {
@@ -75,6 +95,10 @@ public class Orchestra {
 	public void setHorn(List<Note> notes) {
 		map.get(horn).addAll(notes);
 	}
+	
+	public void setHorn(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(horn).addAll(instrumentUpdate.updateInstrumentNotes(notes));
+	}
 
 	public Instrument getTrumpet() {
 		return trumpet;
@@ -82,6 +106,10 @@ public class Orchestra {
 
 	public void setTrumpet(List<Note> notes) {
 		map.get(trumpet).addAll(notes);
+	}
+	
+	public void setTrumpet(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(trumpet).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 
 	public Instrument getViolin1() {
@@ -91,6 +119,10 @@ public class Orchestra {
 	public void setViolin1(List<Note> notes) {
 		map.get(violin1).addAll(notes);
 	}
+	
+	public void setViolin1(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(violin1).addAll(instrumentUpdate.updateInstrumentNotes(notes));
+	}
 
 	public Instrument getViolin2() {
 		return violin2;
@@ -98,6 +130,10 @@ public class Orchestra {
 
 	public void setViolin2(List<Note> notes) {
 		map.get(violin2).addAll(notes);
+	}
+	
+	public void setViolin2(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(violin2).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 
 	public Instrument getViola() {
@@ -107,6 +143,10 @@ public class Orchestra {
 	public void setViola(List<Note> notes) {
 		map.get(viola).addAll(notes);
 	}
+	
+	public void setViola(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(viola).addAll(instrumentUpdate.updateInstrumentNotes(notes));
+	}
 
 	public Instrument getCello() {
 		return cello;
@@ -115,6 +155,10 @@ public class Orchestra {
 	public void setCello(List<Note> notes) {
 		map.get(cello).addAll(notes);
 	}
+	
+	public void setCello(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(cello).addAll(instrumentUpdate.updateInstrumentNotes(notes));
+	}
 
 	public Instrument getBass() {
 		return bass;
@@ -122,6 +166,22 @@ public class Orchestra {
 
 	public void setBass(List<Note> notes) {
 		map.get(bass).addAll(notes);
+	}
+	
+	public void setBass(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(bass).addAll(instrumentUpdate.updateInstrumentNotes(notes));
+	}
+
+	public List<Note> duplicate(Instrument instrumentToDuplicate, int octave) {
+		return getNotes(instrumentToDuplicate).stream()
+				.map(n -> n.clone())
+				.map(n -> {
+						if (!n.isRest()) {
+							n.transposePitch(octave);
+						}
+						return n;
+					})
+				.collect(toList());
 	}
 
 }

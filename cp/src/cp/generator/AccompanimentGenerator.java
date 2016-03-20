@@ -18,21 +18,21 @@ public class AccompanimentGenerator {
 	public List<Note> fourFourSingleNote(List<Note> chordNotes, int minimum, Instrument instrument){
 		Integer[] sounds = getFixedSounds(48, minimum);
 		List<Note> accompanimentNotes = rhythm.getRhythmRandomContourTexture(chordNotes, sounds, instrument.getVoice(), 1);
-		instrument.updateMelodyBetween(accompanimentNotes);
+		instrument.updateMelodyInRange(accompanimentNotes);
 		return accompanimentNotes;
 	}
 	
 	public List<Note> fourFourTexture(List<Note> chordNotes, int minimum, Instrument instrument, int maxTexture){
 		Integer[] sounds = getFixedSounds(48, minimum);
 		List<Note> accompanimentNotes = rhythm.getRhythmRandomContourTexture(chordNotes, sounds, instrument.getVoice(), maxTexture);
-		instrument.updateMelodyBetween(accompanimentNotes);
+		instrument.updateMelodyInRange(accompanimentNotes);
 		return accompanimentNotes;
 	}
 	
 	public List<Note> measure(int measureLength, List<Note> chordNotes, int minimum, Instrument instrument, int maxTexture){
 		Integer[] sounds = getFixedSounds(measureLength, minimum);
 		List<Note> accompanimentNotes = rhythm.getRhythmRandomContourTexture(chordNotes, sounds, instrument.getVoice(), maxTexture);
-		instrument.updateMelodyBetween(accompanimentNotes);
+		instrument.updateMelodyInRange(accompanimentNotes);
 		return accompanimentNotes;
 	}
 	

@@ -173,7 +173,7 @@ public class MelodyBlock {
 	}
 	
 	public void updateMelodyBetween(List<Note> notes){
-		instrument.updateMelodyBetween(notes);
+		instrument.updateMelodyInRange(notes);
 	}
 	
 	/**

@@ -1,5 +1,7 @@
 package cp;
 
+import static cp.out.orchestration.InstrumentName.FLUTE;
+
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -44,6 +46,7 @@ import cp.objective.harmony.HarmonicObjective;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.woodwinds.Flute;
 import cp.out.instrument.woodwinds.Oboe;
+import cp.out.orchestration.InstrumentName;
 import cp.out.orchestration.Orchestrator;
 import cp.out.orchestration.quality.Pleasant;
 import cp.out.print.Display;
@@ -166,7 +169,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	private void compose() throws Exception {
 		
 		List<Instrument> instruments = new ArrayList<Instrument>();
-		instruments.add(pleasant.getInstrument("Flute (2)"));
+		instruments.add(pleasant.getInstrument(FLUTE.getName()));
 		instruments.add(new Oboe());
 		composeInGenre.setCompositionGenre(twoVoiceComposition::beatEven);
 		List<MelodyBlock> melodyBlocks = composeInGenre.composeInGenre(instruments);

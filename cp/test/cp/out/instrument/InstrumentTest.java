@@ -3,12 +3,10 @@ package cp.out.instrument;
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -16,7 +14,6 @@ import org.slf4j.LoggerFactory;
 
 import cp.model.note.Note;
 import cp.model.note.Scale;
-import cp.out.arrangement.ArrangementTest;
 import cp.out.instrument.register.InstrumentRegister;
 
 public class InstrumentTest {
@@ -38,16 +35,16 @@ public class InstrumentTest {
 	}
 
 	@Test
-	public void testUpdateMelodyBetween() {
+	public void testUpdateMelodyInRange() {
 		instrument.setInstrumentRegister(new InstrumentRegister(50,80));
-		instrument.updateMelodyBetween(notes);
+		instrument.updateMelodyInRange(notes);
 		assertEquals(50, notes.get(0).getPitch());
 		assertEquals(60, notes.get(1).getPitch());
 	}
 
 	@Test
-	public void testRemoveMelodyNotBetween() {
-		List<Note> inRangeNotes = instrument.removeMelodyNotBetween(notes);
+	public void testRemoveMelodyNotIn() {
+		List<Note> inRangeNotes = instrument.removeMelodyNotInRange(notes);
 		assertTrue(inRangeNotes.size() == 3);
 	}
 

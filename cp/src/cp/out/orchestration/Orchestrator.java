@@ -3,9 +3,6 @@ package cp.out.orchestration;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
@@ -29,17 +26,12 @@ import cp.combination.uneven.TwoNoteUneven;
 import cp.generator.MusicProperties;
 import cp.midi.MidiDevicesUtil;
 import cp.model.melody.MelodyBlock;
-import cp.model.note.Note;
-import cp.out.instrument.Instrument;
-import cp.out.instrument.woodwinds.Flute;
-import cp.out.instrument.woodwinds.Oboe;
-import cp.out.orchestration.method.Duplicator;
 import cp.out.orchestration.notetemplate.TwoNoteTemplate;
 import cp.out.orchestration.orchestra.ClassicalOrchestra;
 import cp.out.orchestration.orchestra.Orchestra;
+import cp.out.orchestration.quality.Pleasant;
 import cp.out.print.MusicXMLWriter;
 import cp.out.print.ScoreUtilities;
-import cp.out.print.note.Key;
 
 @Component
 public class Orchestrator {
@@ -82,10 +74,9 @@ public class Orchestrator {
 	@Autowired
 	private TwoNoteTemplate twoNoteTemplate;
 	@Autowired
-	private Duplicator duplicator;
-	@Autowired
 	private ClassicalOrchestra orchestra;
-	
+	@Autowired
+	private Pleasant pleasant;
 
 	public void orchestrate(List<MelodyBlock> melodyBlocks, String id) throws Exception {
 		id = id + "_orch";
@@ -93,11 +84,10 @@ public class Orchestrator {
 		orchestra.setFlute(melodyBlock.getMelodyBlockNotesWithRests());
 		
 		orchestra.setOboe(melodyBlocks.get(1).getMelodyBlockNotesWithRests());
-		orchestra.setClarinet(duplicator.duplicateRemoveNotBetween(orchestra.getFlute(), orchestra.getClarinet(), -12));
-		orchestra.setBassoon(duplicator.duplicateRemoveNotBetween(orchestra.getOboe(), orchestra.getBassoon(), -12));
-		
-		orchestra.setViolin1(duplicator.duplicateRemoveNotBetween(orchestra.getFlute(), orchestra.getViolin1(), 0));
-		orchestra.setCello(duplicator.duplicateRemoveNotBetween(orchestra.getOboe(), orchestra.getCello(), -24));
+		orchestra.setClarinet(orchestra.duplicate(orchestra.getFlute(), -12), orchestra.getClarinet()::removeMelodyNotInRange);
+		orchestra.setBassoon(orchestra.duplicate(orchestra.getOboe(), -12), orchestra.getBassoon()::removeMelodyNotInRange);
+		orchestra.setViolin1(orchestra.duplicate(orchestra.getFlute(), 0), pleasant.getInstrument(InstrumentName.VIOLIN_I.getName())::updateInQualityRange);
+		orchestra.setCello(orchestra.duplicate(orchestra.getOboe(), -24), orchestra.getCello()::removeMelodyNotInRange);
 		ChordOrchestration chordOrchestration = new ChordOrchestration(0, 48, 5);
 //		map.put(new CelloSolo(0, 1), chordOrchestration.orchestrate(oneNoteEven::pos3, 12, C(4)));
 //		map.put(new Doublebass(5, 1), chordOrchestration.orchestrate(twoNoteEven::pos13, 48, C(3), E(3)));

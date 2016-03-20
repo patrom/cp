@@ -60,7 +60,7 @@ public class ClassicalOrchestra extends Orchestra {
 				n.transposePitch(octave);
 			}
 		});
-		instrument.updateMelodyBetween(duplicateNotes);
+		instrument.updateMelodyInRange(duplicateNotes);
 		return duplicateNotes;
 	}
 }
