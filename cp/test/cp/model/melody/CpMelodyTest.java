@@ -136,7 +136,7 @@ public class CpMelodyTest {
 	
 	@Test
 	public void testUpdateRandomNote(){
-		timeLine.setKeys(Collections.singletonList(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, 48)));
+		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, 48)), 0);
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).build());
 		notes.add(note().pos(12).rest().build());

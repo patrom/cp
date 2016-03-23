@@ -26,8 +26,8 @@ public class Doublebass extends Instrument {
 	}
 	
 	public Doublebass(InstrumentRegister instrumentRegister) {
-		setInstrumentRegister(instrumentRegister);
 		init();
+		setInstrumentRegister(instrumentRegister);
 	}
 	
 

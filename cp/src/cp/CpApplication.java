@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -146,13 +147,18 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	public void run(String... arg0) throws Exception {
 		musicProperties.setOutputCountRun(2);
 		composeInMeter(4,4);
+		List<Instrument> instruments = new ArrayList<Instrument>();
+		Instrument instrument1 = pleasant.getInstrument(FLUTE.getName());
+		instruments.add(instrument1);
+//		instruments.add(new Oboe());
 		List<TimeLineKey> keys = new ArrayList<>();
-		keys.add(new TimeLineKey(C, Scale.HARMONIC_MINOR_SCALE, 0, 192));
-//		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 24, 48));
+		keys.add(new TimeLineKey(C, instrument1.filterScale(Scale.MAJOR_SCALE), 0, 96));
+		keys.add(new TimeLineKey(C, instrument1.filterScale(Scale.HARMONIC_MINOR_SCALE), 48, 192));//match length
 //		keys.add(new TimeLineKey(A, Scale.HARMONIC_MINOR_SCALE, 48, 96));
 //		keys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 96, 144));
 //		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 144, 192));
-		timeLine.setKeys(keys);
+		timeLine.addKeysForVoice(keys, 0);
+		timeLine.addKeysForVoice(keys, 1);//match instruments
 		composeInKey(C);
 		inTempo(70);
 		replaceMelody.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
@@ -161,16 +167,12 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		
 		for (int i = 0; i < 1; i++) {
 			LOGGER.info("RUN: " + i + " START");		
-			compose();
+			compose(instruments);
 		    LOGGER.info("RUN: " + i + " END");
 		}
 	}
 
-	private void compose() throws Exception {
-		
-		List<Instrument> instruments = new ArrayList<Instrument>();
-		instruments.add(pleasant.getInstrument(FLUTE.getName()));
-		instruments.add(new Oboe());
+	private void compose(List<Instrument> instruments) throws Exception {
 		composeInGenre.setCompositionGenre(twoVoiceComposition::beatEven);
 		List<MelodyBlock> melodyBlocks = composeInGenre.composeInGenre(instruments);
 		
@@ -255,5 +257,6 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		LocalDateTime currentDateTime = LocalDateTime.now();
 		return currentDateTime.format(DateTimeFormatter.ofPattern("ddMM_HHmm"));
 	}
+	
 }
 

@@ -26,8 +26,8 @@ public class Viola extends Instrument {
 	}
 	
 	public Viola(InstrumentRegister instrumentRegister) {
-		setInstrumentRegister(instrumentRegister);
 		init();
+		setInstrumentRegister(instrumentRegister);
 	}
 
 }

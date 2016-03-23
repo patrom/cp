@@ -85,7 +85,7 @@ public class CpMelody implements Cloneable{
 		if (!notesNoRest.isEmpty()) {
 			int index = RandomUtil.getRandomIndex(notesNoRest);
 			Note note = notesNoRest.get(index);
-			TimeLineKey timeLineKey = timeline.getTimeLineKeyAtPosition(note.getPosition());
+			TimeLineKey timeLineKey = timeline.getTimeLineKeyAtPosition(note.getPosition(), note.getVoice());
 			int pitchClass = (timeLineKey.getScale().pickRandomPitchClass() + timeLineKey.getKey().getInterval()) % 12;
 			note.setPitchClass(pitchClass);
 			

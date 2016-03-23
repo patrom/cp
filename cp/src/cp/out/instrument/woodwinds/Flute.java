@@ -27,8 +27,8 @@ public class Flute extends Instrument {
 	}
 	
 	public Flute(InstrumentRegister instrumentRegister){
-		setInstrumentRegister(instrumentRegister);
 		init();
+		setInstrumentRegister(instrumentRegister);
 	}
 
 }

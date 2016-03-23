@@ -191,8 +191,8 @@ public class MelodyBlock {
 		melody.getNotes().stream().filter(n -> !n.isRest())
 			.sorted()
 			.forEach(n -> {
-				TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition());
-				TimeLineKey dependingTimeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition() + offset);
+				TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition(), n.getVoice());
+				TimeLineKey dependingTimeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition() + offset, n.getVoice());
 				int transposedPc = melody.transposePitchClass(n.getPitchClass(), timeLineKey.getScale(), dependingTimeLineKey.getScale(), timeLineKey.getKey().getInterval(), dependingTimeLineKey.getKey().getInterval(), steps);
 				n.setPitchClass(transposedPc);
 			});
@@ -211,8 +211,8 @@ public class MelodyBlock {
 		melody.getNotes().stream().filter(n -> !n.isRest())
 			.sorted()
 			.forEach(n -> {
-				TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition());
-				TimeLineKey dependingTimeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition() + offset);
+				TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition(), n.getVoice());
+				TimeLineKey dependingTimeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition() + offset, n.getVoice());
 				int invertedPC = melody.invertPitchClass(functionalDegreeCenter, n.getPitchClass(), timeLineKey.getScale(), dependingTimeLineKey.getScale(), timeLineKey.getKey().getInterval(), dependingTimeLineKey.getKey().getInterval());
 				n.setPitchClass(invertedPC);
 			});

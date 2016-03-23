@@ -18,7 +18,7 @@ public class RandomPitchClasses  {
 	public List<Note> randomPitchClasses(List<Note> notes){
 		notes.forEach(n -> { 
 				if (!n.isRest()) {
-					TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition());
+					TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition(), n.getVoice());
 					n.setPitchClass((timeLineKey.getScale().pickRandomPitchClass() + timeLineKey.getKey().getInterval()) % 12);
 				}
 			});

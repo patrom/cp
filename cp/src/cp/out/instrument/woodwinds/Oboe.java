@@ -27,8 +27,8 @@ public class Oboe extends Instrument {
 	}
 	
 	public Oboe(InstrumentRegister instrumentRegister) {
-		setInstrumentRegister(instrumentRegister);
 		init();
+		setInstrumentRegister(instrumentRegister);
 	}
 
 }

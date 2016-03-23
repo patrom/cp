@@ -26,6 +26,7 @@ import cp.combination.uneven.TwoNoteUneven;
 import cp.generator.MusicProperties;
 import cp.midi.MidiDevicesUtil;
 import cp.model.melody.MelodyBlock;
+import cp.out.instrument.Instrument;
 import cp.out.orchestration.notetemplate.TwoNoteTemplate;
 import cp.out.orchestration.orchestra.ClassicalOrchestra;
 import cp.out.orchestration.orchestra.Orchestra;
@@ -82,13 +83,19 @@ public class Orchestrator {
 		id = id + "_orch";
 		MelodyBlock melodyBlock = melodyBlocks.get(0);
 		orchestra.setFlute(melodyBlock.getMelodyBlockNotesWithRests());
+		for (int i = 0; i < 5; i++) {
+			Instrument instrumentToUpdate = pleasant.getRandomInstrument();
+			if (!orchestra.getFlute().equals(instrumentToUpdate)) {
+				orchestra.setInstrument(orchestra.getFlute(), instrumentToUpdate, instrumentToUpdate::updateInQualityRange);
+			}
+		}
 		
-		orchestra.setOboe(melodyBlocks.get(1).getMelodyBlockNotesWithRests());
-		orchestra.setClarinet(orchestra.duplicate(orchestra.getFlute(), -12), orchestra.getClarinet()::removeMelodyNotInRange);
-		orchestra.setBassoon(orchestra.duplicate(orchestra.getOboe(), -12), orchestra.getBassoon()::removeMelodyNotInRange);
-		orchestra.setViolin1(orchestra.duplicate(orchestra.getFlute(), 0), pleasant.getInstrument(InstrumentName.VIOLIN_I.getName())::updateInQualityRange);
-		orchestra.setCello(orchestra.duplicate(orchestra.getOboe(), -24), orchestra.getCello()::removeMelodyNotInRange);
-		ChordOrchestration chordOrchestration = new ChordOrchestration(0, 48, 5);
+//		orchestra.setOboe(melodyBlocks.get(1).getMelodyBlockNotesWithRests());
+//		orchestra.setClarinet(orchestra.duplicate(orchestra.getFlute(), 0), pleasant.getInstrument(InstrumentName.CLARINET.getName())::updateInQualityRange);
+//		orchestra.setBassoon(orchestra.duplicate(orchestra.getFlute(), 0), pleasant.getInstrument(InstrumentName.BASSOON.getName())::updateInQualityRange);
+//		orchestra.setViolin1(orchestra.duplicate(orchestra.getFlute(), 0), pleasant.getInstrument(InstrumentName.VIOLIN_I.getName())::updateInQualityRange);
+//		orchestra.setCello(orchestra.duplicate(orchestra.getFlute(), 0), pleasant.getInstrument(InstrumentName.CELLO.getName())::updateInQualityRange);
+//		ChordOrchestration chordOrchestration = new ChordOrchestration(0, 48, 5);
 //		map.put(new CelloSolo(0, 1), chordOrchestration.orchestrate(oneNoteEven::pos3, 12, C(4)));
 //		map.put(new Doublebass(5, 1), chordOrchestration.orchestrate(twoNoteEven::pos13, 48, C(3), E(3)));
 //		map.put(new ViolaSolo(1, 2), chordOrchestration.orchestrate(twoNoteEven::pos13, 24, C(5), E(5)));

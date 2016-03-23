@@ -107,10 +107,10 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 //			List<MelodyInstrument> accompMelodies = filterAccompagnementMelodies(voicesForAccomp, melodies);
 //			createAccompagnement(accompMelodies, melodies, midiInfo.getHarmonyPositionsForVoice(0));
 			
-			int[] sounds = {0,12,24,36,48,60,72};
-			Integer[] texture = {1,1,1,1, 1 ,1,1,1};
-			Integer[] contour = {1,1,1, 1,  -1,-1,-1,-1,1,1,1, 1,  -1,-1,-1,-1,1,1,1, 1,  -1,-1,-1,-1,1,1,1, 1,  -1,-1,-1,-1,1,1,1, 1,  -1,-1,-1,-1,1,1,1, 1,  -1,-1,-1,-1,1,1,1, 1,  -1,-1,-1,-1,1,1,1, 1,  -1,-1,-1,-1,1,1,1, 1,  -1,-1,-1,-1,1,1,1, 1,  -1,-1,-1,-1,1,1,1, 1,  -1,-1,-1,-1};
-			List<Note> accompNotes = rhythm.getRhythm(midiInfo.getHarmonyPositions(), contour, 1, 1, 6);
+//			int[] sounds = {0,12,24,36,48,60,72};
+//			Integer[] texture = {1,1,1,1, 1 ,1,1,1};
+//			Integer[] contour = {1,1,1, 1,  -1,-1,-1,-1,1,1,1, 1,  -1,-1,-1,-1,1,1,1, 1,  -1,-1,-1,-1,1,1,1, 1,  -1,-1,-1,-1,1,1,1, 1,  -1,-1,-1,-1,1,1,1, 1,  -1,-1,-1,-1,1,1,1, 1,  -1,-1,-1,-1,1,1,1, 1,  -1,-1,-1,-1,1,1,1, 1,  -1,-1,-1,-1,1,1,1, 1,  -1,-1,-1,-1,1,1,1, 1,  -1,-1,-1,-1};
+//			List<Note> accompNotes = rhythm.getRhythm(midiInfo.getHarmonyPositions(), contour, 1, 1, 6);
 //			List<Note> accompNotes = rhythm.getRhythm(midiInfo.getHarmonyPositions(), sounds, texture, contour, 1);
 //			melodies.get(1).setNotes(accompNotes);
 //			arrangement.transpose(melodies.get(1).getNotes(), -12);

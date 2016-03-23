@@ -35,6 +35,7 @@ public class TwoVoiceComposition {
 
 		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), 0, 192, instrument1.pickRandomOctaveFromRange(), beats);
 		melodyBlock.setInstrument(instrument1);
+		
 		melodyBlocks.add(melodyBlock);
 		
 //		List<Integer> beats2 = new ArrayList<>();
@@ -42,12 +43,13 @@ public class TwoVoiceComposition {
 //		beats2.add(24);
 //		beats2.add(36);
 		
-		Instrument instrument2 = instruments.get(1);
-		instrument2.setVoice(1);
-		instrument2.setChannel(1);
-		melodyBlock = melodyGenerator.generateMelodyBlock(instrument2.getVoice(), 0, 192, instrument2.pickRandomOctaveFromRange(), beats);
-		melodyBlock.setInstrument(instrument2);
-		melodyBlocks.add(melodyBlock);
+//		Instrument instrument2 = instruments.get(1);
+//		instrument2.setVoice(1);
+//		instrument2.setChannel(1);
+//		melodyBlock = melodyGenerator.generateMelodyBlock(instrument2.getVoice(), 0, 192, instrument2.pickRandomOctaveFromRange(), beats);
+//		melodyBlock.setInstrument(instrument2);
+		
+//		melodyBlocks.add(melodyBlock);
 
 		//harmonization
 //		Instrument piano = new Piano(0, 3);

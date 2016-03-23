@@ -27,7 +27,7 @@ public class Cello extends Instrument {
 	}
 
 	public Cello(InstrumentRegister instrumentRegister) {
-		setInstrumentRegister(instrumentRegister);
 		init();
+		setInstrumentRegister(instrumentRegister);
 	}
 }

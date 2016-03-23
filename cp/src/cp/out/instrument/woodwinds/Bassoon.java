@@ -28,8 +28,8 @@ public class Bassoon extends Instrument {
 	}
 	
 	public Bassoon(InstrumentRegister instrumentRegister) {
-		setInstrumentRegister(instrumentRegister);
 		init();
+		setInstrumentRegister(instrumentRegister);
 	}
 
 }

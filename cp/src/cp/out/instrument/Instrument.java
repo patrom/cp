@@ -4,6 +4,7 @@ import static cp.model.note.NoteBuilder.note;
 import static java.util.stream.Collectors.toList;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,13 +60,22 @@ public class Instrument implements Comparable<Instrument> {
 	
 	public List<Note> removeMelodyNotInRange(List<Note> notes){
 		return notes.stream()
-				.filter(n -> inRange(n.getPitch()))
+				.filter(n -> {
+					if (!n.isRest()) {
+						return inRange(n.getPitch());
+					}
+					return false;
+				})//TODO map to rest removed note???
 				.collect(toList());
 	}
 	
 	public List<Note> updateInQualityRange(List<Note> notes){
 		List<Note> rangeNotes = new ArrayList<>();
 		for (Note note : notes) {
+			if (note.isRest()) {
+				rangeNotes.add(note);
+				continue;
+			}
 			//in range
 			if (inRange(note.getPitch())) {
 				rangeNotes.add(note);
@@ -130,6 +140,22 @@ public class Instrument implements Comparable<Instrument> {
 		int pitch = RandomUtil.randomInt(min, max);
 		return pitch / 12;
 	}
+	
+	public Scale filterScale(Scale scale) {
+        if((getHighest() - getLowest()) <= 12){
+            int pc1 = getLowest() % 12;
+            int pc2 = getHighest() % 12;
+            int[] sub;
+            if (pc1 < pc2) {
+                sub = Arrays.stream(scale.getPitchClasses()).filter(i ->  i >= pc1 && i <= pc2).toArray();
+            } else {
+                sub = Arrays.stream(scale.getPitchClasses()).filter(i ->  i <= pc2 || i >= pc1).toArray();
+            }
+            return new Scale(sub);
+        }
+		return scale;
+    }
+
 	
 	public int getVoice() {
 		return voice;

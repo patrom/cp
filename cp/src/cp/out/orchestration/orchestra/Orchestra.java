@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import cp.model.note.Note;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentUpdate;
+import cp.out.orchestration.InstrumentName;
 
 @Component
 public class Orchestra {
@@ -183,5 +184,18 @@ public class Orchestra {
 					})
 				.collect(toList());
 	}
-
+	
+	
+	public void setInstrument(Instrument instrument, Instrument instrumentUpdate,  InstrumentUpdate instrumentMethod) {
+		if(map.containsKey(instrument) && map.containsKey(instrumentUpdate)){
+			Instrument instrumentMap = map.keySet().stream().filter(i -> i.getInstrumentName().equals(instrumentUpdate.getInstrumentName())).findFirst().get();
+			List<Note> duplicatedNotes = duplicate(instrument, 0);
+			
+			map.get(instrumentMap).clear();
+			map.get(instrumentMap).addAll(instrumentMethod.updateInstrumentNotes(duplicatedNotes));
+		}else {
+			throw new IllegalStateException("Instrument doesn't exist in orchestra!");
+		}
+	}
+	
 }

@@ -26,8 +26,8 @@ public class ViolinsI extends Instrument {
 	}
 	
 	public ViolinsI(InstrumentRegister instrumentRegister) {
-		setInstrumentRegister(instrumentRegister);
 		init();
+		setInstrumentRegister(instrumentRegister);
 	}
 	
 	

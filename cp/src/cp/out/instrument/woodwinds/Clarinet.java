@@ -27,8 +27,8 @@ public class Clarinet extends Instrument {
 	}
 	
 	public Clarinet(InstrumentRegister instrumentRegister) {
-		setInstrumentRegister(instrumentRegister);
 		init();
+		setInstrumentRegister(instrumentRegister);
 	}
 
 }

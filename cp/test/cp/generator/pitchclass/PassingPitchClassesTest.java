@@ -45,7 +45,7 @@ public class PassingPitchClassesTest {
 	public void setUp() throws Exception {
 		TimeLineKey timeLineKey = new TimeLineKey(D, Scale.MAJOR_SCALE, 0, 48);
 		MockitoAnnotations.initMocks(this);
-		when(timeLine.getTimeLineKeyAtPosition(Mockito.anyInt())).thenReturn(timeLineKey);
+		when(timeLine.getTimeLineKeyAtPosition(Mockito.anyInt(), Mockito.anyInt())).thenReturn(timeLineKey);
 	}
 
 	@Test

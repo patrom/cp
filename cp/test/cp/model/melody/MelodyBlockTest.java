@@ -141,7 +141,7 @@ public class MelodyBlockTest {
 		List<TimeLineKey> keys = new ArrayList<>();
 		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, 24));
 		keys.add(new TimeLineKey(D, Scale.MAJOR_SCALE, 24, 48));
-		timeLine.setKeys(keys);
+		timeLine.addKeysForVoice(keys, 0);
 		melodyBlockCopy.transformDependingOn(melodyBlock, timeLine);
 		assertEquals(1, melodyBlockCopy.getMelodyBlockNotes().size());
 		LOGGER.info("Notes: " + melodyBlock.getMelodyBlockNotes());
@@ -402,7 +402,7 @@ public class MelodyBlockTest {
 		List<TimeLineKey> keys = new ArrayList<>();
 		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, 48));
 		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE,  48, 144));
-		timeLine.setKeys(keys);
+		timeLine.addKeysForVoice(keys, 1);
 		melodyBlock2.transformDependingOn(melodyBlock, timeLine);
 		melodyBlock2.getMelodyBlockNotes().forEach(n -> System.out.println(n.getPitchClass() + ", " + n.getPosition()));
 //		assertEquals(4, melody.getNotes().get(0).getPitchClass());

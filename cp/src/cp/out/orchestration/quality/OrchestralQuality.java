@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cp.out.instrument.Instrument;
+import cp.util.RandomUtil;
 
 public abstract class OrchestralQuality {
 
@@ -15,26 +16,25 @@ public abstract class OrchestralQuality {
 	public String getQuality() {
 		return quality;
 	}
-	public void setQuality(String quality) {
-		this.quality = quality;
-	}
+
 	public String getColor() {
 		return color;
 	}
-	public void setColor(String color) {
-		this.color = color;
-	}
+
 	public String getType() {
 		return type;
 	}
-	public void setType(String type) {
-		this.type = type;
+
+	public Instrument getInstrument(String name){
+		return instruments.stream().filter(i -> i.getInstrumentName().equals(name)).findFirst().get();
 	}
-	public List<Instrument> getInstruments() {
+	
+	public List<Instrument> getBasicInstruments(){
 		return instruments;
 	}
-	public void setInstruments(List<Instrument> instruments) {
-		this.instruments = instruments;
+	
+	public Instrument getRandomInstrument(){
+		return RandomUtil.getRandomFromList(instruments);
 	}
 	
 }
