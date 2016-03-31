@@ -37,4 +37,8 @@ public abstract class OrchestralQuality {
 		return RandomUtil.getRandomFromList(instruments);
 	}
 	
+	public boolean hasInstrument(Instrument instrument){
+		return instruments.contains(instrument);
+	}
+	
 }

@@ -13,6 +13,7 @@ public class Doublebass extends Instrument {
 
 	private void init() {
 		setLowest(38);
+		setHighest(67);
 		setGeneralMidi(GeneralMidi.CONTRABASS);
 		
 		setInstrumentName("Contrabass (2)");

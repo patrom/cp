@@ -5,8 +5,6 @@ import static java.util.stream.Collectors.toList;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
 import cp.model.note.Note;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.brass.FrenchHorn;
@@ -21,7 +19,7 @@ import cp.out.instrument.woodwinds.Clarinet;
 import cp.out.instrument.woodwinds.Flute;
 import cp.out.instrument.woodwinds.Oboe;
 
-@Component
+
 public class ClassicalOrchestra extends Orchestra {
 
 	public ClassicalOrchestra() {

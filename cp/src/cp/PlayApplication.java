@@ -2,7 +2,6 @@ package cp;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -14,15 +13,12 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
 import javax.swing.JFrame;
 
-import jm.music.data.Score;
-import jm.util.View;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner.Mode;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.Banner.Mode;
 import org.springframework.context.annotation.Import;
 
 import cp.generator.MelodyGenerator;
@@ -38,15 +34,16 @@ import cp.model.rhythm.Rhythm;
 import cp.out.arrangement.Accompagnement;
 import cp.out.arrangement.Arrangement;
 import cp.out.arrangement.Pattern;
-import cp.out.instrument.Ensemble;
 import cp.out.instrument.Instrument;
-import cp.out.instrument.Piano;
 import cp.out.instrument.MidiDevice;
+import cp.out.instrument.Piano;
 import cp.out.instrument.strings.ViolinSolo;
 import cp.out.orchestration.orchestra.ClassicalOrchestra;
 import cp.out.print.MusicXMLWriter;
 import cp.out.print.ScoreUtilities;
 import cp.variation.Embellisher;
+import jm.music.data.Score;
+import jm.util.View;
 
 @Import(DefaultConfig.class)
 public class PlayApplication extends JFrame implements CommandLineRunner{
@@ -71,8 +68,8 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 	private MelodyGenerator melodyGenerator;
 	@Autowired
 	private MusicXMLWriter musicXMLWriter;
-	@Autowired
-	private ClassicalOrchestra classicalOrchestra;
+
+	private ClassicalOrchestra classicalOrchestra = new ClassicalOrchestra();
 	
 	public static void main(final String[] args) {
 	 	SpringApplication app = new SpringApplication(PlayApplication.class);
@@ -86,6 +83,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 	}
 	
 	public void playMidiFilesOnKontaktFor() throws Exception {
+//		File dir = new File("resources/orch");
 		File dir = new File("resources/midi");
 		for (File midiFile : dir.listFiles()) {
 			LOGGER.info(midiFile.getName());

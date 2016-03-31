@@ -2,9 +2,11 @@ package cp.out.orchestration.orchestra;
 
 import static java.util.stream.Collectors.toList;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -12,6 +14,7 @@ import cp.model.note.Note;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentUpdate;
 import cp.out.orchestration.InstrumentName;
+import cp.util.RandomUtil;
 
 @Component
 public class Orchestra {
@@ -185,17 +188,23 @@ public class Orchestra {
 				.collect(toList());
 	}
 	
+	public List<Note> duplicate(Instrument instrumentToDuplicate) {
+		return getNotes(instrumentToDuplicate).stream()
+				.map(n -> n.clone())
+				.collect(toList());
+	}
 	
 	public void setInstrument(Instrument instrument, Instrument instrumentUpdate,  InstrumentUpdate instrumentMethod) {
-		if(map.containsKey(instrument) && map.containsKey(instrumentUpdate)){
-			Instrument instrumentMap = map.keySet().stream().filter(i -> i.getInstrumentName().equals(instrumentUpdate.getInstrumentName())).findFirst().get();
 			List<Note> duplicatedNotes = duplicate(instrument, 0);
-			
-			map.get(instrumentMap).clear();
-			map.get(instrumentMap).addAll(instrumentMethod.updateInstrumentNotes(duplicatedNotes));
-		}else {
-			throw new IllegalStateException("Instrument doesn't exist in orchestra!");
-		}
+			map.get(instrumentUpdate).addAll(instrumentMethod.updateInstrumentNotes(duplicatedNotes));
+	}
+	
+	public Instrument getRandomEmptyInstrument(){
+		List<Instrument> instrumentsToUpdate = map.entrySet().stream()
+				.filter(entry -> entry.getValue().isEmpty())
+				.map(e -> e.getKey())
+				.collect(toList());
+		return RandomUtil.getRandomFromList(instrumentsToUpdate);
 	}
 	
 }

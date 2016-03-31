@@ -21,8 +21,7 @@ import cp.model.note.Note;
 @SpringApplicationConfiguration(classes = DefaultConfig.class)
 public class OrchestraTest {
 	
-	@Autowired
-	private ClassicalOrchestra orchestra;
+	private ClassicalOrchestra orchestra = new ClassicalOrchestra();
 
 	@Before
 	public void setUp() throws Exception {

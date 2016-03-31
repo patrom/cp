@@ -43,13 +43,13 @@ public class TwoVoiceComposition {
 //		beats2.add(24);
 //		beats2.add(36);
 		
-//		Instrument instrument2 = instruments.get(1);
-//		instrument2.setVoice(1);
-//		instrument2.setChannel(1);
-//		melodyBlock = melodyGenerator.generateMelodyBlock(instrument2.getVoice(), 0, 192, instrument2.pickRandomOctaveFromRange(), beats);
-//		melodyBlock.setInstrument(instrument2);
+		Instrument instrument2 = instruments.get(1);
+		instrument2.setVoice(1);
+		instrument2.setChannel(1);
+		melodyBlock = melodyGenerator.generateMelodyBlock(instrument2.getVoice(), 0, 192, instrument2.pickRandomOctaveFromRange(), beats);
+		melodyBlock.setInstrument(instrument2);
 		
-//		melodyBlocks.add(melodyBlock);
+		melodyBlocks.add(melodyBlock);
 
 		//harmonization
 //		Instrument piano = new Piano(0, 3);

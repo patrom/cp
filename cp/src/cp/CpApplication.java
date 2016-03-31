@@ -49,6 +49,7 @@ import cp.out.instrument.woodwinds.Flute;
 import cp.out.instrument.woodwinds.Oboe;
 import cp.out.orchestration.InstrumentName;
 import cp.out.orchestration.Orchestrator;
+import cp.out.orchestration.quality.Brilliant;
 import cp.out.orchestration.quality.Pleasant;
 import cp.out.print.Display;
 import cp.out.print.note.Key;
@@ -133,6 +134,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	private Orchestrator orchestrator;
 	@Autowired
 	private Pleasant pleasant;
+	@Autowired
+	private Brilliant brilliant;
 	
 	public static AtomicInteger COUNTER = new AtomicInteger();
 	
@@ -148,12 +151,13 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		musicProperties.setOutputCountRun(2);
 		composeInMeter(4,4);
 		List<Instrument> instruments = new ArrayList<Instrument>();
-		Instrument instrument1 = pleasant.getInstrument(FLUTE.getName());
+		instruments.add(new Oboe());
+		Instrument instrument1 = pleasant.getInstrument(InstrumentName.CLARINET.getName());
 		instruments.add(instrument1);
-//		instruments.add(new Oboe());
+		
 		List<TimeLineKey> keys = new ArrayList<>();
-		keys.add(new TimeLineKey(C, instrument1.filterScale(Scale.MAJOR_SCALE), 0, 96));
-		keys.add(new TimeLineKey(C, instrument1.filterScale(Scale.HARMONIC_MINOR_SCALE), 48, 192));//match length
+		keys.add(new TimeLineKey(C, instrument1.filterScale(Scale.MAJOR_SCALE), 0, 192));
+//		keys.add(new TimeLineKey(C, instrument1.filterScale(Scale.HARMONIC_MINOR_SCALE), 48, 192));//match length
 //		keys.add(new TimeLineKey(A, Scale.HARMONIC_MINOR_SCALE, 48, 96));
 //		keys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 96, 144));
 //		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 144, 192));
@@ -165,7 +169,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		melodyGenerator.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
 		harmonicObjective.setDissonance(intervalAndTriads::getDissonance);
 		
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < 10; i++) {
 			LOGGER.info("RUN: " + i + " START");		
 			compose(instruments);
 		    LOGGER.info("RUN: " + i + " END");
@@ -212,7 +216,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		// Algorithm parameters
 	    int populationSize = 30;
 	    algorithm.setInputParameter("populationSize", populationSize);
-	    algorithm.setInputParameter("maxEvaluations", populationSize * 15);
+	    algorithm.setInputParameter("maxEvaluations", populationSize * 1500);
 	    
 	    // Mutation and Crossover
 	    crossover.setParameter("probabilityCrossover", 1.0); 
@@ -238,6 +242,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	
 	private static void clean() throws IOException{
 		deleteFiles("resources/midi");
+		deleteFiles("resources/orch");
 		deleteFiles("resources/xml");
 	}
 
