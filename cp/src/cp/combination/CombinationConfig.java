@@ -8,7 +8,6 @@ import java.util.TreeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 import cp.combination.even.FourNoteEven;
 import cp.combination.even.OneNoteEven;

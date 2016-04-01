@@ -35,6 +35,7 @@ public class MelodyGenerator {
 	private List<Integer[]> oddPulseDivisions;
 	@Autowired
 	private NoteCombination noteCombination;
+	
 	private PitchClassGenerator pitchClassGenerator;
 	
 	public void setPitchClassGenerator(PitchClassGenerator pitchClassGenerator) {

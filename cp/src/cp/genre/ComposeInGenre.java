@@ -12,8 +12,8 @@ public class ComposeInGenre {
 	
 	private CompositionGenre compositionGenre;
 	
-	public List<MelodyBlock> composeInGenre(List<Instrument> instruments){
-		return compositionGenre.composeInGenre(instruments);
+	public List<MelodyBlock> composeInGenre(){
+		return compositionGenre.composeInGenre();
 	}
 	
 	public void setCompositionGenre(CompositionGenre compositionGenre) {

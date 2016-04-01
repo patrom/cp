@@ -39,4 +39,20 @@ public class NoteCombination {
 		return rhythmCombination.getNotes(beat);
 	}
 
+	public void setDefaultCombinations(List<RhythmCombination> defaultCombinations) {
+		this.defaultCombinations = defaultCombinations;
+	}
+
+	public void setCombinationsEvenBeat(int voice, List<RhythmCombination> combinationsEvenBeat) {
+		this.combinationsEvenBeat.put(voice, combinationsEvenBeat);
+	}
+
+	public void setCombinationsEvenBeat12(int voice, List<RhythmCombination> combinationsEvenBeat12) {
+		this.combinationsEvenBeat12.put(voice, combinationsEvenBeat12);
+	}
+
+	public void setCombinationsUnevenBeat(int voice, List<RhythmCombination> combinationsUnevenBeat) {
+		this.combinationsUnevenBeat.put(voice, combinationsUnevenBeat);
+	}
+
 }

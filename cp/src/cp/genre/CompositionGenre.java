@@ -8,5 +8,5 @@ import cp.out.instrument.Instrument;
 @FunctionalInterface
 public interface CompositionGenre {
 
-	public List<MelodyBlock> composeInGenre(List<Instrument> instruments);
+	public List<MelodyBlock> composeInGenre();
 }

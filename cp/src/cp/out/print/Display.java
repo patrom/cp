@@ -3,6 +3,7 @@ package cp.out.print;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -54,6 +55,7 @@ public class Display {
 
 	private void viewScore(List<MelodyBlock> melodies, String id, double tempo)
 			throws InvalidMidiDataException, IOException {
+		Collections.sort(melodies, new MelodyVoiceComparator());
 		melodies.forEach(m -> LOGGER.info(m.getMelodyBlockContour() + ", "));
 		melodies.forEach(m -> LOGGER.info(m.getMelodyBlockNotesWithRests() + ", "));
 		Score score = scoreUtilities.createScoreMelodies(melodies, tempo);
