@@ -25,7 +25,7 @@ public class Brilliant extends OrchestralQuality{
 		instruments = Stream.of(
 				new Clarinet(new InstrumentRegister(82, 92)),
 				new Trumpet(new InstrumentRegister(82, 92)),
-				new Piano(new InstrumentRegister(96, 108)),
+//				new Piano(new InstrumentRegister(96, 108)),
 				new ViolinsI(new InstrumentRegister(89, 100)),
 				new Viola(new InstrumentRegister(81, 93)),
 				new Cello(new InstrumentRegister(69, 81))

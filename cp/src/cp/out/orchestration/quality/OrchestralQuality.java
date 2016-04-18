@@ -1,9 +1,13 @@
 package cp.out.orchestration.quality;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import cp.out.instrument.Instrument;
+import cp.out.instrument.InstrumentGroup;
 import cp.util.RandomUtil;
 
 public abstract class OrchestralQuality {
@@ -31,6 +35,10 @@ public abstract class OrchestralQuality {
 	
 	public List<Instrument> getBasicInstruments(){
 		return instruments;
+	}
+	
+	public List<Instrument> getBasicInstrumentsByGroup(InstrumentGroup instrumentGroup){
+		return instruments.stream().filter(i -> i.getInstrumentGroup() == instrumentGroup).collect(toList());
 	}
 	
 	public Instrument getRandomInstrument(){

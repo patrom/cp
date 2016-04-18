@@ -5,33 +5,34 @@ import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
 
-public class Tuba extends Instrument {
-	
-	public Tuba(int voice, int channel) {
+public class BassTrombone extends Instrument{
+
+	public BassTrombone(int voice, int channel) {
 		super(voice, channel);
 		init();
 	}
 
-	public Tuba(InstrumentRegister instrumentRegister) {
+	public BassTrombone(InstrumentRegister instrumentRegister) {
 		init();
 		setInstrumentRegister(instrumentRegister);
-	}
-	
-	public Tuba() {
-		init();
 	}
 
 	private void init() {
 		instrumentGroup = InstrumentGroup.BRASS;
-		order = 3;
-		setLowest(30);
-		setHighest(53);
+		order = 2;
+		setLowest(34);
+		setHighest(65);
 //		setGeneralMidi(GeneralMidi.CELLO);
 		
-		setInstrumentName("Tuba");
-		setInstrumentSound("brass.tuba");
-		setVirtualName("Tuba Bb");
+		setInstrumentName("Bass Trombone");
+		setInstrumentSound("brass.trombone.bass");
+		setVirtualName("Bass Trombone");
 	}
+
+	public BassTrombone() {
+		init();
+	}
+	
 }
 
 

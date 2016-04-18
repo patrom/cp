@@ -14,7 +14,7 @@ import cp.out.instrument.brass.FrenchHorn;
 import cp.out.instrument.woodwinds.Flute;
 @Component
 public class TwoVoiceComposition extends Composition{
-
+	
 	public List<MelodyBlock> beatEven(){
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
 		

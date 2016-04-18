@@ -2,6 +2,7 @@ package cp.out.instrument.strings;
 
 import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
+import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
 
 public class Viola extends Instrument {
@@ -16,6 +17,8 @@ public class Viola extends Instrument {
 	}
 
 	private void init() {
+		instrumentGroup = InstrumentGroup.STRINGS;
+		order = 1;
 		setLowest(48);
 		setHighest(72);
 		setGeneralMidi(GeneralMidi.VIOLA);
@@ -23,6 +26,7 @@ public class Viola extends Instrument {
 		setInstrumentName("Viola (2)");
 		setInstrumentSound("strings.viola");
 		setVirtualName("Violas");
+		setClef("C");
 	}
 	
 	public Viola(InstrumentRegister instrumentRegister) {

@@ -1,7 +1,10 @@
 package cp.genre;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -30,6 +33,10 @@ import cp.model.note.Scale;
 import cp.nsga.operator.mutation.melody.ReplaceMelody;
 import cp.objective.harmony.HarmonicObjective;
 import cp.out.instrument.Instrument;
+import cp.out.instrument.Piano;
+import cp.out.instrument.strings.Cello;
+import cp.out.instrument.strings.Viola;
+import cp.out.instrument.strings.ViolinsI;
 import cp.out.instrument.woodwinds.Oboe;
 import cp.out.orchestration.InstrumentName;
 import cp.out.orchestration.quality.Brilliant;
@@ -123,23 +130,33 @@ public abstract class Composition {
 	protected int start = 0;
 	protected int end = 192;
 	
+	@PostConstruct
 	public void init(){
 		composeInMeter(4,4);
 		composeInKey(C);
 		inTempo(70);
 		
-		instruments.add(new Oboe());
-		Instrument instrument1 = pleasant.getInstrument(InstrumentName.CLARINET.getName());
-		instruments.add(instrument1);
+		instruments.add(new ViolinsI());
+//		Instrument instrument1 = pleasant.getInstrument(InstrumentName.CLARINET.getName());
+		instruments.add(new Viola());
+		instruments.add(new Cello());
 		
 		List<TimeLineKey> keys = new ArrayList<>();
-		keys.add(new TimeLineKey(C, instrument1.filterScale(Scale.MAJOR_SCALE), start, end));
+		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, 48));
+		keys.add(new TimeLineKey(F, Scale.MAJOR_SCALE, 48, 96));
+		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 96, 144));
+		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 144, end));
 //		keys.add(new TimeLineKey(C, instrument1.filterScale(Scale.HARMONIC_MINOR_SCALE), 48, 192));//match length
 //		keys.add(new TimeLineKey(A, Scale.HARMONIC_MINOR_SCALE, 48, 96));
 //		keys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 96, 144));
 //		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 144, 192));
-		timeLine.addKeysForVoice(keys, 0);
-		timeLine.addKeysForVoice(keys, 1);//match instruments
+		int instrumentSize = instruments.size();
+		for (int i = 0; i < instrumentSize; i++) {
+			timeLine.addKeysForVoice(keys, i);
+		}
+//		timeLine.addKeysForVoice(keys, 0);
+//		timeLine.addKeysForVoice(keys, 1);
+//		timeLine.addKeysForVoice(keys, 2);//match instruments
 		
 		replaceMelody.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
 		melodyGenerator.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
@@ -169,13 +186,13 @@ public abstract class Composition {
 //		
 //		rhythmCombinations.add(twoNoteEven::pos12);
 		rhythmCombinations.add(twoNoteEven::pos13);
-//		rhythmCombinations.add(twoNoteEven::pos14);
+		rhythmCombinations.add(twoNoteEven::pos14);
 //		rhythmCombinations.add(twoNoteEven::pos34);
 //		rhythmCombinations.add(twoNoteEven::pos23);
 //		rhythmCombinations.add(twoNoteEven::pos24);
 		
 //		rhythmCombinations.add(threeNoteEven::pos123);
-//		rhythmCombinations.add(threeNoteEven::pos134);
+		rhythmCombinations.add(threeNoteEven::pos134);
 //		rhythmCombinations.add(threeNoteEven::pos124);
 //		rhythmCombinations.add(threeNoteEven::pos234);
 		

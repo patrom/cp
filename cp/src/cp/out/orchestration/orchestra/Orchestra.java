@@ -1,22 +1,22 @@
 package cp.out.orchestration.orchestra;
 
+import static cp.model.note.NoteBuilder.note;
 import static java.util.stream.Collectors.toList;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Component;
 
 import cp.model.note.Note;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentUpdate;
-import cp.out.orchestration.InstrumentName;
 import cp.util.RandomUtil;
 
-@Component
+
 public class Orchestra {
 
 	protected Map<Instrument, List<Note>> map = new TreeMap<>();
@@ -24,8 +24,12 @@ public class Orchestra {
 	protected Instrument oboe;
 	protected Instrument clarinet;
 	protected Instrument bassoon;
+	
 	protected Instrument horn;
 	protected Instrument trumpet;
+	protected Instrument trombone;
+	protected Instrument tuba;
+	
 	protected Instrument violin1;
 	protected Instrument violin2;
 	protected Instrument viola;
@@ -115,6 +119,30 @@ public class Orchestra {
 	public void setTrumpet(List<Note> notes, InstrumentUpdate instrumentUpdate) {
 		map.get(trumpet).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
+	
+	public Instrument getTrombone() {
+		return trombone;
+	}
+
+	public void setTrombone(List<Note> notes) {
+		map.get(trombone).addAll(notes);
+	}
+	
+	public void setTrombone(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(trombone).addAll(instrumentUpdate.updateInstrumentNotes(notes));
+	}
+	
+	public Instrument getTuba() {
+		return tuba;
+	}
+
+	public void setTuba(List<Note> notes) {
+		map.get(tuba).addAll(notes);
+	}
+	
+	public void setTuba(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(tuba).addAll(instrumentUpdate.updateInstrumentNotes(notes));
+	}
 
 	public Instrument getViolin1() {
 		return violin1;
@@ -188,6 +216,19 @@ public class Orchestra {
 				.collect(toList());
 	}
 	
+//	public List<Note> duplicate(Instrument instrumentToDuplicate, Instrument instrument, int octave) {
+//		List<Note> duplicateNotes = map.get(instrumentToDuplicate).stream()
+//				.map(n -> n.clone())
+//				.collect(toList());
+//		duplicateNotes.forEach(n ->{
+//			if (!n.isRest()) {
+//				n.transposePitch(octave);
+//			}
+//		});
+//		instrument.updateMelodyInRange(duplicateNotes);
+//		return duplicateNotes;
+//	}
+	
 	public List<Note> duplicate(Instrument instrumentToDuplicate) {
 		return getNotes(instrumentToDuplicate).stream()
 				.map(n -> n.clone())
@@ -198,6 +239,43 @@ public class Orchestra {
 			List<Note> duplicatedNotes = duplicate(instrument, 0);
 			map.get(instrumentUpdate).addAll(instrumentMethod.updateInstrumentNotes(duplicatedNotes));
 	}
+	
+	public void updateInstrument(Instrument instrument, List<Note> notes) {
+		Optional<Instrument> optionalInstrument = map.keySet().stream().filter(i -> i.getInstrumentName().equals(instrument.getInstrumentName())).findFirst();
+		if (optionalInstrument.isPresent()) {
+			map.compute(optionalInstrument.get(), (k, v) -> {
+				if (v == null) {
+					List<Note> list = new ArrayList<>();
+					list.addAll(notes);
+					return list;
+				} else {
+					v.addAll(notes);
+					return v;
+				}
+			});
+		}else{
+//			throw new IllegalStateException("Doesn't contain the instrument:" + instrument.getInstrumentName());
+		}
+	}
+	
+//	public void updateEmptyWithRest(int position, int length){
+//		for (Entry<Instrument, List<Note>> entry: map.entrySet()) {
+//			Optional<Note> noteFound = entry.getValue().stream().filter(n -> n.getPosition() == position).findAny();
+//			if (!noteFound.isPresent()) {
+//				Note rest = note().rest().pc(position).len(length).build();
+//				map.compute(entry.getKey(), (k, v) -> {
+//					if (v == null) {
+//						List<Note> list = new ArrayList<>();
+//						list.addAll(Collections.singletonList(rest));
+//						return list;
+//					} else {
+//						v.addAll(Collections.singletonList(rest));
+//						return v;
+//					}
+//				});	
+//			}
+//		}
+//	}
 	
 	public Instrument getRandomEmptyInstrument(){
 		List<Instrument> instrumentsToUpdate = map.entrySet().stream()

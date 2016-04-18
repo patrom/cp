@@ -22,6 +22,7 @@ import cp.midi.MidiDevicesUtil;
 import cp.model.note.Note;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.MidiDevice;
+import cp.out.print.MusicXMLWriter;
 @Component
 public abstract class AbstractTest extends JFrame {
 

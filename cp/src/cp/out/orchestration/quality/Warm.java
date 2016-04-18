@@ -3,6 +3,8 @@ package cp.out.orchestration.quality;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.springframework.stereotype.Component;
+
 import cp.out.instrument.Instrument;
 import cp.out.instrument.brass.FrenchHorn;
 import cp.out.instrument.brass.Trombone;
@@ -10,7 +12,7 @@ import cp.out.instrument.brass.Trumpet;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.Doublebass;
 import cp.out.orchestration.InstrumentName;
-
+@Component
 public class Warm extends OrchestralQuality{
 
 	public Warm() {

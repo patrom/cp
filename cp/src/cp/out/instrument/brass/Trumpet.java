@@ -2,6 +2,7 @@ package cp.out.instrument.brass;
 
 import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
+import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
 
 public class Trumpet extends Instrument {
@@ -17,9 +18,11 @@ public class Trumpet extends Instrument {
 	}
 
 	private void init() {
+		instrumentGroup = InstrumentGroup.BRASS;
+		order = 0;
 		setLowest(60);
 		setHighest(84);
-		setGeneralMidi(GeneralMidi.CELLO);
+//		setGeneralMidi(GeneralMidi.CELLO);
 		
 		setInstrumentName("Trumpet in B^b (2)");
 		setInstrumentSound("brass.trumpet");

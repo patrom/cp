@@ -36,14 +36,7 @@ public class RhythmTest {
 	@Autowired
 	private Rhythm rhythm;
 	@Autowired
-	private MusicXMLWriter musicXMLWriter;
-	@Autowired
-	private MusicProperties musicProperties;
-	@Autowired
 	private MidiDevicesUtil midiDevicesUtil;
-	@Autowired
-	private MelodyGenerator melodyGenerator;
-
 	@Before
 	public void setUp() throws Exception {
 	

@@ -1,14 +1,11 @@
 package cp.out.orchestration.orchestra;
 
-import static java.util.stream.Collectors.toList;
-
 import java.util.ArrayList;
-import java.util.List;
 
-import cp.model.note.Note;
-import cp.out.instrument.Instrument;
 import cp.out.instrument.brass.FrenchHorn;
+import cp.out.instrument.brass.Trombone;
 import cp.out.instrument.brass.Trumpet;
+import cp.out.instrument.brass.Tuba;
 import cp.out.instrument.strings.Cello;
 import cp.out.instrument.strings.Doublebass;
 import cp.out.instrument.strings.Viola;
@@ -27,21 +24,25 @@ public class ClassicalOrchestra extends Orchestra {
 		oboe = new Oboe(1, 1);
 		clarinet = new Clarinet(2, 2);
 		bassoon = new Bassoon(3, 3);
-		horn = new FrenchHorn(4, 4);
-		trumpet = new Trumpet(5, 5);
-		violin1 = new ViolinsI(6, 6);
-		violin2 = new ViolinsII(7, 7);
-		viola = new Viola(8, 8);
-		cello = new Cello(9, 9);
-		bass = new Doublebass(10, 10);
 		map.put(flute, new ArrayList<>());
 		map.put(oboe, new ArrayList<>());
 		map.put(clarinet, new ArrayList<>());
 		map.put(bassoon, new ArrayList<>());
 		
+		horn = new FrenchHorn(4, 4);
+		trumpet = new Trumpet(5, 5);
+		trombone = new Trombone(6, 6);
+		tuba = new Tuba(7, 7);
 		map.put(horn, new ArrayList<>());
 		map.put(trumpet, new ArrayList<>());
+		map.put(trombone, new ArrayList<>());
+		map.put(tuba, new ArrayList<>());
 		
+		violin1 = new ViolinsI(8, 8);
+		violin2 = new ViolinsII(9, 9);
+		viola = new Viola(10, 10);
+		cello = new Cello(11, 11);
+		bass = new Doublebass(12, 12);
 		map.put(violin1, new ArrayList<>());
 		map.put(violin2, new ArrayList<>());
 		map.put(viola, new ArrayList<>());
@@ -49,16 +50,4 @@ public class ClassicalOrchestra extends Orchestra {
 		map.put(bass, new ArrayList<>());
 	}
 	
-	public List<Note> duplicate(Instrument instrumentToDuplicate, Instrument instrument, int octave) {
-		List<Note> duplicateNotes = map.get(instrumentToDuplicate).stream()
-				.map(n -> n.clone())
-				.collect(toList());
-		duplicateNotes.forEach(n ->{
-			if (!n.isRest()) {
-				n.transposePitch(octave);
-			}
-		});
-		instrument.updateMelodyInRange(duplicateNotes);
-		return duplicateNotes;
-	}
 }

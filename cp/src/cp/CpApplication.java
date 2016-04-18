@@ -22,6 +22,7 @@ import org.springframework.context.annotation.Import;
 
 import cp.generator.MusicProperties;
 import cp.genre.ComposeInGenre;
+import cp.genre.ThreeVoiceComposition;
 import cp.genre.TwoVoiceComposition;
 import cp.model.Motive;
 import cp.model.melody.MelodyBlock;
@@ -71,6 +72,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	@Autowired
 	private TwoVoiceComposition twoVoiceComposition;
 	@Autowired
+	private ThreeVoiceComposition threeVoiceComposition;
+	@Autowired
 	private Orchestrator orchestrator;
 	@Autowired
 	private Pleasant pleasant;
@@ -89,7 +92,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	@Override
 	public void run(String... arg0) throws Exception {
 		musicProperties.setOutputCountRun(2);
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < 10; i++) {
 			LOGGER.info("RUN: " + i + " START");		
 			compose();
 		    LOGGER.info("RUN: " + i + " END");
@@ -97,8 +100,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	}
 
 	private void compose() throws Exception {
-		twoVoiceComposition.init();
-		composeInGenre.setCompositionGenre(twoVoiceComposition::beatEven);
+		composeInGenre.setCompositionGenre(threeVoiceComposition::canon2Voice);
 		List<MelodyBlock> melodyBlocks = composeInGenre.composeInGenre();
 		
 	    Motive motive = new Motive(melodyBlocks);

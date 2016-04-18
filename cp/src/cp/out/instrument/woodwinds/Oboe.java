@@ -2,6 +2,7 @@ package cp.out.instrument.woodwinds;
 
 import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
+import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
 
 
@@ -17,6 +18,8 @@ public class Oboe extends Instrument {
 	}
 
 	private void init() {
+		instrumentGroup = InstrumentGroup.WOODWINDS;
+		order = 2;
 		setLowest(58);
 		setHighest(84);
 		setGeneralMidi(GeneralMidi.OBOE);

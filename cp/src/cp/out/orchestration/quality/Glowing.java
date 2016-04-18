@@ -3,6 +3,8 @@ package cp.out.orchestration.quality;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.springframework.stereotype.Component;
+
 import cp.out.instrument.Instrument;
 import cp.out.instrument.brass.FrenchHorn;
 import cp.out.instrument.brass.Trombone;
@@ -11,10 +13,10 @@ import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.ViolinsI;
 import cp.out.instrument.woodwinds.Oboe;
 import cp.out.orchestration.InstrumentName;
+@Component
+public class Glowing extends OrchestralQuality{
 
-public class Red extends OrchestralQuality{
-
-	public Red() {
+	public Glowing() {
 		color = "red";
 		quality = "glowing";
 		type = "basic";

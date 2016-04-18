@@ -2,6 +2,7 @@ package cp.out.instrument.strings;
 
 import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
+import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
 
 public class Doublebass extends Instrument {
@@ -12,6 +13,8 @@ public class Doublebass extends Instrument {
 	}
 
 	private void init() {
+		instrumentGroup = InstrumentGroup.STRINGS;
+		order = 3;
 		setLowest(38);
 		setHighest(67);
 		setGeneralMidi(GeneralMidi.CONTRABASS);

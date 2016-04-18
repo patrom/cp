@@ -20,6 +20,7 @@ public class Piano extends Instrument {
 	}
 
 	private void init() {
+		instrumentGroup = InstrumentGroup.PERCUSSION;
 		setLowest(40);
 		setHighest(108);
 		setGeneralMidi(GeneralMidi.PIANO);

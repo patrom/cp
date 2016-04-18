@@ -30,8 +30,6 @@ public class MusicXMLWriterTest {
 	@Autowired
 	private MusicXMLWriter musicXMLWriter;
 	private List<MelodyBlock> melodyBlocks;
-	@Autowired
-	private MusicProperties musicProperties;
 	private Instrument instrument;
 
 	@Before

@@ -27,7 +27,6 @@ import org.springframework.stereotype.Component;
 import cp.generator.MusicProperties;
 import cp.midi.MelodyInstrument;
 import cp.model.melody.MelodyBlock;
-import cp.model.note.BeamType;
 import cp.model.note.Note;
 import cp.model.note.TupletType;
 import cp.out.instrument.Instrument;
@@ -70,10 +69,12 @@ public class MusicXMLWriter {
 	}
 
 	protected void addLeadingRest(List<Note> notes) {
-		Note firsNote = notes.get(0);
-		if (firsNote.getPosition() != 0){
-			Note rest = note().pitch(Note.REST).pos(0).len(firsNote.getPosition()).voice(firsNote.getVoice()).build();
-			notes.add(0, rest);
+		if (!notes.isEmpty()) {
+			Note firsNote = notes.get(0);
+			if (firsNote.getPosition() != 0){
+				Note rest = note().pitch(Note.REST).pos(0).len(firsNote.getPosition()).voice(firsNote.getVoice()).build();
+				notes.add(0, rest);
+			}
 		}
 	}
 
@@ -198,7 +199,7 @@ public class MusicXMLWriter {
 		xmlStreamWriter.writeStartElement("part");
 		xmlStreamWriter.writeAttribute("id", "P" + instrument.getVoice());
 		xmlStreamWriter.writeCharacters("\n");
-		
+//		addLeadingRest(list);
 		createMeasureElements(list, instrument);
 		
 		xmlStreamWriter.writeEndElement();
@@ -560,6 +561,9 @@ public class MusicXMLWriter {
 			if (instrument.getClef().equals("F")) {
 				createElementWithValue("sign", "F");
 				createElementWithValue("line", "4");
+			} if (instrument.getClef().equals("C")) {
+				createElementWithValue("sign", "C");
+				createElementWithValue("line", "3");
 			} else {
 				createElementWithValue("sign", "G");
 				createElementWithValue("line", "2");

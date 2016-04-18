@@ -30,6 +30,8 @@ public class Instrument implements Comparable<Instrument> {
 	protected String virtualName;
 	protected String clef = "G";
 	private InstrumentRegister instrumentRegister = new InstrumentRegister();
+	protected int order;
+	protected InstrumentGroup instrumentGroup;
 	
 	public Instrument(int voice, int channel) {
 		this.voice = voice;
@@ -112,7 +114,7 @@ public class Instrument implements Comparable<Instrument> {
 		return rangeNotes;
 	}
 
-	private boolean inRange(int pitch) {
+	public boolean inRange(int pitch) {
 		return pitch >= getLowest() && pitch <= getHighest();
 	}
 	
@@ -271,6 +273,22 @@ public class Instrument implements Comparable<Instrument> {
 
 	public void setInstrumentRegister(InstrumentRegister instrumentRegister) {
 		this.instrumentRegister = instrumentRegister;
+	}
+
+	public int getOrder() {
+		return order;
+	}
+
+	public void setOrder(int order) {
+		this.order = order;
+	}
+
+	public InstrumentGroup getInstrumentGroup() {
+		return instrumentGroup;
+	}
+
+	public void setInstrumentGroup(InstrumentGroup instrumentGroup) {
+		this.instrumentGroup = instrumentGroup;
 	}
 	
 }
