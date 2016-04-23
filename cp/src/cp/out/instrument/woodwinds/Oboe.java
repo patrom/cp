@@ -19,7 +19,7 @@ public class Oboe extends Instrument {
 
 	private void init() {
 		instrumentGroup = InstrumentGroup.WOODWINDS;
-		order = 2;
+		order = 3;
 		setLowest(58);
 		setHighest(84);
 		setGeneralMidi(GeneralMidi.OBOE);

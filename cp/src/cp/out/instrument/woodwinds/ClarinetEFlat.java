@@ -5,34 +5,32 @@ import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
 
-public class BassClarinet extends Instrument{
+public class ClarinetEFlat extends Instrument {
 	
-	public BassClarinet(int voice, int channel) {
+	public ClarinetEFlat(int voice, int channel) {
 		super(voice, channel);
 		init();
 	}
 
 	private void init() {
 		instrumentGroup = InstrumentGroup.WOODWINDS;
-		order = 7;
-		setLowest(34);
-		setHighest(82);
+		order = 4;
+		setLowest(55);
+		setHighest(95);
 //		setGeneralMidi(GeneralMidi.CLARINET);
 		
-		setInstrumentName("Bass Clarinet in B^b");
-		setInstrumentSound("wind.reed.clarinet.bass");
-		setVirtualName("Bass Clarinet");
-		setClef("F");
+		setInstrumentName("Clarinet in E^b");
+		setInstrumentSound("wind.reed.clarinet");
+		setVirtualName("Clarinet Bb 1");
 	}
 
-	public BassClarinet() {
+	public ClarinetEFlat() {
 		init();
 	}
 	
-	public BassClarinet(InstrumentRegister instrumentRegister) {
+	public ClarinetEFlat(InstrumentRegister instrumentRegister) {
 		init();
 		setInstrumentRegister(instrumentRegister);
 	}
 
 }
-

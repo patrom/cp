@@ -1,13 +1,10 @@
 package cp.out.orchestration.orchestra;
 
-import static cp.model.note.NoteBuilder.note;
 import static java.util.stream.Collectors.toList;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.TreeMap;
 
@@ -20,14 +17,21 @@ import cp.util.RandomUtil;
 public class Orchestra {
 
 	protected Map<Instrument, List<Note>> map = new TreeMap<>();
+	protected Instrument piccolo;
 	protected Instrument flute;
+	protected Instrument altoFlute;
 	protected Instrument oboe;
+	protected Instrument corAnglais;
+	protected Instrument clarinetEflat;
 	protected Instrument clarinet;
+	protected Instrument bassClarinet;
 	protected Instrument bassoon;
+	protected Instrument contrabassoon;
 	
 	protected Instrument horn;
 	protected Instrument trumpet;
 	protected Instrument trombone;
+	protected Instrument bassTrombone;
 	protected Instrument tuba;
 	
 	protected Instrument violin1;
@@ -39,13 +43,21 @@ public class Orchestra {
 	public Orchestra() {
 		super();
 	}
+	
+	public Instrument getPiccolo() {
+		return piccolo;
+	}
+
+	public void setPiccolo(List<Note> notes) {
+		map.get(piccolo).addAll(notes);
+	}
+	
+	public void setPiccolo(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(piccolo).addAll(instrumentUpdate.updateInstrumentNotes(notes));
+	}
 
 	public Instrument getFlute() {
 		return flute;
-	}
-
-	public Instrument getOboe() {
-		return oboe;
 	}
 
 	public void setFlute(List<Note> notes) {
@@ -55,6 +67,22 @@ public class Orchestra {
 	public void setFlute(List<Note> notes, InstrumentUpdate instrumentUpdate) {
 		map.get(flute).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
+	
+	public Instrument getAltoFlute() {
+		return altoFlute;
+	}
+
+	public void setAltoFlute(List<Note> notes) {
+		map.get(altoFlute).addAll(notes);
+	}
+	
+	public void setAltoFlute(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(altoFlute).addAll(instrumentUpdate.updateInstrumentNotes(notes));
+	}
+	
+	public Instrument getOboe() {
+		return oboe;
+	}
 
 	public void setOboe(List<Note> notes) {
 		map.get(oboe).addAll(notes);
@@ -63,6 +91,18 @@ public class Orchestra {
 	public void setOboe(List<Note> notes, InstrumentUpdate instrumentUpdate) {
 		map.get(oboe).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
+	
+	public Instrument getCorAnglais() {
+		return corAnglais;
+	}
+
+	public void setCorAnglais(List<Note> notes) {
+		map.get(corAnglais).addAll(notes);
+	}
+	
+	public void setCorAnglais(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(corAnglais).addAll(instrumentUpdate.updateInstrumentNotes(notes));
+	}
 
 	public Map<Instrument, List<Note>> getOrchestra() {
 		return map;
@@ -70,6 +110,18 @@ public class Orchestra {
 
 	public List<Note> getNotes(Instrument instrument) {
 		return map.get(instrument);
+	}
+	
+	public Instrument getSmallClarinet() {
+		return clarinetEflat;
+	}
+
+	public void setSmallClarinet(List<Note> notes) {
+		map.get(clarinetEflat).addAll(notes);
+	}
+	
+	public void setSmallClarinet(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(clarinetEflat).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 
 	public Instrument getClarinet() {
@@ -83,6 +135,18 @@ public class Orchestra {
 	public void setClarinet(List<Note> notes, InstrumentUpdate instrumentUpdate) {
 		map.get(clarinet).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
+	
+	public Instrument getBassClarinet() {
+		return bassClarinet;
+	}
+
+	public void setBassClarinet(List<Note> notes) {
+		map.get(bassClarinet).addAll(notes);
+	}
+	
+	public void setBassClarinet(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(bassClarinet).addAll(instrumentUpdate.updateInstrumentNotes(notes));
+	}
 
 	public Instrument getBassoon() {
 		return bassoon;
@@ -94,6 +158,18 @@ public class Orchestra {
 	
 	public void setBassoon(List<Note> notes, InstrumentUpdate instrumentUpdate) {
 		map.get(bassoon).addAll(instrumentUpdate.updateInstrumentNotes(notes));
+	}
+	
+	public Instrument getContraBassoon() {
+		return contrabassoon;
+	}
+
+	public void setContraBassoon(List<Note> notes) {
+		map.get(contrabassoon).addAll(notes);
+	}
+	
+	public void setContraBassoon(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(contrabassoon).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 
 	public Instrument getHorn() {
@@ -130,6 +206,18 @@ public class Orchestra {
 	
 	public void setTrombone(List<Note> notes, InstrumentUpdate instrumentUpdate) {
 		map.get(trombone).addAll(instrumentUpdate.updateInstrumentNotes(notes));
+	}
+	
+	public Instrument getBassTrombone() {
+		return bassTrombone;
+	}
+
+	public void setBassTrombone(List<Note> notes) {
+		map.get(bassTrombone).addAll(notes);
+	}
+	
+	public void setBassTrombone(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(bassTrombone).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 	
 	public Instrument getTuba() {

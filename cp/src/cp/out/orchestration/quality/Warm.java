@@ -6,11 +6,14 @@ import java.util.stream.Stream;
 import org.springframework.stereotype.Component;
 
 import cp.out.instrument.Instrument;
+import cp.out.instrument.brass.BassTrombone;
 import cp.out.instrument.brass.FrenchHorn;
 import cp.out.instrument.brass.Trombone;
 import cp.out.instrument.brass.Trumpet;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.Doublebass;
+import cp.out.instrument.woodwinds.AltoFlute;
+import cp.out.instrument.woodwinds.ContraBassoon;
 import cp.out.orchestration.InstrumentName;
 @Component
 public class Warm extends OrchestralQuality{
@@ -20,27 +23,30 @@ public class Warm extends OrchestralQuality{
 		quality = "warm";
 		type = "basic";
 		instruments = Stream.of(
+				new AltoFlute(new InstrumentRegister(55, 71)),
 				new FrenchHorn(new InstrumentRegister(55, 68)),
 				new Trumpet(new InstrumentRegister(58, 55)),
 				new Trombone(new InstrumentRegister(48, 53)),
-				new Doublebass(new InstrumentRegister(39, 45))
+				new BassTrombone(new InstrumentRegister(34, 51)),
+				new Doublebass(new InstrumentRegister(39, 45)),
+				new ContraBassoon(new InstrumentRegister(22, 54))
 				).collect(Collectors.toList());
 	}
 	
 	public Instrument getFrenchHorn(){
-		return getInstrument(InstrumentName.HORN.getName());
+		return getBasicInstrument(InstrumentName.HORN.getName());
 	}
 	
 	public Instrument getTrumpet(){
-		return getInstrument(InstrumentName.TRUMPET.getName());
+		return getBasicInstrument(InstrumentName.TRUMPET.getName());
 	}
 	
 	public Instrument getTrombone(){
-		return getInstrument(InstrumentName.TROMBONE.getName());
+		return getBasicInstrument(InstrumentName.TROMBONE.getName());
 	}
 	
 	public Instrument getDoubleBass(){
-		return getInstrument(InstrumentName.BASS.getName());
+		return getBasicInstrument(InstrumentName.BASS.getName());
 	}
 
 }

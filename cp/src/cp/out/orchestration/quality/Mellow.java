@@ -1,5 +1,7 @@
 package cp.out.orchestration.quality;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -28,31 +30,31 @@ public class Mellow extends OrchestralQuality{
 				new Viola(new InstrumentRegister(48, 60)),
 				new Cello(new InstrumentRegister(36, 49)),
 				new Doublebass(new InstrumentRegister(24, 50))
-				).collect(Collectors.toList());
+				).collect(toList());
 	}
 	
 	public Instrument getFrenchHorn(){
-		return getInstrument(InstrumentName.HORN.getName());
+		return getBasicInstrument(InstrumentName.HORN.getName());
 	}
 	
 	public Instrument getPiano(){
-		return getInstrument(InstrumentName.PIANO.getName());
+		return getBasicInstrument(InstrumentName.PIANO.getName());
 	}
 	
 	public Instrument getViolinsI(){
-		return getInstrument(InstrumentName.VIOLIN_I.getName());
+		return getBasicInstrument(InstrumentName.VIOLIN_I.getName());
 	}
 	
 	public Instrument getViola(){
-		return getInstrument(InstrumentName.VIOLA.getName());
+		return getBasicInstrument(InstrumentName.VIOLA.getName());
 	}
 	
 	public Instrument getCello(){
-		return getInstrument(InstrumentName.CELLO.getName());
+		return getBasicInstrument(InstrumentName.CELLO.getName());
 	}
 	
 	public Instrument getDoubleBass(){
-		return getInstrument(InstrumentName.BASS.getName());
+		return getBasicInstrument(InstrumentName.BASS.getName());
 	}
 
 }

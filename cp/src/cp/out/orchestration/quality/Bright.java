@@ -12,8 +12,10 @@ import cp.out.instrument.strings.Cello;
 import cp.out.instrument.strings.Viola;
 import cp.out.instrument.strings.ViolinsI;
 import cp.out.instrument.woodwinds.Clarinet;
+import cp.out.instrument.woodwinds.ClarinetEFlat;
 import cp.out.instrument.woodwinds.Flute;
 import cp.out.instrument.woodwinds.Oboe;
+import cp.out.instrument.woodwinds.Piccolo;
 import cp.out.orchestration.InstrumentName;
 
 @Component
@@ -24,8 +26,10 @@ public class Bright extends OrchestralQuality{
 		quality = "bright";
 		type = "basic";
 		instruments = Stream.of(
+				new Piccolo(new InstrumentRegister(74, 83)),
 				new Flute(new InstrumentRegister(79, 98)),
 				new Oboe(new InstrumentRegister(80, 91)),
+				new ClarinetEFlat(new InstrumentRegister(73, 95)),
 				new Clarinet(new InstrumentRegister(77, 82)),
 				new Trumpet(new InstrumentRegister(78, 83)),
 				new ViolinsI(new InstrumentRegister(76, 89)),
@@ -35,31 +39,31 @@ public class Bright extends OrchestralQuality{
 	}
 	
 	public Instrument getFlute(){
-		return getInstrument(InstrumentName.FLUTE.getName());
+		return getBasicInstrument(InstrumentName.FLUTE.getName());
 	}
 	
 	public Instrument getOboe(){
-		return getInstrument(InstrumentName.OBOE.getName());
+		return getBasicInstrument(InstrumentName.OBOE.getName());
 	}
 	
 	public Instrument getClarinet(){
-		return getInstrument(InstrumentName.CLARINET.getName());
+		return getBasicInstrument(InstrumentName.CLARINET.getName());
 	}
 	
 	public Instrument getTrumpet(){
-		return getInstrument(InstrumentName.TRUMPET.getName());
+		return getBasicInstrument(InstrumentName.TRUMPET.getName());
 	}
 	
 	public Instrument getViolinsI(){
-		return getInstrument(InstrumentName.VIOLIN_I.getName());
+		return getBasicInstrument(InstrumentName.VIOLIN_I.getName());
 	}
 	
 	public Instrument getViola(){
-		return getInstrument(InstrumentName.VIOLA.getName());
+		return getBasicInstrument(InstrumentName.VIOLA.getName());
 	}
 	
 	public Instrument getCello(){
-		return getInstrument(InstrumentName.CELLO.getName());
+		return getBasicInstrument(InstrumentName.CELLO.getName());
 	}
 
 }

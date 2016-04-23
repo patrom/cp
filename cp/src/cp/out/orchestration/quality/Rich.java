@@ -12,8 +12,10 @@ import cp.out.instrument.strings.Cello;
 import cp.out.instrument.strings.Doublebass;
 import cp.out.instrument.strings.Viola;
 import cp.out.instrument.strings.ViolinsI;
+import cp.out.instrument.woodwinds.BassClarinet;
 import cp.out.instrument.woodwinds.Bassoon;
 import cp.out.instrument.woodwinds.Clarinet;
+import cp.out.instrument.woodwinds.ClarinetEFlat;
 import cp.out.instrument.woodwinds.Flute;
 import cp.out.orchestration.InstrumentName;
 @Component
@@ -26,6 +28,7 @@ public class Rich extends OrchestralQuality{
 		instruments = Stream.of(
 				new Flute(new InstrumentRegister(59, 71)),
 				new Clarinet(new InstrumentRegister(50, 65)),
+				new BassClarinet(new InstrumentRegister(34, 53)),
 				new ViolinsI(new InstrumentRegister(62, 74)),
 				new Viola(new InstrumentRegister(55, 67)),
 				new Cello(new InstrumentRegister(43, 55)),
@@ -35,31 +38,31 @@ public class Rich extends OrchestralQuality{
 	}
 	
 	public Instrument getFlute(){
-		return getInstrument(InstrumentName.FLUTE.getName());
+		return getBasicInstrument(InstrumentName.FLUTE.getName());
 	}
 	
 	public Instrument getClarinet(){
-		return getInstrument(InstrumentName.CLARINET.getName());
+		return getBasicInstrument(InstrumentName.CLARINET.getName());
 	}
 	
 	public Instrument getViolinsI(){
-		return getInstrument(InstrumentName.VIOLIN_I.getName());
+		return getBasicInstrument(InstrumentName.VIOLIN_I.getName());
 	}
 	
 	public Instrument getViola(){
-		return getInstrument(InstrumentName.VIOLA.getName());
+		return getBasicInstrument(InstrumentName.VIOLA.getName());
 	}
 	
 	public Instrument getCello(){
-		return getInstrument(InstrumentName.CELLO.getName());
+		return getBasicInstrument(InstrumentName.CELLO.getName());
 	}
 	
 	public Instrument getDoubleBass(){
-		return getInstrument(InstrumentName.BASS.getName());
+		return getBasicInstrument(InstrumentName.BASS.getName());
 	}
 	
 	public Instrument getPiano(){
-		return getInstrument(InstrumentName.PIANO.getName());
+		return getBasicInstrument(InstrumentName.PIANO.getName());
 	}
 
 }

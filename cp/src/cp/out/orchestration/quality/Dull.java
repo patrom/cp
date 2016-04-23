@@ -29,19 +29,19 @@ public class Dull extends OrchestralQuality{
 	}
 	
 	public Instrument getFrenchHorn(){
-		return getInstrument(InstrumentName.HORN.getName());
+		return getBasicInstrument(InstrumentName.HORN.getName());
 	}
 	
 	public Instrument getTrumpet(){
-		return getInstrument(InstrumentName.TRUMPET.getName());
+		return getBasicInstrument(InstrumentName.TRUMPET.getName());
 	}
 	
 	public Instrument getTrombone(){
-		return getInstrument(InstrumentName.TROMBONE.getName());
+		return getBasicInstrument(InstrumentName.TROMBONE.getName());
 	}
 	
 	public Instrument getPiano(){
-		return getInstrument(InstrumentName.PIANO.getName());
+		return getBasicInstrument(InstrumentName.PIANO.getName());
 	}
 
 }

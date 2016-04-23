@@ -101,8 +101,8 @@ public class Orchestrator {
 		
 //		orchestra.setTrumpet(orchestra.duplicate(orchestra.getClarinet()), brilliant.getInstrument(InstrumentName.TRUMPET.getName())::updateInQualityRange);
 		
-		orchestra.setViolin1(orchestra.duplicate(orchestra.getClarinet()), pleasant.getInstrument(InstrumentName.VIOLIN_I.getName())::updateInQualityRange);
-		orchestra.setViola(orchestra.duplicate(orchestra.getClarinet()), pleasant.getInstrument(InstrumentName.VIOLA.getName())::updateInQualityRange);
+		orchestra.setViolin1(orchestra.duplicate(orchestra.getClarinet()), pleasant.getBasicInstrument(InstrumentName.VIOLIN_I.getName())::updateInQualityRange);
+		orchestra.setViola(orchestra.duplicate(orchestra.getClarinet()), pleasant.getBasicInstrument(InstrumentName.VIOLA.getName())::updateInQualityRange);
 //		orchestra.setCello(orchestra.duplicate(orchestra.getFlute(), 0), pleasant.getInstrument(InstrumentName.CELLO.getName())::updateInQualityRange);
 //		orchestra.setBass(notes);
 //		ChordOrchestration chordOrchestration = new ChordOrchestration(0, 48, 5);

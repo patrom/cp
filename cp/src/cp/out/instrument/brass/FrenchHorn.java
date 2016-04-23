@@ -24,7 +24,7 @@ public class FrenchHorn extends Instrument {
 
 	private void init() {
 		instrumentGroup = InstrumentGroup.BRASS;
-		order = 0;
+		order = 1;
 		setLowest(40);
 		setHighest(70);
 		setGeneralMidi(GeneralMidi.FRENCH_HORN);

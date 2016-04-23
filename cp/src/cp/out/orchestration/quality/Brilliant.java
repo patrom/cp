@@ -13,6 +13,7 @@ import cp.out.instrument.strings.Cello;
 import cp.out.instrument.strings.Viola;
 import cp.out.instrument.strings.ViolinsI;
 import cp.out.instrument.woodwinds.Clarinet;
+import cp.out.instrument.woodwinds.Piccolo;
 import cp.out.orchestration.InstrumentName;
 
 @Component
@@ -23,6 +24,7 @@ public class Brilliant extends OrchestralQuality{
 		quality = "brilliant";
 		type = "basic";
 		instruments = Stream.of(
+				new Piccolo(new InstrumentRegister(83, 108)),
 				new Clarinet(new InstrumentRegister(82, 92)),
 				new Trumpet(new InstrumentRegister(82, 92)),
 //				new Piano(new InstrumentRegister(96, 108)),
@@ -33,27 +35,27 @@ public class Brilliant extends OrchestralQuality{
 	}
 	
 	public Instrument getClarinet(){
-		return getInstrument(InstrumentName.CLARINET.getName());
+		return getBasicInstrument(InstrumentName.CLARINET.getName());
 	}
 	
 	public Instrument getTrumpet(){
-		return getInstrument(InstrumentName.TRUMPET.getName());
+		return getBasicInstrument(InstrumentName.TRUMPET.getName());
 	}
 	
 	public Instrument getPiano(){
-		return getInstrument(InstrumentName.PIANO.getName());
+		return getBasicInstrument(InstrumentName.PIANO.getName());
 	}
 	
 	public Instrument getViolinsI(){
-		return getInstrument(InstrumentName.VIOLIN_I.getName());
+		return getBasicInstrument(InstrumentName.VIOLIN_I.getName());
 	}
 	
 	public Instrument getViola(){
-		return getInstrument(InstrumentName.VIOLA.getName());
+		return getBasicInstrument(InstrumentName.VIOLA.getName());
 	}
 	
 	public Instrument getCello(){
-		return getInstrument(InstrumentName.CELLO.getName());
+		return getBasicInstrument(InstrumentName.CELLO.getName());
 	}
 
 }

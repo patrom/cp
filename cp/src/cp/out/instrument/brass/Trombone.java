@@ -19,7 +19,7 @@ public class Trombone extends Instrument {
 
 	private void init() {
 		instrumentGroup = InstrumentGroup.BRASS;
-		order = 1;
+		order = 2;
 		setLowest(40);
 		setHighest(71);
 //		setGeneralMidi(GeneralMidi.t);

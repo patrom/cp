@@ -23,7 +23,7 @@ public class Tuba extends Instrument {
 
 	private void init() {
 		instrumentGroup = InstrumentGroup.BRASS;
-		order = 3;
+		order = 4;
 		setLowest(30);
 		setHighest(53);
 //		setGeneralMidi(GeneralMidi.CELLO);
@@ -31,6 +31,7 @@ public class Tuba extends Instrument {
 		setInstrumentName("Tuba");
 		setInstrumentSound("brass.tuba");
 		setVirtualName("Tuba Bb");
+		setClef("F");
 	}
 }
 

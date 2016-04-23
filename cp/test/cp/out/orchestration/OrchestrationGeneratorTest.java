@@ -1,11 +1,13 @@
 package cp.out.orchestration;
 
 import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.assertEquals;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.xml.stream.FactoryConfigurationError;
@@ -22,10 +24,13 @@ import cp.DefaultConfig;
 import cp.model.note.Note;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
+import cp.out.instrument.brass.FrenchHorn;
 import cp.out.instrument.strings.Cello;
 import cp.out.instrument.strings.Viola;
 import cp.out.instrument.strings.ViolinsI;
 import cp.out.orchestration.orchestra.ClassicalOrchestra;
+import cp.out.orchestration.orchestra.Orchestra;
+import cp.out.orchestration.orchestra.WindOrchestra;
 import cp.out.orchestration.quality.OrchestralQuality;
 import cp.out.print.MusicXMLWriter;
 
@@ -37,39 +42,68 @@ public class OrchestrationGeneratorTest {
 	private OrchestrationGenerator orchestrationGenerator;	
 	@Autowired
 	private MusicXMLWriter musicXMLWriter;
+	@Autowired
+	private VerticalRelations verticalRelations;
 
-	private ClassicalOrchestra classicalOrchestra = new ClassicalOrchestra();
+	private Orchestra orchestra = new ClassicalOrchestra();
 	
 	@Before
 	public void setUp() throws Exception {
 	}
 
+
 	@Test
-	public void testOverlay2AllInstruments() throws FileNotFoundException, FactoryConfigurationError, XMLStreamException {
+	public void testPerfectCombinations() throws FileNotFoundException, FactoryConfigurationError, XMLStreamException {
 		int position = 0;
 		int noteLength = 48;
 		for (int i = 2; i < 8; i++) {
-			int[] chord = new int[]{9, 7, 4, 1};
+			int[] chord = new int[]{12, 9, 6, 2};
 			int[] chordPitchClasses = getChordPitchclasses(i, chord);
 			List<OrchestralQuality> orchestralQualities = orchestrationGenerator.getOrchestralQualities();
 			for (OrchestralQuality orchestralQuality : orchestralQualities) {
-				List<Instrument> instruments = orchestralQuality.getBasicInstruments();
-//				List<Instrument> instruments = orchestralQuality.getBasicInstrumentsByGroup(InstrumentGroup.BRASS);
-//				List<InstrumentNoteMapping> noteForInstrument = orchestrationGenerator.overlay2AllInstruments(chordPitchClasses, instruments, 2);
-				List<InstrumentNoteMapping> noteForInstrument = orchestrationGenerator.enclosureAllInstruments(chordPitchClasses, instruments);
-//				List<InstrumentNoteMapping> noteForInstrument = orchestrationGenerator.crossingAllInstruments(chordPitchClasses, instruments);
-				List<InstrumentNoteMapping> orchestratedChords = noteForInstrument.stream().filter(m -> m.getChordSize() > chord.length - 1 ).collect(toList());
-				for (InstrumentNoteMapping instrumentNoteMapping : orchestratedChords) {
-					System.out.println("-----------------");
-					System.out.println(orchestralQuality.getQuality());
-					for (Entry<Instrument, List<Note>> entry : instrumentNoteMapping.getNotesForInstrument().entrySet()) {
-						addToOrchestra(position, entry);
-					}
-					position = position + noteLength;
-				}
+//				List<Instrument> instruments = orchestralQuality.getBasicInstruments();
+				List<Instrument> instruments = orchestralQuality.getBasicInstrumentsByGroup(InstrumentGroup.STRINGS);
+				Collections.sort(instruments , new OrderComparator());
+				
+				List<InstrumentNoteMapping> noteForInstrument = orchestrationGenerator.combine(chordPitchClasses, instruments, instruments, verticalRelations::overlapping2);
+				List<InstrumentNoteMapping> orchestratedChords = noteForInstrument.stream().filter(m -> m.getChordSize() == chord.length + 1).collect(toList());
+				position = updateOrchestra(position, noteLength, orchestralQuality, orchestratedChords);
+				
+				noteForInstrument = orchestrationGenerator.combine(chordPitchClasses, instruments, instruments, verticalRelations::enclosing);
+				orchestratedChords = noteForInstrument.stream().filter(m -> m.getChordSize() == chord.length).collect(toList());
+				position = updateOrchestra(position, noteLength, orchestralQuality, orchestratedChords);
+
+				noteForInstrument = orchestrationGenerator.combine(chordPitchClasses, instruments, instruments, verticalRelations::crossing);
+				orchestratedChords = noteForInstrument.stream().filter(m -> m.getChordSize() == chord.length).collect(toList());
+				position = updateOrchestra(position, noteLength, orchestralQuality, orchestratedChords);
+
+//				noteForInstrument = orchestrationGenerator.combine(chordPitchClasses, instruments, instruments, verticalRelations::oneOrchestralQuality);
+//				orchestratedChords = noteForInstrument.stream().filter(m -> m.getChordSize() == chord.length).collect(toList());
+//				position = updateOrchestra(position, noteLength, orchestralQuality, orchestratedChords);
+			
+				noteForInstrument = orchestrationGenerator.combine(chordPitchClasses, instruments, instruments, verticalRelations::superpositionSplit2);
+				orchestratedChords = noteForInstrument.stream().filter(m -> m.getChordSize() == chord.length).collect(toList());
+				position = updateOrchestra(position, noteLength, orchestralQuality, orchestratedChords);
+				
+				noteForInstrument = orchestrationGenerator.combine(chordPitchClasses, instruments, instruments, verticalRelations::superpositionSplit1);
+				orchestratedChords = noteForInstrument.stream().filter(m -> m.getChordSize() == chord.length).collect(toList());
+				position = updateOrchestra(position, noteLength, orchestralQuality, orchestratedChords);
 			}
 		}
-		musicXMLWriter.createXML("orchestra", classicalOrchestra.getOrchestra());
+		musicXMLWriter.createXML("orchestra", orchestra.getOrchestra());
+	}
+
+	private int updateOrchestra(int position, int noteLength, OrchestralQuality orchestralQuality,
+			List<InstrumentNoteMapping> orchestratedChords) {
+		for (InstrumentNoteMapping instrumentNoteMapping : orchestratedChords) {
+			System.out.println("-----------------");
+			System.out.println(orchestralQuality.getQuality());
+			for (Entry<Instrument, List<Note>> entry : instrumentNoteMapping.getNotesForInstrument().entrySet()) {
+				addToOrchestra(position, entry);
+			}
+			position = position + noteLength;
+		}
+		return position;
 	}
 
 	private void addToOrchestra(int position, Entry<Instrument, List<Note>> entry) {
@@ -77,16 +111,16 @@ public class OrchestrationGeneratorTest {
 		List<Note> notes = entry.getValue();
 		notes.forEach(n -> n.setPosition(position));
 		System.out.println(notes);
-		classicalOrchestra.updateInstrument(entry.getKey(), notes);
+		orchestra.updateInstrument(entry.getKey(), notes);
 	}
 	
 	@Test
-	public void testOverlay2Instruments2() {
+	public void testOverlayInstruments2() {
 		List<Instrument> instruments = new ArrayList<>();
 		instruments.add(new ViolinsI());
 		instruments.add(new Viola());
 		instruments.add(new Cello());
-		List<InstrumentNoteMapping> noteForInstrument = orchestrationGenerator.overlay2AllInstruments(new int[]{67,64,60}, instruments, 2);
+		List<InstrumentNoteMapping> noteForInstrument = orchestrationGenerator.overlayAllInstruments(new int[]{67,64,60}, instruments);
 		for (InstrumentNoteMapping instrumentNoteMapping : noteForInstrument) {
 			System.out.println("-----------------");
 			for (Entry<Instrument, List<Note>> entry : instrumentNoteMapping.getNotesForInstrument().entrySet()) {
@@ -142,5 +176,65 @@ public class OrchestrationGeneratorTest {
 				System.out.println(entry.getValue());
 			}
 		}
+	}
+	
+	@Test
+	public void testSuperposition() {
+		InstrumentNoteMapping instrumentNoteMapping = orchestrationGenerator.superpositionSplit2(new int[]{67, 64,60,57}, new ViolinsI(), new Viola());
+		Map<Instrument, List<Note>> map = instrumentNoteMapping.getNotesForInstrument();
+		List<Note> notes = map.get(new ViolinsI());
+		assertEquals(notes.get(0).getPitch(), 67);
+		assertEquals(notes.get(1).getPitch(), 64);
+		notes = map.get(new Viola());
+		assertEquals(notes.get(0).getPitch(), 60);
+		assertEquals(notes.get(1).getPitch(), 57);
+	}
+	
+	@Test
+	public void testEnclosing() {
+		InstrumentNoteMapping instrumentNoteMapping = orchestrationGenerator.enclosing(new int[]{67, 64,60,57}, new ViolinsI(), new Viola());
+		Map<Instrument, List<Note>> map = instrumentNoteMapping.getNotesForInstrument();
+		List<Note> notes = map.get(new ViolinsI());
+		assertEquals(notes.get(0).getPitch(), 67);
+		assertEquals(notes.get(1).getPitch(), 57);
+		notes = map.get(new Viola());
+		assertEquals(notes.get(0).getPitch(), 64);
+		assertEquals(notes.get(1).getPitch(), 60);
+	}
+	
+	@Test
+	public void testCrossing() {
+		InstrumentNoteMapping instrumentNoteMapping = orchestrationGenerator.crossing(new int[]{67, 64,60,57}, new ViolinsI(), new Viola());
+		Map<Instrument, List<Note>> map = instrumentNoteMapping.getNotesForInstrument();
+		List<Note> notes = map.get(new ViolinsI());
+		assertEquals(notes.get(0).getPitch(), 67);
+		assertEquals(notes.get(1).getPitch(), 60);
+		notes = map.get(new Viola());
+		assertEquals(notes.get(0).getPitch(), 64);
+		assertEquals(notes.get(1).getPitch(), 57);
+	}
+	
+	@Test
+	public void testOverlapping() {
+		InstrumentNoteMapping instrumentNoteMapping = orchestrationGenerator.overlapping2(new int[]{67, 64,60}, new ViolinsI(), new Viola());
+		Map<Instrument, List<Note>> map = instrumentNoteMapping.getNotesForInstrument();
+		List<Note> notes = map.get(new ViolinsI());
+		assertEquals(notes.get(0).getPitch(), 67);
+		assertEquals(notes.get(1).getPitch(), 64);
+		notes = map.get(new Viola());
+		assertEquals(notes.get(0).getPitch(), 64);
+		assertEquals(notes.get(1).getPitch(), 60);
+	}
+	
+	@Test
+	public void testCombine() {
+		List<OrchestralQuality> orchestralQualities = orchestrationGenerator.getOrchestralQualities();
+		for (OrchestralQuality orchestralQuality : orchestralQualities) {
+//			List<Instrument> instruments = orchestralQuality.getBasicInstruments();
+			List<Instrument> instruments = orchestralQuality.getBasicInstrumentsByGroup(InstrumentGroup.WOODWINDS);
+			System.out.println(orchestralQuality.getQuality());
+			orchestrationGenerator.combine(new int[]{67, 64,60}, instruments, instruments, verticalRelations::overlapping2);
+		}
+
 	}
 }

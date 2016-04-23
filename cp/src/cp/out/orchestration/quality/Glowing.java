@@ -6,11 +6,14 @@ import java.util.stream.Stream;
 import org.springframework.stereotype.Component;
 
 import cp.out.instrument.Instrument;
+import cp.out.instrument.brass.BassTrombone;
 import cp.out.instrument.brass.FrenchHorn;
 import cp.out.instrument.brass.Trombone;
 import cp.out.instrument.brass.Trumpet;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.ViolinsI;
+import cp.out.instrument.woodwinds.AltoFlute;
+import cp.out.instrument.woodwinds.CorAnglais;
 import cp.out.instrument.woodwinds.Oboe;
 import cp.out.orchestration.InstrumentName;
 @Component
@@ -21,32 +24,35 @@ public class Glowing extends OrchestralQuality{
 		quality = "glowing";
 		type = "basic";
 		instruments = Stream.of(
+				new AltoFlute(new InstrumentRegister(67, 80)),
+				new CorAnglais(new InstrumentRegister(52, 67)),
 				new Oboe(new InstrumentRegister(58, 67)),
 				new FrenchHorn(new InstrumentRegister(68, 79)),
 				new Trumpet(new InstrumentRegister(64, 70)),
 				new Trombone(new InstrumentRegister(53, 64)),
+				new BassTrombone(new InstrumentRegister(41, 55)),
 				new ViolinsI(new InstrumentRegister(67, 74))
 				).collect(Collectors.toList());
 	}
 	
 	public Instrument getOboe(){
-		return getInstrument(InstrumentName.OBOE.getName());
+		return getBasicInstrument(InstrumentName.OBOE.getName());
 	}
 	
 	public Instrument getFrenchHorn(){
-		return getInstrument(InstrumentName.HORN.getName());
+		return getBasicInstrument(InstrumentName.HORN.getName());
 	}
 	
 	public Instrument getTrumpet(){
-		return getInstrument(InstrumentName.TRUMPET.getName());
+		return getBasicInstrument(InstrumentName.TRUMPET.getName());
 	}
 	
 	public Instrument getTrombone(){
-		return getInstrument(InstrumentName.TROMBONE.getName());
+		return getBasicInstrument(InstrumentName.TROMBONE.getName());
 	}
 	
 	public Instrument getViolinsI(){
-		return getInstrument(InstrumentName.VIOLIN_I.getName());
+		return getBasicInstrument(InstrumentName.VIOLIN_I.getName());
 	}
 
 }
