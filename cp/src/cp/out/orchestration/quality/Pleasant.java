@@ -8,6 +8,10 @@ import java.util.stream.Stream;
 import org.springframework.stereotype.Component;
 
 import cp.out.instrument.Instrument;
+import cp.out.instrument.keyboard.Celesta;
+import cp.out.instrument.keyboard.Piano;
+import cp.out.instrument.percussion.Glockenspiel;
+import cp.out.instrument.percussion.Harp;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.Cello;
 import cp.out.instrument.strings.Doublebass;
@@ -39,7 +43,11 @@ public class Pleasant extends OrchestralQuality{
 				new ViolinsI(new InstrumentRegister(69, 81)),
 				new Viola(new InstrumentRegister(62, 74)),
 				new Cello(new InstrumentRegister(50, 61)),
-				new Doublebass(new InstrumentRegister(43, 49))
+				new Doublebass(new InstrumentRegister(43, 49)),
+				new Glockenspiel(new InstrumentRegister(87, 103)),
+				new Celesta(new InstrumentRegister(72, 84)),
+				new Harp(new InstrumentRegister(84, 95)),
+				new Piano(new InstrumentRegister(72, 84))
 				).collect(toList());
 		
 		complementaryInstruments = Stream.of(

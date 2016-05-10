@@ -10,6 +10,9 @@ import cp.out.instrument.brass.BassTrombone;
 import cp.out.instrument.brass.FrenchHorn;
 import cp.out.instrument.brass.Trombone;
 import cp.out.instrument.brass.Trumpet;
+import cp.out.instrument.keyboard.Celesta;
+import cp.out.instrument.percussion.Harp;
+import cp.out.instrument.percussion.Xylophone;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.ViolinsI;
 import cp.out.instrument.woodwinds.AltoFlute;
@@ -31,7 +34,9 @@ public class Golden extends OrchestralQuality{
 				new Trumpet(new InstrumentRegister(70, 78)),
 				new Trombone(new InstrumentRegister(64, 77)),
 				new BassTrombone(new InstrumentRegister(55, 69)),
-				new ViolinsI(new InstrumentRegister(74, 84))
+				new ViolinsI(new InstrumentRegister(74, 84)),
+				new Xylophone(new InstrumentRegister(65, 108)),
+				new Harp(new InstrumentRegister(60, 84))
 				).collect(Collectors.toList());
 	}
 	

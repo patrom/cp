@@ -33,7 +33,7 @@ import cp.model.note.Scale;
 import cp.nsga.operator.mutation.melody.ReplaceMelody;
 import cp.objective.harmony.HarmonicObjective;
 import cp.out.instrument.Instrument;
-import cp.out.instrument.Piano;
+import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.strings.Cello;
 import cp.out.instrument.strings.Viola;
 import cp.out.instrument.strings.ViolinsI;

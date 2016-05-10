@@ -6,8 +6,11 @@ import java.util.stream.Stream;
 import org.springframework.stereotype.Component;
 
 import cp.out.instrument.Instrument;
-import cp.out.instrument.Piano;
 import cp.out.instrument.brass.Trumpet;
+import cp.out.instrument.keyboard.Celesta;
+import cp.out.instrument.keyboard.Piano;
+import cp.out.instrument.percussion.Glockenspiel;
+import cp.out.instrument.percussion.Harp;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.Cello;
 import cp.out.instrument.strings.Viola;
@@ -30,7 +33,10 @@ public class Brilliant extends OrchestralQuality{
 //				new Piano(new InstrumentRegister(96, 108)),
 				new ViolinsI(new InstrumentRegister(89, 100)),
 				new Viola(new InstrumentRegister(81, 93)),
-				new Cello(new InstrumentRegister(69, 81))
+				new Cello(new InstrumentRegister(69, 81)),
+				new Glockenspiel(new InstrumentRegister(103, 108)),
+				new Celesta(new InstrumentRegister(96, 108)),
+				new Piano(new InstrumentRegister(96, 108))
 				).collect(Collectors.toList());
 	}
 	

@@ -17,7 +17,7 @@ import cp.VariationConfig;
 import cp.midi.MelodyInstrument;
 import cp.model.note.Note;
 import cp.out.instrument.Instrument;
-import cp.out.instrument.Piano;
+import cp.out.instrument.keyboard.Piano;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {DefaultConfig.class, VariationConfig.class})

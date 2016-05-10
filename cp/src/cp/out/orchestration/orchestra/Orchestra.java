@@ -34,6 +34,13 @@ public class Orchestra {
 	protected Instrument bassTrombone;
 	protected Instrument tuba;
 	
+	protected Instrument glockenspiel;
+	protected Instrument celesta;
+	protected Instrument xylophone;
+	protected Instrument harp;
+	protected Instrument piano;
+	protected Instrument timpani;
+	
 	protected Instrument violin1;
 	protected Instrument violin2;
 	protected Instrument viola;
@@ -231,7 +238,79 @@ public class Orchestra {
 	public void setTuba(List<Note> notes, InstrumentUpdate instrumentUpdate) {
 		map.get(tuba).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
+	
+	public Instrument getGlockenspiel() {
+		return glockenspiel;
+	}
 
+	public void setGlockenspiel(List<Note> notes) {
+		map.get(glockenspiel).addAll(notes);
+	}
+	
+	public void setGlockenspiel(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(glockenspiel).addAll(instrumentUpdate.updateInstrumentNotes(notes));
+	}
+	
+	public Instrument getCelesta() {
+		return celesta;
+	}
+
+	public void setCelesta(List<Note> notes) {
+		map.get(celesta).addAll(notes);
+	}
+	
+	public void setCelesta(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(celesta).addAll(instrumentUpdate.updateInstrumentNotes(notes));
+	}
+	
+	public Instrument getXylophone() {
+		return xylophone;
+	}
+
+	public void setXylophone(List<Note> notes) {
+		map.get(xylophone).addAll(notes);
+	}
+	
+	public void setXylophone(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(xylophone).addAll(instrumentUpdate.updateInstrumentNotes(notes));
+	}
+	
+	public Instrument getPiano() {
+		return piano;
+	}
+
+	public void setPiano(List<Note> notes) {
+		map.get(piano).addAll(notes);
+	}
+	
+	public void setPiano(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(piano).addAll(instrumentUpdate.updateInstrumentNotes(notes));
+	}
+	
+	public Instrument getHarp() {
+		return harp;
+	}
+
+	public void setHarp(List<Note> notes) {
+		map.get(harp).addAll(notes);
+	}
+	
+	public void setHarp(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(harp).addAll(instrumentUpdate.updateInstrumentNotes(notes));
+	}
+	
+	public Instrument getTimpani() {
+		return timpani;
+	}
+
+	public void setTimpani(List<Note> notes) {
+		map.get(timpani).addAll(notes);
+	}
+	
+	public void setTimpani(List<Note> notes, InstrumentUpdate instrumentUpdate) {
+		map.get(timpani).addAll(instrumentUpdate.updateInstrumentNotes(notes));
+	}
+	
 	public Instrument getViolin1() {
 		return violin1;
 	}

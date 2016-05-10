@@ -7,6 +7,7 @@ import java.util.List;
 
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
+import cp.out.orchestration.OrderComparator;
 import cp.util.RandomUtil;
 
 public abstract class OrchestralQuality {
@@ -38,7 +39,7 @@ public abstract class OrchestralQuality {
 	}
 	
 	public List<Instrument> getBasicInstrumentsByGroup(InstrumentGroup instrumentGroup){
-		return instruments.stream().filter(i -> i.getInstrumentGroup() == instrumentGroup).collect(toList());
+		return instruments.stream().filter(i -> i.getInstrumentGroup() == instrumentGroup).sorted(new OrderComparator()).collect(toList());
 	}
 	
 	public Instrument getComplementaryInstrument(String name){
@@ -50,7 +51,7 @@ public abstract class OrchestralQuality {
 	}
 	
 	public List<Instrument> getComplementarInstrumentsByGroup(InstrumentGroup instrumentGroup){
-		return complementaryInstruments.stream().filter(i -> i.getInstrumentGroup() == instrumentGroup).collect(toList());
+		return complementaryInstruments.stream().filter(i -> i.getInstrumentGroup() == instrumentGroup).sorted(new OrderComparator()).collect(toList());
 	}
 	
 	public Instrument getRandomBasicInstrument(){

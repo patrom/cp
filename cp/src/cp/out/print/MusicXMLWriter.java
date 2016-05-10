@@ -30,7 +30,7 @@ import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.note.TupletType;
 import cp.out.instrument.Instrument;
-import cp.out.instrument.Piano;
+import cp.out.instrument.keyboard.Piano;
 import cp.out.print.note.Key;
 import cp.out.print.note.NoteDisplay;
 

@@ -8,8 +8,9 @@ import java.util.stream.Stream;
 import org.springframework.stereotype.Component;
 
 import cp.out.instrument.Instrument;
-import cp.out.instrument.Piano;
 import cp.out.instrument.brass.FrenchHorn;
+import cp.out.instrument.keyboard.Piano;
+import cp.out.instrument.percussion.Harp;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.Cello;
 import cp.out.instrument.strings.Doublebass;
@@ -29,7 +30,9 @@ public class Mellow extends OrchestralQuality{
 				new ViolinsI(new InstrumentRegister(55, 67)),
 				new Viola(new InstrumentRegister(48, 60)),
 				new Cello(new InstrumentRegister(36, 49)),
-				new Doublebass(new InstrumentRegister(24, 50))
+				new Doublebass(new InstrumentRegister(24, 50)),
+				new Harp(new InstrumentRegister(23, 41)),
+				new Piano(new InstrumentRegister(28, 55))
 				).collect(toList());
 	}
 	

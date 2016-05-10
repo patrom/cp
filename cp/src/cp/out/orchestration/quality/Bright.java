@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 
 import cp.out.instrument.Instrument;
 import cp.out.instrument.brass.Trumpet;
+import cp.out.instrument.keyboard.Celesta;
+import cp.out.instrument.keyboard.Piano;
+import cp.out.instrument.percussion.Harp;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.Cello;
 import cp.out.instrument.strings.Viola;
@@ -34,7 +37,10 @@ public class Bright extends OrchestralQuality{
 				new Trumpet(new InstrumentRegister(78, 83)),
 				new ViolinsI(new InstrumentRegister(76, 89)),
 				new Viola(new InstrumentRegister(69, 81)),
-				new Cello(new InstrumentRegister(57, 69))
+				new Cello(new InstrumentRegister(57, 69)),
+				new Celesta(new InstrumentRegister(84, 96)),
+				new Harp(new InstrumentRegister(95, 103)),
+				new Piano(new InstrumentRegister(84, 96))
 				).collect(Collectors.toList());
 	}
 	

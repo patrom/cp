@@ -3,6 +3,7 @@ package cp.out.instrument;
 import java.util.ArrayList;
 import java.util.List;
 
+import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.strings.CelloSolo;
 import cp.out.instrument.strings.DoublebassSolo;
 import cp.out.instrument.strings.ViolaSolo;

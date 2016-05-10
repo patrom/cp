@@ -6,7 +6,10 @@ import java.util.stream.Stream;
 import org.springframework.stereotype.Component;
 
 import cp.out.instrument.Instrument;
-import cp.out.instrument.Piano;
+import cp.out.instrument.keyboard.Celesta;
+import cp.out.instrument.keyboard.Piano;
+import cp.out.instrument.percussion.Glockenspiel;
+import cp.out.instrument.percussion.Timpani;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.Cello;
 import cp.out.instrument.strings.Doublebass;
@@ -32,8 +35,11 @@ public class Rich extends OrchestralQuality{
 				new ViolinsI(new InstrumentRegister(62, 74)),
 				new Viola(new InstrumentRegister(55, 67)),
 				new Cello(new InstrumentRegister(43, 55)),
-				new Doublebass(new InstrumentRegister(38, 55))
-//				new Piano(new InstrumentRegister(55, 72))
+				new Doublebass(new InstrumentRegister(38, 55)),
+				new Piano(new InstrumentRegister(55, 72)),
+				new Glockenspiel(new InstrumentRegister(77, 87)),
+				new Celesta(new InstrumentRegister(60, 72)),
+				new Timpani(new InstrumentRegister(41, 53))
 				).collect(Collectors.toList());
 	}
 	

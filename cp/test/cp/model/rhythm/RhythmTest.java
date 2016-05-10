@@ -27,7 +27,7 @@ import cp.midi.MelodyInstrument;
 import cp.midi.MidiDevicesUtil;
 import cp.model.note.Note;
 import cp.out.instrument.MidiDevice;
-import cp.out.instrument.Piano;
+import cp.out.instrument.keyboard.Piano;
 import cp.out.print.MusicXMLWriter;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = DefaultConfig.class)

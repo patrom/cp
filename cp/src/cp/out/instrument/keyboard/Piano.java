@@ -1,6 +1,8 @@
-package cp.out.instrument;
+package cp.out.instrument.keyboard;
 
 import cp.midi.GeneralMidi;
+import cp.out.instrument.Instrument;
+import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
 
 public class Piano extends Instrument {
@@ -20,8 +22,9 @@ public class Piano extends Instrument {
 	}
 
 	private void init() {
-		instrumentGroup = InstrumentGroup.PERCUSSION;
-		setLowest(40);
+		instrumentGroup = InstrumentGroup.KEYBOARD;
+		order = 0;
+		setLowest(21);
 		setHighest(108);
 		setGeneralMidi(GeneralMidi.PIANO);
 		

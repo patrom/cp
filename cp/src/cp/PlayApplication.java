@@ -36,7 +36,7 @@ import cp.out.arrangement.Arrangement;
 import cp.out.arrangement.Pattern;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.MidiDevice;
-import cp.out.instrument.Piano;
+import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.strings.ViolinSolo;
 import cp.out.orchestration.orchestra.ClassicalOrchestra;
 import cp.out.print.MusicXMLWriter;

@@ -10,6 +10,7 @@ import cp.out.instrument.brass.BassTrombone;
 import cp.out.instrument.brass.FrenchHorn;
 import cp.out.instrument.brass.Trombone;
 import cp.out.instrument.brass.Trumpet;
+import cp.out.instrument.percussion.Harp;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.Doublebass;
 import cp.out.instrument.woodwinds.AltoFlute;
@@ -29,7 +30,8 @@ public class Warm extends OrchestralQuality{
 				new Trombone(new InstrumentRegister(48, 53)),
 				new BassTrombone(new InstrumentRegister(34, 51)),
 				new Doublebass(new InstrumentRegister(39, 45)),
-				new ContraBassoon(new InstrumentRegister(22, 54))
+				new ContraBassoon(new InstrumentRegister(22, 54)),
+				new Harp(new InstrumentRegister(41, 60))
 				).collect(Collectors.toList());
 	}
 	

@@ -6,10 +6,10 @@ import java.util.stream.Stream;
 import org.springframework.stereotype.Component;
 
 import cp.out.instrument.Instrument;
-import cp.out.instrument.Piano;
 import cp.out.instrument.brass.FrenchHorn;
 import cp.out.instrument.brass.Trombone;
 import cp.out.instrument.brass.Trumpet;
+import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.orchestration.InstrumentName;
 @Component
