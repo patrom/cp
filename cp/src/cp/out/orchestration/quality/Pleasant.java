@@ -2,9 +2,11 @@ package cp.out.orchestration.quality;
 
 import static java.util.stream.Collectors.toList;
 
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cp.out.instrument.Instrument;
@@ -29,6 +31,9 @@ import cp.out.orchestration.InstrumentName;
 
 @Component
 public class Pleasant extends OrchestralQuality{
+	
+	@Autowired
+	private Rich rich;
 
 	public Pleasant() {
 		color = "green";
@@ -60,6 +65,12 @@ public class Pleasant extends OrchestralQuality{
 				new Viola(new InstrumentRegister(69, 81)),
 				new Cello(new InstrumentRegister(57, 69))
 				).collect(toList());
+		
+	}
+	
+	@PostConstruct
+	private void initComplementaryQualities(){
+		closeQualities.add(rich);
 	}
 	
 	public Instrument getFlute(){

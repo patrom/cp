@@ -34,6 +34,8 @@ import cp.nsga.operator.mutation.melody.ReplaceMelody;
 import cp.objective.harmony.HarmonicObjective;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.keyboard.Piano;
+import cp.out.instrument.plucked.Guitar;
+import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.Cello;
 import cp.out.instrument.strings.Viola;
 import cp.out.instrument.strings.ViolinsI;
@@ -128,24 +130,35 @@ public abstract class Composition {
 	protected List<Instrument> instruments = new ArrayList<Instrument>();
 	
 	protected int start = 0;
-	protected int end = 192;
+	protected int end = 196;
+	
+	protected List<Integer> beats = new ArrayList<>();
+	protected List<Integer> beats2X = new ArrayList<>();
+	protected List<Integer> beatsAll = new ArrayList<>();
+	
+	protected int offset;
 	
 	@PostConstruct
 	public void init(){
-		composeInMeter(4,4);
+		composeInEvenMeter(4,4);
+//		composeInUnevenMeter(3,4);
 		composeInKey(C);
 		inTempo(70);
 		
-		instruments.add(new ViolinsI());
-//		Instrument instrument1 = pleasant.getInstrument(InstrumentName.CLARINET.getName());
-		instruments.add(new Viola());
-		instruments.add(new Cello());
+//		instruments.add(new ViolinsI());
+////		Instrument instrument1 = pleasant.getInstrument(InstrumentName.CLARINET.getName());
+//		instruments.add(new Viola());
+//		instruments.add(new Cello());
+		
+		instruments.add(new Guitar(new InstrumentRegister(40, 55)));
+		instruments.add(new Guitar(new InstrumentRegister(50, 64)));
+		instruments.add(new Guitar(new InstrumentRegister(67, 71)));
 		
 		List<TimeLineKey> keys = new ArrayList<>();
-		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, 48));
-		keys.add(new TimeLineKey(F, Scale.MAJOR_SCALE, 48, 96));
-		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 96, 144));
-		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 144, end));
+		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, end));
+//		keys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 72, 108));
+//		keys.add(new TimeLineKey(D, Scale.MAJOR_SCALE, 108, 144));
+//		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 144, end));
 //		keys.add(new TimeLineKey(C, instrument1.filterScale(Scale.HARMONIC_MINOR_SCALE), 48, 192));//match length
 //		keys.add(new TimeLineKey(A, Scale.HARMONIC_MINOR_SCALE, 48, 96));
 //		keys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 96, 144));
@@ -163,9 +176,26 @@ public abstract class Composition {
 		harmonicObjective.setDissonance(intervalAndTriads::getDissonance);
 	}
 
-	protected void composeInMeter(int numerator, int denominator){
+	protected void composeInEvenMeter(int numerator, int denominator){
+		offset = 48;//canon,...
+		beats.add(12);
+		beats2X.add(24);
+		beatsAll.add(12);
+		beatsAll.add(24);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
+	}
+	
+	protected void composeInUnevenMeter(int numerator, int denominator){
+		offset = 36;//canon,...
+		beats.add(18);
+		beats2X.add(36);
+		beatsAll.add(18);
+		beatsAll.add(36);
+		musicProperties.setNumerator(numerator);
+		musicProperties.setDenominator(denominator);
+		int[] distance = {3,6,9,12,15,18,20,21,22,24,26,27,28,30,32};//minimumRhythmicValue = 12 -  3/4
+		musicProperties.setDistance(distance);
 	}
 	
 	protected void inTempo(int tempo) {
@@ -193,6 +223,31 @@ public abstract class Composition {
 		
 //		rhythmCombinations.add(threeNoteEven::pos123);
 		rhythmCombinations.add(threeNoteEven::pos134);
+//		rhythmCombinations.add(threeNoteEven::pos124);
+//		rhythmCombinations.add(threeNoteEven::pos234);
+		
+//		rhythmCombinations.add(fourNoteEven::pos1234);
+//		
+//		rhythmCombinations.add(threeNoteUneven::pos123);
+		return rhythmCombinations;
+	}
+	
+	protected List<RhythmCombination> fixedBeat(){
+		List<RhythmCombination> rhythmCombinations = new ArrayList<>();
+//		rhythmCombinations.add(oneNoteEven::pos1);
+//		rhythmCombinations.add(oneNoteEven::pos2);
+//		rhythmCombinations.add(oneNoteEven::pos3);
+//		rhythmCombinations.add(oneNoteEven::pos4);
+//		
+		rhythmCombinations.add(twoNoteEven::pos12);
+		rhythmCombinations.add(twoNoteEven::pos13);
+//		rhythmCombinations.add(twoNoteEven::pos14);
+//		rhythmCombinations.add(twoNoteEven::pos34);
+//		rhythmCombinations.add(twoNoteEven::pos23);
+//		rhythmCombinations.add(twoNoteEven::pos24);
+		
+//		rhythmCombinations.add(threeNoteEven::pos123);
+//		rhythmCombinations.add(threeNoteEven::pos134);
 //		rhythmCombinations.add(threeNoteEven::pos124);
 //		rhythmCombinations.add(threeNoteEven::pos234);
 		

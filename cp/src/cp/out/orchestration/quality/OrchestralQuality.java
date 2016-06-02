@@ -17,6 +17,7 @@ public abstract class OrchestralQuality {
 	protected String type;
 	protected List<Instrument> instruments = new ArrayList<>();
 	protected List<Instrument> complementaryInstruments = new ArrayList<>();
+	protected List<OrchestralQuality> closeQualities = new ArrayList<>();
 	
 	public String getQuality() {
 		return quality;
@@ -42,6 +43,10 @@ public abstract class OrchestralQuality {
 		return instruments.stream().filter(i -> i.getInstrumentGroup() == instrumentGroup).sorted(new OrderComparator()).collect(toList());
 	}
 	
+	public List<Instrument> getBasicInstrumentsByGroup(List<InstrumentGroup> instrumentGroup){
+		return instruments.stream().filter(i -> instrumentGroup.contains(i.getInstrumentGroup())).sorted(new OrderComparator()).collect(toList());
+	}
+	
 	public Instrument getComplementaryInstrument(String name){
 		return complementaryInstruments.stream().filter(i -> i.getInstrumentName().equals(name)).findFirst().get();
 	}
@@ -50,7 +55,7 @@ public abstract class OrchestralQuality {
 		return complementaryInstruments;
 	}
 	
-	public List<Instrument> getComplementarInstrumentsByGroup(InstrumentGroup instrumentGroup){
+	public List<Instrument> getComplementaryInstrumentsByGroup(InstrumentGroup instrumentGroup){
 		return complementaryInstruments.stream().filter(i -> i.getInstrumentGroup() == instrumentGroup).sorted(new OrderComparator()).collect(toList());
 	}
 	
@@ -61,5 +66,11 @@ public abstract class OrchestralQuality {
 	public boolean hasBasicInstrument(Instrument instrument){
 		return instruments.contains(instrument);
 	}
+
+	public List<OrchestralQuality> getCloseQualities() {
+		return closeQualities;
+	}
+
+
 	
 }

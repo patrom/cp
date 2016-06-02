@@ -3,6 +3,9 @@ package cp.out.orchestration.quality;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cp.out.instrument.Instrument;
@@ -21,6 +24,9 @@ import cp.out.orchestration.InstrumentName;
 
 @Component
 public class Brilliant extends OrchestralQuality{
+	
+	@Autowired
+	private Bright bright;
 
 	public Brilliant() {
 		color = "white";
@@ -38,6 +44,12 @@ public class Brilliant extends OrchestralQuality{
 				new Celesta(new InstrumentRegister(96, 108)),
 				new Piano(new InstrumentRegister(96, 108))
 				).collect(Collectors.toList());
+		
+	}
+	
+	@PostConstruct
+	private void initComplementaryQualities(){
+		closeQualities.add(bright);
 	}
 	
 	public Instrument getClarinet(){

@@ -3,6 +3,9 @@ package cp.out.orchestration.quality;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cp.out.instrument.Instrument;
@@ -10,7 +13,6 @@ import cp.out.instrument.brass.BassTrombone;
 import cp.out.instrument.brass.FrenchHorn;
 import cp.out.instrument.brass.Trombone;
 import cp.out.instrument.brass.Trumpet;
-import cp.out.instrument.keyboard.Celesta;
 import cp.out.instrument.percussion.Harp;
 import cp.out.instrument.percussion.Xylophone;
 import cp.out.instrument.register.InstrumentRegister;
@@ -21,6 +23,9 @@ import cp.out.instrument.woodwinds.Oboe;
 import cp.out.orchestration.InstrumentName;
 @Component
 public class Golden extends OrchestralQuality{
+	
+	@Autowired
+	private Glowing glowing;
 
 	public Golden() {
 		color = "orange";
@@ -38,6 +43,12 @@ public class Golden extends OrchestralQuality{
 				new Xylophone(new InstrumentRegister(65, 108)),
 				new Harp(new InstrumentRegister(60, 84))
 				).collect(Collectors.toList());
+		
+	}
+	
+	@PostConstruct
+	private void initComplementaryQualities(){
+		closeQualities.add(glowing);
 	}
 	
 	public Instrument getOboe(){

@@ -3,6 +3,9 @@ package cp.out.orchestration.quality;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cp.out.instrument.Instrument;
@@ -19,6 +22,9 @@ import cp.out.orchestration.InstrumentName;
 @Component
 public class Warm extends OrchestralQuality{
 
+	@Autowired
+	private Mellow mellow;
+
 	public Warm() {
 		color = "brown";
 		quality = "warm";
@@ -33,6 +39,12 @@ public class Warm extends OrchestralQuality{
 				new ContraBassoon(new InstrumentRegister(22, 54)),
 				new Harp(new InstrumentRegister(41, 60))
 				).collect(Collectors.toList());
+		
+	}
+	
+	@PostConstruct
+	private void initComplementaryQualities(){
+		closeQualities.add(mellow);
 	}
 	
 	public Instrument getFrenchHorn(){

@@ -199,22 +199,45 @@ public class InnerMetricWeightTest extends JFrame {
 	
 	@Test
 	public void test5() {
+		distance = new int[]{5,10,15,20};//atomic beat = 12
 		rhythmPattern = new int[]{0, 60, 120, 180, 240, 300, 360};
 		minimumRhythmicValue = 12;
+		calculateInnerMetricWeight();
+		
+		rhythmPattern = new int[]{0, 48, 96, 144, 192};//4
+		calculateInnerMetricWeight();
+		
+		rhythmPattern = new int[]{0, 36, 72, 108, 144, 180};//3
 		calculateInnerMetricWeight();
 	}
 	
 	@Test
 	public void test5is2and3() {
+		distance = new int[]{2,5,7,10,12,15,17,20};//atomic beat = 12
 		rhythmPattern = new int[]{0, 24, 60, 84, 120, 144, 180, 204, 240, 264, 300};
 		minimumRhythmicValue = 12;
+		calculateInnerMetricWeight();
+		
+		rhythmPattern = new int[]{0, 60, 120, 180, 240, 300, 360};
+		minimumRhythmicValue = 12;
+		calculateInnerMetricWeight();
+		
+		rhythmPattern = new int[]{0, 48, 96, 144, 192};//4
+		calculateInnerMetricWeight();
+		
+		rhythmPattern = new int[]{0, 36, 72, 108, 144, 180};//3
 		calculateInnerMetricWeight();
 	}
 	
 	@Test
 	public void test6() {
 		rhythmPattern = new int[]{0, 72, 144, 216, 288, 360};
-		minimumRhythmicValue = 12;
+		minimumRhythmicValue = 6;
+		calculateInnerMetricWeight();
+		
+		distance = new int[]{3,6,9,12,15,18,20,21,22,24,26,27,28,30,32};//minimumRhythmicValue = 12 - measure 3/4 - 6/8
+		rhythmPattern = new int[]{0, 72, 144, 216, 288, 360};
+		minimumRhythmicValue = 6;
 		calculateInnerMetricWeight();
 	}
 	

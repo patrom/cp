@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.toList;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cp.out.instrument.Instrument;

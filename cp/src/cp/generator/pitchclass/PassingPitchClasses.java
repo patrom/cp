@@ -21,7 +21,6 @@ public class PassingPitchClasses{
 	private TimeLine timeLine;
 
 	public List<Note> updatePitchClasses(List<Note> notes) {
-		
 		List<Note> melodyNotes = notes.stream().filter(n -> !n.isRest()).collect(toList());
 		Note firstNote = melodyNotes.get(0);
 		TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(firstNote.getPosition(), firstNote.getVoice());

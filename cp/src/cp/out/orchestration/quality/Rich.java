@@ -3,6 +3,9 @@ package cp.out.orchestration.quality;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cp.out.instrument.Instrument;
@@ -16,13 +19,14 @@ import cp.out.instrument.strings.Doublebass;
 import cp.out.instrument.strings.Viola;
 import cp.out.instrument.strings.ViolinsI;
 import cp.out.instrument.woodwinds.BassClarinet;
-import cp.out.instrument.woodwinds.Bassoon;
 import cp.out.instrument.woodwinds.Clarinet;
-import cp.out.instrument.woodwinds.ClarinetEFlat;
 import cp.out.instrument.woodwinds.Flute;
 import cp.out.orchestration.InstrumentName;
 @Component
 public class Rich extends OrchestralQuality{
+	
+	@Autowired
+	private Mellow mellow;
 
 	public Rich() {
 		color = "blue";
@@ -41,6 +45,12 @@ public class Rich extends OrchestralQuality{
 				new Celesta(new InstrumentRegister(60, 72)),
 				new Timpani(new InstrumentRegister(41, 53))
 				).collect(Collectors.toList());
+		
+	}
+	
+	@PostConstruct
+	private void initComplementaryQualities(){
+		closeQualities.add(mellow);
 	}
 	
 	public Instrument getFlute(){

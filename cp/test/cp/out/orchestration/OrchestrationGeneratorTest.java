@@ -2,6 +2,7 @@ package cp.out.orchestration;
 
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -9,12 +10,16 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,10 +31,19 @@ import cp.DefaultConfig;
 import cp.model.note.Note;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
+import cp.out.instrument.brass.BassTrombone;
 import cp.out.instrument.brass.FrenchHorn;
+import cp.out.instrument.brass.Trombone;
+import cp.out.instrument.brass.Trumpet;
+import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.Cello;
+import cp.out.instrument.strings.Doublebass;
 import cp.out.instrument.strings.Viola;
 import cp.out.instrument.strings.ViolinsI;
+import cp.out.instrument.strings.ViolinsII;
+import cp.out.instrument.woodwinds.AltoFlute;
+import cp.out.instrument.woodwinds.CorAnglais;
+import cp.out.instrument.woodwinds.Oboe;
 import cp.out.orchestration.orchestra.ClassicalOrchestra;
 import cp.out.orchestration.orchestra.FullOrchestra;
 import cp.out.orchestration.orchestra.Orchestra;
@@ -75,8 +89,8 @@ public class OrchestrationGeneratorTest {
 	private VerticalRelations verticalRelations;
 
 //	private Orchestra orchestra = new WindOrchestra();
-//	private Orchestra orchestra = new ClassicalOrchestra();
-	private Orchestra orchestra = new FullOrchestra();
+	private Orchestra orchestra = new ClassicalOrchestra();
+//	private Orchestra orchestra = new FullOrchestra();
 //	private Orchestra orchestra = new Percussion();
 	
 	@Before
@@ -343,7 +357,12 @@ public class OrchestrationGeneratorTest {
 	
 	@Test
 	public void testAllCloseCombinations() throws FileNotFoundException, FactoryConfigurationError, XMLStreamException{
-		InstrumentGroup instrumentGroup = InstrumentGroup.STRINGS;
+		List<InstrumentGroup> instrumentGroup = new ArrayList<>();
+		instrumentGroup.add(InstrumentGroup.WOODWINDS);
+		instrumentGroup.add(InstrumentGroup.BRASS);
+		
+//		InstrumentGroup instrumentGroup = InstrumentGroup.STRINGS;
+		
 		List<Instrument> yellow = bright.getBasicInstrumentsByGroup(instrumentGroup);
 		List<Instrument> orange = golden.getBasicInstrumentsByGroup(instrumentGroup);
 		List<Instrument> red = glowing.getBasicInstrumentsByGroup(instrumentGroup);
@@ -373,7 +392,7 @@ public class OrchestrationGeneratorTest {
 	@Test
 	public void testOrchestrateChordPerfectAndCloseCombinations() throws FileNotFoundException, FactoryConfigurationError, XMLStreamException {
 		int noteLength = 48;
-		int[] pitches = new int[]{83,79,76,69,62};
+		int[] pitches = new int[]{68,64,61,54,47};
 		int position = 0;
 		List<OrchestralQuality> orchestralQualities = orchestrationGenerator.getOrchestralQualities();
 		for(InstrumentGroup instrumentGroup: InstrumentGroup.values()){
@@ -473,6 +492,164 @@ public class OrchestrationGeneratorTest {
 //			position = combineCloseCombinations(pitches, brown, purple, position, noteLength);
 		}
 		musicXMLWriter.createXML("orchestra", orchestra.getOrchestra());
+	}
+	
+	@Test
+	public void testOrchestrateChordPerfectAndCloseCombinationsMultipleGroups() throws FileNotFoundException, FactoryConfigurationError, XMLStreamException {
+		int noteLength = 48;
+		int[] pitches = new int[]{68,64,61,54,47};
+		int position = 0;
+		List<OrchestralQuality> orchestralQualities = orchestrationGenerator.getOrchestralQualities();
+		List<InstrumentGroup> instrumentGroup = new ArrayList<>();
+		instrumentGroup.add(InstrumentGroup.WOODWINDS);
+		instrumentGroup.add(InstrumentGroup.BRASS);
+		
+			//perfect combinations
+			System.out.println("----PERFECT-----" + instrumentGroup);
+			for (OrchestralQuality orchestralQuality : orchestralQualities) {
+				System.out.println("-----------------");
+				System.out.println(orchestralQuality.getQuality());
+//					List<Instrument> instruments = orchestralQuality.getBasicInstruments();
+				List<Instrument> instruments = orchestralQuality.getBasicInstrumentsByGroup(instrumentGroup);
+				
+				List<InstrumentNoteMapping> noteForInstrument = orchestrationGenerator.combine(pitches, instruments, instruments, verticalRelations::overlapping2);
+				List<InstrumentNoteMapping> orchestratedChords = noteForInstrument.stream().filter(m -> m.getChordSize() == pitches.length + 1).collect(toList());
+				position = updateOrchestra(position, noteLength, orchestratedChords);
+				
+				noteForInstrument = orchestrationGenerator.combine(pitches, instruments, instruments, verticalRelations::enclosing);
+				orchestratedChords = noteForInstrument.stream().filter(m -> m.getChordSize() == pitches.length).collect(toList());
+				position = updateOrchestra(position, noteLength,  orchestratedChords);
+
+				noteForInstrument = orchestrationGenerator.combine(pitches, instruments, instruments, verticalRelations::crossing);
+				orchestratedChords = noteForInstrument.stream().filter(m -> m.getChordSize() == pitches.length).collect(toList());
+				position = updateOrchestra(position, noteLength, orchestratedChords);
+
+				noteForInstrument = orchestrationGenerator.combine(pitches, instruments, instruments, verticalRelations::oneOrchestralQuality);
+				orchestratedChords = noteForInstrument.stream().filter(m -> m.getChordSize() == pitches.length).collect(toList());
+				position = updateOrchestra(position, noteLength, orchestratedChords);
+			
+				noteForInstrument = orchestrationGenerator.combine(pitches, instruments, instruments, verticalRelations::superpositionSplit2);
+				orchestratedChords = noteForInstrument.stream().filter(m -> m.getChordSize() == pitches.length).collect(toList());
+				position = updateOrchestra(position, noteLength,  orchestratedChords);
+				
+				noteForInstrument = orchestrationGenerator.combine(pitches, instruments, instruments, verticalRelations::superpositionSplit1);
+				orchestratedChords = noteForInstrument.stream().filter(m -> m.getChordSize() == pitches.length).collect(toList());
+				position = updateOrchestra(position, noteLength, orchestratedChords);
+			}
+			//close Combinations
+			System.out.println("----CLOSE-----");
+			List<Instrument> yellow = bright.getBasicInstrumentsByGroup(instrumentGroup);
+			List<Instrument> orange = golden.getBasicInstrumentsByGroup(instrumentGroup);
+			List<Instrument> red = glowing.getBasicInstrumentsByGroup(instrumentGroup);
+			List<Instrument> brown = warm.getBasicInstrumentsByGroup(instrumentGroup);
+			List<Instrument> purple = mellow.getBasicInstrumentsByGroup(instrumentGroup);
+			List<Instrument> white = brilliant.getBasicInstrumentsByGroup(instrumentGroup);
+			List<Instrument> blue = rich.getBasicInstrumentsByGroup(instrumentGroup);
+			List<Instrument> green = pleasant.getBasicInstrumentsByGroup(instrumentGroup);
+			
+			position = combineCloseCombinations(pitches, white, yellow, position, noteLength);
+			position = combineCloseCombinations(pitches, yellow, green, position, noteLength);
+			position = combineCloseCombinations(pitches,green, blue, position, noteLength);
+			position = combineCloseCombinations(pitches, blue, purple, position, noteLength);
+			position = combineCloseCombinations(pitches, yellow, orange, position, noteLength);
+			position = combineCloseCombinations(pitches, orange, red, position, noteLength);
+			position = combineCloseCombinations(pitches, red, brown, position, noteLength);
+			position = combineCloseCombinations(pitches, brown, purple, position, noteLength);
+		
+		musicXMLWriter.createXML("orchestra", orchestra.getOrchestra());
+	}
+	
+	@Test
+	public void testOrchestrateMultipleRegisterChord() throws FileNotFoundException, FactoryConfigurationError, XMLStreamException{
+		List<Instrument> instruments = Stream.of(
+				new Trumpet(),	
+				new FrenchHorn(),
+				new Trumpet(),	
+				new FrenchHorn(),
+				new FrenchHorn(),
+				new Trombone(),
+				new BassTrombone()
+				).collect(Collectors.toList());
+		int[] pitches = new int[]{68,64,61,52, 40};
+		List<InstrumentNoteMapping> orchestrateLargeChord = orchestrationGenerator.orchestrateMultipleRegisterChord(pitches, instruments);
+		for (InstrumentNoteMapping instrumentNoteMapping : orchestrateLargeChord) {
+			for (Entry<Instrument, List<Note>> entry : instrumentNoteMapping.getNotesForInstrument().entrySet()) {
+				addToOrchestra(0, entry);
+			}
+		}
+		musicXMLWriter.createXML("orchestra", orchestra.getOrchestra());
+	}
+	
+	@Test
+	public void testOrchestrateMultipleRegisterChord2() throws FileNotFoundException, FactoryConfigurationError, XMLStreamException{
+		List<Instrument> instruments = Stream.of(
+				new ViolinsI(),
+				new ViolinsI(),
+				new Viola(),
+				new Viola(),
+				new Cello(),
+				new Doublebass()
+				).collect(Collectors.toList());
+		int[] pitches = new int[]{68,64,61,52, 40};
+		List<InstrumentNoteMapping> orchestrateLargeChord = orchestrationGenerator.orchestrateMultipleRegisterChord(pitches, instruments);
+		for (InstrumentNoteMapping instrumentNoteMapping : orchestrateLargeChord) {
+			for (Entry<Instrument, List<Note>> entry : instrumentNoteMapping.getNotesForInstrument().entrySet()) {
+				addToOrchestra(0, entry);
+			}
+		}
+		musicXMLWriter.createXML("orchestra", orchestra.getOrchestra());
+	}
+	
+	@Test
+	public void testFindOrchestralBasicAndComplementaryQuality(){
+		Optional<OrchestralQuality> quality = orchestrationGenerator.findOrchestralBasicQuality(64, warm, new FrenchHorn());
+		assertEquals(warm, quality.get());
+	}
+	
+	@Test
+	public void testFindInstrumentWithQuality(){
+		List<Instrument> instruments = Stream.of(
+				new Trumpet(),
+				new Trumpet(),
+				new FrenchHorn(),
+				new FrenchHorn(),
+				new Trombone(),
+				new BassTrombone()
+				).collect(Collectors.toList());
+		Optional<Instrument> instrument = orchestrationGenerator.findBasicInstrumentWithQuality(instruments, mellow);
+		assertEquals(instruments.get(2), instrument.get());
+	}
+	
+	@Test
+	public void testFindInstrumentWithQuality2(){
+		List<Instrument> instruments = Stream.of(
+				new BassTrombone()
+				).collect(Collectors.toList());
+		Optional<Instrument> instrument = orchestrationGenerator.findBasicInstrumentWithQuality(instruments, glowing);
+		assertEquals(new BassTrombone().getInstrumentName(), instrument.get().getInstrumentName());
+	}
+	
+	@Test
+	public void testFindInstrumentWithQualityForPitch(){
+		List<Instrument> instruments = Stream.of(
+				new Trumpet(),
+				new Trumpet(),
+				new FrenchHorn(),
+				new FrenchHorn(),
+				new Trombone(),
+				new BassTrombone()
+				).collect(Collectors.toList());
+		Instrument instrument = orchestrationGenerator.findInstrumentInBasicQualityForPitch(49, instruments, warm);
+		assertEquals(new Trombone().getInstrumentName(), instrument.getInstrumentName());
+	}
+	
+	@Test
+	public void testFindInstrumentWithQualityForPitch2(){
+		List<Instrument> instruments = Stream.of(
+				new BassTrombone()
+				).collect(Collectors.toList());
+		Instrument instrument = orchestrationGenerator.findInstrumentInBasicQualityForPitch(40, instruments, glowing);
+		assertNull(instrument);
 	}
 	
 }

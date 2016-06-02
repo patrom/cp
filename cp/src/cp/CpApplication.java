@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,6 +23,7 @@ import org.springframework.context.annotation.Import;
 
 import cp.generator.MusicProperties;
 import cp.genre.ComposeInGenre;
+import cp.genre.CompositionGenre;
 import cp.genre.ThreeVoiceComposition;
 import cp.genre.TwoVoiceComposition;
 import cp.model.Motive;
@@ -100,39 +102,53 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	}
 
 	private void compose() throws Exception {
-		composeInGenre.setCompositionGenre(threeVoiceComposition::canon2Voice);
-		List<MelodyBlock> melodyBlocks = composeInGenre.composeInGenre();
-		
-	    Motive motive = new Motive(melodyBlocks);
-	    solutionType.setMotive(motive);
-	    
-	    configureAlgorithm();
-	
-	    // Execute the Algorithm
-	    SolutionSet population = algorithm.execute();
-	    
-	    // result
-	    population.printObjectivesToFile("SOL");
-	    
-//	    population.sort(Comparator.comparing(MusicSolution::getMelody).thenComparing(MusicSolution::getHarmony));
-	    population.sort(Comparator
-	    		.comparing(MusicSolution::getResolution)
-	    		.thenComparing(MusicSolution::getHarmony)
-	    		.thenComparing(MusicSolution::getMelody));
-	    
-	    Iterator<Solution> solutionIterator = population.iterator();
-	    int i = 1;
-	    while (solutionIterator.hasNext() && i < musicProperties.getOutputCountRun()) {
-	    	Solution solution = (Solution) solutionIterator.next();
-	    	Motive solutionMotive = ((MusicVariable) solution.getDecisionVariables()[0]).getMotive();
-	    	String dateID = generateDateID();
-			String id = dateID + "_" + CpApplication.COUNTER.getAndIncrement();
-			LOGGER.info(id);
-			display.view(solutionMotive, id);
-			orchestrator.orchestrate(solutionMotive.getMelodyBlocks(), id);
-			i++;
-		}
-	   
+		List<CompositionGenre> composeInGenres = new ArrayList<>();
+//		composeInGenres.add(twoVoiceComposition::canon);
+//		composeInGenres.add(twoVoiceComposition::fugueInverse);
+//		composeInGenres.add(twoVoiceComposition::operatorT);
+//		composeInGenres.add(twoVoiceComposition::operatorI);
+//		composeInGenres.add(twoVoiceComposition::operatorR);
+//		composeInGenres.add(twoVoiceComposition::operatorM);
+
+		composeInGenres.add(threeVoiceComposition::canon2Voice1Acc);
+//		composeInGenres.add(threeVoiceComposition::accFixedRhythm);
+//		composeInGenres.add(threeVoiceComposition::operatorTplusAcc);
+//		composeInGenres.add(threeVoiceComposition::operatorT);
+		for (CompositionGenre compositionGenre : composeInGenres) {
+			composeInGenre.setCompositionGenre(compositionGenre);
+			List<MelodyBlock> melodyBlocks = composeInGenre.composeInGenre();
+			
+			  Motive motive = new Motive(melodyBlocks);
+			    solutionType.setMotive(motive);
+			    
+			    configureAlgorithm();
+			
+			    // Execute the Algorithm
+			    SolutionSet population = algorithm.execute();
+			    
+			    // result
+			    population.printObjectivesToFile("SOL");
+			    
+//			    population.sort(Comparator.comparing(MusicSolution::getMelody).thenComparing(MusicSolution::getHarmony));
+			    population.sort(Comparator
+			    		.comparing(MusicSolution::getResolution)
+			    		.thenComparing(MusicSolution::getHarmony)
+			    		.thenComparing(MusicSolution::getMelody));
+			    
+			    Iterator<Solution> solutionIterator = population.iterator();
+			    int i = 1;
+			    while (solutionIterator.hasNext() && i < musicProperties.getOutputCountRun()) {
+			    	Solution solution = (Solution) solutionIterator.next();
+			    	Motive solutionMotive = ((MusicVariable) solution.getDecisionVariables()[0]).getMotive();
+			    	String dateID = generateDateID();
+					String id = dateID + "_" + CpApplication.COUNTER.getAndIncrement();
+					LOGGER.info(id);
+					display.view(solutionMotive, id);
+//					orchestrator.orchestrate(solutionMotive.getMelodyBlocks(), id);
+					i++;
+				}
+			   
+		} 
 	}
 
 	private void configureAlgorithm() throws JMException {

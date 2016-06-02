@@ -39,7 +39,7 @@ public class OneNoteEven{
 	
 	public static void main(String[] args) {
 		OneNoteEven oneNoteEven = new OneNoteEven();
-		List<Note > notes = oneNoteEven.pos3(12);
+		List<Note > notes = oneNoteEven.pos2(24);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 	}
 

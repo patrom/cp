@@ -3,6 +3,9 @@ package cp.out.orchestration.quality;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cp.out.instrument.Instrument;
@@ -23,6 +26,11 @@ import cp.out.orchestration.InstrumentName;
 
 @Component
 public class Bright extends OrchestralQuality{
+	
+	@Autowired
+	private Pleasant pleasant;
+	@Autowired
+	private Golden golden;
 
 	public Bright() {
 		color = "yellow";
@@ -42,6 +50,14 @@ public class Bright extends OrchestralQuality{
 				new Harp(new InstrumentRegister(95, 103)),
 				new Piano(new InstrumentRegister(84, 96))
 				).collect(Collectors.toList());
+		
+		
+	}
+	
+	@PostConstruct
+	private void initComplementaryQualities(){
+		closeQualities.add(pleasant);
+		closeQualities.add(golden);
 	}
 	
 	public Instrument getFlute(){

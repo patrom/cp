@@ -7,7 +7,8 @@ public enum GeneralMidi {
 	FLUTE(73), CLARINET(71), OBOE(68), BASSOON(70),
 	FRENCH_HORN(60),
 	CHOIR(52),
-	HARPSICHORD(7);
+	HARPSICHORD(7),
+	NYLON_GUITAR(25);
 	
 	private int event;
 	
