@@ -56,7 +56,6 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 
 	@Before
 	public void setUp() throws Exception {
-		musicProperties.setInstruments(Ensemble.getPiano(4));
 		melodies = new ArrayList<>();
 	}
 

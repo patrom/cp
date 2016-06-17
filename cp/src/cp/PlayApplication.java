@@ -258,8 +258,8 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 		return melodies.stream().anyMatch(m -> m.getInstrument().getGeneralMidi().equals(gm));
 	}
 	
-	private void generateMusicXml(List<MelodyInstrument> melodies, String id) throws Exception{
-		musicXMLWriter.generateMusicXML(melodies, id);
-	}
+//	private void generateMusicXml(List<MelodyInstrument> melodies, String id) throws Exception{
+//		musicXMLWriter.generateMusicXML(melodies, id);
+//	}
 	
 }

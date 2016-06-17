@@ -1,4 +1,4 @@
-package cp.genre;
+package cp.composition;
 
 import java.util.List;
 

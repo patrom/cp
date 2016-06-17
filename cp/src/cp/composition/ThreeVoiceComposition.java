@@ -1,4 +1,4 @@
-package cp.genre;
+package cp.composition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,26 +22,26 @@ public class ThreeVoiceComposition extends Composition{
 		Instrument instrument1 = instruments.get(0);
 		instrument1.setVoice(0);
 		instrument1.setChannel(1);
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), start, end, instrument1.pickRandomOctaveFromRange(), beatsAll);
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), start, end, instrument1.pickRandomOctaveFromRange(), beats2X);
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);	
 
-		int voice1 = 1;
-		noteCombination.setCombinationsEvenBeat(voice1, fixedBeat());//must match beats12
-		Instrument instrument2 = instruments.get(voice1);
-		instrument2.setVoice(voice1);
-		instrument2.setChannel(2);
-		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlock(instrument2.getVoice(), start, end, instrument2.pickRandomOctaveFromRange(), beats2X);
-		melodyBlock2.setInstrument(instrument2);
-		melodyBlocks.add(melodyBlock2);
-			
-		noteCombination.setCombinationsEvenBeat(2, evenBeat());
-		Instrument instrument3 = instruments.get(2);
-		instrument3.setVoice(2);
-		instrument3.setChannel(3);
-		MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlock(instrument3.getVoice(), start, end, instrument3.pickRandomOctaveFromRange(), beats2X);
-		melodyBlock3.setInstrument(instrument3);
-		melodyBlocks.add(melodyBlock3);
+//		int voice1 = 1;
+//		noteCombination.setCombinations(voice1, fixed);//must match beats12
+//		Instrument instrument2 = instruments.get(voice1);
+//		instrument2.setVoice(voice1);
+//		instrument2.setChannel(2);
+//		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlock(instrument2.getVoice(), start, end, instrument2.pickRandomOctaveFromRange(), beats2X, compositionConfig.randomCombinations());
+//		melodyBlock2.setInstrument(instrument2);
+//		melodyBlocks.add(melodyBlock2);
+//			
+////		noteCombination.setCombinationsEvenBeat(2, evenBeat());
+//		Instrument instrument3 = instruments.get(2);
+//		instrument3.setVoice(2);
+//		instrument3.setChannel(3);
+//		MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlock(instrument3.getVoice(), start, end, instrument3.pickRandomOctaveFromRange(), beats2X, compositionConfig.randomCombinations());
+//		melodyBlock3.setInstrument(instrument3);
+//		melodyBlocks.add(melodyBlock3);
 
 		return melodyBlocks;
 	}
@@ -56,7 +56,7 @@ public class ThreeVoiceComposition extends Composition{
 		Instrument instrument1 = instruments.get(0);
 		instrument1.setVoice(0);
 		instrument1.setChannel(1);
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), start, end, instrument1.pickRandomOctaveFromRange(), beatsAll);
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), start, end, instrument1.pickRandomOctaveFromRange());
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);	
 
@@ -75,7 +75,7 @@ public class ThreeVoiceComposition extends Composition{
 		melodyBlocks.add(melodyBlock2);
 		
 		
-		noteCombination.setCombinationsEvenBeat(2, evenBeat());
+//		noteCombination.setCombinationsEvenBeat(2, evenBeat());
 		Instrument instrument3 = instruments.get(2);
 		instrument3.setVoice(2);
 		instrument3.setChannel(3);
@@ -96,7 +96,7 @@ public class ThreeVoiceComposition extends Composition{
 		Instrument instrument1 = instruments.get(0);
 		instrument1.setVoice(0);
 		instrument1.setChannel(1);
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), start, end, instrument1.pickRandomOctaveFromRange(), beatsAll);
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), start, end, instrument1.pickRandomOctaveFromRange());
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);	
 

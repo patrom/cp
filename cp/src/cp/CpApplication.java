@@ -21,11 +21,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Import;
 
+import cp.composition.ComposeInGenre;
+import cp.composition.CompositionGenre;
+import cp.composition.ThreeVoiceComposition;
+import cp.composition.TwoVoiceComposition;
 import cp.generator.MusicProperties;
-import cp.genre.ComposeInGenre;
-import cp.genre.CompositionGenre;
-import cp.genre.ThreeVoiceComposition;
-import cp.genre.TwoVoiceComposition;
 import cp.model.Motive;
 import cp.model.melody.MelodyBlock;
 import cp.nsga.MusicSolution;
@@ -103,6 +103,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 
 	private void compose() throws Exception {
 		List<CompositionGenre> composeInGenres = new ArrayList<>();
+		composeInGenres.add(twoVoiceComposition::beatEven);
 //		composeInGenres.add(twoVoiceComposition::canon);
 //		composeInGenres.add(twoVoiceComposition::fugueInverse);
 //		composeInGenres.add(twoVoiceComposition::operatorT);
@@ -110,7 +111,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(twoVoiceComposition::operatorR);
 //		composeInGenres.add(twoVoiceComposition::operatorM);
 
-		composeInGenres.add(threeVoiceComposition::canon2Voice1Acc);
+//		composeInGenres.add(threeVoiceComposition::canon2Voice1Acc);
 //		composeInGenres.add(threeVoiceComposition::accFixedRhythm);
 //		composeInGenres.add(threeVoiceComposition::operatorTplusAcc);
 //		composeInGenres.add(threeVoiceComposition::operatorT);

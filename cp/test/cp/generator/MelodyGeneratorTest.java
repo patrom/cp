@@ -34,14 +34,11 @@ import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.note.NoteBuilder;
 import cp.model.note.Scale;
-import cp.objective.melody.MelodicObjective;
-import cp.objective.rhythm.RhythmObjective;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.MidiDevice;
 import cp.out.instrument.strings.ViolinSolo;
 import cp.out.print.ScoreUtilities;
 import cp.out.print.note.Key;
-import cp.variation.Embellisher;
 import jm.music.data.Part;
 import jm.music.data.Phrase;
 import jm.music.data.Score;
@@ -58,12 +55,6 @@ public class MelodyGeneratorTest extends JFrame{
 	private MelodyGenerator melodyGenerator;
 	@Autowired
 	private ScoreUtilities scoreUtilities;
-	@Autowired
-	private Embellisher embellisher;
-	@Autowired
-	private RhythmObjective rhythmObjective;
-	@Autowired
-	private MelodicObjective melodicObjective;
 	@Autowired
 	private MidiDevicesUtil midiDevicesUtil;
 	@Mock
@@ -92,15 +83,6 @@ public class MelodyGeneratorTest extends JFrame{
 	
 	@Test
 	public void testGenerateMelodyNotes() throws InvalidMidiDataException, InterruptedException {
-		int[] beginEndPosition = {12, 96};
-		int minimumNoteValue = 6;
-		
-//		CpMelody melody = melodyGenerator.generateMelody(Scale.MAJOR_SCALE, beginEndPosition, minimumNoteValue, 0);
-//		melody.updatePitches(6);
-//		Score score = scoreUtilities.createMelody(melody.getNotes());
-//		View.notate(score);
-//		Play.midi(score, true);
-		
 		List<Note> notes = new ArrayList<>();
 		notes.add(NoteBuilder.note().len(12).pc(4).pitch(64).ocatve(4).pos(0).art(Articulation.LEGATO).build());
 		notes.add(NoteBuilder.note().len(24).pc(2).pitch(62).ocatve(4).pos(12).art(Articulation.STACCATO).build());
@@ -160,9 +142,24 @@ public class MelodyGeneratorTest extends JFrame{
 		when(noteCombination.getNotes(Mockito.anyInt(), Mockito.anyInt())).thenReturn(notes);
 		List<Integer> beats = new ArrayList<>();
 		beats.add(12);
-		MelodyBlock melody = melodyGenerator.generateMelodyBlock(1, 0, 48, 5, beats);
+		MelodyBlock melody = melodyGenerator.generateMelodyBlock(1, 0, 48, 5, beats, true);
 		assertEquals(1, melody.getVoice());
 		assertEquals(4, melody.getMelodyBlocks().size());
+	}
+	
+	@Test
+	public void testGenerateMelodyBlockEvenAndUnevenBeat() {
+		List<Note> notes = new ArrayList<>();
+		notes.add(NoteBuilder.note().pos(0).build());
+		when(noteCombination.getNotes(Mockito.anyInt(), Mockito.anyInt())).thenReturn(notes);
+		List<Integer> beats = new ArrayList<>();
+		beats.add(12);
+		beats.add(18);
+		MelodyBlock melody = melodyGenerator.generateMelodyBlock(1, 0, 70, 5, beats, false);
+		assertEquals(12, melody.getMelodyBlocks().get(0).getBeat());
+		assertEquals(18, melody.getMelodyBlocks().get(1).getBeat());
+		assertEquals(12, melody.getMelodyBlocks().get(2).getBeat());
+		assertEquals(18, melody.getMelodyBlocks().get(3).getBeat());
 	}
 	
 }

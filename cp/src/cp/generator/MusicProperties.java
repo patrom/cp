@@ -1,10 +1,5 @@
 package cp.generator;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.TreeMap;
-
 import org.springframework.stereotype.Component;
 
 import cp.model.note.Scale;
@@ -16,18 +11,12 @@ public class MusicProperties {
 	
 	private int harmonyBeatDivider = 12;
 	private int tempo = 100;
-	private Map<Integer, Double> rhythmWeightValues = new TreeMap<>(); //Must match length of harmonies based on division by minimumLength.
 	private int minimumLength = 3; //for rhythm weight
-	private Integer[] octaveLowestPitchClassRange = {0};
-	private boolean outerBoundaryIncluded = true;
 	private double[] filterLevels = {0.5};
-	private List<Instrument> instruments;
 	private int minimumRhythmFilterLevel = 12; //levels pitch, crest/keel, ...
 //	private int[] distance = {2,3,4,5,6,8,9,10,12,14,15,16,18,20,21,22,24,26,27,28,30,32};//minimumRhythmicValue = 12 - default
 	private int[] distance = {3,6,9,12,15,18,20,21,22,24,26,27,28,30,32};//minimumRhythmicValue = 12 -  3/4
 //	private int[] distance = {2,4,8,10,12,14,16,18,20,21,22,24,26,27,28,30,32};//minimumRhythmicValue = 12 - 4/4
-	private int melodyType = 2; //or 3
-	private int melodyBeatValue = 12; // for musicXML
 	private Key key;
 	private int outputCountRun = 10;
 	
@@ -58,15 +47,6 @@ public class MusicProperties {
 	private double mutationProbability;
 	
 	private int[][] harmonies;
-	
-	public Instrument findInstrument(int voice){
-		Optional<Instrument> instrument = instruments.stream().filter(instr -> (instr.getVoice()) == voice).findFirst();
-		if (instrument.isPresent()) {
-			return instrument.get();
-		}else{
-			throw new IllegalArgumentException("Instrument for voice " + voice + " is missing!");
-		}
-	}
 	
 	public String getVoiceLeadingStrategy() {
 		return voiceLeadingStrategy;
@@ -168,29 +148,12 @@ public class MusicProperties {
 		this.scale = scale;
 	}
 	
-	public Integer[] getOctaveLowestPitchClassRange() {
-		return octaveLowestPitchClassRange;
-	}
-	
-	public void setOctaveHighestPitchClassRange(
-			Integer[] octaveHighestPitchClassRange) {
-		this.octaveLowestPitchClassRange = octaveHighestPitchClassRange;
-	}
-	
 	public Scale getMelodyScale() {
 		return melodyScale;
 	}
 	
 	public void setMelodyScale(Scale melodyScale) {
 		this.melodyScale = melodyScale;
-	}
-	
-	public boolean isOuterBoundaryIncluded() {
-		return outerBoundaryIncluded;
-	}
-	
-	public void setOuterBoundaryIncluded(boolean outerBoundaryIncluded) {
-		this.outerBoundaryIncluded = outerBoundaryIncluded;
 	}
 	
 	public double[] getFilterLevels() {
@@ -217,28 +180,12 @@ public class MusicProperties {
 		this.keySignature = keySignature;
 	}
 
-	public Map<Integer, Double> getRhythmWeightValues() {
-		return rhythmWeightValues;
-	}
-
-	public void setRhythmWeightValues(Map<Integer, Double> rhythmWeightValues) {
-		this.rhythmWeightValues = rhythmWeightValues;
-	}
-
 	public int[][] getHarmonies() {
 		return harmonies;
 	}
 
 	public void setHarmonies(int[][] harmonies) {
 		this.harmonies = harmonies;
-	}
-
-	public List<Instrument> getInstruments() {
-		return instruments;
-	}
-
-	public void setInstruments(List<Instrument> instruments) {
-		this.instruments = instruments;
 	}
 
 	public int getMinimumRhythmFilterLevel() {
@@ -255,22 +202,6 @@ public class MusicProperties {
 
 	public void setDistance(int[] distance) {
 		this.distance = distance;
-	}
-
-	public int getMelodyType() {
-		return melodyType;
-	}
-
-	public void setMelodyType(int melodyType) {
-		this.melodyType = melodyType;
-	}
-
-	public int getMelodyBeatValue() {
-		return melodyBeatValue;
-	}
-
-	public void setMelodyBeatValue(int melodyBeatValue) {
-		this.melodyBeatValue = melodyBeatValue;
 	}
 
 	public Key getKey() {

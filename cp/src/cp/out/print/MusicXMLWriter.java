@@ -47,26 +47,26 @@ public class MusicXMLWriter {
 	@Autowired
 	private NoteDisplay noteDisplay;
 	
-	public void generateMusicXML(List<MelodyInstrument> melodies, String id) throws Exception {
-		Map<Instrument, List<Note>> melodiesForInstrument = new HashMap<>();
-		for (MelodyInstrument melody : melodies) {
-			List<Note> notes = melody.getNotes();
-			addLeadingRest(notes);
-			Instrument instrument = getInstrumentForVoice(melody.getVoice());
-			melodiesForInstrument.compute(instrument, (k, v) -> {
-					if (v == null) {
-						List<Note> list = new ArrayList<>();
-						list.addAll(notes);
-						return list;
-					}else {
-						v.addAll(notes);
-						return v;
-					}
-				}
-			);
-		}
-		createXML(id, melodiesForInstrument);
-	}
+//	public void generateMusicXML(List<MelodyInstrument> melodies, String id) throws Exception {
+//		Map<Instrument, List<Note>> melodiesForInstrument = new HashMap<>();
+//		for (MelodyInstrument melody : melodies) {
+//			List<Note> notes = melody.getNotes();
+//			addLeadingRest(notes);
+//			Instrument instrument = getInstrumentForVoice(melody.getVoice());
+//			melodiesForInstrument.compute(instrument, (k, v) -> {
+//					if (v == null) {
+//						List<Note> list = new ArrayList<>();
+//						list.addAll(notes);
+//						return list;
+//					}else {
+//						v.addAll(notes);
+//						return v;
+//					}
+//				}
+//			);
+//		}
+//		createXML(id, melodiesForInstrument);
+//	}
 
 	protected void addLeadingRest(List<Note> notes) {
 		if (!notes.isEmpty()) {
@@ -83,13 +83,13 @@ public class MusicXMLWriter {
 		createXML(id, melodiesForInstrument);
 	}
 	
-	public void generateMusicXMLForNotes(List<Note> notes, Instrument instrument, String id) throws Exception {
-		List<Instrument> instruments = new ArrayList<Instrument>();
-		instruments.add(instrument);
-		musicProperties.setInstruments(instruments);
-		MelodyInstrument melodyInstrument = new MelodyInstrument(notes, 0);
-		generateMusicXML(Collections.singletonList(melodyInstrument), id);
-	}
+//	public void generateMusicXMLForNotes(List<Note> notes, Instrument instrument, String id) throws Exception {
+//		List<Instrument> instruments = new ArrayList<Instrument>();
+//		instruments.add(instrument);
+//		musicProperties.setInstruments(instruments);
+//		MelodyInstrument melodyInstrument = new MelodyInstrument(notes, 0);
+//		generateMusicXML(Collections.singletonList(melodyInstrument), id);
+//	}
 
 	public void createXML(String id, Map<Instrument, List<Note>> melodiesForInstrument) throws FactoryConfigurationError, XMLStreamException, FileNotFoundException {
 		XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newInstance();
@@ -185,15 +185,15 @@ public class MusicXMLWriter {
 		xmlStreamWriter.writeCharacters("\n");
 	}
 
-	private Instrument getInstrumentForVoice(int voice){
-		List<Instrument> instruments = musicProperties.getInstruments();
-		Optional<Instrument> instrument = instruments.stream().filter(instr -> (instr.getVoice()) == voice).findFirst();
-		if (instrument.isPresent()) {
-			return instrument.get();
-		}else{
-			throw new IllegalArgumentException("Instrument for voice " + voice + " is missing!");
-		}
-	}
+//	private Instrument getInstrumentForVoice(int voice){
+//		List<Instrument> instruments = musicProperties.getInstruments();
+//		Optional<Instrument> instrument = instruments.stream().filter(instr -> (instr.getVoice()) == voice).findFirst();
+//		if (instrument.isPresent()) {
+//			return instrument.get();
+//		}else{
+//			throw new IllegalArgumentException("Instrument for voice " + voice + " is missing!");
+//		}
+//	}
 
 	private void createPartElement(List<Note> list, Instrument instrument) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("part");

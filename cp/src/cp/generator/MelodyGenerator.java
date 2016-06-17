@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cp.combination.NoteCombination;
+import cp.composition.Composition;
+import cp.composition.timesignature.CompositionConfig;
 import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
@@ -37,19 +39,41 @@ public class MelodyGenerator {
 	private NoteCombination noteCombination;
 	
 	private PitchClassGenerator pitchClassGenerator;
+	@Autowired
+	private CompositionConfig compositionConfig;
 	
 	public void setPitchClassGenerator(PitchClassGenerator pitchClassGenerator) {
 		this.pitchClassGenerator = pitchClassGenerator;
 	}
 	
+	public MelodyBlock generateMelodyBlock(final int voice, int start, int stop, int octave){
+		return generateMelodyBlock(voice, start, stop, octave, compositionConfig.getAllBeats(), compositionConfig.randomCombinations());
+	}
+	
 	public MelodyBlock generateMelodyBlock(final int voice, int start, int stop, int octave, List<Integer> beats){
+		return generateMelodyBlock(voice, start, stop, octave, beats, compositionConfig.randomCombinations());
+	}
+	
+	public MelodyBlock generateMelodyBlock(final int voice, int start, int stop, int octave, List<Integer> beats, boolean randomBeats){
 		MelodyBlock melodyBlock = new MelodyBlock(octave, voice);
-		int beat = RandomUtil.getRandomFromList(beats);
+		int beat;
+		int i = 0;
+		int size = beats.size();
+		if (randomBeats) {
+			beat = RandomUtil.getRandomFromList(beats);
+		}else{
+			beat = beats.get(i);
+		}
 		int end = start + beat;
 		while (end <= stop) {
 			CpMelody melody = generateMelody(voice, start, beat);
 			melodyBlock.addMelodyBlock(melody);
-			beat = RandomUtil.getRandomFromList(beats);
+			if (randomBeats) {
+				beat = RandomUtil.getRandomFromList(beats);
+			} else {
+				i++;
+				beat = beats.get(i % size);
+			}		
 			start = end;
 			end = start + beat;
 		}
@@ -57,7 +81,13 @@ public class MelodyGenerator {
 	}
 
 	public CpMelody generateMelody(int voice, int start, int beat) {
-		List<Note> melodyNotes = noteCombination.getNotes(beat, voice);
+		List<Note> melodyNotes = new ArrayList<>();
+		if (compositionConfig.randomCombinations()) {
+			melodyNotes = noteCombination.getNotes(beat, voice);
+		}else{
+			melodyNotes = noteCombination.getNotesFixed(beat, voice);
+		}
+		
 		int offset = start;
 		melodyNotes.forEach(n -> {
 			n.setPosition(n.getPosition() + offset);

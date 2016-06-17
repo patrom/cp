@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cp.combination.NoteCombination;
+import cp.composition.timesignature.CompositionConfig;
 import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.Motive;
 import cp.model.melody.CpMelody;
@@ -29,6 +30,8 @@ public class ReplaceMelody extends AbstractMutation{
 
 	@Autowired
 	private NoteCombination noteCombination;
+	@Autowired
+	private CompositionConfig compositionConfig;
 
 	private PitchClassGenerator pitchClassGenerator;
 	
@@ -55,6 +58,11 @@ public class ReplaceMelody extends AbstractMutation{
 			if (optionalMelody.isPresent()) {
 				CpMelody melody = optionalMelody.get();
 				List<Note> melodyNotes = noteCombination.getNotes(melody.getBeat(), melody.getVoice());
+				if (compositionConfig.randomCombinations()) {
+					melodyNotes = noteCombination.getNotes(melody.getBeat(), melody.getVoice());
+				}else{
+					melodyNotes = noteCombination.getNotesFixed(melody.getBeat(), melody.getVoice());
+				}
 				melodyNotes.forEach(n -> {
 					n.setVoice(melody.getVoice());
 					n.setPosition(n.getPosition() + melody.getStart());

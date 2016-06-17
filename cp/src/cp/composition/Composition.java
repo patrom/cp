@@ -1,7 +1,6 @@
-package cp.genre;
+package cp.composition;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -9,18 +8,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import cp.combination.NoteCombination;
-import cp.combination.RhythmCombination;
-import cp.combination.even.FourNoteEven;
-import cp.combination.even.OneNoteEven;
-import cp.combination.even.ThreeNoteEven;
-import cp.combination.even.TwoNoteEven;
-import cp.combination.uneven.FiveNoteSexTuplet;
-import cp.combination.uneven.FourNoteSexTuplet;
-import cp.combination.uneven.OneNoteUneven;
-import cp.combination.uneven.SixNoteSexTuplet;
-import cp.combination.uneven.ThreeNoteSexTuplet;
-import cp.combination.uneven.ThreeNoteUneven;
-import cp.combination.uneven.TwoNoteUneven;
+import cp.composition.timesignature.CompositionConfig;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
 import cp.generator.pitchclass.PassingPitchClasses;
@@ -33,44 +21,14 @@ import cp.model.note.Scale;
 import cp.nsga.operator.mutation.melody.ReplaceMelody;
 import cp.objective.harmony.HarmonicObjective;
 import cp.out.instrument.Instrument;
-import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.plucked.Guitar;
 import cp.out.instrument.register.InstrumentRegister;
-import cp.out.instrument.strings.Cello;
-import cp.out.instrument.strings.Viola;
-import cp.out.instrument.strings.ViolinsI;
-import cp.out.instrument.woodwinds.Oboe;
-import cp.out.orchestration.InstrumentName;
 import cp.out.orchestration.quality.Brilliant;
 import cp.out.orchestration.quality.Pleasant;
 import cp.out.print.note.Key;
 
 public abstract class Composition {
 	
-	@Autowired
-	protected OneNoteEven oneNoteEven;
-	@Autowired
-	protected TwoNoteEven twoNoteEven;
-	@Autowired
-	protected ThreeNoteEven threeNoteEven;
-	@Autowired
-	protected FourNoteEven fourNoteEven;
-	
-	@Autowired
-	protected ThreeNoteUneven threeNoteUneven;
-	@Autowired
-	protected TwoNoteUneven twoNoteUneven;
-	@Autowired
-	protected OneNoteUneven oneNoteUneven;
-	@Autowired
-	protected ThreeNoteSexTuplet threeNoteSexTuplet;
-	@Autowired
-	protected FourNoteSexTuplet fourNoteSexTuplet;
-	@Autowired
-	protected FiveNoteSexTuplet fiveNoteSexTuplet;
-	@Autowired
-	protected SixNoteSexTuplet sixNoteSexTuplet;
-
 	@Autowired
 	protected ReplaceMelody replaceMelody;
 
@@ -137,11 +95,11 @@ public abstract class Composition {
 	protected List<Integer> beatsAll = new ArrayList<>();
 	
 	protected int offset;
+	@Autowired
+	protected CompositionConfig compositionConfig;
 	
 	@PostConstruct
 	public void init(){
-		composeInEvenMeter(4,4);
-//		composeInUnevenMeter(3,4);
 		composeInKey(C);
 		inTempo(70);
 		
@@ -176,27 +134,36 @@ public abstract class Composition {
 		harmonicObjective.setDissonance(intervalAndTriads::getDissonance);
 	}
 
-	protected void composeInEvenMeter(int numerator, int denominator){
-		offset = 48;//canon,...
-		beats.add(12);
-		beats2X.add(24);
-		beatsAll.add(12);
-		beatsAll.add(24);
-		musicProperties.setNumerator(numerator);
-		musicProperties.setDenominator(denominator);
-	}
-	
-	protected void composeInUnevenMeter(int numerator, int denominator){
-		offset = 36;//canon,...
-		beats.add(18);
-		beats2X.add(36);
-		beatsAll.add(18);
-		beatsAll.add(36);
-		musicProperties.setNumerator(numerator);
-		musicProperties.setDenominator(denominator);
-		int[] distance = {3,6,9,12,15,18,20,21,22,24,26,27,28,30,32};//minimumRhythmicValue = 12 -  3/4
-		musicProperties.setDistance(distance);
-	}
+//	private void composeInEightMeter(int numerator, int denominator) {
+//		randomGeneration = false;
+//		fixed = fixedUnEven;
+//		offset = 6 * numerator;//canon,...
+//		beats.add(18);
+//		beats2X.add(18);
+//		beatsAll.add(18);
+//		musicProperties.setNumerator(numerator);
+//		musicProperties.setDenominator(denominator);
+//		musicProperties.setMinimumRhythmFilterLevel(6);
+//		int[] distance = {3,6,9,12,15,18,20,21,22,24,26,27,28,30,32};
+//		musicProperties.setDistance(distance);
+//	}
+//	
+//	private void composeInFiveEightMeter(int numerator, int denominator) {
+//		randomGeneration = false;
+//		fixed = fixedUnEven;
+//		offset = 6 * numerator;//canon,...
+//		beats.add(12); // 2 + 3
+//		beats.add(18);
+//		beats2X.add(12);
+//		beats2X.add(18);
+//		beatsAll.add(12);
+//		beatsAll.add(18);
+//		musicProperties.setNumerator(numerator);
+//		musicProperties.setDenominator(denominator);
+//		musicProperties.setMinimumRhythmFilterLevel(6);
+////		int[] distance = {3,6,9,12,15,18,20,21,22,24,26,27,28,30,32};
+////		musicProperties.setDistance(distance);
+//	}
 	
 	protected void inTempo(int tempo) {
 		musicProperties.setTempo(tempo);
@@ -207,54 +174,4 @@ public abstract class Composition {
 		musicProperties.setKey(key);
 	}
 	
-	protected List<RhythmCombination> evenBeat(){
-		List<RhythmCombination> rhythmCombinations = new ArrayList<>();
-		rhythmCombinations.add(oneNoteEven::pos1);
-//		rhythmCombinations.add(oneNoteEven::pos2);
-//		rhythmCombinations.add(oneNoteEven::pos3);
-//		rhythmCombinations.add(oneNoteEven::pos4);
-//		
-//		rhythmCombinations.add(twoNoteEven::pos12);
-		rhythmCombinations.add(twoNoteEven::pos13);
-		rhythmCombinations.add(twoNoteEven::pos14);
-//		rhythmCombinations.add(twoNoteEven::pos34);
-//		rhythmCombinations.add(twoNoteEven::pos23);
-//		rhythmCombinations.add(twoNoteEven::pos24);
-		
-//		rhythmCombinations.add(threeNoteEven::pos123);
-		rhythmCombinations.add(threeNoteEven::pos134);
-//		rhythmCombinations.add(threeNoteEven::pos124);
-//		rhythmCombinations.add(threeNoteEven::pos234);
-		
-//		rhythmCombinations.add(fourNoteEven::pos1234);
-//		
-//		rhythmCombinations.add(threeNoteUneven::pos123);
-		return rhythmCombinations;
-	}
-	
-	protected List<RhythmCombination> fixedBeat(){
-		List<RhythmCombination> rhythmCombinations = new ArrayList<>();
-//		rhythmCombinations.add(oneNoteEven::pos1);
-//		rhythmCombinations.add(oneNoteEven::pos2);
-//		rhythmCombinations.add(oneNoteEven::pos3);
-//		rhythmCombinations.add(oneNoteEven::pos4);
-//		
-		rhythmCombinations.add(twoNoteEven::pos12);
-		rhythmCombinations.add(twoNoteEven::pos13);
-//		rhythmCombinations.add(twoNoteEven::pos14);
-//		rhythmCombinations.add(twoNoteEven::pos34);
-//		rhythmCombinations.add(twoNoteEven::pos23);
-//		rhythmCombinations.add(twoNoteEven::pos24);
-		
-//		rhythmCombinations.add(threeNoteEven::pos123);
-//		rhythmCombinations.add(threeNoteEven::pos134);
-//		rhythmCombinations.add(threeNoteEven::pos124);
-//		rhythmCombinations.add(threeNoteEven::pos234);
-		
-//		rhythmCombinations.add(fourNoteEven::pos1234);
-//		
-//		rhythmCombinations.add(threeNoteUneven::pos123);
-		return rhythmCombinations;
-	}
-
 }

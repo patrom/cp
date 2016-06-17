@@ -128,10 +128,10 @@ public class TwoNoteUneven {
 	public static void main(String[] args) {
 		TwoNoteUneven twoNoteUneven = new TwoNoteUneven();
 		List<Note > notes = twoNoteUneven.pos13(36);
-		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
-		notes = twoNoteUneven.pos12(36);
-		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
+		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength() + ","  + n.isRest()));
+		notes = twoNoteUneven.pos23(36);
+		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength() + ","  + n.isRest()));
 		notes = twoNoteUneven.pos23(18);
-		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
+		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength() + ","  + n.isRest()));
 	}
 }

@@ -1,7 +1,10 @@
 package cp.combination;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.annotation.Resource;
 
@@ -13,46 +16,62 @@ import cp.util.RandomUtil;
 @Component
 public class NoteCombination {
 
-	@Resource(name="defaultCombinations")
-	private List<RhythmCombination> defaultCombinations;
-	@Resource(name="combinationsEvenBeat")
-	private Map<Integer, List<RhythmCombination>> combinationsEvenBeat;
-	@Resource(name="combinationsEvenBeat12")
-	private Map<Integer, List<RhythmCombination>> combinationsEvenBeat12;
-	@Resource(name="combinationsUnevenBeat")
-	private Map<Integer, List<RhythmCombination>> combinationsUnevenBeat;
+	@Resource(name="defaultEvenCombinations")
+	private List<RhythmCombination> defaultEvenCombinations;
+	@Resource(name="defaultUnevenCombinations")
+	private List<RhythmCombination> defaultUnEvenCombinations;
+//	@Resource(name="combinationsEvenBeat")
+//	private Map<Integer, List<RhythmCombination>> combinationsEvenBeat;
+//	@Resource(name="combinationsEvenBeat12")
+//	private Map<Integer, List<RhythmCombination>> combinationsEvenBeat12;
+//	@Resource(name="combinationsUnevenBeat")
+//	private Map<Integer, List<RhythmCombination>> combinationsUnevenBeat;
+	
+	private Map<Integer, List<RhythmCombination>> combinations =  new TreeMap<>();
 	
 	public List<Note> getNotes(int beat, int voice){
-		List<RhythmCombination> rhythmCombinations ;
-		//3 division
+		List<RhythmCombination> rhythmCombinations = null;
+//		//uneven division
 		if (beat == 18 || beat == 36) {
-			rhythmCombinations = combinationsUnevenBeat.getOrDefault(voice, defaultCombinations);
+			rhythmCombinations = combinations.getOrDefault(voice, defaultUnEvenCombinations);
 		} else {
-			//2 division
-			if (beat == 12) {
-				rhythmCombinations = combinationsEvenBeat12.getOrDefault(voice, defaultCombinations);
-			} else {
-				rhythmCombinations = combinationsEvenBeat.getOrDefault(voice, defaultCombinations);
-			}
+			//even division
+			if (beat == 12 || beat == 24) {
+				rhythmCombinations = combinations.getOrDefault(voice, defaultEvenCombinations);
+			} 
 		}
 		RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
 		return rhythmCombination.getNotes(beat);
 	}
-
-	public void setDefaultCombinations(List<RhythmCombination> defaultCombinations) {
-		this.defaultCombinations = defaultCombinations;
+	
+	public List<Note> getNotesFixed(int beat, int voice){
+		List<RhythmCombination> rhythmCombinations = null;
+//		//uneven division
+		if (beat == 18 || beat == 36) {
+			rhythmCombinations = combinations.getOrDefault(voice, defaultUnEvenCombinations);
+		} else {
+			//even division
+			if (beat == 12 || beat == 24) {
+				rhythmCombinations = combinations.getOrDefault(voice, defaultEvenCombinations);
+			} 
+		}
+		return rhythmCombinations.stream().flatMap(comb -> comb.getNotes(beat).stream()).collect(toList());
 	}
 
-	public void setCombinationsEvenBeat(int voice, List<RhythmCombination> combinationsEvenBeat) {
-		this.combinationsEvenBeat.put(voice, combinationsEvenBeat);
+	public void setDefaultCombinations(Combination combination) {
+		this.defaultEvenCombinations = combination.getCombination();
 	}
 
-	public void setCombinationsEvenBeat12(int voice, List<RhythmCombination> combinationsEvenBeat12) {
-		this.combinationsEvenBeat12.put(voice, combinationsEvenBeat12);
+	public void setCombinations(int voice, Combination combination) {
+		this.combinations.put(voice, combination.getCombination());
 	}
 
-	public void setCombinationsUnevenBeat(int voice, List<RhythmCombination> combinationsUnevenBeat) {
-		this.combinationsUnevenBeat.put(voice, combinationsUnevenBeat);
-	}
+//	public void setCombinationsEvenBeat12(int voice, Combination combination) {
+//		this.combinationsEvenBeat12.put(voice, combination.getCombination());
+//	}
+//
+//	public void setCombinationsUnevenBeat(int voice, Combination combination) {
+//		this.combinationsUnevenBeat.put(voice, combination.getCombination());
+//	}
 
 }

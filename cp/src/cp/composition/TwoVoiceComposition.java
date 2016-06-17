@@ -1,18 +1,14 @@
-package cp.genre;
+package cp.composition;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cp.generator.MelodyGenerator;
 import cp.model.melody.MelodyBlock;
 import cp.model.melody.Operator;
 import cp.model.melody.OperatorType;
 import cp.out.instrument.Instrument;
-import cp.out.instrument.brass.FrenchHorn;
-import cp.out.instrument.woodwinds.Flute;
 @Component
 public class TwoVoiceComposition extends Composition{
 	
@@ -24,7 +20,7 @@ public class TwoVoiceComposition extends Composition{
 		instrument1.setChannel(1);
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), start, end, instrument1.pickRandomOctaveFromRange(), beatsAll);
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), start, end, instrument1.pickRandomOctaveFromRange());
 		melodyBlock.setInstrument(instrument1);
 		
 		melodyBlocks.add(melodyBlock);
@@ -34,7 +30,7 @@ public class TwoVoiceComposition extends Composition{
 		beats2.add(24);
 //		beats2.add(36);
 		
-//		noteCombination.setCombinationsEvenBeat(1, evenBeat());
+		noteCombination.setCombinations(1, compositionConfig.getFixed());
 		Instrument instrument2 = instruments.get(1);
 		instrument2.setVoice(1);
 		instrument2.setChannel(1);
@@ -76,7 +72,7 @@ public class TwoVoiceComposition extends Composition{
 		instrument1.setChannel(1);
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), start, end, instrument1.pickRandomOctaveFromRange(), beatsAll);
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), start, end, instrument1.pickRandomOctaveFromRange());
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);	
 
@@ -105,7 +101,7 @@ public class TwoVoiceComposition extends Composition{
 		instrument1.setChannel(1);
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), start, end, instrument1.pickRandomOctaveFromRange(), beatsAll);
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), start, end, instrument1.pickRandomOctaveFromRange());
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);
 
@@ -150,7 +146,7 @@ public class TwoVoiceComposition extends Composition{
 		instrument1.setChannel(1);
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), start, end, instrument1.pickRandomOctaveFromRange(), beatsAll);
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), start, end, instrument1.pickRandomOctaveFromRange());
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);
 
