@@ -1,49 +1,52 @@
 package cp.composition.timesignature;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
-import cp.combination.Combination;
+import cp.composition.beat.BeatGroup;
 
 @Component
 @ConditionalOnProperty(name = "composition.timesignature", havingValue = "5/8")
 public class Composition58 extends CompositionConfig{
 
-	@Autowired
-	@Qualifier(value="FixedUnEven")
-	private Combination fixedUnEven;
-
 	@Override
-	public boolean randomCombinations() {
+	public boolean randomBeatGroup() {
 		return false;
 	}
 	
 	@Override
 	public void init() {
 		super.init();
-		beats.add(12); // 2 + 3
-		beats.add(18);
-		beatsDoubleLength.add(12);
-		beatsDoubleLength.add(18);
-		beatsAll.add(12);
-		beatsAll.add(18);
+		BeatGroup defaultGroupUneven = beatGroupFactory.getBeatGroupUneven(6, "homophonic");
+		BeatGroup defaultGroupEven = beatGroupFactory.getBeatGroupEven(6, "homophonic");
+		beats.add(defaultGroupEven); // 2 + 3
+		beats.add(defaultGroupUneven);
+		beatsDoubleLength.add(defaultGroupEven);
+		beatsDoubleLength.add(defaultGroupUneven);
+		beatsAll.add(defaultGroupEven);
+		beatsAll.add(defaultGroupUneven);
 		musicProperties.setMinimumRhythmFilterLevel(6);
-		int[] distance = {3,6,9,12,15,18,20,21,22,24,26,27,28,30,32};
+		int[] distance = new int[]{2,5,7,10,12,15,17,20};
 		musicProperties.setDistance(distance);
+		offset = 30;
 	}
 
 	@Override
-	public boolean randomBeats() {
-		return false;
+	public boolean randomCombination() {
+		return true;
+	}
+
+	@Override
+	public List<BeatGroup> getFixedBeatGroup() {
+		List<BeatGroup> group = new ArrayList<BeatGroup>();
+		group.add(beatGroupFactory.getBeatGroupEven(6, "fixed"));
+		group.add(beatGroupFactory.getBeatGroupUneven(6, "fixed"));
+		return group;
 	}
 	
-	@Override
-	public Combination getFixed() {
-		return fixedUnEven;
-	}
-
 }
 
 

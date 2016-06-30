@@ -3,9 +3,11 @@ package cp.objective.melody;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.Resource;
 import javax.sound.midi.InvalidMidiDataException;
 
 import org.junit.Before;
@@ -21,6 +23,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cp.AbstractTest;
 import cp.DefaultConfig;
+import cp.combination.RhythmCombination;
+import cp.composition.beat.BeatGroupTwo;
 import cp.evaluation.FitnessEvaluationTemplate;
 import cp.generator.MelodyGenerator;
 import cp.midi.MelodyInstrument;
@@ -62,6 +66,8 @@ public class MelodiesTest extends AbstractTest{
 	private RhythmObjective rhythmObjective;
 	@Autowired
 	private MelodyGenerator melodyGenerator;
+	@Resource(name="defaultUnevenCombinations")
+	private List<RhythmCombination> defaultUnEvenCombinations;
 	
 	@Before
 	public void setUp() throws IOException, InvalidMidiDataException {
@@ -143,7 +149,7 @@ public class MelodiesTest extends AbstractTest{
 	@Test
 	public void generateMelodies() throws InvalidMidiDataException, IOException {
 		for (int i = 0; i < 10; i++) {
-			CpMelody melody = melodyGenerator.generateMelody(0, 0, 12);
+			CpMelody melody = melodyGenerator.generateMelody(0, 0, new BeatGroupTwo(12, defaultUnEvenCombinations));
 			MelodyBlock melodyBlock = new MelodyBlock(5,0);
 			melodyBlock.addMelodyBlock(melody);
 			List<Note> notes = melody.getNotes();

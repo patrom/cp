@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cp.combination.NoteCombination;
+import cp.composition.beat.BeatGroup;
 import cp.composition.timesignature.CompositionConfig;
 import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.Motive;
@@ -28,16 +28,14 @@ public class ReplaceMelody extends AbstractMutation{
 
 	private static Logger LOGGER = LoggerFactory.getLogger(ReplaceMelody.class);
 
-	@Autowired
-	private NoteCombination noteCombination;
-	@Autowired
-	private CompositionConfig compositionConfig;
-
 	private PitchClassGenerator pitchClassGenerator;
 	
 	public void setPitchClassGenerator(PitchClassGenerator pitchClassGenerator) {
 		this.pitchClassGenerator = pitchClassGenerator;
 	}
+	
+	@Autowired
+	private CompositionConfig compositionConfig;
 	
 	@Autowired
 	public ReplaceMelody(HashMap<String, Object> parameters) {
@@ -57,11 +55,12 @@ public class ReplaceMelody extends AbstractMutation{
 			Optional<CpMelody> optionalMelody = melodyBlock.getRandomMelody(m -> m.isReplaceable());
 			if (optionalMelody.isPresent()) {
 				CpMelody melody = optionalMelody.get();
-				List<Note> melodyNotes = noteCombination.getNotes(melody.getBeat(), melody.getVoice());
-				if (compositionConfig.randomCombinations()) {
-					melodyNotes = noteCombination.getNotes(melody.getBeat(), melody.getVoice());
-				}else{
-					melodyNotes = noteCombination.getNotesFixed(melody.getBeat(), melody.getVoice());
+				BeatGroup beatGroup = melody.getBeatGroup();
+				List<Note> melodyNotes;
+				if (compositionConfig.randomCombination()) {
+					melodyNotes = beatGroup.getNotesRandom();
+				} else {
+					melodyNotes = beatGroup.getNotes();
 				}
 				melodyNotes.forEach(n -> {
 					n.setVoice(melody.getVoice());

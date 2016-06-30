@@ -25,16 +25,11 @@ public class TwoVoiceComposition extends Composition{
 		
 		melodyBlocks.add(melodyBlock);
 		
-		List<Integer> beats2 = new ArrayList<>();
-//		beats2.add(12);
-		beats2.add(24);
-//		beats2.add(36);
-		
-		noteCombination.setCombinations(1, compositionConfig.getFixed());
+		compositionConfig.setBeatGroups(1, compositionConfig.getFixedBeatGroup());
 		Instrument instrument2 = instruments.get(1);
 		instrument2.setVoice(1);
 		instrument2.setChannel(1);
-		melodyBlock = melodyGenerator.generateMelodyBlock(instrument2.getVoice(), start, end, instrument2.pickRandomOctaveFromRange(), beats2X);
+		melodyBlock = melodyGenerator.generateMelodyBlock(instrument2.getVoice(), start, end, instrument2.pickRandomOctaveFromRange());
 		melodyBlock.setInstrument(instrument2);
 		
 		melodyBlocks.add(melodyBlock);
@@ -81,7 +76,7 @@ public class TwoVoiceComposition extends Composition{
 		instrument2.setChannel(1);
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
 		melodyBlock2.setVoice(instrument2.getVoice());
-		melodyBlock2.setOffset(offset);
+		melodyBlock2.setOffset(compositionConfig.getOffset());
 		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.T_RELATIVE);
 //		operatorType.setSteps(1);
 //		operatorType.setFunctionalDegreeCenter(1);
@@ -110,7 +105,7 @@ public class TwoVoiceComposition extends Composition{
 		instrument2.setChannel(1);
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
 		melodyBlock2.setVoice(instrument2.getVoice());
-		melodyBlock2.setOffset(offset);
+		melodyBlock2.setOffset(compositionConfig.getOffset());
 		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.I_RELATIVE);
 //		operatorType.setSteps(1);
 		operatorType.setFunctionalDegreeCenter(1);//start from 1
@@ -155,7 +150,7 @@ public class TwoVoiceComposition extends Composition{
 		instrument2.setChannel(1);
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
 		melodyBlock2.setVoice(instrument2.getVoice());
-		melodyBlock2.setOffset(offset);
+		melodyBlock2.setOffset(compositionConfig.getOffset());
 		OperatorType operatorType = new OperatorType(operator);
 		operatorType.setSteps(steps);
 //		operatorType.setFunctionalDegreeCenter(1);//start from 1

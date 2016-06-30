@@ -8,6 +8,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cp.composition.beat.BeatGroup;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.note.Note;
@@ -29,7 +30,7 @@ public class CpMelody implements Cloneable{
 	private int end;
 	private List<Integer> contour = new ArrayList<>();
 	private int type = 2;
-	private int beat;
+	private BeatGroup beatGroup;
 	
 	public CpMelody(List<Note> notes, int voice, int start, int end) {
 		this.voice = voice;
@@ -61,7 +62,7 @@ public class CpMelody implements Cloneable{
 		this.contour = new ArrayList<>(anotherMelody.getContour());
 		this.type = anotherMelody.getType();
 		this.replaceable = anotherMelody.isReplaceable();
-		this.beat = anotherMelody.getBeat();
+		this.beatGroup = anotherMelody.getBeatGroup();
 	}
 
 	@Override
@@ -268,20 +269,20 @@ public class CpMelody implements Cloneable{
 		this.type = type;
 	}
 
-	public int getBeat() {
-		return beat;
-	}
-
-	public void setBeat(int beat) {
-		this.beat = beat;
-	}
-
 	public boolean isReplaceable() {
 		return replaceable;
 	}
 
 	public void setReplaceable(boolean replaceable) {
 		this.replaceable = replaceable;
+	}
+
+	public BeatGroup getBeatGroup() {
+		return beatGroup;
+	}
+
+	public void setBeatGroup(BeatGroup beatGroup) {
+		this.beatGroup = beatGroup;
 	}
 	
 }

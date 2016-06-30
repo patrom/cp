@@ -22,24 +22,24 @@ public class ThreeVoiceComposition extends Composition{
 		Instrument instrument1 = instruments.get(0);
 		instrument1.setVoice(0);
 		instrument1.setChannel(1);
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), start, end, instrument1.pickRandomOctaveFromRange(), beats2X);
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), start, end, instrument1.pickRandomOctaveFromRange());
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);	
 
 //		int voice1 = 1;
-//		noteCombination.setCombinations(voice1, fixed);//must match beats12
+//		compositionConfig.setBeatGroups(1, compositionConfig.getBeatsDoubleLength());
 //		Instrument instrument2 = instruments.get(voice1);
 //		instrument2.setVoice(voice1);
 //		instrument2.setChannel(2);
-//		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlock(instrument2.getVoice(), start, end, instrument2.pickRandomOctaveFromRange(), beats2X, compositionConfig.randomCombinations());
+//		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlock(instrument2.getVoice(), start, end, instrument2.pickRandomOctaveFromRange());
 //		melodyBlock2.setInstrument(instrument2);
 //		melodyBlocks.add(melodyBlock2);
 //			
-////		noteCombination.setCombinationsEvenBeat(2, evenBeat());
+////	compositionConfig.setBeatGroups(2, compositionConfig.getBeatsDoubleLength());
 //		Instrument instrument3 = instruments.get(2);
 //		instrument3.setVoice(2);
 //		instrument3.setChannel(3);
-//		MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlock(instrument3.getVoice(), start, end, instrument3.pickRandomOctaveFromRange(), beats2X, compositionConfig.randomCombinations());
+//		MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlock(instrument3.getVoice(), start, end, instrument3.pickRandomOctaveFromRange());
 //		melodyBlock3.setInstrument(instrument3);
 //		melodyBlocks.add(melodyBlock3);
 
@@ -65,7 +65,7 @@ public class ThreeVoiceComposition extends Composition{
 		instrument2.setChannel(2);
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
 		melodyBlock2.setVoice(instrument2.getVoice());
-		melodyBlock2.setOffset(offset);
+		melodyBlock2.setOffset(compositionConfig.getOffset());
 		OperatorType operatorType = new OperatorType(operator);
 		operatorType.setSteps(steps);
 //		operatorType.setFunctionalDegreeCenter(1);
@@ -75,11 +75,11 @@ public class ThreeVoiceComposition extends Composition{
 		melodyBlocks.add(melodyBlock2);
 		
 		
-//		noteCombination.setCombinationsEvenBeat(2, evenBeat());
+		compositionConfig.setBeatGroups(2, compositionConfig.getBeatsDoubleLength());
 		Instrument instrument3 = instruments.get(2);
 		instrument3.setVoice(2);
 		instrument3.setChannel(3);
-		MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlock(instrument3.getVoice(), start, end, instrument3.pickRandomOctaveFromRange(), beats2X);
+		MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlock(instrument3.getVoice(), start, end, instrument3.pickRandomOctaveFromRange());
 		melodyBlock3.setInstrument(instrument3);
 		melodyBlocks.add(melodyBlock3);
 
@@ -105,7 +105,7 @@ public class ThreeVoiceComposition extends Composition{
 		instrument2.setChannel(2);
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
 		melodyBlock2.setVoice(instrument2.getVoice());
-		melodyBlock2.setOffset(offset);
+		melodyBlock2.setOffset(compositionConfig.getOffset());
 		OperatorType operatorType = new OperatorType(operator);
 //		operatorType.setSteps(steps);
 		operatorType.setFunctionalDegreeCenter(1);
@@ -119,7 +119,7 @@ public class ThreeVoiceComposition extends Composition{
 		instrument3.setChannel(3);
 		MelodyBlock melodyBlock3 = new MelodyBlock(instrument3.pickRandomOctaveFromRange(), instrument3.getVoice());
 		melodyBlock3.setVoice(instrument3.getVoice());
-		melodyBlock3.setOffset(offset * 2);
+		melodyBlock3.setOffset(compositionConfig.getOffset() * 2);
 		OperatorType operatorType2 = new OperatorType(Operator.T_RELATIVE);
 //		operatorType2.setSteps(1 + steps);
 		operatorType.setFunctionalDegreeCenter(2);

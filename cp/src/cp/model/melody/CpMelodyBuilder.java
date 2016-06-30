@@ -35,7 +35,7 @@ public class CpMelodyBuilder {
 	public CpMelody build(){
 		int end = start + beat;
 		CpMelody melody = new CpMelody(notes, voice, start, end);
-		melody.setBeat(beat);
+//		melody.setBeatGroup(beatGroup);
 		return melody;
 	}
 }

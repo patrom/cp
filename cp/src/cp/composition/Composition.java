@@ -8,6 +8,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import cp.combination.NoteCombination;
+import cp.composition.beat.BeatGroup;
+import cp.composition.beat.BeatGroupFactory;
 import cp.composition.timesignature.CompositionConfig;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
@@ -50,8 +52,6 @@ public abstract class Composition {
 	protected IntervalAndTriads intervalAndTriads;
 	@Autowired
 	protected TimeLine timeLine;
-	@Autowired
-	protected NoteCombination noteCombination;
 
 	@Autowired
 	protected Key C;
@@ -90,13 +90,10 @@ public abstract class Composition {
 	protected int start = 0;
 	protected int end = 196;
 	
-	protected List<Integer> beats = new ArrayList<>();
-	protected List<Integer> beats2X = new ArrayList<>();
-	protected List<Integer> beatsAll = new ArrayList<>();
-	
-	protected int offset;
 	@Autowired
 	protected CompositionConfig compositionConfig;
+	@Autowired
+	protected BeatGroupFactory beatGroupFactory;
 	
 	@PostConstruct
 	public void init(){

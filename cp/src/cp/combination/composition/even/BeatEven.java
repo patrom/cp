@@ -3,12 +3,9 @@ package cp.combination.composition.even;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
 import cp.combination.RhythmCombination;
 import cp.combination.composition.AbstractCombination;
 
-@Component(value="BeatEven")
 public class BeatEven extends AbstractCombination{
 	
 	public List<RhythmCombination> getCombination(){

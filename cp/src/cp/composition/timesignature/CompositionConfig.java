@@ -2,34 +2,42 @@ package cp.composition.timesignature;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import cp.combination.Combination;
+import cp.composition.beat.BeatGroup;
+import cp.composition.beat.BeatGroupFactory;
 import cp.generator.MusicProperties;
 
 public abstract class CompositionConfig {
 
-	protected List<Integer> beats = new ArrayList<>();
-	protected List<Integer> beatsDoubleLength = new ArrayList<>();
-	protected List<Integer> beatsAll = new ArrayList<>();
+	protected List<BeatGroup> beats = new ArrayList<>();
+	protected List<BeatGroup> beatsDoubleLength = new ArrayList<>();
+	protected List<BeatGroup> beatsAll = new ArrayList<>();
 	
 	@Value("${composition.numerator:4}")
 	protected int numerator;
 	@Value("${composition.denominator:4}")
 	protected int denominator;
 	
+	protected int offset;
+	
 	@Autowired
 	protected MusicProperties musicProperties;
 	
-	public abstract boolean randomCombinations();//fixed rhythm patterns
+	@Autowired
+	protected BeatGroupFactory beatGroupFactory;
 	
-	public abstract boolean randomBeats();//composite time signatures
+	protected Map<Integer, List<BeatGroup>> beatGroupsPerVoice = new TreeMap<>();
 	
-	public abstract Combination getFixed();
+	public abstract boolean randomBeatGroup();//composite time signatures
+	
+	public abstract boolean randomCombination();//fixed rhythm patterns
 	
 	@PostConstruct
 	public void init() {
@@ -37,8 +45,30 @@ public abstract class CompositionConfig {
 		musicProperties.setDenominator(denominator);
 	}
 	
-	public List<Integer> getAllBeats() {
+	public List<BeatGroup> getAllBeats() {
 		return beatsAll;
 	}
+	
+	public List<BeatGroup> getBeatGroup(int voice){
+		return beatGroupsPerVoice.getOrDefault(voice, beatsAll);
+	}
+	
+	public void setBeatGroups(int voice, List<BeatGroup> beatGroups){
+		beatGroupsPerVoice.put(voice, beatGroups);
+	}
+	
+	public List<BeatGroup> getBeats() {
+		return beats;
+	}
+	
+	public List<BeatGroup> getBeatsDoubleLength() {
+		return beatsDoubleLength;
+	}
+	
+	public int getOffset() {
+		return offset;
+	}
+	
+	public abstract List<BeatGroup> getFixedBeatGroup();
 	
 }

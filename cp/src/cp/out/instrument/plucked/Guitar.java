@@ -27,9 +27,9 @@ public class Guitar extends Instrument {
 		setHighest(79);
 		setGeneralMidi(GeneralMidi.NYLON_GUITAR);
 		
-//		setInstrumentName("Piano (2)");
-//		setInstrumentSound("keyboard.piano.grand");
-//		setVirtualName("Concert Grand Piano");
+		setInstrumentName("Guitar (2)");
+		setInstrumentSound("pluck.guitar.nylon-string");
+		setVirtualName("Nylon Guitar");
 	}
 }
 

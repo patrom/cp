@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -16,7 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cp.combination.NoteCombination;
+import cp.combination.RhythmCombination;
 import cp.composition.Composition;
+import cp.composition.beat.BeatGroup;
 import cp.composition.timesignature.CompositionConfig;
 import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.melody.CpMelody;
@@ -35,8 +39,8 @@ public class MelodyGenerator {
 	
 	@Resource(name="oddPulseDivisions")
 	private List<Integer[]> oddPulseDivisions;
-	@Autowired
-	private NoteCombination noteCombination;
+//	@Autowired
+//	private NoteCombination noteCombination;
 	
 	private PitchClassGenerator pitchClassGenerator;
 	@Autowired
@@ -46,55 +50,68 @@ public class MelodyGenerator {
 		this.pitchClassGenerator = pitchClassGenerator;
 	}
 	
+	
+	
+//	public List<Note> getBeatGroyp(int beat, int voice){
+//		List<RhythmCombination> rhythmCombinations = null;
+////		//uneven division
+//		if (beat == 18 || beat == 36) {
+//			rhythmCombinations = combinations.getOrDefault(voice, defaultUnEvenCombinations);
+//		} else {
+//			//even division
+//			if (beat == 12 || beat == 24) {
+//				rhythmCombinations = combinations.getOrDefault(voice, defaultEvenCombinations);
+//			} 
+//		}
+//		RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
+//		return rhythmCombination.getNotes(beat);
+//	}
+	
 	public MelodyBlock generateMelodyBlock(final int voice, int start, int stop, int octave){
-		return generateMelodyBlock(voice, start, stop, octave, compositionConfig.getAllBeats(), compositionConfig.randomCombinations());
+		return generateMelodyBlock(voice, start, stop, octave, compositionConfig.randomBeatGroup());
 	}
 	
-	public MelodyBlock generateMelodyBlock(final int voice, int start, int stop, int octave, List<Integer> beats){
-		return generateMelodyBlock(voice, start, stop, octave, beats, compositionConfig.randomCombinations());
-	}
-	
-	public MelodyBlock generateMelodyBlock(final int voice, int start, int stop, int octave, List<Integer> beats, boolean randomBeats){
+	public MelodyBlock generateMelodyBlock(final int voice, int start, int stop, int octave, boolean randomBeats){
+		List<BeatGroup> beatGroups = compositionConfig.getBeatGroup(voice);
 		MelodyBlock melodyBlock = new MelodyBlock(octave, voice);
-		int beat;
+		BeatGroup beatGroup;
 		int i = 0;
-		int size = beats.size();
+		int size = beatGroups.size();
 		if (randomBeats) {
-			beat = RandomUtil.getRandomFromList(beats);
+			beatGroup = RandomUtil.getRandomFromList(beatGroups);
 		}else{
-			beat = beats.get(i);
+			beatGroup = beatGroups.get(i);
 		}
-		int end = start + beat;
+		int end = start + beatGroup.getBeatLength();
 		while (end <= stop) {
-			CpMelody melody = generateMelody(voice, start, beat);
+			CpMelody melody = generateMelody(voice, start, beatGroup);
 			melodyBlock.addMelodyBlock(melody);
 			if (randomBeats) {
-				beat = RandomUtil.getRandomFromList(beats);
+				beatGroup = RandomUtil.getRandomFromList(beatGroups);
 			} else {
 				i++;
-				beat = beats.get(i % size);
+				beatGroup = beatGroups.get(i % size);
 			}		
 			start = end;
-			end = start + beat;
+			end = start + beatGroup.getBeatLength();
 		}
 		return melodyBlock;
 	}
 
-	public CpMelody generateMelody(int voice, int start, int beat) {
-		List<Note> melodyNotes = new ArrayList<>();
-		if (compositionConfig.randomCombinations()) {
-			melodyNotes = noteCombination.getNotes(beat, voice);
-		}else{
-			melodyNotes = noteCombination.getNotesFixed(beat, voice);
-		}
-		
+	public CpMelody generateMelody(int voice, int start, BeatGroup beatGroup) {
+		List<Note> melodyNotes;
+		if (compositionConfig.randomCombination()) {
+			melodyNotes = beatGroup.getNotesRandom();
+		} else {
+			melodyNotes = beatGroup.getNotes();
+		}	
 		int offset = start;
 		melodyNotes.forEach(n -> {
 			n.setPosition(n.getPosition() + offset);
 		});
 		melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes);
-		CpMelody melody = new CpMelody(melodyNotes, voice, start, start + beat);
-		melody.setBeat(beat);
+		CpMelody melody = new CpMelody(melodyNotes, voice, start, start + beatGroup.getBeatLength());
+		melody.setBeatGroup(beatGroup);
 		return melody;
 	}
 	

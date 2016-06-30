@@ -1,6 +1,7 @@
 package cp.combination.composition;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 
 import cp.combination.Combination;
 import cp.combination.even.FourNoteEven;
@@ -15,7 +16,8 @@ import cp.combination.uneven.ThreeNoteSexTuplet;
 import cp.combination.uneven.ThreeNoteUneven;
 import cp.combination.uneven.TwoNoteUneven;
 
-public abstract class AbstractCombination implements Combination{
+
+public abstract class AbstractCombination{
 
 	@Autowired
 	protected OneNoteEven oneNoteEven;

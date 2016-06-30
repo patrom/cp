@@ -58,13 +58,13 @@ public class NoteCombination {
 		return rhythmCombinations.stream().flatMap(comb -> comb.getNotes(beat).stream()).collect(toList());
 	}
 
-	public void setDefaultCombinations(Combination combination) {
-		this.defaultEvenCombinations = combination.getCombination();
-	}
-
-	public void setCombinations(int voice, Combination combination) {
-		this.combinations.put(voice, combination.getCombination());
-	}
+//	public void setDefaultCombinations(Combination combination) {
+//		this.defaultEvenCombinations = combination.getCombination();
+//	}
+//
+//	public void setCombinations(int voice, Combination combination) {
+//		this.combinations.put(voice, combination.getCombination());
+//	}
 
 //	public void setCombinationsEvenBeat12(int voice, Combination combination) {
 //		this.combinationsEvenBeat12.put(voice, combination.getCombination());

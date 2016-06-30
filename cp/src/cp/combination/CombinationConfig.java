@@ -151,9 +151,9 @@ public class CombinationConfig {
 //		rhythmCombinations.add(oneNoteUneven::pos2);
 //		rhythmCombinations.add(oneNoteUneven::pos3);
 		
-//		rhythmCombinations.add(twoNoteUneven::pos13);
+		rhythmCombinations.add(twoNoteUneven::pos13);
 //		rhythmCombinations.add(twoNoteUneven::pos12);
-		rhythmCombinations.add(twoNoteUneven::pos23);
+//		rhythmCombinations.add(twoNoteUneven::pos23);
 		
 //		rhythmCombinations.add(threeNoteUneven::pos123);
 
@@ -215,6 +215,69 @@ public class CombinationConfig {
 //		rhythmCombinations.add(fiveNoteSexTuplet::pos13456);
 //		
 //		rhythmCombinations.add(sixNoteSexTuplet::pos123456);
+		return rhythmCombinations;
+	}
+	
+	@Bean
+	public List<RhythmCombination> longCombination(){
+		List<RhythmCombination> rhythmCombinations = new ArrayList<>();
+		rhythmCombinations.add(oneNoteEven::pos1);
+		return rhythmCombinations;
+	}
+	
+	@Bean
+	public List<RhythmCombination> fixedUneven() {
+		List<RhythmCombination> rhythmCombinations = new ArrayList<>();
+		rhythmCombinations.add(oneNoteEven::pos1);
+		// rhythmCombinations.add(oneNoteEven::pos2);
+		// rhythmCombinations.add(oneNoteEven::pos3);
+		// rhythmCombinations.add(oneNoteEven::pos4);
+		//
+		// rhythmCombinations.add(twoNoteEven::pos12);
+		// rhythmCombinations.add(twoNoteEven::pos13);
+		// rhythmCombinations.add(twoNoteEven::pos14);
+		// rhythmCombinations.add(twoNoteEven::pos34);
+		// rhythmCombinations.add(twoNoteEven::pos23);
+		// rhythmCombinations.add(twoNoteEven::pos24);
+
+		// rhythmCombinations.add(threeNoteEven::pos123);
+		// rhythmCombinations.add(threeNoteEven::pos134);
+		// rhythmCombinations.add(threeNoteEven::pos124);
+		// rhythmCombinations.add(threeNoteEven::pos234);
+
+		// rhythmCombinations.add(fourNoteEven::pos1234);
+		//
+
+		// rhythmCombinations.add(twoNoteUneven::pos12);
+		rhythmCombinations.add(twoNoteUneven::pos13);
+		// rhythmCombinations.add(twoNoteUneven::pos23);
+		// rhythmCombinations.add(threeNoteUneven::pos123);
+		return rhythmCombinations;
+	}
+	
+	@Bean
+	public List<RhythmCombination> fixedEven() {
+		List<RhythmCombination> rhythmCombinations = new ArrayList<>();
+		// rhythmCombinations.add(oneNoteEven::pos1);
+		// rhythmCombinations.add(oneNoteEven::pos2);
+		// rhythmCombinations.add(oneNoteEven::pos3);
+		// rhythmCombinations.add(oneNoteEven::pos4);
+		//
+//		rhythmCombinations.add(twoNoteEven::pos12);
+		rhythmCombinations.add(twoNoteEven::pos13);
+		// rhythmCombinations.add(twoNoteEven::pos14);
+		// rhythmCombinations.add(twoNoteEven::pos34);
+		// rhythmCombinations.add(twoNoteEven::pos23);
+		// rhythmCombinations.add(twoNoteEven::pos24);
+
+		// rhythmCombinations.add(threeNoteEven::pos123);
+		// rhythmCombinations.add(threeNoteEven::pos134);
+		// rhythmCombinations.add(threeNoteEven::pos124);
+		// rhythmCombinations.add(threeNoteEven::pos234);
+
+		// rhythmCombinations.add(fourNoteEven::pos1234);
+		//
+		// rhythmCombinations.add(threeNoteUneven::pos123);
 		return rhythmCombinations;
 	}
 }
