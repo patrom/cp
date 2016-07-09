@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.base.Objects;
 
+import cp.composition.timesignature.TimeConfig;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.note.Note;
@@ -25,7 +26,6 @@ public class MelodyBlock {
 
 	private List<CpMelody> melodyBlocks = new ArrayList<>();
 	private int startOctave;
-	private int[] innerMetricDistance;
 	private Instrument instrument;
 	private OperatorType operatorType;
 	private int dependingVoice = -1;
@@ -33,6 +33,7 @@ public class MelodyBlock {
 	private boolean rhythmMutable = true;
 	private int voice = -1;
 	private int offset;
+	private TimeConfig timeConfig;
 	
 	public MelodyBlock(int startOctave, int voice) {
 		this.startOctave = startOctave;
@@ -54,7 +55,6 @@ public class MelodyBlock {
 	
 	private void clone(MelodyBlock anotherBlock) {
 		this.startOctave = anotherBlock.getStartOctave();
-		this.innerMetricDistance = anotherBlock.getInnerMetricDistance();
 		this.instrument = anotherBlock.getInstrument();
 		this.mutable = anotherBlock.isMutable();
 		this.rhythmMutable = anotherBlock.isRhythmMutable();
@@ -62,6 +62,7 @@ public class MelodyBlock {
 		this.dependingVoice = anotherBlock.getDependingVoice();
 		this.voice = anotherBlock.getVoice();
 		this.offset = anotherBlock.getOffset();
+		this.timeConfig = anotherBlock.getTimeConfig();
 	}
 
 	@Override
@@ -282,14 +283,6 @@ public class MelodyBlock {
 		this.instrument = instrument;
 	}
 	
-	public int[] getInnerMetricDistance() {
-		return innerMetricDistance;
-	}
-
-	public void setInnerMetricDistance(int[] innerMetricDistance) {
-		this.innerMetricDistance = innerMetricDistance;
-	}
-	
 	public boolean isDependant(){
 		return(operatorType != null)?true:false;
 	}
@@ -327,6 +320,15 @@ public class MelodyBlock {
 	private CpMelody getLastMelody(){
 		int last = this.melodyBlocks.size() - 1;
 		return this.melodyBlocks.get(last);
+	}
+
+	public TimeConfig getTimeConfig() {
+		return timeConfig;
+	}
+
+	public void setTimeConfig(TimeConfig timeConfig) {
+		this.offset = timeConfig.getOffset();
+		this.timeConfig = timeConfig;
 	}
 	
 }

@@ -13,10 +13,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cp.DefaultConfig;
+import cp.composition.timesignature.TimeConfig;
 import cp.midi.MidiInfo;
 import cp.midi.MidiParser;
 import cp.model.melody.CpMelody;
@@ -38,6 +40,9 @@ public class RhythmWeightMelodyTest extends JFrame{
 	private ScoreUtilities scoreUtilities;
 	@Autowired
 	private RhythmObjective rhythmObjective;
+	@Autowired
+	@Qualifier(value="time44")
+	private TimeConfig time44;
 
 	@Before
 	public void setUp() throws Exception {
@@ -54,6 +59,7 @@ public class RhythmWeightMelodyTest extends JFrame{
 			System.out.println(file.getName());
 			CpMelody melody = new CpMelody(notes, 0, 0, 200);
 			MelodyBlock melodyBlock = new MelodyBlock(5,0);
+			melodyBlock.setTimeConfig(time44);
 			melodyBlock.addMelodyBlock(melody);
 			double profileAverage = rhythmObjective.getProfileAverage(melodyBlock, 3.0, 12);
 			System.out.println(profileAverage);

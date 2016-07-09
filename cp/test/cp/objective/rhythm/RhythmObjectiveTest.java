@@ -11,13 +11,16 @@ import javax.swing.JFrame;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cp.DefaultConfig;
+import cp.composition.timesignature.TimeConfig;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
 import cp.model.melody.CpMelody;
@@ -38,7 +41,10 @@ public class RhythmObjectiveTest extends JFrame {
 	private MelodyGenerator melodyGenerator;
 	@Autowired
 	private MusicProperties musicProperties;
-
+	@Autowired
+	@Qualifier(value="time44")
+	private TimeConfig time44;
+	
 	@Before
 	public void setUp() throws Exception {
 		musicProperties.setMinimumLength(12);
@@ -57,6 +63,7 @@ public class RhythmObjectiveTest extends JFrame {
 		CpMelody melody = new CpMelody(notes, 0, 0, 96);
 		MelodyBlock melodyBlock = new MelodyBlock(5, 0);
 		melodyBlock.addMelodyBlock(melody);
+		melodyBlock.setTimeConfig(time44);
 		double profileAverage = rhythmObjective.getProfileAverage(melodyBlock, 3.0, 12);
 		assertEquals(0.75 , profileAverage, 0);
 	}

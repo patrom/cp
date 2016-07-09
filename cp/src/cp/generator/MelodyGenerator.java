@@ -3,25 +3,18 @@ package cp.generator;
 import static cp.model.note.NoteBuilder.note;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.annotation.Resource;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cp.combination.NoteCombination;
-import cp.combination.RhythmCombination;
 import cp.composition.Composition;
 import cp.composition.beat.BeatGroup;
-import cp.composition.timesignature.CompositionConfig;
+import cp.composition.beat.BeatGroupStrategy;
+import cp.composition.timesignature.TimeConfig;
 import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
@@ -34,46 +27,26 @@ public class MelodyGenerator {
 	
 	private Random random = new Random();
 	
-	@Resource(name="evenPulseDivisions")
-	private List<Integer[]> evenPulseDivisions;
-	
-	@Resource(name="oddPulseDivisions")
-	private List<Integer[]> oddPulseDivisions;
-//	@Autowired
-//	private NoteCombination noteCombination;
-	
 	private PitchClassGenerator pitchClassGenerator;
-	@Autowired
-	private CompositionConfig compositionConfig;
+
+	private Composition compostion;
 	
-	public void setPitchClassGenerator(PitchClassGenerator pitchClassGenerator) {
-		this.pitchClassGenerator = pitchClassGenerator;
+	private BeatGroupStrategy beatGroupStrategy;
+	
+	public MelodyBlock generateMelodyBlock(final int voice, int octave){
+		return generateMelodyBlock(voice, octave, compostion.getTimeConfig().randomBeatGroup(), beatGroupStrategy, compostion.getTimeConfig());
 	}
 	
-	
-	
-//	public List<Note> getBeatGroyp(int beat, int voice){
-//		List<RhythmCombination> rhythmCombinations = null;
-////		//uneven division
-//		if (beat == 18 || beat == 36) {
-//			rhythmCombinations = combinations.getOrDefault(voice, defaultUnEvenCombinations);
-//		} else {
-//			//even division
-//			if (beat == 12 || beat == 24) {
-//				rhythmCombinations = combinations.getOrDefault(voice, defaultEvenCombinations);
-//			} 
-//		}
-//		RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
-//		return rhythmCombination.getNotes(beat);
-//	}
-	
-	public MelodyBlock generateMelodyBlock(final int voice, int start, int stop, int octave){
-		return generateMelodyBlock(voice, start, stop, octave, compositionConfig.randomBeatGroup());
+	public MelodyBlock generateMelodyBlock(final int voice, int octave, BeatGroupStrategy beatGroupStrategy){
+		return generateMelodyBlock(voice, octave, compostion.getTimeConfig().randomBeatGroup(), beatGroupStrategy, compostion.getTimeConfig());
 	}
 	
-	public MelodyBlock generateMelodyBlock(final int voice, int start, int stop, int octave, boolean randomBeats){
-		List<BeatGroup> beatGroups = compositionConfig.getBeatGroup(voice);
+	public MelodyBlock generateMelodyBlock(final int voice, int octave, boolean randomBeats, BeatGroupStrategy beatGroupStrategy, TimeConfig timeConfig){
+		int start = compostion.getStart();
+		int stop = compostion.getEnd();
+		List<BeatGroup> beatGroups = beatGroupStrategy.getBeatGroups();
 		MelodyBlock melodyBlock = new MelodyBlock(octave, voice);
+		melodyBlock.setTimeConfig(timeConfig);
 		BeatGroup beatGroup;
 		int i = 0;
 		int size = beatGroups.size();
@@ -100,7 +73,7 @@ public class MelodyGenerator {
 
 	public CpMelody generateMelody(int voice, int start, BeatGroup beatGroup) {
 		List<Note> melodyNotes;
-		if (compositionConfig.randomCombination()) {
+		if (compostion.getTimeConfig().randomCombination()) {
 			melodyNotes = beatGroup.getNotesRandom();
 		} else {
 			melodyNotes = beatGroup.getNotes();
@@ -179,49 +152,17 @@ public class MelodyGenerator {
 		}
 		return notes;
 	}
-	
-	public List<Note> generatePositions(int position, int maxEditablePosition, int minimumValue, Integer[] pulses, int type){
-		List<Note> notes = new ArrayList<>();
-		int noteLength = maxEditablePosition/pulses.length;
-		if (noteLength < minimumValue) {
-			Note note = note().pos(position).len(maxEditablePosition).build();
-			notes.add(note);
-			return notes;
-		}
-		for (int i = 0; i < pulses.length; i++) {
-			if (pulses[i] == 1) {
-				int notePosition = position + (i * noteLength);
-				if (maxEditablePosition != minimumValue) {
-					if (random.nextBoolean()) {
-						//recursive
-						List<Note> recursiveNotes = generatePositions(notePosition, noteLength, minimumValue, getPulses(type), type);
-						notes.addAll(recursiveNotes);
-					}else{
-						Note note = note().pos(notePosition).len(noteLength).build();
-						notes.add(note);
-					}
-				} else {
-					Note note = note().pos(notePosition).len(noteLength).build();
-					notes.add(note);
-				}
-			}
-		}
-		Collections.sort(notes);
-		return notes;
-	}
 
-	public Integer[] getPulses(int type) {
-		Integer[] pulses = null;
-		if (type == 2) {
-			pulses = RandomUtil.getRandomFromList(evenPulseDivisions);
-		}
-		if (type == 3) {
-			pulses = RandomUtil.getRandomFromList(oddPulseDivisions);
-		}
-		if (pulses == null) {
-			throw new IllegalArgumentException("No pulses for type: " + type);
-		}
-		return pulses;
+	public void setCompostion(Composition compostion) {
+		this.compostion = compostion;
+	}
+	
+	public void setBeatGroupStrategy(BeatGroupStrategy beatGroupStrategy) {
+		this.beatGroupStrategy = beatGroupStrategy;
+	}
+	
+	public void setPitchClassGenerator(PitchClassGenerator pitchClassGenerator) {
+		this.pitchClassGenerator = pitchClassGenerator;
 	}
 	
 }

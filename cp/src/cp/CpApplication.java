@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.Banner.Mode;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -72,8 +73,10 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	@Autowired
 	private ComposeInGenre composeInGenre;
 	@Autowired
+	@Qualifier(value="twoVoiceComposition")
 	private TwoVoiceComposition twoVoiceComposition;
 	@Autowired
+	@Qualifier(value="threeVoiceComposition")
 	private ThreeVoiceComposition threeVoiceComposition;
 	@Autowired
 	private Orchestrator orchestrator;

@@ -10,7 +10,7 @@ import cp.model.melody.Operator;
 import cp.model.melody.OperatorType;
 import cp.out.instrument.Instrument;
 
-@Component
+@Component(value="threeVoiceComposition")
 public class ThreeVoiceComposition extends Composition{
 	
 	public List<MelodyBlock> canon2Voice1Acc(){
@@ -22,7 +22,7 @@ public class ThreeVoiceComposition extends Composition{
 		Instrument instrument1 = instruments.get(0);
 		instrument1.setVoice(0);
 		instrument1.setChannel(1);
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), start, end, instrument1.pickRandomOctaveFromRange());
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), instrument1.pickRandomOctaveFromRange());
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);	
 
@@ -56,7 +56,7 @@ public class ThreeVoiceComposition extends Composition{
 		Instrument instrument1 = instruments.get(0);
 		instrument1.setVoice(0);
 		instrument1.setChannel(1);
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), start, end, instrument1.pickRandomOctaveFromRange());
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), instrument1.pickRandomOctaveFromRange());
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);	
 
@@ -65,7 +65,6 @@ public class ThreeVoiceComposition extends Composition{
 		instrument2.setChannel(2);
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
 		melodyBlock2.setVoice(instrument2.getVoice());
-		melodyBlock2.setOffset(compositionConfig.getOffset());
 		OperatorType operatorType = new OperatorType(operator);
 		operatorType.setSteps(steps);
 //		operatorType.setFunctionalDegreeCenter(1);
@@ -75,11 +74,10 @@ public class ThreeVoiceComposition extends Composition{
 		melodyBlocks.add(melodyBlock2);
 		
 		
-		compositionConfig.setBeatGroups(2, compositionConfig.getBeatsDoubleLength());
 		Instrument instrument3 = instruments.get(2);
 		instrument3.setVoice(2);
 		instrument3.setChannel(3);
-		MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlock(instrument3.getVoice(), start, end, instrument3.pickRandomOctaveFromRange());
+		MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlock(instrument3.getVoice(), instrument3.pickRandomOctaveFromRange(), timeConfig::getBeatsDoubleLength);
 		melodyBlock3.setInstrument(instrument3);
 		melodyBlocks.add(melodyBlock3);
 
@@ -96,7 +94,7 @@ public class ThreeVoiceComposition extends Composition{
 		Instrument instrument1 = instruments.get(0);
 		instrument1.setVoice(0);
 		instrument1.setChannel(1);
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), start, end, instrument1.pickRandomOctaveFromRange());
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), instrument1.pickRandomOctaveFromRange());
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);	
 
@@ -105,7 +103,6 @@ public class ThreeVoiceComposition extends Composition{
 		instrument2.setChannel(2);
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
 		melodyBlock2.setVoice(instrument2.getVoice());
-		melodyBlock2.setOffset(compositionConfig.getOffset());
 		OperatorType operatorType = new OperatorType(operator);
 //		operatorType.setSteps(steps);
 		operatorType.setFunctionalDegreeCenter(1);
@@ -119,7 +116,7 @@ public class ThreeVoiceComposition extends Composition{
 		instrument3.setChannel(3);
 		MelodyBlock melodyBlock3 = new MelodyBlock(instrument3.pickRandomOctaveFromRange(), instrument3.getVoice());
 		melodyBlock3.setVoice(instrument3.getVoice());
-		melodyBlock3.setOffset(compositionConfig.getOffset() * 2);
+		melodyBlock3.setOffset(timeConfig.getOffset() * 2);
 		OperatorType operatorType2 = new OperatorType(Operator.T_RELATIVE);
 //		operatorType2.setSteps(1 + steps);
 		operatorType.setFunctionalDegreeCenter(2);

@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 
 import cp.composition.beat.BeatGroup;
 
-@Component
-@ConditionalOnProperty(name = "composition.timesignature", havingValue = "5/8")
-public class Composition58 extends CompositionConfig{
+@Component(value="time58")
+//@ConditionalOnProperty(name = "composition.timesignature", havingValue = "5/8")
+public class Time58 extends TimeConfig{
 
 	@Override
 	public boolean randomBeatGroup() {
@@ -28,9 +28,8 @@ public class Composition58 extends CompositionConfig{
 		beatsDoubleLength.add(defaultGroupUneven);
 		beatsAll.add(defaultGroupEven);
 		beatsAll.add(defaultGroupUneven);
-		musicProperties.setMinimumRhythmFilterLevel(6);
-		int[] distance = new int[]{2,5,7,10,12,15,17,20};
-		musicProperties.setDistance(distance);
+		minimumRhythmFilterLevel = 6;
+		distance = new int[]{2,5,7,10,12,15,17,20};
 		offset = 30;
 	}
 

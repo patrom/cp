@@ -6,11 +6,13 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 
 import cp.combination.NoteCombination;
 import cp.composition.beat.BeatGroup;
 import cp.composition.beat.BeatGroupFactory;
-import cp.composition.timesignature.CompositionConfig;
+import cp.composition.timesignature.TimeConfig;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
 import cp.generator.pitchclass.PassingPitchClasses;
@@ -21,7 +23,9 @@ import cp.model.dissonance.IntervalAndTriads;
 import cp.model.dissonance.IntervalDissonance;
 import cp.model.note.Scale;
 import cp.nsga.operator.mutation.melody.ReplaceMelody;
+import cp.objective.Objective;
 import cp.objective.harmony.HarmonicObjective;
+import cp.objective.meter.MeterObjective;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.plucked.Guitar;
 import cp.out.instrument.register.InstrumentRegister;
@@ -52,6 +56,8 @@ public abstract class Composition {
 	protected IntervalAndTriads intervalAndTriads;
 	@Autowired
 	protected TimeLine timeLine;
+	@Autowired
+	private MeterObjective meterObjective;
 
 	@Autowired
 	protected Key C;
@@ -90,16 +96,34 @@ public abstract class Composition {
 	protected int start = 0;
 	protected int end = 196;
 	
+	protected TimeConfig timeConfig;
 	@Autowired
-	protected CompositionConfig compositionConfig;
+	@Qualifier(value="time44")
+	private TimeConfig time44;
+	@Autowired
+	@Qualifier(value="time34")
+	private TimeConfig time34;
+	@Autowired
+	@Qualifier(value="time68")
+	private TimeConfig time68;
+	@Autowired
+	@Qualifier(value="time58")
+	private TimeConfig time58;
+	
 	@Autowired
 	protected BeatGroupFactory beatGroupFactory;
+	@Value("${composition.numerator:4}")
+	protected int numerator;
+	@Value("${composition.denominator:4}")
+	protected int denominator;
 	
 	@PostConstruct
 	public void init(){
 		composeInKey(C);
 		inTempo(70);
-		
+		musicProperties.setNumerator(numerator);
+		musicProperties.setDenominator(denominator);
+		meterObjective.setComposition(this);
 //		instruments.add(new ViolinsI());
 ////		Instrument instrument1 = pleasant.getInstrument(InstrumentName.CLARINET.getName());
 //		instruments.add(new Viola());
@@ -108,7 +132,7 @@ public abstract class Composition {
 		instruments.add(new Guitar(new InstrumentRegister(40, 55)));
 		instruments.add(new Guitar(new InstrumentRegister(50, 64)));
 		instruments.add(new Guitar(new InstrumentRegister(67, 71)));
-		
+		setTimeconfig();
 		List<TimeLineKey> keys = new ArrayList<>();
 		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, end));
 //		keys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 72, 108));
@@ -125,10 +149,28 @@ public abstract class Composition {
 //		timeLine.addKeysForVoice(keys, 0);
 //		timeLine.addKeysForVoice(keys, 1);
 //		timeLine.addKeysForVoice(keys, 2);//match instruments
-		
+		melodyGenerator.setCompostion(this);
+		melodyGenerator.setBeatGroupStrategy(timeConfig::getAllBeats);
 		replaceMelody.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
+		replaceMelody.setComposition(this);
 		melodyGenerator.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
 		harmonicObjective.setDissonance(intervalAndTriads::getDissonance);
+	}
+	
+	private void setTimeconfig(){
+		if (numerator == 4 && denominator == 4) {
+			timeConfig = time44;
+		} else if (numerator == 3 && denominator == 4) {
+			timeConfig = time34;
+		} else if (numerator == 6 && denominator == 8) {
+			timeConfig = time68;
+		} else if (numerator == 5 && denominator == 6) {
+			timeConfig = time58;
+		}
+	}
+	
+	public TimeConfig getTimeConfig(){
+		return timeConfig;
 	}
 
 //	private void composeInEightMeter(int numerator, int denominator) {
@@ -169,6 +211,14 @@ public abstract class Composition {
 	protected void composeInKey(Key key) {
 		musicProperties.setKeySignature(key.getKeySignature());
 		musicProperties.setKey(key);
+	}
+	
+	public int getStart() {
+		return start;
+	}
+	
+	public int getEnd() {
+		return end;
 	}
 	
 }

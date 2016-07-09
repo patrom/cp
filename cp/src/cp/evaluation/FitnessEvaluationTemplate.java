@@ -37,11 +37,11 @@ public class FitnessEvaluationTemplate {
 	@Autowired
 	private Objective tonalityObjective;
 	@Autowired
-	private RhythmObjective rhythmObjective;
+	private Objective rhythmObjective;
 	@Autowired
 	private RhythmWeight rhythmWeight;
 	@Autowired
-	private MeterObjective meterObjective;
+	private Objective meterObjective;
 	
 	@Autowired
 	private HarmonyExtractor harmonyExtractor;

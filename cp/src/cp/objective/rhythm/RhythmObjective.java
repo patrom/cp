@@ -23,15 +23,13 @@ public class RhythmObjective extends Objective{
 	private static Logger LOGGER = LoggerFactory.getLogger(RhythmObjective.class.getName());
 	
 	@Autowired
-	private MusicProperties musicProperties;
-	@Autowired
 	private InnerMetricWeightFunctions innerMetricWeightFunctions;
 
 	@Override
 	public double evaluate(Motive motive) {
 		List<MelodyBlock> melodies = motive.getMelodyBlocks();
 		double profileAverage = melodies.stream()
-				.mapToDouble(melody -> getProfileAverage(melody, musicProperties.getMinimumRhythmFilterLevel(), musicProperties.getMinimumLength()))
+				.mapToDouble(melody -> getProfileAverage(melody, melody.getTimeConfig().getMinimumRhythmFilterLevel(), musicProperties.getMinimumLength()))
 				.average()
 				.getAsDouble();
 		return profileAverage;
@@ -43,8 +41,7 @@ public class RhythmObjective extends Objective{
 		if (filteredNotes.isEmpty()) {
 			return 0;
 		}
-		int[] distance = (melody.getInnerMetricDistance() != null)?melody.getInnerMetricDistance():musicProperties.getDistance();
-		InnerMetricWeight innerMetricWeight = innerMetricWeightFunctions.getInnerMetricWeight(filteredNotes , minimumRhythmicValue, distance);
+		InnerMetricWeight innerMetricWeight = innerMetricWeightFunctions.getInnerMetricWeight(filteredNotes , minimumRhythmicValue, melody.getTimeConfig().getDistance());
 		LOGGER.debug("InnerMetricMap: " + innerMetricWeight.getInnerMetricWeightMap().toString());
 		return innerMetricWeight.getInnerMetricWeightAverage();
 	}

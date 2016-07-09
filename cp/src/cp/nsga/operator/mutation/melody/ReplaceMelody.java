@@ -9,8 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import cp.composition.Composition;
 import cp.composition.beat.BeatGroup;
-import cp.composition.timesignature.CompositionConfig;
+import cp.composition.timesignature.TimeConfig;
 import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.Motive;
 import cp.model.melody.CpMelody;
@@ -34,8 +35,7 @@ public class ReplaceMelody extends AbstractMutation{
 		this.pitchClassGenerator = pitchClassGenerator;
 	}
 	
-	@Autowired
-	private CompositionConfig compositionConfig;
+	private Composition composition;
 	
 	@Autowired
 	public ReplaceMelody(HashMap<String, Object> parameters) {
@@ -57,7 +57,7 @@ public class ReplaceMelody extends AbstractMutation{
 				CpMelody melody = optionalMelody.get();
 				BeatGroup beatGroup = melody.getBeatGroup();
 				List<Note> melodyNotes;
-				if (compositionConfig.randomCombination()) {
+				if (composition.getTimeConfig().randomCombination()) {
 					melodyNotes = beatGroup.getNotesRandom();
 				} else {
 					melodyNotes = beatGroup.getNotes();
@@ -91,6 +91,10 @@ public class ReplaceMelody extends AbstractMutation{
 		}
 		doMutation(probability.doubleValue(), solution);
 		return solution;
+	}
+
+	public void setComposition(Composition composition) {
+		this.composition = composition;
 	} 
 
 }

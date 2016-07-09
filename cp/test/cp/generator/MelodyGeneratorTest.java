@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
 import javax.swing.JFrame;
@@ -16,20 +17,25 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
-import cp.combination.NoteCombination;
+import cp.combination.RhythmCombination;
+import cp.composition.Composition;
+import cp.composition.beat.BeatGroup;
+import cp.composition.beat.BeatGroupStrategy;
+import cp.composition.beat.BeatGroupTwo;
+import cp.composition.timesignature.TimeConfig;
+import cp.generator.pitchclass.PitchClassGenerator;
 import cp.generator.pitchclass.RandomPitchClasses;
 import cp.midi.MidiDevicesUtil;
-import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.note.NoteBuilder;
@@ -57,14 +63,23 @@ public class MelodyGeneratorTest extends JFrame{
 	private ScoreUtilities scoreUtilities;
 	@Autowired
 	private MidiDevicesUtil midiDevicesUtil;
-	@Mock
-	private NoteCombination noteCombination;
 	@Autowired
 	private Key C;
 	@Autowired
 	private MusicProperties musicProperties;
 	@Autowired
 	private RandomPitchClasses randomPitchClasses;
+	@Mock
+	private PitchClassGenerator pitchClassGenerator;
+	@Mock
+	private Composition compostion;
+	@Mock
+	private BeatGroupStrategy beatGroupStrategy;
+	@Autowired
+	@Qualifier(value="time44")
+	private TimeConfig time44;
+	@Resource(name = "fixedEven")
+	private List<RhythmCombination> fixedEven;
 
 	@Before
 	public void setUp() throws Exception {
@@ -117,49 +132,21 @@ public class MelodyGeneratorTest extends JFrame{
 	}
 	
 	@Test
-	public void testGeneratePositions() {
-		int start = 0;
-		int length = 24;
-		List<Note> melodyNotes = melodyGenerator.generatePositions(start, length, 6, new Integer[]{1,1}, 2);
-		CpMelody melody = new CpMelody(melodyNotes, 1, start, start + length);
-		MelodyBlock melodyBlock = new MelodyBlock(5, 1);
-		melodyBlock.addMelodyBlock(melody);
-		melodyBlock.updatePitchesFromContour();
-		LOGGER.info(melodyBlock.getMelodyBlockContour() + ", ");
-		LOGGER.info(melodyBlock.getMelodyBlockNotesWithRests() + ", ");
-		Score score = new Score();
-		Phrase phrase = scoreUtilities.createPhrase(melodyNotes);	
-		Part part = new Part(phrase);
-		score.add(part);
-		View.notate(score);
-		Play.midi(score, true);
-	}
-	
-	@Test
 	public void testGenerateMelodyBlock() {
 		List<Note> notes = new ArrayList<>();
 		notes.add(NoteBuilder.note().pos(0).build());
-		when(noteCombination.getNotes(Mockito.anyInt(), Mockito.anyInt())).thenReturn(notes);
+		when(compostion.getStart()).thenReturn(0);
+		when(compostion.getEnd()).thenReturn(48);
+		when(compostion.getTimeConfig()).thenReturn(time44);
+		List<BeatGroup> beatGroups = new ArrayList<>();
+		beatGroups.add(new BeatGroupTwo(12, fixedEven));
+		when(beatGroupStrategy.getBeatGroups()).thenReturn(beatGroups);
+		when(pitchClassGenerator.updatePitchClasses(notes)).thenReturn(notes);
 		List<Integer> beats = new ArrayList<>();
 		beats.add(12);
-		MelodyBlock melody = melodyGenerator.generateMelodyBlock(1, 0, 48, 5);
+		MelodyBlock melody = melodyGenerator.generateMelodyBlock(1, 5);
 		assertEquals(1, melody.getVoice());
-		assertEquals(4, melody.getMelodyBlocks().size());
+		assertEquals(2, melody.getMelodyBlocks().size());
 	}
-	
-//	@Test
-//	public void testGenerateMelodyBlockEvenAndUnevenBeat() {
-//		List<Note> notes = new ArrayList<>();
-//		notes.add(NoteBuilder.note().pos(0).build());
-//		when(noteCombination.getNotes(Mockito.anyInt(), Mockito.anyInt())).thenReturn(notes);
-//		List<Integer> beats = new ArrayList<>();
-//		beats.add(12);
-//		beats.add(18);
-//		MelodyBlock melody = melodyGenerator.generateMelodyBlock(1, 0, 70, 5);
-//		assertEquals(12, melody.getMelodyBlocks().get(0).getBeatGroup().getType());
-//		assertEquals(18, melody.getMelodyBlocks().get(1).getBeatGroup().getType());
-//		assertEquals(12, melody.getMelodyBlocks().get(2).getBeatGroup().getType());
-//		assertEquals(18, melody.getMelodyBlocks().get(3).getBeatGroup().getType());
-//	}
 	
 }

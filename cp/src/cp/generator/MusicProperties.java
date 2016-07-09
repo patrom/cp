@@ -13,7 +13,7 @@ public class MusicProperties {
 	private int tempo = 100;
 	private int minimumLength = 3; //for rhythm weight
 	private double[] filterLevels = {0.5};
-	private int minimumRhythmFilterLevel = 12; //levels pitch, crest/keel, ...
+//	private int minimumRhythmFilterLevel = 12; //levels pitch, crest/keel, ...
 //	private int[] distance = {2,3,4,5,6,8,9,10,12,14,15,16,18,20,21,22,24,26,27,28,30,32};//minimumRhythmicValue = 12 - default
 	private int[] distance = {3,6,9,12,15,18,20,21,22,24,26,27,28,30,32};//minimumRhythmicValue = 12 -  3/4
 //	private int[] distance = {2,4,8,10,12,14,16,18,20,21,22,24,26,27,28,30,32};//minimumRhythmicValue = 12 - 4/4
@@ -188,13 +188,13 @@ public class MusicProperties {
 		this.harmonies = harmonies;
 	}
 
-	public int getMinimumRhythmFilterLevel() {
-		return minimumRhythmFilterLevel;
-	}
-
-	public void setMinimumRhythmFilterLevel(int minimumRhythmFilterLevel) {
-		this.minimumRhythmFilterLevel = minimumRhythmFilterLevel;
-	}
+//	public int getMinimumRhythmFilterLevel() {
+//		return minimumRhythmFilterLevel;
+//	}
+//
+//	public void setMinimumRhythmFilterLevel(int minimumRhythmFilterLevel) {
+//		this.minimumRhythmFilterLevel = minimumRhythmFilterLevel;
+//	}
 
 	public int[] getDistance() {
 		return distance;
