@@ -96,7 +96,8 @@ public abstract class Composition {
 	protected int start = 0;
 	protected int end = 196;
 	
-	protected TimeConfig timeConfig;
+	private TimeConfig timeConfig;
+	
 	@Autowired
 	@Qualifier(value="time44")
 	private TimeConfig time44;

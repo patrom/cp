@@ -28,7 +28,7 @@ public class TwoVoiceComposition extends Composition{
 		Instrument instrument2 = instruments.get(1);
 		instrument2.setVoice(1);
 		instrument2.setChannel(1);
-		melodyBlock = melodyGenerator.generateMelodyBlock(instrument2.getVoice(), instrument2.pickRandomOctaveFromRange(), timeConfig::getFixedBeatGroup);
+		melodyBlock = melodyGenerator.generateMelodyBlock(instrument2.getVoice(), instrument2.pickRandomOctaveFromRange(), getTimeConfig()::getFixedBeatGroup);
 		melodyBlock.setInstrument(instrument2);
 		
 		melodyBlocks.add(melodyBlock);
@@ -74,6 +74,7 @@ public class TwoVoiceComposition extends Composition{
 		instrument2.setVoice(1);
 		instrument2.setChannel(1);
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
+		melodyBlock2.setTimeConfig(getTimeConfig());
 		melodyBlock2.setVoice(instrument2.getVoice());
 		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.T_RELATIVE);
 //		operatorType.setSteps(1);
@@ -102,6 +103,7 @@ public class TwoVoiceComposition extends Composition{
 		instrument2.setVoice(1);
 		instrument2.setChannel(1);
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
+		melodyBlock2.setTimeConfig(getTimeConfig());
 		melodyBlock2.setVoice(instrument2.getVoice());
 		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.I_RELATIVE);
 //		operatorType.setSteps(1);
@@ -146,6 +148,7 @@ public class TwoVoiceComposition extends Composition{
 		instrument2.setVoice(1);
 		instrument2.setChannel(1);
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
+		melodyBlock2.setTimeConfig(getTimeConfig());
 		melodyBlock2.setVoice(instrument2.getVoice());
 		OperatorType operatorType = new OperatorType(operator);
 		operatorType.setSteps(steps);
