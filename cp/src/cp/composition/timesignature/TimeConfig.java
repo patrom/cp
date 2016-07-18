@@ -31,7 +31,6 @@ public abstract class TimeConfig {
 	
 	@PostConstruct
 	public void init() {
-		
 	}
 	
 	public List<BeatGroup> getAllBeats() {
@@ -59,5 +58,7 @@ public abstract class TimeConfig {
 	}
 	
 	public abstract List<BeatGroup> getFixedBeatGroup();
+	
+	public abstract List<BeatGroup> getHomophonicBeatGroup();
 	
 }

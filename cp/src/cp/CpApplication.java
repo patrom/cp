@@ -107,18 +107,21 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	private void compose() throws Exception {
 		List<CompositionGenre> composeInGenres = new ArrayList<>();
 		composeInGenres.add(twoVoiceComposition::beatEven);
-		composeInGenres.add(twoVoiceComposition::canon);
-		composeInGenres.add(twoVoiceComposition::fugueInverse);
-		composeInGenres.add(twoVoiceComposition::operatorT);
-		composeInGenres.add(twoVoiceComposition::operatorI);
+//		composeInGenres.add(twoVoiceComposition::canon);
+//		composeInGenres.add(twoVoiceComposition::fugueInverse);
+//		composeInGenres.add(twoVoiceComposition::operatorT);
+//		composeInGenres.add(twoVoiceComposition::operatorI);
 		//TO FIX:
 //		composeInGenres.add(twoVoiceComposition::operatorR);
 //		composeInGenres.add(twoVoiceComposition::operatorM);
 
-		composeInGenres.add(threeVoiceComposition::canon2Voice1Acc);
-		composeInGenres.add(threeVoiceComposition::accFixedRhythm);
-		composeInGenres.add(threeVoiceComposition::operatorTplusAcc);
-		composeInGenres.add(threeVoiceComposition::operatorT);
+//		composeInGenres.add(threeVoiceComposition::canon2Voice1Acc);
+//		composeInGenres.add(threeVoiceComposition::accFixedRhythm);
+//		composeInGenres.add(threeVoiceComposition::operatorTplusAcc);
+//		composeInGenres.add(threeVoiceComposition::operatorT);
+//		composeInGenres.add(threeVoiceComposition::harmonize);
+//		composeInGenres.add(threeVoiceComposition::halfTimeHomophonicRhythm);
+//		composeInGenres.add(threeVoiceComposition::threeOverXX);
 		
 		for (CompositionGenre compositionGenre : composeInGenres) {
 			composeInGenre.setCompositionGenre(compositionGenre);

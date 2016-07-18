@@ -143,25 +143,27 @@ public class MelodyBlock {
 		MelodyBlock melodyBlock = dependingMelodyBlock.clone(end - offset);
 		melodyBlocks = melodyBlock.getMelodyBlocks();
 		switch (operatorType.getOperator()) {
-		case T:
-			T(operatorType.getSteps());
-			break;
-		case I:
-			I();
-			break;
-		case R:
-			R();
-		case M:
-			M(operatorType.getSteps());
-			break;
-		case T_RELATIVE:
-			Trelative(operatorType.getSteps(), timeLine);
-			break;
-		case I_RELATIVE:
-			Irelative(operatorType.getFunctionalDegreeCenter(), timeLine);
-			break;
-		default:
-			break;
+			case T:
+				T(operatorType.getSteps());
+				break;
+			case I:
+				I();
+				break;
+			case R:
+				R();
+				break;
+			case M:
+				M(operatorType.getSteps());
+				break;
+			case T_RELATIVE:
+				Trelative(operatorType.getSteps(), timeLine);
+				break;
+			case I_RELATIVE:
+				Irelative(operatorType.getFunctionalDegreeCenter(), timeLine);
+				break;
+			case RHYTHMIC:
+			default:
+				break;
 		}
 		updatePitchesFromContour();
 		updateMelodyBetween(getMelodyBlockNotes());
@@ -237,10 +239,14 @@ public class MelodyBlock {
 	public MelodyBlock R(){
 		List<Note> notes = melodyBlocks.stream().flatMap(m -> m.getNotesNoRest().stream()).collect(toList());
 		List<Integer> reversedPitchClasses = notes.stream().sorted(reverseOrder()).map(n -> n.getPitchClass()).collect(toList());
-		for (int i = 0; i < notes.size(); i++) {
-			Note note = notes.get(i);
-			Integer pc = reversedPitchClasses.get(i);
-			note.setPitchClass(pc);
+		int i = 0;
+		for (CpMelody melody : melodyBlocks) {
+			List<Note> melodyNotes = melody.getNotes();
+			for (Note note : melodyNotes) {
+				Integer pc = reversedPitchClasses.get(i);
+				note.setPitchClass(pc);
+				i++;
+			}
 		}
 		return this;
 	}
@@ -327,7 +333,6 @@ public class MelodyBlock {
 	}
 
 	public void setTimeConfig(TimeConfig timeConfig) {
-		this.offset = timeConfig.getOffset();
 		this.timeConfig = timeConfig;
 	}
 	

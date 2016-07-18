@@ -100,16 +100,16 @@ public abstract class Composition {
 	
 	@Autowired
 	@Qualifier(value="time44")
-	private TimeConfig time44;
+	protected TimeConfig time44;
 	@Autowired
 	@Qualifier(value="time34")
-	private TimeConfig time34;
+	protected TimeConfig time34;
 	@Autowired
 	@Qualifier(value="time68")
-	private TimeConfig time68;
+	protected TimeConfig time68;
 	@Autowired
 	@Qualifier(value="time58")
-	private TimeConfig time58;
+	protected TimeConfig time58;
 	
 	@Autowired
 	protected BeatGroupFactory beatGroupFactory;
@@ -121,7 +121,7 @@ public abstract class Composition {
 	@PostConstruct
 	public void init(){
 		composeInKey(C);
-		inTempo(70);
+		inTempo(90);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
 		meterObjective.setComposition(this);
@@ -135,8 +135,8 @@ public abstract class Composition {
 		instruments.add(new Guitar(new InstrumentRegister(67, 71)));
 		setTimeconfig();
 		List<TimeLineKey> keys = new ArrayList<>();
-		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, end));
-//		keys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 72, 108));
+		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, 72));
+		keys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 72, end));
 //		keys.add(new TimeLineKey(D, Scale.MAJOR_SCALE, 108, 144));
 //		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 144, end));
 //		keys.add(new TimeLineKey(C, instrument1.filterScale(Scale.HARMONIC_MINOR_SCALE), 48, 192));//match length
@@ -147,9 +147,6 @@ public abstract class Composition {
 		for (int i = 0; i < instrumentSize; i++) {
 			timeLine.addKeysForVoice(keys, i);
 		}
-//		timeLine.addKeysForVoice(keys, 0);
-//		timeLine.addKeysForVoice(keys, 1);
-//		timeLine.addKeysForVoice(keys, 2);//match instruments
 		melodyGenerator.setCompostion(this);
 		melodyGenerator.setBeatGroupStrategy(timeConfig::getAllBeats);
 		replaceMelody.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
@@ -173,37 +170,6 @@ public abstract class Composition {
 	public TimeConfig getTimeConfig(){
 		return timeConfig;
 	}
-
-//	private void composeInEightMeter(int numerator, int denominator) {
-//		randomGeneration = false;
-//		fixed = fixedUnEven;
-//		offset = 6 * numerator;//canon,...
-//		beats.add(18);
-//		beats2X.add(18);
-//		beatsAll.add(18);
-//		musicProperties.setNumerator(numerator);
-//		musicProperties.setDenominator(denominator);
-//		musicProperties.setMinimumRhythmFilterLevel(6);
-//		int[] distance = {3,6,9,12,15,18,20,21,22,24,26,27,28,30,32};
-//		musicProperties.setDistance(distance);
-//	}
-//	
-//	private void composeInFiveEightMeter(int numerator, int denominator) {
-//		randomGeneration = false;
-//		fixed = fixedUnEven;
-//		offset = 6 * numerator;//canon,...
-//		beats.add(12); // 2 + 3
-//		beats.add(18);
-//		beats2X.add(12);
-//		beats2X.add(18);
-//		beatsAll.add(12);
-//		beatsAll.add(18);
-//		musicProperties.setNumerator(numerator);
-//		musicProperties.setDenominator(denominator);
-//		musicProperties.setMinimumRhythmFilterLevel(6);
-////		int[] distance = {3,6,9,12,15,18,20,21,22,24,26,27,28,30,32};
-////		musicProperties.setDistance(distance);
-//	}
 	
 	protected void inTempo(int tempo) {
 		musicProperties.setTempo(tempo);

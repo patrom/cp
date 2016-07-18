@@ -33,28 +33,6 @@ public class TwoVoiceComposition extends Composition{
 		
 		melodyBlocks.add(melodyBlock);
 
-		//harmonization
-//		Instrument piano = new Piano(0, 3);
-//		List<Note> notes = new ArrayList<>();
-//		notes.add(note().pos(6).pc(2).len(3).build());
-//		notes.add(note().pos(9).pc(9).len(3).build());
-//		notes.add(note().pos(12).pc(6).len(3).build());
-//		notes.add(note().pos(15).pc(9).len(3).build());
-//		notes.add(note().pos(18).pc(2).len(6).build());
-//		
-//		notes.add(note().pos(33).pc(1).len(3).build());
-//		notes.add(note().pos(36).pc(11).len(6).build());
-//		notes.add(note().pos(42).pc(1).len(3).build());
-//		notes.add(note().pos(45).pc(11).len(3).build());
-//		notes.add(note().pos(offset).pc(9).len(12).build());
-//		CpMelody melody = new CpMelody(notes, Scale.MAJOR_SCALE, piano.getVoice());
-//		MelodyBlock melodyBlock = new MelodyBlock(3, piano.getVoice());
-//		melodyBlock.addMelodyBlock(melody);
-//		melodyBlock.setMutable(false);
-//		melodyBlock.setInstrument(piano);
-//		
-//		melodyBlocks.add(melodyBlock);
-		
 		return melodyBlocks;
 	}
 	
@@ -129,7 +107,7 @@ public class TwoVoiceComposition extends Composition{
 	}
 	
 	public List<MelodyBlock> operatorM(){
-		return operator(Operator.M, 0);
+		return operator(Operator.M, 7);
 	}
 
 	private List<MelodyBlock> operator(Operator operator, int steps) {

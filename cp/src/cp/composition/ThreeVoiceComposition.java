@@ -1,13 +1,19 @@
 package cp.composition;
 
+import static cp.model.note.NoteBuilder.note;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.melody.Operator;
 import cp.model.melody.OperatorType;
+import cp.model.note.Note;
+import cp.model.note.NoteBuilder;
+import cp.model.note.Scale;
 import cp.out.instrument.Instrument;
 
 @Component(value="threeVoiceComposition")
@@ -129,5 +135,118 @@ public class ThreeVoiceComposition extends Composition{
 
 		return melodyBlocks;
 	}
+	public List<MelodyBlock> harmonize(){
+		List<MelodyBlock> melodyBlocks = new ArrayList<>();
+		
+		Instrument instrument1 = instruments.get(0);
+		instrument1.setVoice(0);
+		instrument1.setChannel(1);
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), instrument1.pickRandomOctaveFromRange());
+		melodyBlock.setInstrument(instrument1);
+		melodyBlocks.add(melodyBlock);	
+		
+		//harmonization
+//		Instrument piano = new Piano(0, 3);
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(6).pc(2).len(3).build());
+		notes.add(note().pos(9).pc(9).len(3).build());
+		notes.add(note().pos(12).pc(6).len(3).build());
+		notes.add(note().pos(15).pc(9).len(3).build());
+		notes.add(note().pos(18).pc(2).len(6).build());
+		
+		notes.add(note().pos(33).pc(1).len(3).build());
+		notes.add(note().pos(36).pc(11).len(6).build());
+		notes.add(note().pos(42).pc(1).len(3).build());
+		notes.add(note().pos(45).pc(11).len(3).build());
+//		notes.add(note().pos(offset).pc(9).len(12).build());
+		Instrument instrument2 = instruments.get(1);
+		instrument2.setVoice(1);
+		instrument2.setChannel(2);
+		CpMelody melody = new CpMelody(notes, instrument2.getVoice(), start, end);
+		MelodyBlock melodyBlock2 = new MelodyBlock(3, instrument2.getVoice());
+		melodyBlock2.addMelodyBlock(melody);
+		melodyBlock2.setTimeConfig(getTimeConfig());
+		melodyBlock2.setMutable(false);
+		melodyBlock2.setInstrument(instrument2);
+		
+		melodyBlocks.add(melodyBlock2);
+		
+		
+		Instrument instrument3 = instruments.get(2);
+		instrument3.setVoice(2);
+		instrument3.setChannel(3);
+		MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlock(instrument3.getVoice(), instrument3.pickRandomOctaveFromRange(), getTimeConfig()::getBeatsDoubleLength);
+		melodyBlock3.setInstrument(instrument3);
+		melodyBlocks.add(melodyBlock3);
+		
+		return melodyBlocks;
+	}
+	
+	/**
+	 * Voice 1: melody
+	 * Voice 2: homophonic
+	 * Voice 3: half time
+	 * @return
+	 */
+	public List<MelodyBlock> halfTimeHomophonicRhythm(){
+		List<MelodyBlock> melodyBlocks = new ArrayList<>();
+		Instrument instrument1 = instruments.get(0);
+		instrument1.setVoice(0);
+		instrument1.setChannel(1);
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), instrument1.pickRandomOctaveFromRange());
+		melodyBlock.setInstrument(instrument1);
+		melodyBlocks.add(melodyBlock);	
+
+		int voice1 = 1;
+		Instrument instrument2 = instruments.get(voice1);
+		instrument2.setVoice(voice1);
+		instrument2.setChannel(2);
+		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlock(instrument2.getVoice(), instrument2.pickRandomOctaveFromRange(), getTimeConfig()::getHomophonicBeatGroup);
+		melodyBlock2.setInstrument(instrument2);
+		melodyBlocks.add(melodyBlock2);
+			
+		Instrument instrument3 = instruments.get(2);
+		instrument3.setVoice(2);
+		instrument3.setChannel(3);
+		MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlock(instrument3.getVoice(), instrument3.pickRandomOctaveFromRange());
+		melodyBlock3.setInstrument(instrument3);
+		melodyBlocks.add(melodyBlock3);
+
+		return melodyBlocks;
+	}
+	
+	/**
+	 * Voice 1: 3
+	 * Voice 2: homophonic in 4
+	 * Voice 3: in 4
+	 * @return
+	 */
+	public List<MelodyBlock> threeOverXX(){
+		List<MelodyBlock> melodyBlocks = new ArrayList<>();
+		Instrument instrument1 = instruments.get(0);
+		instrument1.setVoice(0);
+		instrument1.setChannel(1);
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), instrument1.pickRandomOctaveFromRange(), getTimeConfig()::getFixedBeatGroup);
+		melodyBlock.setInstrument(instrument1);
+		melodyBlocks.add(melodyBlock);	
+
+		int voice1 = 1;
+		Instrument instrument2 = instruments.get(voice1);
+		instrument2.setVoice(voice1);
+		instrument2.setChannel(2);
+		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlock(instrument2.getVoice(), instrument2.pickRandomOctaveFromRange(), time34::getFixedBeatGroup, time34);
+		melodyBlock2.setInstrument(instrument2);
+		melodyBlocks.add(melodyBlock2);
+			
+		Instrument instrument3 = instruments.get(2);
+		instrument3.setVoice(2);
+		instrument3.setChannel(3);
+		MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlock(instrument3.getVoice(), instrument3.pickRandomOctaveFromRange());
+		melodyBlock3.setInstrument(instrument3);
+		melodyBlocks.add(melodyBlock3);
+
+		return melodyBlocks;
+	}
+	
 	
 }

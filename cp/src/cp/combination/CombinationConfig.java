@@ -152,16 +152,16 @@ public class CombinationConfig {
 //		rhythmCombinations.add(oneNoteUneven::pos3);
 		
 		rhythmCombinations.add(twoNoteUneven::pos13);
-//		rhythmCombinations.add(twoNoteUneven::pos12);
-//		rhythmCombinations.add(twoNoteUneven::pos23);
+		rhythmCombinations.add(twoNoteUneven::pos12);
+		rhythmCombinations.add(twoNoteUneven::pos23);
 		
-//		rhythmCombinations.add(threeNoteUneven::pos123);
+		rhythmCombinations.add(threeNoteUneven::pos123);
 
-//		rhythmCombinations.add(threeNoteSexTuplet::pos145);
+		rhythmCombinations.add(threeNoteSexTuplet::pos145);
 //		rhythmCombinations.add(threeNoteSexTuplet::pos136);
-//		rhythmCombinations.add(threeNoteSexTuplet::pos156);
+		rhythmCombinations.add(threeNoteSexTuplet::pos156);
 //		
-//		rhythmCombinations.add(fourNoteSexTuplet::pos1456);
+		rhythmCombinations.add(fourNoteSexTuplet::pos1456);
 //		rhythmCombinations.add(fourNoteSexTuplet::pos1346);
 //		rhythmCombinations.add(fourNoteSexTuplet::pos1356);
 		

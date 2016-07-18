@@ -41,7 +41,15 @@ public class Time44 extends TimeConfig{
 	public List<BeatGroup> getFixedBeatGroup() {
 		List<BeatGroup> group = new ArrayList<BeatGroup>();
 		group.add(beatGroupFactory.getBeatGroupEven(6, "fixed"));
-		group.add(beatGroupFactory.getBeatGroupUneven(6, "fixed"));
+		group.add(beatGroupFactory.getBeatGroupEven(12, "fixed"));
+		return group;
+	}
+
+	@Override
+	public List<BeatGroup> getHomophonicBeatGroup() {
+		List<BeatGroup> group = new ArrayList<BeatGroup>();
+		group.add(beatGroupFactory.getBeatGroupEven(6, "homophonic"));
+		group.add(beatGroupFactory.getBeatGroupEven(12, "homophonic"));
 		return group;
 	}
 

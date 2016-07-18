@@ -41,12 +41,17 @@ public class MelodyGenerator {
 		return generateMelodyBlock(voice, octave, compostion.getTimeConfig().randomBeatGroup(), beatGroupStrategy, compostion.getTimeConfig());
 	}
 	
+	public MelodyBlock generateMelodyBlock(final int voice, int octave, BeatGroupStrategy beatGroupStrategy, TimeConfig timeConfig){
+		return generateMelodyBlock(voice, octave, compostion.getTimeConfig().randomBeatGroup(), beatGroupStrategy, timeConfig);
+	}
+	
 	public MelodyBlock generateMelodyBlock(final int voice, int octave, boolean randomBeats, BeatGroupStrategy beatGroupStrategy, TimeConfig timeConfig){
 		int start = compostion.getStart();
 		int stop = compostion.getEnd();
 		List<BeatGroup> beatGroups = beatGroupStrategy.getBeatGroups();
 		MelodyBlock melodyBlock = new MelodyBlock(octave, voice);
 		melodyBlock.setTimeConfig(timeConfig);
+		melodyBlock.setOffset(timeConfig.getOffset());
 		BeatGroup beatGroup;
 		int i = 0;
 		int size = beatGroups.size();

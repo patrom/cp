@@ -39,5 +39,10 @@ public class Time34 extends TimeConfig{
 		return Collections.singletonList(beatGroupFactory.getBeatGroupUneven(12, "fixed"));
 	}
 
+	@Override
+	public List<BeatGroup> getHomophonicBeatGroup() {
+		return Collections.singletonList(beatGroupFactory.getBeatGroupUneven(12, "homophonic"));
+	}
+
 }
 
