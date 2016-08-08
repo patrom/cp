@@ -85,6 +85,7 @@ public class MelodyGenerator {
 		}	
 		int offset = start;
 		melodyNotes.forEach(n -> {
+			n.setVoice(voice);
 			n.setPosition(n.getPosition() + offset);
 		});
 		melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes);

@@ -53,10 +53,11 @@ public class TwoVoiceComposition extends Composition{
 		instrument2.setChannel(1);
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
 		melodyBlock2.setTimeConfig(getTimeConfig());
+		melodyBlock2.setOffset(getTimeConfig().getOffset());
 		melodyBlock2.setVoice(instrument2.getVoice());
 		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.T_RELATIVE);
-//		operatorType.setSteps(1);
-//		operatorType.setFunctionalDegreeCenter(1);
+		operatorType.setSteps(2);
+//		operatorType.setFunctionalDegreeCenter(3);
 		melodyBlock2.setOperatorType(operatorType);
 		melodyBlock2.dependsOn(melodyBlock.getVoice());
 		melodyBlock2.setInstrument(instrument2);
@@ -82,6 +83,7 @@ public class TwoVoiceComposition extends Composition{
 		instrument2.setChannel(1);
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
 		melodyBlock2.setTimeConfig(getTimeConfig());
+		melodyBlock2.setOffset(getTimeConfig().getOffset());
 		melodyBlock2.setVoice(instrument2.getVoice());
 		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.I_RELATIVE);
 //		operatorType.setSteps(1);
@@ -127,6 +129,7 @@ public class TwoVoiceComposition extends Composition{
 		instrument2.setChannel(1);
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
 		melodyBlock2.setTimeConfig(getTimeConfig());
+		melodyBlock2.setOffset(getTimeConfig().getOffset());
 		melodyBlock2.setVoice(instrument2.getVoice());
 		OperatorType operatorType = new OperatorType(operator);
 		operatorType.setSteps(steps);

@@ -69,7 +69,7 @@ public class ThreeVoiceComposition extends Composition{
 		instrument2.setChannel(2);
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
 		melodyBlock2.setTimeConfig(getTimeConfig());
-		melodyBlock2.setTimeConfig(getTimeConfig());
+		melodyBlock2.setOffset(getTimeConfig().getOffset());
 		melodyBlock2.setVoice(instrument2.getVoice());
 		OperatorType operatorType = new OperatorType(operator);
 		operatorType.setSteps(steps);
@@ -109,6 +109,7 @@ public class ThreeVoiceComposition extends Composition{
 		instrument2.setChannel(2);
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
 		melodyBlock2.setTimeConfig(getTimeConfig());
+		melodyBlock2.setOffset(getTimeConfig().getOffset());
 		melodyBlock2.setVoice(instrument2.getVoice());
 		OperatorType operatorType = new OperatorType(operator);
 //		operatorType.setSteps(steps);

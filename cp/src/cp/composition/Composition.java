@@ -135,18 +135,24 @@ public abstract class Composition {
 		instruments.add(new Guitar(new InstrumentRegister(67, 71)));
 		setTimeconfig();
 		List<TimeLineKey> keys = new ArrayList<>();
-		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, 72));
-		keys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 72, end));
+		keys.add(new TimeLineKey(E, Scale.MAJOR_SCALE, start, end));
+//		keys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, start, end));
 //		keys.add(new TimeLineKey(D, Scale.MAJOR_SCALE, 108, 144));
 //		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 144, end));
 //		keys.add(new TimeLineKey(C, instrument1.filterScale(Scale.HARMONIC_MINOR_SCALE), 48, 192));//match length
 //		keys.add(new TimeLineKey(A, Scale.HARMONIC_MINOR_SCALE, 48, 96));
 //		keys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 96, 144));
 //		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 144, 192));
-		int instrumentSize = instruments.size();
-		for (int i = 0; i < instrumentSize; i++) {
-			timeLine.addKeysForVoice(keys, i);
-		}
+//		int instrumentSize = instruments.size();
+//		for (int i = 0; i < instrumentSize; i++) {
+//			timeLine.addKeysForVoice(keys, i);
+//		}
+		timeLine.addKeysForVoice(keys, 0);
+		
+		List<TimeLineKey> minor = new ArrayList<>();
+		minor.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, end));
+		timeLine.addKeysForVoice(minor, 1);
+		
 		melodyGenerator.setCompostion(this);
 		melodyGenerator.setBeatGroupStrategy(timeConfig::getAllBeats);
 		replaceMelody.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
