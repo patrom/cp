@@ -1,8 +1,11 @@
 package cp.nsga.operator.mutation.melody;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,7 +71,27 @@ public class ReplaceMelody extends AbstractMutation{
 				});
 				melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes);
 				melody.updateNotes(melodyNotes);
-//				LOGGER.info("Melody replaced");
+//				LOGGER.info("Melody replaced: " + melody.getVoice());
+				
+				List<MelodyBlock> melodyBlocks = motive.getMelodyBlocks();
+				List<MelodyBlock> rhythmDependantMelodies = melodyBlocks.stream()
+						.filter(m -> m.isRhythmDependant() && m.getDependingVoice() == melody.getVoice())
+						.collect(toList());
+				for (MelodyBlock rhythmDependantMelodyBlock : rhythmDependantMelodies) {
+					Optional<CpMelody> optionalDependantMelody = rhythmDependantMelodyBlock.getMelodyBlocks().stream().filter(m -> m.getStart() == melody.getStart()).findFirst();
+					
+					CpMelody dependantMelody = optionalDependantMelody.get();
+					List<Note> clonedMelodyNotes = melodyNotes.stream().map(n -> 
+						{ 
+							Note clone = n.clone();
+							clone.setVoice(dependantMelody.getVoice());
+							return clone;
+						}
+					).collect(toList());
+					clonedMelodyNotes = pitchClassGenerator.updatePitchClasses(clonedMelodyNotes);
+					dependantMelody.updateNotes(clonedMelodyNotes);
+//					LOGGER.info("dependant Melody replaced: " + dependantMelody.getVoice());
+				}
 			}
 		} 
 	}

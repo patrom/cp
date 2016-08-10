@@ -29,6 +29,8 @@ import cp.objective.meter.MeterObjective;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.plucked.Guitar;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.instrument.woodwinds.Bassoon;
+import cp.out.orchestration.InstrumentName;
 import cp.out.orchestration.quality.Brilliant;
 import cp.out.orchestration.quality.Pleasant;
 import cp.out.print.note.Key;
@@ -126,32 +128,39 @@ public abstract class Composition {
 		musicProperties.setDenominator(denominator);
 		meterObjective.setComposition(this);
 //		instruments.add(new ViolinsI());
-////		Instrument instrument1 = pleasant.getInstrument(InstrumentName.CLARINET.getName());
+		Instrument bassoon = pleasant.getBasicInstrument(InstrumentName.BASSOON.getName());
+		Instrument clarinet = pleasant.getBasicInstrument(InstrumentName.CLARINET.getName());
+		Instrument flute = pleasant.getBasicInstrument(InstrumentName.FLUTE.getName());
+
 //		instruments.add(new Viola());
 //		instruments.add(new Cello());
 		
-		instruments.add(new Guitar(new InstrumentRegister(40, 55)));
-		instruments.add(new Guitar(new InstrumentRegister(50, 64)));
-		instruments.add(new Guitar(new InstrumentRegister(67, 71)));
+//		instruments.add(new Guitar(new InstrumentRegister(40, 55)));
+//		instruments.add(new Guitar(new InstrumentRegister(50, 67)));
+//		instruments.add(new Guitar(new InstrumentRegister(67, 76)));
+		
+		instruments.add(bassoon);
+		instruments.add(clarinet);
+		instruments.add(flute);
 		setTimeconfig();
 		List<TimeLineKey> keys = new ArrayList<>();
-		keys.add(new TimeLineKey(E, Scale.MAJOR_SCALE, start, end));
+		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, end));
 //		keys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, start, end));
 //		keys.add(new TimeLineKey(D, Scale.MAJOR_SCALE, 108, 144));
 //		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 144, end));
-//		keys.add(new TimeLineKey(C, instrument1.filterScale(Scale.HARMONIC_MINOR_SCALE), 48, 192));//match length
+//		keys.add(new TimeLineKey(C, clarinet.filterScale(Scale.HARMONIC_MINOR_SCALE), 48, 192));//match length
 //		keys.add(new TimeLineKey(A, Scale.HARMONIC_MINOR_SCALE, 48, 96));
 //		keys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 96, 144));
 //		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 144, 192));
-//		int instrumentSize = instruments.size();
-//		for (int i = 0; i < instrumentSize; i++) {
-//			timeLine.addKeysForVoice(keys, i);
-//		}
-		timeLine.addKeysForVoice(keys, 0);
+		int instrumentSize = instruments.size();
+		for (int i = 0; i < instrumentSize; i++) {
+			timeLine.addKeysForVoice(keys, i);
+		}
+//		timeLine.addKeysForVoice(keys, 0);
 		
-		List<TimeLineKey> minor = new ArrayList<>();
-		minor.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, end));
-		timeLine.addKeysForVoice(minor, 1);
+//		List<TimeLineKey> minor = new ArrayList<>();
+//		minor.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, end));
+//		timeLine.addKeysForVoice(minor, 1);
 		
 		melodyGenerator.setCompostion(this);
 		melodyGenerator.setBeatGroupStrategy(timeConfig::getAllBeats);
@@ -168,7 +177,7 @@ public abstract class Composition {
 			timeConfig = time34;
 		} else if (numerator == 6 && denominator == 8) {
 			timeConfig = time68;
-		} else if (numerator == 5 && denominator == 6) {
+		} else if (numerator == 5 && denominator == 8) {
 			timeConfig = time58;
 		}
 	}

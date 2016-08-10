@@ -8,17 +8,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-import org.springframework.stereotype.Component;
-
-import com.google.common.base.Objects;
-
 import cp.composition.timesignature.TimeConfig;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.note.Note;
-import cp.model.note.Scale;
 import cp.out.instrument.Instrument;
-import cp.out.instrument.register.InstrumentRegister;
 import cp.util.RandomUtil;
 import cp.util.Util;
 
@@ -34,6 +28,7 @@ public class MelodyBlock {
 	private int voice = -1;
 	private int offset;
 	private TimeConfig timeConfig;
+	private boolean rhythmDependant;
 	
 	public MelodyBlock(int startOctave, int voice) {
 		this.startOctave = startOctave;
@@ -63,6 +58,7 @@ public class MelodyBlock {
 		this.voice = anotherBlock.getVoice();
 		this.offset = anotherBlock.getOffset();
 		this.timeConfig = anotherBlock.getTimeConfig();
+		this.rhythmDependant = anotherBlock.isRhythmDependant();
 	}
 
 	@Override
@@ -272,6 +268,10 @@ public class MelodyBlock {
 	public boolean isRhythmMutable() {
 		return rhythmMutable;
 	}
+	
+	public void setRhythmMutable(boolean rhythmMutable) {
+		this.rhythmMutable = rhythmMutable;
+	}
 
 	public void setVoice(int voice) {
 		this.voice = voice;
@@ -291,6 +291,14 @@ public class MelodyBlock {
 	
 	public boolean isDependant(){
 		return(operatorType != null)?true:false;
+	}
+	
+	public boolean isRhythmDependant(){
+		return rhythmDependant;
+	}
+	
+	public void setRhythmDependant(boolean rhythmDependant) {
+		this.rhythmDependant = rhythmDependant;
 	}
 	
 	public int getStartOctave() {

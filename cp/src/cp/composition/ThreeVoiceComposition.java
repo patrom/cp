@@ -184,9 +184,9 @@ public class ThreeVoiceComposition extends Composition{
 	}
 	
 	/**
-	 * Voice 1: melody
-	 * Voice 2: homophonic
-	 * Voice 3: half time
+	 * Voice 0: melody
+	 * Voice 1: homophonic
+	 * Voice 2: half time
 	 * @return
 	 */
 	public List<MelodyBlock> halfTimeHomophonicRhythm(){
@@ -217,9 +217,9 @@ public class ThreeVoiceComposition extends Composition{
 	}
 	
 	/**
-	 * Voice 1: 3
-	 * Voice 2: homophonic in 4
-	 * Voice 3: in 4
+	 * Voice 0: 3
+	 * Voice 1: homophonic in 4
+	 * Voice 2: in 4
 	 * @return
 	 */
 	public List<MelodyBlock> threeOverXX(){
@@ -248,6 +248,39 @@ public class ThreeVoiceComposition extends Composition{
 
 		return melodyBlocks;
 	}
+	
+	/**
+	 * Voice 0: bass halftime
+	 * Voice 1: melody rhythm duplicate
+	 * Voice 2: melody 
+	 * @return
+	 */
+	public List<MelodyBlock> accDuplicateRhythm(){
+		List<MelodyBlock> melodyBlocks = new ArrayList<>();
+		Instrument instrument1 = instruments.get(0);
+		instrument1.setVoice(0);
+		instrument1.setChannel(1);
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), instrument1.pickRandomOctaveFromRange(), getTimeConfig()::getBeatsDoubleLength);
+		melodyBlock.setInstrument(instrument1);
+		melodyBlocks.add(melodyBlock);	
+
+		Instrument instrument2 = instruments.get(1);
+		instrument2.setVoice(1);
+		instrument2.setChannel(1);
+		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlock(instrument2.getVoice(), instrument2.pickRandomOctaveFromRange());
+		melodyBlock2.setInstrument(instrument2);
+		melodyBlocks.add(melodyBlock2);
+			
+		Instrument instrument3 = instruments.get(2);
+		instrument3.setVoice(2);
+		instrument3.setChannel(3);
+		MelodyBlock melodyBlock3 = melodyGenerator.duplicateRhythmMelodyBlock(melodyBlock2, instrument3);
+		melodyBlocks.add(melodyBlock3);
+
+		return melodyBlocks;
+	}
+	
+	
 	
 	
 }

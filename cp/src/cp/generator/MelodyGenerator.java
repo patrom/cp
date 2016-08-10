@@ -20,6 +20,7 @@ import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.note.Scale;
+import cp.out.instrument.Instrument;
 import cp.util.RandomUtil;
 
 @Component
@@ -92,6 +93,20 @@ public class MelodyGenerator {
 		CpMelody melody = new CpMelody(melodyNotes, voice, start, start + beatGroup.getBeatLength());
 		melody.setBeatGroup(beatGroup);
 		return melody;
+	}
+	
+	public MelodyBlock duplicateRhythmMelodyBlock(MelodyBlock melodyBlock, Instrument instrument){
+		MelodyBlock clonedMelodyBlock = melodyBlock.clone();
+		clonedMelodyBlock.setInstrument(instrument);
+		clonedMelodyBlock.setVoice(instrument.getVoice());
+		clonedMelodyBlock.getMelodyBlocks().forEach(m -> m.setVoice(instrument.getVoice()));
+		clonedMelodyBlock.getMelodyBlockNotesWithRests().forEach(n -> n.setVoice(instrument.getVoice()));
+		List<Note> melodyBlockNotes = clonedMelodyBlock.getMelodyBlockNotes();
+		pitchClassGenerator.updatePitchClasses(melodyBlockNotes);
+		clonedMelodyBlock.dependsOn(melodyBlock.getVoice());
+		clonedMelodyBlock.setRhythmMutable(false);
+		clonedMelodyBlock.setRhythmDependant(true);
+		return clonedMelodyBlock;
 	}
 	
 	public int[] generateMelodyPositions(int[] harmony, int minimumLength, int maxMelodyNotes){

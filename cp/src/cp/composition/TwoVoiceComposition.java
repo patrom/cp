@@ -25,13 +25,18 @@ public class TwoVoiceComposition extends Composition{
 		
 		melodyBlocks.add(melodyBlock);
 		
+//		Instrument instrument2 = instruments.get(1);
+//		instrument2.setVoice(1);
+//		instrument2.setChannel(1);
+//		melodyBlock = melodyGenerator.generateMelodyBlock(instrument2.getVoice(), instrument2.pickRandomOctaveFromRange(), getTimeConfig()::getFixedBeatGroup);
+//		melodyBlock.setInstrument(instrument2);
+		
 		Instrument instrument2 = instruments.get(1);
 		instrument2.setVoice(1);
-		instrument2.setChannel(1);
-		melodyBlock = melodyGenerator.generateMelodyBlock(instrument2.getVoice(), instrument2.pickRandomOctaveFromRange(), getTimeConfig()::getFixedBeatGroup);
-		melodyBlock.setInstrument(instrument2);
+		instrument2.setChannel(1);	
+		MelodyBlock melodyBlock2 = melodyGenerator.duplicateRhythmMelodyBlock(melodyBlock, instrument2);
 		
-		melodyBlocks.add(melodyBlock);
+		melodyBlocks.add(melodyBlock2);
 
 		return melodyBlocks;
 	}
@@ -56,7 +61,7 @@ public class TwoVoiceComposition extends Composition{
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
 		melodyBlock2.setVoice(instrument2.getVoice());
 		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.T_RELATIVE);
-		operatorType.setSteps(2);
+//		operatorType.setSteps(2);
 //		operatorType.setFunctionalDegreeCenter(3);
 		melodyBlock2.setOperatorType(operatorType);
 		melodyBlock2.dependsOn(melodyBlock.getVoice());
