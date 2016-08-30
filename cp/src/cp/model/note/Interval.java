@@ -69,7 +69,7 @@ public class Interval  {
 	public static final Interval KLEIN_SEPTIEM = intervalMap.get(10);
 	public static final Interval GROOT_SEPTIEM = intervalMap.get(11);
 	public static final Interval OCTAAF = intervalMap.get(12);
-	public static final Interval GROTER_DAN_OCTAAF = intervalMap.get(13);
+//	public static final Interval GROTER_DAN_OCTAAF = intervalMap.get(13);
 	
 	public void setInterval(int interval) {
 		this.interval = interval;

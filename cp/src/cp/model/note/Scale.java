@@ -35,8 +35,14 @@ public class Scale {
 			
 			OCTATCONIC_WHOLE = new Scale(new int[]{0, 2, 3, 5, 6, 8, 9, 11}),
 			OCTATCONIC_HALF = new Scale(new int[]{0, 1, 3, 4, 6, 7,  9, 10}),
-			ACOUSTIC =  new Scale(new int[]{0, 2, 4, 6, 7, 9, 10});
+			ACOUSTIC =  new Scale(new int[]{0, 2, 4, 6, 7, 9, 10}),
 	
+			WEBERN_TRICHORD_1 = new Scale(new int[]{10, 11, 2}),//op. 24
+			WEBERN_TRICHORD_2 = new Scale(new int[]{6, 7, 3}),
+			WEBERN_TRICHORD_3 = new Scale(new int[]{4, 5 , 8}),
+			WEBERN_TRICHORD_4 = new Scale(new int[]{0, 1, 9});
+		
+			
 	private Random random = new Random(System.currentTimeMillis());
 	private int[] scale;
 	
@@ -96,7 +102,7 @@ public class Scale {
 				}
 			}
 		}
-		return pickNextPitchFromScale((pitchClass - 1) % 12);
+		return pickNextPitchFromScale(pitchClass == 0?11:pitchClass - 1);
 	}
 	
 	public int pickPreviousPitchFromScale(int pitchClass){

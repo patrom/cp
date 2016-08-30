@@ -24,8 +24,8 @@ public class Piano extends Instrument {
 	private void init() {
 		instrumentGroup = InstrumentGroup.KEYBOARD;
 		order = 0;
-		setLowest(21);
-		setHighest(108);
+		setLowest(40);//21
+		setHighest(92);//105
 		setGeneralMidi(GeneralMidi.PIANO);
 		
 		setInstrumentName("Piano (2)");

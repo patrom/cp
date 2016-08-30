@@ -22,10 +22,10 @@ public class TestSetTheory {
 		
 		PitchSet pitchSet = new PitchSet();
 	
-		pitchSet.addPitch(64);
-		pitchSet.addPitch(72);
-		pitchSet.addPitch(67);
 		pitchSet.addPitch(60);
+		pitchSet.addPitch(61);
+		pitchSet.addPitch(69);
+//		pitchSet.addPitch(60);
 		
 		System.out.println(pitchSet);
 		System.out.println(pitchSet.getPitchClassSet());

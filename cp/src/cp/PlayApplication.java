@@ -114,7 +114,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 //			arrangement.transpose(melodies.get(1).getNotes(), -12);
 			
 //			embellish(melodies);
-
+			parsedMelodies.stream().flatMap(m -> m.getNotes().stream()).forEach(n -> n.setPitch(n.getPitch() + 12));// for miroslav string quartet
 			playOnKontakt(parsedMelodies, midiInfo.getTempo());
 			Score score = scoreUtilities.createScoreFromMelodyInstrument(parsedMelodies, midiInfo.getTempo());
 			score.setTitle(midiFile.getName());

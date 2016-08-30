@@ -38,6 +38,7 @@ public class Note implements Comparable<Note>, Cloneable{
 	//time modification
 	private boolean triplet;
 	private boolean sextuplet;
+	private boolean quintuplet;
 	
 	private BeamType beamType;
 	//begin or end of tuplet
@@ -76,6 +77,7 @@ public class Note implements Comparable<Note>, Cloneable{
 		this.beamType = anotherNote.getBeamType();
 		this.triplet = anotherNote.isTriplet();
 		this.sextuplet = anotherNote.isSextuplet();
+		this.quintuplet = anotherNote.isQuintuplet();
 		this.tupletType = anotherNote.getTupletType();
 	}
 
@@ -321,6 +323,8 @@ public class Note implements Comparable<Note>, Cloneable{
 	public void setSextuplet(boolean sextuplet) {
 		this.sextuplet = sextuplet;
 	}
+	
+	
 
 	public int getDisplayLength() {
 		return displayLength;
@@ -337,6 +341,8 @@ public class Note implements Comparable<Note>, Cloneable{
 	public boolean hasBeamType() {
 		return beamType != null;
 	}
+	
+	
 	
 //	public boolean hasBeamTypeBeginOrEnd() {
 //		return beamType != null && (beamType.equals(BeamType.BEGIN) || beamType.equals(BeamType.END));
@@ -360,6 +366,14 @@ public class Note implements Comparable<Note>, Cloneable{
 	
 	public boolean hasTupletType() {
 		return tupletType != null;
+	}
+
+	public boolean isQuintuplet() {
+		return quintuplet;
+	}
+
+	public void setQuintuplet(boolean quintuplet) {
+		this.quintuplet = quintuplet;
 	}
 
 }

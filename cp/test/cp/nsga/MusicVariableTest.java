@@ -16,7 +16,7 @@ public class MusicVariableTest {
 	private List<CpHarmony> harmonies = new ArrayList<>();
 	private Motive motive;
 	private Integer[] range = {5};
-	private List<Instrument> instruments = Ensemble.getStringQuartet();
+	private List<Instrument> instruments = new ArrayList<>();
 	private MusicProperties musicProperties;
 	
 	@Before

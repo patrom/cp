@@ -393,8 +393,8 @@ public class MusicXMLWriter {
 			xmlStreamWriter.writeEmptyElement("dot");
 			xmlStreamWriter.writeCharacters("\n");
 		}
-		if (note.isTriplet() || note.isSextuplet()) {
-			createTimeModification(note, noteType);
+		if (note.isTriplet() || note.isSextuplet() || note.isQuintuplet()) {
+			createTimeModification(note);
 		}
 		createElementWithValue("staff", String.valueOf(staff));
 		if (note.hasBeamType()) {
@@ -453,7 +453,7 @@ public class MusicXMLWriter {
 		
 	}
 
-	private void createTimeModification(Note note, NoteType noteType) throws XMLStreamException {
+	private void createTimeModification(Note note) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("time-modification");
 		xmlStreamWriter.writeCharacters("\n");
 		
@@ -465,6 +465,10 @@ public class MusicXMLWriter {
 			createElementWithValue("actual-notes", "3");
 			createElementWithValue("normal-notes", "2");
 			createElementWithValue("normal-type", "eighth");
+		} else if(note.isQuintuplet()){
+			createElementWithValue("actual-notes", "5");
+			createElementWithValue("normal-notes", "4");
+			createElementWithValue("normal-type", "16th");
 		}
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");

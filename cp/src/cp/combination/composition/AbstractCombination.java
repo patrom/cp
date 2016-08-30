@@ -10,11 +10,11 @@ import cp.combination.even.ThreeNoteEven;
 import cp.combination.even.TwoNoteEven;
 import cp.combination.uneven.FiveNoteSexTuplet;
 import cp.combination.uneven.FourNoteSexTuplet;
-import cp.combination.uneven.OneNoteUneven;
+import cp.combination.uneven.OneNoteTriplet;
 import cp.combination.uneven.SixNoteSexTuplet;
 import cp.combination.uneven.ThreeNoteSexTuplet;
-import cp.combination.uneven.ThreeNoteUneven;
-import cp.combination.uneven.TwoNoteUneven;
+import cp.combination.uneven.ThreeNoteTriplet;
+import cp.combination.uneven.TwoNoteTriplet;
 
 
 public abstract class AbstractCombination{
@@ -29,11 +29,11 @@ public abstract class AbstractCombination{
 	protected FourNoteEven fourNoteEven;
 	
 	@Autowired
-	protected ThreeNoteUneven threeNoteUneven;
+	protected ThreeNoteTriplet threeNoteUneven;
 	@Autowired
-	protected TwoNoteUneven twoNoteUneven;
+	protected TwoNoteTriplet twoNoteUneven;
 	@Autowired
-	protected OneNoteUneven oneNoteUneven;
+	protected OneNoteTriplet oneNoteUneven;
 	@Autowired
 	protected ThreeNoteSexTuplet threeNoteSexTuplet;
 	@Autowired

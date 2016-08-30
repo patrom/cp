@@ -12,7 +12,7 @@ import cp.model.note.Note;
 import cp.model.note.TupletType;
 
 @Component
-public class ThreeNoteUneven {
+public class ThreeNoteTriplet {
 
 	public List<Note> pos123(int beat) {
 		List<Note> notes;
@@ -67,7 +67,7 @@ public class ThreeNoteUneven {
 	}
 	
 	public static void main(String[] args) {
-		ThreeNoteUneven threeNoteUneven = new ThreeNoteUneven();
+		ThreeNoteTriplet threeNoteUneven = new ThreeNoteTriplet();
 		List<Note > notes = threeNoteUneven.pos123(12);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 	}

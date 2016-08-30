@@ -25,6 +25,7 @@ import cp.midi.MidiInfo;
 import cp.midi.MidiParser;
 import cp.midi.MidiParserTest;
 import cp.model.note.Note;
+import cp.model.note.Scale;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = DefaultConfig.class)
@@ -82,6 +83,17 @@ public class PcSetUnorderedPropertiesTest extends AbstractTest{
 		sets.add(toPcSetUnorderedProperties(10,7,2,8));
 		sets.add(toPcSetUnorderedProperties(8,4,1,11));
 		sets.add(toPcSetUnorderedProperties(8,3,0,5));
+		sets.forEach(s -> LOGGER.info(s.getForteName()));
+	}
+	
+	@Test
+	public void testSetClasses3(){
+		//webern op 24
+		List<PcSetUnorderedProperties> sets = new ArrayList<>();
+		sets.add(toPcSetUnorderedProperties(0,1,9));
+		sets.add(toPcSetUnorderedProperties(11,10,2));
+		sets.add(toPcSetUnorderedProperties(3,7,6));
+		sets.add(toPcSetUnorderedProperties(8,4,5));
 		sets.forEach(s -> LOGGER.info(s.getForteName()));
 	}
 

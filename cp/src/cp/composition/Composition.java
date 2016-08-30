@@ -21,18 +21,27 @@ import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.dissonance.IntervalAndTriads;
 import cp.model.dissonance.IntervalDissonance;
+import cp.model.dissonance.SetClassDissonance;
 import cp.model.note.Scale;
 import cp.nsga.operator.mutation.melody.ReplaceMelody;
 import cp.objective.Objective;
+import cp.objective.harmony.DissonantResolution;
+import cp.objective.harmony.DissonantResolutionImpl;
 import cp.objective.harmony.HarmonicObjective;
+import cp.objective.harmony.HarmonicResolutionObjective;
 import cp.objective.meter.MeterObjective;
+import cp.out.instrument.Choral;
+import cp.out.instrument.Ensemble;
 import cp.out.instrument.Instrument;
+import cp.out.instrument.InstrumentCombination;
 import cp.out.instrument.plucked.Guitar;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.woodwinds.Bassoon;
 import cp.out.orchestration.InstrumentName;
 import cp.out.orchestration.quality.Brilliant;
+import cp.out.orchestration.quality.Mellow;
 import cp.out.orchestration.quality.Pleasant;
+import cp.out.orchestration.quality.Rich;
 import cp.out.print.note.Key;
 
 public abstract class Composition {
@@ -51,11 +60,17 @@ public abstract class Composition {
 	protected PassingPitchClasses passingPitchClasses;
 	
 	@Autowired
+	private HarmonicResolutionObjective harmonicResolutionObjective;
+	@Autowired
+	private DissonantResolutionImpl dissonantResolutionImpl;
+	@Autowired
 	protected HarmonicObjective harmonicObjective;
 	@Autowired
 	protected IntervalDissonance intervalDissonance;
 	@Autowired
 	protected IntervalAndTriads intervalAndTriads;
+	@Autowired
+	protected SetClassDissonance setClassDissonance;
 	@Autowired
 	protected TimeLine timeLine;
 	@Autowired
@@ -91,9 +106,16 @@ public abstract class Composition {
 	@Autowired
 	protected Pleasant pleasant;
 	@Autowired
+	protected Mellow mellow;
+	@Autowired
+	protected Rich rich;
+	@Autowired
 	protected Brilliant brilliant;
 	
+	private InstrumentCombination instrumentCombination;
 	protected List<Instrument> instruments = new ArrayList<Instrument>();
+	@Autowired
+	private Ensemble ensemble;
 	
 	protected int start = 0;
 	protected int end = 196;
@@ -120,6 +142,7 @@ public abstract class Composition {
 	@Value("${composition.denominator:4}")
 	protected int denominator;
 	
+	
 	@PostConstruct
 	public void init(){
 		composeInKey(C);
@@ -127,24 +150,16 @@ public abstract class Composition {
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
 		meterObjective.setComposition(this);
-//		instruments.add(new ViolinsI());
-		Instrument bassoon = pleasant.getBasicInstrument(InstrumentName.BASSOON.getName());
-		Instrument clarinet = pleasant.getBasicInstrument(InstrumentName.CLARINET.getName());
-		Instrument flute = pleasant.getBasicInstrument(InstrumentName.FLUTE.getName());
+		
+//		instruments = Choral.getSATB();
+//		instruments = ensemble.getFluteClarinetBassoonGreen();
+//		instruments = ensemble.getStrings(mellow);
+		instruments = ensemble.getStringTrio();
+//		instruments = ensemble.getPiano(3);
 
-//		instruments.add(new Viola());
-//		instruments.add(new Cello());
-		
-//		instruments.add(new Guitar(new InstrumentRegister(40, 55)));
-//		instruments.add(new Guitar(new InstrumentRegister(50, 67)));
-//		instruments.add(new Guitar(new InstrumentRegister(67, 76)));
-		
-		instruments.add(bassoon);
-		instruments.add(clarinet);
-		instruments.add(flute);
 		setTimeconfig();
-		List<TimeLineKey> keys = new ArrayList<>();
-		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, end));
+//		List<TimeLineKey> keys = new ArrayList<>();
+//		keys.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, start, end));
 //		keys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, start, end));
 //		keys.add(new TimeLineKey(D, Scale.MAJOR_SCALE, 108, 144));
 //		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 144, end));
@@ -152,22 +167,42 @@ public abstract class Composition {
 //		keys.add(new TimeLineKey(A, Scale.HARMONIC_MINOR_SCALE, 48, 96));
 //		keys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 96, 144));
 //		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 144, 192));
-		int instrumentSize = instruments.size();
-		for (int i = 0; i < instrumentSize; i++) {
-			timeLine.addKeysForVoice(keys, i);
-		}
+//		int instrumentSize = instruments.size();
+//		for (int i = 0; i < instrumentSize; i++) {
+//			timeLine.addKeysForVoice(keys, i);
+//		}
 //		timeLine.addKeysForVoice(keys, 0);
 		
+		//polytonality
 //		List<TimeLineKey> minor = new ArrayList<>();
 //		minor.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, end));
 //		timeLine.addKeysForVoice(minor, 1);
+		
+		List<TimeLineKey> webern1 = new ArrayList<>();
+		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, start, 48));
+		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_2, 48, 90));
+		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_3, 90, end));
+		timeLine.addKeysForVoice(webern1, 0);
+		
+		List<TimeLineKey> webern2 = new ArrayList<>();
+		webern2.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_2, start, 48));
+		webern2.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_3, 48, 90));
+		webern2.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, 90, end));
+		timeLine.addKeysForVoice(webern2, 1);
+		
+		List<TimeLineKey> webern3 = new ArrayList<>();
+		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_3, start, 48));
+		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, 48, 90));
+		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_2, 90, end));
+		timeLine.addKeysForVoice(webern3, 2);
 		
 		melodyGenerator.setCompostion(this);
 		melodyGenerator.setBeatGroupStrategy(timeConfig::getAllBeats);
 		replaceMelody.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
 		replaceMelody.setComposition(this);
 		melodyGenerator.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
-		harmonicObjective.setDissonance(intervalAndTriads::getDissonance);
+		harmonicObjective.setDissonance(setClassDissonance::getDissonance);
+		harmonicResolutionObjective.setDissonantResolution(dissonantResolutionImpl::isDissonant);
 	}
 	
 	private void setTimeconfig(){

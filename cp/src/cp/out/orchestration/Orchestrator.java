@@ -18,11 +18,11 @@ import cp.combination.even.ThreeNoteEven;
 import cp.combination.even.TwoNoteEven;
 import cp.combination.uneven.FiveNoteSexTuplet;
 import cp.combination.uneven.FourNoteSexTuplet;
-import cp.combination.uneven.OneNoteUneven;
+import cp.combination.uneven.OneNoteTriplet;
 import cp.combination.uneven.SixNoteSexTuplet;
 import cp.combination.uneven.ThreeNoteSexTuplet;
-import cp.combination.uneven.ThreeNoteUneven;
-import cp.combination.uneven.TwoNoteUneven;
+import cp.combination.uneven.ThreeNoteTriplet;
+import cp.combination.uneven.TwoNoteTriplet;
 import cp.generator.MusicProperties;
 import cp.midi.MidiDevicesUtil;
 import cp.model.melody.MelodyBlock;
@@ -59,11 +59,11 @@ public class Orchestrator {
 	private FourNoteEven fourNoteEven;
 	
 	@Autowired
-	private ThreeNoteUneven threeNoteUneven;
+	private ThreeNoteTriplet threeNoteUneven;
 	@Autowired
-	private TwoNoteUneven twoNoteUneven;
+	private TwoNoteTriplet twoNoteUneven;
 	@Autowired
-	private OneNoteUneven oneNoteUneven;
+	private OneNoteTriplet oneNoteUneven;
 	@Autowired
 	private ThreeNoteSexTuplet threeNoteSexTuplet;
 	@Autowired
