@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
 
 public class CpMelodyBuilder {
 	
-	private int beat = 24;
+	private int beat = DurationConstants.HALF;
 	private int start = 0;
 	private int voice = -1;
 	List<Note> notes = new ArrayList<>();

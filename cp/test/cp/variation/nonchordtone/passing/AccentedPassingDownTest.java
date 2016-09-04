@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import cp.DefaultConfig;
 import cp.VariationConfig;
 import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
 import cp.variation.AbstractVariationTest;
 import cp.variation.pattern.PassingVariationPattern;
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -38,16 +39,16 @@ public class AccentedPassingDownTest extends AbstractVariationTest{
 
 	@Test
 	public void testCreateVariation() {
-		Note firstNote = note().pc(4).pitch(64).pos(0).len(12).ocatve(5).build();
-		Note secondNote = note().pc(0).pitch(60).pos(12).len(12).ocatve(5).build();
+		Note firstNote = note().pc(4).pitch(64).pos(0).len(DurationConstants.QUARTER).ocatve(5).build();
+		Note secondNote = note().pc(0).pitch(60).pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).ocatve(5).build();
 		List<Note> notes = variation.createVariation(firstNote, secondNote);
 		assertEquals(firstNote.getPitch(), notes.get(0).getPitch());
 		assertEquals(secondNote.getPitch() + 2, notes.get(1).getPitch());
 		assertEquals(secondNote.getPitch(), notes.get(2).getPitch());
 		
-		assertEquals(12, notes.get(0).getLength());
-		assertEquals(6, notes.get(1).getLength());
-		assertEquals(6, notes.get(2).getLength());
+		assertEquals(DurationConstants.QUARTER, notes.get(0).getLength());
+		assertEquals(DurationConstants.EIGHT, notes.get(1).getLength());
+		assertEquals(DurationConstants.EIGHT, notes.get(2).getLength());
 	}
 	
 	@Test

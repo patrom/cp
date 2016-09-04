@@ -22,6 +22,7 @@ import cp.DefaultConfig;
 import cp.model.dissonance.Dissonance;
 import cp.model.note.Interval;
 import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = DefaultConfig.class)
@@ -52,7 +53,7 @@ public class MelodicObjectiveTest extends AbstractTest {
 				.collect(Collectors.toList());
 		List<Note> notes = new ArrayList<Note>();
 		for (int i = 0; i < length; i++) {
-			Note note = note().pitch(randomPitches.get(i)).pos(i * 6).len(6).positionWeight(1.0).build();
+			Note note = note().pitch(randomPitches.get(i)).pos(i * DurationConstants.EIGHT).len(DurationConstants.EIGHT).positionWeight(1.0).build();
 			notes.add(note);
 		}
 		return notes;
@@ -130,11 +131,11 @@ public class MelodicObjectiveTest extends AbstractTest {
 	@Test
 	public void testExtractNotesOnLevel(){
 		List<Note> notes = new ArrayList<>();
-		notes.add(note().pc(0).pos(0).len(6).positionWeight(1.0).build());
+		notes.add(note().pc(0).pos(0).len(DurationConstants.EIGHT).positionWeight(1.0).build());
 		notes.add(note().pc(2).pos(6).len(3).positionWeight(0.5).build());
 		notes.add(note().pc(3).pos(9).len(3).positionWeight(1.0).build());//max finds only 1
-		notes.add(note().pc(4).pos(12).len(6).positionWeight(0.5).build());
-		notes.add(note().pc(5).pos(18).len(6).positionWeight(1.0).build());
+		notes.add(note().pc(4).pos(DurationConstants.QUARTER).len(DurationConstants.EIGHT).positionWeight(0.5).build());
+		notes.add(note().pc(5).pos(DurationConstants.THREE_EIGHTS).len(DurationConstants.EIGHT).positionWeight(1.0).build());
 		notes = melodicObjective.extractNotesOnLevel(notes, 1);
 		assertEquals(2, notes.size());
 		assertEquals(5, notes.get(1).getPitchClass());
@@ -146,10 +147,10 @@ public class MelodicObjectiveTest extends AbstractTest {
 	@Test
 	public void testEvaluateTriadicValueMelody() {
 		List<Note> notes = new ArrayList<>();
-		notes.add(note().pc(0).pos(0).len(6).positionWeight(1.0).build());
-		notes.add(note().pc(4).pos(6).len(6).positionWeight(0.5).build());
-		notes.add(note().pc(7).pos(12).len(6).positionWeight(1.0).build());
-		notes.add(note().pc(0).pos(18).len(6).positionWeight(0.5).build());
+		notes.add(note().pc(0).pos(0).len(DurationConstants.EIGHT).positionWeight(1.0).build());
+		notes.add(note().pc(4).pos(6).len(DurationConstants.EIGHT).positionWeight(0.5).build());
+		notes.add(note().pc(7).pos(DurationConstants.QUARTER).len(DurationConstants.EIGHT).positionWeight(1.0).build());
+		notes.add(note().pc(0).pos(DurationConstants.THREE_EIGHTS).len(DurationConstants.EIGHT).positionWeight(0.5).build());
 		double value = melodicObjective.evaluateTriadicValueMelody(notes);
 		assertEquals(0.99, value, 0);
 	}
@@ -157,9 +158,9 @@ public class MelodicObjectiveTest extends AbstractTest {
 	@Test
 	public void testEvaluateMelody() {
 		List<Note> notes = new ArrayList<>();
-		notes.add(note().pitch(60).pc(0).pos(0).len(6).positionWeight(2.0).build());
-		notes.add(note().pitch(62).pc(2).pos(6).len(6).positionWeight(2.0).build());
-		notes.add(note().pitch(64).pc(4).pos(12).len(6).positionWeight(1.0).build());
+		notes.add(note().pitch(60).pc(0).pos(0).len(DurationConstants.EIGHT).positionWeight(2.0).build());
+		notes.add(note().pitch(62).pc(2).pos(6).len(DurationConstants.EIGHT).positionWeight(2.0).build());
+		notes.add(note().pitch(64).pc(4).pos(DurationConstants.QUARTER).len(DurationConstants.EIGHT).positionWeight(1.0).build());
 		double value = melodicObjective.evaluateMelody(notes, 1);
 		LOGGER.info("Melody value: " + value);
 		assertEquals(1.0, value, 0);
@@ -168,10 +169,10 @@ public class MelodicObjectiveTest extends AbstractTest {
 	@Test
 	public void testEvaluateMelodySamePitch() {
 		List<Note> notes = new ArrayList<>();
-		notes.add(note().pitch(60).pc(0).pos(0).len(6).positionWeight(2.0).build());
-		notes.add(note().pitch(60).pc(2).pos(6).len(6).positionWeight(1.0).build());
-		notes.add(note().pitch(64).pc(4).pos(12).len(6).positionWeight(1.0).build());
-		notes.add(note().pitch(64).pc(4).pos(18).len(6).positionWeight(1.0).build());
+		notes.add(note().pitch(60).pc(0).pos(0).len(DurationConstants.EIGHT).positionWeight(2.0).build());
+		notes.add(note().pitch(60).pc(2).pos(6).len(DurationConstants.EIGHT).positionWeight(1.0).build());
+		notes.add(note().pitch(64).pc(4).pos(DurationConstants.QUARTER).len(DurationConstants.EIGHT).positionWeight(1.0).build());
+		notes.add(note().pitch(64).pc(4).pos(DurationConstants.THREE_EIGHTS).len(DurationConstants.EIGHT).positionWeight(1.0).build());
 		double value = melodicObjective.evaluateMelody(notes, 1);
 		LOGGER.info("Melody value: " + value);
 		assertEquals(0.7, value, 0);

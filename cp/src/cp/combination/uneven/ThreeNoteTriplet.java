@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import cp.model.note.BeamType;
 import cp.model.note.Note;
 import cp.model.note.TupletType;
+import cp.model.rhythm.DurationConstants;
 
 @Component
 public class ThreeNoteTriplet {
@@ -17,15 +18,15 @@ public class ThreeNoteTriplet {
 	public List<Note> pos123(int beat) {
 		List<Note> notes;
 		switch (beat) {
-		case 12:
+		case DurationConstants.QUARTER:
 			notes =  posWithBeamTuplet(beat/3);
 			notes.forEach(n -> n.setTriplet(true));
 			return notes;
-		case 24:
+		case DurationConstants.HALF:
 			notes =  posTuplet(beat/3);
 			notes.forEach(n -> n.setTriplet(true));
 			return notes;
-		case 18:
+		case DurationConstants.THREE_EIGHTS:
 			notes =  posWithBeam(beat/3);
 			return notes;
 		default:

@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import cp.model.rhythm.DurationConstants;
+
 @Component(value="SuspensionVariationPattern")
 public class SuspensionVariationPattern extends VariationPattern{
 
@@ -13,13 +15,13 @@ public class SuspensionVariationPattern extends VariationPattern{
 		setPatterns(new double[][]{{0.5, 0.5}});
 		List<Integer> allowedLengths = new ArrayList<>();
 		allowedLengths.add(6);
-		allowedLengths.add(12);
-		allowedLengths.add(24);
+		allowedLengths.add(DurationConstants.QUARTER);
+		allowedLengths.add(DurationConstants.HALF);
 		setNoteLengths(allowedLengths);
 		List<Integer> allowedSecondLengths = new ArrayList<>();
 //		allowedSecondLengths.add(6);
-		allowedSecondLengths.add(12);
-		allowedSecondLengths.add(24);
+		allowedSecondLengths.add(DurationConstants.QUARTER);
+		allowedSecondLengths.add(DurationConstants.HALF);
 		setSecondNoteLengths(allowedSecondLengths);
 	}
 }

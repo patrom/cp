@@ -20,6 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import cp.DefaultConfig;
 import cp.model.dissonance.Dissonance;
 import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = DefaultConfig.class)
 public class HarmonyExtractorTest {
@@ -39,17 +40,17 @@ public class HarmonyExtractorTest {
 	public void testExtractHarmony() {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pitch(60).pc(0).voice(0).positionWeight(4.0).build());
-		notes.add(note().pos(12).pitch(60).pc(0).voice(0).positionWeight(1.0).build());
-		notes.add(note().pos(24).pitch(62).pc(2).voice(0).positionWeight(2.0).build());
-		notes.add(note().pos(36).pitch(61).pc(1).voice(0).positionWeight(4.0).build());
-		notes.add(note().pos(48).pitch(59).pc(11).voice(0).positionWeight(3.0).build());
-		notes.add(note().pos(60).pitch(60).pc(0).voice(0).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pitch(60).pc(0).voice(0).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.HALF).pitch(62).pc(2).voice(0).positionWeight(2.0).build());
+		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pitch(61).pc(1).voice(0).positionWeight(4.0).build());
+		notes.add(note().pos(DurationConstants.WHOLE).pitch(59).pc(11).voice(0).positionWeight(3.0).build());
+		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pitch(60).pc(0).voice(0).positionWeight(1.0).build());
 		
 		notes.add(note().pos(0).pitch(64).pc(4).voice(1).positionWeight(3.0).build());
-		notes.add(note().pos(18).pitch(58).pc(10).voice(1).positionWeight(1.0).build());
-		notes.add(note().pos(36).pitch(61).pc(1).voice(1).positionWeight(2.0).build());
-		notes.add(note().pos(48).pitch(59).pc(11).voice(1).positionWeight(3.0).build());
-		notes.add(note().pos(96).pitch(62).pc(2).voice(1).positionWeight(6.0).build());
+		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pitch(58).pc(10).voice(1).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pitch(61).pc(1).voice(1).positionWeight(2.0).build());
+		notes.add(note().pos(DurationConstants.WHOLE).pitch(59).pc(11).voice(1).positionWeight(3.0).build());
+		notes.add(note().pos(DurationConstants.WHOLE * 2).pitch(62).pc(2).voice(1).positionWeight(6.0).build());
 		List<CpHarmony> harmonies = harmonyExtractor.extractHarmony(notes, 2);
 		assertEquals(8, harmonies.size());
 		assertEquals(2, harmonies.get(1).getNotes().size());
@@ -65,37 +66,37 @@ public class HarmonyExtractorTest {
 	public void testMapNotesForPosition() {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pitch(60).positionWeight(4.0).build());
-		notes.add(note().pos(12).pitch(60).positionWeight(1.0).build());
-		notes.add(note().pos(24).pitch(62).positionWeight(2.0).build());
-		notes.add(note().pos(36).pitch(61).positionWeight(4.0).build());
-		notes.add(note().pos(48).pitch(59).positionWeight(3.0).build());
-		notes.add(note().pos(60).pitch(60).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pitch(60).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.HALF).pitch(62).positionWeight(2.0).build());
+		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pitch(61).positionWeight(4.0).build());
+		notes.add(note().pos(DurationConstants.WHOLE).pitch(59).positionWeight(3.0).build());
+		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pitch(60).positionWeight(1.0).build());
 		
 		notes.add(note().pos(0).pitch(64).positionWeight(3.0).build());
-		notes.add(note().pos(18).pitch(58).positionWeight(1.0).build());
-		notes.add(note().pos(36).pitch(61).positionWeight(2.0).build());
-		notes.add(note().pos(48).pitch(59).positionWeight(3.0).build());
-		notes.add(note().pos(96).pitch(62).positionWeight(6.0).build());
+		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pitch(58).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pitch(61).positionWeight(2.0).build());
+		notes.add(note().pos(DurationConstants.WHOLE).pitch(59).positionWeight(3.0).build());
+		notes.add(note().pos(DurationConstants.WHOLE * 2).pitch(62).positionWeight(6.0).build());
 		Map<Integer, List<Note>> map = harmonyExtractor.mapNotesForPosition(notes);
 		assertEquals(2, map.get(0).size());
-		assertEquals(1, map.get(12).size());
-		assertEquals(2, map.get(36).size());
+		assertEquals(1, map.get(DurationConstants.QUARTER).size());
+		assertEquals(2, map.get(DurationConstants.SIX_EIGHTS).size());
 	}
 	
 	@Test
 	public void testExtractHarmonyDifferentStart() {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(6).pitch(60).pc(0).voice(0).positionWeight(1.0).build());
-		notes.add(note().pos(24).pitch(62).pc(2).voice(0).positionWeight(2.0).build());
-		notes.add(note().pos(36).pitch(61).pc(1).voice(0).positionWeight(4.0).build());
-		notes.add(note().pos(48).pitch(59).pc(11).voice(0).positionWeight(3.0).build());
-		notes.add(note().pos(60).pitch(60).pc(0).voice(0).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.HALF).pitch(62).pc(2).voice(0).positionWeight(2.0).build());
+		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pitch(61).pc(1).voice(0).positionWeight(4.0).build());
+		notes.add(note().pos(DurationConstants.WHOLE).pitch(59).pc(11).voice(0).positionWeight(3.0).build());
+		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pitch(60).pc(0).voice(0).positionWeight(1.0).build());
 		
 		notes.add(note().pos(0).pitch(64).pc(4).voice(1).positionWeight(3.0).build());
-		notes.add(note().pos(18).pitch(58).pc(10).voice(1).positionWeight(1.0).build());
-		notes.add(note().pos(36).pitch(61).pc(1).voice(1).positionWeight(2.0).build());
-		notes.add(note().pos(48).pitch(59).pc(11).voice(1).positionWeight(3.0).build());
-		notes.add(note().pos(96).pitch(62).pc(2).voice(1).positionWeight(6.0).build());
+		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pitch(58).pc(10).voice(1).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pitch(61).pc(1).voice(1).positionWeight(2.0).build());
+		notes.add(note().pos(DurationConstants.WHOLE).pitch(59).pc(11).voice(1).positionWeight(3.0).build());
+		notes.add(note().pos(DurationConstants.WHOLE * 2).pitch(62).pc(2).voice(1).positionWeight(6.0).build());
 		List<CpHarmony> harmonies = harmonyExtractor.extractHarmony(notes, 2);
 		assertEquals(7, harmonies.size());
 		assertEquals(60, harmonies.get(0).getNotes().get(0).getPitch());
@@ -113,15 +114,15 @@ public class HarmonyExtractorTest {
 	public void testExtractRest() {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pitch(60).pc(0).voice(0).positionWeight(4.0).build());
-		notes.add(note().pos(12).pitch(61).pc(1).voice(0).positionWeight(1.0).build());
-		notes.add(note().pos(18).pitch(62).pc(2).voice(0).positionWeight(2.0).build());
-		notes.add(note().pos(36).pitch(61).pc(1).voice(0).positionWeight(4.0).build());
-		notes.add(note().pos(48).pitch(59).pc(11).voice(0).positionWeight(3.0).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pitch(61).pc(1).voice(0).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pitch(62).pc(2).voice(0).positionWeight(2.0).build());
+		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pitch(61).pc(1).voice(0).positionWeight(4.0).build());
+		notes.add(note().pos(DurationConstants.WHOLE).pitch(59).pc(11).voice(0).positionWeight(3.0).build());
 		
 		notes.add(note().pos(6).pitch(64).pc(4).voice(1).positionWeight(3.0).build());
-		notes.add(note().pos(12).pitch(58).pc(10).voice(1).positionWeight(1.0).build());
-		notes.add(note().pos(24).pitch(61).pc(1).voice(1).positionWeight(2.0).build());
-		notes.add(note().pos(48).pitch(59).pc(11).voice(1).positionWeight(3.0).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pitch(58).pc(10).voice(1).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.HALF).pitch(61).pc(1).voice(1).positionWeight(2.0).build());
+		notes.add(note().pos(DurationConstants.WHOLE).pitch(59).pc(11).voice(1).positionWeight(3.0).build());
 		List<CpHarmony> harmonies = harmonyExtractor.extractHarmony(notes, 2);
 		assertEquals(6, harmonies.size());
 		assertEquals(60, harmonies.get(0).getNotes().get(0).getPitch());

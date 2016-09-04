@@ -23,6 +23,7 @@ import cp.model.dissonance.IntervalAndTriads;
 import cp.model.dissonance.IntervalDissonance;
 import cp.model.dissonance.SetClassDissonance;
 import cp.model.note.Scale;
+import cp.model.rhythm.DurationConstants;
 import cp.nsga.operator.mutation.melody.ReplaceMelody;
 import cp.objective.Objective;
 import cp.objective.harmony.DissonantResolution;
@@ -118,7 +119,7 @@ public abstract class Composition {
 	private Ensemble ensemble;
 	
 	protected int start = 0;
-	protected int end = 196;
+	protected int end = 4 * DurationConstants.WHOLE;
 	
 	private TimeConfig timeConfig;
 	
@@ -179,21 +180,21 @@ public abstract class Composition {
 //		timeLine.addKeysForVoice(minor, 1);
 		
 		List<TimeLineKey> webern1 = new ArrayList<>();
-		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, start, 48));
-		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_2, 48, 90));
-		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_3, 90, end));
+		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, start, DurationConstants.WHOLE));
+		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_2, DurationConstants.WHOLE, 2 * DurationConstants.WHOLE));
+		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_3, 2 * DurationConstants.WHOLE, end));
 		timeLine.addKeysForVoice(webern1, 0);
 		
 		List<TimeLineKey> webern2 = new ArrayList<>();
-		webern2.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_2, start, 48));
-		webern2.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_3, 48, 90));
-		webern2.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, 90, end));
+		webern2.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_2, start, DurationConstants.WHOLE));
+		webern2.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_3, DurationConstants.WHOLE, 2 * DurationConstants.WHOLE));
+		webern2.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, 2 * DurationConstants.WHOLE, end));
 		timeLine.addKeysForVoice(webern2, 1);
 		
 		List<TimeLineKey> webern3 = new ArrayList<>();
-		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_3, start, 48));
-		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, 48, 90));
-		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_2, 90, end));
+		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_3, start, DurationConstants.WHOLE));
+		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, DurationConstants.WHOLE, 2 * DurationConstants.WHOLE));
+		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_2, 2 * DurationConstants.WHOLE, end));
 		timeLine.addKeysForVoice(webern3, 2);
 		
 		melodyGenerator.setCompostion(this);

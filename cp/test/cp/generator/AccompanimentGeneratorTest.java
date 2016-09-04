@@ -16,6 +16,7 @@ import cp.DefaultConfig;
 import cp.VariationConfig;
 import cp.midi.MelodyInstrument;
 import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.keyboard.Piano;
 
@@ -59,7 +60,7 @@ public class AccompanimentGeneratorTest extends AbstractTest{
 		chordNotes.add(note().pc(4).pitch(76).ocatve(6).build());
 		chordNotes.add(note().pc(7).pitch(97).ocatve(6).build());
 		chordNotes.add(note().pc(0).pitch(72).ocatve(6).build());
-		accompanimentNotes = accompanimentGenerator.fourFourTexture(chordNotes, 12, piano, 1);
+		accompanimentNotes = accompanimentGenerator.fourFourTexture(chordNotes, DurationConstants.QUARTER, piano, 1);
 		accompanimentNotes.forEach(n -> System.out.print(n.getPitch() + ":" + n.getPosition() + ", "));
 		melodyInstrument = new MelodyInstrument(accompanimentNotes, piano.getVoice());
 		melodyInstrument.setInstrument(piano);

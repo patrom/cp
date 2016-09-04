@@ -40,6 +40,7 @@ import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.note.NoteBuilder;
 import cp.model.note.Scale;
+import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.MidiDevice;
 import cp.out.instrument.strings.ViolinSolo;
@@ -90,23 +91,23 @@ public class MelodyGeneratorTest extends JFrame{
 
 	@Test
 	public void testGenerateMelody() {
-		int[] harmony = {0, 48};
+		int[] harmony = {0, DurationConstants.WHOLE};
 		int max = 4;
-		int[] positions = melodyGenerator.generateMelodyPositions(harmony, 12, max);
+		int[] positions = melodyGenerator.generateMelodyPositions(harmony, DurationConstants.QUARTER, max);
 		System.out.println(Arrays.toString(positions));
 	}
 	
 	@Test
 	public void testGenerateMelodyNotes() throws InvalidMidiDataException, InterruptedException {
 		List<Note> notes = new ArrayList<>();
-		notes.add(NoteBuilder.note().len(12).pc(4).pitch(64).ocatve(4).pos(0).art(Articulation.LEGATO).build());
-		notes.add(NoteBuilder.note().len(24).pc(2).pitch(62).ocatve(4).pos(12).art(Articulation.STACCATO).build());
-		notes.add(NoteBuilder.note().len(24).pc(4).pitch(64).ocatve(4).pos(36).art(Articulation.STACCATO).build());
-		notes.add(NoteBuilder.note().len(6).pc(5).pitch(65).ocatve(4).pos(60).art(Articulation.LEGATO).build());
-		notes.add(NoteBuilder.note().len(6).pc(7).pitch(67).ocatve(4).pos(66).art(Articulation.STACCATO).build());
-		notes.add(NoteBuilder.note().len(12).pc(9).pitch(69).ocatve(4).pos(72).art(Articulation.LEGATO).build());
-		notes.add(NoteBuilder.note().len(24).pc(11).pitch(71).ocatve(4).pos(84).art(Articulation.LEGATO).build());
-		notes.add(NoteBuilder.note().len(24).pc(0).pitch(60).ocatve(4).pos(108).art(Articulation.STACCATO).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(4).pitch(64).ocatve(4).pos(0).art(Articulation.LEGATO).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.HALF).pc(2).pitch(62).ocatve(4).pos(DurationConstants.QUARTER).art(Articulation.STACCATO).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.HALF).pc(4).pitch(64).ocatve(4).pos(DurationConstants.HALF + DurationConstants.QUARTER).art(Articulation.STACCATO).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.EIGHT).pc(5).pitch(65).ocatve(4).pos(DurationConstants.WHOLE + DurationConstants.QUARTER).art(Articulation.LEGATO).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.EIGHT).pc(7).pitch(67).ocatve(4).pos(DurationConstants.WHOLE + DurationConstants.THREE_EIGHTS).art(Articulation.STACCATO).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(9).pitch(69).ocatve(4).pos(DurationConstants.WHOLE + DurationConstants.HALF).art(Articulation.LEGATO).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.HALF).pc(11).pitch(71).ocatve(4).pos(DurationConstants.WHOLE + DurationConstants.SIX_EIGHTS).art(Articulation.LEGATO).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.HALF).pc(0).pitch(60).ocatve(4).pos(2 * DurationConstants.WHOLE + DurationConstants.QUARTER).art(Articulation.STACCATO).build());
 //		notes.forEach(note -> note.setArticulation(Articulation.STACCATO));
 		Score score = scoreUtilities.createMelody(notes);
 		View.notate(score);
@@ -117,9 +118,9 @@ public class MelodyGeneratorTest extends JFrame{
 	
 	@Test
 	public void testGenerate() {
-		int[] harmony = {0, 48};
+		int[] harmony = {0, DurationConstants.WHOLE};
 		int max = 8;
-		int[] positions = melodyGenerator.generateMelodyPositions(harmony, 6, max);
+		int[] positions = melodyGenerator.generateMelodyPositions(harmony, DurationConstants.EIGHT, max);
 		List<Note> melodyNotes = melodyGenerator.generateMelodyNotes(positions, Scale.MAJOR_SCALE.getPitchClasses());
 		melodyNotes.forEach(note -> note.setPitch(note.getPitchClass() + 60));
 		System.out.println(melodyNotes);
@@ -136,10 +137,10 @@ public class MelodyGeneratorTest extends JFrame{
 		List<Note> notes = new ArrayList<>();
 		notes.add(NoteBuilder.note().pos(0).build());
 		when(compostion.getStart()).thenReturn(0);
-		when(compostion.getEnd()).thenReturn(48);
+		when(compostion.getEnd()).thenReturn(DurationConstants.WHOLE);
 		when(compostion.getTimeConfig()).thenReturn(time44);
 		List<BeatGroup> beatGroups = new ArrayList<>();
-		beatGroups.add(new BeatGroupTwo(12, fixedEven));
+		beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER, fixedEven));
 		when(beatGroupStrategy.getBeatGroups()).thenReturn(beatGroups);
 		when(pitchClassGenerator.updatePitchClasses(notes)).thenReturn(notes);
 		List<Integer> beats = new ArrayList<>();

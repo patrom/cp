@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import cp.model.note.BeamType;
 import cp.model.note.Note;
 import cp.model.note.TupletType;
+import cp.model.rhythm.DurationConstants;
 
 @Component
 public class ThreeNoteSexTuplet {
@@ -28,7 +29,7 @@ public class ThreeNoteSexTuplet {
 //			notes =  pos(beat/3);
 //			notes.forEach(n -> n.setTriplet(true));
 //			return notes;
-		case 18:
+		case DurationConstants.THREE_EIGHTS:
 			notes =  posWithBeam(length3, noteLength, length2);
 			return notes;
 		default:
@@ -51,7 +52,7 @@ public class ThreeNoteSexTuplet {
 //			notes =  pos(beat/3);
 //			notes.forEach(n -> n.setTriplet(true));
 //			return notes;
-		case 18:
+		case DurationConstants.THREE_EIGHTS:
 			notes =  posWithBeam(length2, length3, noteLength);
 			return notes;
 		default:
@@ -73,7 +74,7 @@ public class ThreeNoteSexTuplet {
 //			notes =  pos(beat/3);
 //			notes.forEach(n -> n.setTriplet(true));
 //			return notes;
-		case 18:
+		case DurationConstants.THREE_EIGHTS:
 			notes =  posWithBeam(length4, noteLength, noteLength);
 			return notes;
 		default:
@@ -100,19 +101,19 @@ public class ThreeNoteSexTuplet {
 	
 	public static void main(String[] args) {
 		ThreeNoteSexTuplet threeNoteSexTuplet = new ThreeNoteSexTuplet();
-		List<Note > notes = threeNoteSexTuplet.pos145(18);
+		List<Note > notes = threeNoteSexTuplet.pos145(DurationConstants.THREE_EIGHTS);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 		
-//		notes = threeNoteSexTuplet.pos145(36);
+//		notes = threeNoteSexTuplet.pos145(DurationConstants.SIX_EIGHTS);
 //		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 //		
-//		notes = threeNoteSexTuplet.pos136(18);
+//		notes = threeNoteSexTuplet.pos136(DurationConstants.THREE_EIGHTS);
 //		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 //		
-//		notes = threeNoteSexTuplet.pos136(36);
+//		notes = threeNoteSexTuplet.pos136(DurationConstants.SIX_EIGHTS);
 //		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 		
-		notes = threeNoteSexTuplet.pos156(36);
+		notes = threeNoteSexTuplet.pos156(DurationConstants.SIX_EIGHTS);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 	}
 }

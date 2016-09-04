@@ -20,6 +20,7 @@ import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.BeamType;
 import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.strings.CelloSolo;
 
@@ -51,10 +52,10 @@ public class MusicXMLWriterTest {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().len(15).pc(4).pitch(64).ocatve(4).pos(0).build());
 		notes.add(note().len(3).pc(2).pitch(62).ocatve(5).pos(15).build());
-		notes.add(note().len(12).pc(11).pitch(59).ocatve(4).pos(18).build());
-		notes.add(note().len(24).pc(7).pitch(55).ocatve(4).pos(30).build());
+		notes.add(note().len(DurationConstants.QUARTER).pc(11).pitch(59).ocatve(4).pos(DurationConstants.THREE_EIGHTS).build());
+		notes.add(note().len(DurationConstants.HALF).pc(7).pitch(55).ocatve(4).pos(30).build());
 		
-		notes.add(note().len(6).pc(2).pitch(62).ocatve(5).pos(54).build());
+		notes.add(note().len(DurationConstants.EIGHT).pc(2).pitch(62).ocatve(5).pos(54).build());
 		
 		addToMelodyBlock(instrument, notes);
 		musicXMLWriter.generateMusicXMLForMelodies(melodyBlocks, "test");
@@ -63,12 +64,12 @@ public class MusicXMLWriterTest {
 	@Test
 	public void testGenerateMusicXMLTriplet() throws Exception {
 		List<Note> notes = new ArrayList<>();
-		notes.add(note().len(6).pc(4).pitch(64).ocatve(4).pos(0).build());
+		notes.add(note().len(DurationConstants.EIGHT).pc(4).pitch(64).ocatve(4).pos(0).build());
 		notes.add(note().len(2).pc(2).pitch(62).ocatve(5).pos(6).build());
 		notes.add(note().len(2).pc(11).pitch(59).ocatve(4).pos(8).build());
 		notes.add(note().len(2).pc(7).pitch(55).ocatve(4).pos(10).build());
 		
-		notes.add(note().len(12).pc(2).pitch(62).ocatve(5).pos(12).build());
+		notes.add(note().len(DurationConstants.QUARTER).pc(2).pitch(62).ocatve(5).pos(DurationConstants.QUARTER).build());
 		
 		addToMelodyBlock(instrument, notes);
 		musicXMLWriter.generateMusicXMLForMelodies(melodyBlocks, "testTriplet");
@@ -78,12 +79,12 @@ public class MusicXMLWriterTest {
 	public void testGenerateMusicXMLTriplet2() throws Exception {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().len(2).pc(4).pitch(64).ocatve(4).pos(0).build());
-		notes.add(note().len(6).pc(2).pitch(62).ocatve(5).pos(2).build());
+		notes.add(note().len(DurationConstants.EIGHT).pc(2).pitch(62).ocatve(5).pos(2).build());
 //		notes.add(note().len(2).pc(2).pitch(62).ocatve(5).pos(6).build());
 		notes.add(note().len(2).pc(11).pitch(59).ocatve(4).pos(8).build());
 		notes.add(note().len(2).pc(7).pitch(55).ocatve(4).pos(10).build());
 		
-		notes.add(note().len(12).pc(2).pitch(62).ocatve(5).pos(12).build());
+		notes.add(note().len(DurationConstants.QUARTER).pc(2).pitch(62).ocatve(5).pos(DurationConstants.QUARTER).build());
 		
 		addToMelodyBlock(instrument, notes);
 		musicXMLWriter.generateMusicXMLForMelodies(melodyBlocks, "testTriplet");
@@ -107,17 +108,17 @@ public class MusicXMLWriterTest {
 //		notes.add(note().len(4).pc(7).pitch(55).ocatve(4).pos(8).beam(BeamType.END).build());
 //		notes.forEach(n -> n.setTriplet(true));
 //		
-//		notes.add(note().len(12).rest().pos(12).build());
-//		notes.add(note().len(24).rest().pos(24).build());
+//		notes.add(note().len(DurationConstants.QUARTER).rest().pos(DurationConstants.QUARTER).build());
+//		notes.add(note().len(DurationConstants.HALF).rest().pos(DurationConstants.HALF).build());
 		
 		
 		notes.add(note().len(8).pc(4).pitch(64).ocatve(4).pos(0).beam(BeamType.BEGIN).build());
 		notes.add(note().len(8).pc(2).pitch(62).ocatve(5).pos(8).beam(BeamType.CONTINUE).build());
 		notes.add(note().len(8).pc(11).pitch(59).ocatve(4).pos(16).beam(BeamType.END).build());
-		notes.add(note().len(4).pc(7).pitch(55).ocatve(4).pos(24).beam(BeamType.BEGIN).build());
+		notes.add(note().len(4).pc(7).pitch(55).ocatve(4).pos(DurationConstants.HALF).beam(BeamType.BEGIN).build());
 		notes.add(note().len(4).pc(7).pitch(55).ocatve(4).pos(28).beam(BeamType.CONTINUE).build());
 		notes.add(note().len(4).pc(7).pitch(55).ocatve(4).pos(32).beam(BeamType.END).build());
-		notes.add(note().len(4).rest().pos(36).beam(BeamType.BEGIN).build());
+		notes.add(note().len(4).rest().pos(DurationConstants.SIX_EIGHTS).beam(BeamType.BEGIN).build());
 		notes.add(note().len(4).pc(7).pitch(55).ocatve(4).pos(40).beam(BeamType.CONTINUE).build());
 		notes.add(note().len(4).pc(7).pitch(55).ocatve(4).pos(44).beam(BeamType.END).build());
 		notes.forEach(n -> n.setTriplet(true));
@@ -128,7 +129,7 @@ public class MusicXMLWriterTest {
 //	@Test
 //	public void testUpdateTripletNotes(){
 //		List<Note> notes = new ArrayList<>();
-////		notes.add(NoteBuilder.note().len(12).pc(4).pitch(64).ocatve(4).pos(0).build());
+////		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(4).pitch(64).ocatve(4).pos(0).build());
 //		notes.add(NoteBuilder.note().len(2).pc(2).pitch(62).ocatve(5).pos(0).build());
 ////		notes.add(NoteBuilder.note().len(2).pc(11).pitch(59).ocatve(4).pos(2).build());
 //		notes.add(NoteBuilder.note().len(2).pc(7).pitch(55).ocatve(4).pos(4).build());
@@ -136,7 +137,7 @@ public class MusicXMLWriterTest {
 //		notes.add(NoteBuilder.note().len(2).pc(2).pitch(62).ocatve(5).pos(6).build());
 //		notes.add(NoteBuilder.note().len(2).pc(11).pitch(59).ocatve(4).pos(8).build());
 //		notes.add(NoteBuilder.note().len(2).pc(7).pitch(55).ocatve(4).pos(10).build());
-//		notes.add(NoteBuilder.note().len(24).pc(4).pitch(64).ocatve(4).pos(12).build());
+//		notes.add(NoteBuilder.note().len(DurationConstants.HALF).pc(4).pitch(64).ocatve(4).pos(DurationConstants.QUARTER).build());
 //		musicXMLWriter.updateTripletNotes(notes);
 //		assertTrue(notes.get(0).isSextuplet());
 //		assertFalse(notes.get(5).isSextuplet());

@@ -89,8 +89,10 @@ public class MidiConverter {
 					position = iterator.next();
 				}
 			}
-			Note lastNote = notes.get(melodyLength);
-			addNoteToChordMap(chords, lastNote, voice);
+			if (melodyLength > 0) {
+				Note lastNote = notes.get(melodyLength);
+				addNoteToChordMap(chords, lastNote, voice);
+			}
 			voice++;
 		}
 		return chords;

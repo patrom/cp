@@ -26,6 +26,7 @@ import cp.generator.MusicProperties;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
 import cp.out.print.ScoreUtilities;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = DefaultConfig.class)
@@ -54,17 +55,17 @@ public class RhythmObjectiveTest extends JFrame {
 	public void testGetProfile() {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pitch(60).positionWeight(4.0).build());
-		notes.add(note().pos(12).pitch(60).positionWeight(1.0).build());
-		notes.add(note().pos(24).pitch(62).positionWeight(4.0).build());
-		notes.add(note().pos(36).pitch(61).positionWeight(2.0).build());
-		notes.add(note().pos(48).pitch(59).positionWeight(3.0).build());
-		notes.add(note().pos(60).pitch(60).positionWeight(1.0).build());
-		notes.add(note().pos(96).pitch(62).positionWeight(4.0).build());
-		CpMelody melody = new CpMelody(notes, 0, 0, 96);
+		notes.add(note().pos(DurationConstants.QUARTER).pitch(60).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.HALF).pitch(62).positionWeight(4.0).build());
+		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pitch(61).positionWeight(2.0).build());
+		notes.add(note().pos(DurationConstants.WHOLE).pitch(59).positionWeight(3.0).build());
+		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pitch(60).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.WHOLE * 2).pitch(62).positionWeight(4.0).build());
+		CpMelody melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE * 2);
 		MelodyBlock melodyBlock = new MelodyBlock(5, 0);
 		melodyBlock.addMelodyBlock(melody);
 		melodyBlock.setTimeConfig(time44);
-		double profileAverage = rhythmObjective.getProfileAverage(melodyBlock, 3.0, 12);
+		double profileAverage = rhythmObjective.getProfileAverage(melodyBlock, 3.0, DurationConstants.QUARTER);
 		assertEquals(0.75 , profileAverage, 0);
 	}
 

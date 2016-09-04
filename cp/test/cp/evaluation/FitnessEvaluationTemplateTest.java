@@ -7,12 +7,6 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
-import jm.music.data.Part;
-import jm.music.data.Phrase;
-import jm.music.data.Score;
-import jm.util.Play;
-import jm.util.View;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,8 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.SpringApplicationContextLoader;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cp.DefaultConfig;
@@ -34,8 +26,7 @@ import cp.model.Motive;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
-import cp.model.note.Scale;
-import cp.out.instrument.Ensemble;
+import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.strings.ViolinSolo;
 import cp.out.print.ScoreUtilities;
 
@@ -68,12 +59,12 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 	public void testEvaluate() {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).pitch(60).build());
-		notes.add(note().pos(12).pc(0).pitch(60).build());
-		notes.add(note().pos(24).pc(2).pitch(62).build());
-		notes.add(note().pos(36).pc(4).pitch(64).build());
-		notes.add(note().pos(48).pc(5).pitch(65).build());
-		notes.add(note().pos(60).pc(2).pitch(62).build());
-		notes.add(note().pos(96).pc(7).pitch(67).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(0).pitch(60).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(2).pitch(62).build());
+		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pc(4).pitch(64).build());
+		notes.add(note().pos(DurationConstants.WHOLE).pc(5).pitch(65).build());
+		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pc(2).pitch(62).build());
+		notes.add(note().pos(DurationConstants.WHOLE * 2).pc(7).pitch(67).build());
 		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
@@ -102,8 +93,8 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 	public void testPassingNote() {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).pitch(60).build());
-		notes.add(note().pos(12).pc(2).pitch(62).build());
-		notes.add(note().pos(24).pc(4).pitch(64).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(2).pitch(62).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(4).pitch(64).build());
 		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
@@ -112,7 +103,7 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		
 		notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(4).pitch(52).build());
-		notes.add(note().pos(24).pc(0).pitch(48).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(0).pitch(48).build());
 		melody = new CpMelody(notes, 0, 0 , 60);
 		melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
@@ -126,8 +117,8 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 	public void testPassingNoteOnBeat() {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(2).pitch(62).build());
-		notes.add(note().pos(12).pc(0).pitch(60).build());
-		notes.add(note().pos(24).pc(4).pitch(64).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(0).pitch(60).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(4).pitch(64).build());
 		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
@@ -136,7 +127,7 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		
 		notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(4).pitch(52).build());
-		notes.add(note().pos(24).pc(0).pitch(48).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(0).pitch(48).build());
 		melody = new CpMelody(notes, 0, 0 , 60);
 		melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
@@ -150,8 +141,8 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 	public void testNeigborNote() {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(4).build());
-		notes.add(note().pos(12).pc(5).build());
-		notes.add(note().pos(24).pc(4).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(5).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(4).build());
 		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
@@ -160,7 +151,7 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		
 		notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).build());
-		notes.add(note().pos(24).pc(0).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(0).build());
 		melody = new CpMelody(notes, 0, 0 , 60);
 		melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
@@ -174,9 +165,9 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 	public void testSuspension() {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).pitch(72).build());
-		notes.add(note().pos(24).pc(0).pitch(72).build());
-		notes.add(note().pos(36).pc(11).pitch(71).build());
-		notes.add(note().pos(48).pc(0).pitch(72).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(0).pitch(72).build());
+		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pc(11).pitch(71).build());
+		notes.add(note().pos(DurationConstants.WHOLE).pc(0).pitch(72).build());
 		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
@@ -185,8 +176,8 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		
 		notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(5).pitch(65).build());
-		notes.add(note().pos(24).pc(7).pitch(67).build());
-		notes.add(note().pos(48).pc(4).pitch(64).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(7).pitch(67).build());
+		notes.add(note().pos(DurationConstants.WHOLE).pc(4).pitch(64).build());
 		melody = new CpMelody(notes, 0, 0 , 60);
 		melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
@@ -200,8 +191,8 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 	public void testAppoggiatura() {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(2).pitch(62).build());
-		notes.add(note().pos(12).pc(9).pitch(69).build());
-		notes.add(note().pos(24).pc(7).pitch(67).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(9).pitch(69).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(7).pitch(67).build());
 		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
@@ -210,7 +201,7 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		
 		notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(11).pitch(59).build());
-		notes.add(note().pos(24).pc(4).pitch(64).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(4).pitch(64).build());
 		melody = new CpMelody(notes, 0, 0 , 60);
 		melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
@@ -225,13 +216,13 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(11).pitch(71).build());
 		notes.add(note().pos(6).pc(9).pitch(69).build());
-		notes.add(note().pos(12).pc(7).pitch(67).build());
-//		notes.add(note().pos(18).pc(0).pitch(60).build());
-		notes.add(note().pos(24).pc(5).pitch(65).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(7).pitch(67).build());
+//		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(0).pitch(60).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(5).pitch(65).build());
 //		notes.add(note().pos(30).pc(4).pitch(64).build());
-//		notes.add(note().pos(36).pc(4).pitch(64).build());
+//		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pc(4).pitch(64).build());
 //		notes.add(note().pos(42).pc(0).pitch(60).build());
-//		notes.add(note().pos(48).pc(5).pitch(65).len(6).build());
+//		notes.add(note().pos(DurationConstants.WHOLE).pc(5).pitch(65).len(DurationConstants.EIGHT).build());
 
 		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5,1);
@@ -242,12 +233,12 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).pitch(48).build());
 		notes.add(note().pos(6).pc(2).pitch(50).build());
-		notes.add(note().pos(12).pc(4).pitch(52).build());
-		notes.add(note().pos(24).pc(5).pitch(53).build());
-//		notes.add(note().pos(36).pc(7).pitch(55).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(52).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(5).pitch(53).build());
+//		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pc(7).pitch(55).build());
 //		notes.add(note().pos(42).pc(11).pitch(59).build());
-//		notes.add(note().pos(48).pc(9).pitch(57).len(6).build());
-//		notes.add(note().pos(60).pc(0).pitch(48).build());
+//		notes.add(note().pos(DurationConstants.WHOLE).pc(9).pitch(57).len(DurationConstants.EIGHT).build());
+//		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pc(0).pitch(48).build());
 		melody = new CpMelody(notes, 0, 0 , 60);
 		melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
@@ -262,13 +253,13 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(11).pitch(71).build());
 		notes.add(note().pos(6).pc(0).pitch(72).build());
-		notes.add(note().pos(12).pc(7).pitch(67).build());
-		notes.add(note().pos(18).pc(9).pitch(69).build());
-		notes.add(note().pos(24).pc(4).pitch(64).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(7).pitch(67).build());
+		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(9).pitch(69).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(4).pitch(64).build());
 		notes.add(note().pos(30).pc(4).pitch(64).build());
-		notes.add(note().pos(36).pc(4).pitch(64).build());
+		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pc(4).pitch(64).build());
 		notes.add(note().pos(42).pc(2).pitch(62).build());
-		notes.add(note().pos(48).pc(5).pitch(65).build());
+		notes.add(note().pos(DurationConstants.WHOLE).pc(5).pitch(65).build());
 		musicProperties.setMinimumLength(6);
 		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5,1);

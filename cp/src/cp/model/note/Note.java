@@ -1,5 +1,6 @@
 package cp.model.note;
 
+import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Articulation;
 
 
@@ -11,7 +12,7 @@ public class Note implements Comparable<Note>, Cloneable{
     public static final int DEFAULT_DYNAMIC_LEVEL = Dynamic.MF.getLevel();
     public static final Articulation DEFAULT_ARTICULATION = Articulation.LEGATO;
     public static final Dynamic DEFAULT_DYNAMIC = Dynamic.MF;
-    public static final int DEFAULT_LENGTH = 12;
+    public static final int DEFAULT_LENGTH = DurationConstants.QUARTER;
 
 	private int pitch;
 	private int dynamicLevel = DEFAULT_DYNAMIC_LEVEL;

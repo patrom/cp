@@ -20,6 +20,7 @@ import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.note.Scale;
+import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Instrument;
 import cp.util.RandomUtil;
 
@@ -155,7 +156,7 @@ public class MelodyGenerator {
 		//add last note
 		int pc = RandomUtil.getRandomFromIntArray(scale);
 		Note note = note().pc(pc).build();
-		note.setLength(12);
+		note.setLength(DurationConstants.QUARTER);
 		note.setPosition(positions[positions.length - 1]);
 		melodyNotes.add(note);
 		return melodyNotes;

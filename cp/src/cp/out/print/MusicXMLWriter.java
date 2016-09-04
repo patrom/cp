@@ -29,6 +29,7 @@ import cp.midi.MelodyInstrument;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.note.TupletType;
+import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.keyboard.Piano;
 import cp.out.print.note.Key;
@@ -369,7 +370,7 @@ public class MusicXMLWriter {
 		return measures;
 	}
 
-	private void createNoteElement(Note note, Instrument instrument, boolean isChordNote, int voice, int staff) throws XMLStreamException {
+	private void createNoteElement(Note note, Instrument instrument, boolean isChordNote, int voice) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("note");
 		xmlStreamWriter.writeCharacters("\n");
 		if (isChordNote) {
@@ -396,7 +397,7 @@ public class MusicXMLWriter {
 		if (note.isTriplet() || note.isSextuplet() || note.isQuintuplet()) {
 			createTimeModification(note);
 		}
-		createElementWithValue("staff", String.valueOf(staff));
+		createElementWithValue("staff", String.valueOf(getStaff(instrument, note)));
 		if (note.hasBeamType()) {
 			if (note.hasDoubleBeaming()) {
 				createElementBeamType(note.getBeamType().getLabel(), "1");
@@ -405,7 +406,7 @@ public class MusicXMLWriter {
 				createElementBeamType(note.getBeamType().getLabel(), "1");
 			}
 		}
-		if (note.hasArticulation()|| note.isTieStart() || note.isTieEnd() || note.isTriplet() || note.isSextuplet()) {
+		if (note.hasArticulation()|| note.isTieStart() || note.isTieEnd() || note.isTriplet() || note.isSextuplet() || note.isQuintuplet()) {
 			createNotationsElement(note);
 		}
 		xmlStreamWriter.writeEndElement();
@@ -466,9 +467,16 @@ public class MusicXMLWriter {
 			createElementWithValue("normal-notes", "2");
 			createElementWithValue("normal-type", "eighth");
 		} else if(note.isQuintuplet()){
-			createElementWithValue("actual-notes", "5");
-			createElementWithValue("normal-notes", "4");
-			createElementWithValue("normal-type", "16th");
+			if (note.getDisplayLength() == DurationConstants.SIXTEENTH_QUINTUPLET) {
+				createElementWithValue("actual-notes", "5");
+				createElementWithValue("normal-notes", "4");
+				createElementWithValue("normal-type", "16th");
+			} else {
+				createElementWithValue("actual-notes", "5");
+				createElementWithValue("normal-notes", "4");
+				createElementWithValue("normal-type", "eighth");
+			}
+			
 		}
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
@@ -769,11 +777,11 @@ public class MusicXMLWriter {
 //								<staff>1</staff>
 //							</direction>
 //							}
-			int staff = getStaff(instrument, note);
+			
 			if (position == note.getPosition()) {
-				createNoteElement(note, instrument, true, -1 , staff);
+				createNoteElement(note, instrument, true, -1);
 			} else {
-				createNoteElement(note, instrument, false, -1, staff);
+				createNoteElement(note, instrument, false, -1);
 			}
 			position = note.getPosition();
 		}

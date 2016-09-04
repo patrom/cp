@@ -18,6 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import cp.DefaultConfig;
 import cp.model.harmony.CpHarmony;
 import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = DefaultConfig.class)
 public class HarmonicResolutionObjectiveTest {
@@ -40,14 +41,14 @@ public class HarmonicResolutionObjectiveTest {
 		harmonies.add(new CpHarmony(notes, 0));
 		
 		notes = new ArrayList<>();
-		notes.add(note().pos(12).pc(0).positionWeight(1.0).build());
-		notes.add(note().pos(12).pc(1).positionWeight(2.0).build());
-		harmonies.add(new CpHarmony(notes, 12));
+		notes.add(note().pos(DurationConstants.QUARTER).pc(0).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(1).positionWeight(2.0).build());
+		harmonies.add(new CpHarmony(notes, DurationConstants.QUARTER));
 		
 		notes = new ArrayList<>();
-		notes.add(note().pos(24).pc(4).positionWeight(1.0).build());
-		notes.add(note().pos(24).pc(1).positionWeight(2.0).build());
-		harmonies.add(new CpHarmony(notes, 24));
+		notes.add(note().pos(DurationConstants.HALF).pc(4).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(1).positionWeight(2.0).build());
+		harmonies.add(new CpHarmony(notes, DurationConstants.HALF));
 		
 		harmonies.forEach(h -> h.toChord());
 		
@@ -64,14 +65,14 @@ public class HarmonicResolutionObjectiveTest {
 		harmonies.add(new CpHarmony(notes, 0));
 		
 		notes = new ArrayList<>();
-		notes.add(note().pos(12).pc(0).positionWeight(1.0).build());
-		notes.add(note().pos(12).pc(1).positionWeight(2.0).build());
-		harmonies.add(new CpHarmony(notes, 12));
+		notes.add(note().pos(DurationConstants.QUARTER).pc(0).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(1).positionWeight(2.0).build());
+		harmonies.add(new CpHarmony(notes, DurationConstants.QUARTER));
 		
 		notes = new ArrayList<>();
-		notes.add(note().pos(24).pc(4).positionWeight(1.0).build());
-		notes.add(note().pos(24).pc(1).positionWeight(2.0).build());
-		harmonies.add(new CpHarmony(notes, 24));
+		notes.add(note().pos(DurationConstants.HALF).pc(4).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(1).positionWeight(2.0).build());
+		harmonies.add(new CpHarmony(notes, DurationConstants.HALF));
 		
 		harmonies.forEach(h -> h.toChord());
 		

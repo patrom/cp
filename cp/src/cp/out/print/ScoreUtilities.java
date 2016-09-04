@@ -18,14 +18,13 @@ import org.springframework.stereotype.Component;
 import cp.generator.MusicProperties;
 import cp.midi.MelodyInstrument;
 import cp.model.melody.MelodyBlock;
+import cp.model.rhythm.DurationConstants;
 import cp.variation.Embellisher;
 
 @Component
 public class ScoreUtilities implements JMC{
 	
 	private Logger LOGGER = LoggerFactory.getLogger(ScoreUtilities.class.getName());
-
-	private final double ATOMIC_VALUE = 12;
 	private Random random = new Random();
 	@Autowired
 	private Embellisher embellisher;
@@ -107,20 +106,20 @@ public class ScoreUtilities implements JMC{
 	public Phrase createPhrase(List<cp.model.note.Note> notes) {
 		Phrase phrase = new Phrase();
 		if (!notes.isEmpty()) {
-			double startTime = (double)notes.get(0).getPosition()/ATOMIC_VALUE;
+			double startTime = (double)notes.get(0).getPosition()/DurationConstants.QUARTER;
 			phrase.setStartTime(startTime);
 			int length = notes.size();
 			Note note = null;
 			for (int i = 0; i < length; i++) {
 				cp.model.note.Note notePos = notes.get(i);
-				note = new Note(notePos.getPitch(),((double)notePos.getLength()/ATOMIC_VALUE));
+				note = new Note(notePos.getPitch(),((double)notePos.getLength()/DurationConstants.QUARTER));
 				note.setDuration(note.getRhythmValue());//note has DEFAULT_DURATION_MULTIPLIER = 0.9
 				phrase.add(note);
 				if ((i + 1) < length) {	
 					cp.model.note.Note nextNotePos = notes.get(i + 1);
 					int gap = (notePos.getPosition() + notePos.getLength()) - nextNotePos.getPosition();
 					if (gap < 0) {
-						note = new Rest((double)-gap/ATOMIC_VALUE);
+						note = new Rest((double)-gap/DurationConstants.QUARTER);
 						note.setDuration(note.getRhythmValue());//note has DEFAULT_DURATION_MULTIPLIER = 0.9
 						phrase.add(note);
 					}

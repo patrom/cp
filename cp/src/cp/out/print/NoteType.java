@@ -1,11 +1,12 @@
 package cp.out.print;
 
+import cp.model.rhythm.DurationConstants;
 
 public enum NoteType {
 
-	sixteenth("16th", false, false, 3), eighth("eighth", false, false, 6), quarter("quarter", false, false, 12), half("half", false, false, 24), whole("whole", false, false, 48),
-	eighthDot("eighth", true, false, 9), quarterDot("quarter", true, false, 18), halfDot("half", true, false, 36), 
-	sixteenthTriplet("16th", false, true, 2), eighthTriplet("eighth", false, true, 4),quarterTriplet("quarter", false, true, 8), halfTriplet("half", false, true, 16);
+	sixteenth("16th", false, false, DurationConstants.SIXTEENTH), eighth("eighth", false, false, DurationConstants.EIGHT), quarter("quarter", false, false, DurationConstants.QUARTER), half("half", false, false, DurationConstants.HALF), whole("whole", false, false, DurationConstants.WHOLE),
+	eighthDot("eighth", true, false, DurationConstants.THREE_SIXTEENTH), quarterDot("quarter", true, false, DurationConstants.THREE_EIGHTS), halfDot("half", true, false, DurationConstants.SIX_EIGHTS), 
+	sixteenthTriplet("16th", false, true, DurationConstants.SIXTEENTH_TRIPLET), eighthTriplet("eighth", false, true, DurationConstants.EIGHT_TRIPLET),quarterTriplet("quarter", false, true, DurationConstants.QUARTER_TRIPLET), halfTriplet("half", false, true, DurationConstants.HALF_TRIPLET);
 	
 	private String name;
 	private boolean dot;
@@ -22,8 +23,10 @@ public enum NoteType {
 	public static NoteType getNoteType(int length) {
 		switch (length) {
 			case 64:
+			case 51://quintuplet
 				return sixteenth;
 			case 128:
+			case 102://quintuplet
 				return eighth;
 			case 192:
 				return eighthDot;

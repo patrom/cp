@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import cp.model.note.BeamType;
 import cp.model.note.Note;
 import cp.model.note.TupletType;
+import cp.model.rhythm.DurationConstants;
 @Component
 public class FiveNoteSexTuplet {
 
@@ -18,7 +19,7 @@ public class FiveNoteSexTuplet {
 		int noteLength = beat/6;
 		int length2 = noteLength * 2;
 		switch (beat) {
-		case 12:
+		case DurationConstants.QUARTER:
 			notes =  posWithBeam(length2, noteLength, noteLength, noteLength, noteLength);
 			notes.forEach(n -> n.setSextuplet(true));
 			return notes;
@@ -26,7 +27,7 @@ public class FiveNoteSexTuplet {
 //			notes =  pos(beat/3);
 //			notes.forEach(n -> n.setTriplet(true));
 //			return notes;
-		case 18:
+		case DurationConstants.THREE_EIGHTS:
 			notes =  posWithBeam(length2, noteLength, noteLength, noteLength, noteLength);
 			return notes;
 		default:
@@ -57,7 +58,7 @@ public class FiveNoteSexTuplet {
 	
 	public static void main(String[] args) {
 		FiveNoteSexTuplet fiveNoteSexTuplet = new FiveNoteSexTuplet();
-		List<Note > notes = fiveNoteSexTuplet.pos13456(18);
+		List<Note > notes = fiveNoteSexTuplet.pos13456(DurationConstants.THREE_EIGHTS);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 	}
 }

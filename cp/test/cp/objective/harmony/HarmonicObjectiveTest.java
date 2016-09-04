@@ -26,6 +26,7 @@ import cp.model.dissonance.Dissonance;
 import cp.model.harmony.Chord;
 import cp.model.harmony.CpHarmony;
 import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = DefaultConfig.class)
@@ -55,10 +56,10 @@ public class HarmonicObjectiveTest extends JFrame {
 		harmonies.add(new CpHarmony(notes, 0));
 		
 		notes = new ArrayList<>();
-		notes.add(note().pos(12).pitch(58).positionWeight(1.0).build());
-		notes.add(note().pos(12).pitch(61).positionWeight(2.0).build());
-		notes.add(note().pos(12).pitch(59).positionWeight(3.0).build());
-		harmonies.add(new CpHarmony(notes, 12));
+		notes.add(note().pos(DurationConstants.QUARTER).pitch(58).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pitch(61).positionWeight(2.0).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pitch(59).positionWeight(3.0).build());
+		harmonies.add(new CpHarmony(notes, DurationConstants.QUARTER));
 		
 		double totalHarmonyWeight = harmonicObjective.getHarmonyWeights(harmonies);
 		assertEquals((7.0/13.0 + 6.0/13.0)/harmonies.size(), totalHarmonyWeight, 0);
@@ -69,14 +70,14 @@ public class HarmonicObjectiveTest extends JFrame {
 		List<CpHarmony> harmonies = new ArrayList<>();
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pitch(60).positionWeight(4.0).build());
-		notes.add(note().pos(12).pitch(60).positionWeight(1.0).build());
-		notes.add(note().pos(24).pitch(62).positionWeight(2.0).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pitch(60).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.HALF).pitch(62).positionWeight(2.0).build());
 		harmonies.add(new CpHarmony(notes, 0));
 		
 		notes = new ArrayList<>();
-		notes.add(note().pos(18).pitch(58).positionWeight(1.0).build());
-		notes.add(note().pos(36).pitch(61).positionWeight(2.0).build());
-		notes.add(note().pos(48).pitch(59).positionWeight(3.0).build());
+		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pitch(58).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pitch(61).positionWeight(2.0).build());
+		notes.add(note().pos(DurationConstants.WHOLE).pitch(59).positionWeight(3.0).build());
 		harmonies.add(new CpHarmony(notes, 0));
 		double totalHarmonyWeight = harmonicObjective.getTotalHarmonyWeight(harmonies);
 		assertEquals(13, totalHarmonyWeight, 0);

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import cp.model.note.BeamType;
 import cp.model.note.Note;
 import cp.model.note.TupletType;
+import cp.model.rhythm.DurationConstants;
 @Component
 public class FourNoteSexTuplet {
 
@@ -18,7 +19,7 @@ public class FourNoteSexTuplet {
 		int noteLength = beat/6;
 		int length3 = noteLength * 3;
 		switch (beat) {
-		case 12:
+		case DurationConstants.QUARTER:
 			notes =  posWithBeam(length3, noteLength, noteLength, noteLength);
 			notes.forEach(n -> n.setSextuplet(true));
 			return notes;
@@ -26,7 +27,7 @@ public class FourNoteSexTuplet {
 //			notes =  pos(beat/3);
 //			notes.forEach(n -> n.setTriplet(true));
 //			return notes;
-		case 18:
+		case DurationConstants.THREE_EIGHTS:
 			notes =  posWithBeam(length3, noteLength, noteLength, noteLength);
 			return notes;
 		default:
@@ -40,7 +41,7 @@ public class FourNoteSexTuplet {
 		int noteLength = beat/6;
 		int length2 = noteLength * 2;
 		switch (beat) {
-		case 12:
+		case DurationConstants.QUARTER:
 			notes =  posWithBeam(length2, noteLength, noteLength, length2);
 			notes.forEach(n -> n.setSextuplet(true));
 			return notes;
@@ -48,7 +49,7 @@ public class FourNoteSexTuplet {
 //			notes =  pos(beat/3);
 //			notes.forEach(n -> n.setTriplet(true));
 //			return notes;
-		case 18:
+		case DurationConstants.THREE_EIGHTS:
 			notes =  posWithBeam(length2, noteLength, noteLength, length2);
 			return notes;
 		default:
@@ -62,7 +63,7 @@ public class FourNoteSexTuplet {
 		int noteLength = beat/6;
 		int length2 = noteLength * 2;
 		switch (beat) {
-		case 12:
+		case DurationConstants.QUARTER:
 			notes =  posWithBeam(length2, length2, noteLength, noteLength);
 			notes.forEach(n -> n.setSextuplet(true));
 			return notes;
@@ -70,7 +71,7 @@ public class FourNoteSexTuplet {
 //			notes =  pos(beat/3);
 //			notes.forEach(n -> n.setTriplet(true));
 //			return notes;
-		case 18:
+		case DurationConstants.THREE_EIGHTS:
 			notes =  posWithBeam(length2, length2, noteLength, noteLength);
 			return notes;
 		default:
@@ -100,13 +101,13 @@ public class FourNoteSexTuplet {
 	
 	public static void main(String[] args) {
 		FourNoteSexTuplet fourNoteSexTuplet = new FourNoteSexTuplet();
-		List<Note > notes = fourNoteSexTuplet.pos1456(18);
+		List<Note > notes = fourNoteSexTuplet.pos1456(DurationConstants.THREE_EIGHTS);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 		
-		notes = fourNoteSexTuplet.pos1346(36);
+		notes = fourNoteSexTuplet.pos1346(DurationConstants.SIX_EIGHTS);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 		
-		notes = fourNoteSexTuplet.pos1356(36);
+		notes = fourNoteSexTuplet.pos1356(DurationConstants.SIX_EIGHTS);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 	}
 }

@@ -14,6 +14,7 @@ import cp.model.melody.OperatorType;
 import cp.model.note.Note;
 import cp.model.note.NoteBuilder;
 import cp.model.note.Scale;
+import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Instrument;
 
 @Component(value="threeVoiceComposition")
@@ -151,15 +152,15 @@ public class ThreeVoiceComposition extends Composition{
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(6).pc(2).len(3).build());
 		notes.add(note().pos(9).pc(9).len(3).build());
-		notes.add(note().pos(12).pc(6).len(3).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(6).len(3).build());
 		notes.add(note().pos(15).pc(9).len(3).build());
-		notes.add(note().pos(18).pc(2).len(6).build());
+		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(2).len(DurationConstants.EIGHT).build());
 		
 		notes.add(note().pos(33).pc(1).len(3).build());
-		notes.add(note().pos(36).pc(11).len(6).build());
+		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pc(11).len(DurationConstants.EIGHT).build());
 		notes.add(note().pos(42).pc(1).len(3).build());
 		notes.add(note().pos(45).pc(11).len(3).build());
-//		notes.add(note().pos(offset).pc(9).len(12).build());
+//		notes.add(note().pos(offset).pc(9).len(DurationConstants.QUARTER).build());
 		Instrument instrument2 = instruments.get(1);
 		instrument2.setVoice(1);
 		instrument2.setChannel(2);
@@ -289,20 +290,20 @@ public class ThreeVoiceComposition extends Composition{
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);	
 
-		int voice1 = 1;
-		Instrument instrument2 = instruments.get(voice1);
-		instrument2.setVoice(voice1);
-		instrument2.setChannel(2);
-		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlock(instrument2.getVoice(), instrument2.pickRandomOctaveFromRange());
-		melodyBlock2.setInstrument(instrument2);
-		melodyBlocks.add(melodyBlock2);
-			
-		Instrument instrument3 = instruments.get(2);
-		instrument3.setVoice(2);
-		instrument3.setChannel(3);
-		MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlock(instrument3.getVoice(), instrument3.pickRandomOctaveFromRange());
-		melodyBlock3.setInstrument(instrument3);
-		melodyBlocks.add(melodyBlock3);
+//		int voice1 = 1;
+//		Instrument instrument2 = instruments.get(voice1);
+//		instrument2.setVoice(voice1);
+//		instrument2.setChannel(2);
+//		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlock(instrument2.getVoice(), instrument2.pickRandomOctaveFromRange());
+//		melodyBlock2.setInstrument(instrument2);
+//		melodyBlocks.add(melodyBlock2);
+//			
+//		Instrument instrument3 = instruments.get(2);
+//		instrument3.setVoice(2);
+//		instrument3.setChannel(3);
+//		MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlock(instrument3.getVoice(), instrument3.pickRandomOctaveFromRange());
+//		melodyBlock3.setInstrument(instrument3);
+//		melodyBlocks.add(melodyBlock3);
 
 		return melodyBlocks;
 	}

@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.Test;
 
 import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
 
 public class ChordTest {
 
@@ -187,8 +188,8 @@ public class ChordTest {
 	public void testChordNotes() {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
-		notes.add(note().pos(12).pc(4).pitch(76).ocatve(6).build());
-		notes.add(note().pos(48).pc(7).pitch(79).ocatve(6).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(76).ocatve(6).build());
+		notes.add(note().pos(DurationConstants.WHOLE).pc(7).pitch(79).ocatve(6).build());
 		Chord chord = new Chord(0, notes);
 		assertEquals("Chord type wrong", ChordType.MAJOR, chord.getChordType());
 	}
@@ -197,7 +198,7 @@ public class ChordTest {
 	public void testInterval4() {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
-		notes.add(note().pos(12).pc(4).pitch(76).ocatve(6).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(76).ocatve(6).build());
 		Chord chord = new Chord(0, notes);
 		assertEquals("Chord type wrong", ChordType.CH2_GROTE_TERTS, chord.getChordType());
 	}
@@ -206,7 +207,7 @@ public class ChordTest {
 	public void testInterval8() {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
-		notes.add(note().pos(12).pc(4).pitch(76).ocatve(6).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(76).ocatve(6).build());
 		Chord chord = new Chord(4, notes);
 		assertEquals("Chord type wrong", ChordType.CH2_KLEINE_SIXT, chord.getChordType());
 	}

@@ -3,13 +3,14 @@ package cp.generator;
 import org.springframework.stereotype.Component;
 
 import cp.model.note.Scale;
+import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Instrument;
 import cp.out.print.note.Key;
 
 @Component
 public class MusicProperties {
 	
-	private int harmonyBeatDivider = 12;
+	private int harmonyBeatDivider = DurationConstants.QUARTER;
 	private int tempo = 100;
 	private int minimumLength = 3; //for rhythm weight
 	private double[] filterLevels = {0.5};

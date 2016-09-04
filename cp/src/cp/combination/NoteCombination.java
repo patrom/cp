@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
 import cp.util.RandomUtil;
 
 @Component
@@ -32,11 +33,11 @@ public class NoteCombination {
 	public List<Note> getNotes(int beat, int voice){
 		List<RhythmCombination> rhythmCombinations = null;
 //		//uneven division
-		if (beat == 18 || beat == 36) {
+		if (beat == DurationConstants.THREE_EIGHTS || beat == DurationConstants.SIX_EIGHTS) {
 			rhythmCombinations = combinations.getOrDefault(voice, defaultUnEvenCombinations);
 		} else {
 			//even division
-			if (beat == 12 || beat == 24) {
+			if (beat == DurationConstants.QUARTER || beat == DurationConstants.HALF) {
 				rhythmCombinations = combinations.getOrDefault(voice, defaultEvenCombinations);
 			} 
 		}
@@ -47,11 +48,11 @@ public class NoteCombination {
 	public List<Note> getNotesFixed(int beat, int voice){
 		List<RhythmCombination> rhythmCombinations = null;
 //		//uneven division
-		if (beat == 18 || beat == 36) {
+		if (beat == DurationConstants.THREE_EIGHTS || beat == DurationConstants.SIX_EIGHTS) {
 			rhythmCombinations = combinations.getOrDefault(voice, defaultUnEvenCombinations);
 		} else {
 			//even division
-			if (beat == 12 || beat == 24) {
+			if (beat == DurationConstants.QUARTER || beat == DurationConstants.HALF) {
 				rhythmCombinations = combinations.getOrDefault(voice, defaultEvenCombinations);
 			} 
 		}

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Instrument;
 import cp.out.orchestration.orchestra.ClassicalOrchestra;
 import cp.out.orchestration.orchestra.Orchestra;
@@ -275,7 +276,7 @@ public class OrchestrationGenerator {
 		List<Note> notes = new ArrayList<>();
 		for (int i = 0; i < pitchClasses.length; i++) {
 			if (instrument.inRange(pitchClasses[i])) {
-				notes.add(note().pitch(pitchClasses[i]).len(12).build());
+				notes.add(note().pitch(pitchClasses[i]).len(DurationConstants.QUARTER).build());
 			}
 		}
 		return notes;

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
 import cp.model.rhythm.Rhythm;
 import cp.out.instrument.Instrument;
 
@@ -16,14 +17,14 @@ public class AccompanimentGenerator {
 	private Rhythm rhythm;
 	
 	public List<Note> fourFourSingleNote(List<Note> chordNotes, int minimum, Instrument instrument){
-		Integer[] sounds = getFixedSounds(48, minimum);
+		Integer[] sounds = getFixedSounds(DurationConstants.WHOLE, minimum);
 		List<Note> accompanimentNotes = rhythm.getRhythmRandomContourTexture(chordNotes, sounds, instrument.getVoice(), 1);
 		instrument.updateMelodyInRange(accompanimentNotes);
 		return accompanimentNotes;
 	}
 	
 	public List<Note> fourFourTexture(List<Note> chordNotes, int minimum, Instrument instrument, int maxTexture){
-		Integer[] sounds = getFixedSounds(48, minimum);
+		Integer[] sounds = getFixedSounds(DurationConstants.WHOLE, minimum);
 		List<Note> accompanimentNotes = rhythm.getRhythmRandomContourTexture(chordNotes, sounds, instrument.getVoice(), maxTexture);
 		instrument.updateMelodyInRange(accompanimentNotes);
 		return accompanimentNotes;

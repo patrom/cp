@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import cp.model.note.BeamType;
 import cp.model.note.Note;
 import cp.model.note.TupletType;
+import cp.model.rhythm.DurationConstants;
 
 @Component
 public class TwoNoteTriplet {
@@ -19,7 +20,7 @@ public class TwoNoteTriplet {
 		int noteLength = beat/3;
 		int noteLength2 = noteLength * 2;
 		switch (beat) {
-			case 12:
+			case DurationConstants.QUARTER:
 				notes =  posWithBeamTuplet(noteLength2, noteLength);
 				notes.forEach(n -> n.setTriplet(true));
 				return notes;
@@ -27,7 +28,7 @@ public class TwoNoteTriplet {
 	//			notes =  pos(beat/3);
 	//			notes.forEach(n -> n.setTriplet(true));
 	//			return notes;
-			case 18:
+			case DurationConstants.THREE_EIGHTS:
 				notes =  posWithBeam(noteLength2, noteLength);
 				return notes;
 			default:
@@ -41,7 +42,7 @@ public class TwoNoteTriplet {
 		int noteLength = beat/3;
 		int noteLength2 = noteLength * 2;
 		switch (beat) {
-			case 12:
+			case DurationConstants.QUARTER:
 				notes =  posWithBeamTuplet(noteLength, noteLength2);
 				notes.forEach(n -> n.setTriplet(true));
 				return notes;
@@ -49,7 +50,7 @@ public class TwoNoteTriplet {
 	//			notes =  pos(beat/3);
 	//			notes.forEach(n -> n.setTriplet(true));
 	//			return notes;
-			case 18:
+			case DurationConstants.THREE_EIGHTS:
 				notes =  posWithBeam(noteLength, noteLength2);
 				return notes;
 			default:
@@ -71,7 +72,7 @@ public class TwoNoteTriplet {
 	//			notes =  pos(beat/3);
 	//			notes.forEach(n -> n.setTriplet(true));
 	//			return notes;
-			case 18:
+			case DurationConstants.THREE_EIGHTS:
 				notes =  posWithBeamStartRest(noteLength, noteLength2);
 				return notes;
 			default:
@@ -127,11 +128,11 @@ public class TwoNoteTriplet {
 	
 	public static void main(String[] args) {
 		TwoNoteTriplet twoNoteUneven = new TwoNoteTriplet();
-		List<Note > notes = twoNoteUneven.pos13(36);
+		List<Note > notes = twoNoteUneven.pos13(DurationConstants.SIX_EIGHTS);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength() + ","  + n.isRest()));
-		notes = twoNoteUneven.pos23(36);
+		notes = twoNoteUneven.pos23(DurationConstants.SIX_EIGHTS);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength() + ","  + n.isRest()));
-		notes = twoNoteUneven.pos23(18);
+		notes = twoNoteUneven.pos23(DurationConstants.THREE_EIGHTS);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength() + ","  + n.isRest()));
 	}
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import cp.composition.beat.BeatGroup;
 import cp.composition.beat.BeatGroupFactory;
+import cp.model.rhythm.DurationConstants;
 
 public abstract class TimeConfig {
 
@@ -16,7 +17,7 @@ public abstract class TimeConfig {
 	protected List<BeatGroup> beatsDoubleLength = new ArrayList<>();
 	protected List<BeatGroup> beatsAll = new ArrayList<>();
 	
-	protected int minimumRhythmFilterLevel = 12; //levels pitch, crest/keel, ...
+	protected int minimumRhythmFilterLevel = DurationConstants.QUARTER; //levels pitch, crest/keel, ...
 	
 	protected int[] distance;
 	

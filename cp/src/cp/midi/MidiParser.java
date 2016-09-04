@@ -22,13 +22,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
 
 @Component
 public class MidiParser {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(MidiParser.class.getName());
 	
-	private final int RESOLUTION = 12;
+	private final int RESOLUTION = DurationConstants.QUARTER;
 	public final int TRACK_TIMESIGNATURE = 0x58;
 	private Random random = new Random();
 

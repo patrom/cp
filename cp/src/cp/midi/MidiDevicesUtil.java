@@ -29,6 +29,7 @@ import org.springframework.stereotype.Component;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Instrument;
 
 @Component
@@ -36,7 +37,7 @@ public class MidiDevicesUtil {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(MidiDevicesUtil.class.getName());
 
-	private final int RESOLUTION = 12;
+	private final int RESOLUTION = DurationConstants.QUARTER;
 	
 	public void playOnDevice(Sequence sequence, int tempo, cp.out.instrument.MidiDevice kontakt) {
 		LOGGER.info("tempo:" + tempo);
@@ -154,7 +155,7 @@ public class MidiDevicesUtil {
 			throws InvalidMidiDataException {
 		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
 		for (MelodyBlock melody : melodies) {
-				createTrackGeneralMidi(sequence, melody.getMelodyBlockNotesWithRests(), melody.getInstrument(), tempo);
+			createTrackGeneralMidi(sequence, melody.getMelodyBlockNotesWithRests(), melody.getInstrument(), tempo);
 		}
 		return sequence;
 	}

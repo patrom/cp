@@ -8,6 +8,7 @@ import java.util.List;
 
 import cp.model.note.Note;
 import cp.model.note.Scale;
+import cp.model.rhythm.DurationConstants;
 import cp.variation.nonchordtone.Variation;
 import cp.variation.pattern.VariationPattern;
 
@@ -21,7 +22,7 @@ public abstract class AbstractVariationTest {
 		variation.setScales(Collections.singletonList(Scale.MAJOR_SCALE));
 		variationPattern.setPatterns(pattern);
 		List<Integer> allowedLengths = new ArrayList<>();
-		allowedLengths.add(12);
+		allowedLengths.add(DurationConstants.QUARTER);
 		variationPattern.setNoteLengths(allowedLengths);
 		variationPattern.setSecondNoteLengths(allowedLengths);
 		variation.setVariationPattern(variationPattern);

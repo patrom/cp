@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
 
 public class CpHarmonyTest {
 	
@@ -19,8 +20,8 @@ public class CpHarmonyTest {
 	public void setUp() throws Exception {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).positionWeight(3.0).build());
-		notes.add(note().pos(12).pc(4).pitch(76).ocatve(6).positionWeight(1.0).build());
-		notes.add(note().pos(18).pc(7).pitch(79).ocatve(6).positionWeight(3.0).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(76).ocatve(6).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(7).pitch(79).ocatve(6).positionWeight(3.0).build());
 		cpHarmony = new CpHarmony(notes, 0);
 	}
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import cp.model.note.Note;
 import cp.model.note.TupletType;
+import cp.model.rhythm.DurationConstants;
 
 @Component
 public class OneNoteTriplet {
@@ -79,16 +80,16 @@ public class OneNoteTriplet {
 	
 	public static void main(String[] args) {
 		OneNoteTriplet oneNoteUneven = new OneNoteTriplet();
-		List<Note > notes = oneNoteUneven.pos1(18);
+		List<Note > notes = oneNoteUneven.pos1(DurationConstants.THREE_EIGHTS);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 		
-		notes = oneNoteUneven.pos1(36);
+		notes = oneNoteUneven.pos1(DurationConstants.SIX_EIGHTS);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 		
-		notes = oneNoteUneven.pos2(36);
+		notes = oneNoteUneven.pos2(DurationConstants.SIX_EIGHTS);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 		
-		notes = oneNoteUneven.pos3(36);
+		notes = oneNoteUneven.pos3(DurationConstants.SIX_EIGHTS);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 	}
 

@@ -9,12 +9,13 @@ import org.springframework.stereotype.Component;
 
 import cp.model.note.BeamType;
 import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
 
 @Component
 public class TwoNoteEven {
 
 	public List<Note> pos12(int beat) {
-		if (beat == 12) {
+		if (beat == DurationConstants.QUARTER) {
 			return posWithBeam(beat/4, beat);
 		} else {
 			return pos(beat/4, beat);
@@ -22,7 +23,7 @@ public class TwoNoteEven {
 	}
 	
 	public List<Note> pos13(int beat) {
-		if (beat == 12) {
+		if (beat == DurationConstants.QUARTER) {
 			return posWithBeam(beat/2, beat);
 		} else {
 			return pos(beat/2, beat);
@@ -30,7 +31,7 @@ public class TwoNoteEven {
 	}
 	
 	public List<Note> pos14(int beat) {
-		if (beat == 12) {
+		if (beat == DurationConstants.QUARTER) {
 			return posWithBeam(3*beat/4, beat);
 		} else {
 			return pos(3*beat/4, beat);
@@ -41,11 +42,11 @@ public class TwoNoteEven {
 		List<Note> notes = new ArrayList<Note>();
 		int beat2 = beat/2;
 		int beat4 = beat/4;
-		if (beat == 12) {
+		if (beat == DurationConstants.QUARTER) {
 			notes.add(note().pos(0).rest().len(beat2).build());
 			notes.add(note().pos(beat2).len(beat4).beam(BeamType.BEGIN_BEGIN).build());
 			notes.add(note().pos(beat2 + beat4).len(beat4).beam(BeamType.END_END).build());
-		}else if (beat == 24){
+		}else if (beat == DurationConstants.HALF){
 			notes.add(note().pos(0).rest().len(beat2).build());
 			notes.add(note().pos(beat2).len(beat4).beam(BeamType.BEGIN).build());
 			notes.add(note().pos(beat2 + beat4).len(beat4).beam(BeamType.END).build());
@@ -71,7 +72,7 @@ public class TwoNoteEven {
 		List<Note> notes = new ArrayList<Note>();
 		int beat2 = beat/2;
 		int beat4 = beat/4;
-		if (beat == 12) {
+		if (beat == DurationConstants.QUARTER) {
 			notes.add(note().pos(0).rest().len(beat4).build());
 			notes.add(note().pos(beat4).len(beat2).beam(BeamType.BEGIN).build());
 			notes.add(note().pos(beat2 + beat4).len(beat4).beam(BeamType.END).build());
@@ -99,7 +100,7 @@ public class TwoNoteEven {
 	
 	public static void main(String[] args) {
 		TwoNoteEven twoNoteEven = new TwoNoteEven();
-		List<Note > notes = twoNoteEven.pos13(12);
+		List<Note > notes = twoNoteEven.pos13(DurationConstants.QUARTER);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 	}
 

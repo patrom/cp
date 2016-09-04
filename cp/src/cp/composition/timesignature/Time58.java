@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import cp.composition.beat.BeatGroup;
+import cp.model.rhythm.DurationConstants;
 
 @Component(value="time58")
 //@ConditionalOnProperty(name = "composition.timesignature", havingValue = "5/8")
@@ -28,9 +29,9 @@ public class Time58 extends TimeConfig{
 		beatsDoubleLength.add(defaultGroupUneven);
 		beatsAll.add(defaultGroupEven);
 		beatsAll.add(defaultGroupUneven);
-		minimumRhythmFilterLevel = 6;
+		minimumRhythmFilterLevel = DurationConstants.EIGHT;
 		distance = new int[]{2,5,7,10,12,15,17,20};
-		offset = 30;
+		offset = 5 * DurationConstants.EIGHT;
 	}
 
 	@Override
@@ -41,16 +42,16 @@ public class Time58 extends TimeConfig{
 	@Override
 	public List<BeatGroup> getFixedBeatGroup() {
 		List<BeatGroup> group = new ArrayList<BeatGroup>();
-		group.add(beatGroupFactory.getBeatGroupEven(6, "fixed"));
-		group.add(beatGroupFactory.getBeatGroupUneven(6, "fixed"));
+		group.add(beatGroupFactory.getBeatGroupEven(DurationConstants.EIGHT, "fixed"));
+		group.add(beatGroupFactory.getBeatGroupUneven(DurationConstants.EIGHT, "fixed"));
 		return group;
 	}
 
 	@Override
 	public List<BeatGroup> getHomophonicBeatGroup() {
 		List<BeatGroup> group = new ArrayList<BeatGroup>();
-		group.add(beatGroupFactory.getBeatGroupEven(6, "homophonic"));
-		group.add(beatGroupFactory.getBeatGroupUneven(6, "homophonic"));
+		group.add(beatGroupFactory.getBeatGroupEven(DurationConstants.EIGHT, "homophonic"));
+		group.add(beatGroupFactory.getBeatGroupUneven(DurationConstants.EIGHT, "homophonic"));
 		return group;
 	}
 	
