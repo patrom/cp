@@ -93,18 +93,17 @@ public class MelodyBlock {
 		melody.updateArticulation();
 	}
 	
-	public void replaceMelody(CpMelody melody){
-		List<CpMelody> melodies = melodyBlocks.stream()
-				.filter(m -> m.isReplaceable())
-				.filter(m -> m.getType() == melody.getType())
-				.collect(toList());
-		if (!melodies.isEmpty()) {
-			CpMelody melodyToReplace = RandomUtil.getRandomFromList(melodies);
-			int index = melodyBlocks.indexOf(melodyToReplace);
-			
-			melodyBlocks.set(index, melody);
-		}
-	}
+//	public void replaceMelody(CpMelody melody){
+//		List<CpMelody> melodies = melodyBlocks.stream()
+//				.filter(m -> m.isReplaceable())
+//				.collect(toList());
+//		if (!melodies.isEmpty()) {
+//			CpMelody melodyToReplace = RandomUtil.getRandomFromList(melodies);
+//			int index = melodyBlocks.indexOf(melodyToReplace);
+//			
+//			melodyBlocks.set(index, melody);
+//		}
+//	}
 	
 	public Optional<CpMelody> getRandomMelody(Predicate<CpMelody> filterPredicate){
 		List<CpMelody> melodies = melodyBlocks.stream()

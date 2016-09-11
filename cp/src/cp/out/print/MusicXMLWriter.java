@@ -196,12 +196,12 @@ public class MusicXMLWriter {
 //		}
 //	}
 
-	private void createPartElement(List<Note> list, Instrument instrument) throws XMLStreamException {
+	private void createPartElement(List<Note> notes, Instrument instrument) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("part");
 		xmlStreamWriter.writeAttribute("id", "P" + instrument.getVoice());
 		xmlStreamWriter.writeCharacters("\n");
 //		addLeadingRest(list);
-		createMeasureElements(list, instrument);
+		createMeasureElements(notes, instrument);
 		
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
@@ -395,7 +395,7 @@ public class MusicXMLWriter {
 			xmlStreamWriter.writeCharacters("\n");
 		}
 		if (note.isTriplet() || note.isSextuplet() || note.isQuintuplet()) {
-			createTimeModification(note);
+			createTimeModification(note, noteType);
 		}
 		createElementWithValue("staff", String.valueOf(getStaff(instrument, note)));
 		if (note.hasBeamType()) {
@@ -434,9 +434,9 @@ public class MusicXMLWriter {
 		}
 		if (note.hasTupletType()) {
 			if (note.getTupletType().equals(TupletType.START)) {
-				createTripletElementWithAttributeValues("start", note.getDisplayLength());
+				createTripletElementWithAttributeValues("start", note);
 			}else if (note.getTupletType().equals(TupletType.STOP)) {
-				createTripletElementWithAttributeValues("stop", note.getDisplayLength());
+				createTripletElementWithAttributeValues("stop", note);
 			}
 		}
 		xmlStreamWriter.writeEndElement();
@@ -454,7 +454,7 @@ public class MusicXMLWriter {
 		
 	}
 
-	private void createTimeModification(Note note) throws XMLStreamException {
+	private void createTimeModification(Note note, NoteType noteType) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("time-modification");
 		xmlStreamWriter.writeCharacters("\n");
 		
@@ -463,11 +463,18 @@ public class MusicXMLWriter {
 			createElementWithValue("normal-notes", "4");
 			createElementWithValue("normal-type", "16th");
 		} else if(note.isTriplet()){
-			createElementWithValue("actual-notes", "3");
-			createElementWithValue("normal-notes", "2");
-			createElementWithValue("normal-type", "eighth");
+			if (noteType == NoteType.quarterTriplet || noteType == NoteType.halfTriplet) {
+				createElementWithValue("actual-notes", "3");
+				createElementWithValue("normal-notes", "2");
+				createElementWithValue("normal-type", "quarter");
+			} else {
+				createElementWithValue("actual-notes", "3");
+				createElementWithValue("normal-notes", "2");
+				createElementWithValue("normal-type", "eighth");
+			}	
+			
 		} else if(note.isQuintuplet()){
-			if (note.getDisplayLength() == DurationConstants.SIXTEENTH_QUINTUPLET) {
+			if (noteType == NoteType.sixteenth) {
 				createElementWithValue("actual-notes", "5");
 				createElementWithValue("normal-notes", "4");
 				createElementWithValue("normal-type", "16th");
@@ -664,14 +671,14 @@ public class MusicXMLWriter {
 		xmlStreamWriter.writeCharacters("\n");
 	}
 	
-	private void createTripletElementWithAttributeValues(String type, int length) throws XMLStreamException {
+	private void createTripletElementWithAttributeValues(String type, Note note) throws XMLStreamException {
 //		<tuplet type="start" bracket="no" number="1" default-y="-20" placement="below" />
 		xmlStreamWriter.writeStartElement("tuplet");
 		xmlStreamWriter.writeAttribute("type", type);
-		if (length <= Note.DEFAULT_LENGTH) {
-			xmlStreamWriter.writeAttribute("bracket", "no");
-		}else{
+		if (note.isBracket()) {
 			xmlStreamWriter.writeAttribute("bracket", "yes");
+		}else{
+			xmlStreamWriter.writeAttribute("bracket", "no");
 		}
 		xmlStreamWriter.writeAttribute("number", "1");
 		xmlStreamWriter.writeAttribute("default-y", "-20");

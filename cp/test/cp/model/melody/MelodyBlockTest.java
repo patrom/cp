@@ -75,22 +75,21 @@ public class MelodyBlockTest {
 //	}
 	
 	
-	@Test
-	public void testReplaceMelody() {
-		List<Note> notes = new ArrayList<>();
-		melodyBlock = new MelodyBlock(5,1);
-		CpMelodyBuilder cpMelodyBuilder = new CpMelodyBuilder();
-		CpMelody melody = cpMelodyBuilder.start(0).build();
-		melodyBlock.addMelodyBlock(melody);
-		melody = cpMelodyBuilder.start(24).build();
-		melodyBlock.addMelodyBlock(melody);
-		melody  = new CpMelody(notes, 0, 0 , DurationConstants.QUARTER);
-		melody.setType(2);
-		melodyBlock.replaceMelody(melody);
-//		assertEquals(50, melodyBlock.getMelodyBlockNotes().get(3).getPitch());
-		LOGGER.info("Notes: " + melodyBlock.getMelodyBlockNotes());
-		LOGGER.info("Notes: " + melodyBlock.getMelodyBlockContour());
-	}
+//	@Test
+//	public void testReplaceMelody() {
+//		List<Note> notes = new ArrayList<>();
+//		melodyBlock = new MelodyBlock(5,1);
+//		CpMelodyBuilder cpMelodyBuilder = new CpMelodyBuilder();
+//		CpMelody melody = cpMelodyBuilder.start(0).build();
+//		melodyBlock.addMelodyBlock(melody);
+//		melody = cpMelodyBuilder.start(24).build();
+//		melodyBlock.addMelodyBlock(melody);
+//		melody  = new CpMelody(notes, 0, 0 , DurationConstants.QUARTER);
+//		melodyBlock.replaceMelody(melody);
+////		assertEquals(50, melodyBlock.getMelodyBlockNotes().get(3).getPitch());
+//		LOGGER.info("Notes: " + melodyBlock.getMelodyBlockNotes());
+//		LOGGER.info("Notes: " + melodyBlock.getMelodyBlockContour());
+//	}
 	
 	@Test
 	public void testUpdatePitchesFromContour() {

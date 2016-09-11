@@ -36,10 +36,12 @@ public class Note implements Comparable<Note>, Cloneable{
 	private boolean keel;
 	private boolean crest;
 	
+	//Music XML
 	//time modification
 	private boolean triplet;
 	private boolean sextuplet;
 	private boolean quintuplet;
+	private boolean bracket;
 	
 	private BeamType beamType;
 	//begin or end of tuplet
@@ -80,6 +82,7 @@ public class Note implements Comparable<Note>, Cloneable{
 		this.sextuplet = anotherNote.isSextuplet();
 		this.quintuplet = anotherNote.isQuintuplet();
 		this.tupletType = anotherNote.getTupletType();
+		this.bracket = anotherNote.isBracket();
 	}
 
 	public void updateNote(Note note){
@@ -375,6 +378,14 @@ public class Note implements Comparable<Note>, Cloneable{
 
 	public void setQuintuplet(boolean quintuplet) {
 		this.quintuplet = quintuplet;
+	}
+
+	public boolean isBracket() {
+		return bracket;
+	}
+
+	public void setBracket(boolean bracket) {
+		this.bracket = bracket;
 	}
 
 }

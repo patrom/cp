@@ -34,7 +34,7 @@ public class Ensemble {
 	
 	public List<Instrument> getStringDuo(){
 		List<Instrument> stringDuo = new ArrayList<Instrument>();
-		stringDuo.add(new ViolinSolo(1, 1));
+		stringDuo.add(new ViolinSolo(2, 2));
 		stringDuo.add(new CelloSolo(0, 0));
 		return stringDuo;
 	}
@@ -103,6 +103,7 @@ public class Ensemble {
 		strings.add(new ViolinSolo(2,2));
 		return strings;
 	}
+	
 	
 	public List<Instrument> getStrings(OrchestralQuality orchestralQuality){
 //		Instrument basses = pleasant.getBasicInstrument(InstrumentName.BASS.getName());

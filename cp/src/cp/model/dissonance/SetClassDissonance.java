@@ -29,13 +29,13 @@ public class SetClassDissonance implements Dissonance {
 		switch (chord.getForteName()) {
 			
 			case "2-1":
-				return 1.0;
+				return 0.99;
 			case "2-2":
 				return 0.9;
 			case "2-3":
-				return 1.0;
+				return 0.99;
 			case "2-4":
-				return 1.0;
+				return 0.99;
 			case "2-5":
 				return 0.9;
 		

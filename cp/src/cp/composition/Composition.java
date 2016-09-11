@@ -155,6 +155,7 @@ public abstract class Composition {
 //		instruments = Choral.getSATB();
 //		instruments = ensemble.getFluteClarinetBassoonGreen();
 //		instruments = ensemble.getStrings(mellow);
+//		instruments = ensemble.getStringDuo();
 		instruments = ensemble.getStringTrio();
 //		instruments = ensemble.getPiano(3);
 
@@ -180,22 +181,22 @@ public abstract class Composition {
 //		timeLine.addKeysForVoice(minor, 1);
 		
 		List<TimeLineKey> webern1 = new ArrayList<>();
-		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, start, DurationConstants.WHOLE));
+		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, start, DurationConstants.HALF + DurationConstants.WHOLE));
 		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_2, DurationConstants.WHOLE, 2 * DurationConstants.WHOLE));
 		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_3, 2 * DurationConstants.WHOLE, end));
-		timeLine.addKeysForVoice(webern1, 0);
+		timeLine.addKeysForVoice(webern1, 1);
 		
 		List<TimeLineKey> webern2 = new ArrayList<>();
 		webern2.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_2, start, DurationConstants.WHOLE));
 		webern2.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_3, DurationConstants.WHOLE, 2 * DurationConstants.WHOLE));
 		webern2.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, 2 * DurationConstants.WHOLE, end));
-		timeLine.addKeysForVoice(webern2, 1);
+		timeLine.addKeysForVoice(webern2, 2);
 		
 		List<TimeLineKey> webern3 = new ArrayList<>();
 		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_3, start, DurationConstants.WHOLE));
-		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, DurationConstants.WHOLE, 2 * DurationConstants.WHOLE));
-		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_2, 2 * DurationConstants.WHOLE, end));
-		timeLine.addKeysForVoice(webern3, 2);
+		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_2, DurationConstants.WHOLE, 2 * DurationConstants.WHOLE));
+		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, 2 * DurationConstants.WHOLE, end));
+		timeLine.addKeysForVoice(webern3, 0);
 		
 		melodyGenerator.setCompostion(this);
 		melodyGenerator.setBeatGroupStrategy(timeConfig::getAllBeats);

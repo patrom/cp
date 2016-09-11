@@ -24,7 +24,8 @@ public class ThreeNoteTriplet {
 			return notes;
 		case DurationConstants.HALF:
 			notes =  posTuplet(beat/3);
-			notes.forEach(n -> n.setTriplet(true));
+			notes.forEach(n -> {n.setTriplet(true);
+								n.setBracket(true);});
 			return notes;
 		case DurationConstants.THREE_EIGHTS:
 			notes =  posWithBeam(beat/3);

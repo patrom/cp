@@ -53,7 +53,8 @@ public enum NoteType {
 		} else if (320 <= length && length <= 360) {
 			return NoteType.halfTriplet;
 		}
-		throw new IllegalArgumentException("MusicXML note type not defined for length: " + length);
+		return sixteenth;
+//		throw new IllegalArgumentException("MusicXML note type not defined for length: " + length);
 	}
 
 	public String getName() {

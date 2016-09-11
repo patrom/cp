@@ -29,7 +29,6 @@ public class CpMelody implements Cloneable{
 	private int start;
 	private int end;
 	private List<Integer> contour = new ArrayList<>();
-	private int type = 2;
 	private BeatGroup beatGroup;
 	
 	public CpMelody(List<Note> notes, int voice, int start, int end) {
@@ -60,7 +59,6 @@ public class CpMelody implements Cloneable{
 		this.start = anotherMelody.getStart();
 		this.end = anotherMelody.getEnd();
 		this.contour = new ArrayList<>(anotherMelody.getContour());
-		this.type = anotherMelody.getType();
 		this.replaceable = anotherMelody.isReplaceable();
 		this.beatGroup = anotherMelody.getBeatGroup();
 	}
@@ -259,14 +257,6 @@ public class CpMelody implements Cloneable{
 	
 	public int getEnd() {
 		return end;
-	}
-
-	public int getType() {
-		return type;
-	}
-
-	public void setType(int type) {
-		this.type = type;
 	}
 
 	public boolean isReplaceable() {
