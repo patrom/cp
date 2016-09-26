@@ -25,15 +25,17 @@ public class OneNoteTriplet {
 		int noteLength = beat/3;
 		int noteLength2 = noteLength * 2;
 		switch (beat) {
-			case 12:
+			case DurationConstants.QUARTER:
 				notes =  posRestTuplet(noteLength, noteLength2);
-				notes.forEach(n -> n.setTriplet(true));
+				notes.forEach(n -> {n.setTriplet(true);
+									n.setTimeModification("eighth");
+									n.setBracket(true);});
 				return notes;
 	//		case 24:
 	//			notes =  pos(beat/3);
 	//			notes.forEach(n -> n.setTriplet(true));
 	//			return notes;
-			case 18:
+			case DurationConstants.THREE_EIGHTS:
 				notes =  posRest(noteLength, noteLength2);
 				return notes;
 			default:
@@ -47,15 +49,17 @@ public class OneNoteTriplet {
 		int noteLength = beat/3;
 		int noteLength2 = noteLength * 2;
 		switch (beat) {
-			case 12:
+			case DurationConstants.QUARTER:
 				notes =  posRestTuplet(noteLength2, noteLength);
-				notes.forEach(n -> n.setTriplet(true));
+				notes.forEach(n -> {n.setTriplet(true);
+									n.setTimeModification("eighth");
+									n.setBracket(true);});
 				return notes;
 	//		case 24:
 	//			notes =  pos(beat/3);
 	//			notes.forEach(n -> n.setTriplet(true));
 	//			return notes;
-			case 18:
+			case DurationConstants.THREE_EIGHTS:
 				notes =  posRest(noteLength2, noteLength);
 				return notes;
 			default:

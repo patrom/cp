@@ -21,12 +21,15 @@ public class TwoNoteTriplet {
 		int noteLength2 = noteLength * 2;
 		switch (beat) {
 			case DurationConstants.QUARTER:
-				notes =  posWithBeamTuplet(noteLength2, noteLength);
-				notes.forEach(n -> {n.setTriplet(true);});
+				notes =  pos(noteLength2, noteLength);
+				notes.forEach(n -> {n.setTriplet(true);
+									n.setTimeModification("eighth");
+									n.setBracket(true);});
 				return notes;
 			case DurationConstants.HALF:
 				notes =  pos(noteLength2, noteLength);
 				notes.forEach(n -> {n.setTriplet(true);
+									n.setTimeModification("quarter");
 									n.setBracket(true);});
 				return notes;
 			case DurationConstants.THREE_EIGHTS:
@@ -43,12 +46,15 @@ public class TwoNoteTriplet {
 		int noteLength2 = noteLength * 2;
 		switch (beat) {
 			case DurationConstants.QUARTER:
-				notes =  posWithBeamTuplet(noteLength, noteLength2);
-				notes.forEach(n -> n.setTriplet(true));
+				notes =  pos(noteLength, noteLength2);
+				notes.forEach(n -> {n.setTriplet(true);
+									n.setTimeModification("eighth");
+									n.setBracket(true);});
 				return notes;
 			case DurationConstants.HALF:
 				notes =  pos(noteLength, noteLength2);
 				notes.forEach(n -> {n.setTriplet(true);
+									n.setTimeModification("quarter");
 									n.setBracket(true);});
 				return notes;
 			case DurationConstants.THREE_EIGHTS:
@@ -67,12 +73,15 @@ public class TwoNoteTriplet {
 		switch (beat) {
 			case DurationConstants.QUARTER:
 				notes =  posWithBeamStartRestTriplet(noteLength, noteLength2);
-				notes.forEach(n -> n.setTriplet(true));
+				notes.forEach(n -> {n.setTriplet(true);
+									n.setTimeModification("eighth");
+									n.setBracket(true);});
 				return notes;
 			case DurationConstants.HALF:
 				notes =  posWithBracketStartRestTriplet(noteLength, noteLength2);
 				notes =  pos(noteLength, noteLength2);
 				notes.forEach(n -> {n.setTriplet(true);
+									n.setTimeModification("quarter");
 									n.setBracket(true);});
 				return notes;
 			case DurationConstants.THREE_EIGHTS:
@@ -123,12 +132,12 @@ public class TwoNoteTriplet {
 		return notes;
 	}
 	
-	private List<Note> posWithBeamTuplet(int firstLength, int secondLength){
-		List<Note> notes = new ArrayList<Note>();
-		notes.add(note().pos(0).len(firstLength).beam(BeamType.BEGIN).tuplet(TupletType.START).build());
-		notes.add(note().pos(firstLength).len(secondLength).beam(BeamType.END).tuplet(TupletType.STOP).build());
-		return notes;
-	}
+//	private List<Note> posWithBeamTuplet(int firstLength, int secondLength){
+//		List<Note> notes = new ArrayList<Note>();
+//		notes.add(note().pos(0).len(firstLength).beam(BeamType.BEGIN).tuplet(TupletType.START).build());
+//		notes.add(note().pos(firstLength).len(secondLength).beam(BeamType.END).tuplet(TupletType.STOP).build());
+//		return notes;
+//	}
 	
 	private List<Note> pos(int firstLength, int secondLength){
 		List<Note> notes = new ArrayList<Note>();

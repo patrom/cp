@@ -32,5 +32,25 @@ public class TestRXJava {
 			.flatMap(l -> Observable.from(l))
 			.groupBy(n -> n.getPosition())
     		.subscribe(n -> System.out.println(n));
+		
+		//Test threads
+		final List<Integer> firstRange = buildIntRange();  
+		   firstRange.parallelStream().forEach((number) -> {
+		      try {
+		         // do something slow
+		    	  System.out.println(Thread.currentThread().getName());
+		         Thread.sleep(5);
+		      } catch (InterruptedException e) { }
+		});
 	}
+	
+	private static List<Integer> buildIntRange() {
+		ArrayList<Integer> ints = new ArrayList<Integer>();
+		for (int i = 0; i < 100; i++) {
+	        ints.add(i);
+	    }
+		return ints;
+	}
+
+	
 }

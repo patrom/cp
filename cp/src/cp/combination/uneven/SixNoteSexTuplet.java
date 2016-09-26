@@ -18,9 +18,10 @@ public class SixNoteSexTuplet {
 		List<Note> notes;
 		int noteLength = beat/6;
 		switch (beat) {
-		case 12:
+		case DurationConstants.QUARTER:
 			notes =  posWithBeam(noteLength, noteLength, noteLength, noteLength, noteLength, noteLength);
-			notes.forEach(n -> n.setSextuplet(true));
+			notes.forEach(n -> {n.setSextuplet(true);
+								n.setTimeModification("16th");});
 			return notes;
 //		case 24:
 //			notes =  pos(beat/3);

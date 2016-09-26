@@ -119,7 +119,7 @@ public abstract class Composition {
 	private Ensemble ensemble;
 	
 	protected int start = 0;
-	protected int end = 4 * DurationConstants.WHOLE;
+	protected int end = 2 * DurationConstants.WHOLE;
 	
 	private TimeConfig timeConfig;
 	
@@ -181,22 +181,22 @@ public abstract class Composition {
 //		timeLine.addKeysForVoice(minor, 1);
 		
 		List<TimeLineKey> webern1 = new ArrayList<>();
-		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, start, DurationConstants.HALF + DurationConstants.WHOLE));
-		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_2, DurationConstants.WHOLE, 2 * DurationConstants.WHOLE));
-		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_3, 2 * DurationConstants.WHOLE, end));
-		timeLine.addKeysForVoice(webern1, 1);
+		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, start, DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT));
+		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_2, DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT, end));
+//		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_3, 2 * DurationConstants.WHOLE, end));
+		timeLine.addKeysForVoice(webern1, 2);
 		
 		List<TimeLineKey> webern2 = new ArrayList<>();
-		webern2.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_2, start, DurationConstants.WHOLE));
-		webern2.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_3, DurationConstants.WHOLE, 2 * DurationConstants.WHOLE));
-		webern2.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, 2 * DurationConstants.WHOLE, end));
-		timeLine.addKeysForVoice(webern2, 2);
+		webern2.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_2, start,DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT));
+		webern2.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_3, DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT, end));
+//		webern2.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, 2 * DurationConstants.WHOLE, end));
+		timeLine.addKeysForVoice(webern2, 0);
 		
 		List<TimeLineKey> webern3 = new ArrayList<>();
-		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_3, start, DurationConstants.WHOLE));
-		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_2, DurationConstants.WHOLE, 2 * DurationConstants.WHOLE));
-		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, 2 * DurationConstants.WHOLE, end));
-		timeLine.addKeysForVoice(webern3, 0);
+		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_3, start, DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT));
+		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT, end));
+//		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, 2 * DurationConstants.WHOLE, end));
+		timeLine.addKeysForVoice(webern3, 1);
 		
 		melodyGenerator.setCompostion(this);
 		melodyGenerator.setBeatGroupStrategy(timeConfig::getAllBeats);

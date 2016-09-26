@@ -19,6 +19,7 @@ public class NoteBuilder {
 	private int displayLength;
 	private BeamType beamType;
 	private TupletType tupletType;
+	private String timeModification;
 
 	public static NoteBuilder note(){
 		return new NoteBuilder();
@@ -90,6 +91,11 @@ public class NoteBuilder {
 		return this;
 	}
 	
+	public NoteBuilder timeMod(String timeModification) {
+		this.timeModification = timeModification;
+		return this;
+	}
+	
 	public Note build(){
 		Note note = new Note();
 		note.setPitchClass(pitchClass);
@@ -106,6 +112,7 @@ public class NoteBuilder {
 		note.setDisplayLength(displayLength);
 		note.setBeamType(beamType);
 		note.setTupletType(tupletType);
+		note.setTimeModification(timeModification);
 		return note;
 	}
 

@@ -23,7 +23,8 @@ public class ThreeNoteSexTuplet {
 		switch (beat) {
 		case 12:
 			notes =  posWithBeam(length3, noteLength, length2);
-			notes.forEach(n -> n.setSextuplet(true));
+			notes.forEach(n -> {n.setSextuplet(true);
+								n.setTimeModification("16th");});
 			return notes;
 //		case 24:
 //			notes =  pos(beat/3);

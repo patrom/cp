@@ -20,11 +20,13 @@ public class ThreeNoteTriplet {
 		switch (beat) {
 		case DurationConstants.QUARTER:
 			notes =  posWithBeamTuplet(beat/3);
-			notes.forEach(n -> n.setTriplet(true));
+			notes.forEach(n -> {n.setTriplet(true);
+								n.setTimeModification("eighth");});
 			return notes;
 		case DurationConstants.HALF:
 			notes =  posTuplet(beat/3);
 			notes.forEach(n -> {n.setTriplet(true);
+								n.setTimeModification("quarter");
 								n.setBracket(true);});
 			return notes;
 		case DurationConstants.THREE_EIGHTS:

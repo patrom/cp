@@ -24,6 +24,7 @@ import org.springframework.context.annotation.Import;
 
 import cp.composition.ComposeInGenre;
 import cp.composition.CompositionGenre;
+import cp.composition.HarmonizeNotes;
 import cp.composition.ThreeVoiceComposition;
 import cp.composition.TwoVoiceComposition;
 import cp.generator.MusicProperties;
@@ -84,6 +85,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	private Pleasant pleasant;
 	@Autowired
 	private Brilliant brilliant;
+	@Autowired
+	private HarmonizeNotes harmonizeNotes;
 	
 	public static AtomicInteger COUNTER = new AtomicInteger();
 	
@@ -119,11 +122,13 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(threeVoiceComposition::accFixedRhythm);
 //		composeInGenres.add(threeVoiceComposition::operatorTplusAcc);
 //		composeInGenres.add(threeVoiceComposition::operatorT);
-//		composeInGenres.add(threeVoiceComposition::harmonize);
+		threeVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
+		threeVoiceComposition.setHarmonizeVoice(2);
+		composeInGenres.add(threeVoiceComposition::harmonize);
 //		composeInGenres.add(threeVoiceComposition::halfTimeHomophonicRhythm);
 //		composeInGenres.add(threeVoiceComposition::threeOverXX);
 //		composeInGenres.add(threeVoiceComposition::accDuplicateRhythm);
-		composeInGenres.add(threeVoiceComposition::allRandom);
+//		composeInGenres.add(threeVoiceComposition::allRandom);
 		
 		for (CompositionGenre compositionGenre : composeInGenres) {
 			composeInGenre.setCompositionGenre(compositionGenre);

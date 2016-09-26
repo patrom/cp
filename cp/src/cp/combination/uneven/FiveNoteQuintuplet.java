@@ -20,12 +20,16 @@ public class FiveNoteQuintuplet {
 		int noteLength = beat/5;
 		switch (beat) {
 			case DurationConstants.QUARTER:
-			case DurationConstants.THREE_EIGHTS:
 				notes =  posWithBeam(noteLength, noteLength, noteLength, noteLength, noteLength);
-				notes.forEach(n -> n.setQuintuplet(true));
+				notes.forEach(n -> {n.setQuintuplet(true);
+									n.setTimeModification("16th");});
+//			case DurationConstants.THREE_EIGHTS:
+//				notes =  posWithBeam(noteLength, noteLength, noteLength, noteLength, noteLength);
+//				notes.forEach(n -> n.setQuintuplet(true));//TODO check 5:3 ??
 			case DurationConstants.HALF:
 				notes =  posWithBeamHalf(noteLength, noteLength, noteLength, noteLength, noteLength);
-				notes.forEach(n -> n.setQuintuplet(true));
+				notes.forEach(n -> {n.setQuintuplet(true);
+									n.setTimeModification("eighth");});
 		}
 		return notes;
 	}

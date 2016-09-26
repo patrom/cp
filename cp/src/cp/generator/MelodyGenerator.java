@@ -31,25 +31,25 @@ public class MelodyGenerator {
 	
 	private PitchClassGenerator pitchClassGenerator;
 
-	private Composition compostion;
+	private Composition composition;
 	
 	private BeatGroupStrategy beatGroupStrategy;
 	
 	public MelodyBlock generateMelodyBlock(final int voice, int octave){
-		return generateMelodyBlock(voice, octave, compostion.getTimeConfig().randomBeatGroup(), beatGroupStrategy, compostion.getTimeConfig());
+		return generateMelodyBlock(voice, octave, composition.getTimeConfig().randomBeatGroup(), beatGroupStrategy, composition.getTimeConfig());
 	}
 	
 	public MelodyBlock generateMelodyBlock(final int voice, int octave, BeatGroupStrategy beatGroupStrategy){
-		return generateMelodyBlock(voice, octave, compostion.getTimeConfig().randomBeatGroup(), beatGroupStrategy, compostion.getTimeConfig());
+		return generateMelodyBlock(voice, octave, composition.getTimeConfig().randomBeatGroup(), beatGroupStrategy, composition.getTimeConfig());
 	}
 	
 	public MelodyBlock generateMelodyBlock(final int voice, int octave, BeatGroupStrategy beatGroupStrategy, TimeConfig timeConfig){
-		return generateMelodyBlock(voice, octave, compostion.getTimeConfig().randomBeatGroup(), beatGroupStrategy, timeConfig);
+		return generateMelodyBlock(voice, octave, composition.getTimeConfig().randomBeatGroup(), beatGroupStrategy, timeConfig);
 	}
 	
 	public MelodyBlock generateMelodyBlock(final int voice, int octave, boolean randomBeats, BeatGroupStrategy beatGroupStrategy, TimeConfig timeConfig){
-		int start = compostion.getStart();
-		int stop = compostion.getEnd();
+		int start = composition.getStart();
+		int stop = composition.getEnd();
 		List<BeatGroup> beatGroups = beatGroupStrategy.getBeatGroups();
 		MelodyBlock melodyBlock = new MelodyBlock(octave, voice);
 		melodyBlock.setTimeConfig(timeConfig);
@@ -80,7 +80,7 @@ public class MelodyGenerator {
 
 	public CpMelody generateMelody(int voice, int start, BeatGroup beatGroup) {
 		List<Note> melodyNotes;
-		if (compostion.getTimeConfig().randomCombination()) {
+		if (composition.getTimeConfig().randomCombination()) {
 			melodyNotes = beatGroup.getNotesRandom();
 		} else {
 			melodyNotes = beatGroup.getNotes();
@@ -176,7 +176,7 @@ public class MelodyGenerator {
 	}
 
 	public void setCompostion(Composition compostion) {
-		this.compostion = compostion;
+		this.composition = compostion;
 	}
 	
 	public void setBeatGroupStrategy(BeatGroupStrategy beatGroupStrategy) {

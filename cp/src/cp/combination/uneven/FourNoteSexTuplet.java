@@ -21,7 +21,8 @@ public class FourNoteSexTuplet {
 		switch (beat) {
 		case DurationConstants.QUARTER:
 			notes =  posWithBeam(length3, noteLength, noteLength, noteLength);
-			notes.forEach(n -> n.setSextuplet(true));
+			notes.forEach(n -> {n.setSextuplet(true);
+								n.setTimeModification("16th");});
 			return notes;
 //		case 24:
 //			notes =  pos(beat/3);

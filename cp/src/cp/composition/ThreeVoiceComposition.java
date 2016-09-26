@@ -7,6 +7,7 @@ import static cp.model.rhythm.DurationConstants.HALF;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cp.model.melody.CpMelody;
@@ -19,6 +20,17 @@ import cp.out.instrument.Instrument;
 
 @Component(value="threeVoiceComposition")
 public class ThreeVoiceComposition extends Composition{
+	
+	private HarmonizeMelody harmonizeMelody;
+	private int harmonizeVoice;
+	
+	public void setHarmonizeMelody(HarmonizeMelody harmonizeMelody) {
+		this.harmonizeMelody = harmonizeMelody;
+	}
+	
+	public void setHarmonizeVoice(int harmonizeVoice) {
+		this.harmonizeVoice = harmonizeVoice;
+	}
 	
 	public List<MelodyBlock> canon2Voice1Acc(){
 		return operator(Operator.T_RELATIVE, 0);
@@ -137,15 +149,15 @@ public class ThreeVoiceComposition extends Composition{
 
 		return melodyBlocks;
 	}
+	
 	public List<MelodyBlock> harmonize(){
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
-		int voice = 2;
 		//harmonization
-		List<Note> notes = getMelodieToHarmonize();
+		List<Note> notes = harmonizeMelody.getNotesToHarmonize();
 //		notes.add(note().pos(offset).pc(9).len(DurationConstants.QUARTER).build());
-		Instrument instrumentHarmonize = instruments.get(voice);
-		instrumentHarmonize.setVoice(voice);
-		instrumentHarmonize.setChannel(voice + 1);
+		Instrument instrumentHarmonize = instruments.get(harmonizeVoice);
+		instrumentHarmonize.setVoice(harmonizeVoice);
+		instrumentHarmonize.setChannel(harmonizeVoice + 1);
 		CpMelody melody = new CpMelody(notes, instrumentHarmonize.getVoice(), start, end);
 		MelodyBlock melodyBlockHarmonize = new MelodyBlock(0, instrumentHarmonize.getVoice());
 		melodyBlockHarmonize.addMelodyBlock(melody);
@@ -156,7 +168,7 @@ public class ThreeVoiceComposition extends Composition{
 		melodyBlocks.add(melodyBlockHarmonize);
 		int size = instruments.size();
 		for (int i = 0; i < size; i++) {
-			if (i != voice) {
+			if (i != harmonizeVoice) {
 				Instrument instrument = instruments.get(i);
 				instrument.setVoice(i);
 				instrument.setChannel(i + 1);
