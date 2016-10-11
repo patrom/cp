@@ -154,7 +154,8 @@ public class ThreeVoiceComposition extends Composition{
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
 		//harmonization
 		List<Note> notes = harmonizeMelody.getNotesToHarmonize();
-//		notes.add(note().pos(offset).pc(9).len(DurationConstants.QUARTER).build());
+		notes.forEach(n -> System.out.println(n.getPitchClass()));
+//		notes.forEach(n -> n.setPitch(n.getPitch() + 12));
 		Instrument instrumentHarmonize = instruments.get(harmonizeVoice);
 		instrumentHarmonize.setVoice(harmonizeVoice);
 		instrumentHarmonize.setChannel(harmonizeVoice + 1);
@@ -164,6 +165,7 @@ public class ThreeVoiceComposition extends Composition{
 		melodyBlockHarmonize.setTimeConfig(getTimeConfig());
 		melodyBlockHarmonize.setMutable(false);
 		melodyBlockHarmonize.setInstrument(instrumentHarmonize);
+		melodyBlockHarmonize.I();
 		
 		melodyBlocks.add(melodyBlockHarmonize);
 		int size = instruments.size();

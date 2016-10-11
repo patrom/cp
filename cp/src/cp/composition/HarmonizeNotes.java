@@ -39,7 +39,7 @@ public class HarmonizeNotes {
 	public List<Note> getFileToHarmonize() {
 		MusicXMLParser parser = null;
 		try {
-			parser = new MusicXMLParser("resources/cello.xml");
+			parser = new MusicXMLParser("resources/cello4.xml");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

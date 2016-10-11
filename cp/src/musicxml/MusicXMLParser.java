@@ -34,7 +34,7 @@ public class MusicXMLParser {
 	private List<Note> notes = new ArrayList<>();
 	
 	 public static void main (String[]args)throws IOException {
-         MusicXMLParser parser = new MusicXMLParser("resources/cello.xml");
+         MusicXMLParser parser = new MusicXMLParser("resources/cello3.xml");
          parser.parseMusicXML();
          List<Note> notes = parser.getNotes();
          notes.forEach(n -> System.out.println(n));
@@ -112,36 +112,46 @@ public class MusicXMLParser {
 								int pitchClass = pitch + alterValue;
 								note.setPitchClass(pitchClass);
 								note.setPitch(pitchClass + 12 * octaveInt);
-//								note.calculateMidiPitch();
 							}
 
-						} else { // if (note.getElementsByTag("rest")!= null){
-							// getting other elements like rests is important
-							// for determining start onsets of the next note
-							// System.out.println(note.getElementsByTag("rest").text());
-//							note.setPitch("Z");
+						} else {
 							note.setPitch(cp.model.note.Note.REST);
 						}
 						if(thisnote.getElementsByTag("time-modification").isEmpty()){
-						switch (thisnote.getElementsByTag("type").text()) {
-						case "16th":
-							duration = DurationConstants.SIXTEENTH;
-							break;
-						case "eighth":
-							duration = DurationConstants.EIGHT;
-							break;
-						case "quarter":
-							duration = DurationConstants.QUARTER;
-							break;
-						case "half":
-							duration = DurationConstants.HALF;
-							break;
-						case "whole":
-							duration = DurationConstants.WHOLE;
-							break;
-						default:
-							break;
-						}
+							switch (thisnote.getElementsByTag("type").text()) {
+							case "16th":
+								duration = DurationConstants.SIXTEENTH;
+								if(!thisnote.getElementsByTag("dot").isEmpty()){
+									//TODO
+								}
+								break;
+							case "eighth":
+								duration = DurationConstants.EIGHT;
+								if(!thisnote.getElementsByTag("dot").isEmpty()){
+									duration = DurationConstants.EIGHT + DurationConstants.SIXTEENTH;
+								}
+								break;
+							case "quarter":
+								duration = DurationConstants.QUARTER;
+								if(!thisnote.getElementsByTag("dot").isEmpty()){
+									duration = DurationConstants.QUARTER + DurationConstants.EIGHT;
+								}
+								break;
+							case "half":
+								duration = DurationConstants.HALF;
+								if(!thisnote.getElementsByTag("dot").isEmpty()){
+									duration = DurationConstants.HALF + DurationConstants.QUARTER;
+								}
+								break;
+							case "whole":
+								duration = DurationConstants.WHOLE;
+								if(!thisnote.getElementsByTag("dot").isEmpty()){
+									duration = DurationConstants.WHOLE + DurationConstants.HALF;
+								}
+								break;
+							default:
+								break;
+							}
 						}else{
 							if(thisnote.getElementsByTag("actual-notes").text().equals("3")){
 								note.setTriplet(true);
@@ -152,12 +162,21 @@ public class MusicXMLParser {
 									break;
 								case "eighth":
 									duration = DurationConstants.EIGHT_TRIPLET;
+									if(!thisnote.getElementsByTag("dot").isEmpty()){
+										duration = DurationConstants.EIGHT_TRIPLET + DurationConstants.SIXTEENTH_TRIPLET;
+									}
 									break;
 								case "quarter":
 									duration = DurationConstants.QUARTER_TRIPLET;
+									if(!thisnote.getElementsByTag("dot").isEmpty()){
+										duration = DurationConstants.QUARTER_TRIPLET + DurationConstants.EIGHT_TRIPLET;
+									}
 									break;
 								case "half":
 									duration = DurationConstants.HALF_TRIPLET;
+									if(!thisnote.getElementsByTag("dot").isEmpty()){
+										duration = DurationConstants.HALF_TRIPLET + DurationConstants.QUARTER_TRIPLET;
+									}
 									break;
 								default:
 									break;
@@ -171,12 +190,21 @@ public class MusicXMLParser {
 									break;
 								case "eighth":
 									duration = DurationConstants.EIGHT_TRIPLET;
+									if(!thisnote.getElementsByTag("dot").isEmpty()){
+										duration = DurationConstants.EIGHT_TRIPLET + DurationConstants.SIXTEENTH_TRIPLET;
+									}
 									break;
 								case "quarter":
 									duration = DurationConstants.QUARTER_TRIPLET;
+									if(!thisnote.getElementsByTag("dot").isEmpty()){
+										duration = DurationConstants.QUARTER_TRIPLET + DurationConstants.EIGHT_TRIPLET;
+									}
 									break;
 								case "half":
 									duration = DurationConstants.HALF_TRIPLET;
+									if(!thisnote.getElementsByTag("dot").isEmpty()){
+										duration = DurationConstants.HALF_TRIPLET + DurationConstants.QUARTER_TRIPLET;
+									}
 									break;
 								default:
 									break;
@@ -190,6 +218,9 @@ public class MusicXMLParser {
 									break;
 								case "eighth":
 									duration = DurationConstants.EIGHT_QUINTUPLET;
+									if(!thisnote.getElementsByTag("dot").isEmpty()){
+										duration = DurationConstants.EIGHT_QUINTUPLET + DurationConstants.SIXTEENTH_QUINTUPLET;
+									}
 									break;
 								default:
 									break;
@@ -200,6 +231,7 @@ public class MusicXMLParser {
 //						duration = Integer.valueOf(thisnote.getElementsByTag("duration").text()); // *
 //																									// divMultiplier.get(divisions);			
 //						duration =  duration * Note.DEFAULT_LENGTH / MusicXMLWriter.DIVISIONS;
+						
 						note.setLength(duration);
 						note.setDisplayLength(duration);
 						
