@@ -10,8 +10,8 @@ import java.util.List;
 
 public class AxisDyadArray {
 
-	private CyclicSet topCyclicSet;
-	private CyclicSet bottomCyclicSet;
+	private final CyclicSet topCyclicSet;
+	private final CyclicSet bottomCyclicSet;
 	private int[] topCycle;
 	private int[] bottomCycle;
 	private boolean differenceAlignment = false;
@@ -143,7 +143,7 @@ public class AxisDyadArray {
 				return getAxisDyadChord(axisDyadPosition);
 			}
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 	
 	private boolean axisDyadInTrichordalSegment(int axisDyadPosition){
@@ -152,10 +152,8 @@ public class AxisDyadArray {
 		axisDyad.add(bottomCycle[axisDyadPosition]);
 		List<Integer> upperTriChord = getCycleTriChord(axisDyadPosition, topCycle);
 		List<Integer> bottomTriChord = getCycleTriChord(axisDyadPosition, bottomCycle);
-		if (upperTriChord.containsAll(axisDyad) || bottomTriChord.containsAll(axisDyad)) {
-			return true;
-		}
-		return false;
+		return upperTriChord.containsAll(axisDyad) || bottomTriChord.containsAll(axisDyad);
+
 	}
 
 	private boolean sameCyclicIntervalContainsTetradicSegment(int axisDyadPosition) {
@@ -164,11 +162,8 @@ public class AxisDyadArray {
 		List<Integer> upperRightTetraChord = getRightCycleTetraChord(axisDyadPosition, topCycle);
 		List<Integer> bottomLeftTetraChord = getLeftCycleTetraChord(axisDyadPosition, bottomCycle);
 		List<Integer> bottomRightTetraChord = getRightCycleTetraChord(axisDyadPosition, bottomCycle);
-		if (cyclicChord.containsAll(upperLeftTetraChord) || cyclicChord.containsAll(upperRightTetraChord)
-				|| cyclicChord.containsAll(bottomLeftTetraChord) || cyclicChord.containsAll(bottomRightTetraChord)) {
-			return true;
-		}
-		return false;
+		return cyclicChord.containsAll(upperLeftTetraChord) || cyclicChord.containsAll(upperRightTetraChord)
+				|| cyclicChord.containsAll(bottomLeftTetraChord) || cyclicChord.containsAll(bottomRightTetraChord);
 	}
 
 	private boolean axisDyadDuplicatesTonicSum(int axisDyadPosition) {
@@ -177,11 +172,8 @@ public class AxisDyadArray {
 		int bottomLeftTonicSum = bottomCyclicSet.getLeftTonicSum();
 		int bottomRightTonicSum = bottomCyclicSet.getRightTonicSum();
 		int axisDyadSum = (topCycle[axisDyadPosition] + bottomCycle[axisDyadPosition]) % 12;
-		if (axisDyadSum == topLeftTonicSum || axisDyadSum == topRightTonicSum 
-				|| axisDyadSum == bottomLeftTonicSum || axisDyadSum == bottomRightTonicSum) {
-			return true;
-		}
-		return false;
+		return axisDyadSum == topLeftTonicSum || axisDyadSum == topRightTonicSum
+				|| axisDyadSum == bottomLeftTonicSum || axisDyadSum == bottomRightTonicSum;
 	}
 
 	private List<Integer> getLeftCycleTetraChord(int axisDyadPosition, int[] cycle) {
@@ -256,7 +248,7 @@ public class AxisDyadArray {
 	}
 	
 	public List<List<Integer>> getAllAxisDyadChords(){
-		List<List<Integer>> allChords = new ArrayList<List<Integer>>();
+		List<List<Integer>> allChords = new ArrayList<>();
 		for (int i = 1; i < topCycle.length; i = i + 2) {
 			allChords.add(getAxisDyadChord(i));
 		}
@@ -264,7 +256,7 @@ public class AxisDyadArray {
 	}
 	
 	public List<List<Integer>> getAllTonicAxisDyadChords(){
-		List<List<Integer>> tonicAxisDyadChords = new ArrayList<List<Integer>>();
+		List<List<Integer>> tonicAxisDyadChords = new ArrayList<>();
 		for (int i = 1; i < topCycle.length; i = i + 2) {
 			List<Integer> tonicAxisDyadChord = getTonicAxisDyadChord(i);
 			if (!tonicAxisDyadChord.isEmpty()) {
@@ -275,7 +267,7 @@ public class AxisDyadArray {
 	}
 	
 	public List<List<Integer>> getAllCyclicChords(){
-		List<List<Integer>> allChords = new ArrayList<List<Integer>>();
+		List<List<Integer>> allChords = new ArrayList<>();
 		for (int i = 1; i < topCycle.length; i = i + 2) {
 			allChords.add(getCyclicChord(i));
 		}
@@ -283,7 +275,7 @@ public class AxisDyadArray {
 	}
 	
 	public List<List<Integer>> getAllSumTetraChordsLeft(){
-		List<List<Integer>> allChords = new ArrayList<List<Integer>>();
+		List<List<Integer>> allChords = new ArrayList<>();
 		for (int i = 1; i < topCycle.length; i = i + 2) {
 			allChords.add(getSumTetraChordLeft(i));
 		}
@@ -291,7 +283,7 @@ public class AxisDyadArray {
 	}
 	
 	public List<List<Integer>> getAllSumTetraChordsRight(){
-		List<List<Integer>> allChords = new ArrayList<List<Integer>>();
+		List<List<Integer>> allChords = new ArrayList<>();
 		for (int i = 1; i < topCycle.length; i = i + 2) {
 			allChords.add(getSumTetraChordRight(i));
 		}

@@ -16,7 +16,7 @@ import static java.util.stream.Collectors.toList;
 @Component
 public class MeterObjective extends Objective{
 	
-	private static Logger LOGGER = LoggerFactory.getLogger(MeterObjective.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(MeterObjective.class);
 
 	private Composition composition;
 	@Autowired
@@ -27,7 +27,7 @@ public class MeterObjective extends Objective{
 		Map<Integer, Double> profile = motive.extractRhythmProfile();
 		double globalFilterLevel = composition.getTimeConfig().getMinimumRhythmFilterLevel() * motive.getMelodyBlocks().size();
 		List<Integer> positionsFiltered = profile.entrySet().stream()
-				.filter(p -> p.getValue().doubleValue() >= globalFilterLevel)
+				.filter(p -> p.getValue() >= globalFilterLevel)
 				.map(p -> p.getKey())
 				.sorted()
 				.collect(toList());

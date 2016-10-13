@@ -51,10 +51,10 @@ public enum ChordType {
 	CH6(6);
 	
 	public enum Inversion {
-		ROOT, INVERSION1, INVERSION2, OTHER;
+		ROOT, INVERSION1, INVERSION2, OTHER
 	}
 	
-	private int size;
+	private final int size;
 	
 	ChordType(int size){
 		this.size = size;

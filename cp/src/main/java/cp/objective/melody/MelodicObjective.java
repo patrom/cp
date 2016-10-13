@@ -52,7 +52,7 @@ public class MelodicObjective extends Objective {
 
 	protected List<Note> extractNotesOnLevel(Collection<Note> notes, int level) {
 		Map<Double, List<Note>> unsortMap = notes.stream().collect(groupingBy(n -> n.getBeat(musicProperties.getHarmonyBeatDivider() * level)));
-		Map<Double, List<Note>> treeMap = new TreeMap<Double, List<Note>>(unsortMap);
+		Map<Double, List<Note>> treeMap = new TreeMap<>(unsortMap);
 		List<Note> notePosition = new ArrayList<>();
 		for (List<Note> noteList : treeMap.values()) {
 			Optional<Note> maxNote = noteList.stream().max(comparing(Note::getWeightedSum));
@@ -118,8 +118,7 @@ public class MelodicObjective extends Objective {
 	
 	private double getTotalPositionWeiht(List<Note> notes){
 		double sumPositionWeights = notes.stream().mapToDouble(n -> n.getPositionWeight()).sum();
-		double total = (sumPositionWeights * 2) - notes.get(0).getPositionWeight() - notes.get(notes.size() - 1).getPositionWeight();
-		return total;
+        return (sumPositionWeights * 2) - notes.get(0).getPositionWeight() - notes.get(notes.size() - 1).getPositionWeight();
 	}
 	
 	public List<Note> filterKeelNotes(List<Note> notes){

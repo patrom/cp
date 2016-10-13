@@ -19,7 +19,7 @@ import java.util.Random;
 public class ScoreUtilities implements JMC{
 	
 	private Logger LOGGER = LoggerFactory.getLogger(ScoreUtilities.class.getName());
-	private Random random = new Random();
+	private final Random random = new Random();
 	@Autowired
 	private Embellisher embellisher;
 	
@@ -45,7 +45,7 @@ public class ScoreUtilities implements JMC{
 		Part[] scoreParts = new Part[melodies.size()];
 		int voice = 0;
 		for (MelodyBlock melody : melodies) {
-			Phrase phrase = null;
+			Phrase phrase;
 			List<cp.model.note.Note> notes = melody.getMelodyBlockNotesWithRests();
 //			if (melody.getVoice() == 3) {
 //				List<neo.model.note.Note> embellishedNotes = embellisher.embellish(notes);
@@ -103,7 +103,7 @@ public class ScoreUtilities implements JMC{
 			double startTime = (double)notes.get(0).getPosition()/DurationConstants.QUARTER;
 			phrase.setStartTime(startTime);
 			int length = notes.size();
-			Note note = null;
+			Note note;
 			for (int i = 0; i < length; i++) {
 				cp.model.note.Note notePos = notes.get(i);
 				note = new Note(notePos.getPitch(),((double)notePos.getLength()/DurationConstants.QUARTER));

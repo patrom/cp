@@ -32,8 +32,7 @@ public class VariationSelector {
 	}
 	
 	public List<Variation> getIntervalVariations(Integer interval){
-		List<Variation> singleNoteVariations = intervalVariations.getOrDefault(interval, Collections.emptyList());
-		return singleNoteVariations;
+        return intervalVariations.getOrDefault(interval, Collections.emptyList());
 	}
 	
 	public Variation selectVariation(int interval) {
@@ -52,8 +51,7 @@ public class VariationSelector {
 			profiles.add(singleNote.getProfile());
 		}
 		int[] profilesArray = ArrayUtils.toPrimitive(profiles.toArray(new Integer[profiles.size()]));
-		Variation variation = Util.selectFromListProbability(variations, profilesArray);
-		return variation;
+        return Util.selectFromListProbability(variations, profilesArray);
 	}
 	
 }

@@ -23,11 +23,11 @@ public enum IntervalCycle {
 	I_IC5(new int[]{0,7,2,9,4,11,6,1,8,3,10,5}, 5, "I"),
 	I_IC6(new int[]{0,6}, 6, "I"),
 	I_IC7(new int[]{0,5,10,3,8,1,6,11,4,9,2,7}, 7, "I");
-	private int[] intervalCycle;
-	private int interval;
-	private String type;
+	private final int[] intervalCycle;
+	private final int interval;
+	private final String type;
 	
-	private IntervalCycle(int[] intervalCycle, int interval, String type) {
+	IntervalCycle(int[] intervalCycle, int interval, String type) {
 		this.intervalCycle = intervalCycle;
 		this.interval = interval;
 		this.type = type;

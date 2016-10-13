@@ -20,7 +20,7 @@ import static java.util.stream.Collectors.toList;
 @Component
 public class OrchestrationGenerator {
 	
-	private static Logger LOGGER = LoggerFactory.getLogger(OrchestrationGenerator.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(OrchestrationGenerator.class);
 
 	@Autowired
 	private Brilliant brilliant;
@@ -41,7 +41,7 @@ public class OrchestrationGenerator {
 	@Autowired
 	private VerticalRelations verticalRelations;
 	
-	private Orchestra orchestra = new ClassicalOrchestra();
+	private final Orchestra orchestra = new ClassicalOrchestra();
 
 	public List<OrchestralQuality> getOrchestralQualities() {
 		List<OrchestralQuality> orchestralQualities = new ArrayList<>();
@@ -179,7 +179,7 @@ public class OrchestrationGenerator {
 	
 	protected Instrument findInstrumentInBasicQualityForPitch(int pitch, List<Instrument> instruments, OrchestralQuality orchestralQuality){
 		Optional<Instrument> optionalInstrument = findBasicInstrumentWithQuality(instruments, orchestralQuality);
-		Instrument previousInstrument = null;
+		Instrument previousInstrument;
 		OrchestralQuality previousOrchestralQuality = orchestralQuality;
 		while (optionalInstrument.isPresent()) {
 			previousInstrument = optionalInstrument.get();
@@ -197,7 +197,7 @@ public class OrchestrationGenerator {
 	
 	protected Instrument findInstrumentInCloseQualityForPitch(int pitch, List<Instrument> instruments, OrchestralQuality orchestralQuality){
 		Optional<Instrument> optionalInstrument = findCloseInstrumentWithQuality(instruments, orchestralQuality);
-		Instrument previousInstrument = null;
+		Instrument previousInstrument;
 		OrchestralQuality previousOrchestralQuality = orchestralQuality;
 		while (optionalInstrument.isPresent()) {
 			previousInstrument = optionalInstrument.get();
@@ -223,40 +223,36 @@ public class OrchestrationGenerator {
 	
 	protected Optional<Instrument> findBasicInstrumentWithQuality(List<Instrument> instruments, OrchestralQuality orchestralQuality){
 		List<OrchestralQuality> orchestralQualities = getOrchestralQualities();
-		Optional<Instrument> optionalInstrument = orchestralQualities.stream().filter(quality -> 
-				quality.getQuality().equals(orchestralQuality.getQuality()))
-				.flatMap(instr -> instr.getBasicInstruments().stream())
-				.filter(instr -> instruments.contains(instr)).findAny();
-		return optionalInstrument;
+        return orchestralQualities.stream().filter(quality ->
+                quality.getQuality().equals(orchestralQuality.getQuality()))
+                .flatMap(instr -> instr.getBasicInstruments().stream())
+                .filter(instr -> instruments.contains(instr)).findAny();
 	}
 	
 	protected Optional<Instrument> findCloseInstrumentWithQuality(List<Instrument> instruments, OrchestralQuality orchestralQuality){
 		List<OrchestralQuality> orchestralQualities = getOrchestralQualities();
-			Optional<Instrument> optionalInstrument = orchestralQualities.stream().filter(quality -> 
-			orchestralQuality.getCloseQualities().contains(quality))
-			.flatMap(instr -> instr.getBasicInstruments().stream())
-			.filter(instr -> instruments.contains(instr)).findAny();
-		return optionalInstrument;
+        return orchestralQualities.stream().filter(quality ->
+        orchestralQuality.getCloseQualities().contains(quality))
+        .flatMap(instr -> instr.getBasicInstruments().stream())
+        .filter(instr -> instruments.contains(instr)).findAny();
 	}
 
 	protected Optional<OrchestralQuality> findOrchestralBasicQuality(int pitch , OrchestralQuality orchestralQuality,
 			Instrument instrument) {
 		List<OrchestralQuality> orchestralQualities = getOrchestralQualities();
-		Optional<OrchestralQuality> optionalOrchestralQuality = orchestralQualities.stream().filter(quality -> 
-				quality.getQuality().equals(orchestralQuality.getQuality())//same quality
-				&& quality.hasBasicInstrument(instrument)
-				&& quality.getBasicInstrument(instrument.getInstrumentName()).inRange(pitch)).findAny();
-		return optionalOrchestralQuality;
+        return orchestralQualities.stream().filter(quality ->
+                quality.getQuality().equals(orchestralQuality.getQuality())//same quality
+                && quality.hasBasicInstrument(instrument)
+                && quality.getBasicInstrument(instrument.getInstrumentName()).inRange(pitch)).findAny();
 	}
 	
 	protected Optional<OrchestralQuality> findOrchestralCloseQuality(int pitch , OrchestralQuality orchestralQuality,
 			Instrument instrument) {
 		List<OrchestralQuality> orchestralQualities = getOrchestralQualities();
-		Optional<OrchestralQuality> optionalOrchestralQuality = orchestralQualities.stream().filter(quality -> 
-			orchestralQuality.getCloseQualities().contains(quality)//complementary quality
-			&& quality.hasBasicInstrument(instrument)
-			&& quality.getBasicInstrument(instrument.getInstrumentName()).inRange(pitch)).findAny();
-		return optionalOrchestralQuality;
+        return orchestralQualities.stream().filter(quality ->
+            orchestralQuality.getCloseQualities().contains(quality)//complementary quality
+            && quality.hasBasicInstrument(instrument)
+            && quality.getBasicInstrument(instrument.getInstrumentName()).inRange(pitch)).findAny();
 	}
 
 	public List<Note> orchestrate1Instrument(int[] pitchClasses, Instrument instrument) {

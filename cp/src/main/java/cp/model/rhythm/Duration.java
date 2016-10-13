@@ -10,15 +10,15 @@ public enum Duration {
 	R_QS3(14,true),R_QS(15,true),R_H3_QE3(16,true),R_QE(18,true),R_QQ3(20,true),R_QES(21,true),R_H(24,true),
 	R_HQ(36,true),R_W(48,true);
 	
-	private int duration;
-	private boolean rest;
+	private final int duration;
+	private final boolean rest;
 	
-	private Duration(int duration){
+	Duration(int duration){
 		this.duration = duration;
 		this.rest = false;
 	}
 	
-	private Duration(int duration, boolean rest){
+	Duration(int duration, boolean rest){
 		this.duration = duration;
 		this.rest = rest;
 	}

@@ -4,9 +4,9 @@ public enum TupletType {
 
 	START("start"), STOP("stop"); 
 	
-	private String label;
+	private final String label;
 	
-	private TupletType(String label){
+	TupletType(String label){
 		this.label = label;
 	}
 	

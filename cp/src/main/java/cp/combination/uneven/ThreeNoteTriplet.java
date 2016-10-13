@@ -38,7 +38,7 @@ public class ThreeNoteTriplet {
 	}
 	
 	private List<Note> posWithBeam(int noteLength){
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).len(noteLength).beam(BeamType.BEGIN).build());
 		notes.add(note().pos(noteLength).len(noteLength).beam(BeamType.CONTINUE).build());
 		notes.add(note().pos(2 * noteLength).len(noteLength).beam(BeamType.END).build());
@@ -46,7 +46,7 @@ public class ThreeNoteTriplet {
 	}
 	
 	private List<Note> posWithBeamTuplet(int noteLength){
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).len(noteLength).beam(BeamType.BEGIN).tuplet(TupletType.START).build());
 		notes.add(note().pos(noteLength).len(noteLength).beam(BeamType.CONTINUE).build());
 		notes.add(note().pos(2 * noteLength).len(noteLength).beam(BeamType.END).tuplet(TupletType.STOP).build());
@@ -54,7 +54,7 @@ public class ThreeNoteTriplet {
 	}
 	
 	private List<Note> pos(int noteLength){
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).len(noteLength).build());
 		notes.add(note().pos(noteLength).len(noteLength).build());
 		notes.add(note().pos(2 * noteLength).len(noteLength).build());
@@ -62,7 +62,7 @@ public class ThreeNoteTriplet {
 	}
 	
 	private List<Note> posTuplet(int noteLength){
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).len(noteLength).tuplet(TupletType.START).build());
 		notes.add(note().pos(noteLength).len(noteLength).build());
 		notes.add(note().pos(2 * noteLength).len(noteLength).tuplet(TupletType.STOP).build());

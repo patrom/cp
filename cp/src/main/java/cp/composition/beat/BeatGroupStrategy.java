@@ -5,5 +5,5 @@ import java.util.List;
 @FunctionalInterface
 public interface BeatGroupStrategy {
 
-	public List<BeatGroup> getBeatGroups();
+	List<BeatGroup> getBeatGroups();
 }

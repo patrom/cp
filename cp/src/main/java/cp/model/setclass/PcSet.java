@@ -200,10 +200,8 @@ public class PcSet extends Set {
 		for (int i = 0; i < newSize; i++)
 			withoutDuplicatesStringBuffer.append(pcs2[i]);
 
-		String withoutDuplicatesString = withoutDuplicatesStringBuffer
-				.toString();
-
-		return withoutDuplicatesString;
+        return withoutDuplicatesStringBuffer
+                .toString();
 	}
 
 	// Counts the number of non-space characters.
@@ -247,7 +245,7 @@ public class PcSet extends Set {
 				}
 
 		int numberOfLargestIntervals = 1; // the number of the largest interval
-		int indexOfLargestInterval = 0;
+		int indexOfLargestInterval;
 
 		while (intervals[s.length - numberOfLargestIntervals] == intervals[s.length
 				- (numberOfLargestIntervals + 1)]

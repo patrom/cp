@@ -140,19 +140,18 @@ public class TonalityFunctions {
 
 	private static Double getMaximumCorrelation(double[] vectorScale,
 			double[] vectorWeights) {
-		List<Double> correlations = new ArrayList<Double>();
+		List<Double> correlations = new ArrayList<>();
 		correlations.add(getPearsonCorrelation(vectorScale, vectorWeights));
 		for (int i = 1; i < vectorWeights.length; i++) {
 			rotate(vectorWeights);
 			correlations.add(getPearsonCorrelation(vectorScale, vectorWeights));
 		}
-		Double maximumCorrelation = Collections.max(correlations);
-		return maximumCorrelation;
+        return Collections.max(correlations);
 	}
 
 	private static Map<Integer, Double> getCorrelationMap(double[] vectorScale,
 			double[] vectorWeights) {
-		Map<Integer, Double> correlations = new TreeMap<Integer, Double>();
+		Map<Integer, Double> correlations = new TreeMap<>();
 		correlations.put(60, getPearsonCorrelation(vectorScale, vectorWeights));
 		for (int i = 1; i < vectorWeights.length; i++) {
 			rotate(vectorWeights);

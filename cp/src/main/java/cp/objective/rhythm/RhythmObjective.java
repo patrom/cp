@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Component
 public class RhythmObjective extends Objective{
 	
-	private static Logger LOGGER = LoggerFactory.getLogger(RhythmObjective.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(RhythmObjective.class.getName());
 	
 	@Autowired
 	private InnerMetricWeightFunctions innerMetricWeightFunctions;
@@ -25,11 +25,10 @@ public class RhythmObjective extends Objective{
 	@Override
 	public double evaluate(Motive motive) {
 		List<MelodyBlock> melodies = motive.getMelodyBlocks();
-		double profileAverage = melodies.stream()
-				.mapToDouble(melody -> getProfileAverage(melody, melody.getTimeConfig().getMinimumRhythmFilterLevel(), musicProperties.getMinimumLength()))
-				.average()
-				.getAsDouble();
-		return profileAverage;
+        return melodies.stream()
+                .mapToDouble(melody -> getProfileAverage(melody, melody.getTimeConfig().getMinimumRhythmFilterLevel(), musicProperties.getMinimumLength()))
+                .average()
+                .getAsDouble();
 	}
 	
 	public double getProfileAverage(MelodyBlock melody, double minimumFilterLevel, int minimumRhythmicValue){

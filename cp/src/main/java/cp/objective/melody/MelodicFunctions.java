@@ -9,7 +9,7 @@ import java.util.*;
 
 public class MelodicFunctions {
 	
-	private static Logger LOGGER = LoggerFactory.getLogger(MelodicFunctions.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(MelodicFunctions.class.getName());
 	
 	public static List<Double> getMelodicWeights2(List<Note> melody, int windowSize){
 		int size = melody.size();
@@ -22,7 +22,7 @@ public class MelodicFunctions {
 	
 	public static List<Double> melodicWindow(Note[] notes, int windowSize){
 		int length = notes.length - windowSize + 1;	
-		List<Double> values = new ArrayList<Double>();
+		List<Double> values = new ArrayList<>();
 		for (int i = 0; i < length; i++) {
 			Note[] melody = new Note[windowSize];
 			for (int j = 0; j < windowSize; j++) {
@@ -34,7 +34,7 @@ public class MelodicFunctions {
 	}
 
 	private static double computeMelodicValueWindow(Note[] melody ) {
-		List<Double> values = new ArrayList<Double>();
+		List<Double> values = new ArrayList<>();
 		for (int j = 0; j < melody.length - 1; j++) {
 				Note note = melody[0];
 				Note nextNote = melody[j + 1];
@@ -54,7 +54,7 @@ public class MelodicFunctions {
 	}
 	
 	public static double getIntervalVariation(Note[] melody){
-		Set<Interval> intervalSet = new HashSet<Interval>();
+		Set<Interval> intervalSet = new HashSet<>();
 		for (int i = 0; i < melody.length - 1; i++) {
 			int difference = (melody[i + 1].getPitch() - melody[i].getPitch())%12;
 			Interval interval = Interval.getEnumInterval(difference);
@@ -120,8 +120,8 @@ public class MelodicFunctions {
 	}
 	
 	public static List<Integer> getValueChanges(Note[] melody){
-		Map<Integer, Integer> map = new TreeMap<Integer,Integer>();
-		List<Integer> valueChanges = new ArrayList<Integer>();
+		Map<Integer, Integer> map = new TreeMap<>();
+		List<Integer> valueChanges = new ArrayList<>();
 		for (Note note : melody) {
 			int pitch = note.getPitch();// mod 12 octaaf equivalentie?
 			if (map.containsKey(pitch)) {
@@ -139,8 +139,8 @@ public class MelodicFunctions {
 	}
 	
 	public static  <T> List<Integer> getValueChangesGeneric(T[] array){
-		Map<T, Integer> map = new TreeMap<T,Integer>();
-		List<Integer> valueChanges = new ArrayList<Integer>();
+		Map<T, Integer> map = new TreeMap<>();
+		List<Integer> valueChanges = new ArrayList<>();
 		for (T value : array) {
 			if (map.containsKey(value)) {
 				Integer count = map.get(value);
@@ -165,7 +165,7 @@ public class MelodicFunctions {
 	
 	public static List<Integer> getValueChangesMax(Note[] melody){
 		List<Integer> valueChanges = getValueChanges(melody);
-		List<Integer> newValueChanges = new ArrayList<Integer>();
+		List<Integer> newValueChanges = new ArrayList<>();
 		Integer max = Collections.max(valueChanges);
 		for (Integer integer : valueChanges) {
 			if (integer.equals(-1)) {
@@ -178,20 +178,20 @@ public class MelodicFunctions {
 	}
 	
 	public static List<Integer> getDifferentValueChanges(Note[] melody){
-		Map<Integer, Set<Integer>> map = new TreeMap<Integer,Set<Integer>>();
-		List<Integer> valueChanges = new ArrayList<Integer>();
+		Map<Integer, Set<Integer>> map = new TreeMap<>();
+		List<Integer> valueChanges = new ArrayList<>();
 		for (Note note : melody) {
 			int pitch = note.getPitch();
 			if (map.containsKey(pitch)) {
 				Set<Integer> set = map.get(pitch);
 				valueChanges.add(set.size());//different notes between events
 				addPitchToMap(map, pitch);
-				set = new HashSet<Integer>();
+				set = new HashSet<>();
 				map.put(pitch, set);
 			}else{
 				valueChanges.add(-1);//-1 = *
 				addPitchToMap(map, pitch);
-				Set<Integer> set = new HashSet<Integer>();
+				Set<Integer> set = new HashSet<>();
 				map.put(pitch, set);
 			}
 		}

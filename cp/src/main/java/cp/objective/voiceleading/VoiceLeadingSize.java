@@ -4,11 +4,12 @@ import cp.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class VoiceLeadingSize implements Comparable<VoiceLeadingSize>{
 
-	private List<Integer> source = new ArrayList<>();
-	private List<Integer> target = new ArrayList<>();
+	private final List<Integer> source = new ArrayList<>();
+	private final List<Integer> target = new ArrayList<>();
 	private int size;
 	private int mod = 12;
 	private String sourceForteName;
@@ -58,7 +59,7 @@ public class VoiceLeadingSize implements Comparable<VoiceLeadingSize>{
 	
 	public List<Integer> getVlSource() {
 		List<Integer> list = new ArrayList<>(source);
-		if (list.get(0) == target.get(0)) {
+		if (Objects.equals(list.get(0), target.get(0))) {
 			list.remove(0);
 		}else{
 			list.remove(source.size() - 1);
@@ -68,7 +69,7 @@ public class VoiceLeadingSize implements Comparable<VoiceLeadingSize>{
 	
 	public List<Integer> getVlTarget() {
 		List<Integer> list = new ArrayList<>(target);
-		if (source.get(0) == target.get(0)) {
+		if (Objects.equals(source.get(0), target.get(0))) {
 			list.remove(0);
 		}else{
 			list.remove(target.size() - 1);

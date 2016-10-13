@@ -24,8 +24,8 @@ public class MusicProblem extends Problem {
 	@Autowired
 	private FitnessEvaluationTemplate fitnessEvaluationTemplate;
 
-	private MembershipFunction melodyMembershipFunction;
-	private MembershipFunction harmonyMembershipFunction;
+	private final MembershipFunction melodyMembershipFunction;
+	private final MembershipFunction harmonyMembershipFunction;
 	
 	@Autowired
 	public MusicProblem(MusicProperties properties) throws ClassNotFoundException {

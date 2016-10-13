@@ -176,8 +176,7 @@ public class MelodyBlock {
 	
 	/**
 	 * @param steps Steps are functional degrees of scale.
-	 * @param timeLine 
-	 * @param melody 
+	 * @param timeLine
 	 * @return
 	 */
 	public MelodyBlock Trelative(int steps, TimeLine timeLine){
@@ -197,7 +196,6 @@ public class MelodyBlock {
 	}
 
 	/**
-	 * @param functional degree center pitch class
 	 * @return
 	 */
 	public MelodyBlock Irelative(int functionalDegreeCenter, TimeLine timeLine){
@@ -289,7 +287,7 @@ public class MelodyBlock {
 	}
 	
 	public boolean isDependant(){
-		return(operatorType != null)?true:false;
+		return operatorType != null;
 	}
 	
 	public boolean isRhythmDependant(){

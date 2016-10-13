@@ -14,7 +14,7 @@ import static cp.model.note.NoteBuilder.note;
 public class OneNoteTriplet {
 
 	public List<Note> pos1(int beat) {
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).len(beat).build());
 		return notes;
 	}
@@ -68,14 +68,14 @@ public class OneNoteTriplet {
 	}
 	
 	private List<Note> posRest(int firstLength, int secondLength){
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).rest().len(firstLength).build());
 		notes.add(note().pos(firstLength).len(secondLength).build());
 		return notes;
 	}
 	
 	private List<Note> posRestTuplet(int firstLength, int secondLength){
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).rest().len(firstLength).tuplet(TupletType.START).build());
 		notes.add(note().pos(firstLength).len(secondLength).tuplet(TupletType.STOP).build());
 		return notes;

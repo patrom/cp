@@ -64,7 +64,7 @@ public class OneNoteMutation extends AbstractMutation {
 			String name = cls.getName();
 			throw new JMException("Exception in " + name + ".execute()");
 		}
-		doMutation(probability.doubleValue(), solution);
+		doMutation(probability, solution);
 		return solution;
 	} 
 

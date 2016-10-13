@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public class TwoNoteTemplate {
 	
-	private RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
+	private final RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
 
 	public int[] note01(){
 		return new int[] {0,1};

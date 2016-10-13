@@ -12,7 +12,7 @@ import static java.util.stream.Collectors.toList;
 
 public class Orchestra {
 
-	protected Map<Instrument, List<Note>> map = new TreeMap<>();
+	protected final Map<Instrument, List<Note>> map = new TreeMap<>();
 	protected Instrument piccolo;
 	protected Instrument flute;
 	protected Instrument altoFlute;

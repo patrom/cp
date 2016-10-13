@@ -103,12 +103,12 @@ public abstract class Composition {
 	protected Brilliant brilliant;
 	
 	private InstrumentCombination instrumentCombination;
-	protected List<Instrument> instruments = new ArrayList<Instrument>();
+	protected List<Instrument> instruments = new ArrayList<>();
 	@Autowired
 	private Ensemble ensemble;
 	
-	protected int start = 0;
-	protected int end = 2 * DurationConstants.WHOLE;
+	protected final int start = 0;
+	protected final int end = 2 * DurationConstants.WHOLE;
 	
 	private TimeConfig timeConfig;
 	

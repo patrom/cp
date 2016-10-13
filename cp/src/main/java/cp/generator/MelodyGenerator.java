@@ -26,7 +26,7 @@ import static cp.model.note.NoteBuilder.note;
 @Component
 public class MelodyGenerator {
 	
-	private Random random = new Random();
+	private final Random random = new Random();
 	
 	private PitchClassGenerator pitchClassGenerator;
 
@@ -110,7 +110,7 @@ public class MelodyGenerator {
 	}
 	
 	public int[] generateMelodyPositions(int[] harmony, int minimumLength, int maxMelodyNotes){
-		int[] pos = null;
+		int[] pos;
 		int limit = generateLimit(harmony[0], harmony[1], minimumLength);
 		int from = ((harmony[0])/minimumLength) + 1;
 		int toExlusive = (int)Math.ceil(harmony[1]/(double)minimumLength);

@@ -8,7 +8,7 @@ import static java.lang.System.arraycopy;
 
 public class Util {
 
-	private static int mod = 12;
+	private static final int mod = 12;
 
 	public static int[] rotateArray(int[] array, int index) {
 		int[] result = new int[array.length];
@@ -63,11 +63,7 @@ public class Util {
 	}
 	
 	private static boolean isAscending(int direction) {
-		if (direction == 1) {
-			return true;
-		} else {
-			return false;
-		}
+		return direction == 1;
 	}
 	
 	public static int getSteps(int scaleDistance){

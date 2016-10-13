@@ -4,5 +4,5 @@ import jmetal.core.Solution;
 
 public interface Decorator {
 	
-	public void decorate(Solution solution);
+	void decorate(Solution solution);
 }

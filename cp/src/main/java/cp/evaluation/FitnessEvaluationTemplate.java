@@ -21,7 +21,7 @@ import static java.util.stream.Collectors.toList;
 @Component
 public class FitnessEvaluationTemplate {
 
-	private static Logger LOGGER = LoggerFactory.getLogger(FitnessEvaluationTemplate.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(FitnessEvaluationTemplate.class.getName());
 
 	@Autowired
 	private Objective harmonicObjective;

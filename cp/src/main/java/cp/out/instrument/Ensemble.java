@@ -25,14 +25,14 @@ public class Ensemble {
 	private Pleasant pleasant;
 	
 	public List<Instrument> getStringDuo(){
-		List<Instrument> stringDuo = new ArrayList<Instrument>();
+		List<Instrument> stringDuo = new ArrayList<>();
 		stringDuo.add(new ViolinSolo(2, 2));
 		stringDuo.add(new CelloSolo(0, 0));
 		return stringDuo;
 	}
 
 	public List<Instrument> getStringQuartet(){
-		List<Instrument> stringQuartet = new ArrayList<Instrument>();
+		List<Instrument> stringQuartet = new ArrayList<>();
 		stringQuartet.add(new Cello());
 		stringQuartet.add(new Viola());
 		stringQuartet.add(new ViolinSolo());
@@ -41,7 +41,7 @@ public class Ensemble {
 	}
 	
 	public List<Instrument> getWindQuartet(){
-		List<Instrument> instruments = new ArrayList<Instrument>();
+		List<Instrument> instruments = new ArrayList<>();
 		instruments.add(new Flute(3, 3));
 		instruments.add(new Oboe(2, 1));
 		instruments.add(new Clarinet(1, 2));
@@ -50,7 +50,7 @@ public class Ensemble {
 	}
 	
 	public List<Instrument> getPianoAndViolin(){
-		List<Instrument> voices = new ArrayList<Instrument>();
+		List<Instrument> voices = new ArrayList<>();
 		voices.add(new ViolinSolo(4, 1));
 		voices.add(new Piano(3, 0));
 		voices.add(new Piano(2, 0));
@@ -60,7 +60,7 @@ public class Ensemble {
 	}
 	
 	public List<Instrument> getPianoAndFlute(){
-		List<Instrument> voices = new ArrayList<Instrument>();
+		List<Instrument> voices = new ArrayList<>();
 		voices.add(new Flute(4, 1));
 		voices.add(new Piano(3, 0));
 		voices.add(new Piano(2, 0));
@@ -70,7 +70,7 @@ public class Ensemble {
 	}
 	
 	public List<Instrument> getPianoAnd2Flutes(){
-		List<Instrument> voices = new ArrayList<Instrument>();
+		List<Instrument> voices = new ArrayList<>();
 		voices.add(new Flute(5, 1));
 		voices.add(new Flute(4, 1));
 		voices.add(new Piano(3, 0));
@@ -81,7 +81,7 @@ public class Ensemble {
 	}
 	
 	public List<Instrument> getPiano(int totalVoices){
-		List<Instrument> voices = new ArrayList<Instrument>();
+		List<Instrument> voices = new ArrayList<>();
 		for (int i = 0; i < totalVoices; i++) {
 			voices.add(new Piano(i, 0));
 		}
@@ -89,7 +89,7 @@ public class Ensemble {
 	}
 	
 	public List<Instrument> getStringTrio(){
-		List<Instrument> strings = new ArrayList<Instrument>();
+		List<Instrument> strings = new ArrayList<>();
 		strings.add(new Cello(0,0));
 		strings.add(new Viola(1,1));
 		strings.add(new ViolinSolo(2,2));
@@ -105,7 +105,7 @@ public class Ensemble {
 //		cellos.setChannel(0);
 //		violas.setChannel(1);
 //		violins.setChannel(2);
-		List<Instrument> strings = new ArrayList<Instrument>();
+		List<Instrument> strings = new ArrayList<>();
 //		strings.add(basses);
 		strings.add(cellos);
 		strings.add(violas);
@@ -114,7 +114,7 @@ public class Ensemble {
 	}
 	
 	public List<Instrument> getStringsDoubleTriads(){
-		List<Instrument> strings = new ArrayList<Instrument>();
+		List<Instrument> strings = new ArrayList<>();
 		strings.add(new ViolinSolo(5, 0));
 		strings.add(new ViolinSolo(4, 0));
 		strings.add(new ViolinSolo(3, 0));
@@ -125,7 +125,7 @@ public class Ensemble {
 	}
 	
 	public List<Instrument> getClassicalGuitar(){
-		List<Instrument> guitar = new ArrayList<Instrument>();
+		List<Instrument> guitar = new ArrayList<>();
 		guitar.add(new Guitar(new InstrumentRegister(40, 55)));
 		guitar.add(new Guitar(new InstrumentRegister(50, 67)));
 		guitar.add(new Guitar(new InstrumentRegister(67, 76)));
@@ -136,7 +136,7 @@ public class Ensemble {
 		Instrument bassoon = pleasant.getBasicInstrument(InstrumentName.BASSOON.getName());
 		Instrument clarinet = pleasant.getBasicInstrument(InstrumentName.CLARINET.getName());
 		Instrument flute = pleasant.getBasicInstrument(InstrumentName.FLUTE.getName());
-		List<Instrument> instruments = new ArrayList<Instrument>();
+		List<Instrument> instruments = new ArrayList<>();
 		instruments.add(bassoon);
 		instruments.add(clarinet);
 		instruments.add(flute);

@@ -26,7 +26,7 @@ public class MusicXMLParser {
 	HashMap<Integer, Integer> divMultiplier;
 	public int divisions;
 	private Map<String, List<Note>> notesPerInstrument;
-	private List<Note> notes = new ArrayList<>();
+	private final List<Note> notes = new ArrayList<>();
 	
 	 public static void main (String[]args)throws IOException {
          MusicXMLParser parser = new MusicXMLParser("src/main/java/resources/cello3.xml");
@@ -61,10 +61,10 @@ public class MusicXMLParser {
 	}
 
 	private void parseNotes() {
-		Integer currentVoice = 0;
+		Integer currentVoice;
 		int duration = 0;
-		Integer position = 0;
-		Integer lastDuration = 0;
+		Integer position;
+		Integer lastDuration;
 		Elements parts = this.doc.select("part");
 		for (Element part : parts) {
 			position = 0;
@@ -251,52 +251,52 @@ public class MusicXMLParser {
 						if(!thisnote.getElementsByTag("tied").isEmpty()){
 							if(thisnote.getElementsByTag("tied").attr("type").equals("start")){
 								note.setTieStart(true);
-							};
+							}
 							if(thisnote.getElementsByTag("tied").attr("type").equals("stop")){
 								note.setTieEnd(true);
-							};
+							}
 						}
 						
 						if(!thisnote.getElementsByTag("tuplet").isEmpty()){
 							Element tuplet = thisnote.getElementsByTag("tuplet").first();
 							if(tuplet.attr("type").equals("start")){
 								note.setTupletType(TupletType.START);
-							};
+							}
 							if(tuplet.attr("type").equals("stop")){
 								note.setTupletType(TupletType.STOP);
-							};
+							}
 							if(tuplet.attr("bracket").equals("yes")){
 								note.setBracket(true);
-							};
+							}
 						}
 						
 						if(!thisnote.getElementsByTag("beam").isEmpty()){
 							if(thisnote.getElementsByTag("beam").size() == 1) {
-								if(thisnote.getElementsByTag("beam").text() == "begin"){
+								if( "begin".equals(thisnote.getElementsByTag("beam").text())){
 									note.setBeamType(BeamType.BEGIN);	
-								}else if(thisnote.getElementsByTag("beam").text() == "continue"){
+								}else if("continue".equals(thisnote.getElementsByTag("beam").text())){
 									note.setBeamType(BeamType.CONTINUE);	
-								}else if(thisnote.getElementsByTag("beam").text() == "end"){
+								}else if("end".equals(thisnote.getElementsByTag("beam").text())){
 									note.setBeamType(BeamType.END);	
 								}
 							}
 							if(thisnote.getElementsByTag("beam").size() == 2){
 								Element firsBeam = thisnote.getElementsByTag("beam").get(0);
 								Element secondBeam = thisnote.getElementsByTag("beam").get(1);
-								if(firsBeam.text() == "begin" && secondBeam.text() == "begin"){
+								if("begin".equals(firsBeam.text()) && "begin".equals(secondBeam.text())){
 									note.setBeamType(BeamType.BEGIN_BEGIN);	
-								}else if(firsBeam.text() == "continue" && secondBeam.text() == "continue"){
+								}else if("continue".equals(firsBeam.text()) && "continue".equals(secondBeam.text())){
 									note.setBeamType(BeamType.CONTINUE_CONTINUE);	
-								}else if(firsBeam.text() == "end" && secondBeam.text() == "end"){
+								}else if("end".equals(firsBeam.text()) && "end".equals(secondBeam.text())){
 									note.setBeamType(BeamType.END_END);	
 								}
-								else if(firsBeam.text() == "continue" && secondBeam.text() == "begin"){
+								else if("continue".equals(firsBeam.text()) && "begin".equals(secondBeam.text())){
 									note.setBeamType(BeamType.CONTINUE_BEGIN);	
 								}
-								else if(firsBeam.text() == "continue" && secondBeam.text() == "end"){
+								else if("continue".equals(secondBeam.text()) && "end".equals(secondBeam.text())){
 									note.setBeamType(BeamType.CONTINUE_END);	
 								}
-							}; 	
+							}
 						}
 						
 						

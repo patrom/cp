@@ -10,14 +10,14 @@ import javax.swing.*;
 
 public class TnTnIType extends TnIType {
 
-	public Set[] prime2 = new Set[6];
-	public Set[] prime3 = new Set[12];
-	public Set[] prime4 = new Set[29];
-	public Set[] prime5 = new Set[38];
-	public Set[] prime6 = new Set[50];
-	public Set[] prime7 = new Set[38];
-	public Set[] prime8 = new Set[29];
-	public Set[] prime9 = new Set[12];
+	public final Set[] prime2 = new Set[6];
+	public final Set[] prime3 = new Set[12];
+	public final Set[] prime4 = new Set[29];
+	public final Set[] prime5 = new Set[38];
+	public final Set[] prime6 = new Set[50];
+	public final Set[] prime7 = new Set[38];
+	public final Set[] prime8 = new Set[29];
+	public final Set[] prime9 = new Set[12];
 
 	// public Set prime = new Set();
 	public Set prime;
@@ -767,8 +767,7 @@ public class TnTnIType extends TnIType {
 			}
 			return lists9;
 		default:
-			String[][] lists = new String[1][1];
-			return lists;
+            return new String[1][1];
 		}
 	}
 

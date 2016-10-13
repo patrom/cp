@@ -6,7 +6,7 @@ public enum MidiDevice {
 	
 	private String name;
 	
-	private MidiDevice(){
+	MidiDevice(){
 		String OS = System.getProperty("os.name").toLowerCase();
 		if (OS.indexOf("win") >= 0) {
 			this.name = "LoopBe Internal MIDI";

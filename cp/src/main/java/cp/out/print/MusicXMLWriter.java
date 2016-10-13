@@ -31,7 +31,7 @@ import static cp.model.note.NoteBuilder.note;
 public class MusicXMLWriter {
 
 	public static final int DIVISIONS = 256;
-	private Integer[] nonTieLengths = {48,24,12,9,8,6,4,3};
+	private final Integer[] nonTieLengths = {48,24,12,9,8,6,4,3};
 	
 	XMLStreamWriter xmlStreamWriter;
 	
@@ -51,7 +51,7 @@ public class MusicXMLWriter {
 		XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newInstance();
 		Resource resource = new FileSystemResource("");
 		try {
-			xmlStreamWriter = xmlOutputFactory.createXMLStreamWriter(new FileOutputStream(resource.getFile().getPath() + "cp/src/main/resources/xml/" + id + ".xml"), "UTF-8");
+			xmlStreamWriter = xmlOutputFactory.createXMLStreamWriter(new FileOutputStream(resource.getFile().getPath() + "src/main/resources/xml/" + id + ".xml"), "UTF-8");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -99,7 +99,7 @@ public class MusicXMLWriter {
 	}
 	
 	private List<Note> addRests(List<Note> notes){
-		List<Note> notesRestsIncluded = new ArrayList<Note>();
+		List<Note> notesRestsIncluded = new ArrayList<>();
 		int size = notes.size() - 1;
 		for (int i = 0; i < size; i++) {
 			Note note = notes.get(i);

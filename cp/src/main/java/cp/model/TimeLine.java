@@ -10,7 +10,7 @@ import java.util.TreeMap;
 @Component
 public class TimeLine {
 
-	private Map<Integer, List<TimeLineKey>> keysPerVoice = new TreeMap<>();
+	private final Map<Integer, List<TimeLineKey>> keysPerVoice = new TreeMap<>();
 	
 	public TimeLineKey getTimeLineKeyAtPosition(int position, int voice){
 		List<TimeLineKey> keys = keysPerVoice.get(voice);

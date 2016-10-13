@@ -6,9 +6,9 @@ import java.util.List;
 
 public class CpHarmony {
 
-	private List<Note> notes;
+	private final List<Note> notes;
 	private Chord chord;
-	private int position;
+	private final int position;
 
 	public CpHarmony(List<Note> notes, int position) {
 		this.notes = notes;

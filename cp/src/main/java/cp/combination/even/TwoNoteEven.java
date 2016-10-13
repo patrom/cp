@@ -38,7 +38,7 @@ public class TwoNoteEven {
 	}
 	
 	public List<Note> pos34(int beat) {
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		int beat2 = beat/2;
 		int beat4 = beat/4;
 		if (beat == DurationConstants.QUARTER) {
@@ -58,7 +58,7 @@ public class TwoNoteEven {
 	}
 	
 	public List<Note> pos23(int beat) {
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		int beat2 = beat/2;
 		int beat4 = beat/4;
 		notes.add(note().pos(0).rest().len(beat4).build());
@@ -68,7 +68,7 @@ public class TwoNoteEven {
 	}
 	
 	public List<Note> pos24(int beat) {
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		int beat2 = beat/2;
 		int beat4 = beat/4;
 		if (beat == DurationConstants.QUARTER) {
@@ -84,14 +84,14 @@ public class TwoNoteEven {
 	}
 	
 	private List<Note> pos(int noteLength, int length){
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).len(noteLength).build());
 		notes.add(note().pos(noteLength).len(length - noteLength).build());
 		return notes;
 	}
 	
 	private List<Note> posWithBeam(int noteLength, int length){
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).len(noteLength).beam(BeamType.BEGIN).build());
 		notes.add(note().pos(noteLength).len(length - noteLength).beam(BeamType.END).build());
 		return notes;

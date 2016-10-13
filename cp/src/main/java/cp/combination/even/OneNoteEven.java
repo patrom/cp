@@ -12,7 +12,7 @@ import static cp.model.note.NoteBuilder.note;
 public class OneNoteEven{
 	
 	public List<Note> pos1(int beat) {
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).len(beat).build());
 		return notes;
 	}
@@ -30,7 +30,7 @@ public class OneNoteEven{
 	}
 	
 	private List<Note> posRest(int noteLength, int length){
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).rest().len(noteLength).build());
 		notes.add(note().pos(noteLength).len(length - noteLength).build());
 		return notes;

@@ -15,7 +15,7 @@ public abstract class Neighbor extends Variation {
 	
 	protected List<Note> generateNeighborNote(Note firstNote, int pitchClass, int pitch,
 			double[] pattern) {
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		int firstNotePc = firstNote.getPitchClass();
 		int firstNotePitch = firstNote.getPitch();
 		int firstNoteLength = firstNote.getLength();

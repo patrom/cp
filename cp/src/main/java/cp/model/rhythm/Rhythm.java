@@ -14,15 +14,14 @@ import java.util.stream.IntStream;
 @Component
 public class Rhythm {
 	
-	private static Logger LOGGER = LoggerFactory.getLogger(Rhythm.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Rhythm.class);
 	
-	private Random random = new Random();
+	private final Random random = new Random();
 	
 	public List<Note> getRhythm(int harmonyPosition ,List<Note> chordNotes, Integer[] positions, int voice, Integer[] texture, Integer[] contour){
 		List<Note> soundNotes = getSounds(harmonyPosition, positions);
 		List<Note> contourNotes = getContour(chordNotes, soundNotes, contour, voice);
-		List<Note> textureNotes = getTexture(chordNotes, contourNotes, texture);
-		return textureNotes;
+        return getTexture(chordNotes, contourNotes, texture);
 	}
 	
 	protected List<Note> getSounds(int harmonyPosition, Integer[] positions) {
@@ -51,15 +50,13 @@ public class Rhythm {
 	public List<Note> getRhythm(List<Note> chordNotes, Integer[] positions, int voice, Integer[] texture, Integer[] contour){
 		List<Note> soundNotes = getSounds(0 ,positions);
 		List<Note> contourNotes = getContour(chordNotes, soundNotes, contour, voice);
-		List<Note> textureNotes = getTexture(chordNotes, contourNotes, texture);
-		return textureNotes;
+        return getTexture(chordNotes, contourNotes, texture);
 	}
 	
 	public List<Note> getRhythm(List<Note> chordNotes, List<Integer> positions, int voice, Integer[] texture, Integer[] contour){
 		List<Note> soundNotes = getSounds(0 ,positions);
 		List<Note> contourNotes = getContour(chordNotes, soundNotes, contour, voice);
-		List<Note> textureNotes = getTexture(chordNotes, contourNotes, texture);
-		return textureNotes;
+        return getTexture(chordNotes, contourNotes, texture);
 	}
 	
 	public List<Note> getRhythmRandomContourTexture(List<Note> chordNotes, Integer[] positions, int voice, int maxTexture){
@@ -69,8 +66,7 @@ public class Rhythm {
 		List<Note> contourNotes = getContour(chordNotes, soundNotes, contour, voice);
 		Integer[] texture = getRandomTexture(maxTexture + 1, positions.length - 1);
 		LOGGER.debug("texture: " + Arrays.toString(texture));
-		List<Note> textureNotes = getTexture(chordNotes, contourNotes, texture);
-		return textureNotes;
+        return getTexture(chordNotes, contourNotes, texture);
 	}
 	
 	private Integer[] getRandomTexture(int chordSize, int soundsSize) {
@@ -92,7 +88,7 @@ public class Rhythm {
 		for (int i = 0; i < melody.size(); i++) {
 			int nextTexture = getNextTexture(texture, i);
 			if (nextTexture > 1) {
-				List<Note> textureNotes = new ArrayList<Note>();
+				List<Note> textureNotes = new ArrayList<>();
 				Note melodyNote = melody.get(i);
 				textureNotes.add(melodyNote);
 				int index = getIndexOfNote(melodyNote, chordNotes);
@@ -123,7 +119,7 @@ public class Rhythm {
 				Note melodyNote = rhythmPosition.getNotes().get(0);
 				int nextTexture = getNextTexture(texture, i);
 				if (nextTexture > 1) {
-					List<Note> textureNotes = new ArrayList<Note>();
+					List<Note> textureNotes = new ArrayList<>();
 						int size = rhythmPosition.getSelectableNotes().size();
 						textureNotes.add(melodyNote);
 						int index = getIndexOfNote(melodyNote, rhythmPosition.getSelectableNotes());

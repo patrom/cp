@@ -4,7 +4,7 @@ import org.apache.commons.math3.random.RandomDataGenerator;
 
 public class ThreeNoteTemplate {
 
-	private RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
+	private final RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
 
 	public int[] note012(){
 		return new int[] {0,1,2};

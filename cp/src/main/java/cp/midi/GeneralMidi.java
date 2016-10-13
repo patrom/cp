@@ -10,9 +10,9 @@ public enum GeneralMidi {
 	HARPSICHORD(7),
 	NYLON_GUITAR(25);
 	
-	private int event;
+	private final int event;
 	
-	private GeneralMidi(int event){
+	GeneralMidi(int event){
 		this.event = event;
 	}
 

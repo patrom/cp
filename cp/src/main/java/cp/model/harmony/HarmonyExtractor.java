@@ -26,11 +26,11 @@ public class HarmonyExtractor {
 	@Qualifier(value="TonalDissonance")
 	private Dissonance dissonance;
 	
-	private static Logger LOGGER = LoggerFactory.getLogger(HarmonyExtractor.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(HarmonyExtractor.class.getName());
 
 	public List<CpHarmony> extractHarmony(List<Note> melodyNotes, int voices){
 		List<CpHarmony>  extractedHarmonies = new ArrayList<>();
-		List<Note> tempHarmonyNotes = new ArrayList<Note>();
+		List<Note> tempHarmonyNotes = new ArrayList<>();
 		for (int i = 0; i < voices; i++) {
 			tempHarmonyNotes.add(note().voice(i).build());
 		}

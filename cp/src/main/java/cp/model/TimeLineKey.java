@@ -5,10 +5,10 @@ import cp.out.print.note.Key;
 
 public class TimeLineKey {
 
-	private Key key;
-	private int start;
-	private int end;
-	private Scale scale;
+	private final Key key;
+	private final int start;
+	private final int end;
+	private final Scale scale;
 
 	public TimeLineKey(Key key, Scale scale, int start, int end) {
 		this.key = key;

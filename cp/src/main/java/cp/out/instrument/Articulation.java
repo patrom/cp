@@ -14,9 +14,9 @@ public enum Articulation {
 //	TREMELO("");
 //	SFORZANDO("");
 	
-	private String musicXmlLabel;
+	private final String musicXmlLabel;
 	
-	private Articulation(String musicXmlLabel){
+	Articulation(String musicXmlLabel){
 		this.musicXmlLabel = musicXmlLabel;
 	}
 	

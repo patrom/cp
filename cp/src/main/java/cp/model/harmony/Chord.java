@@ -11,10 +11,10 @@ import java.util.stream.Collectors;
 
 public class Chord {
 	
-	private Multiset<Integer> pitchClassMultiSet = TreeMultiset.create();
+	private final Multiset<Integer> pitchClassMultiSet = TreeMultiset.create();
 	private ChordType chordType;
 	private int voiceLeadingZone;
-	private int bassNote;
+	private final int bassNote;
 
 	public Chord(int bassNote) {
 		this.bassNote = bassNote;
@@ -95,7 +95,7 @@ public class Chord {
 	}
 
 	private ChordType getInterval(Integer[] chord, int bassNote) {
-		int interval = -1;
+		int interval;
 		if (bassNote == chord[1]) {
 			interval =  ((12 + chord[0]) - chord[1]) % 12;
 		} else {

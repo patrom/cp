@@ -23,7 +23,7 @@ import java.util.List;
 @Component
 public class Display {
 
-	private static Logger LOGGER = LoggerFactory.getLogger(Display.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Display.class);
 
 	@Autowired
 	private ScoreUtilities scoreUtilities;

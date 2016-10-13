@@ -93,7 +93,7 @@ public class TwoNoteTriplet {
 	}
 	
 	private List<Note> posWithBracketStartRestTriplet(int firstLength, int secondLength){
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).len(firstLength).rest().tuplet(TupletType.START).build());
 		notes.add(note().pos(firstLength).len(firstLength).build());
 		notes.add(note().pos(secondLength).len(firstLength).tuplet(TupletType.STOP).build());
@@ -101,7 +101,7 @@ public class TwoNoteTriplet {
 	}
 	
 	private List<Note> posWithBeamStartRest(int firstLength, int secondLength){
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).len(firstLength).rest().build());
 		notes.add(note().pos(firstLength).len(firstLength).beam(BeamType.BEGIN).build());
 		notes.add(note().pos(secondLength).len(firstLength).beam(BeamType.END).build());
@@ -109,7 +109,7 @@ public class TwoNoteTriplet {
 	}
 	
 	private List<Note> posWithBeamStartRestTriplet(int firstLength, int secondLength){
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).len(firstLength).rest().tuplet(TupletType.START).build());
 		notes.add(note().pos(firstLength).len(firstLength).beam(BeamType.BEGIN).build());
 		notes.add(note().pos(secondLength).len(firstLength).beam(BeamType.END).tuplet(TupletType.STOP).build());
@@ -117,7 +117,7 @@ public class TwoNoteTriplet {
 	}
 	
 	private List<Note> posStartRest(int firstLength, int secondLength){
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).len(firstLength).rest().build());
 		notes.add(note().pos(firstLength).len(firstLength).build());
 		notes.add(note().pos(secondLength).len(firstLength).build());
@@ -125,7 +125,7 @@ public class TwoNoteTriplet {
 	}
 	
 	private List<Note> posWithBeam(int firstLength, int secondLength){
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).len(firstLength).beam(BeamType.BEGIN).build());
 		notes.add(note().pos(firstLength).len(secondLength).beam(BeamType.END).build());
 		return notes;
@@ -139,7 +139,7 @@ public class TwoNoteTriplet {
 //	}
 	
 	private List<Note> pos(int firstLength, int secondLength){
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).len(firstLength).tuplet(TupletType.START).build());
 		notes.add(note().pos(firstLength).len(secondLength).tuplet(TupletType.STOP).build());
 		return notes;

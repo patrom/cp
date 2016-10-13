@@ -23,7 +23,7 @@ public class BeatMap {
 			Note last = notes.get(notes.size() - 1);
 			int lastIndex = (last.getPosition() + last.getLength())/beat;
 			for (int key = 0; key < lastIndex; key++) {
-				notesPerBeat.computeIfAbsent(key, v -> new ArrayList<Note>());
+				notesPerBeat.computeIfAbsent(key, v -> new ArrayList<>());
 			}
 		}
 	}
@@ -82,7 +82,7 @@ public class BeatMap {
 			}
 			return notesPerBeat.values().stream().flatMap(list -> list.stream()).sorted().collect(toList());
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 	
 //	public List<Note> createTies(){

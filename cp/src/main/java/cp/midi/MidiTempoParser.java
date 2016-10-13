@@ -5,7 +5,7 @@ import javax.sound.midi.MidiMessage;
 
 public class MidiTempoParser {
 
-	private int DEFAULT_TEMPO = 120;
+	private final int DEFAULT_TEMPO = 120;
 
 	public int parseTempo(final MidiMessage message) {
 		if (message instanceof MetaMessage) {
@@ -30,8 +30,7 @@ public class MidiTempoParser {
 
 	private int parseMicrosecondsPerBeat(final MetaMessage message) {
 		int tempo = message.getData()[0] * 16384 + message.getData()[1] * 128 + message.getData()[2];
-		int beatsPerMinute = (int) convertMicrosecondsPerBeatToBPM(tempo);
-		return beatsPerMinute;
+        return (int) convertMicrosecondsPerBeatToBPM(tempo);
 	}
 
 	private double convertMicrosecondsPerBeatToBPM(final double value) {

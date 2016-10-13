@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 @Import(DefaultConfig.class)
 public class PlayApplication extends JFrame implements CommandLineRunner{
 	
-	private static Logger LOGGER = LoggerFactory.getLogger(PlayApplication.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(PlayApplication.class.getName());
 	
 	@Autowired
 	private MidiParser midiParser;
@@ -50,7 +50,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 	@Autowired
 	private ScoreUtilities scoreUtilities;
 	@Autowired
-	private Embellisher embellisher;
+	private  Embellisher embellisher;
 	@Autowired
 	private Rhythm rhythm;
 	@Autowired
@@ -58,7 +58,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 	@Autowired
 	private MusicXMLWriter musicXMLWriter;
 
-	private ClassicalOrchestra classicalOrchestra = new ClassicalOrchestra();
+	private final ClassicalOrchestra classicalOrchestra = new ClassicalOrchestra();
 	
 	public static void main(final String[] args) {
 	 	SpringApplication app = new SpringApplication(PlayApplication.class);
@@ -138,7 +138,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 	}
 
 	public List<List<Note>> chordal(List<Note> harmonyNotes) {
-		ArrayList<List<Note>> list = new ArrayList<List<Note>>();
+		ArrayList<List<Note>> list = new ArrayList<>();
 		list.add(harmonyNotes);
 		return list;
 	}
@@ -157,7 +157,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 		//accompagnement
 		List<HarmonyPosition> harmonyPositions = midiInfo.getHarmonyPositions();
 		Integer[] compPattern = {6,12,18,24};
-		List<Integer[]> compPatterns = new ArrayList<Integer[]>();
+		List<Integer[]> compPatterns = new ArrayList<>();
 		compPatterns.add(compPattern);
 		Accompagnement[] compStrategy = {Accompagnement::arpeggio};
 		List<Note> accompagnement = arrangement.accompagnement(harmonyPositions, compPatterns, compStrategy);
@@ -216,7 +216,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 	}
 	
 	private void write(List<MelodyInstrument> melodies, String outputPath, int tempo) throws InvalidMidiDataException, IOException{
-		Sequence seq = null;
+		Sequence seq;
 		if (containsInstrument(melodies, GeneralMidi.PIANO)) {
 			MelodyInstrument piano = mergeMelodies(melodies, 2, new Piano(1, 2));
 			List<MelodyInstrument> otherInstruments = melodies.stream()

@@ -4,6 +4,6 @@ import cp.model.Motive;
 
 public interface MelodyDecorator {
 
-	public void decorate(Motive motive);
+	void decorate(Motive motive);
 	
 }

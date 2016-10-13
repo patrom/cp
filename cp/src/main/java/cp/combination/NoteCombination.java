@@ -26,7 +26,7 @@ public class NoteCombination {
 //	@Resource(name="combinationsUnevenBeat")
 //	private Map<Integer, List<RhythmCombination>> combinationsUnevenBeat;
 	
-	private Map<Integer, List<RhythmCombination>> combinations =  new TreeMap<>();
+	private final Map<Integer, List<RhythmCombination>> combinations =  new TreeMap<>();
 	
 	public List<Note> getNotes(int beat, int voice){
 		List<RhythmCombination> rhythmCombinations = null;

@@ -9,7 +9,7 @@ import java.util.List;
 
 public abstract class BeatGroup {
 
-	protected int length;
+	protected final int length;
 	protected List<RhythmCombination> rhythmCombinations;
 
 	public BeatGroup(int length, List<RhythmCombination> rhythmCombinations) {

@@ -14,7 +14,7 @@ import static cp.model.note.NoteBuilder.note;
 public class ThreeNoteEven {
 
 	public List<Note> pos123(int beat) {
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		int beat2 = beat/2;
 		int beat4 = beat/4;
 		if (beat == DurationConstants.QUARTER) {
@@ -34,7 +34,7 @@ public class ThreeNoteEven {
 	}
 	
 	public List<Note> pos134(int beat) {
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		int beat2 = beat/2;
 		int beat4 = beat/4;
 		if (beat == DurationConstants.QUARTER) {
@@ -54,7 +54,7 @@ public class ThreeNoteEven {
 	}
 	
 	public List<Note> pos234(int beat) {
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		int beat4 = beat/4;
 		if (beat == DurationConstants.QUARTER) {
 			notes.add(note().pos(0).rest().len(beat4).build());
@@ -76,7 +76,7 @@ public class ThreeNoteEven {
 	}
 	
 	public List<Note> pos124(int beat) {
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		int beat2 = beat/2;
 		int beat4 = beat/4;
 		if (beat == DurationConstants.QUARTER) {

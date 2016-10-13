@@ -7,7 +7,7 @@ package cp.model.setclass;
 
 public class PcSetUnorderedProperties {
 
-	private TnTnIType setClass;
+	private final TnTnIType setClass;
 	private Set prime;
 	
 	public PcSetUnorderedProperties(int[] set) {
@@ -40,15 +40,14 @@ public class PcSetUnorderedProperties {
 		// Combinatoriality
 		if (prime.set.length == 6){
 			combinatorialString = prime.combinatorialToString();
-		}	
-		String[] properties = {prime.name,
-				       tntypeString,
-				       tnitypeString,
-				       tntnitypeString,
-				       ivectorString,
-				       m7m7iString,
-				       symmetryString,
-				       combinatorialString};
-		return properties;
+		}
+        return new String[]{prime.name,
+                       tntypeString,
+                       tnitypeString,
+                       tntnitypeString,
+                       ivectorString,
+                       m7m7iString,
+                       symmetryString,
+                       combinatorialString};
 	}
 }

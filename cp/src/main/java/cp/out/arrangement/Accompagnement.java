@@ -9,20 +9,19 @@ import java.util.stream.Collectors;
 @FunctionalInterface
 public interface Accompagnement {
 
-	public List<List<Note>> applyAccompagnement(List<Note> notes);
+	List<List<Note>> applyAccompagnement(List<Note> notes);
 	
-	public static List<List<Note>> chordal(List<Note> harmonyNotes) {
-		ArrayList<List<Note>> list = new ArrayList<List<Note>>();
+	static List<List<Note>> chordal(List<Note> harmonyNotes) {
+		ArrayList<List<Note>> list = new ArrayList<>();
 		list.add(harmonyNotes);
 		return list;
 	}
 	
-	public static List<List<Note>> arpeggio(List<Note> harmonyNotes) {
-		List<List<Note>> arpeggio = harmonyNotes.stream().map(note -> {
+	static List<List<Note>> arpeggio(List<Note> harmonyNotes) {
+		return harmonyNotes.stream().map(note -> {
 			List<Note> list = new ArrayList<Note>();
 			list.add(note);
 			return list;
 		}).collect(Collectors.toList());
-		return arpeggio;
 	}
 }

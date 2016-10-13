@@ -11,9 +11,9 @@ import java.util.List;
 
 public abstract class TimeConfig {
 
-	protected List<BeatGroup> beats = new ArrayList<>();
-	protected List<BeatGroup> beatsDoubleLength = new ArrayList<>();
-	protected List<BeatGroup> beatsAll = new ArrayList<>();
+	protected final List<BeatGroup> beats = new ArrayList<>();
+	protected final List<BeatGroup> beatsDoubleLength = new ArrayList<>();
+	protected final List<BeatGroup> beatsAll = new ArrayList<>();
 	
 	protected int minimumRhythmFilterLevel = DurationConstants.QUARTER; //levels pitch, crest/keel, ...
 	

@@ -48,8 +48,8 @@ public class MidiInfo {
 										for (int i = 0; i < voices.length; i++) {
 											if(m.getVoice() == voices[i]){
 												return true;
-											};
-										}
+											}
+                                        }
 										return false;
 									})
 									.flatMap(m -> m.getNotes().stream())

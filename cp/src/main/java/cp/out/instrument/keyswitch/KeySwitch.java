@@ -4,6 +4,6 @@ import cp.out.instrument.Articulation;
 
 public interface KeySwitch {
 	
-	public int getArticulation(Articulation articulation);
+	int getArticulation(Articulation articulation);
 
 }

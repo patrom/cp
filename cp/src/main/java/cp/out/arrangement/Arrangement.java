@@ -106,7 +106,7 @@ public class Arrangement {
 	public List<Note> createAccompForPattern(List<Note> melodyNotes, List<Note> compPattern, int minimumLengthNote){
 		int position = 0;
 		int tempPosition = 0;
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		for (Note note : melodyNotes) {
 			while ((position + note.getLength()) > tempPosition) {
 				Optional<Note> patternNote = getPatternNote(compPattern, tempPosition);

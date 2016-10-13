@@ -8,5 +8,5 @@ import java.util.List;
 @FunctionalInterface
 public interface Orchestration {
 
-	public List<Note> orchestrate(RhythmCombination rhythmCombination, int beat, int...pitchClasses);
+	List<Note> orchestrate(RhythmCombination rhythmCombination, int beat, int... pitchClasses);
 }

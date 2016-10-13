@@ -40,8 +40,8 @@ public class Scale {
 			WEBERN_TRICHORD_4 = new Scale(new int[]{0, 1, 9});
 		
 			
-	private Random random = new Random(System.currentTimeMillis());
-	private int[] scale;
+	private final Random random = new Random(System.currentTimeMillis());
+	private final int[] scale;
 	
 	public Scale(int[] scale) {
 		this.scale = scale;

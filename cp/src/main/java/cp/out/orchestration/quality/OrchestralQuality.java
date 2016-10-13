@@ -17,7 +17,7 @@ public abstract class OrchestralQuality {
 	protected String type;
 	protected List<Instrument> instruments = new ArrayList<>();
 	protected List<Instrument> complementaryInstruments = new ArrayList<>();
-	protected List<OrchestralQuality> closeQualities = new ArrayList<>();
+	protected final List<OrchestralQuality> closeQualities = new ArrayList<>();
 	
 	public String getQuality() {
 		return quality;

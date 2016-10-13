@@ -14,7 +14,7 @@ import java.util.List;
 @Component
 public class HarmonicObjective extends Objective {
 	
-	private static Logger LOGGER = LoggerFactory.getLogger(HarmonicObjective.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(HarmonicObjective.class.getName());
 
 	private Dissonance dissonance;
 	
@@ -40,8 +40,7 @@ public class HarmonicObjective extends Objective {
 					Chord chord = h.getChord();
 					LOGGER.debug("chord: " + chord);
 					double dissonanceChord = dissonance.getDissonance(chord);
-					double chordWeight = dissonanceChord* (harmonyWeight / totalHarmonyWeight);
-					return chordWeight;
+					return dissonanceChord* (harmonyWeight / totalHarmonyWeight);
 				})
 				.peek(w -> LOGGER.debug("Weight: " + w))
 				.average().getAsDouble();

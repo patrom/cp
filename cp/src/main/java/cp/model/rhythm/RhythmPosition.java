@@ -7,9 +7,9 @@ import java.util.List;
 
 public class RhythmPosition {
 
-	private int position;
-	private List<Note> selectableNotes;
-	private List<Note> notes = new ArrayList<>();
+	private final int position;
+	private final List<Note> selectableNotes;
+	private final List<Note> notes = new ArrayList<>();
 	
 	public RhythmPosition(int position, List<Note> selectableNotes) {
 		super();

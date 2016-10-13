@@ -28,7 +28,7 @@ public abstract class Variation {
 	 * Generate non chord note at second position of pattern
 	 */
 	protected List<Note> generateNonChordNote(Note firstNote, int newPitchClass, int newPitch, double[] pattern) {
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		int notePc = firstNote.getPitchClass();
 		int notePitch = firstNote.getPitch();
 		int noteLength = firstNote.getLength();
@@ -50,7 +50,7 @@ public abstract class Variation {
 	 * Generate non chord note at first position of pattern
 	 */
 	protected List<Note> generateAccentedNonChordNote(Note note, int newPitchClass, int newPitch, double[] pattern) {
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		int notePc = note.getPitchClass();
 		int notePitch = note.getPitch();
 		int noteLength = note.getLength();

@@ -11,9 +11,9 @@ public enum InstrumentName {
 	VIOLIN_I("Violin I"), VIOLIN_II("Violin II"), VIOLA("Viola (2)"), CELLO("Violoncello (2)"), BASS("Contrabass (2)"),
 	PIANO("Piano (2)");
 
-	private String name;
+	private final String name;
 
-	private InstrumentName(String name) {
+	InstrumentName(String name) {
 		this.name = name;
 	}
 	

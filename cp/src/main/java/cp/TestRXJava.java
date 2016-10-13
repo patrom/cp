@@ -45,7 +45,7 @@ public class TestRXJava {
 	}
 	
 	private static List<Integer> buildIntRange() {
-		ArrayList<Integer> ints = new ArrayList<Integer>();
+		ArrayList<Integer> ints = new ArrayList<>();
 		for (int i = 0; i < 100; i++) {
 	        ints.add(i);
 	    }

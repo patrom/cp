@@ -6,5 +6,5 @@ import java.util.List;
 @FunctionalInterface
 public interface InstrumentUpdate {
 
-	public List<Note> updateInstrumentNotes(List<Note> notes);
+	List<Note> updateInstrumentNotes(List<Note> notes);
 }

@@ -12,7 +12,7 @@ import static cp.model.note.NoteBuilder.note;
 
 public class InstrumentNoteMapping {
 
-	private Map<Instrument, List<Note>> noteForInstrument = new HashMap<>();
+	private final Map<Instrument, List<Note>> noteForInstrument = new HashMap<>();
 
 	public void addNoteForInstrument(int pitch, Instrument instrument) {
 		int octave = (int) Math.ceil(pitch / 12);
@@ -32,7 +32,7 @@ public class InstrumentNoteMapping {
 
 	public Map<Instrument, List<Note>> getNotesForInstrument() {
 		return noteForInstrument;
-	};
+	}
 
 	public long getChordSize() {
 		return noteForInstrument.values().stream().flatMap(n -> n.stream()).count();

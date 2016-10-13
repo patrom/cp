@@ -44,7 +44,7 @@ public class OnePointCrossover extends Crossover {
 			throw new JMException("Exception in " + name + ".execute()");
 		}
 		Solution[] offSpring;
-		offSpring = doCrossover(probability.doubleValue(), parents[0],
+		offSpring = doCrossover(probability, parents[0],
 				parents[1]);
 
 		// -> Update the offSpring solutions

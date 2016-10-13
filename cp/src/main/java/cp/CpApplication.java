@@ -42,7 +42,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Import({DefaultConfig.class, VariationConfig.class})
 public class CpApplication extends JFrame implements CommandLineRunner{
 	
-	private static Logger LOGGER = LoggerFactory.getLogger(CpApplication.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(CpApplication.class.getName());
 	
 	@Autowired
 	private MusicSolutionType solutionType;
@@ -80,7 +80,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	@Autowired
 	private HarmonizeNotes harmonizeNotes;
 	
-	public static AtomicInteger COUNTER = new AtomicInteger();
+	public static final AtomicInteger COUNTER = new AtomicInteger();
 	
 	public static void main(final String[] args)  {
 		clean();

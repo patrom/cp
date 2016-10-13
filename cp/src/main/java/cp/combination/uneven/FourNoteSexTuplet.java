@@ -82,7 +82,7 @@ public class FourNoteSexTuplet {
 	
 	
 	private List<Note> posWithBeam(int first, int second, int third, int fourth){
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).len(first).beam(BeamType.BEGIN).tuplet(TupletType.START).build());
 		notes.add(note().pos(first).len(second).beam(BeamType.CONTINUE).build());
 		notes.add(note().pos(first + second).len(third).beam(BeamType.CONTINUE).build());
@@ -91,7 +91,7 @@ public class FourNoteSexTuplet {
 	}
 	
 	private List<Note> pos(int first, int second, int third, int fourth){
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).len(first).build());
 		notes.add(note().pos(first).len(second).build());
 		notes.add(note().pos(first + second).len(third).build());

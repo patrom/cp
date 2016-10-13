@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.toList;
 
 public class CpMelody implements Cloneable{
 
-	private static Logger LOGGER = LoggerFactory.getLogger(CpMelody.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CpMelody.class);
 	
 	private int voice;
 	private boolean mutable = true;
@@ -165,15 +165,13 @@ public class CpMelody implements Cloneable{
 		} else {
 			invertedPC = dependingScale.getInversedPitchClass(functionalDegreeCenter, pitchClassKeyOfC);
 		}
-		int transposedPitchClass = (invertedPC + dependingKey) % 12;
-		return transposedPitchClass;
+		return (invertedPC + dependingKey) % 12;
 	}
 	
 	/**
 	 * Converts pitch class of the depending melody to the same functional degree in this melody and rotates to match the note
 	 * @param pitchClass
-	 * @param dependingScale 
-	 * @param dependingMelody
+	 * @param dependingScale
 	 * @return
 	 */
 	protected int transposePitchClass(int pitchClass, Scale scale, Scale dependingScale, int key, int dependingKey, int steps){
@@ -186,8 +184,7 @@ public class CpMelody implements Cloneable{
 	 * Converts pitch class of the melody to the same functional degree in the depending melody
 	 * eg. F sharp in G = C sharp in D
 	 * @param pitchClass
-	 * @param dependingScale 
-	 * @param dependingMelody
+	 * @param dependingScale
 	 * @param steps
 	 * @return
 	 */
@@ -206,8 +203,7 @@ public class CpMelody implements Cloneable{
 		} else {
 			rotatedPC = dependingScale.transposePitchClass(pitchClassKeyOfC, steps);
 		}
-		int transposedPitchClass = (rotatedPC + dependingKey) % 12;
-		return transposedPitchClass;
+		return (rotatedPC + dependingKey) % 12;
 	}
 	
 	private int convertToKeyOfC(int pitchClass, int key) {

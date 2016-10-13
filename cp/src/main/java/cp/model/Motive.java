@@ -14,7 +14,7 @@ import static java.util.stream.Collectors.*;
 public class Motive implements Cloneable {
 
 	private List<CpHarmony> harmonies;
-	private List<MelodyBlock> melodyBlocks;
+	private final List<MelodyBlock> melodyBlocks;
 	
 //	public Motive(List<CpMelody> melodies){
 //		this.melodies = melodies;

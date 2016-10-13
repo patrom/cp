@@ -2,12 +2,12 @@ package cp.out.print.note;
 
 public interface Key {
 
-	public  String getStep();
+	String getStep();
 
-	public  String getAlter();
+	String getAlter();
 	
-	public int getKeySignature();
+	int getKeySignature();
 	
-	public int getInterval();
+	int getInterval();
 	
 }

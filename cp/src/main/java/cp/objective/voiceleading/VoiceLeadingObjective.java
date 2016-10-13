@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.toList;
 @Component
 public class VoiceLeadingObjective extends Objective {
 
-	private static Logger LOGGER = LoggerFactory.getLogger(VoiceLeadingObjective.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(VoiceLeadingObjective.class.getName());
 
 	@Override
 	public double evaluate(Motive motive) {

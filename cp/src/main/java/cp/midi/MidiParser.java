@@ -14,11 +14,11 @@ import java.util.*;
 @Component
 public class MidiParser {
 
-	private static Logger LOGGER = LoggerFactory.getLogger(MidiParser.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(MidiParser.class.getName());
 	
 	private final int RESOLUTION = DurationConstants.QUARTER;
 	public final int TRACK_TIMESIGNATURE = 0x58;
-	private Random random = new Random();
+	private final Random random = new Random();
 
 	public final int NOTE_ON = 0x90;
 	public final int NOTE_OFF = 0x80;
@@ -35,7 +35,7 @@ public class MidiParser {
 		LOGGER.debug("DivisionType: " + sequence.getDivisionType());
 		Track[] tracks = sequence.getTracks();
 //		int voice = tracks.length - 1;
-		Map<Integer, MelodyInstrument> map = new TreeMap<Integer, MelodyInstrument>();
+		Map<Integer, MelodyInstrument> map = new TreeMap<>();
 		MidiInfo midiInfo = new MidiInfo();
 		for (int j = 0; j < tracks.length; j++) {
 			Track track = tracks[j];
@@ -90,7 +90,7 @@ public class MidiParser {
 //			}
 //			voice--;
 		}
-		List<MelodyInstrument> melodies = new ArrayList<MelodyInstrument>(map.values());
+		List<MelodyInstrument> melodies = new ArrayList<>(map.values());
 		midiInfo.setMelodies(melodies);
 		return midiInfo;
 	}

@@ -19,7 +19,7 @@ import java.util.Map.Entry;
 @Component
 public class MidiDevicesUtil {
 
-	private static Logger LOGGER = LoggerFactory.getLogger(MidiDevicesUtil.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(MidiDevicesUtil.class.getName());
 
 	private final int RESOLUTION = DurationConstants.QUARTER;
 	

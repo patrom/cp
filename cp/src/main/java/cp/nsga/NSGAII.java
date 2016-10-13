@@ -25,7 +25,7 @@ import java.util.List;
 @Component
 public class NSGAII extends Algorithm {
 
-	private static Logger LOGGER = LoggerFactory.getLogger(NSGAII.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(NSGAII.class.getName());
 
 	/**
 	 * Constructor
@@ -61,10 +61,8 @@ public class NSGAII extends Algorithm {
 		Distance distance = new Distance();
 
 		// Read the parameters
-		populationSize = ((Integer) getInputParameter("populationSize"))
-				.intValue();
-		maxEvaluations = ((Integer) getInputParameter("maxEvaluations"))
-				.intValue();
+		populationSize = (Integer) getInputParameter("populationSize");
+		maxEvaluations = (Integer) getInputParameter("maxEvaluations");
 		indicators = (QualityIndicator) getInputParameter("indicators");
 
 		// Initialize the variables
@@ -73,7 +71,7 @@ public class NSGAII extends Algorithm {
 		requiredEvaluations = 0;
 
 		// Read the operators
-		List<Operator> mutationOperators = new ArrayList<Operator>();
+		List<Operator> mutationOperators = new ArrayList<>();
 		mutationOperators.add(operators_.get("replaceMelody"));
 //		mutationOperators.add(operators_.get("addRhythm"));
 //		mutationOperators.add(operators_.get("removeRhythm"));
@@ -133,7 +131,7 @@ public class NSGAII extends Algorithm {
 
 			int remain = populationSize;
 			int index = 0;
-			SolutionSet front = null;
+			SolutionSet front;
 			population.clear();
 
 			// Obtain the next front
@@ -167,7 +165,6 @@ public class NSGAII extends Algorithm {
 					population.add(front.get(k));
 				}
 
-				remain = 0;
 			}
 
 			// This piece of code shows how to use the indicator object into the
@@ -217,7 +214,7 @@ public class NSGAII extends Algorithm {
 	}
 
 	private List<Solution> copyList(SolutionSet population) {
-		List<Solution> copySolutions = new ArrayList<Solution>();
+		List<Solution> copySolutions = new ArrayList<>();
 		Iterator<Solution> iterator = population.iterator();
 		while (iterator.hasNext()) {
 			Solution solution = (Solution) iterator.next();

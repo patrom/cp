@@ -61,14 +61,14 @@ public class InnerMetricWeightFunctions {
 	
 	public List<List<Integer>> getLocalMeters(Integer[] onSet, int[] distance){
 		List<Integer> onSetList = Arrays.asList(onSet);
-		List<List<Integer>> localMeters = new ArrayList<List<Integer>>();
+		List<List<Integer>> localMeters = new ArrayList<>();
 		for (int j = 0; j < distance.length - 1; j++) {
 			for (int start = 0; start < onSet.length; start++) {
 				int i = onSet[start] + distance[j];
 				if (!onSetList.contains(i)) {
 					continue;
 				}else{
-					List<Integer> sublist = new ArrayList<Integer>();
+					List<Integer> sublist = new ArrayList<>();
 					sublist.add(onSet[start]);
 					while (onSetList.contains(i)) {
 						sublist.add(i);
@@ -97,7 +97,7 @@ public class InnerMetricWeightFunctions {
 	}
 	
 	public Map<Integer, Double> getInnerMetricWeight(List<List<Integer>> localMeters, Integer[] onSet){
-		Map<Integer, Double> map = new TreeMap<Integer, Double>();
+		Map<Integer, Double> map = new TreeMap<>();
 		for (int i = 0; i < onSet.length; i++) {
 			for (List<Integer> localMeter : localMeters) {
 				if (!localMeter.contains(onSet[i])) {

@@ -12,9 +12,9 @@ import static cp.model.note.NoteBuilder.note;
 
 public class ChordOrchestration {
 	
-	private int start;
-	private int end;
-	private int octave;
+	private final int start;
+	private final int end;
+	private final int octave;
 
 	public ChordOrchestration(int start, int end, int octave) {
 		this.start = start;

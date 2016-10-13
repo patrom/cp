@@ -146,10 +146,7 @@ public class Note implements Comparable<Note>, Cloneable{
 //	}
 
 	public boolean isRest() {
-		if (this.getPitch() == REST)
-			return true;
-		else
-			return false;
+		return this.getPitch() == REST;
 	}
 
 	public boolean samePitch(Note note) {

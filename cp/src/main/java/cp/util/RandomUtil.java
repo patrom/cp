@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 
 public class RandomUtil {
 	
-	private static Random random = new Random();
+	private static final Random random = new Random();
 	
 	public static <T> T getRandomFromList(List<T> list) {
 		return list.get(randomInt(0, list.size()));

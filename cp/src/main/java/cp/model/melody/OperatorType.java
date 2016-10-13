@@ -4,7 +4,7 @@ package cp.model.melody;
 public class OperatorType {
 	
 	private int steps;
-	private Operator operator;
+	private final Operator operator;
 	private int degree;
 	
 	public OperatorType(Operator operator) {

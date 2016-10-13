@@ -8,12 +8,12 @@ public enum NoteType {
 	eighthDot("eighth", true, false, DurationConstants.THREE_SIXTEENTH), quarterDot("quarter", true, false, DurationConstants.THREE_EIGHTS), halfDot("half", true, false, DurationConstants.SIX_EIGHTS), 
 	sixteenthTriplet("16th", false, true, DurationConstants.SIXTEENTH_TRIPLET), eighthTriplet("eighth", false, true, DurationConstants.EIGHT_TRIPLET),quarterTriplet("quarter", false, true, DurationConstants.QUARTER_TRIPLET), halfTriplet("half", false, true, DurationConstants.HALF_TRIPLET);
 	
-	private String name;
-	private boolean dot;
-	private boolean triplet;
-	private int length;
+	private final String name;
+	private final boolean dot;
+	private final boolean triplet;
+	private final int length;
 	
-	private NoteType(String name, boolean dot, boolean triplet, int length) {
+	NoteType(String name, boolean dot, boolean triplet, int length) {
 		this.name = name;
 		this.dot = dot;
 		this.triplet = triplet;

@@ -9,9 +9,9 @@ import static java.util.stream.Collectors.toCollection;
 public class MidiConverter {
 	
 	private static final double DEFAULT_WEIGHT = 0.25;
-	private static Map<Integer, Double> fourFourOrTwoFourRhythmWeightValues = new TreeMap<>();
-	private static Map<Integer, Double> fourThreeRhythmWeightValues = new TreeMap<>();
-	private static Map<Integer, Double> SixEightRhythmWeightValues = new TreeMap<>();
+	private static final Map<Integer, Double> fourFourOrTwoFourRhythmWeightValues = new TreeMap<>();
+	private static final Map<Integer, Double> fourThreeRhythmWeightValues = new TreeMap<>();
+	private static final Map<Integer, Double> SixEightRhythmWeightValues = new TreeMap<>();
 	
 	static{
 		for (int i = 0; i < 96; i = i + 6) {
@@ -42,7 +42,7 @@ public class MidiConverter {
 	}
 	
 	public static void updatePositionNotes(List<MelodyInstrument> melodies, String timeSignature){
-		Map<Integer, Double> weights = null;
+		Map<Integer, Double> weights;
 		if (timeSignature.equals("4/4") || timeSignature.equals("2/4") || timeSignature.equals("2/2")) {
 			weights = fourFourOrTwoFourRhythmWeightValues;
 		} else if (timeSignature.equals("3/4")) {
@@ -96,7 +96,7 @@ public class MidiConverter {
 	private static void addNoteToChordMap(Map<Integer, List<Note>> chords, Note note,
 			 int voice) {
 		int position = note.getPosition();
-		List<Note> chord = null;
+		List<Note> chord;
 		if (chords.containsKey(position)) {
 			chord = chords.get(position);
 		} else {

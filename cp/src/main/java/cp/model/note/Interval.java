@@ -9,7 +9,7 @@ public class Interval  {
 	public static double HARMONIC_OCTAVE_VALUE = 0.3;
 	public static double MELODIC_OCTAVE_VALUE = 0.3;
 	
-	public static Map<Integer,Interval> intervalMap = new HashMap<Integer,Interval>() {{ 
+	public static final Map<Integer,Interval> intervalMap = new HashMap<Integer,Interval>() {{
 //	    put(0, new Interval(0, 1.0, 0.0, 0.0, 0)); 
 //	    put(1, new Interval(1, 0.9, -0.3, 0.2, 2)); 
 //	    put(2, new Interval(2, 1.0, 0.15, 0.4 , 4));

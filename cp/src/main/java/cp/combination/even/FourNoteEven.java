@@ -14,7 +14,7 @@ import static cp.model.note.NoteBuilder.note;
 public class FourNoteEven {
 
 	public List<Note> pos1234(int beat) {
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		int beat4 = beat/4;
 		if (beat == DurationConstants.QUARTER) {
 			notes.add(note().pos(0).len(beat4).beam(BeamType.BEGIN_BEGIN).build());

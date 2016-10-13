@@ -8,7 +8,7 @@ import static java.lang.System.arraycopy;
 
 public class VoiceLeading {
 	
-	private static Logger LOGGER = LoggerFactory.getLogger(VoiceLeading.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(VoiceLeading.class.getName());
 	
 	private static int optimalSize = 9999;
 
@@ -38,8 +38,8 @@ public class VoiceLeading {
     				optimalSize = voiceLeadingSize.getSize();
     				voiceLeadingSizeOptimal = voiceLeadingSize;
             	}
-            };
-			return voiceLeadingSizeOptimal;
+            }
+            return voiceLeadingSizeOptimal;
 		}			
 	}
 		

@@ -15,7 +15,7 @@ import static cp.model.note.NoteBuilder.note;
 public class ChordGenerator {
 	public CpHarmony generateChord(String forteName){
 		TnTnIType type = new TnTnIType();
-		int[] pcs = null;
+		int[] pcs;
 		if (forteName.startsWith("2")) {
 			type.initPrime2();
 			pcs = getSet(forteName, type.prime2);

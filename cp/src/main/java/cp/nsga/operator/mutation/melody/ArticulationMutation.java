@@ -18,7 +18,7 @@ import java.util.HashMap;
 @Component(value="articulationMutation")
 public class ArticulationMutation extends AbstractMutation{
 
-	private static Logger LOGGER = LoggerFactory.getLogger(ArticulationMutation.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ArticulationMutation.class);
 	
 	@Autowired
 	public ArticulationMutation(HashMap<String, Object> parameters) {
@@ -56,7 +56,7 @@ public class ArticulationMutation extends AbstractMutation{
 			String name = cls.getName();
 			throw new JMException("Exception in " + name + ".execute()");
 		}
-		doMutation(probability.doubleValue(), solution);
+		doMutation(probability, solution);
 		return solution;
 	} 
 

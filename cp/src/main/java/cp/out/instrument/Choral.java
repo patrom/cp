@@ -11,7 +11,7 @@ import java.util.List;
 public class Choral {
 
 	public static List<Instrument> getSATB(){
-		List<Instrument> voices = new ArrayList<Instrument>();
+		List<Instrument> voices = new ArrayList<>();
 		voices.add(new Bass());
 		voices.add(new Tenor());
 		voices.add(new Alto());

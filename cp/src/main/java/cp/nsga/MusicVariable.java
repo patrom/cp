@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 
 public class MusicVariable extends Variable {
 
-	private static Logger LOGGER = LoggerFactory.getLogger(MusicVariable.class.getName());
-	private Motive motive;
+	private static final Logger LOGGER = LoggerFactory.getLogger(MusicVariable.class.getName());
+	private final Motive motive;
 	
 	public MusicVariable(MusicVariable musicVariable) throws JMException {
 		this.motive = (Motive) musicVariable.getMotive().clone();
