@@ -1,0 +1,99 @@
+package cp.combination.uneven;
+
+import cp.model.note.Note;
+import cp.model.note.TupletType;
+import cp.model.rhythm.DurationConstants;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static cp.model.note.NoteBuilder.note;
+
+@Component
+public class OneNoteTriplet {
+
+	public List<Note> pos1(int beat) {
+		List<Note> notes = new ArrayList<Note>();
+		notes.add(note().pos(0).len(beat).build());
+		return notes;
+	}
+	
+	public List<Note> pos2(int beat) {
+		List<Note> notes;
+		int noteLength = beat/3;
+		int noteLength2 = noteLength * 2;
+		switch (beat) {
+			case DurationConstants.QUARTER:
+				notes =  posRestTuplet(noteLength, noteLength2);
+				notes.forEach(n -> {n.setTriplet(true);
+									n.setTimeModification("eighth");
+									n.setBracket(true);});
+				return notes;
+	//		case 24:
+	//			notes =  pos(beat/3);
+	//			notes.forEach(n -> n.setTriplet(true));
+	//			return notes;
+			case DurationConstants.THREE_EIGHTS:
+				notes =  posRest(noteLength, noteLength2);
+				return notes;
+			default:
+				notes =  posRest(noteLength, noteLength2);
+				return notes;
+		}
+	}
+	
+	public List<Note> pos3(int beat) {
+		List<Note> notes;
+		int noteLength = beat/3;
+		int noteLength2 = noteLength * 2;
+		switch (beat) {
+			case DurationConstants.QUARTER:
+				notes =  posRestTuplet(noteLength2, noteLength);
+				notes.forEach(n -> {n.setTriplet(true);
+									n.setTimeModification("eighth");
+									n.setBracket(true);});
+				return notes;
+	//		case 24:
+	//			notes =  pos(beat/3);
+	//			notes.forEach(n -> n.setTriplet(true));
+	//			return notes;
+			case DurationConstants.THREE_EIGHTS:
+				notes =  posRest(noteLength2, noteLength);
+				return notes;
+			default:
+				notes =  posRest(noteLength2, noteLength);
+				return notes;
+		}
+	}
+	
+	private List<Note> posRest(int firstLength, int secondLength){
+		List<Note> notes = new ArrayList<Note>();
+		notes.add(note().pos(0).rest().len(firstLength).build());
+		notes.add(note().pos(firstLength).len(secondLength).build());
+		return notes;
+	}
+	
+	private List<Note> posRestTuplet(int firstLength, int secondLength){
+		List<Note> notes = new ArrayList<Note>();
+		notes.add(note().pos(0).rest().len(firstLength).tuplet(TupletType.START).build());
+		notes.add(note().pos(firstLength).len(secondLength).tuplet(TupletType.STOP).build());
+		return notes;
+	}
+	
+	public static void main(String[] args) {
+		OneNoteTriplet oneNoteUneven = new OneNoteTriplet();
+		List<Note > notes = oneNoteUneven.pos1(DurationConstants.THREE_EIGHTS);
+		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
+		
+		notes = oneNoteUneven.pos1(DurationConstants.SIX_EIGHTS);
+		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
+		
+		notes = oneNoteUneven.pos2(DurationConstants.SIX_EIGHTS);
+		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
+		
+		notes = oneNoteUneven.pos3(DurationConstants.SIX_EIGHTS);
+		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
+	}
+
+}
