@@ -19,10 +19,13 @@ import cp.out.print.ScoreUtilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -112,7 +115,8 @@ public class Orchestrator {
 	}
 	
 	private void generateMusicXml(String id, Orchestra orchestra) throws Exception{
-		musicXMLWriter.createXML(id, orchestra.getOrchestra());
+		Resource resource = new FileSystemResource("");
+		musicXMLWriter.createXML(new FileOutputStream(resource.getFile().getPath() + "cp/src/main/resources/xml/" + id + ".xml"), orchestra.getOrchestra());
 	}
 
 	private void writeMidi(String id, Orchestra orchestra) throws InvalidMidiDataException, IOException {

@@ -10,8 +10,6 @@ import cp.out.print.note.Key;
 import cp.out.print.note.NoteDisplay;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import javax.xml.stream.FactoryConfigurationError;
@@ -19,8 +17,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.OutputStream;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Stream;
@@ -30,31 +27,25 @@ import static cp.model.note.NoteBuilder.note;
 @Component
 public class MusicXMLWriter {
 
-	public static final int DIVISIONS = 256;
+	private static final int DIVISIONS = 256;
 	private final Integer[] nonTieLengths = {48,24,12,9,8,6,4,3};
-	
-	XMLStreamWriter xmlStreamWriter;
-	
+
+	private XMLStreamWriter xmlStreamWriter;
 	@Autowired
 	private MusicProperties musicProperties;
 	@Autowired
 	private NoteDisplay noteDisplay;
 
 
-	public void generateMusicXMLForMelodies(List<MelodyBlock> melodies, String id) throws Exception {
+	public void generateMusicXMLForMelodies(List<MelodyBlock> melodies, OutputStream outputStream) throws Exception {
 		Map<Instrument, List<Note>> melodiesForInstrument = getMelodyNotesForInstrument(melodies);
-		createXML(id, melodiesForInstrument);
+		createXML(outputStream, melodiesForInstrument);
 	}
 
 
-	public void createXML(String id, Map<Instrument, List<Note>> melodiesForInstrument) throws FactoryConfigurationError, XMLStreamException, FileNotFoundException {
+	public void createXML(OutputStream outputStream , Map<Instrument, List<Note>> melodiesForInstrument) throws FactoryConfigurationError, XMLStreamException, FileNotFoundException {
 		XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newInstance();
-		Resource resource = new FileSystemResource("");
-		try {
-			xmlStreamWriter = xmlOutputFactory.createXMLStreamWriter(new FileOutputStream(resource.getFile().getPath() + "src/main/resources/xml/" + id + ".xml"), "UTF-8");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		xmlStreamWriter = xmlOutputFactory.createXMLStreamWriter(outputStream, "UTF-8");
 
 		// Generate the XML
 		// Write the default XML declaration

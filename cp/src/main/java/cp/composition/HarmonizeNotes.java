@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -36,16 +37,15 @@ public class HarmonizeNotes {
 	}
 	
 	public List<Note> getFileToHarmonize() {
-		MusicXMLParser parser = null;
 		try {
-			parser = new MusicXMLParser("cp/src/main/resources/cello4.xml");
+			MusicXMLParser parser  = new MusicXMLParser("cp/src/main/resources/harmonize/cello4.xml");
+			parser.parseMusicXML();
+			Map<String, List<Note>> notesPerInstrument = parser.getNotesPerInstrument();
+			String instrument = "P1";
+			return notesPerInstrument.entrySet().stream().flatMap(entry -> entry.getValue().stream()).filter(n -> n.getInstrument().startsWith(instrument)).collect(Collectors.toList());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-        parser.parseMusicXML();
-        Map<String, List<Note>> notesPerInstrument = parser.getNotesPerInstrument();
-        String instrument = "P1";
-        return notesPerInstrument.entrySet().stream().flatMap(entry -> entry.getValue().stream()).filter(n -> n.getInstrument().startsWith(instrument)).collect(Collectors.toList());
-		
+       return Collections.EMPTY_LIST;
 	}
 }

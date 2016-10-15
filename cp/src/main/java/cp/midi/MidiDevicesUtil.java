@@ -194,18 +194,15 @@ public class MidiDevicesUtil {
 			throws InvalidMidiDataException {
 		ShortMessage change = new ShortMessage();
 		change.setMessage(ShortMessage.PROGRAM_CHANGE, instrument.getChannel(), instrument.getGeneralMidi().getEvent(), 0);
-		MidiEvent event = new MidiEvent(change, 0);
-		return event;
+		return new MidiEvent(change, 0);
 	}
 
 	private MidiEvent createInstrumentChange(Instrument instrument, int performance, int position) throws InvalidMidiDataException {
 		if (instrument.hasKeySwitch()) {
 			Note keySwitch = createKeySwitch(performance);
-			MidiEvent change = createNoteMidiEvent(ShortMessage.NOTE_ON, keySwitch, position, instrument.getChannel());
-			return change;
+			return createNoteMidiEvent(ShortMessage.NOTE_ON, keySwitch, position, instrument.getChannel());
 		} else {
-			MidiEvent event = createProgramChangeMidiEvent(instrument.getChannel(), instrument.getGeneralMidi().getEvent(), performance);
-			return event;
+			return createProgramChangeMidiEvent(instrument.getChannel(), instrument.getGeneralMidi().getEvent(), performance);
 		}
 	}
 
@@ -237,17 +234,15 @@ public class MidiDevicesUtil {
 			note.setMessage(cmd, channel,
 					notePos.getPitch(), notePos.getDynamicLevel());
 		}
-		
-		MidiEvent event = new MidiEvent(note, position);
-		return event;
+
+		return new MidiEvent(note, position);
 	}
 	
 	private MidiEvent createProgramChangeMidiEvent(int channel, int pc, int position)
 			throws InvalidMidiDataException {
 		ShortMessage change = new ShortMessage();
 		change.setMessage(ShortMessage.PROGRAM_CHANGE, channel, pc, 0);
-		MidiEvent event = new MidiEvent(change, position);
-		return event;
+		return new MidiEvent(change, position);
 	}
 	
 	public void write(Sequence in, String ouputPath) throws IOException{

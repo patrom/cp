@@ -25,26 +25,7 @@ public class MotiveTest extends AbstractTest {
 	
 	private Motive motive;
 
-	@Before
-	public void setUp(){
-//		musicProperties.setChordSize(3);
-//		musicProperties.setInstruments(Ensemble.getStringQuartet());
-//		List<Harmony> harmonies = new ArrayList<>();
-//		HarmonicMelody harmonicMelody = harmonicMelody()
-//					.harmonyNote(note().pc(0).ocatve(5).build())
-//					.voice(0)
-//					.notes(note().voice(0).pc(4).pos(0).len(DurationConstants.EIGHT).build(), 
-//						   note().voice(0).pc(5).pos(6).len(DurationConstants.QUARTER).build())
-//					.build();
-//		List<HarmonicMelody> harmonicMelodies = new ArrayList<>();
-//		harmonicMelodies.add(harmonicMelody);
-//		Harmony harmony = new Harmony(0, 12, harmonicMelodies);
-//		harmony.setPitchSpace(new UniformPitchSpace(musicProperties.getOctaveLowestPitchClassRange(), musicProperties.getInstruments()));
-//		harmonies.add(harmony);
-//		motive = new Motive(harmonies, musicProperties);
-	}
-	
-//	@Test
+	//	@Test
 //	public void testGetMelodies(){
 //		motive.extractMelodies();
 //		List<Melody> melodies = motive.getMelodies();

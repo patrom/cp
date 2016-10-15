@@ -100,8 +100,7 @@ public class MidiParser {
 //		Note lastNote = notes.get(notes.size() - 1);
 //		int length = lastNote.getPosition() + lastNote.getLength()
 //				- firstNote.getPosition();
-		MelodyInstrument melody = new MelodyInstrument(notes, voice);
-		return melody;
+		return new MelodyInstrument(notes, voice);
 	}
 
 	private Note createNote(int voice, long ticks, ShortMessage sm) {

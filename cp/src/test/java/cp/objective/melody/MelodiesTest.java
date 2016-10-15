@@ -65,11 +65,6 @@ public class MelodiesTest extends AbstractTest {
 	private MelodyGenerator melodyGenerator;
 	@Resource(name="defaultUnevenCombinations")
 	private List<RhythmCombination> defaultUnEvenCombinations;
-	
-	@Before
-	public void setUp() throws IOException, InvalidMidiDataException {
-		
-	}
 
 	@Test
 	public void testMelodies() throws InvalidMidiDataException, IOException {

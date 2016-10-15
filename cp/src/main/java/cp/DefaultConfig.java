@@ -2,6 +2,8 @@ package cp;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,6 +67,16 @@ public class DefaultConfig {
 		oddDivisions.add(new Integer[]{1,0,1});
 //		oddDivisions.add(new Integer[]{0,1,1});
 		return oddDivisions;
+	}
+
+	@Bean
+	public Resource fileTestResource(){
+		return new FileSystemResource("src/main/resources/test/");
+	}
+
+	@Bean
+	public Resource fileResource(){
+		return new FileSystemResource("");
 	}
 	
 }

@@ -40,9 +40,9 @@ public class ArrangementTest extends JFrame{
 		
 		pattern = new int[4];
 		pattern[0] = 0;
-		pattern[1] = 6;
-		pattern[2] = 18;
-		pattern[3] = 24;
+		pattern[1] = DurationConstants.EIGHT;
+		pattern[2] = DurationConstants.QUARTER + DurationConstants.EIGHT;
+		pattern[3] = DurationConstants.QUARTER * 2;
 	}
 
 	@Test
@@ -64,7 +64,7 @@ public class ArrangementTest extends JFrame{
 	
 	@Test
 	public void testAccompagnement() {
-		Integer[] compPattern = {6,12,18,30};
+		Integer[] compPattern = {DurationConstants.EIGHT,DurationConstants.QUARTER,DurationConstants.QUARTER + DurationConstants.EIGHT,DurationConstants.QUARTER + DurationConstants.QUARTER + DurationConstants.EIGHT};
 		List<HarmonyPosition> harmonyPositions = new ArrayList<>();
 		harmonyPositions.add(createHarmonyInstrument(0, notes));
 		harmonyPositions.add(createHarmonyInstrument(DurationConstants.HALF, notes));
@@ -138,12 +138,12 @@ public class ArrangementTest extends JFrame{
 		harmonyPosition.setPosition(0);
 		harmonyPositions.add(harmonyPosition);
 		harmonyPosition = new HarmonyPosition();
-		harmonyPosition.setPosition(36);
+		harmonyPosition.setPosition(DurationConstants.QUARTER * 3);
 		harmonyPositions.add(harmonyPosition);
 		List<Note> melodyNotes = new ArrayList<>();
 		melodyNotes.add(note().pos(0).len(36).pitch(72).build());
 		melodyNotes.add(note().pos(DurationConstants.SIX_EIGHTS).len(36).pitch(73).build());
-		int minimumLength = 12;
+		int minimumLength = DurationConstants.QUARTER;
 		List<Note> accompagnement = arrangement.getAccompagnement(melodyNotes , harmonyPositions, patterns, minimumLength);
 		accompagnement.forEach(note -> LOGGER.info("pos: " + note.getPosition() + ", pitch: " + note.getPitch() + ", len: " + note.getLength()));
 		assertEquals(accompagnement.get(1).getPosition(), DurationConstants.QUARTER);

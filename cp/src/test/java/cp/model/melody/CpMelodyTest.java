@@ -42,10 +42,6 @@ public class CpMelodyTest {
 	@Autowired
 	private TimeLine timeLine;
 
-	@Before
-	public void setUp() throws Exception {
-	}
-
 	@Test
 	public void testRandomAscDesc(){
 		List<Note> notes = new ArrayList<>();

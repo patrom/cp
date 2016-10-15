@@ -21,11 +21,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLStreamException;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -70,9 +73,14 @@ public class OrchestrationGeneratorTest {
 	private final Orchestra orchestra = new ClassicalOrchestra();
 //	private Orchestra orchestra = new FullOrchestra();
 //	private Orchestra orchestra = new Percussion();
+	@javax.annotation.Resource(name="fileTestResource")
+	private Resource resource;
+	private String path;
 	
 	@Before
 	public void setUp() throws Exception {
+		resource = new FileSystemResource("");
+		path = resource.getFile().getPath() + "src/main/resources/test/";
 	}
 
 
@@ -115,14 +123,14 @@ public class OrchestrationGeneratorTest {
 				position = updateOrchestra(position, noteLength, orchestratedChords);
 			}
 		}
-		musicXMLWriter.createXML("orchestra", orchestra.getOrchestra());
+		musicXMLWriter.createXML(new FileOutputStream(path + "orchestra.xml"), orchestra.getOrchestra());
 	}
 	
 	@Test
 	public void testCloseCombinationsWhiteYellow() throws FileNotFoundException, FactoryConfigurationError, XMLStreamException {
 		int[] chord = new int[]{11,6,2};
 		closeCombinationsWhiteYellow(chord, InstrumentGroup.STRINGS);
-		musicXMLWriter.createXML("orchestra", orchestra.getOrchestra());
+		musicXMLWriter.createXML(new FileOutputStream(path + "orchestra.xml"), orchestra.getOrchestra());
 	}
 	
 	
@@ -130,49 +138,49 @@ public class OrchestrationGeneratorTest {
 	public void testCloseCombinationsYellowGreen() throws FileNotFoundException, FactoryConfigurationError, XMLStreamException {
 		int[] chord = new int[]{11,6,2};
 		closeCombinationsYellowGreen(chord, InstrumentGroup.STRINGS);
-		musicXMLWriter.createXML("orchestra", orchestra.getOrchestra());
+		musicXMLWriter.createXML(new FileOutputStream(path + "orchestra.xml"), orchestra.getOrchestra());
 	}
 	
 	@Test
 	public void testCloseCombinationsGreenBlue() throws FileNotFoundException, FactoryConfigurationError, XMLStreamException {
 		int[] chord = new int[]{12,9,5};
 		closeCombinationsGreenBlue(chord, InstrumentGroup.STRINGS);
-		musicXMLWriter.createXML("orchestra", orchestra.getOrchestra());
+		musicXMLWriter.createXML(new FileOutputStream(path + "orchestra.xml"), orchestra.getOrchestra());
 	}
 	
 	@Test
 	public void testCloseCombinationsBluePurple() throws FileNotFoundException, FactoryConfigurationError, XMLStreamException {
 		int[] chord = new int[]{11,6,2};
 		closeCombinationsBluePurple(chord, InstrumentGroup.STRINGS);
-		musicXMLWriter.createXML("orchestra", orchestra.getOrchestra());
+		musicXMLWriter.createXML(new FileOutputStream(path + "orchestra.xml"), orchestra.getOrchestra());
 	}
 	
 	@Test
 	public void testCloseCombinationsYellowOrange() throws FileNotFoundException, FactoryConfigurationError, XMLStreamException {
 		int[] chord = new int[]{14,11,6,2};
 		closeCombinationsYellowOrange(chord, InstrumentGroup.STRINGS);
-		musicXMLWriter.createXML("orchestra", orchestra.getOrchestra());
+		musicXMLWriter.createXML(new FileOutputStream(path + "orchestra.xml"), orchestra.getOrchestra());
 	}
 	
 	@Test
 	public void testCloseCombinationsOrangeRed() throws FileNotFoundException, FactoryConfigurationError, XMLStreamException {
 		int[] chord = new int[]{11,6,2};
 		closeCombinationsOrangeRed(chord, InstrumentGroup.STRINGS);
-		musicXMLWriter.createXML("orchestra", orchestra.getOrchestra());
+		musicXMLWriter.createXML(new FileOutputStream(path + "orchestra.xml"), orchestra.getOrchestra());
 	}
 	
 	@Test
 	public void testCloseCombinationsRedBrown() throws FileNotFoundException, FactoryConfigurationError, XMLStreamException {
 		int[] chord = new int[]{11,6,2};
 		closeCombinationsRedBrown(chord, InstrumentGroup.STRINGS);
-		musicXMLWriter.createXML("orchestra", orchestra.getOrchestra());
+		musicXMLWriter.createXML(new FileOutputStream(path + "orchestra.xml"), orchestra.getOrchestra());
 	}
 	
 	@Test
 	public void testCloseCombinationsBrownPurple() throws FileNotFoundException, FactoryConfigurationError, XMLStreamException {
 		int[] chord = new int[]{11,6,2};
 		closeCombinationsBrownPurple(chord, InstrumentGroup.STRINGS);
-		musicXMLWriter.createXML("orchestra", orchestra.getOrchestra());
+		musicXMLWriter.createXML(new FileOutputStream(path + "orchestra.xml"), orchestra.getOrchestra());
 	}
 	
 	private int combineCloseCombinations(int[] chord, List<Instrument> orchestralQuality1, List<Instrument> orchestralQuality2, int position) {
@@ -364,7 +372,7 @@ public class OrchestrationGeneratorTest {
 			position = combineCloseCombinations(pitches, red, brown, position, noteLength);
 			position = combineCloseCombinations(pitches, brown, purple, position, noteLength);
 		}
-		musicXMLWriter.createXML("orchestra", orchestra.getOrchestra());
+		musicXMLWriter.createXML(new FileOutputStream(path + "orchestra.xml"), orchestra.getOrchestra());
 	}
 	
 	@Test
@@ -426,7 +434,7 @@ public class OrchestrationGeneratorTest {
 			position = combineCloseCombinations(pitches, red, brown, position, noteLength);
 			position = combineCloseCombinations(pitches, brown, purple, position, noteLength);
 		}
-		musicXMLWriter.createXML("orchestra", orchestra.getOrchestra());
+		musicXMLWriter.createXML(new FileOutputStream(path + "orchestra.xml"), orchestra.getOrchestra());
 	}
 	
 	@Test
@@ -469,7 +477,7 @@ public class OrchestrationGeneratorTest {
 //			position = combineCloseCombinations(pitches, red, brown, position, noteLength);
 //			position = combineCloseCombinations(pitches, brown, purple, position, noteLength);
 		}
-		musicXMLWriter.createXML("orchestra", orchestra.getOrchestra());
+		musicXMLWriter.createXML(new FileOutputStream(path + "orchestra.xml"), orchestra.getOrchestra());
 	}
 	
 	@Test
@@ -534,7 +542,7 @@ public class OrchestrationGeneratorTest {
 			position = combineCloseCombinations(pitches, red, brown, position, noteLength);
 			position = combineCloseCombinations(pitches, brown, purple, position, noteLength);
 		
-		musicXMLWriter.createXML("orchestra", orchestra.getOrchestra());
+		musicXMLWriter.createXML(new FileOutputStream(path + "orchestra.xml"), orchestra.getOrchestra());
 	}
 	
 	@Test
@@ -555,7 +563,7 @@ public class OrchestrationGeneratorTest {
 				addToOrchestra(0, entry);
 			}
 		}
-		musicXMLWriter.createXML("orchestra", orchestra.getOrchestra());
+		musicXMLWriter.createXML(new FileOutputStream(path + "orchestra.xml"), orchestra.getOrchestra());
 	}
 	
 	@Test
@@ -575,7 +583,7 @@ public class OrchestrationGeneratorTest {
 				addToOrchestra(0, entry);
 			}
 		}
-		musicXMLWriter.createXML("orchestra", orchestra.getOrchestra());
+		musicXMLWriter.createXML(new FileOutputStream(path + "orchestra.xml"), orchestra.getOrchestra());
 	}
 	
 	@Test

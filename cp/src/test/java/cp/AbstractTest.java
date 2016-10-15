@@ -35,14 +35,6 @@ public abstract class AbstractTest extends JFrame {
 	@Autowired
 	protected MusicProperties musicProperties;
 
-	@Before
-	public void abstractSetUp() throws InvalidMidiDataException, IOException {
-		// musicProperties = new MusicProperties();
-		// motives =
-		// MidiParser.readMidi("/Users/parm/git/neo/neo/src/test/neo/Bach-choral227
-		// deel1.mid");
-	}
-
 	protected void playOnKontakt(List<Note> notes, Instrument instrument, int tempo, long playTime){
 		try {
 			MelodyInstrument melodyInstrument = new MelodyInstrument(notes, instrument.getVoice());

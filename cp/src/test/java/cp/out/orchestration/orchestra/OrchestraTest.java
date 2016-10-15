@@ -20,10 +20,6 @@ public class OrchestraTest {
 	
 	private final ClassicalOrchestra orchestra = new ClassicalOrchestra();
 
-	@Before
-	public void setUp() throws Exception {
-	}
-
 	@Test
 	public void testSetViolin1ListOfNoteInstrumentUpdate() {
 		List<Note> notes = new ArrayList<>();

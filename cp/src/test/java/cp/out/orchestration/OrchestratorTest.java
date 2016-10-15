@@ -24,10 +24,6 @@ public class OrchestratorTest {
 	@Autowired
 	private Orchestrator ochestrator;
 
-	@Before
-	public void setUp() throws Exception {
-	}
-
 	@Test
 	public void testOrchestrate() throws Exception {
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -33,6 +34,8 @@ public class Display {
 	private MidiDevicesUtil midiDevicesUtil;
 	@Autowired
 	private MusicProperties musicProperties;
+	@javax.annotation.Resource(name="fileResource")
+	private Resource resource;
 
 	public void view(Motive motive, String id) throws Exception {
 		printHarmonies(motive.getHarmonies());
@@ -47,7 +50,7 @@ public class Display {
 	}
 
 	private void generateMusicXml(List<MelodyBlock> melodies, String id) throws Exception {
-		musicXMLWriter.generateMusicXMLForMelodies(melodies, id);
+		musicXMLWriter.generateMusicXMLForMelodies(melodies, new FileOutputStream(resource.getFile().getPath() + "cp/src/main/resources/xml/" + id + ".xml"));
 	}
 
 	private void viewScore(List<MelodyBlock> melodies, String id, double tempo)

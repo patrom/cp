@@ -14,8 +14,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,11 +32,15 @@ public class MusicXMLWriterTest {
 	private MusicXMLWriter musicXMLWriter;
 	private List<MelodyBlock> melodyBlocks;
 	private Instrument instrument;
+	@javax.annotation.Resource(name="fileTestResource")
+	private Resource fileTestResource;
+	private String path;
 
 	@Before
 	public void setUp() throws Exception {
 		melodyBlocks = new ArrayList<>();
 		instrument = new CelloSolo(0, 1);
+		path = fileTestResource.getFile().getPath();
 	}
 
 	private void addToMelodyBlock(Instrument instrument, List<Note> notes) {
@@ -56,7 +62,7 @@ public class MusicXMLWriterTest {
 		notes.add(note().len(DurationConstants.EIGHT).pc(2).pitch(62).ocatve(5).pos(54).build());
 		
 		addToMelodyBlock(instrument, notes);
-		musicXMLWriter.generateMusicXMLForMelodies(melodyBlocks, "test");
+		musicXMLWriter.generateMusicXMLForMelodies(melodyBlocks, new FileOutputStream(path + "test.xml"));
 	}
 	
 	@Test
@@ -70,7 +76,7 @@ public class MusicXMLWriterTest {
 		notes.add(note().len(DurationConstants.QUARTER).pc(2).pitch(62).ocatve(5).pos(DurationConstants.QUARTER).build());
 		
 		addToMelodyBlock(instrument, notes);
-		musicXMLWriter.generateMusicXMLForMelodies(melodyBlocks, "testTriplet");
+		musicXMLWriter.generateMusicXMLForMelodies(melodyBlocks, new FileOutputStream(path +  "testTriplet.xml"));
 	}
 	
 	@Test
@@ -85,7 +91,7 @@ public class MusicXMLWriterTest {
 		notes.add(note().len(DurationConstants.QUARTER).pc(2).pitch(62).ocatve(5).pos(DurationConstants.QUARTER).build());
 		
 		addToMelodyBlock(instrument, notes);
-		musicXMLWriter.generateMusicXMLForMelodies(melodyBlocks, "testTriplet");
+		musicXMLWriter.generateMusicXMLForMelodies(melodyBlocks,  new FileOutputStream(path + "testTriplet.xml"));
 	}
 	
 	@Test
@@ -121,7 +127,7 @@ public class MusicXMLWriterTest {
 		notes.add(note().len(4).pc(7).pitch(55).ocatve(4).pos(44).beam(BeamType.END).build());
 		notes.forEach(n -> n.setTriplet(true));
 		addToMelodyBlock(instrument, notes);
-		musicXMLWriter.generateMusicXMLForMelodies(melodyBlocks, "testTriplet");
+		musicXMLWriter.generateMusicXMLForMelodies(melodyBlocks,  new FileOutputStream(path + "testTriplet.xml"));
 	}
 	
 //	@Test
