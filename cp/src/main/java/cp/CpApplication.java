@@ -192,7 +192,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
                 file.delete();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+			LOGGER.error("Can't delete files in: " + path);
         }
     }
 	
