@@ -25,6 +25,8 @@ import org.springframework.boot.Banner.Mode;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
@@ -72,8 +74,8 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 	}
 	
 	public void playMidiFilesOnKontaktFor() throws Exception {
-//		File dir = new File("resources/orch");
-		File dir = new File("resources/midi");
+		final Resource resource = new FileSystemResource("cp/src/main/resources/midi");
+		File dir = resource.getFile();
 		for (File midiFile : dir.listFiles()) {
 			LOGGER.info(midiFile.getName());
 			MidiInfo midiInfo = midiParser.readMidi(midiFile);

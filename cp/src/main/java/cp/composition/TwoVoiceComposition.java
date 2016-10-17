@@ -116,6 +116,14 @@ public class TwoVoiceComposition extends Composition{
 		return operator(Operator.M, 7);
 	}
 
+	public List<MelodyBlock> augmentation(){
+		return operator(Operator.AUGMENTATION, 2.0);
+	}
+
+	public List<MelodyBlock> diminution(){
+		return operator(Operator.DIMINUTION, 0.5);
+	}
+
 	private List<MelodyBlock> operator(Operator operator, int steps) {
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
 
@@ -143,6 +151,35 @@ public class TwoVoiceComposition extends Composition{
 		melodyBlock2.setInstrument(instrument2);
 		melodyBlocks.add(melodyBlock2);
 		
+		return melodyBlocks;
+	}
+
+	private List<MelodyBlock> operator(Operator operator, double factor) {
+		List<MelodyBlock> melodyBlocks = new ArrayList<>();
+
+		Instrument instrument1 = instruments.get(0);
+		instrument1.setVoice(0);
+		instrument1.setChannel(1);
+//		cello.setKeySwitch(new KontactStringsKeySwitch());
+
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), instrument1.pickRandomOctaveFromRange(), getTimeConfig()::getBeatsDoubleLength);
+		melodyBlock.setInstrument(instrument1);
+		melodyBlocks.add(melodyBlock);
+
+		Instrument instrument2 = instruments.get(1);
+		instrument2.setVoice(1);
+		instrument2.setChannel(1);
+		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
+		melodyBlock2.setTimeConfig(getTimeConfig());
+		melodyBlock2.setOffset(getTimeConfig().getOffset());
+		melodyBlock2.setVoice(instrument2.getVoice());
+		OperatorType operatorType = new OperatorType(operator);
+		operatorType.setFactor(factor);
+		melodyBlock2.setOperatorType(operatorType);
+		melodyBlock2.dependsOn(melodyBlock.getVoice());
+		melodyBlock2.setInstrument(instrument2);
+		melodyBlocks.add(melodyBlock2);
+
 		return melodyBlocks;
 	}
 }

@@ -4,6 +4,7 @@ import cp.composition.timesignature.TimeConfig;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Instrument;
 import cp.util.RandomUtil;
 import cp.util.Util;
@@ -16,7 +17,7 @@ import java.util.function.Predicate;
 import static java.util.Comparator.reverseOrder;
 import static java.util.stream.Collectors.toList;
 
-public class MelodyBlock {
+public class MelodyBlock implements Cloneable{
 
 	private List<CpMelody> melodyBlocks = new ArrayList<>();
 	private int startOctave;
@@ -156,6 +157,15 @@ public class MelodyBlock {
 			case I_RELATIVE:
 				Irelative(operatorType.getFunctionalDegreeCenter(), timeLine);
 				break;
+			case AUGMENTATION:
+				augmentation(operatorType.getFactor());
+				this.melodyBlocks = getMelodyBlocks().stream()
+						.filter(m -> m.getStart() < end)
+						.map(m -> m.clone(end))
+						.collect(toList());
+				break;
+			case DIMINUTION:
+				diminution(operatorType.getFactor());
 			case RHYTHMIC:
 			default:
 				break;
@@ -173,14 +183,9 @@ public class MelodyBlock {
 	public void updateMelodyBetween(List<Note> notes){
 		instrument.updateMelodyInRange(notes);
 	}
-	
-	/**
-	 * @param steps Steps are functional degrees of scale.
-	 * @param timeLine
-	 * @return
-	 */
+
 	public MelodyBlock Trelative(int steps, TimeLine timeLine){
-		melodyBlocks.stream().forEach(m -> transposePitchClasses(steps, m, timeLine));
+		melodyBlocks.forEach(m -> transposePitchClasses(steps, m, timeLine));
 		return this;
 	}
 	
@@ -195,11 +200,8 @@ public class MelodyBlock {
 			});
 	}
 
-	/**
-	 * @return
-	 */
 	public MelodyBlock Irelative(int functionalDegreeCenter, TimeLine timeLine){
-		melodyBlocks.stream().forEach(m -> inversePitchClasses(functionalDegreeCenter, m, timeLine));
+		melodyBlocks.forEach(m -> inversePitchClasses(functionalDegreeCenter, m, timeLine));
 		return this;
 	}
 	
@@ -226,6 +228,40 @@ public class MelodyBlock {
 	
 	public MelodyBlock M(int steps){
 		melodyBlocks.stream().flatMap(m -> m.getNotesNoRest().stream()).forEach(note -> note.setPitchClass((note.getPitchClass() * steps) % 12));
+		return this;
+	}
+
+	public MelodyBlock augmentation(double factor){
+		for (CpMelody melodyBlock : melodyBlocks) {
+//			BeatGroup beatgroup = melodyBlock.getBeatGroup();
+//			BeatGroup clonedBeatgroup = beatgroup.clone(beatgroup.getLength() * factor);
+//			melodyBlock.setBeatGroup(clonedBeatgroup);
+			melodyBlock.getNotes().forEach(note -> {
+				int length = (int) (note.getLength() * factor);
+				note.setLength(length);
+				note.setDisplayLength(length);
+				note.setPosition((int)(note.getPosition() * factor));
+			});
+		}
+		return this;
+	}
+
+	public MelodyBlock diminution(double factor){
+		for (CpMelody melodyBlock : melodyBlocks) {
+//			BeatGroup beatgroup = melodyBlock.getBeatGroup();
+//			BeatGroup clonedBeatgroup = beatgroup.clone(beatgroup.getLength() * factor);
+//			melodyBlock.setBeatGroup(clonedBeatgroup);
+			melodyBlock.getNotes().forEach(note -> {
+				int length = (int) (note.getLength() * factor);
+				if (length >= DurationConstants.SIXTEENTH_TRIPLET) {
+					note.setLength(length);
+					note.setDisplayLength(length);
+					note.setPosition((int)(note.getPosition() * factor));
+				}else{
+					throw new IllegalStateException("Diminuation length is too short: " + length);
+				}
+			});
+		}
 		return this;
 	}
 	

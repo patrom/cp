@@ -51,5 +51,8 @@ public class CpHarmony {
 	public Chord getChord() {
 		return chord;
 	}
-	
+
+	public int getPosition() {
+		return position;
+	}
 }

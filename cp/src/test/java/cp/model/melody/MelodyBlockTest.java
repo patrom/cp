@@ -2,6 +2,7 @@ package cp.model.melody;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
+import cp.composition.beat.BeatGroupFactory;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.note.Note;
@@ -46,6 +47,8 @@ public class MelodyBlockTest {
 	private Key G;
 	@Autowired
 	private TimeLine timeLine;
+	@Autowired
+	private BeatGroupFactory beatGroupFactory;
 
 	@Before
 	public void setUp() throws Exception {
@@ -451,8 +454,33 @@ public class MelodyBlockTest {
 //		assertEquals(11, melody.getNotes().get(3).getPitchClass());
 //		assertEquals(0, melody.getNotes().get(4).getPitchClass());
 	}
-	
-	
+
+	@Test
+	public void testAugmentation(){
+		melodyBlock = new MelodyBlock(5,1);
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).len(DurationConstants.QUARTER).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(64).ocatve(5).len(DurationConstants.QUARTER).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(11).pitch(71).ocatve(5).len(DurationConstants.EIGHT).build());
+		notes.add(note().pos(DurationConstants.HALF + DurationConstants.EIGHT).pc(11).pitch(71).ocatve(5).len(DurationConstants.EIGHT).build());
+		notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).pc(7).pitch(67).ocatve(5).len(DurationConstants.QUARTER).build());
+		melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+		melody.setBeatGroup(beatGroupFactory.getBeatGroupUneven(DurationConstants.QUARTER, "fixed"));
+		melodyBlock.addMelodyBlock(melody);
+		melodyBlock.augmentation(2);
+		notes = melodyBlock.getMelodyBlockNotesWithRests();
+		assertEquals(DurationConstants.HALF, notes.get(0).getLength());
+		assertEquals(DurationConstants.HALF, notes.get(1).getLength());
+		assertEquals(DurationConstants.QUARTER, notes.get(2).getLength());
+		assertEquals(DurationConstants.QUARTER, notes.get(3).getLength());
+		assertEquals(DurationConstants.HALF, notes.get(4).getLength());
+
+		assertEquals(0, notes.get(0).getPosition());
+		assertEquals(DurationConstants.HALF, notes.get(1).getPosition());
+		assertEquals(DurationConstants.WHOLE, notes.get(2).getPosition());
+		assertEquals(DurationConstants.WHOLE + DurationConstants.QUARTER, notes.get(3).getPosition());
+		assertEquals(DurationConstants.WHOLE + DurationConstants.HALF, notes.get(4).getPosition());
+	}
 
 
 

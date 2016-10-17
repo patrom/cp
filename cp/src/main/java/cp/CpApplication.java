@@ -80,7 +80,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	@Autowired
 	private HarmonizeNotes harmonizeNotes;
 	
-	public static final AtomicInteger COUNTER = new AtomicInteger();
+	private static final AtomicInteger COUNTER = new AtomicInteger();
 	
 	public static void main(final String[] args)  {
 		clean();
@@ -110,13 +110,15 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(twoVoiceComposition::operatorR);
 //		composeInGenres.add(twoVoiceComposition::operatorM);
 
+		composeInGenres.add(twoVoiceComposition::diminution);
+
 //		composeInGenres.add(threeVoiceComposition::canon2Voice1Acc);
 //		composeInGenres.add(threeVoiceComposition::accFixedRhythm);
 //		composeInGenres.add(threeVoiceComposition::operatorTplusAcc);
 //		composeInGenres.add(threeVoiceComposition::operatorT);
-		threeVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
-		threeVoiceComposition.setHarmonizeVoice(2);
-		composeInGenres.add(threeVoiceComposition::harmonize);
+//		threeVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
+//		threeVoiceComposition.setHarmonizeVoice(2);
+//		composeInGenres.add(threeVoiceComposition::harmonize);
 //		composeInGenres.add(threeVoiceComposition::halfTimeHomophonicRhythm);
 //		composeInGenres.add(threeVoiceComposition::threeOverXX);
 //		composeInGenres.add(threeVoiceComposition::accDuplicateRhythm);
@@ -146,7 +148,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 			    Iterator<Solution> solutionIterator = population.iterator();
 			    int i = 1;
 			    while (solutionIterator.hasNext() && i < musicProperties.getOutputCountRun()) {
-			    	Solution solution = (Solution) solutionIterator.next();
+			    	Solution solution = solutionIterator.next();
 			    	Motive solutionMotive = ((MusicVariable) solution.getDecisionVariables()[0]).getMotive();
 			    	String dateID = generateDateID();
 					String id = dateID + "_" + CpApplication.COUNTER.getAndIncrement();

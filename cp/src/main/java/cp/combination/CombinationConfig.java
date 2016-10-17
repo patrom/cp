@@ -62,14 +62,14 @@ public class CombinationConfig {
 		rhythmCombinations.add(threeNoteEven::pos134);
 		rhythmCombinations.add(threeNoteEven::pos124);
 		rhythmCombinations.add(threeNoteEven::pos234);
-		
+
 		rhythmCombinations.add(fourNoteEven::pos1234);
-		
+
 		rhythmCombinations.add(threeNoteUneven::pos123);
 		rhythmCombinations.add(twoNoteUneven::pos23);
 		rhythmCombinations.add(twoNoteUneven::pos12);
 		rhythmCombinations.add(twoNoteUneven::pos13);
-		
+
 		rhythmCombinations.add(fiveNoteQuintuplet::pos12345);
 		return rhythmCombinations;
 	}

@@ -108,7 +108,7 @@ public abstract class Composition {
 	private Ensemble ensemble;
 	
 	protected final int start = 0;
-	protected final int end = 2 * DurationConstants.WHOLE;
+	protected final int end = 4 * DurationConstants.WHOLE;
 	
 	private TimeConfig timeConfig;
 	

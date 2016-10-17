@@ -9,7 +9,7 @@ import java.util.List;
 
 public abstract class BeatGroup {
 
-	protected final int length;
+	protected int length;
 	protected List<RhythmCombination> rhythmCombinations;
 
 	public BeatGroup(int length, List<RhythmCombination> rhythmCombinations) {
@@ -17,10 +17,16 @@ public abstract class BeatGroup {
 		this.rhythmCombinations = rhythmCombinations;
 	}
 
+	public abstract BeatGroup clone(int length);
+
 	public abstract int getType();
 
 	public int getLength() {
 		return length;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
 	}
 
 	public int getBeatLength() {

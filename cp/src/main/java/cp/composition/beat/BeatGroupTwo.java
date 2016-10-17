@@ -11,6 +11,11 @@ public class BeatGroupTwo extends BeatGroup {
 	}
 
 	@Override
+	public BeatGroup clone(int length) {
+		return new BeatGroupTwo(length, rhythmCombinations);
+	}
+
+	@Override
 	public int getType() {
 		return 2;
 	}

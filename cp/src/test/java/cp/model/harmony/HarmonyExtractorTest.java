@@ -118,7 +118,7 @@ public class HarmonyExtractorTest {
 		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pitch(61).pc(1).voice(0).positionWeight(4.0).build());
 		notes.add(note().pos(DurationConstants.WHOLE).pitch(59).pc(11).voice(0).positionWeight(3.0).build());
 		
-		notes.add(note().pos(6).pitch(64).pc(4).voice(1).positionWeight(3.0).build());
+		notes.add(note().pos(DurationConstants.EIGHT).pitch(64).pc(4).voice(1).positionWeight(3.0).build());
 		notes.add(note().pos(DurationConstants.QUARTER).pitch(58).pc(10).voice(1).positionWeight(1.0).build());
 		notes.add(note().pos(DurationConstants.HALF).pitch(61).pc(1).voice(1).positionWeight(2.0).build());
 		notes.add(note().pos(DurationConstants.WHOLE).pitch(59).pc(11).voice(1).positionWeight(3.0).build());
@@ -128,6 +128,30 @@ public class HarmonyExtractorTest {
 		assertEquals(ChordType.CH2_KLEINE_TERTS, harmonies.get(1).getChord().getChordType());
 		assertEquals(ChordType.CH2_GROTE_TERTS, harmonies.get(2).getChord().getChordType());
 		assertEquals(ChordType.CH2_KLEINE_SECONDE, harmonies.get(3).getChord().getChordType());
+	}
+
+	@Test
+	public void testExtractEndRests() {
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pitch(60).pc(0).voice(0).positionWeight(4.0).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pitch(61).pc(1).voice(0).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).pitch(62).pc(2).voice(0).positionWeight(2.0).build());
+		notes.add(note().pos(DurationConstants.WHOLE).pitch(61).pc(1).voice(0).positionWeight(4.0).build());
+
+		notes.add(note().pos(0).pitch(64).pc(4).voice(1).positionWeight(3.0).build());
+		notes.add(note().pos(DurationConstants.EIGHT).pitch(58).pc(10).voice(1).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.EIGHT).pitch(61).pc(1).voice(1).positionWeight(2.0).build());
+		notes.add(note().pos(DurationConstants.HALF).pitch(59).pc(11).voice(1).positionWeight(3.0).build());
+		List<CpHarmony> harmonies = harmonyExtractor.extractHarmony(notes, 2);
+		assertEquals(7, harmonies.size());
+		assertEquals(60, harmonies.get(0).getNotes().get(0).getPitch());
+		assertEquals(ChordType.CH2_GROTE_TERTS, harmonies.get(0).getChord().getChordType());
+		assertEquals(ChordType.CH2_GROTE_SECONDE, harmonies.get(1).getChord().getChordType());
+		assertEquals(ChordType.CH2_KLEINE_TERTS, harmonies.get(2).getChord().getChordType());
+		assertEquals(ChordType.CH1, harmonies.get(3).getChord().getChordType());
+		assertEquals(ChordType.CH2_GROTE_SECONDE, harmonies.get(4).getChord().getChordType());
+		assertEquals(ChordType.CH2_KLEINE_TERTS, harmonies.get(5).getChord().getChordType());
+		assertEquals(ChordType.CH2_GROTE_SECONDE, harmonies.get(6).getChord().getChordType());
 	}
 	
 	
