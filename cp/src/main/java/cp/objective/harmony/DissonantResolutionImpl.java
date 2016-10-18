@@ -13,7 +13,7 @@ public class DissonantResolutionImpl {
 				return isIntervalDissonant(chord);
 			case 3:
 //				return isTriadDissonant(chord);
-				return isSetClassDissonant(chord);
+//				return isSetClassDissonant(chord);
 			default:
 				break;
 		}

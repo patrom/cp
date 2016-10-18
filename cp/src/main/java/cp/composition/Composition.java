@@ -11,6 +11,7 @@ import cp.model.TimeLineKey;
 import cp.model.dissonance.IntervalAndTriads;
 import cp.model.dissonance.IntervalDissonance;
 import cp.model.dissonance.SetClassDissonance;
+import cp.model.dissonance.TonalDissonance;
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
 import cp.nsga.operator.mutation.melody.ReplaceMelody;
@@ -61,6 +62,8 @@ public abstract class Composition {
 	protected IntervalAndTriads intervalAndTriads;
 	@Autowired
 	protected SetClassDissonance setClassDissonance;
+	@Autowired
+	private TonalDissonance tonalDissonance;
 	@Autowired
 	protected TimeLine timeLine;
 	@Autowired
@@ -131,8 +134,10 @@ public abstract class Composition {
 	protected int numerator;
 	@Value("${composition.denominator:4}")
 	protected int denominator;
-	
-	
+
+	protected HarmonizeMelody harmonizeMelody;
+	protected int harmonizeVoice;
+
 	@PostConstruct
 	public void init(){
 		composeInKey(C);
@@ -149,50 +154,51 @@ public abstract class Composition {
 //		instruments = ensemble.getPiano(3);
 
 		setTimeconfig();
-//		List<TimeLineKey> keys = new ArrayList<>();
-//		keys.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, start, end));
-//		keys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, start, end));
+		List<TimeLineKey> keys = new ArrayList<>();
+		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, DurationConstants.WHOLE));
+		keys.add(new TimeLineKey(E, Scale.MAJOR_SCALE, DurationConstants.WHOLE, end + DurationConstants.WHOLE));
 //		keys.add(new TimeLineKey(D, Scale.MAJOR_SCALE, 108, 144));
 //		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 144, end));
 //		keys.add(new TimeLineKey(C, clarinet.filterScale(Scale.HARMONIC_MINOR_SCALE), 48, 192));//match length
 //		keys.add(new TimeLineKey(A, Scale.HARMONIC_MINOR_SCALE, 48, 96));
 //		keys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 96, 144));
 //		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 144, 192));
-//		int instrumentSize = instruments.size();
-//		for (int i = 0; i < instrumentSize; i++) {
-//			timeLine.addKeysForVoice(keys, i);
-//		}
-//		timeLine.addKeysForVoice(keys, 0);
+		int instrumentSize = instruments.size();
+		for (int i = 0; i < instrumentSize; i++) {
+			timeLine.addKeysForVoice(keys, i);
+		}
+		timeLine.addKeysForVoice(keys, 0);
 		
 		//polytonality
 //		List<TimeLineKey> minor = new ArrayList<>();
 //		minor.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, end));
 //		timeLine.addKeysForVoice(minor, 1);
-		
-		List<TimeLineKey> webern1 = new ArrayList<>();
-		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, start, DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT));
-		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_2, DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT, end));
-//		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_3, 2 * DurationConstants.WHOLE, end));
-		timeLine.addKeysForVoice(webern1, 0);
-		
-		List<TimeLineKey> webern2 = new ArrayList<>();
-		webern2.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_2, start,DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT));
-		webern2.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_3, DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT, end));
-//		webern2.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, 2 * DurationConstants.WHOLE, end));
-		timeLine.addKeysForVoice(webern2, 1);
-		
-		List<TimeLineKey> webern3 = new ArrayList<>();
-		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_3, start, DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT));
-		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT, end));
-//		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, 2 * DurationConstants.WHOLE, end));
-		timeLine.addKeysForVoice(webern3, 2);
+
+		//composition - A string trio
+//		List<TimeLineKey> webern1 = new ArrayList<>();
+//		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, start, DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT));
+//		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_2, DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT, end));
+////		webern1.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_3, 2 * DurationConstants.WHOLE, end));
+//		timeLine.addKeysForVoice(webern1, 0);
+//
+//		List<TimeLineKey> webern2 = new ArrayList<>();
+//		webern2.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_2, start,DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT));
+//		webern2.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_3, DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT, end));
+////		webern2.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, 2 * DurationConstants.WHOLE, end));
+//		timeLine.addKeysForVoice(webern2, 1);
+//
+//		List<TimeLineKey> webern3 = new ArrayList<>();
+//		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_3, start, DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT));
+//		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT, end));
+////		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, 2 * DurationConstants.WHOLE, end));
+//		timeLine.addKeysForVoice(webern3, 2);
 		
 		melodyGenerator.setCompostion(this);
 		melodyGenerator.setBeatGroupStrategy(timeConfig::getAllBeats);
 		replaceMelody.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
 		replaceMelody.setComposition(this);
 		melodyGenerator.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
-		harmonicObjective.setDissonance(setClassDissonance::getDissonance);
+		harmonicObjective.setDissonance(tonalDissonance::getDissonance);
 		harmonicResolutionObjective.setDissonantResolution(dissonantResolutionImpl::isDissonant);
 	}
 	
@@ -227,6 +233,14 @@ public abstract class Composition {
 	
 	public int getEnd() {
 		return end;
+	}
+
+	public void setHarmonizeMelody(HarmonizeMelody harmonizeMelody) {
+		this.harmonizeMelody = harmonizeMelody;
+	}
+
+	public void setHarmonizeVoice(int harmonizeVoice) {
+		this.harmonizeVoice = harmonizeVoice;
 	}
 	
 }

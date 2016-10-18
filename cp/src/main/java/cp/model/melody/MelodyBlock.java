@@ -158,14 +158,14 @@ public class MelodyBlock implements Cloneable{
 				Irelative(operatorType.getFunctionalDegreeCenter(), timeLine);
 				break;
 			case AUGMENTATION:
-				augmentation(operatorType.getFactor());
+				augmentation(operatorType.getFactor(), timeLine);
 				this.melodyBlocks = getMelodyBlocks().stream()
 						.filter(m -> m.getStart() < end)
 						.map(m -> m.clone(end))
 						.collect(toList());
 				break;
 			case DIMINUTION:
-				diminution(operatorType.getFactor());
+				diminution(operatorType.getFactor(), timeLine);
 			case RHYTHMIC:
 			default:
 				break;
@@ -195,8 +195,10 @@ public class MelodyBlock implements Cloneable{
 			.forEach(n -> {
 				TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition(), n.getVoice());
 				TimeLineKey dependingTimeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition() + offset, n.getVoice());
-				int transposedPc = melody.transposePitchClass(n.getPitchClass(), timeLineKey.getScale(), dependingTimeLineKey.getScale(), timeLineKey.getKey().getInterval(), dependingTimeLineKey.getKey().getInterval(), steps);
-				n.setPitchClass(transposedPc);
+				if (!timeLineKey.getKey().getStep().equals(dependingTimeLineKey.getKey().getStep())) {
+					int transposedPc = melody.transposePitchClass(n.getPitchClass(), timeLineKey.getScale(), dependingTimeLineKey.getScale(), timeLineKey.getKey().getInterval(), dependingTimeLineKey.getKey().getInterval(), steps);
+					n.setPitchClass(transposedPc);
+				}
 			});
 	}
 
@@ -211,8 +213,10 @@ public class MelodyBlock implements Cloneable{
 			.forEach(n -> {
 				TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition(), n.getVoice());
 				TimeLineKey dependingTimeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition() + offset, n.getVoice());
-				int invertedPC = melody.invertPitchClass(functionalDegreeCenter, n.getPitchClass(), timeLineKey.getScale(), dependingTimeLineKey.getScale(), timeLineKey.getKey().getInterval(), dependingTimeLineKey.getKey().getInterval());
-				n.setPitchClass(invertedPC);
+				if (!timeLineKey.getKey().getStep().equals(dependingTimeLineKey.getKey().getStep()))  {
+					int invertedPC = melody.invertPitchClass(functionalDegreeCenter, n.getPitchClass(), timeLineKey.getScale(), dependingTimeLineKey.getScale(), timeLineKey.getKey().getInterval(), dependingTimeLineKey.getKey().getInterval());
+					n.setPitchClass(invertedPC);
+				}
 			});
 	}
 
@@ -231,22 +235,31 @@ public class MelodyBlock implements Cloneable{
 		return this;
 	}
 
-	public MelodyBlock augmentation(double factor){
+	public MelodyBlock augmentation(double factor, TimeLine timeLine){
 		for (CpMelody melodyBlock : melodyBlocks) {
 //			BeatGroup beatgroup = melodyBlock.getBeatGroup();
 //			BeatGroup clonedBeatgroup = beatgroup.clone(beatgroup.getLength() * factor);
 //			melodyBlock.setBeatGroup(clonedBeatgroup);
 			melodyBlock.getNotes().forEach(note -> {
 				int length = (int) (note.getLength() * factor);
+				int newPosition = (int)(note.getPosition() * factor);
+				if (!note.isRest()) {
+					TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(note.getPosition(), note.getVoice());
+					TimeLineKey dependingTimeLineKey = timeLine.getTimeLineKeyAtPosition(newPosition + offset, note.getVoice());
+					if (!timeLineKey.getKey().getStep().equals(dependingTimeLineKey.getKey().getStep())) {
+						int transposedPc = melodyBlock.transposePitchClass(note.getPitchClass(), timeLineKey.getScale(), dependingTimeLineKey.getScale(), timeLineKey.getKey().getInterval(), dependingTimeLineKey.getKey().getInterval(), 0);
+						note.setPitchClass(transposedPc);
+					}
+				}
 				note.setLength(length);
 				note.setDisplayLength(length);
-				note.setPosition((int)(note.getPosition() * factor));
+				note.setPosition(newPosition);
 			});
 		}
 		return this;
 	}
 
-	public MelodyBlock diminution(double factor){
+	public MelodyBlock diminution(double factor, TimeLine timeLine){
 		for (CpMelody melodyBlock : melodyBlocks) {
 //			BeatGroup beatgroup = melodyBlock.getBeatGroup();
 //			BeatGroup clonedBeatgroup = beatgroup.clone(beatgroup.getLength() * factor);
@@ -254,9 +267,18 @@ public class MelodyBlock implements Cloneable{
 			melodyBlock.getNotes().forEach(note -> {
 				int length = (int) (note.getLength() * factor);
 				if (length >= DurationConstants.SIXTEENTH_TRIPLET) {
+					int newPosition = (int)(note.getPosition() * factor);
+					if (!note.isRest()) {
+						TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(note.getPosition(), note.getVoice());
+						TimeLineKey dependingTimeLineKey = timeLine.getTimeLineKeyAtPosition(newPosition + offset, note.getVoice());
+						if (!timeLineKey.getKey().getStep().equals(dependingTimeLineKey.getKey().getStep())) {
+							int transposedPc = melodyBlock.transposePitchClass(note.getPitchClass(), timeLineKey.getScale(), dependingTimeLineKey.getScale(), timeLineKey.getKey().getInterval(), dependingTimeLineKey.getKey().getInterval(), 0);
+							note.setPitchClass(transposedPc);
+						}
+					}
 					note.setLength(length);
 					note.setDisplayLength(length);
-					note.setPosition((int)(note.getPosition() * factor));
+					note.setPosition(newPosition);
 				}else{
 					throw new IllegalStateException("Diminuation length is too short: " + length);
 				}

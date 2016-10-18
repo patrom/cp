@@ -18,18 +18,7 @@ import static cp.model.rhythm.DurationConstants.HALF;
 
 @Component(value="threeVoiceComposition")
 public class ThreeVoiceComposition extends Composition{
-	
-	private HarmonizeMelody harmonizeMelody;
-	private int harmonizeVoice;
-	
-	public void setHarmonizeMelody(HarmonizeMelody harmonizeMelody) {
-		this.harmonizeMelody = harmonizeMelody;
-	}
-	
-	public void setHarmonizeVoice(int harmonizeVoice) {
-		this.harmonizeVoice = harmonizeVoice;
-	}
-	
+
 	public List<MelodyBlock> canon2Voice1Acc(){
 		return operator(Operator.T_RELATIVE, 0);
 	}
@@ -202,7 +191,7 @@ public class ThreeVoiceComposition extends Composition{
 	 * Voice 0: melody
 	 * Voice 1: homophonic
 	 * Voice 2: half time
-	 * @return
+	 * @return melodies
 	 */
 	public List<MelodyBlock> halfTimeHomophonicRhythm(){
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
@@ -235,7 +224,7 @@ public class ThreeVoiceComposition extends Composition{
 	 * Voice 0: 3
 	 * Voice 1: homophonic in 4
 	 * Voice 2: in 4
-	 * @return
+	 * @return melodies
 	 */
 	public List<MelodyBlock> threeOverXX(){
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
@@ -268,7 +257,7 @@ public class ThreeVoiceComposition extends Composition{
 	 * Voice 0: bass halftime
 	 * Voice 1: melody rhythm duplicate
 	 * Voice 2: melody 
-	 * @return
+	 * @return melodies
 	 */
 	public List<MelodyBlock> accDuplicateRhythm(){
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();

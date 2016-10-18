@@ -459,15 +459,20 @@ public class MelodyBlockTest {
 	public void testAugmentation(){
 		melodyBlock = new MelodyBlock(5,1);
 		List<Note> notes = new ArrayList<>();
-		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).len(DurationConstants.QUARTER).build());
-		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(64).ocatve(5).len(DurationConstants.QUARTER).build());
-		notes.add(note().pos(DurationConstants.HALF).pc(11).pitch(71).ocatve(5).len(DurationConstants.EIGHT).build());
-		notes.add(note().pos(DurationConstants.HALF + DurationConstants.EIGHT).pc(11).pitch(71).ocatve(5).len(DurationConstants.EIGHT).build());
-		notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).pc(7).pitch(67).ocatve(5).len(DurationConstants.QUARTER).build());
+		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).len(DurationConstants.QUARTER).voice(1).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(64).ocatve(5).len(DurationConstants.QUARTER).voice(1).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(5).pitch(65).ocatve(5).len(DurationConstants.EIGHT).voice(1).build());
+		notes.add(note().pos(DurationConstants.HALF + DurationConstants.EIGHT).pc(11).pitch(71).ocatve(5).len(DurationConstants.EIGHT).voice(1).build());
+		notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).pc(1).pitch(73).ocatve(5).len(DurationConstants.QUARTER).voice(1).build());
 		melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
 		melody.setBeatGroup(beatGroupFactory.getBeatGroupUneven(DurationConstants.QUARTER, "fixed"));
 		melodyBlock.addMelodyBlock(melody);
-		melodyBlock.augmentation(2);
+
+		List<TimeLineKey> keys = new ArrayList<>();
+		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, DurationConstants.HALF));
+		keys.add(new TimeLineKey(D, Scale.MAJOR_SCALE,  DurationConstants.HALF, DurationConstants.WHOLE * 2));
+		timeLine.addKeysForVoice(keys, 1);
+		melodyBlock.augmentation(2, timeLine);
 		notes = melodyBlock.getMelodyBlockNotesWithRests();
 		assertEquals(DurationConstants.HALF, notes.get(0).getLength());
 		assertEquals(DurationConstants.HALF, notes.get(1).getLength());
@@ -480,6 +485,12 @@ public class MelodyBlockTest {
 		assertEquals(DurationConstants.WHOLE, notes.get(2).getPosition());
 		assertEquals(DurationConstants.WHOLE + DurationConstants.QUARTER, notes.get(3).getPosition());
 		assertEquals(DurationConstants.WHOLE + DurationConstants.HALF, notes.get(4).getPosition());
+
+		assertEquals(0, notes.get(0).getPitchClass());
+		assertEquals(4, notes.get(1).getPitchClass());
+		assertEquals(6, notes.get(2).getPitchClass());//key of D
+		assertEquals(11, notes.get(3).getPitchClass());
+		assertEquals(1, notes.get(4).getPitchClass());//key of D
 	}
 
 
