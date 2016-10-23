@@ -55,6 +55,7 @@ public class Display {
 
 	private void viewScore(List<MelodyBlock> melodies, String id, double tempo)
 			throws InvalidMidiDataException, IOException {
+
 		Collections.sort(melodies, new MelodyVoiceComparator());
 		melodies.forEach(m -> LOGGER.info(m.getMelodyBlockContour() + ", "));
 		melodies.forEach(m -> LOGGER.info(m.getMelodyBlockNotesWithRests() + ", "));

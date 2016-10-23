@@ -24,16 +24,16 @@ public class TwoVoiceComposition extends Composition{
 		
 		melodyBlocks.add(melodyBlock);
 		
+		Instrument instrument2 = instruments.get(1);
+		instrument2.setVoice(1);
+		instrument2.setChannel(1);
+		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlock(instrument2.getVoice(), instrument2.pickRandomOctaveFromRange(), getTimeConfig()::getFixedBeatGroup);
+		melodyBlock2.setInstrument(instrument2);
+		
 //		Instrument instrument2 = instruments.get(1);
 //		instrument2.setVoice(1);
 //		instrument2.setChannel(1);
-//		melodyBlock = melodyGenerator.generateMelodyBlock(instrument2.getVoice(), instrument2.pickRandomOctaveFromRange(), getTimeConfig()::getFixedBeatGroup);
-//		melodyBlock.setInstrument(instrument2);
-		
-		Instrument instrument2 = instruments.get(1);
-		instrument2.setVoice(1);
-		instrument2.setChannel(1);	
-		MelodyBlock melodyBlock2 = melodyGenerator.duplicateRhythmMelodyBlock(melodyBlock, instrument2);
+//		MelodyBlock melodyBlock2 = melodyGenerator.duplicateRhythmMelodyBlock(melodyBlock, instrument2);
 		
 		melodyBlocks.add(melodyBlock2);
 

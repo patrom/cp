@@ -14,7 +14,7 @@ public class TimeLine {
 	
 	public TimeLineKey getTimeLineKeyAtPosition(int position, int voice){
 		List<TimeLineKey> keys = keysPerVoice.get(voice);
-		return keys.stream().filter(k -> k.getStart() <= position && position <= k.getEnd()).findFirst().get();
+		return keys.stream().filter(k -> k.getStart() <= position && position < k.getEnd()).findFirst().get();
 	}
 
 	public void addKeysForVoice(List<TimeLineKey> keys, int voice){

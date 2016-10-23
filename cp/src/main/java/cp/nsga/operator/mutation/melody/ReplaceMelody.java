@@ -69,7 +69,7 @@ public class ReplaceMelody extends AbstractMutation{
 				melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes);
 				melody.updateNotes(melodyNotes);
 //				LOGGER.info("Melody replaced: " + melody.getVoice());
-				
+
 				List<MelodyBlock> melodyBlocks = motive.getMelodyBlocks();
 				List<MelodyBlock> rhythmDependantMelodies = melodyBlocks.stream()
 						.filter(m -> m.isRhythmDependant() && m.getDependingVoice() == melody.getVoice())

@@ -8,7 +8,6 @@ import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
 import cp.out.print.note.Key;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -39,7 +38,7 @@ public class CpMelodyTest {
 	private Key F;
 	@Autowired
 	private Key G;
-	@Autowired
+
 	private TimeLine timeLine;
 
 	@Test
@@ -132,6 +131,7 @@ public class CpMelodyTest {
 	
 	@Test
 	public void testUpdateRandomNote(){
+		timeLine = new TimeLine();
 		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, DurationConstants.WHOLE)), 0);
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).build());
@@ -232,6 +232,72 @@ public class CpMelodyTest {
 		melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE + DurationConstants.QUARTER);
 		int convertedPC = melody.invertPitchClass(1, 4,Scale.MAJOR_SCALE, Scale.HARMONIC_MINOR_SCALE, C.getInterval(), G.getInterval());
 		assertEquals(3, convertedPC);
+	}
+
+	@Test
+	public void testTransposePitchClasses() {
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pc(0).voice(0).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(4).voice(0).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(5).voice(0).build());
+		notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).pc(7).voice(0).build());
+		melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE + DurationConstants.QUARTER);
+
+		List<TimeLineKey> keys = new ArrayList<>();
+		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, DurationConstants.WHOLE));
+		keys.add(new TimeLineKey(D, Scale.MAJOR_SCALE, DurationConstants.WHOLE, 3 * DurationConstants.WHOLE));
+		timeLine = new TimeLine();
+		timeLine.addKeysForVoice(keys, 0);
+		melody.transposePitchClasses(0, DurationConstants.WHOLE, timeLine);
+		List<Note> transposednotes = melody.getNotes();
+		assertEquals(1, transposednotes.get(0).getPitchClass());
+		assertEquals(4, transposednotes.get(1).getPitchClass());
+		assertEquals(6, transposednotes.get(2).getPitchClass());
+		assertEquals(7, transposednotes.get(3).getPitchClass());
+	}
+
+	@Test
+	public void testTransposePitchClasses2() {
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pc(0).voice(0).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(4).voice(0).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(5).voice(0).build());
+		notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).pc(7).voice(0).build());
+		melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE + DurationConstants.QUARTER);
+
+		List<TimeLineKey> keys = new ArrayList<>();
+		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, DurationConstants.WHOLE));
+		keys.add(new TimeLineKey(D, Scale.MAJOR_SCALE, DurationConstants.WHOLE, 3 * DurationConstants.WHOLE));
+		timeLine = new TimeLine();
+		timeLine.addKeysForVoice(keys, 0);
+		melody.transposePitchClasses(3, DurationConstants.WHOLE, timeLine);
+		List<Note> transposednotes = melody.getNotes();
+		assertEquals(6, transposednotes.get(0).getPitchClass());
+		assertEquals(9, transposednotes.get(1).getPitchClass());
+		assertEquals(11, transposednotes.get(2).getPitchClass());
+		assertEquals(1, transposednotes.get(3).getPitchClass());
+	}
+
+	@Test
+	public void testInversePitchClasses() {
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pc(0).voice(0).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(4).voice(0).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(5).voice(0).build());
+		notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).pc(7).voice(0).build());
+		melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE + DurationConstants.QUARTER);
+
+		List<TimeLineKey> keys = new ArrayList<>();
+		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, DurationConstants.WHOLE));
+		keys.add(new TimeLineKey(D, Scale.MAJOR_SCALE, DurationConstants.WHOLE, 3 * DurationConstants.WHOLE));
+		timeLine = new TimeLine();
+		timeLine.addKeysForVoice(keys, 0);
+		melody.inversePitchClasses(2, DurationConstants.WHOLE, timeLine);
+		List<Note> inverseNotes = melody.getNotes();
+		assertEquals(6, inverseNotes.get(0).getPitchClass());
+		assertEquals(2, inverseNotes.get(1).getPitchClass());
+		assertEquals(1, inverseNotes.get(2).getPitchClass());
+		assertEquals(11, inverseNotes.get(3).getPitchClass());
 	}
 	
 }

@@ -35,13 +35,20 @@ public class RandomUtil {
 	public static int random(int size){
 		return random.nextInt(size);
 	}
+
+	public static int getRandomNumberInRange(int minInclusive, int maxInclusive) {
+		if (minInclusive >= maxInclusive) {
+			throw new IllegalArgumentException("max must be greater than min");
+		}
+		return random.nextInt((maxInclusive - minInclusive) + 1) + minInclusive;
+	}
 	
 	public static IntStream range(int size){
 		int start = randomInt(0, size);
 		int end = randomInt(start + 1, size + 1);
 		return IntStream.range(start, end);
 	}
-	
+
 	public static boolean toggleSelection(){
 		return random.nextBoolean();
 	}

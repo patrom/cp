@@ -1,6 +1,7 @@
 package cp.model;
 
 import cp.model.harmony.CpHarmony;
+import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.util.RandomUtil;
@@ -16,17 +17,12 @@ public class Motive implements Cloneable {
 	private List<CpHarmony> harmonies;
 	private final List<MelodyBlock> melodyBlocks;
 	
-//	public Motive(List<CpMelody> melodies){
-//		this.melodies = melodies;
-//	}
-	
 	public Motive(List<MelodyBlock> melodyBlocks){
 		this.melodyBlocks = melodyBlocks;
 	}
 
 	protected Motive(Motive motive) {
 		// TODO clone implementation
-//		this.melodies = motive.getMelodies().stream().map(m -> m.clone()).collect(toList());
 		this.melodyBlocks = motive.getMelodyBlocks().stream().map(m -> m.clone()).collect(toList());
 	}
 
@@ -53,8 +49,17 @@ public class Motive implements Cloneable {
 	}
 	
 	public MelodyBlock getRandomMutableMelody(){
-		List<MelodyBlock> mutableMelodies = melodyBlocks.stream().filter(m -> m.isMutable() && m.isRhythmMutable()).collect(toList());
-		return mutableMelodies.get(RandomUtil.random(mutableMelodies.size()));
+		List<MelodyBlock> mutableMelodies = melodyBlocks.stream()
+				.filter(m -> m.isMutable() && m.isRhythmMutable())
+				.collect(toList());
+		return RandomUtil.getRandomFromList(mutableMelodies);
+	}
+
+	public CpMelody getRandomMelodyWithBeatGroupLength(int length){
+		List<CpMelody> melodies =  melodyBlocks.stream()
+				.flatMap(block -> block.getMelodyBlocks().stream())
+				.filter(melody -> melody.getBeatGroup().getBeatLength() == length).collect(toList());
+		return RandomUtil.getRandomFromList(melodies);
 	}
 	
 }

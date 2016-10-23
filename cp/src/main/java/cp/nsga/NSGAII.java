@@ -43,7 +43,6 @@ public class NSGAII extends Algorithm {
 	 * 
 	 * @return a <code>SolutionSet</code> that is a set of non dominated
 	 *         solutions as a result of the algorithm execution
-	 * @throws JMException
 	 */
 	public SolutionSet execute() throws JMException, ClassNotFoundException {
 		int populationSize;
@@ -73,6 +72,7 @@ public class NSGAII extends Algorithm {
 		// Read the operators
 		List<Operator> mutationOperators = new ArrayList<>();
 		mutationOperators.add(operators_.get("replaceMelody"));
+		mutationOperators.add(operators_.get("copyMelody"));
 //		mutationOperators.add(operators_.get("addRhythm"));
 //		mutationOperators.add(operators_.get("removeRhythm"));
 		mutationOperators.add(operators_.get("oneNoteMutation"));
@@ -103,12 +103,9 @@ public class NSGAII extends Algorithm {
 			for (int i = 0; i < (populationSize / 2); i++) {
 				if (evaluations < maxEvaluations) {
 					// obtain parents
-					parents[0] = (Solution) selectionOperator
-							.execute(population);
-					parents[1] = (Solution) selectionOperator
-							.execute(population);
-					Solution[] offSpring = (Solution[]) crossoverOperator
-							.execute(parents);
+					parents[0] = (Solution) selectionOperator.execute(population);
+					parents[1] = (Solution) selectionOperator.execute(population);
+					Solution[] offSpring = (Solution[]) crossoverOperator.execute(parents);
 					for (Operator operator : mutationOperators) {
 						operator.execute(offSpring[0]);
 						operator.execute(offSpring[1]);
@@ -124,7 +121,7 @@ public class NSGAII extends Algorithm {
 			}
 
 			// Create the solutionSet union of solutionSet and offSpring
-			union = ((SolutionSet) population).union(offspringPopulation);
+			union = population.union(offspringPopulation);
 
 			// Ranking the union
 			Ranking ranking = new Ranking(union);
@@ -166,6 +163,19 @@ public class NSGAII extends Algorithm {
 				}
 
 			}
+
+//			//log solution set
+//			Iterator<Solution> solutionIterator = population.iterator();
+//			int i = 1;
+//			while (solutionIterator.hasNext()) {
+//				Solution solution = solutionIterator.next();
+//				Motive solutionMotive = ((MusicVariable) solution.getDecisionVariables()[0]).getMotive();
+//				for (MelodyBlock melodyBlock : solutionMotive.getMelodyBlocks()) {
+//					LOGGER.info("Melody sol: " + melodyBlock.getMelodyBlockNotesWithRests());
+//				}
+//			}
+
+
 
 			// This piece of code shows how to use the indicator object into the
 			// code
@@ -217,7 +227,7 @@ public class NSGAII extends Algorithm {
 		List<Solution> copySolutions = new ArrayList<>();
 		Iterator<Solution> iterator = population.iterator();
 		while (iterator.hasNext()) {
-			Solution solution = (Solution) iterator.next();
+			Solution solution = iterator.next();
 			copySolutions.add(solution);
 		}
 		return copySolutions;

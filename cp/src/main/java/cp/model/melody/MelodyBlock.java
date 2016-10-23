@@ -84,27 +84,10 @@ public class MelodyBlock implements Cloneable{
 		return melodyBlocks.stream().flatMap(m -> m.getContour().stream()).collect(toList());
 	}
 	
-//	public void updateRandomNote() {
-//		CpMelody melody = RandomUtil.getRandomFromList(melodyBlocks);
-//		melody.updateRandomNote();
-//	}
-	
 	public void updateArticulation(){
 		CpMelody melody = RandomUtil.getRandomFromList(melodyBlocks);
 		melody.updateArticulation();
 	}
-	
-//	public void replaceMelody(CpMelody melody){
-//		List<CpMelody> melodies = melodyBlocks.stream()
-//				.filter(m -> m.isReplaceable())
-//				.collect(toList());
-//		if (!melodies.isEmpty()) {
-//			CpMelody melodyToReplace = RandomUtil.getRandomFromList(melodies);
-//			int index = melodyBlocks.indexOf(melodyToReplace);
-//			
-//			melodyBlocks.set(index, melody);
-//		}
-//	}
 	
 	public Optional<CpMelody> getRandomMelody(Predicate<CpMelody> filterPredicate){
 		List<CpMelody> melodies = melodyBlocks.stream()
@@ -185,53 +168,28 @@ public class MelodyBlock implements Cloneable{
 	}
 
 	public MelodyBlock Trelative(int steps, TimeLine timeLine){
-		melodyBlocks.forEach(m -> transposePitchClasses(steps, m, timeLine));
+		melodyBlocks.forEach(m -> m.transposePitchClasses(steps, offset, timeLine));
 		return this;
 	}
 	
-	protected void transposePitchClasses(int steps, CpMelody melody, TimeLine timeLine){
-		melody.getNotes().stream().filter(n -> !n.isRest())
-			.sorted()
-			.forEach(n -> {
-				TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition(), n.getVoice());
-				TimeLineKey dependingTimeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition() + offset, n.getVoice());
-				if (!timeLineKey.getKey().getStep().equals(dependingTimeLineKey.getKey().getStep())) {
-					int transposedPc = melody.transposePitchClass(n.getPitchClass(), timeLineKey.getScale(), dependingTimeLineKey.getScale(), timeLineKey.getKey().getInterval(), dependingTimeLineKey.getKey().getInterval(), steps);
-					n.setPitchClass(transposedPc);
-				}
-			});
-	}
 
 	public MelodyBlock Irelative(int functionalDegreeCenter, TimeLine timeLine){
-		melodyBlocks.forEach(m -> inversePitchClasses(functionalDegreeCenter, m, timeLine));
+		melodyBlocks.forEach(m -> m.inversePitchClasses(functionalDegreeCenter, offset, timeLine));
 		return this;
 	}
 	
-	private void inversePitchClasses(int functionalDegreeCenter, CpMelody melody, TimeLine timeLine) {
-		melody.getNotes().stream().filter(n -> !n.isRest())
-			.sorted()
-			.forEach(n -> {
-				TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition(), n.getVoice());
-				TimeLineKey dependingTimeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition() + offset, n.getVoice());
-				if (!timeLineKey.getKey().getStep().equals(dependingTimeLineKey.getKey().getStep()))  {
-					int invertedPC = melody.invertPitchClass(functionalDegreeCenter, n.getPitchClass(), timeLineKey.getScale(), dependingTimeLineKey.getScale(), timeLineKey.getKey().getInterval(), dependingTimeLineKey.getKey().getInterval());
-					n.setPitchClass(invertedPC);
-				}
-			});
-	}
-
 	public MelodyBlock T(int steps){
-		melodyBlocks.stream().flatMap(m -> m.getNotesNoRest().stream()).forEach(note -> note.setPitchClass((note.getPitchClass() + steps) % 12));
+		melodyBlocks.forEach(m -> m.T(steps));
 		return this;
 	}
 	
 	public MelodyBlock I(){
-		melodyBlocks.stream().flatMap(m -> m.getNotesNoRest().stream()).forEach(note -> note.setPitchClass((12 - note.getPitchClass()) % 12));
+		melodyBlocks.forEach(m -> m.I());
 		return this;
 	}
 	
 	public MelodyBlock M(int steps){
-		melodyBlocks.stream().flatMap(m -> m.getNotesNoRest().stream()).forEach(note -> note.setPitchClass((note.getPitchClass() * steps) % 12));
+		melodyBlocks.forEach(m -> m.M(steps));
 		return this;
 	}
 

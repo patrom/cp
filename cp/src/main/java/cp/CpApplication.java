@@ -8,6 +8,7 @@ import cp.nsga.MusicSolution;
 import cp.nsga.MusicSolutionType;
 import cp.nsga.MusicVariable;
 import cp.nsga.operator.mutation.melody.ArticulationMutation;
+import cp.nsga.operator.mutation.melody.CopyMelody;
 import cp.nsga.operator.mutation.melody.OneNoteMutation;
 import cp.nsga.operator.mutation.melody.ReplaceMelody;
 import cp.out.orchestration.Orchestrator;
@@ -55,6 +56,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	@Autowired
 	private ReplaceMelody replaceMelody;
 	@Autowired
+	private CopyMelody copyMelody;
+	@Autowired
 	private Algorithm algorithm;
 	@Autowired
 	private Display display;
@@ -101,7 +104,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 
 	private void compose() throws Exception {
 		List<CompositionGenre> composeInGenres = new ArrayList<>();
-//		composeInGenres.add(twoVoiceComposition::beatEven);
+		composeInGenres.add(twoVoiceComposition::beatEven);
 //		composeInGenres.add(twoVoiceComposition::canon);
 //		composeInGenres.add(twoVoiceComposition::fugueInverse);
 //		composeInGenres.add(twoVoiceComposition::operatorT);
@@ -110,7 +113,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(twoVoiceComposition::operatorR);
 //		composeInGenres.add(twoVoiceComposition::operatorM);
 
-		composeInGenres.add(twoVoiceComposition::diminution);
+//		composeInGenres.add(twoVoiceComposition::diminution);
 
 //		composeInGenres.add(threeVoiceComposition::canon2Voice1Acc);
 //		composeInGenres.add(threeVoiceComposition::accFixedRhythm);
@@ -177,6 +180,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //	    algorithm.addOperator("removeRhythm", removeRhythm);
 	    algorithm.addOperator("articulationMutation", articulationMutation);
 	    algorithm.addOperator("replaceMelody", replaceMelody);
+		algorithm.addOperator("copyMelody", copyMelody);
 	    algorithm.addOperator("selection", SelectionFactory.getSelectionOperator("BinaryTournament2", parameters));
 	}
 	
