@@ -54,7 +54,9 @@ public class CopyMelody extends AbstractMutation{
 			CpMelody optionalMelody = motive.getRandomMelodyWithBeatGroupLength(melodyToReplace.getBeatGroupLength());
 			if (optionalMelody != null && !melodyToReplace.equals(optionalMelody) && melodyToReplace.getBeatGroupLength() == optionalMelody.getBeatGroupLength()) {
 				CpMelody clonedMelody = optionalMelody.clone();
+
 				int offsetKey = melodyToReplace.getStart() -  clonedMelody.getStart();
+				clonedMelody.T(0);
 				if(RandomUtil.toggleSelection()){
 					int steps = RandomUtil.getRandomNumberInRange(0, 7);
 					clonedMelody.transposePitchClasses(steps, offsetKey , timeLine);
@@ -85,12 +87,6 @@ public class CopyMelody extends AbstractMutation{
 		}
 	}
 
-	/**
-	 * Executes the operation
-	 * @param object An object containing a solution to mutate
-	 * @return An object containing the mutated solution
-	 * @throws JMException
-	 */
 	public Object execute(Object object) throws JMException {
 		Solution solution = (Solution) object;
 		Double probability = (Double) getParameter("probabilityCopyMelody");

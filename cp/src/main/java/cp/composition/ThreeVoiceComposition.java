@@ -1,9 +1,9 @@
 package cp.composition;
 
+import cp.model.OperatorRelation;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.melody.Operator;
-import cp.model.melody.OperatorType;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Instrument;
@@ -71,13 +71,17 @@ public class ThreeVoiceComposition extends Composition{
 		melodyBlock2.setTimeConfig(getTimeConfig());
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
 		melodyBlock2.setVoice(instrument2.getVoice());
-		OperatorType operatorType = new OperatorType(operator);
-		operatorType.setSteps(steps);
-//		operatorType.setFunctionalDegreeCenter(1);
-		melodyBlock2.setOperatorType(operatorType);
-		melodyBlock2.dependsOn(melodyBlock.getVoice());
 		melodyBlock2.setInstrument(instrument2);
+		melodyBlock2.setCalculable(false);
 		melodyBlocks.add(melodyBlock2);
+
+		OperatorRelation operatorRelation = new OperatorRelation(operator);
+		operatorRelation.setSource(0);
+		operatorRelation.setTarget(1);
+		operatorRelation.setSteps(steps);
+		operatorRelation.setTimeLine(timeLine);
+		operatorRelation.setOffset(getTimeConfig().getOffset());
+		operatorConfig.addOperatorRelations(operatorRelation::execute);
 		
 		
 		Instrument instrument3 = instruments.get(2);
@@ -111,13 +115,17 @@ public class ThreeVoiceComposition extends Composition{
 		melodyBlock2.setTimeConfig(getTimeConfig());
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
 		melodyBlock2.setVoice(instrument2.getVoice());
-		OperatorType operatorType = new OperatorType(operator);
-//		operatorType.setSteps(steps);
-		operatorType.setFunctionalDegreeCenter(1);
-		melodyBlock2.setOperatorType(operatorType);
-		melodyBlock2.dependsOn(melodyBlock.getVoice());
 		melodyBlock2.setInstrument(instrument2);
+		melodyBlock2.setCalculable(false);
 		melodyBlocks.add(melodyBlock2);
+
+		OperatorRelation operatorRelation = new OperatorRelation(operator);
+		operatorRelation.setSource(0);
+		operatorRelation.setTarget(1);
+		operatorRelation.setSteps(steps);
+		operatorRelation.setTimeLine(timeLine);
+		operatorRelation.setOffset(getTimeConfig().getOffset());
+		operatorConfig.addOperatorRelations(operatorRelation::execute);
 		
 		Instrument instrument3 = instruments.get(2);
 		instrument3.setVoice(2);
@@ -125,14 +133,19 @@ public class ThreeVoiceComposition extends Composition{
 		MelodyBlock melodyBlock3 = new MelodyBlock(instrument3.pickRandomOctaveFromRange(), instrument3.getVoice());
 		melodyBlock3.setVoice(instrument3.getVoice());
 		melodyBlock3.setTimeConfig(getTimeConfig());
-		melodyBlock3.setOffset(getTimeConfig().getOffset() * 2);
-		OperatorType operatorType2 = new OperatorType(operator);
-//		operatorType2.setSteps(1 + steps);
-		operatorType.setFunctionalDegreeCenter(2);
-		melodyBlock3.setOperatorType(operatorType2);
-		melodyBlock3.dependsOn(melodyBlock.getVoice());
+		int offsetVoice2 = getTimeConfig().getOffset() * 2;
+		melodyBlock3.setOffset(offsetVoice2);
 		melodyBlock3.setInstrument(instrument3);
+		melodyBlock3.setCalculable(false);
 		melodyBlocks.add(melodyBlock3);
+
+		OperatorRelation operatorRelation2 = new OperatorRelation(operator);
+		operatorRelation2.setSource(0);
+		operatorRelation2.setTarget(2);
+		operatorRelation2.setSteps(steps);
+		operatorRelation2.setTimeLine(timeLine);
+		operatorRelation2.setOffset(offsetVoice2);
+		operatorConfig.addOperatorRelations(operatorRelation2::execute);
 
 		return melodyBlocks;
 	}

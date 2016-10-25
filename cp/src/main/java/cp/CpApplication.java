@@ -104,7 +104,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 
 	private void compose() throws Exception {
 		List<CompositionGenre> composeInGenres = new ArrayList<>();
-		composeInGenres.add(twoVoiceComposition::beatEven);
+//		composeInGenres.add(twoVoiceComposition::beatEven);
 //		composeInGenres.add(twoVoiceComposition::canon);
 //		composeInGenres.add(twoVoiceComposition::fugueInverse);
 //		composeInGenres.add(twoVoiceComposition::operatorT);

@@ -6,6 +6,7 @@ import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
 import cp.generator.pitchclass.PassingPitchClasses;
 import cp.generator.pitchclass.RandomPitchClasses;
+import cp.model.RelationConfig;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.dissonance.IntervalAndTriads;
@@ -137,6 +138,8 @@ public abstract class Composition {
 
 	protected HarmonizeMelody harmonizeMelody;
 	protected int harmonizeVoice;
+	@Autowired
+	protected RelationConfig operatorConfig;
 
 	@PostConstruct
 	public void init(){
@@ -155,8 +158,8 @@ public abstract class Composition {
 
 		setTimeconfig();
 		List<TimeLineKey> keys = new ArrayList<>();
-		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, DurationConstants.WHOLE));
-		keys.add(new TimeLineKey(E, Scale.MAJOR_SCALE, DurationConstants.WHOLE, end + DurationConstants.WHOLE));
+		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, end));
+//		keys.add(new TimeLineKey(E, Scale.MAJOR_SCALE, DurationConstants.WHOLE, end + DurationConstants.WHOLE));
 //		keys.add(new TimeLineKey(D, Scale.MAJOR_SCALE, 108, 144));
 //		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 144, end));
 //		keys.add(new TimeLineKey(C, clarinet.filterScale(Scale.HARMONIC_MINOR_SCALE), 48, 192));//match length
@@ -242,5 +245,5 @@ public abstract class Composition {
 	public void setHarmonizeVoice(int harmonizeVoice) {
 		this.harmonizeVoice = harmonizeVoice;
 	}
-	
+
 }

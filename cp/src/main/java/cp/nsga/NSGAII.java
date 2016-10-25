@@ -5,6 +5,8 @@
  */
 package cp.nsga;
 
+import cp.model.Relation;
+import cp.model.RelationConfig;
 import jmetal.core.*;
 import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.util.Distance;
@@ -26,6 +28,9 @@ import java.util.List;
 public class NSGAII extends Algorithm {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(NSGAII.class.getName());
+
+	@Autowired
+	private RelationConfig operatorConfig;
 
 	/**
 	 * Constructor
@@ -109,6 +114,10 @@ public class NSGAII extends Algorithm {
 					for (Operator operator : mutationOperators) {
 						operator.execute(offSpring[0]);
 						operator.execute(offSpring[1]);
+					}
+					for (Relation relation : operatorConfig.getRelations()) {
+						relation.execute(offSpring[0]);
+						relation.execute(offSpring[1]);
 					}
 					problem_.evaluate(offSpring[0]);
 					problem_.evaluateConstraints(offSpring[0]);

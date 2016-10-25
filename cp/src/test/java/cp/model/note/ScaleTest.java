@@ -3,7 +3,10 @@ package cp.model.note;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ScaleTest {
 	
@@ -74,6 +77,19 @@ public class ScaleTest {
 		assertEquals(0, pc);
 		pc = scale.getInversedPitchClass(2,5);
 		assertEquals(11, pc);
+	}
+
+	@Test
+	public void testTransposePitchClassAll(){
+		scale = Scale.MAJOR_SCALE;
+		int[] transpositions = new int[scale.getPitchClasses().length];
+		for (int i = 0; i < scale.getPitchClasses().length; i++) {
+			int transposed = scale.transposePitchClass(4, i);
+			System.out.println(transposed);
+			transpositions[i] = transposed;
+		}
+		Arrays.sort(transpositions);
+		assertTrue(Arrays.equals(transpositions, scale.getPitchClasses()));
 	}
 
 }

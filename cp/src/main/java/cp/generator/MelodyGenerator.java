@@ -5,6 +5,7 @@ import cp.composition.beat.BeatGroup;
 import cp.composition.beat.BeatGroupStrategy;
 import cp.composition.timesignature.TimeConfig;
 import cp.generator.pitchclass.PitchClassGenerator;
+import cp.model.TimeLine;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
@@ -12,6 +13,7 @@ import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Instrument;
 import cp.util.RandomUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -27,6 +29,9 @@ import static cp.model.note.NoteBuilder.note;
 public class MelodyGenerator {
 	
 	private final Random random = new Random();
+
+	@Autowired
+	private TimeLine timeLine;
 	
 	private PitchClassGenerator pitchClassGenerator;
 
@@ -45,7 +50,44 @@ public class MelodyGenerator {
 	public MelodyBlock generateMelodyBlock(final int voice, int octave, BeatGroupStrategy beatGroupStrategy, TimeConfig timeConfig){
 		return generateMelodyBlock(voice, octave, composition.getTimeConfig().randomBeatGroup(), beatGroupStrategy, timeConfig);
 	}
-	
+
+	public MelodyBlock generateDependantMelodyBlock(final int voice, int octave, MelodyBlock dependingMelodyBlock){
+		int start = composition.getStart();
+		int stop = composition.getEnd();
+		MelodyBlock melodyBlock = new MelodyBlock(octave, voice);
+		melodyBlock.setTimeConfig(composition.getTimeConfig());
+
+		int end = start;
+		while (end < stop) {
+			CpMelody clonedMelody = getCpMelody(voice, start, dependingMelodyBlock);
+			melodyBlock.addMelodyBlock(clonedMelody);
+			start = clonedMelody.getEnd();
+			end = start;
+		}
+		return melodyBlock;
+	}
+
+	private CpMelody getCpMelody(int voice, int start,  MelodyBlock dependingMelodyBlock) {
+		CpMelody randomMelody = RandomUtil.getRandomFromList(dependingMelodyBlock.getMelodyBlocks());
+		CpMelody clonedMelody = randomMelody.clone();
+
+		if(RandomUtil.toggleSelection()){
+			int steps = RandomUtil.getRandomNumberInRange(0, 7);
+			clonedMelody.transposePitchClasses(steps, 0 , timeLine);
+		}else{
+			int steps = RandomUtil.getRandomNumberInRange(1, 7);
+			clonedMelody.inversePitchClasses(steps, 0 , timeLine);
+		}
+//		clonedMelody.I();
+		clonedMelody.getNotes().forEach(n -> {
+            n.setVoice(voice);
+            n.setPosition(n.getPosition() + start - randomMelody.getStart());
+        });
+		clonedMelody.setStart(start);
+		clonedMelody.setEnd(start + randomMelody.getBeatGroupLength());
+		return clonedMelody;
+	}
+
 	public MelodyBlock generateMelodyBlock(final int voice, int octave, boolean randomBeats, BeatGroupStrategy beatGroupStrategy, TimeConfig timeConfig){
 		int start = composition.getStart();
 		int stop = composition.getEnd();
@@ -83,11 +125,10 @@ public class MelodyGenerator {
 			melodyNotes = beatGroup.getNotesRandom();
 		} else {
 			melodyNotes = beatGroup.getNotes();
-		}	
-		int offset = start;
+		}
 		melodyNotes.forEach(n -> {
 			n.setVoice(voice);
-			n.setPosition(n.getPosition() + offset);
+			n.setPosition(n.getPosition() + start);
 		});
 		melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes);
 		CpMelody melody = new CpMelody(melodyNotes, voice, start, start + beatGroup.getBeatLength());

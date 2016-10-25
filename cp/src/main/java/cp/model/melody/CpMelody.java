@@ -170,9 +170,6 @@ public class CpMelody implements Cloneable{
 	
 	/**
 	 * Converts pitch class of the depending melody to the same functional degree in this melody and rotates to match the note
-	 * @param pitchClass
-	 * @param dependingScale
-	 * @return
 	 */
 	protected int transposePitchClass(int pitchClass, Scale scale, Scale dependingScale, int key, int dependingKey, int steps){
 		int scaleDistance = dependingKey - key;
@@ -183,10 +180,6 @@ public class CpMelody implements Cloneable{
 	/**
 	 * Converts pitch class of the melody to the same functional degree in the depending melody
 	 * eg. F sharp in G = C sharp in D
-	 * @param pitchClass
-	 * @param dependingScale
-	 * @param steps
-	 * @return
 	 */
 	protected int convertPitchClass(int pitchClass, Scale scale, Scale dependingScale, int steps, int key, int dependingKey){
 		if (scale.getPitchClasses().length != dependingScale.getPitchClasses().length) {
@@ -212,23 +205,20 @@ public class CpMelody implements Cloneable{
 				.forEach(n -> {
 					TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition(), n.getVoice());
 					TimeLineKey dependingTimeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition() + offset, n.getVoice());
-					if (!timeLineKey.getKey().getStep().equals(dependingTimeLineKey.getKey().getStep()))  {
-						int invertedPC = this.invertPitchClass(functionalDegreeCenter, n.getPitchClass(), timeLineKey.getScale(), dependingTimeLineKey.getScale(), timeLineKey.getKey().getInterval(), dependingTimeLineKey.getKey().getInterval());
-						n.setPitchClass(invertedPC);
-					}
+					int invertedPC = this.invertPitchClass(functionalDegreeCenter, n.getPitchClass(), timeLineKey.getScale(), dependingTimeLineKey.getScale(), timeLineKey.getKey().getInterval(), dependingTimeLineKey.getKey().getInterval());
+					n.setPitchClass(invertedPC);
 				});
 	}
 
-	public void transposePitchClasses(int steps,int offset, TimeLine timeLine){
+	public void transposePitchClasses(int steps, int offset, TimeLine timeLine){
 		notes.stream().filter(n -> !n.isRest())
 				.sorted()
 				.forEach(n -> {
 					TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition(), n.getVoice());
 					TimeLineKey dependingTimeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition() + offset, n.getVoice());
-					if (!timeLineKey.getKey().getStep().equals(dependingTimeLineKey.getKey().getStep())) {
-						int transposedPc = this.transposePitchClass(n.getPitchClass(), timeLineKey.getScale(), dependingTimeLineKey.getScale(), timeLineKey.getKey().getInterval(), dependingTimeLineKey.getKey().getInterval(), steps);
-						n.setPitchClass(transposedPc);
-					}
+					int transposedPc = this.transposePitchClass(n.getPitchClass(), timeLineKey.getScale(), dependingTimeLineKey.getScale(), timeLineKey.getKey().getInterval(), dependingTimeLineKey.getKey().getInterval(), steps);
+					n.setPitchClass(transposedPc);
+
 				});
 	}
 
@@ -311,5 +301,12 @@ public class CpMelody implements Cloneable{
 	public void setBeatGroup(BeatGroup beatGroup) {
 		this.beatGroup = beatGroup;
 	}
-	
+
+	public void setStart(int start) {
+		this.start = start;
+	}
+
+	public void setEnd(int end) {
+		this.end = end;
+	}
 }

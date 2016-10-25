@@ -22,14 +22,14 @@ public class MelodyBlock implements Cloneable{
 	private List<CpMelody> melodyBlocks = new ArrayList<>();
 	private int startOctave;
 	private Instrument instrument;
-	private OperatorType operatorType;
 	private int dependingVoice = -1;
-	private boolean mutable = true;
-	private boolean rhythmMutable = true;
 	private int voice = -1;
 	private int offset;
 	private TimeConfig timeConfig;
+	private boolean mutable = true;
+	private boolean rhythmMutable = true;
 	private boolean rhythmDependant;
+	private boolean calculable = true;
 	
 	public MelodyBlock(int startOctave, int voice) {
 		this.startOctave = startOctave;
@@ -54,12 +54,12 @@ public class MelodyBlock implements Cloneable{
 		this.instrument = anotherBlock.getInstrument();
 		this.mutable = anotherBlock.isMutable();
 		this.rhythmMutable = anotherBlock.isRhythmMutable();
-		this.operatorType = anotherBlock.getOperatorType();
 		this.dependingVoice = anotherBlock.getDependingVoice();
 		this.voice = anotherBlock.getVoice();
 		this.offset = anotherBlock.getOffset();
 		this.timeConfig = anotherBlock.getTimeConfig();
 		this.rhythmDependant = anotherBlock.isRhythmDependant();
+		this.calculable = anotherBlock.isCalculable();
 	}
 
 	@Override
@@ -117,54 +117,8 @@ public class MelodyBlock implements Cloneable{
 		}
 	}
 	
-	public void transformDependingOn(MelodyBlock dependingMelodyBlock, TimeLine timeLine){
-		int end = dependingMelodyBlock.getLastMelody().getEnd();
-		MelodyBlock melodyBlock = dependingMelodyBlock.clone(end - offset);
-		melodyBlocks = melodyBlock.getMelodyBlocks();
-		switch (operatorType.getOperator()) {
-			case T:
-				T(operatorType.getSteps());
-				break;
-			case I:
-				I();
-				break;
-			case R:
-				R();
-				break;
-			case M:
-				M(operatorType.getSteps());
-				break;
-			case T_RELATIVE:
-				Trelative(operatorType.getSteps(), timeLine);
-				break;
-			case I_RELATIVE:
-				Irelative(operatorType.getFunctionalDegreeCenter(), timeLine);
-				break;
-			case AUGMENTATION:
-				augmentation(operatorType.getFactor(), timeLine);
-				this.melodyBlocks = getMelodyBlocks().stream()
-						.filter(m -> m.getStart() < end)
-						.map(m -> m.clone(end))
-						.collect(toList());
-				break;
-			case DIMINUTION:
-				diminution(operatorType.getFactor(), timeLine);
-			case RHYTHMIC:
-			default:
-				break;
-		}
-		updatePitchesFromContour();
-		updateMelodyBetween(getMelodyBlockNotes());
-		melodyBlocks.stream()
-			.flatMap(m -> m.getNotes().stream())
-			.forEach(note -> { 
-				note.setVoice(voice);
-				note.setPosition(note.getPosition() + offset);
-			});
-	}
-	
-	public void updateMelodyBetween(List<Note> notes){
-		instrument.updateMelodyInRange(notes);
+	public void updateMelodyBetween(){
+		instrument.updateMelodyInRange(getMelodyBlockNotes());
 	}
 
 	public MelodyBlock Trelative(int steps, TimeLine timeLine){
@@ -302,10 +256,6 @@ public class MelodyBlock implements Cloneable{
 		this.instrument = instrument;
 	}
 	
-	public boolean isDependant(){
-		return operatorType != null;
-	}
-	
 	public boolean isRhythmDependant(){
 		return rhythmDependant;
 	}
@@ -318,24 +268,22 @@ public class MelodyBlock implements Cloneable{
 		return startOctave;
 	}
 
-	public void setOperatorType(OperatorType operatorType) {
-		this.mutable = false;
-		this.rhythmMutable = false;
-		this.operatorType = operatorType;
+	public boolean isCalculable() {
+		return calculable;
 	}
-	
-	public OperatorType getOperatorType() {
-		return operatorType;
+
+	public void setCalculable(boolean calculable) {
+		this.calculable = calculable;
 	}
-	
+
 	public void dependsOn(int voice){
 		this.dependingVoice = voice;
 	}
-	
+
 	public int getDependingVoice() {
 		return dependingVoice;
 	}
-	
+
 	public int getOffset() {
 		return offset;
 	}
@@ -344,7 +292,7 @@ public class MelodyBlock implements Cloneable{
 		this.offset = offset;
 	}
 	
-	private CpMelody getLastMelody(){
+	public CpMelody getLastMelody(){
 		int last = this.melodyBlocks.size() - 1;
 		return this.melodyBlocks.get(last);
 	}
@@ -356,5 +304,8 @@ public class MelodyBlock implements Cloneable{
 	public void setTimeConfig(TimeConfig timeConfig) {
 		this.timeConfig = timeConfig;
 	}
-	
+
+	public void setMelodyBlocks(List<CpMelody> melodyBlocks) {
+		this.melodyBlocks = melodyBlocks;
+	}
 }

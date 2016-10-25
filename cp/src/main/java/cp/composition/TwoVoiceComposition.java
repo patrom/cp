@@ -1,8 +1,8 @@
 package cp.composition;
 
+import cp.model.OperatorRelation;
 import cp.model.melody.MelodyBlock;
 import cp.model.melody.Operator;
-import cp.model.melody.OperatorType;
 import cp.out.instrument.Instrument;
 import org.springframework.stereotype.Component;
 
@@ -23,12 +23,19 @@ public class TwoVoiceComposition extends Composition{
 		melodyBlock.setInstrument(instrument1);
 		
 		melodyBlocks.add(melodyBlock);
-		
+
 		Instrument instrument2 = instruments.get(1);
 		instrument2.setVoice(1);
 		instrument2.setChannel(1);
-		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlock(instrument2.getVoice(), instrument2.pickRandomOctaveFromRange(), getTimeConfig()::getFixedBeatGroup);
+		MelodyBlock melodyBlock2 = melodyGenerator.generateDependantMelodyBlock(instrument2.getVoice(), instrument2.pickRandomOctaveFromRange(), melodyBlock);
 		melodyBlock2.setInstrument(instrument2);
+
+
+//		Instrument instrument2 = instruments.get(1);
+//		instrument2.setVoice(1);
+//		instrument2.setChannel(1);
+//		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlock(instrument2.getVoice(), instrument2.pickRandomOctaveFromRange(), getTimeConfig()::getFixedBeatGroup);
+//		melodyBlock2.setInstrument(instrument2);
 		
 //		Instrument instrument2 = instruments.get(1);
 //		instrument2.setVoice(1);
@@ -57,15 +64,19 @@ public class TwoVoiceComposition extends Composition{
 		instrument2.setChannel(1);
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
 		melodyBlock2.setTimeConfig(getTimeConfig());
-		melodyBlock2.setOffset(getTimeConfig().getOffset());
 		melodyBlock2.setVoice(instrument2.getVoice());
-		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.T_RELATIVE);
-//		operatorType.setSteps(2);
-//		operatorType.setFunctionalDegreeCenter(3);
-		melodyBlock2.setOperatorType(operatorType);
-		melodyBlock2.dependsOn(melodyBlock.getVoice());
+		melodyBlock2.setOffset(getTimeConfig().getOffset());
 		melodyBlock2.setInstrument(instrument2);
+		melodyBlock2.setCalculable(false);
 		melodyBlocks.add(melodyBlock2);
+
+		OperatorRelation operatorRelation = new OperatorRelation(Operator.T_RELATIVE);
+		operatorRelation.setSource(0);
+		operatorRelation.setTarget(1);
+		operatorRelation.setSteps(2);
+		operatorRelation.setTimeLine(timeLine);
+		operatorRelation.setOffset(getTimeConfig().getOffset());
+		operatorConfig.addOperatorRelations(operatorRelation::execute);
 
 		return melodyBlocks;
 	}
@@ -89,13 +100,17 @@ public class TwoVoiceComposition extends Composition{
 		melodyBlock2.setTimeConfig(getTimeConfig());
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
 		melodyBlock2.setVoice(instrument2.getVoice());
-		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.I_RELATIVE);
-//		operatorType.setSteps(1);
-		operatorType.setFunctionalDegreeCenter(1);//start from 1
-		melodyBlock2.setOperatorType(operatorType);
-		melodyBlock2.dependsOn(melodyBlock.getVoice());
 		melodyBlock2.setInstrument(instrument2);
+		melodyBlock2.setCalculable(false);
 		melodyBlocks.add(melodyBlock2);
+
+		OperatorRelation operatorRelation = new OperatorRelation(Operator.I_RELATIVE);
+		operatorRelation.setSource(0);
+		operatorRelation.setTarget(1);
+		operatorRelation.setTimeLine(timeLine);
+		operatorRelation.setFunctionalDegreeCenter(1);//between 1 and 7
+		operatorRelation.setOffset(getTimeConfig().getOffset());
+		operatorConfig.addOperatorRelations(operatorRelation::execute);
 		
 		return melodyBlocks;
 	}
@@ -143,13 +158,17 @@ public class TwoVoiceComposition extends Composition{
 		melodyBlock2.setTimeConfig(getTimeConfig());
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
 		melodyBlock2.setVoice(instrument2.getVoice());
-		OperatorType operatorType = new OperatorType(operator);
-		operatorType.setSteps(steps);
-//		operatorType.setFunctionalDegreeCenter(1);//start from 1
-		melodyBlock2.setOperatorType(operatorType);
-		melodyBlock2.dependsOn(melodyBlock.getVoice());
 		melodyBlock2.setInstrument(instrument2);
+		melodyBlock2.setCalculable(false);
 		melodyBlocks.add(melodyBlock2);
+
+		OperatorRelation operatorRelation = new OperatorRelation(operator);
+		operatorRelation.setSource(0);
+		operatorRelation.setTarget(1);
+		operatorRelation.setSteps(steps);
+		operatorRelation.setTimeLine(timeLine);
+		operatorRelation.setOffset(getTimeConfig().getOffset());
+		operatorConfig.addOperatorRelations(operatorRelation::execute);
 		
 		return melodyBlocks;
 	}
@@ -173,12 +192,17 @@ public class TwoVoiceComposition extends Composition{
 		melodyBlock2.setTimeConfig(getTimeConfig());
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
 		melodyBlock2.setVoice(instrument2.getVoice());
-		OperatorType operatorType = new OperatorType(operator);
-		operatorType.setFactor(factor);
-		melodyBlock2.setOperatorType(operatorType);
-		melodyBlock2.dependsOn(melodyBlock.getVoice());
 		melodyBlock2.setInstrument(instrument2);
+		melodyBlock2.setCalculable(false);
 		melodyBlocks.add(melodyBlock2);
+
+		OperatorRelation operatorRelation = new OperatorRelation(operator);
+		operatorRelation.setSource(0);
+		operatorRelation.setTarget(1);
+		operatorRelation.setTimeLine(timeLine);
+		operatorRelation.setFactor(factor);
+		operatorRelation.setOffset(getTimeConfig().getOffset());
+		operatorConfig.addOperatorRelations(operatorRelation::execute);
 
 		return melodyBlocks;
 	}

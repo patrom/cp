@@ -9,8 +9,6 @@ import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Instrument;
-import cp.out.instrument.strings.CelloSolo;
-import cp.out.instrument.strings.ViolinSolo;
 import cp.out.print.note.Key;
 import cp.util.Util;
 import org.junit.Before;
@@ -120,37 +118,37 @@ public class MelodyBlockTest {
 		LOGGER.info("Notes: " + melodyBlock.getMelodyBlockContour());
 	}
 	
-	@Test
-	public void testTransformDependingOn() {
-		melodyBlock = new MelodyBlock(5,1);
-		List<Note> notes = new ArrayList<>();
-		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
-		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(64).ocatve(5).build());
-		melody = new CpMelody(notes, 1, 0 , DurationConstants.HALF);
-		melodyBlock.addMelodyBlock(melody);
-		
-		notes = new ArrayList<>();
-		notes.add(note().pos(DurationConstants.HALF).pc(5).pitch(65).ocatve(5).build());
-		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pc(7).pitch(67).ocatve(5).build());
-		melody = new CpMelody(notes, 1, DurationConstants.HALF , DurationConstants.SIX_EIGHTS);
-		melodyBlock.addMelodyBlock(melody);
-		
-		MelodyBlock melodyBlockCopy = new MelodyBlock(5,1);
-		melodyBlockCopy.setOffset(DurationConstants.HALF);
-		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.T);
-		melodyBlockCopy.setOperatorType(operatorType);
-		melodyBlockCopy.setInstrument(new ViolinSolo(0, 0));
-		List<TimeLineKey> keys = new ArrayList<>();
-		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, DurationConstants.HALF));
-		keys.add(new TimeLineKey(D, Scale.MAJOR_SCALE, DurationConstants.HALF, DurationConstants.WHOLE));
-		timeLine.addKeysForVoice(keys, 0);
-		melodyBlockCopy.transformDependingOn(melodyBlock, timeLine);
-		assertEquals(1, melodyBlockCopy.getMelodyBlockNotes().size());
-		LOGGER.info("Notes: " + melodyBlock.getMelodyBlockNotes());
-		LOGGER.info("Notes: " + melodyBlock.getMelodyBlockContour());
-		LOGGER.info("Notes: " + melodyBlockCopy.getMelodyBlockNotes());
-		LOGGER.info("Notes: " + melodyBlockCopy.getMelodyBlockContour());
-	}
+//	@Test
+//	public void testTransformDependingOn() {
+//		melodyBlock = new MelodyBlock(5,1);
+//		List<Note> notes = new ArrayList<>();
+//		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
+//		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(64).ocatve(5).build());
+//		melody = new CpMelody(notes, 1, 0 , DurationConstants.HALF);
+//		melodyBlock.addMelodyBlock(melody);
+//
+//		notes = new ArrayList<>();
+//		notes.add(note().pos(DurationConstants.HALF).pc(5).pitch(65).ocatve(5).build());
+//		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pc(7).pitch(67).ocatve(5).build());
+//		melody = new CpMelody(notes, 1, DurationConstants.HALF , DurationConstants.SIX_EIGHTS);
+//		melodyBlock.addMelodyBlock(melody);
+//
+//		MelodyBlock melodyBlockCopy = new MelodyBlock(5,1);
+//		melodyBlockCopy.setOffset(DurationConstants.HALF);
+//		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.T);
+//		melodyBlockCopy.setOperatorType(operatorType);
+//		melodyBlockCopy.setInstrument(new ViolinSolo(0, 0));
+//		List<TimeLineKey> keys = new ArrayList<>();
+//		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, DurationConstants.HALF));
+//		keys.add(new TimeLineKey(D, Scale.MAJOR_SCALE, DurationConstants.HALF, DurationConstants.WHOLE));
+//		timeLine.addKeysForVoice(keys, 0);
+//		melodyBlockCopy.transformDependingOn(melodyBlock, timeLine);
+//		assertEquals(1, melodyBlockCopy.getMelodyBlockNotes().size());
+//		LOGGER.info("Notes: " + melodyBlock.getMelodyBlockNotes());
+//		LOGGER.info("Notes: " + melodyBlock.getMelodyBlockContour());
+//		LOGGER.info("Notes: " + melodyBlockCopy.getMelodyBlockNotes());
+//		LOGGER.info("Notes: " + melodyBlockCopy.getMelodyBlockContour());
+//	}
 	
 	@Test
 	public void testUpdatePitches() {
@@ -187,7 +185,7 @@ public class MelodyBlockTest {
 		instrument.setHighest(80);
 		melodyBlock.setInstrument(instrument);
 		melodyBlock.addMelodyBlock(melody);
-		melodyBlock.updateMelodyBetween(notes);
+		melodyBlock.updateMelodyBetween();
 		assertEquals(60, notes.get(0).getPitch());
 		assertEquals(71, notes.get(1).getPitch());
 		assertEquals(77, notes.get(2).getPitch());
@@ -372,88 +370,88 @@ public class MelodyBlockTest {
 		assertEquals(3, melody.getNotes().get(2).getPitchClass());
 	}
 	
-	@Test
-	public void testTrelative(){
-		melodyBlock = new MelodyBlock(5,1);
-		List<Note> notes = new ArrayList<>();
-		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
-		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(64).ocatve(5).build());
-		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(11).pitch(71).ocatve(5).build());
-		notes.add(note().pos(DurationConstants.HALF).pc(7).pitch(67).ocatve(5).build());
-		melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE + DurationConstants.QUARTER);
-		melodyBlock.addMelodyBlock(melody);
-		
-		notes = new ArrayList<>();
-		notes.add(note().pos(DurationConstants.WHOLE).pc(2).pitch(62).ocatve(5).build());
-		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pc(6).pitch(66).ocatve(5).build());
-		notes.add(note().pos(72).pc(11).pitch(71).ocatve(5).build());
-		melody = new CpMelody(notes,0 , 0, DurationConstants.WHOLE + DurationConstants.QUARTER);
-		melodyBlock.addMelodyBlock(melody);
-		
-		Instrument cello = new CelloSolo(0, 3);
-		MelodyBlock melodyBlock2 = new MelodyBlock(4, cello.getVoice());
-		melodyBlock2.setVoice(cello.getVoice());
-		melodyBlock2.setOffset(DurationConstants.HALF);
-		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.T_RELATIVE);
-//		operatorType.setSteps(1);
-//		operatorType.setFunctionalDegreeCenter(3);
-		melodyBlock2.setOperatorType(operatorType);
-		melodyBlock2.dependsOn(melodyBlock.getVoice());
-		melodyBlock2.setInstrument(cello);
-
-		List<TimeLineKey> keys = new ArrayList<>();
-		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, DurationConstants.WHOLE));
-		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE,  DurationConstants.WHOLE, DurationConstants.WHOLE * 3));
-		timeLine.addKeysForVoice(keys, 1);
-		melodyBlock2.transformDependingOn(melodyBlock, timeLine);
-		melodyBlock2.getMelodyBlockNotes().forEach(n -> System.out.println(n.getPitchClass() + ", " + n.getPosition()));
-//		assertEquals(4, melody.getNotes().get(0).getPitchClass());
-//		assertEquals(7, melody.getNotes().get(1).getPitchClass());
-//		assertEquals(2, melody.getNotes().get(2).getPitchClass());
-//		assertEquals(11, melody.getNotes().get(3).getPitchClass());
-//		assertEquals(0, melody.getNotes().get(4).getPitchClass());
-	}
+//	@Test
+//	public void testTrelative(){
+//		melodyBlock = new MelodyBlock(5,1);
+//		List<Note> notes = new ArrayList<>();
+//		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
+//		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(64).ocatve(5).build());
+//		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(11).pitch(71).ocatve(5).build());
+//		notes.add(note().pos(DurationConstants.HALF).pc(7).pitch(67).ocatve(5).build());
+//		melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE + DurationConstants.QUARTER);
+//		melodyBlock.addMelodyBlock(melody);
+//
+//		notes = new ArrayList<>();
+//		notes.add(note().pos(DurationConstants.WHOLE).pc(2).pitch(62).ocatve(5).build());
+//		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pc(6).pitch(66).ocatve(5).build());
+//		notes.add(note().pos(72).pc(11).pitch(71).ocatve(5).build());
+//		melody = new CpMelody(notes,0 , 0, DurationConstants.WHOLE + DurationConstants.QUARTER);
+//		melodyBlock.addMelodyBlock(melody);
+//
+//		Instrument cello = new CelloSolo(0, 3);
+//		MelodyBlock melodyBlock2 = new MelodyBlock(4, cello.getVoice());
+//		melodyBlock2.setVoice(cello.getVoice());
+//		melodyBlock2.setOffset(DurationConstants.HALF);
+//		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.T_RELATIVE);
+////		operatorType.setSteps(1);
+////		operatorType.setFunctionalDegreeCenter(3);
+//		melodyBlock2.setOperatorType(operatorType);
+//		melodyBlock2.dependsOn(melodyBlock.getVoice());
+//		melodyBlock2.setInstrument(cello);
+//
+//		List<TimeLineKey> keys = new ArrayList<>();
+//		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, DurationConstants.WHOLE));
+//		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE,  DurationConstants.WHOLE, DurationConstants.WHOLE * 3));
+//		timeLine.addKeysForVoice(keys, 1);
+//		melodyBlock2.transformDependingOn(melodyBlock, timeLine);
+//		melodyBlock2.getMelodyBlockNotes().forEach(n -> System.out.println(n.getPitchClass() + ", " + n.getPosition()));
+////		assertEquals(4, melody.getNotes().get(0).getPitchClass());
+////		assertEquals(7, melody.getNotes().get(1).getPitchClass());
+////		assertEquals(2, melody.getNotes().get(2).getPitchClass());
+////		assertEquals(11, melody.getNotes().get(3).getPitchClass());
+////		assertEquals(0, melody.getNotes().get(4).getPitchClass());
+//	}
 	
-	@Test
-	public void testRetrograde(){
-		melodyBlock = new MelodyBlock(5,1);
-		List<Note> notes = new ArrayList<>();
-		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
-		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(64).ocatve(5).build());
-		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(11).pitch(71).ocatve(5).build());
-		notes.add(note().pos(DurationConstants.HALF).pc(7).pitch(67).ocatve(5).build());
-		melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
-		melodyBlock.addMelodyBlock(melody);
-		
-		notes = new ArrayList<>();
-		notes.add(note().pos(DurationConstants.WHOLE).pc(2).pitch(62).ocatve(5).build());
-		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pc(6).pitch(66).ocatve(5).build());
-		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.HALF).pc(11).pitch(71).ocatve(5).build());
-		melody = new CpMelody(notes,0 , 0, DurationConstants.WHOLE + DurationConstants.SIX_EIGHTS);
-		melodyBlock.addMelodyBlock(melody);
-		
-		Instrument cello = new CelloSolo(0, 3);
-		MelodyBlock melodyBlock2 = new MelodyBlock(4, cello.getVoice());
-		melodyBlock2.setVoice(cello.getVoice());
-//		melodyBlock2.setOffset();
-		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.R);
-//		operatorType.setSteps(1);
-//		operatorType.setFunctionalDegreeCenter(3);
-		melodyBlock2.setOperatorType(operatorType);
-		melodyBlock2.dependsOn(melodyBlock.getVoice());
-		melodyBlock2.setInstrument(cello);
-
-		List<TimeLineKey> keys = new ArrayList<>();
-		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, DurationConstants.WHOLE * 3));
-		timeLine.addKeysForVoice(keys, 1);
-		melodyBlock2.transformDependingOn(melodyBlock, timeLine);
-		melodyBlock2.getMelodyBlockNotes().forEach(n -> System.out.println(n.getPitchClass() + ", " + n.getPosition()));
-//		assertEquals(4, melody.getNotes().get(0).getPitchClass());
-//		assertEquals(7, melody.getNotes().get(1).getPitchClass());
-//		assertEquals(2, melody.getNotes().get(2).getPitchClass());
-//		assertEquals(11, melody.getNotes().get(3).getPitchClass());
-//		assertEquals(0, melody.getNotes().get(4).getPitchClass());
-	}
+//	@Test
+//	public void testRetrograde(){
+//		melodyBlock = new MelodyBlock(5,1);
+//		List<Note> notes = new ArrayList<>();
+//		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
+//		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(64).ocatve(5).build());
+//		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(11).pitch(71).ocatve(5).build());
+//		notes.add(note().pos(DurationConstants.HALF).pc(7).pitch(67).ocatve(5).build());
+//		melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+//		melodyBlock.addMelodyBlock(melody);
+//
+//		notes = new ArrayList<>();
+//		notes.add(note().pos(DurationConstants.WHOLE).pc(2).pitch(62).ocatve(5).build());
+//		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pc(6).pitch(66).ocatve(5).build());
+//		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.HALF).pc(11).pitch(71).ocatve(5).build());
+//		melody = new CpMelody(notes,0 , 0, DurationConstants.WHOLE + DurationConstants.SIX_EIGHTS);
+//		melodyBlock.addMelodyBlock(melody);
+//
+//		Instrument cello = new CelloSolo(0, 3);
+//		MelodyBlock melodyBlock2 = new MelodyBlock(4, cello.getVoice());
+//		melodyBlock2.setVoice(cello.getVoice());
+////		melodyBlock2.setOffset();
+//		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.R);
+////		operatorType.setSteps(1);
+////		operatorType.setFunctionalDegreeCenter(3);
+//		melodyBlock2.setOperatorType(operatorType);
+//		melodyBlock2.dependsOn(melodyBlock.getVoice());
+//		melodyBlock2.setInstrument(cello);
+//
+//		List<TimeLineKey> keys = new ArrayList<>();
+//		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, DurationConstants.WHOLE * 3));
+//		timeLine.addKeysForVoice(keys, 1);
+//		melodyBlock2.transformDependingOn(melodyBlock, timeLine);
+//		melodyBlock2.getMelodyBlockNotes().forEach(n -> System.out.println(n.getPitchClass() + ", " + n.getPosition()));
+////		assertEquals(4, melody.getNotes().get(0).getPitchClass());
+////		assertEquals(7, melody.getNotes().get(1).getPitchClass());
+////		assertEquals(2, melody.getNotes().get(2).getPitchClass());
+////		assertEquals(11, melody.getNotes().get(3).getPitchClass());
+////		assertEquals(0, melody.getNotes().get(4).getPitchClass());
+//	}
 
 	@Test
 	public void testAugmentation(){
@@ -463,15 +461,16 @@ public class MelodyBlockTest {
 		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(64).ocatve(5).len(DurationConstants.QUARTER).voice(1).build());
 		notes.add(note().pos(DurationConstants.HALF).pc(5).pitch(65).ocatve(5).len(DurationConstants.EIGHT).voice(1).build());
 		notes.add(note().pos(DurationConstants.HALF + DurationConstants.EIGHT).pc(11).pitch(71).ocatve(5).len(DurationConstants.EIGHT).voice(1).build());
-		notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).pc(1).pitch(73).ocatve(5).len(DurationConstants.QUARTER).voice(1).build());
+		notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).pc(0).pitch(72).ocatve(5).len(DurationConstants.QUARTER).voice(1).build());
 		melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
 		melody.setBeatGroup(beatGroupFactory.getBeatGroupUneven(DurationConstants.QUARTER, "fixed"));
 		melodyBlock.addMelodyBlock(melody);
 
 		List<TimeLineKey> keys = new ArrayList<>();
-		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, DurationConstants.HALF));
-		keys.add(new TimeLineKey(D, Scale.MAJOR_SCALE,  DurationConstants.HALF, DurationConstants.WHOLE * 2));
+		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, DurationConstants.WHOLE));
+		keys.add(new TimeLineKey(D, Scale.MAJOR_SCALE,  DurationConstants.WHOLE, DurationConstants.WHOLE * 2));
 		timeLine.addKeysForVoice(keys, 1);
+//		melodyBlock.setOffset();
 		melodyBlock.augmentation(2, timeLine);
 		notes = melodyBlock.getMelodyBlockNotesWithRests();
 		assertEquals(DurationConstants.HALF, notes.get(0).getLength());

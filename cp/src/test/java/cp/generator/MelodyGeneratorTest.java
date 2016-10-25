@@ -11,6 +11,9 @@ import cp.composition.timesignature.TimeConfig;
 import cp.generator.pitchclass.PitchClassGenerator;
 import cp.generator.pitchclass.RandomPitchClasses;
 import cp.midi.MidiDevicesUtil;
+import cp.model.TimeLine;
+import cp.model.TimeLineKey;
+import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.note.NoteBuilder;
@@ -48,6 +51,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.when;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {DefaultConfig.class, VariationConfig.class})
@@ -74,6 +78,8 @@ public class MelodyGeneratorTest extends JFrame{
 	private Composition compostion;
 	@Mock
 	private BeatGroupStrategy beatGroupStrategy;
+	@Mock
+	private TimeLine timeLine;
 	@Autowired
 	@Qualifier(value="time44")
 	private TimeConfig time44;
@@ -146,6 +152,36 @@ public class MelodyGeneratorTest extends JFrame{
 		MelodyBlock melody = melodyGenerator.generateMelodyBlock(1, 5);
 		assertEquals(1, melody.getVoice());
 		assertEquals(2, melody.getMelodyBlocks().size());
+	}
+
+	@Test
+	public void testGenerateDependantMelodyBlock() {
+		List<Note> notes = new ArrayList<>();
+		notes.add(NoteBuilder.note().pos(0).build());
+		when(compostion.getStart()).thenReturn(0);
+		when(compostion.getEnd()).thenReturn(2 * DurationConstants.WHOLE);
+		when(compostion.getTimeConfig()).thenReturn(time44);
+		List<BeatGroup> beatGroups = new ArrayList<>();
+		beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER, fixedEven));
+		when(beatGroupStrategy.getBeatGroups()).thenReturn(beatGroups);
+		when(pitchClassGenerator.updatePitchClasses(notes)).thenReturn(notes);
+		List<Integer> beats = new ArrayList<>();
+		beats.add(12);
+		MelodyBlock dependingBlock = melodyGenerator.generateMelodyBlock(1, 5);
+
+		when(timeLine.getTimeLineKeyAtPosition(anyInt(), anyInt())).thenReturn(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, 2 * DurationConstants.WHOLE));
+
+		MelodyBlock melodyBlock = melodyGenerator.generateDependantMelodyBlock(0, 5, dependingBlock);
+//		assertEquals(dependingBlock.getMelodyBlocks().size(), melodyBlock.getMelodyBlocks().size());
+        for (CpMelody cpMelody : dependingBlock.getMelodyBlocks()) {
+            cpMelody.getNotes().forEach(n -> System.out.println(n.toString()));
+            System.out.println("________________");
+        }
+        System.out.println("-- -- -- -- -- -- -- --");
+        for (CpMelody cpMelody : melodyBlock.getMelodyBlocks()) {
+            cpMelody.getNotes().forEach(n -> System.out.println(n.toString()));
+            System.out.println("________________");
+        }
 	}
 	
 }
