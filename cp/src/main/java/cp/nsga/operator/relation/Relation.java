@@ -1,4 +1,4 @@
-package cp.model;
+package cp.nsga.operator.relation;
 
 import jmetal.core.Solution;
 

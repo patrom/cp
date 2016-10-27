@@ -29,10 +29,14 @@ public class ReplaceMelody extends AbstractMutation{
 
 	private static Logger LOGGER = LoggerFactory.getLogger(ReplaceMelody.class);
 
+	@Autowired
+	private ReplaceRhythmDependantMelody replaceRhythmDependantMelody;
+
 	private PitchClassGenerator pitchClassGenerator;
 	
 	public void setPitchClassGenerator(PitchClassGenerator pitchClassGenerator) {
 		this.pitchClassGenerator = pitchClassGenerator;
+		replaceRhythmDependantMelody.setPitchClassGenerator(pitchClassGenerator);
 	}
 	
 	private Composition composition;
@@ -42,12 +46,6 @@ public class ReplaceMelody extends AbstractMutation{
 		super(parameters);
 	}
 
-	/**
-	 * Perform the mutation operation
-	 * @param probability Mutation probability
-	 * @param solution The solution to mutate
-	 * @throws JMException
-	 */
 	public void doMutation(double probability, Solution solution) throws JMException {
 		if (PseudoRandom.randDouble() < probability) {
 			Motive motive = ((MusicVariable)solution.getDecisionVariables()[0]).getMotive();
@@ -70,25 +68,11 @@ public class ReplaceMelody extends AbstractMutation{
 				melody.updateNotes(melodyNotes);
 //				LOGGER.info("Melody replaced: " + melody.getVoice());
 
-				List<MelodyBlock> melodyBlocks = motive.getMelodyBlocks();
-				List<MelodyBlock> rhythmDependantMelodies = melodyBlocks.stream()
+				//Rhythm dependant melodies
+				List<MelodyBlock> rhythmDependantMelodies =  motive.getMelodyBlocks().stream()
 						.filter(m -> m.isRhythmDependant() && m.getDependingVoice() == melody.getVoice())
 						.collect(toList());
-				for (MelodyBlock rhythmDependantMelodyBlock : rhythmDependantMelodies) {
-					Optional<CpMelody> optionalDependantMelody = rhythmDependantMelodyBlock.getMelodyBlocks().stream().filter(m -> m.getStart() == melody.getStart()).findFirst();
-					
-					CpMelody dependantMelody = optionalDependantMelody.get();
-					List<Note> clonedMelodyNotes = melodyNotes.stream().map(n -> 
-						{ 
-							Note clone = n.clone();
-							clone.setVoice(dependantMelody.getVoice());
-							return clone;
-						}
-					).collect(toList());
-					clonedMelodyNotes = pitchClassGenerator.updatePitchClasses(clonedMelodyNotes);
-					dependantMelody.updateNotes(clonedMelodyNotes);
-//					LOGGER.info("dependant Melody replaced: " + dependantMelody.getVoice());
-				}
+				replaceRhythmDependantMelody.updateDependantMelodyBlockWithMelody(melody, rhythmDependantMelodies);
 			}
 		} 
 	}

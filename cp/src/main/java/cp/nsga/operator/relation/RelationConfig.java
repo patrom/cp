@@ -1,4 +1,4 @@
-package cp.model;
+package cp.nsga.operator.relation;
 
 import org.springframework.stereotype.Component;
 

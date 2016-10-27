@@ -5,8 +5,8 @@
  */
 package cp.nsga;
 
-import cp.model.Relation;
-import cp.model.RelationConfig;
+import cp.nsga.operator.relation.Relation;
+import cp.nsga.operator.relation.RelationConfig;
 import jmetal.core.*;
 import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.util.Distance;

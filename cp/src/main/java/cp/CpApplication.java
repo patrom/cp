@@ -125,7 +125,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(threeVoiceComposition::halfTimeHomophonicRhythm);
 //		composeInGenres.add(threeVoiceComposition::threeOverXX);
 //		composeInGenres.add(threeVoiceComposition::accDuplicateRhythm);
-//		composeInGenres.add(threeVoiceComposition::allRandom);
+		composeInGenres.add(threeVoiceComposition::allRandom);
 		
 		for (CompositionGenre compositionGenre : composeInGenres) {
 			composeInGenre.setCompositionGenre(compositionGenre);

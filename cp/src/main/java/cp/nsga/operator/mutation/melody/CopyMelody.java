@@ -19,20 +19,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @Component(value="copyMelody")
 public class CopyMelody extends AbstractMutation{
 
 	private static Logger LOGGER = LoggerFactory.getLogger(CopyMelody.class);
 
+	@Autowired
+	private ReplaceRhythmDependantMelody replaceRhythmDependantMelody;
+
 	private PitchClassGenerator pitchClassGenerator;
+
+	public void setPitchClassGenerator(PitchClassGenerator pitchClassGenerator) {
+		this.pitchClassGenerator = pitchClassGenerator;
+		replaceRhythmDependantMelody.setPitchClassGenerator(pitchClassGenerator);
+	}
 
 	@Autowired
 	private TimeLine timeLine;
 
-	public void setPitchClassGenerator(PitchClassGenerator pitchClassGenerator) {
-		this.pitchClassGenerator = pitchClassGenerator;
-	}
 
 	private Composition composition;
 
@@ -83,6 +91,12 @@ public class CopyMelody extends AbstractMutation{
 				});
 				melodyToReplace.updateNotes(clonedMelody.getNotes());
 //				LOGGER.info("Melody copy: ");
+
+				//Rhythm dependant melodies
+				List<MelodyBlock> rhythmDependantMelodies =  motive.getMelodyBlocks().stream()
+						.filter(m -> m.isRhythmDependant() && m.getDependingVoice() == melodyToReplace.getVoice())
+						.collect(toList());
+				replaceRhythmDependantMelody.updateDependantMelodyBlockWithMelody(melodyToReplace, rhythmDependantMelodies);
 			}
 		}
 	}

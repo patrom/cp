@@ -1,5 +1,7 @@
-package cp.model;
+package cp.nsga.operator.relation;
 
+import cp.model.Motive;
+import cp.model.TimeLine;
 import cp.model.melody.MelodyBlock;
 import cp.model.melody.Operator;
 import cp.nsga.MusicVariable;

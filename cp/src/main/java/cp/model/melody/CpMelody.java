@@ -214,6 +214,9 @@ public class CpMelody implements Cloneable{
 		notes.stream().filter(n -> !n.isRest())
 				.sorted()
 				.forEach(n -> {
+					if (n.getPosition() < 0){
+						System.out.println();
+					}
 					TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition(), n.getVoice());
 					TimeLineKey dependingTimeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition() + offset, n.getVoice());
 					int transposedPc = this.transposePitchClass(n.getPitchClass(), timeLineKey.getScale(), dependingTimeLineKey.getScale(), timeLineKey.getKey().getInterval(), dependingTimeLineKey.getKey().getInterval(), steps);

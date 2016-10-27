@@ -1,11 +1,11 @@
 package cp.composition;
 
-import cp.model.OperatorRelation;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.melody.Operator;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
+import cp.nsga.operator.relation.OperatorRelation;
 import cp.out.instrument.Instrument;
 import org.springframework.stereotype.Component;
 
