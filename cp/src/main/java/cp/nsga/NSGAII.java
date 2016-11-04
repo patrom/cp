@@ -89,6 +89,10 @@ public class NSGAII extends Algorithm {
 		Solution newSolution;
 		for (int i = 0; i < populationSize; i++) {
 			newSolution = new MusicSolution(problem_);
+			for (Relation relation : operatorConfig.getRelations()) {
+				relation.execute(newSolution);
+
+			}
 			problem_.evaluate(newSolution);
 			problem_.evaluateConstraints(newSolution);
 			evaluations++;

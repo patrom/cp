@@ -12,13 +12,35 @@ public class DissonantResolutionImpl {
 			case 2:
 				return isIntervalDissonant(chord);
 			case 3:
-//				return isTriadDissonant(chord);
+				return isTriadDissonant(chord);
 //				return isSetClassDissonant(chord);
+			case 4:
+				return isTetraDissonant(chord);
 			default:
 				break;
 		}
 
 		return false;
+	}
+
+	private boolean isTetraDissonant(Chord chord) {
+		switch (chord.getChordType()) {
+			case MAJOR7:
+			case MAJOR7_1:
+			case MAJOR7_2:
+			case MAJOR7_3:
+			case MINOR7:
+			case MINOR7_1:
+			case MINOR7_2:
+			case MINOR7_3:
+			case DOM7:
+			case HALFDIM7:
+			case DIM7:
+				return false;
+			default:
+				break;
+		}
+		return true;
 	}
 
 	private boolean isSetClassDissonant(Chord chord) {

@@ -4,18 +4,52 @@ import cp.model.harmony.Chord;
 import org.springframework.stereotype.Component;
 
 @Component
-public class IntervalAndTriads {
+public class IntervalAndTriadsAndTetra {
 	
 	public double getDissonance(Chord chord) {
 		int size = chord.getPitchClassSet().size();
-		if (size < 3) {
-			return intervals(chord);
-		} else {
-			return triads(chord);
+		switch (size){
+			case 2:
+				return intervals(chord);
+			case 3:
+				return triads(chord);
+			case 4:
+				return tetra(chord);
 		}
+		return 0;
 	}
-	
-	private double triads(Chord chord){
+
+    private double tetra(Chord chord) {
+        switch (chord.getChordType()) {
+            case MAJOR7:
+                return 1.0;
+            case MAJOR7_1:
+                return 1.0;
+            case MAJOR7_2:
+                return 0.99;
+            case MAJOR7_3:
+                return 0.98;
+            case MINOR7:
+                return 1.0;
+            case MINOR7_1:
+                return 1.0;
+            case MINOR7_2:
+                return 0.99;
+            case MINOR7_3:
+                return 0.99;
+            case DOM7:
+                return 1.0;
+            case HALFDIM7:
+                return 1.0;
+            case DIM7:
+                return 1.0;
+            default:
+                break;
+        }
+        return 0;
+    }
+
+    private double triads(Chord chord){
 		switch (chord.getChordType()) {
 			case MAJOR:
 				return 1.0;
@@ -48,19 +82,19 @@ public class IntervalAndTriads {
 			default:
 				break;
 		}
-		return 0.0;
+		return 0;
 	}
 
 	private double intervals(Chord chord) {
 		switch (chord.getChordType()) {
 			case CH2_GROTE_TERTS:
-				return 0.99;
+				return 0.97;
 			case CH2_KLEINE_TERTS:
-				return 0.99;
+				return 0.97;
 			case CH2_GROTE_SIXT:
-				return 0.99;
+				return 0.97;
 			case CH2_KLEINE_SIXT:
-				return 0.99;
+				return 0.97;
 				
 			case CH1://octaaf
 				return 0.9;

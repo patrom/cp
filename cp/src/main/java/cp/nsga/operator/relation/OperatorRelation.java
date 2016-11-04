@@ -7,8 +7,6 @@ import cp.model.melody.Operator;
 import cp.nsga.MusicVariable;
 import jmetal.core.Solution;
 
-import java.util.Optional;
-
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -25,15 +23,18 @@ public class OperatorRelation {
     private int degree;
     private double factor;
 
+    public OperatorRelation(Operator operator) {
+        this.operator = operator;
+    }
+
     public Solution execute(Solution solution){
         Motive motive = ((MusicVariable)solution.getDecisionVariables()[0]).getMotive();
-        Optional<MelodyBlock> melodyBlockSourceOptional = findMelodyBlockForVoice(motive, source);
-        Optional<MelodyBlock> melodyBlockTargetOptional = findMelodyBlockForVoice(motive, target);
-        if (melodyBlockSourceOptional.isPresent() && melodyBlockTargetOptional.isPresent()) {
-            MelodyBlock melodyBlockSource = melodyBlockSourceOptional.get();
-            MelodyBlock melodyBlockTarget = melodyBlockTargetOptional.get();
+        MelodyBlock melodyBlockSource = motive.getRandomMelodyForVoice(source);
+        MelodyBlock melodyBlockTarget = motive.getRandomMelodyForVoice(target);
+        if (melodyBlockSource != null && melodyBlockTarget != null) {
             int end = melodyBlockSource.getLastMelody().getEnd();
-            MelodyBlock melodyBlock = melodyBlockSource.clone(end - offset);
+            MelodyBlock melodyBlock = melodyBlockSource.clone(end - offset, target);
+            melodyBlock.setInstrument(melodyBlockTarget.getInstrument());
 
             switch (operator) {
                 case T:
@@ -57,8 +58,8 @@ public class OperatorRelation {
                 case AUGMENTATION:
                     melodyBlock.augmentation(steps, timeLine);
                     melodyBlock.getMelodyBlocks().stream()
-                            .filter(m -> m.getStart() < end)
-                            .map(m -> m.clone(end))
+                            .filter(m -> m.getStart() < end - offset)
+                            .map(m -> m.clone(end - offset, target))
                             .collect(toList());
                     break;
                 case DIMINUTION:
@@ -67,21 +68,24 @@ public class OperatorRelation {
                 default:
                     break;
             }
-            melodyBlock.updatePitchesFromContour();
-            melodyBlock.updateMelodyBetween();
+
+//            melodyBlock.getMelodyBlocks().stream()
+//                    .forEach(m -> m.setVoice(target));
+//            melodyBlock.getMelodyBlocks().stream()
+//                    .flatMap(m -> m.getNotes().stream())
+//                    .forEach(note -> {
+//                        note.setVoice(target);
+//                        note.setPosition(note.getPosition() + offset);
+//                    });
+
             melodyBlock.getMelodyBlocks().stream()
                     .flatMap(m -> m.getNotes().stream())
-                    .forEach(note -> {
-                        note.setVoice(target);
-                        note.setPosition(note.getPosition() + offset);
-                    });
+                    .forEach(note -> note.setPosition(note.getPosition() + offset));
+            melodyBlock.updatePitchesFromContour();
+            melodyBlock.updateMelodyBetween();
             melodyBlockTarget.setMelodyBlocks(melodyBlock.getMelodyBlocks());
         }
         return solution;
-    }
-
-    protected Optional<MelodyBlock> findMelodyBlockForVoice(Motive motive, int voice) {
-        return motive.getMelodyBlocks().stream().filter(m -> m.getVoice() == voice).findFirst();
     }
 
     public int getSource() {
@@ -98,10 +102,6 @@ public class OperatorRelation {
 
     public void setTarget(int target) {
         this.target = target;
-    }
-
-    public OperatorRelation(Operator operator) {
-        this.operator = operator;
     }
 
     public int getSteps() {

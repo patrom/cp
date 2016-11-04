@@ -26,17 +26,17 @@ public class Ensemble {
 	
 	public List<Instrument> getStringDuo(){
 		List<Instrument> stringDuo = new ArrayList<>();
-		stringDuo.add(new ViolinSolo(2, 2));
+		stringDuo.add(new ViolinSolo(1, 2));
 		stringDuo.add(new CelloSolo(0, 0));
 		return stringDuo;
 	}
 
 	public List<Instrument> getStringQuartet(){
 		List<Instrument> stringQuartet = new ArrayList<>();
-		stringQuartet.add(new Cello());
-		stringQuartet.add(new Viola());
-		stringQuartet.add(new ViolinSolo());
-		stringQuartet.add(new ViolinSolo());
+		stringQuartet.add(new Cello(0,0));
+		stringQuartet.add(new Viola(1,1));
+		stringQuartet.add(new ViolinSolo(2,2));
+		stringQuartet.add(new ViolinSolo(3,2));
 		return stringQuartet;
 	}
 	

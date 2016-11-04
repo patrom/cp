@@ -17,7 +17,7 @@ import java.util.function.Predicate;
 import static java.util.Comparator.reverseOrder;
 import static java.util.stream.Collectors.toList;
 
-public class MelodyBlock implements Cloneable{
+public class MelodyBlock {
 
 	private List<CpMelody> melodyBlocks = new ArrayList<>();
 	private int startOctave;
@@ -41,10 +41,15 @@ public class MelodyBlock implements Cloneable{
 		clone(anotherBlock);
 	}
 
-	private MelodyBlock(MelodyBlock anotherBlock, int end) {
+	private MelodyBlock(MelodyBlock anotherBlock, int voice) {
+		this.melodyBlocks = anotherBlock.getMelodyBlocks().stream().map(m -> m.clone(voice)).collect(toList());
+		clone(anotherBlock);
+	}
+
+	private MelodyBlock(MelodyBlock anotherBlock, int end, int voice) {
 		this.melodyBlocks = anotherBlock.getMelodyBlocks().stream()
 				.filter(m -> m.getStart() < end)
-				.map(m -> m.clone(end))
+				.map(m -> m.clone(end, voice))
 				.collect(toList());
 		clone(anotherBlock);
 	}
@@ -62,13 +67,20 @@ public class MelodyBlock implements Cloneable{
 		this.calculable = anotherBlock.isCalculable();
 	}
 
-	@Override
 	public MelodyBlock clone() {
 		return new MelodyBlock(this);
 	}
+
+	public MelodyBlock clone(int voice) {
+		MelodyBlock melodyBlock = new MelodyBlock(this, voice);
+		melodyBlock.setVoice(voice);
+		return melodyBlock;
+	}
 	
-	public MelodyBlock clone(int end) {
-		return new MelodyBlock(this, end);
+	public MelodyBlock clone(int end, int voice) {
+		MelodyBlock melodyBlock = new MelodyBlock(this, end, voice);
+		melodyBlock.setVoice(voice);
+		return melodyBlock;
 	}
 	
 	public List<Note> getMelodyBlockNotes(){

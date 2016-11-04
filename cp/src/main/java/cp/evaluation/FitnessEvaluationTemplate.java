@@ -64,7 +64,8 @@ public class FitnessEvaluationTemplate {
 	
 	private void updatePitchesFromContour(List<MelodyBlock> melodies) {
 		melodies.forEach(m -> m.updatePitchesFromContour());
-		melodies.forEach(m -> m.updateMelodyBetween());
+		melodies.forEach(m ->
+				m.updateMelodyBetween());
 	}
 
 	protected void updateRhythmWeight(List<MelodyBlock> melodies) {

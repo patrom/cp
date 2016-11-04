@@ -16,10 +16,7 @@ import cp.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -67,9 +64,32 @@ public class MelodyGenerator {
 		return melodyBlock;
 	}
 
+	public MelodyBlock generateRandomNoteBlock(final int voice, int octave){
+		MelodyBlock melodyBlock = new MelodyBlock(voice, octave);
+		List<Note> notes = new ArrayList<>();
+		int quarterSize = composition.getEnd() / DurationConstants.QUARTER;
+		for (int i = 0; i < quarterSize; i++) {
+			int position = i * DurationConstants.QUARTER;
+			Scale scale = timeLine.getTimeLineKeyAtPosition(position, voice).getScale();
+			notes.add(note().pc(scale.pickRandomPitchClass()).ocatve(octave).voice(voice).pos(position).len(DurationConstants.QUARTER).build());
+		}
+		CpMelody oneNoteMelody = new CpMelody(notes, voice, composition.getStart(), composition.getEnd());
+		melodyBlock.setMelodyBlocks(Collections.singletonList(oneNoteMelody));
+		melodyBlock.setTimeConfig(composition.getTimeConfig());
+		return melodyBlock;
+	}
+
+	public MelodyBlock generateEmptyBlock(final Instrument instrument){
+		MelodyBlock melodyBlock = new MelodyBlock(instrument.pickRandomOctaveFromRange(), instrument.getVoice());
+		melodyBlock.setTimeConfig(composition.getTimeConfig());
+		melodyBlock.setVoice(instrument.getVoice());
+		melodyBlock.setInstrument(instrument);
+		return melodyBlock;
+	}
+
 	private CpMelody getCpMelody(int voice, int start,  MelodyBlock dependingMelodyBlock) {
 		CpMelody randomMelody = RandomUtil.getRandomFromList(dependingMelodyBlock.getMelodyBlocks());
-		CpMelody clonedMelody = randomMelody.clone();
+		CpMelody clonedMelody = randomMelody.clone(dependingMelodyBlock.getVoice());
 
 		if(RandomUtil.toggleSelection()){
 			int steps = RandomUtil.getRandomNumberInRange(0, 7);
@@ -79,8 +99,9 @@ public class MelodyGenerator {
 			clonedMelody.inversePitchClasses(steps, 0 , timeLine);
 		}
 //		clonedMelody.I();
+
+		//TODO pass operator?
 		clonedMelody.getNotes().forEach(n -> {
-            n.setVoice(voice);
             n.setPosition(n.getPosition() + start - randomMelody.getStart());
         });
 		clonedMelody.setStart(start);

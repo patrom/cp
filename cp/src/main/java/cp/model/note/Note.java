@@ -4,7 +4,7 @@ import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Articulation;
 
 
-public class Note implements Comparable<Note>, Cloneable{
+public class Note implements Comparable<Note>{
 
 	/** The pitch value which indicates a rest. */
 	public static final int REST = Integer.MIN_VALUE;
@@ -238,8 +238,7 @@ public class Note implements Comparable<Note>, Cloneable{
 			return false;
 		return true;
 	}
-	
-	@Override
+
 	public Note clone() {
 		return new Note(this);
 	}
@@ -299,13 +298,22 @@ public class Note implements Comparable<Note>, Cloneable{
 	public void setCrest(boolean crest) {
 		this.crest = crest;
 	}
-	
+
 	public void transposePitch(int steps){
 		this.pitch = pitch + steps;
 		this.pitchClass = pitch % 12;
 		this.octave  = (int) Math.ceil(pitch/12);
 	}
 
+	public void transposeOctaveUp(){
+		this.pitch = pitch + 12;
+		this.octave = octave + 1;
+	}
+
+	public void transposeOctaveDown(){
+		this.pitch = pitch - 12;
+		this.octave = octave - 1;
+	}
 	
 	public double getBeat(int divider) {
 		return Math.floor(position / divider);

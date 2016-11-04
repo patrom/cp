@@ -24,10 +24,10 @@ public class InstrumentRegister {
 	public void updateMelodyBetween(List<Note> notes){
 		for (Note note : notes) {
 			while (note.getPitch() < low) {
-				note.transposePitch(12);
+				note.transposeOctaveUp();
 			}
 			while (note.getPitch() > high) {
-				note.transposePitch(-12);
+				note.transposeOctaveDown();
 			}
 		}
 	}

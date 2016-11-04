@@ -61,16 +61,16 @@ public class CopyMelody extends AbstractMutation{
 			CpMelody melodyToReplace = RandomUtil.getRandomFromList(melodyBlock.getMelodyBlocks());
 			CpMelody optionalMelody = motive.getRandomMelodyWithBeatGroupLength(melodyToReplace.getBeatGroupLength());
 			if (optionalMelody != null && !melodyToReplace.equals(optionalMelody) && melodyToReplace.getBeatGroupLength() == optionalMelody.getBeatGroupLength()) {
-				CpMelody clonedMelody = optionalMelody.clone();
+				CpMelody clonedMelody = optionalMelody.clone(melodyToReplace.getVoice());
 
 				int offsetKey = melodyToReplace.getStart() -  clonedMelody.getStart();
-				clonedMelody.T(0);
+//				clonedMelody.T(0);
 				if(RandomUtil.toggleSelection()){
 					int steps = RandomUtil.getRandomNumberInRange(0, 7);
 					clonedMelody.transposePitchClasses(steps, offsetKey , timeLine);
 				}else{
-					int steps = RandomUtil.getRandomNumberInRange(1, 7);
-					clonedMelody.inversePitchClasses(steps, offsetKey , timeLine);
+					int degree = RandomUtil.getRandomNumberInRange(1, 7);
+					clonedMelody.inversePitchClasses(degree, offsetKey , timeLine);
 				}
 
 ////				clonedMelody.inversePitchClasses(2, 0 , timeLine);
@@ -86,7 +86,6 @@ public class CopyMelody extends AbstractMutation{
 //						clonedMelody.transposePitchClasses(2, 0 , timeLine);
 //				}
 				clonedMelody.getNotes().forEach(n -> {
-					n.setVoice(melodyToReplace.getVoice());
 					n.setPosition(n.getPosition() + offsetKey);
 				});
 				melodyToReplace.updateNotes(clonedMelody.getNotes());

@@ -8,7 +8,7 @@ import cp.generator.pitchclass.PassingPitchClasses;
 import cp.generator.pitchclass.RandomPitchClasses;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
-import cp.model.dissonance.IntervalAndTriads;
+import cp.model.dissonance.IntervalAndTriadsAndTetra;
 import cp.model.dissonance.IntervalDissonance;
 import cp.model.dissonance.SetClassDissonance;
 import cp.model.dissonance.TonalDissonance;
@@ -60,7 +60,7 @@ public abstract class Composition {
 	@Autowired
 	protected IntervalDissonance intervalDissonance;
 	@Autowired
-	protected IntervalAndTriads intervalAndTriads;
+	protected IntervalAndTriadsAndTetra intervalAndTriadsAndTetra;
 	@Autowired
 	protected SetClassDissonance setClassDissonance;
 	@Autowired
@@ -112,7 +112,7 @@ public abstract class Composition {
 	private Ensemble ensemble;
 	
 	protected final int start = 0;
-	protected final int end = 2 * DurationConstants.WHOLE;
+	protected final int end = 5 * DurationConstants.WHOLE;
 	
 	private TimeConfig timeConfig;
 	
@@ -153,15 +153,16 @@ public abstract class Composition {
 //		instruments = ensemble.getFluteClarinetBassoonGreen();
 //		instruments = ensemble.getStrings(mellow);
 //		instruments = ensemble.getStringDuo();
-		instruments = ensemble.getStringTrio();
+//		instruments = ensemble.getStringTrio();
 //		instruments = ensemble.getPiano(3);
+		instruments = ensemble.getStringQuartet();
 
 		setTimeconfig();
 		List<TimeLineKey> keys = new ArrayList<>();
-		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, end));
-//		keys.add(new TimeLineKey(E, Scale.MAJOR_SCALE, DurationConstants.WHOLE, end + DurationConstants.WHOLE));
-//		keys.add(new TimeLineKey(D, Scale.MAJOR_SCALE, 108, 144));
-//		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 144, end));
+		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, DurationConstants.WHOLE));
+		keys.add(new TimeLineKey(D, Scale.HARMONIC_MINOR_SCALE, DurationConstants.WHOLE, 2 * DurationConstants.WHOLE));
+		keys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 2 * DurationConstants.WHOLE, 3 * DurationConstants.WHOLE));
+		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 3 * DurationConstants.WHOLE, end));
 //		keys.add(new TimeLineKey(C, clarinet.filterScale(Scale.HARMONIC_MINOR_SCALE), 48, 192));//match length
 //		keys.add(new TimeLineKey(A, Scale.HARMONIC_MINOR_SCALE, 48, 96));
 //		keys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 96, 144));
@@ -201,7 +202,7 @@ public abstract class Composition {
 		replaceMelody.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
 		replaceMelody.setComposition(this);
 		melodyGenerator.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
-		harmonicObjective.setDissonance(tonalDissonance::getDissonance);
+		harmonicObjective.setDissonance(intervalAndTriadsAndTetra::getDissonance);
 		harmonicResolutionObjective.setDissonantResolution(dissonantResolutionImpl::isDissonant);
 	}
 	

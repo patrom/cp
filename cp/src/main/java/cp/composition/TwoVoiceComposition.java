@@ -2,6 +2,8 @@ package cp.composition;
 
 import cp.model.melody.MelodyBlock;
 import cp.model.melody.Operator;
+import cp.model.rhythm.DurationConstants;
+import cp.nsga.operator.relation.CopyRangeRelation;
 import cp.nsga.operator.relation.OperatorRelation;
 import cp.out.instrument.Instrument;
 import org.springframework.stereotype.Component;
@@ -29,6 +31,17 @@ public class TwoVoiceComposition extends Composition{
 		instrument2.setChannel(1);
 		MelodyBlock melodyBlock2 = melodyGenerator.generateDependantMelodyBlock(instrument2.getVoice(), instrument2.pickRandomOctaveFromRange(), melodyBlock);
 		melodyBlock2.setInstrument(instrument2);
+		melodyBlock2.setMutable(false);
+
+		CopyRangeRelation copyRangeRelation = new CopyRangeRelation();
+		copyRangeRelation.setSource(0);
+		copyRangeRelation.setTarget(1);
+		copyRangeRelation.setTimeLine(timeLine);
+		copyRangeRelation.setEndComposition(end);
+		copyRangeRelation.setRangeLength(DurationConstants.WHOLE);
+//		copyRangeRelation.setRangeLength(end);
+		copyRangeRelation.setMinimumLength(DurationConstants.EIGHT);
+		operatorConfig.addOperatorRelations(copyRangeRelation::execute);
 
 
 //		Instrument instrument2 = instruments.get(1);
@@ -61,7 +74,7 @@ public class TwoVoiceComposition extends Composition{
 
 		Instrument instrument2 = instruments.get(1);
 		instrument2.setVoice(1);
-		instrument2.setChannel(1);
+		instrument2.setChannel(2);
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
 		melodyBlock2.setTimeConfig(getTimeConfig());
 		melodyBlock2.setVoice(instrument2.getVoice());
@@ -95,7 +108,7 @@ public class TwoVoiceComposition extends Composition{
 
 		Instrument instrument2 = instruments.get(1);
 		instrument2.setVoice(1);
-		instrument2.setChannel(1);
+		instrument2.setChannel(2);
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
 		melodyBlock2.setTimeConfig(getTimeConfig());
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
@@ -153,7 +166,7 @@ public class TwoVoiceComposition extends Composition{
 
 		Instrument instrument2 = instruments.get(1);
 		instrument2.setVoice(1);
-		instrument2.setChannel(1);
+		instrument2.setChannel(2);
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
 		melodyBlock2.setTimeConfig(getTimeConfig());
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
@@ -187,7 +200,7 @@ public class TwoVoiceComposition extends Composition{
 
 		Instrument instrument2 = instruments.get(1);
 		instrument2.setVoice(1);
-		instrument2.setChannel(1);
+		instrument2.setChannel(2);
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
 		melodyBlock2.setTimeConfig(getTimeConfig());
 		melodyBlock2.setOffset(getTimeConfig().getOffset());

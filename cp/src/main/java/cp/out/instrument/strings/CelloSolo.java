@@ -14,7 +14,7 @@ public class CelloSolo extends Instrument {
 		setLowest(36);
 		setHighest(70);
 		setGeneralMidi(GeneralMidi.CELLO);
-		
+
 		setInstrumentName("Violoncello");
 		setInstrumentSound("strings.cello");
 		setVirtualName("Cello 1 solo");

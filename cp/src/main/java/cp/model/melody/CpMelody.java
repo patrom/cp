@@ -16,7 +16,7 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-public class CpMelody implements Cloneable{
+public class CpMelody {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CpMelody.class);
 	
@@ -37,16 +37,31 @@ public class CpMelody implements Cloneable{
 		this.notes = notes;
 		updateContour();
 	}
-	
+
 	private CpMelody(CpMelody anotherMelody) {
 		this.notes = anotherMelody.getNotes().stream().map(note -> note.clone()).collect(toList());
 		clone(anotherMelody);
 	}
 
-	private CpMelody(CpMelody anotherMelody, int end) {
+	private CpMelody(CpMelody anotherMelody, int voice) {
+		this.notes = anotherMelody.getNotes().stream()
+				.map(note -> {
+					Note clone = note.clone();
+					clone.setVoice(voice);
+					return clone;
+				})
+				.collect(toList());
+		clone(anotherMelody);
+	}
+
+	private CpMelody(CpMelody anotherMelody, int end, int voice) {
 		this.notes = anotherMelody.getNotes().stream()
 				.filter(n -> n.getPosition() < end)
-				.map(note -> note.clone())
+				.map(note -> {
+					Note clone = note.clone();
+					clone.setVoice(voice);
+					return clone;
+				})
 				.collect(toList());
 		clone(anotherMelody);
 	}
@@ -62,13 +77,20 @@ public class CpMelody implements Cloneable{
 		this.beatGroup = anotherMelody.getBeatGroup();
 	}
 
-	@Override
 	public CpMelody clone() {
 		return new CpMelody(this);
 	}
+
+	public CpMelody clone(int voice) {
+		CpMelody melody = new CpMelody(this, voice);
+		melody.setVoice(voice);
+		return melody;
+	}
 	
-	public CpMelody clone(int end) {
-		return new CpMelody(this, end);
+	public CpMelody clone(int end, int voice) {
+		CpMelody melody = new CpMelody(this, end, voice);
+		melody.setVoice(voice);
+		return melody;
 	}
 	
 	private void updateContour() {
@@ -214,9 +236,6 @@ public class CpMelody implements Cloneable{
 		notes.stream().filter(n -> !n.isRest())
 				.sorted()
 				.forEach(n -> {
-					if (n.getPosition() < 0){
-						System.out.println();
-					}
 					TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition(), n.getVoice());
 					TimeLineKey dependingTimeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition() + offset, n.getVoice());
 					int transposedPc = this.transposePitchClass(n.getPitchClass(), timeLineKey.getScale(), dependingTimeLineKey.getScale(), timeLineKey.getKey().getInterval(), dependingTimeLineKey.getKey().getInterval(), steps);

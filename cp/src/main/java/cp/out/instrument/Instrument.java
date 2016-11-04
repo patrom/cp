@@ -49,23 +49,18 @@ public class Instrument implements Comparable<Instrument> {
 	
 	public void updateMelodyInRange(List<Note> notes){
 		for (Note note : notes) {
-			while (note.getPitch() < getLowest()) {
-				note.transposePitch(12);
-			}
 			while (note.getPitch() > getHighest()) {
-				note.transposePitch(-12);
+				note.transposeOctaveDown();
+			}
+			while (note.getPitch() < getLowest()) {
+				note.transposeOctaveUp();
 			}
 		}
 	}
 	
 	public List<Note> removeMelodyNotInRange(List<Note> notes){
 		return notes.stream()
-				.filter(n -> {
-					if (!n.isRest()) {
-						return inRange(n.getPitch());
-					}
-					return false;
-				})//TODO map to rest removed note???
+				.filter(n -> !n.isRest() && inRange(n.getPitch()))//TODO map to rest removed note???
 				.collect(toList());
 	}
 	

@@ -75,6 +75,9 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	@Qualifier(value="threeVoiceComposition")
 	private ThreeVoiceComposition threeVoiceComposition;
 	@Autowired
+	@Qualifier(value="fourVoiceComposition")
+	private FourVoiceComposition fourVoiceComposition;
+	@Autowired
 	private Orchestrator orchestrator;
 	@Autowired
 	private Pleasant pleasant;
@@ -125,7 +128,9 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(threeVoiceComposition::halfTimeHomophonicRhythm);
 //		composeInGenres.add(threeVoiceComposition::threeOverXX);
 //		composeInGenres.add(threeVoiceComposition::accDuplicateRhythm);
-		composeInGenres.add(threeVoiceComposition::allRandom);
+//		composeInGenres.add(threeVoiceComposition::allRandom);
+
+		composeInGenres.add(fourVoiceComposition::canon);
 		
 		for (CompositionGenre compositionGenre : composeInGenres) {
 			composeInGenre.setCompositionGenre(compositionGenre);
