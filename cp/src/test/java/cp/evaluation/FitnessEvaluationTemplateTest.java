@@ -73,7 +73,7 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 	}
 
 	protected void evaluate() {
-		melodies.forEach(m -> m.setInstrument(new ViolinSolo(0, 0)));
+		melodies.forEach(m -> m.setInstrument(new ViolinSolo()));
 		Motive motive = new Motive(melodies);
 		FitnessObjectiveValues objectives = fitnessEvaluationTemplate.evaluate(motive);
 		LOGGER.info(objectives.toString());

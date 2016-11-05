@@ -7,11 +7,6 @@ import cp.out.instrument.register.InstrumentRegister;
 
 public class Piano extends Instrument {
 
-	public Piano(int voice, int channel) {
-		super(voice, channel);
-		init();
-	}
-	
 	public Piano() {
 		init();
 	}

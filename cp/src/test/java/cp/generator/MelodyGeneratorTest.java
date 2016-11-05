@@ -115,7 +115,7 @@ public class MelodyGeneratorTest extends JFrame{
 //		notes.forEach(note -> note.setArticulation(Articulation.STACCATO));
 		Score score = scoreUtilities.createMelody(notes);
 		View.notate(score);
-		Sequence seq = midiDevicesUtil.createSequenceNotes(notes, new  ViolinSolo(3, 0));
+		Sequence seq = midiDevicesUtil.createSequenceNotes(notes, new  ViolinSolo(), 0);
 		midiDevicesUtil.playOnDevice(seq, 60, MidiDevice.KONTAKT);
 		Thread.sleep(10000);
 	}

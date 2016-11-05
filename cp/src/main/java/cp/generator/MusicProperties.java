@@ -2,7 +2,6 @@ package cp.generator;
 
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
-import cp.out.instrument.Instrument;
 import cp.out.print.note.Key;
 import org.springframework.stereotype.Component;
 
@@ -110,14 +109,6 @@ public class MusicProperties {
 	}
 	public void setMutationProbability(double mutationProbability) {
 		this.mutationProbability = mutationProbability;
-	}
-	
-	public static Instrument getInstrument(int voice, int low, int high) {
-		Instrument range = new Instrument();
-		range.setVoice(voice);
-		range.setLowest(low);
-		range.setHighest(high);
-		return range;
 	}
 	
 	public int getHarmonyBeatDivider() {

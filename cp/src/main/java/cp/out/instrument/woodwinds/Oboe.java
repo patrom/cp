@@ -8,11 +8,6 @@ import cp.out.instrument.register.InstrumentRegister;
 
 public class Oboe extends Instrument {
 
-	public Oboe(int voice, int channel) {
-		super(voice, channel);
-		init();
-	}
-
 	public Oboe() {
 		init();
 	}

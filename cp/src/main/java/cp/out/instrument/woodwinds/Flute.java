@@ -8,11 +8,6 @@ import cp.out.instrument.register.InstrumentRegister;
 
 public class Flute extends Instrument {
 
-	public Flute(int voice, int channel) {
-		super(voice, channel);
-		init();
-	}
-
 	private void init() {
 		instrumentGroup = InstrumentGroup.WOODWINDS;
 		order = 1;

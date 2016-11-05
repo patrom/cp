@@ -2,8 +2,11 @@ package cp.midi;
 
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
+import cp.out.play.InstrumentConfig;
+import cp.out.play.InstrumentMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.sound.midi.*;
@@ -19,6 +22,8 @@ public class MidiParser {
 	private final int RESOLUTION = DurationConstants.QUARTER;
 	public final int TRACK_TIMESIGNATURE = 0x58;
 	private final Random random = new Random();
+	@Autowired
+	private InstrumentConfig instrumentConfig;
 
 	public final int NOTE_ON = 0x90;
 	public final int NOTE_OFF = 0x80;
@@ -86,6 +91,8 @@ public class MidiParser {
 
 //			if (!notes.isEmpty()) {
 				MelodyInstrument melody = new MelodyInstrument(notes, j);
+				InstrumentMapping instrumentMapping = instrumentConfig.getInstrumentMappingForVoice(j);
+				melody.setInstrumentMapping(instrumentMapping);
 				map.put(j, melody);
 //			}
 //			voice--;

@@ -6,11 +6,6 @@ import cp.out.instrument.register.InstrumentRegister;
 
 public class CorAnglais extends Instrument{
 
-	public CorAnglais(int voice, int channel) {
-		super(voice, channel);
-		init();
-	}
-
 	private void init() {
 		instrumentGroup = InstrumentGroup.WOODWINDS;
 		order = 5;

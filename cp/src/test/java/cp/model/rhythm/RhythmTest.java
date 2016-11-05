@@ -7,6 +7,7 @@ import cp.midi.MidiDevicesUtil;
 import cp.model.note.Note;
 import cp.out.instrument.MidiDevice;
 import cp.out.instrument.keyboard.Piano;
+import cp.out.play.InstrumentMapping;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -98,7 +99,7 @@ public class RhythmTest {
 //		List<Note> notes = rhythm.getRhythm(harmonyPositions, sounds, texture, contour, 1);
 		
 		MelodyInstrument melodyInstrument = new MelodyInstrument(notes, 0);
-		melodyInstrument.setInstrument(new Piano(0, 0));
+		melodyInstrument.setInstrumentMapping(new InstrumentMapping(new Piano(),0,0));
 		playOnKontakt(Collections.singletonList(melodyInstrument), 90, 5000);
 		
 	}
@@ -125,7 +126,7 @@ public class RhythmTest {
 		List<Note> notes = rhythm.getRhythm(chordNotes, sounds, 0, texture, contour);
 //		musicXMLWriter.generateMusicXMLForNotes(notes, new KontaktLibPiano(0, 0) , "rhythm");
 		MelodyInstrument melodyInstrument = new MelodyInstrument(notes, 0);
-		melodyInstrument.setInstrument(new Piano(0, 0));
+		melodyInstrument.setInstrumentMapping(new InstrumentMapping(new Piano(),0,0));
 		melodyInstruments.add(melodyInstrument);
 //		int[] sounds2 = melodyGenerator.generateMelodyPositions(harmonyLength, 3, 10);
 		Integer[] sounds2 = {0,3, 6, 12,18,24,30};
@@ -133,7 +134,7 @@ public class RhythmTest {
 		Integer[] texture2 = {1,1,1,1,1,1};
 		List<Note> notes2 = rhythm.getRhythm(chordNotes, sounds2, 0, texture2, contour2);
 		MelodyInstrument melodyInstrument2 = new MelodyInstrument(notes2, 0);
-		melodyInstrument2.setInstrument(new Piano(0, 0));
+		melodyInstrument2.setInstrumentMapping(new InstrumentMapping(new Piano(),0,0));
 		melodyInstruments.add(melodyInstrument2);
 		playOnKontakt(melodyInstruments, 90, 5000);
 	}
@@ -148,7 +149,7 @@ public class RhythmTest {
 		List<Note> notes = rhythm.getRhythmRandomContourTexture(chordNotes, sounds, 0, 2);
 		
 		MelodyInstrument melodyInstrument = new MelodyInstrument(notes, 0);
-		melodyInstrument.setInstrument(new Piano(0, 0));
+		melodyInstrument.setInstrumentMapping(new InstrumentMapping(new Piano(),0,0));
 		playOnKontakt(Collections.singletonList(melodyInstrument), 90, 5000);
 		
 	}

@@ -8,11 +8,6 @@ import cp.out.instrument.register.InstrumentRegister;
 
 public class Clarinet extends Instrument {
 
-	public Clarinet(int voice, int channel) {
-		super(voice, channel);
-		init();
-	}
-
 	private void init() {
 		instrumentGroup = InstrumentGroup.WOODWINDS;
 		order = 6;

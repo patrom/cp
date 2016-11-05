@@ -6,11 +6,6 @@ import cp.out.instrument.register.InstrumentRegister;
 
 public class Trumpet extends Instrument {
 	
-	public Trumpet(int voice, int channel) {
-		super(voice, channel);
-		init();
-	}
-	
 	public Trumpet(InstrumentRegister instrumentRegister) {
 		init();
 		setInstrumentRegister(instrumentRegister);

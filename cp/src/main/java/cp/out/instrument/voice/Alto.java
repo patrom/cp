@@ -6,11 +6,6 @@ import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
 
 public class Alto extends Instrument {
-
-	public Alto(int voice, int channel) {
-		super(voice, channel);
-		init();
-	}
 	
 	public Alto() {
 		init();

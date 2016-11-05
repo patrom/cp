@@ -6,8 +6,7 @@ import cp.out.instrument.InstrumentGroup;
 
 public class ViolaSolo extends Instrument {
 
-	public ViolaSolo(int voice, int channel) {
-		super(voice, channel);
+	public ViolaSolo() {
 		instrumentGroup = InstrumentGroup.STRINGS;
 		order = 1;
 		setLowest(48);

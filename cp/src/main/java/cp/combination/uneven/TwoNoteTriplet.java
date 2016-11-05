@@ -32,8 +32,9 @@ public class TwoNoteTriplet {
 									n.setBracket(true);});
 				return notes;
 			case DurationConstants.THREE_EIGHTS:
-				notes =  posWithBeam(noteLength2, noteLength);
-				return notes;
+				return posWithBeam(noteLength2, noteLength);
+			case DurationConstants.THREE_QUARTERS:
+				return  pos(noteLength2, noteLength);
 			default:
 				return notes;
 		}
@@ -57,8 +58,9 @@ public class TwoNoteTriplet {
 									n.setBracket(true);});
 				return notes;
 			case DurationConstants.THREE_EIGHTS:
-				notes =  posWithBeam(noteLength, noteLength2);
-				return notes;
+				return  posWithBeam(noteLength, noteLength2);
+			case DurationConstants.THREE_QUARTERS:
+				return  pos(noteLength, noteLength2);
 			default:
 				notes =  pos(noteLength, noteLength2);
 				return notes;
@@ -84,8 +86,9 @@ public class TwoNoteTriplet {
 									n.setBracket(true);});
 				return notes;
 			case DurationConstants.THREE_EIGHTS:
-				notes =  posWithBeamStartRest(noteLength, noteLength2);
-				return notes;
+				return  posWithBeamStartRest(noteLength, noteLength2);
+			case DurationConstants.THREE_QUARTERS:
+				return  posWithBeamStartRestTriplet(noteLength, noteLength2);
 			default:
 				notes =  posStartRest(noteLength, noteLength2);
 				return notes;
@@ -149,9 +152,9 @@ public class TwoNoteTriplet {
 		TwoNoteTriplet twoNoteUneven = new TwoNoteTriplet();
 		List<Note > notes = twoNoteUneven.pos13(DurationConstants.SIX_EIGHTS);
 //		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength() + ","  + n.isRest()));
-		notes = twoNoteUneven.pos23(DurationConstants.SIX_EIGHTS);
+		notes = twoNoteUneven.pos23(DurationConstants.THREE_QUARTERS);
 //		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength() + ","  + n.isRest()));
-		notes = twoNoteUneven.pos23(DurationConstants.HALF);
+		notes = twoNoteUneven.pos23(DurationConstants.THREE_QUARTERS);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength() + ","  + n.isRest()));
 	}
 }

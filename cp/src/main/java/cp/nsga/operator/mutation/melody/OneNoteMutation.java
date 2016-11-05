@@ -31,12 +31,6 @@ public class OneNoteMutation extends AbstractMutation {
 		super(parameters);
 	}
 
-	/**
-	 * Perform the mutation operation
-	 * @param probability Mutation probability
-	 * @param solution The solution to mutate
-	 * @throws JMException
-	 */
 	public void doMutation(double probability, Solution solution) throws JMException {
 		if (PseudoRandom.randDouble() < probability) {
 			Motive motive = ((MusicVariable)solution.getDecisionVariables()[0]).getMotive();
@@ -48,12 +42,6 @@ public class OneNoteMutation extends AbstractMutation {
 		} 
 	}
 
-	/**
-	 * Executes the operation
-	 * @param object An object containing a solution to mutate
-	 * @return An object containing the mutated solution
-	 * @throws JMException 
-	 */
 	public Object execute(Object object) throws JMException {
 		Solution solution = (Solution) object;
 		Double probability = (Double) getParameter("probabilityOneNote");

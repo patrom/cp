@@ -7,6 +7,7 @@ public interface DurationConstants {
 	int THREE_SIXTEENTH = 3 * SIXTEENTH;
 	int QUARTER = 4 * SIXTEENTH;
 	int THREE_EIGHTS = 6 * SIXTEENTH;
+	int THREE_QUARTERS = 3 * QUARTER;
 	int HALF = 8 * SIXTEENTH;
 	int SIX_EIGHTS = 12 * SIXTEENTH;
 	int WHOLE = 16 * SIXTEENTH;

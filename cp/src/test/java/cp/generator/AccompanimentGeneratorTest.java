@@ -8,6 +8,7 @@ import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.keyboard.Piano;
+import cp.out.play.InstrumentMapping;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +33,11 @@ public class AccompanimentGeneratorTest extends AbstractTest {
 		chordNotes.add(note().pc(0).pitch(60).ocatve(5).build());
 		chordNotes.add(note().pc(4).pitch(64).ocatve(5).build());
 		chordNotes.add(note().pc(7).pitch(67).ocatve(5).build());
-		Instrument piano = new Piano(0, 0);
-		List<Note> accompanimentNotes = accompanimentGenerator.fourFourSingleNote(chordNotes, 3, piano);
+		Instrument piano = new Piano();
+		List<Note> accompanimentNotes = accompanimentGenerator.fourFourSingleNote(chordNotes, 3, piano,0);
 		accompanimentNotes.forEach(n -> System.out.print(n.getPitch() + ":" + n.getPosition() + ", "));
 		
-		playOnKontakt(accompanimentNotes, piano, 90, 5000);
+		playOnKontakt(accompanimentNotes, new InstrumentMapping(new Piano(),0,0), 90, 5000);
 	}
 	
 	@Test
@@ -46,12 +47,12 @@ public class AccompanimentGeneratorTest extends AbstractTest {
 		chordNotes.add(note().pc(0).pitch(60).ocatve(5).build());
 		chordNotes.add(note().pc(4).pitch(64).ocatve(5).build());
 		chordNotes.add(note().pc(7).pitch(67).ocatve(5).build());
-		Instrument piano = new Piano(0, 0);
-		List<Note> accompanimentNotes = accompanimentGenerator.fourFourTexture(chordNotes, 6, piano, 1);
+		Instrument piano = new Piano();
+		List<Note> accompanimentNotes = accompanimentGenerator.fourFourTexture(chordNotes, 6, piano, 1,0);
 		accompanimentNotes.forEach(n -> System.out.print(n.getPitch() + ":" + n.getPosition() + ", "));
 		
-		MelodyInstrument melodyInstrument = new MelodyInstrument(accompanimentNotes, piano.getVoice());
-		melodyInstrument.setInstrument(piano);
+		MelodyInstrument melodyInstrument = new MelodyInstrument(accompanimentNotes,0);
+		melodyInstrument.setInstrumentMapping(new InstrumentMapping(piano,0,0));
 		melodyInstruments.add(melodyInstrument);
 		
 		chordNotes = new ArrayList<>();
@@ -59,10 +60,10 @@ public class AccompanimentGeneratorTest extends AbstractTest {
 		chordNotes.add(note().pc(4).pitch(76).ocatve(6).build());
 		chordNotes.add(note().pc(7).pitch(97).ocatve(6).build());
 		chordNotes.add(note().pc(0).pitch(72).ocatve(6).build());
-		accompanimentNotes = accompanimentGenerator.fourFourTexture(chordNotes, DurationConstants.QUARTER, piano, 1);
+		accompanimentNotes = accompanimentGenerator.fourFourTexture(chordNotes, DurationConstants.QUARTER, piano, 1, 0);
 		accompanimentNotes.forEach(n -> System.out.print(n.getPitch() + ":" + n.getPosition() + ", "));
-		melodyInstrument = new MelodyInstrument(accompanimentNotes, piano.getVoice());
-		melodyInstrument.setInstrument(piano);
+		melodyInstrument = new MelodyInstrument(accompanimentNotes, 0);
+		melodyInstrument.setInstrumentMapping(new InstrumentMapping(piano,0,0));
 		melodyInstruments.add(melodyInstrument);
 		playOnKontakt(melodyInstruments, 90, 5000);
 	}
@@ -72,12 +73,12 @@ public class AccompanimentGeneratorTest extends AbstractTest {
 		List<Note> chordNotes = new ArrayList<>();
 		chordNotes.add(note().pc(0).pitch(60).ocatve(5).build());
 		chordNotes.add(note().pc(2).pitch(62).ocatve(5).build());
-		Instrument piano = new Piano(0, 0);
+		Instrument piano = new Piano();
 		//TODO fixed 2 note contour
-		List<Note> accompanimentNotes = accompanimentGenerator.fourFourSingleNote(chordNotes, 6, piano);
+		List<Note> accompanimentNotes = accompanimentGenerator.fourFourSingleNote(chordNotes, 6, piano, 0);
 		accompanimentNotes.forEach(n -> System.out.print(n.getPitch() + ", " ));
 		
-		playOnKontakt(accompanimentNotes, piano, 90, 5000);
+		playOnKontakt(accompanimentNotes, new InstrumentMapping(new Piano(),0,0), 90, 5000);
 	}
 
 }

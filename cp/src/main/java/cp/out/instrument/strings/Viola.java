@@ -11,11 +11,6 @@ public class Viola extends Instrument {
 		init();
 	}
 
-	public Viola(int voice, int channel) {
-		super(voice, channel);
-		init();
-	}
-
 	private void init() {
 		instrumentGroup = InstrumentGroup.STRINGS;
 		order = 1;

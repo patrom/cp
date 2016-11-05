@@ -7,11 +7,6 @@ import cp.out.instrument.register.InstrumentRegister;
 
 public class ViolinsI extends Instrument {
 
-	public ViolinsI(int voice, int channel) {
-		super(voice, channel);
-		init();
-	}
-
 	public ViolinsI() {
 		init();
 	}

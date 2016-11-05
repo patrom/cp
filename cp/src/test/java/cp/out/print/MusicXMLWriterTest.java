@@ -39,7 +39,7 @@ public class MusicXMLWriterTest {
 	@Before
 	public void setUp() throws Exception {
 		melodyBlocks = new ArrayList<>();
-		instrument = new CelloSolo(0, 1);
+		instrument = new CelloSolo();
 		path = fileTestResource.getFile().getPath();
 	}
 

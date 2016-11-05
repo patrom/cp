@@ -7,11 +7,6 @@ import cp.out.instrument.register.InstrumentRegister;
 
 public class Tenor extends Instrument {
 
-	public Tenor(int voice, int channel) {
-		super(voice, channel);
-		init();
-	}
-	
 	public Tenor() {
 		init();
 	}

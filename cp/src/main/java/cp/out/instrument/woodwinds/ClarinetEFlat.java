@@ -5,11 +5,6 @@ import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
 
 public class ClarinetEFlat extends Instrument {
-	
-	public ClarinetEFlat(int voice, int channel) {
-		super(voice, channel);
-		init();
-	}
 
 	private void init() {
 		instrumentGroup = InstrumentGroup.WOODWINDS;

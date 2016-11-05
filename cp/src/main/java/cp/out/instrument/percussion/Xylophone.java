@@ -6,11 +6,6 @@ import cp.out.instrument.register.InstrumentRegister;
 
 public class Xylophone  extends Instrument {
 	
-	public Xylophone(int voice, int channel) {
-		super(voice, channel);
-		init();
-	}
-	
 	public Xylophone() {
 		init();
 	}

@@ -3,6 +3,7 @@ package cp.out.orchestration.orchestra;
 import cp.model.note.Note;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentUpdate;
+import cp.out.play.InstrumentMapping;
 import cp.util.RandomUtil;
 
 import java.util.*;
@@ -12,42 +13,42 @@ import static java.util.stream.Collectors.toList;
 
 public class Orchestra {
 
-	protected final Map<Instrument, List<Note>> map = new TreeMap<>();
-	protected Instrument piccolo;
-	protected Instrument flute;
-	protected Instrument altoFlute;
-	protected Instrument oboe;
-	protected Instrument corAnglais;
-	protected Instrument clarinetEflat;
-	protected Instrument clarinet;
-	protected Instrument bassClarinet;
-	protected Instrument bassoon;
-	protected Instrument contrabassoon;
+	protected final Map<InstrumentMapping, List<Note>> map = new TreeMap<>();//TODO create score order (voice) layout
+	protected InstrumentMapping piccolo;
+	protected InstrumentMapping flute;
+	protected InstrumentMapping altoFlute;
+	protected InstrumentMapping oboe;
+	protected InstrumentMapping corAnglais;
+	protected InstrumentMapping clarinetEflat;
+	protected InstrumentMapping clarinet;
+	protected InstrumentMapping bassClarinet;
+	protected InstrumentMapping bassoon;
+	protected InstrumentMapping contrabassoon;
 	
-	protected Instrument horn;
-	protected Instrument trumpet;
-	protected Instrument trombone;
-	protected Instrument bassTrombone;
-	protected Instrument tuba;
+	protected InstrumentMapping horn;
+	protected InstrumentMapping trumpet;
+	protected InstrumentMapping trombone;
+	protected InstrumentMapping bassTrombone;
+	protected InstrumentMapping tuba;
 	
-	protected Instrument glockenspiel;
-	protected Instrument celesta;
-	protected Instrument xylophone;
-	protected Instrument harp;
-	protected Instrument piano;
-	protected Instrument timpani;
+	protected InstrumentMapping glockenspiel;
+	protected InstrumentMapping celesta;
+	protected InstrumentMapping xylophone;
+	protected InstrumentMapping harp;
+	protected InstrumentMapping piano;
+	protected InstrumentMapping timpani;
 	
-	protected Instrument violin1;
-	protected Instrument violin2;
-	protected Instrument viola;
-	protected Instrument cello;
-	protected Instrument bass;
+	protected InstrumentMapping violin1;
+	protected InstrumentMapping violin2;
+	protected InstrumentMapping viola;
+	protected InstrumentMapping cello;
+	protected InstrumentMapping bass;
 
 	public Orchestra() {
 		super();
 	}
 	
-	public Instrument getPiccolo() {
+	public InstrumentMapping getPiccolo() {
 		return piccolo;
 	}
 
@@ -59,7 +60,7 @@ public class Orchestra {
 		map.get(piccolo).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 
-	public Instrument getFlute() {
+	public InstrumentMapping getFlute() {
 		return flute;
 	}
 
@@ -71,7 +72,7 @@ public class Orchestra {
 		map.get(flute).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 	
-	public Instrument getAltoFlute() {
+	public InstrumentMapping getAltoFlute() {
 		return altoFlute;
 	}
 
@@ -83,7 +84,7 @@ public class Orchestra {
 		map.get(altoFlute).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 	
-	public Instrument getOboe() {
+	public InstrumentMapping getOboe() {
 		return oboe;
 	}
 
@@ -95,7 +96,7 @@ public class Orchestra {
 		map.get(oboe).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 	
-	public Instrument getCorAnglais() {
+	public InstrumentMapping getCorAnglais() {
 		return corAnglais;
 	}
 
@@ -107,15 +108,15 @@ public class Orchestra {
 		map.get(corAnglais).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 
-	public Map<Instrument, List<Note>> getOrchestra() {
+	public Map<InstrumentMapping, List<Note>> getOrchestra() {
 		return map;
 	}
 
-	public List<Note> getNotes(Instrument instrument) {
-		return map.get(instrument);
+	public List<Note> getNotes(InstrumentMapping instrumentMapping) {
+		return map.get(instrumentMapping);
 	}
 	
-	public Instrument getSmallClarinet() {
+	public InstrumentMapping getSmallClarinet() {
 		return clarinetEflat;
 	}
 
@@ -127,7 +128,7 @@ public class Orchestra {
 		map.get(clarinetEflat).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 
-	public Instrument getClarinet() {
+	public InstrumentMapping getClarinet() {
 		return clarinet;
 	}
 
@@ -139,7 +140,7 @@ public class Orchestra {
 		map.get(clarinet).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 	
-	public Instrument getBassClarinet() {
+	public InstrumentMapping getBassClarinet() {
 		return bassClarinet;
 	}
 
@@ -151,7 +152,7 @@ public class Orchestra {
 		map.get(bassClarinet).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 
-	public Instrument getBassoon() {
+	public InstrumentMapping getBassoon() {
 		return bassoon;
 	}
 
@@ -163,7 +164,7 @@ public class Orchestra {
 		map.get(bassoon).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 	
-	public Instrument getContraBassoon() {
+	public InstrumentMapping getContraBassoon() {
 		return contrabassoon;
 	}
 
@@ -175,7 +176,7 @@ public class Orchestra {
 		map.get(contrabassoon).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 
-	public Instrument getHorn() {
+	public InstrumentMapping getHorn() {
 		return horn;
 	}
 
@@ -187,7 +188,7 @@ public class Orchestra {
 		map.get(horn).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 
-	public Instrument getTrumpet() {
+	public InstrumentMapping getTrumpet() {
 		return trumpet;
 	}
 
@@ -199,7 +200,7 @@ public class Orchestra {
 		map.get(trumpet).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 	
-	public Instrument getTrombone() {
+	public InstrumentMapping getTrombone() {
 		return trombone;
 	}
 
@@ -211,7 +212,7 @@ public class Orchestra {
 		map.get(trombone).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 	
-	public Instrument getBassTrombone() {
+	public InstrumentMapping getBassTrombone() {
 		return bassTrombone;
 	}
 
@@ -223,7 +224,7 @@ public class Orchestra {
 		map.get(bassTrombone).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 	
-	public Instrument getTuba() {
+	public InstrumentMapping getTuba() {
 		return tuba;
 	}
 
@@ -235,7 +236,7 @@ public class Orchestra {
 		map.get(tuba).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 	
-	public Instrument getGlockenspiel() {
+	public InstrumentMapping getGlockenspiel() {
 		return glockenspiel;
 	}
 
@@ -247,7 +248,7 @@ public class Orchestra {
 		map.get(glockenspiel).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 	
-	public Instrument getCelesta() {
+	public InstrumentMapping getCelesta() {
 		return celesta;
 	}
 
@@ -260,7 +261,7 @@ public class Orchestra {
 	}
 	
 	public Instrument getXylophone() {
-		return xylophone;
+		return xylophone.getInstrument();
 	}
 
 	public void setXylophone(List<Note> notes) {
@@ -271,7 +272,7 @@ public class Orchestra {
 		map.get(xylophone).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 	
-	public Instrument getPiano() {
+	public InstrumentMapping getPiano() {
 		return piano;
 	}
 
@@ -283,7 +284,7 @@ public class Orchestra {
 		map.get(piano).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 	
-	public Instrument getHarp() {
+	public InstrumentMapping getHarp() {
 		return harp;
 	}
 
@@ -295,7 +296,7 @@ public class Orchestra {
 		map.get(harp).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 	
-	public Instrument getTimpani() {
+	public InstrumentMapping getTimpani() {
 		return timpani;
 	}
 
@@ -307,7 +308,7 @@ public class Orchestra {
 		map.get(timpani).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 	
-	public Instrument getViolin1() {
+	public InstrumentMapping getViolin1() {
 		return violin1;
 	}
 
@@ -319,7 +320,7 @@ public class Orchestra {
 		map.get(violin1).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 
-	public Instrument getViolin2() {
+	public InstrumentMapping getViolin2() {
 		return violin2;
 	}
 
@@ -331,7 +332,7 @@ public class Orchestra {
 		map.get(violin2).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 
-	public Instrument getViola() {
+	public InstrumentMapping getViola() {
 		return viola;
 	}
 
@@ -343,7 +344,7 @@ public class Orchestra {
 		map.get(viola).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 
-	public Instrument getCello() {
+	public InstrumentMapping getCello() {
 		return cello;
 	}
 
@@ -355,7 +356,7 @@ public class Orchestra {
 		map.get(cello).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 
-	public Instrument getBass() {
+	public InstrumentMapping getBass() {
 		return bass;
 	}
 
@@ -367,7 +368,7 @@ public class Orchestra {
 		map.get(bass).addAll(instrumentUpdate.updateInstrumentNotes(notes));
 	}
 
-	public List<Note> duplicate(Instrument instrumentToDuplicate, int octave) {
+	public List<Note> duplicate(InstrumentMapping instrumentToDuplicate, int octave) {
 		return getNotes(instrumentToDuplicate).stream()
 				.map(n -> n.clone())
 				.map(n -> {
@@ -392,19 +393,19 @@ public class Orchestra {
 //		return duplicateNotes;
 //	}
 	
-	public List<Note> duplicate(Instrument instrumentToDuplicate) {
+	public List<Note> duplicate(InstrumentMapping instrumentToDuplicate) {
 		return getNotes(instrumentToDuplicate).stream()
 				.map(n -> n.clone())
 				.collect(toList());
 	}
 	
-	public void setInstrument(Instrument instrument, Instrument instrumentUpdate,  InstrumentUpdate instrumentMethod) {
-			List<Note> duplicatedNotes = duplicate(instrument, 0);
+	public void setInstrument(InstrumentMapping instrumentMapping, InstrumentMapping instrumentUpdate,  InstrumentUpdate instrumentMethod) {
+			List<Note> duplicatedNotes = duplicate(instrumentMapping, 0);
 			map.get(instrumentUpdate).addAll(instrumentMethod.updateInstrumentNotes(duplicatedNotes));
 	}
 	
 	public void updateInstrument(Instrument instrument, List<Note> notes) {
-		Optional<Instrument> optionalInstrument = map.keySet().stream().filter(i -> i.getInstrumentName().equals(instrument.getInstrumentName())).findFirst();
+		Optional<InstrumentMapping> optionalInstrument = map.keySet().stream().filter(i -> i.getInstrument().getInstrumentName().equals(instrument.getInstrumentName())).findFirst();
 		if (optionalInstrument.isPresent()) {
 			map.compute(optionalInstrument.get(), (k, v) -> {
 				if (v == null) {
@@ -440,8 +441,8 @@ public class Orchestra {
 //		}
 //	}
 	
-	public Instrument getRandomEmptyInstrument(){
-		List<Instrument> instrumentsToUpdate = map.entrySet().stream()
+	public InstrumentMapping getRandomEmptyInstrument(){
+		List<InstrumentMapping> instrumentsToUpdate = map.entrySet().stream()
 				.filter(entry -> entry.getValue().isEmpty())
 				.map(e -> e.getKey())
 				.collect(toList());

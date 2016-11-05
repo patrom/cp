@@ -41,7 +41,6 @@ public class CopyMelody extends AbstractMutation{
 	@Autowired
 	private TimeLine timeLine;
 
-
 	private Composition composition;
 
 	@Autowired

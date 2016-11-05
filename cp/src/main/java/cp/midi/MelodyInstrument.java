@@ -1,7 +1,7 @@
 package cp.midi;
 
 import cp.model.note.Note;
-import cp.out.instrument.Instrument;
+import cp.out.play.InstrumentMapping;
 
 import java.util.Collections;
 import java.util.List;
@@ -10,7 +10,7 @@ public class MelodyInstrument {
 
 	private int voice;
 	private List<Note> notes;
-	private Instrument instrument;
+	private InstrumentMapping instrumentMapping;
 	
 	public MelodyInstrument(List<Note> notes, int voice) {
 		this.notes = notes;
@@ -29,11 +29,11 @@ public class MelodyInstrument {
 	public void setNotes(List<Note> notes) {
 		this.notes = notes;
 	}
-	public Instrument getInstrument() {
-		return instrument;
+	public InstrumentMapping getInstrumentMapping() {
+		return instrumentMapping;
 	}
-	public void setInstrument(Instrument instrument) {
-		this.instrument = instrument;
+	public void setInstrumentMapping(InstrumentMapping instrument) {
+		this.instrumentMapping = instrument;
 	}
 	
 	public void addNotes(List<Note> notes){

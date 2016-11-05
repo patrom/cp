@@ -112,25 +112,25 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(twoVoiceComposition::fugueInverse);
 //		composeInGenres.add(twoVoiceComposition::operatorT);
 //		composeInGenres.add(twoVoiceComposition::operatorI);
-		//TO FIX:
+		//TODO:
 //		composeInGenres.add(twoVoiceComposition::operatorR);
 //		composeInGenres.add(twoVoiceComposition::operatorM);
-
+//		composeInGenres.add(twoVoiceComposition::augmentation);
 //		composeInGenres.add(twoVoiceComposition::diminution);
 
 //		composeInGenres.add(threeVoiceComposition::canon2Voice1Acc);
 //		composeInGenres.add(threeVoiceComposition::accFixedRhythm);
 //		composeInGenres.add(threeVoiceComposition::operatorTplusAcc);
 //		composeInGenres.add(threeVoiceComposition::operatorT);
-//		threeVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
-//		threeVoiceComposition.setHarmonizeVoice(2);
-//		composeInGenres.add(threeVoiceComposition::harmonize);
+		threeVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);//TODO
+		threeVoiceComposition.setHarmonizeVoice(2);
+		composeInGenres.add(threeVoiceComposition::harmonize);
 //		composeInGenres.add(threeVoiceComposition::halfTimeHomophonicRhythm);
 //		composeInGenres.add(threeVoiceComposition::threeOverXX);
 //		composeInGenres.add(threeVoiceComposition::accDuplicateRhythm);
 //		composeInGenres.add(threeVoiceComposition::allRandom);
 
-		composeInGenres.add(fourVoiceComposition::canon);
+//		composeInGenres.add(fourVoiceComposition::canon);
 		
 		for (CompositionGenre compositionGenre : composeInGenres) {
 			composeInGenre.setCompositionGenre(compositionGenre);

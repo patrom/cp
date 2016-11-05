@@ -8,34 +8,38 @@ import cp.nsga.operator.relation.OperatorRelation;
 import cp.out.instrument.Instrument;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 @Component(value="twoVoiceComposition")
 public class TwoVoiceComposition extends Composition{
-	
+
+	private final int voice0 = 0;
+	private final int voice1 = 1;
+	private Instrument instrument1;
+	private Instrument instrument2;
+
+	@PostConstruct
+	public void initInstruments(){
+		instrument1 = instrumentConfig.getInstrumentForVoice(voice0);
+		instrument2 = instrumentConfig.getInstrumentForVoice(voice1);
+	}
+
 	public List<MelodyBlock> beatEven(){
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
-
-		Instrument instrument1 = instruments.get(0);
-		instrument1.setVoice(0);
-		instrument1.setChannel(1);
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), instrument1.pickRandomOctaveFromRange());
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(voice0, instrument1.pickRandomOctaveFromRange());
 		melodyBlock.setInstrument(instrument1);
-		
 		melodyBlocks.add(melodyBlock);
 
-		Instrument instrument2 = instruments.get(1);
-		instrument2.setVoice(1);
-		instrument2.setChannel(1);
-		MelodyBlock melodyBlock2 = melodyGenerator.generateDependantMelodyBlock(instrument2.getVoice(), instrument2.pickRandomOctaveFromRange(), melodyBlock);
+		MelodyBlock melodyBlock2 = melodyGenerator.generateDependantMelodyBlock(voice1, instrument2.pickRandomOctaveFromRange(), melodyBlock);
 		melodyBlock2.setInstrument(instrument2);
 		melodyBlock2.setMutable(false);
 
 		CopyRangeRelation copyRangeRelation = new CopyRangeRelation();
-		copyRangeRelation.setSource(0);
-		copyRangeRelation.setTarget(1);
+		copyRangeRelation.setSource(voice0);
+		copyRangeRelation.setTarget(voice1);
 		copyRangeRelation.setTimeLine(timeLine);
 		copyRangeRelation.setEndComposition(end);
 		copyRangeRelation.setRangeLength(DurationConstants.WHOLE);
@@ -62,31 +66,24 @@ public class TwoVoiceComposition extends Composition{
 	
 	public List<MelodyBlock> canon(){
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
-		
-		Instrument instrument1 = instruments.get(0);
-		instrument1.setVoice(0);
-		instrument1.setChannel(1);
+
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), instrument1.pickRandomOctaveFromRange());
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(voice0, instrument1.pickRandomOctaveFromRange());
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);	
 
-		Instrument instrument2 = instruments.get(1);
-		instrument2.setVoice(1);
-		instrument2.setChannel(2);
-		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
+		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), voice1);
 		melodyBlock2.setTimeConfig(getTimeConfig());
-		melodyBlock2.setVoice(instrument2.getVoice());
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
 		melodyBlock2.setInstrument(instrument2);
 		melodyBlock2.setCalculable(false);
 		melodyBlocks.add(melodyBlock2);
 
 		OperatorRelation operatorRelation = new OperatorRelation(Operator.T_RELATIVE);
-		operatorRelation.setSource(0);
-		operatorRelation.setTarget(1);
-		operatorRelation.setSteps(2);
+		operatorRelation.setSource(voice0);
+		operatorRelation.setTarget(voice1);
+		operatorRelation.setSteps(0);
 		operatorRelation.setTimeLine(timeLine);
 		operatorRelation.setOffset(getTimeConfig().getOffset());
 		operatorConfig.addOperatorRelations(operatorRelation::execute);
@@ -96,30 +93,23 @@ public class TwoVoiceComposition extends Composition{
 	
 	public List<MelodyBlock> fugueInverse(){
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
-		
-		Instrument instrument1 = instruments.get(0);
-		instrument1.setVoice(0);
-		instrument1.setChannel(1);
+
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), instrument1.pickRandomOctaveFromRange());
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(voice0, instrument1.pickRandomOctaveFromRange());
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);
 
-		Instrument instrument2 = instruments.get(1);
-		instrument2.setVoice(1);
-		instrument2.setChannel(2);
-		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
+		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), voice1);
 		melodyBlock2.setTimeConfig(getTimeConfig());
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
-		melodyBlock2.setVoice(instrument2.getVoice());
 		melodyBlock2.setInstrument(instrument2);
 		melodyBlock2.setCalculable(false);
 		melodyBlocks.add(melodyBlock2);
 
 		OperatorRelation operatorRelation = new OperatorRelation(Operator.I_RELATIVE);
-		operatorRelation.setSource(0);
-		operatorRelation.setTarget(1);
+		operatorRelation.setSource(voice0);
+		operatorRelation.setTarget(voice1);
 		operatorRelation.setTimeLine(timeLine);
 		operatorRelation.setFunctionalDegreeCenter(1);//between 1 and 7
 		operatorRelation.setOffset(getTimeConfig().getOffset());
@@ -155,29 +145,22 @@ public class TwoVoiceComposition extends Composition{
 	private List<MelodyBlock> operator(Operator operator, int steps) {
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
 
-		Instrument instrument1 = instruments.get(0);
-		instrument1.setVoice(0);
-		instrument1.setChannel(1);
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), instrument1.pickRandomOctaveFromRange());
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(voice0, instrument1.pickRandomOctaveFromRange());
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);
 
-		Instrument instrument2 = instruments.get(1);
-		instrument2.setVoice(1);
-		instrument2.setChannel(2);
-		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
+		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), voice1);
 		melodyBlock2.setTimeConfig(getTimeConfig());
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
-		melodyBlock2.setVoice(instrument2.getVoice());
 		melodyBlock2.setInstrument(instrument2);
 		melodyBlock2.setCalculable(false);
 		melodyBlocks.add(melodyBlock2);
 
 		OperatorRelation operatorRelation = new OperatorRelation(operator);
-		operatorRelation.setSource(0);
-		operatorRelation.setTarget(1);
+		operatorRelation.setSource(voice0);
+		operatorRelation.setTarget(voice1);
 		operatorRelation.setSteps(steps);
 		operatorRelation.setTimeLine(timeLine);
 		operatorRelation.setOffset(getTimeConfig().getOffset());
@@ -189,29 +172,22 @@ public class TwoVoiceComposition extends Composition{
 	private List<MelodyBlock> operator(Operator operator, double factor) {
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
 
-		Instrument instrument1 = instruments.get(0);
-		instrument1.setVoice(0);
-		instrument1.setChannel(1);
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), instrument1.pickRandomOctaveFromRange(), getTimeConfig()::getBeatsDoubleLength);
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(voice0, instrument1.pickRandomOctaveFromRange(), getTimeConfig()::getBeatsDoubleLength);
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);
 
-		Instrument instrument2 = instruments.get(1);
-		instrument2.setVoice(1);
-		instrument2.setChannel(2);
-		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), instrument2.getVoice());
+		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), voice1);
 		melodyBlock2.setTimeConfig(getTimeConfig());
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
-		melodyBlock2.setVoice(instrument2.getVoice());
 		melodyBlock2.setInstrument(instrument2);
 		melodyBlock2.setCalculable(false);
 		melodyBlocks.add(melodyBlock2);
 
 		OperatorRelation operatorRelation = new OperatorRelation(operator);
-		operatorRelation.setSource(0);
-		operatorRelation.setTarget(1);
+		operatorRelation.setSource(voice0);
+		operatorRelation.setTarget(voice1);
 		operatorRelation.setTimeLine(timeLine);
 		operatorRelation.setFactor(factor);
 		operatorRelation.setOffset(getTimeConfig().getOffset());

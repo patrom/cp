@@ -7,11 +7,6 @@ import cp.out.instrument.register.InstrumentRegister;
 
 public class Doublebass extends Instrument {
 
-	public Doublebass(int voice, int channel) {
-		super(voice, channel);
-		init();
-	}
-
 	private void init() {
 		instrumentGroup = InstrumentGroup.STRINGS;
 		order = 3;

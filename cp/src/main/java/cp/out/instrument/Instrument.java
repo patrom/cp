@@ -13,12 +13,10 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-public class Instrument implements Comparable<Instrument> {
+public class Instrument {
 
-	protected int voice;
 //	protected int lowest;
 //	protected int highest;
-	protected int channel;
 	protected KeySwitch keySwitch;
 	protected GeneralMidi generalMidi;
 	//musicXML properties
@@ -30,11 +28,6 @@ public class Instrument implements Comparable<Instrument> {
 	private InstrumentRegister instrumentRegister = new InstrumentRegister();
 	protected int order;
 	protected InstrumentGroup instrumentGroup;
-	
-	public Instrument(int voice, int channel) {
-		this.voice = voice;
-		this.channel = channel;
-	}
 	
 	public Instrument() {
 	}
@@ -151,13 +144,6 @@ public class Instrument implements Comparable<Instrument> {
 		return scale;
     }
 
-	
-	public int getVoice() {
-		return voice;
-	}
-	public void setVoice(int voice) {
-		this.voice = voice;
-	}
 	public int getLowest() {
 		return instrumentRegister.getLow();
 	}
@@ -170,12 +156,6 @@ public class Instrument implements Comparable<Instrument> {
 	}
 	public void setHighest(int highest) {
 		this.instrumentRegister.setHigh(highest);
-	}
-	public int getChannel() {
-		return channel;
-	}
-	public void setChannel(int channel) {
-		this.channel = channel;
 	}
 	public boolean hasKeySwitch() {
 		return keySwitch != null;
@@ -250,15 +230,15 @@ public class Instrument implements Comparable<Instrument> {
 			return false;
 		return true;
 	}
-	@Override
-	public int compareTo(Instrument instrument) {
-		if (this.voice < instrument.getVoice()) {
-			return -1;
-		}else if (this.voice > instrument.getVoice()){
-			return 1;
-		}
-		return 0;
-	}
+//	@Override
+//	public int compareTo(Instrument instrument) {
+//		if (this.voice < instrument.getVoice()) {
+//			return -1;
+//		}else if (this.voice > instrument.getVoice()){
+//			return 1;
+//		}
+//		return 0;
+//	}
 
 	public InstrumentRegister getInstrumentRegister() {
 		return instrumentRegister;

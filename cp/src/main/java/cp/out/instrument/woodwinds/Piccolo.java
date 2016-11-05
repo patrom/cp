@@ -5,11 +5,6 @@ import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
 
 public class Piccolo extends Instrument{
-	
-	public Piccolo(int voice, int channel) {
-		super(voice, channel);
-		init();
-	}
 
 	private void init() {
 		instrumentGroup = InstrumentGroup.WOODWINDS;

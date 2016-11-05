@@ -6,11 +6,6 @@ import cp.out.instrument.register.InstrumentRegister;
 
 public class BassTrombone extends Instrument{
 
-	public BassTrombone(int voice, int channel) {
-		super(voice, channel);
-		init();
-	}
-
 	public BassTrombone(InstrumentRegister instrumentRegister) {
 		init();
 		setInstrumentRegister(instrumentRegister);

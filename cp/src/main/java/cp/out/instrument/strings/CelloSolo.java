@@ -7,8 +7,7 @@ import cp.out.instrument.InstrumentGroup;
 
 public class CelloSolo extends Instrument {
 	
-	public CelloSolo(int voice, int channel) {
-		super(voice, channel);
+	public CelloSolo() {
 		instrumentGroup = InstrumentGroup.STRINGS;
 		order = 2;
 		setLowest(36);

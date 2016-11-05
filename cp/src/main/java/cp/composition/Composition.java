@@ -21,12 +21,11 @@ import cp.objective.harmony.HarmonicObjective;
 import cp.objective.harmony.HarmonicResolutionObjective;
 import cp.objective.meter.MeterObjective;
 import cp.out.instrument.Ensemble;
-import cp.out.instrument.Instrument;
-import cp.out.instrument.InstrumentCombination;
 import cp.out.orchestration.quality.Brilliant;
 import cp.out.orchestration.quality.Mellow;
 import cp.out.orchestration.quality.Pleasant;
 import cp.out.orchestration.quality.Rich;
+import cp.out.play.InstrumentConfig;
 import cp.out.print.note.Key;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -106,13 +105,13 @@ public abstract class Composition {
 	@Autowired
 	protected Brilliant brilliant;
 	
-	private InstrumentCombination instrumentCombination;
-	protected List<Instrument> instruments = new ArrayList<>();
+//	private InstrumentCombination instrumentCombination;
+//	protected List<Instrument> instruments = new ArrayList<>();
 	@Autowired
 	private Ensemble ensemble;
 	
 	protected final int start = 0;
-	protected final int end = 5 * DurationConstants.WHOLE;
+	protected final int end = 4 * DurationConstants.WHOLE;
 	
 	private TimeConfig timeConfig;
 	
@@ -140,6 +139,8 @@ public abstract class Composition {
 	protected int harmonizeVoice;
 	@Autowired
 	protected RelationConfig operatorConfig;
+	@Autowired
+	protected InstrumentConfig instrumentConfig;
 
 	@PostConstruct
 	public void init(){
@@ -155,7 +156,7 @@ public abstract class Composition {
 //		instruments = ensemble.getStringDuo();
 //		instruments = ensemble.getStringTrio();
 //		instruments = ensemble.getPiano(3);
-		instruments = ensemble.getStringQuartet();
+//		instruments = ensemble.getStringQuartet();
 
 		setTimeconfig();
 		List<TimeLineKey> keys = new ArrayList<>();
@@ -167,7 +168,7 @@ public abstract class Composition {
 //		keys.add(new TimeLineKey(A, Scale.HARMONIC_MINOR_SCALE, 48, 96));
 //		keys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 96, 144));
 //		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 144, 192));
-		int instrumentSize = instruments.size();
+		int instrumentSize = instrumentConfig.getSize();
 		for (int i = 0; i < instrumentSize; i++) {
 			timeLine.addKeysForVoice(keys, i);
 		}

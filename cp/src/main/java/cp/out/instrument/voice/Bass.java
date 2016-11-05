@@ -7,11 +7,6 @@ import cp.out.instrument.register.InstrumentRegister;
 
 public class Bass extends Instrument {
 
-	public Bass(int voice, int channel) {
-		super(voice, channel);
-		init();
-	}
-	
 	public Bass() {
 		init();
 	}

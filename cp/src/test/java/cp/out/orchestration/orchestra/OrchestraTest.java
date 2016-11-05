@@ -2,7 +2,6 @@ package cp.out.orchestration.orchestra;
 
 import cp.DefaultConfig;
 import cp.model.note.Note;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -25,7 +24,7 @@ public class OrchestraTest {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pitch(48).build());
 		notes.add(note().pitch(66).build());
-		orchestra.setViolin1(notes, orchestra.getViolin1()::removeMelodyNotInRange);
+		orchestra.setViolin1(notes, orchestra.getViolin1().getInstrument()::removeMelodyNotInRange);
 		assertTrue(orchestra.getOrchestra().get(orchestra.getViolin1()).size() == 1);
 		assertEquals(66, orchestra.getOrchestra().get(orchestra.getViolin1()).get(0).getPitch());
 	}

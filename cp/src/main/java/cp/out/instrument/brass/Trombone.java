@@ -5,11 +5,6 @@ import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
 
 public class Trombone extends Instrument {
-	
-	public Trombone(int voice, int channel) {
-		super(voice, channel);
-		init();
-	}
 
 	public Trombone(InstrumentRegister instrumentRegister) {
 		init();

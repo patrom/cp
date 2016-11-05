@@ -8,11 +8,6 @@ import cp.out.instrument.register.InstrumentRegister;
 
 public class FrenchHorn extends Instrument {
 
-	public FrenchHorn(int voice, int channel) {
-		super(voice, channel);
-		init();
-	}
-	
 	public FrenchHorn(InstrumentRegister instrumentRegister) {
 		init();
 		setInstrumentRegister(instrumentRegister);

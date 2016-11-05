@@ -16,58 +16,62 @@ import java.util.List;
 @Component(value="fourVoiceComposition")
 public class FourVoiceComposition extends  Composition {
 
+    private final int voice0 = 0;
+    private final int voice1 = 1;
+    private final int voice2 = 2;
+    private final int voice3 = 3;
+    private Instrument instrument1;
+    private Instrument instrument2;
+    private Instrument instrument3;
+    private Instrument instrument4;
+
+
+    public void initInstruments(){
+        instrument1 = instrumentConfig.getInstrumentForVoice(voice0);
+        instrument2 = instrumentConfig.getInstrumentForVoice(voice1);
+        instrument3 = instrumentConfig.getInstrumentForVoice(voice2);
+//        instrument4 = instrumentConfig.getInstrumentForVoice(voice3);
+    }
+
     public List<MelodyBlock> canon(){
         List<MelodyBlock> melodyBlocks = new ArrayList<>();
-
-        Instrument instrument1 = instruments.get(0);
-        instrument1.setVoice(0);
-        instrument1.setChannel(1);
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
-        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(instrument1.getVoice(), instrument1.pickRandomOctaveFromRange());
+        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(voice0, instrument1.pickRandomOctaveFromRange());
         melodyBlock.setInstrument(instrument1);
         melodyBlocks.add(melodyBlock);
 
-        Instrument instrument2 = instruments.get(1);
-        instrument2.setVoice(1);
-        instrument2.setChannel(2);
-        MelodyBlock melodyBlock2 = melodyGenerator.generateEmptyBlock(instrument2);
+        MelodyBlock melodyBlock2 = melodyGenerator.generateEmptyBlock(instrument2, voice1);
         melodyBlock2.setCalculable(false);
         melodyBlocks.add(melodyBlock2);
 
         OperatorRelation operatorRelation = new OperatorRelation(Operator.T_RELATIVE);
-        operatorRelation.setSource(0);
-        operatorRelation.setTarget(1);
+        operatorRelation.setSource(voice0);
+        operatorRelation.setTarget(voice1);
         operatorRelation.setSteps(2);
         operatorRelation.setTimeLine(timeLine);
         operatorRelation.setOffset(getTimeConfig().getOffset());
         operatorConfig.addOperatorRelations(operatorRelation::execute);
 
-        Instrument instrument3 = instruments.get(2);
-        instrument3.setVoice(2);
-        instrument3.setChannel(3);
-        MelodyBlock melodyBlock3 = melodyGenerator.generateEmptyBlock(instrument3);
+        MelodyBlock melodyBlock3 = melodyGenerator.generateEmptyBlock(instrument3, voice2);
         melodyBlock3.setCalculable(false);
         melodyBlocks.add(melodyBlock3);
 
         operatorRelation = new OperatorRelation(Operator.T_RELATIVE);
-        operatorRelation.setSource(0);
-        operatorRelation.setTarget(2);
+        operatorRelation.setSource(voice0);
+        operatorRelation.setTarget(voice2);
         operatorRelation.setSteps(4);
         operatorRelation.setTimeLine(timeLine);
         operatorRelation.setOffset(getTimeConfig().getOffset() * 2);
         operatorConfig.addOperatorRelations(operatorRelation::execute);
 
-        Instrument instrument4 = instruments.get(3);
-        instrument4.setVoice(3);
-        instrument4.setChannel(4);
-        MelodyBlock melodyBlock4 = melodyGenerator.generateEmptyBlock(instrument4);
+        MelodyBlock melodyBlock4 = melodyGenerator.generateEmptyBlock(instrument4, voice3);
         melodyBlock4.setCalculable(false);
         melodyBlocks.add(melodyBlock4);
 
         operatorRelation = new OperatorRelation(Operator.T_RELATIVE);
-        operatorRelation.setSource(0);
-        operatorRelation.setTarget(3);
+        operatorRelation.setSource(voice0);
+        operatorRelation.setTarget(voice3);
         operatorRelation.setSteps(0);
         operatorRelation.setTimeLine(timeLine);
         operatorRelation.setOffset(getTimeConfig().getOffset() * 3);

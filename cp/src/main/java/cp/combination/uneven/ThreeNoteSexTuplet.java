@@ -20,7 +20,7 @@ public class ThreeNoteSexTuplet {
 		int length3 = noteLength * 3;
 		int length2 = noteLength * 2;
 		switch (beat) {
-		case 12:
+		case DurationConstants.QUARTER:
 			notes =  posWithBeam(length3, noteLength, length2);
 			notes.forEach(n -> {n.setSextuplet(true);
 								n.setTimeModification("16th");});
@@ -30,8 +30,9 @@ public class ThreeNoteSexTuplet {
 //			notes.forEach(n -> n.setTriplet(true));
 //			return notes;
 		case DurationConstants.THREE_EIGHTS:
-			notes =  posWithBeam(length3, noteLength, length2);
-			return notes;
+			return  posWithBeam(length3, noteLength, length2);
+		case DurationConstants.THREE_QUARTERS:
+			return pos(length3, noteLength, length2);
 		default:
 			notes =  pos(length3, noteLength, length2);
 			return notes;
@@ -44,7 +45,7 @@ public class ThreeNoteSexTuplet {
 		int length3 = noteLength * 3;
 		int length2 = noteLength * 2;
 		switch (beat) {
-		case 12:
+		case DurationConstants.QUARTER:
 			notes =  posWithBeam(length2, length3, noteLength);
 			notes.forEach(n -> n.setSextuplet(true));
 			return notes;
@@ -53,8 +54,9 @@ public class ThreeNoteSexTuplet {
 //			notes.forEach(n -> n.setTriplet(true));
 //			return notes;
 		case DurationConstants.THREE_EIGHTS:
-			notes =  posWithBeam(length2, length3, noteLength);
-			return notes;
+			return posWithBeam(length2, length3, noteLength);
+			case DurationConstants.THREE_QUARTERS:
+				return pos(length2, length3, noteLength);
 		default:
 			notes =  pos(length2, length3, noteLength);
 			return notes;
@@ -66,7 +68,7 @@ public class ThreeNoteSexTuplet {
 		int noteLength = beat/6;
 		int length4 = noteLength * 4;
 		switch (beat) {
-		case 12:
+		case DurationConstants.QUARTER:
 			notes =  posWithBeam(length4, noteLength, noteLength);
 			notes.forEach(n -> n.setSextuplet(true));
 			return notes;
@@ -75,8 +77,9 @@ public class ThreeNoteSexTuplet {
 //			notes.forEach(n -> n.setTriplet(true));
 //			return notes;
 		case DurationConstants.THREE_EIGHTS:
-			notes =  posWithBeam(length4, noteLength, noteLength);
-			return notes;
+			return posWithBeam(length4, noteLength, noteLength);
+			case DurationConstants.THREE_QUARTERS:
+				return pos(length4, noteLength, noteLength);
 		default:
 			notes =  pos(length4, noteLength, noteLength);
 			return notes;
@@ -101,7 +104,7 @@ public class ThreeNoteSexTuplet {
 	
 	public static void main(String[] args) {
 		ThreeNoteSexTuplet threeNoteSexTuplet = new ThreeNoteSexTuplet();
-		List<Note > notes = threeNoteSexTuplet.pos145(DurationConstants.THREE_EIGHTS);
+		List<Note > notes = threeNoteSexTuplet.pos145(DurationConstants.THREE_QUARTERS);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 		
 //		notes = threeNoteSexTuplet.pos145(DurationConstants.SIX_EIGHTS);
@@ -113,7 +116,7 @@ public class ThreeNoteSexTuplet {
 //		notes = threeNoteSexTuplet.pos136(DurationConstants.SIX_EIGHTS);
 //		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 		
-		notes = threeNoteSexTuplet.pos156(DurationConstants.SIX_EIGHTS);
+		notes = threeNoteSexTuplet.pos156(DurationConstants.QUARTER);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 	}
 }

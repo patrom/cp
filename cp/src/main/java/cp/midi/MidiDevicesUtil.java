@@ -1,12 +1,14 @@
 package cp.midi;
 
-import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Instrument;
+import cp.out.play.InstrumentConfig;
+import cp.out.play.InstrumentMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.sound.midi.*;
@@ -22,6 +24,8 @@ public class MidiDevicesUtil {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MidiDevicesUtil.class.getName());
 
 	private final int RESOLUTION = DurationConstants.QUARTER;
+	@Autowired
+	private InstrumentConfig instrumentConfig;
 	
 	public void playOnDevice(Sequence sequence, int tempo, cp.out.instrument.MidiDevice kontakt) {
 		LOGGER.info("tempo:" + tempo);
@@ -73,52 +77,53 @@ public class MidiDevicesUtil {
 		}
 	}
 
-	public Sequence createSequence(Map<Instrument, List<Note>> map, int tempo)
+	public Sequence createSequence(Map<InstrumentMapping, List<Note>> map, int tempo)
 			throws InvalidMidiDataException {
 		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
-		for (Entry<Instrument, List<Note>> entry: map.entrySet()) {
-			createTrackGeneralMidi(sequence, entry.getValue(), entry.getKey(), tempo);
+		for (Entry<InstrumentMapping, List<Note>> entry: map.entrySet()) {
+			InstrumentMapping instrumentMapping = entry.getKey();
+			createTrackGeneralMidi(sequence, entry.getValue(), instrumentMapping.getInstrument(), tempo, instrumentMapping.getChannel());
 		}
 		return sequence;
 	}
 	
-	public Sequence createSequence(List<CpMelody> motives, List<Instrument> instruments)
-			throws InvalidMidiDataException {
-		int motiveSize = motives.size();
-		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
-		for (int i = 0; i < motiveSize; i++) {
-			List<Note> notes = motives.get(i).getNotes();
-			createTrack(sequence, notes, instruments.get(i));
-		}
-		return sequence;
-	}
+//	public Sequence createSequence(List<CpMelody> motives, List<Instrument> instruments)
+//			throws InvalidMidiDataException {
+//		int motiveSize = motives.size();
+//		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
+//		for (int i = 0; i < motiveSize; i++) {
+//			List<Note> notes = motives.get(i).getNotes();
+//			createTrack(sequence, notes, instruments.get(i));
+//		}
+//		return sequence;
+//	}
 	
-	public Sequence createSequenceNotes(List<Note> notes, Instrument instrument)
+	public Sequence createSequenceNotes(List<Note> notes, Instrument instrument, int channel)
 			throws InvalidMidiDataException {
 		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
 		if (!notes.isEmpty()) {
-			createTrack(sequence, notes, instrument);
+			createTrack(sequence, notes, instrument, channel);
 		}
 		return sequence;
 	}
 	
-	public Sequence createSequence(List<CpMelody> motives, Instrument instrument)
-			throws InvalidMidiDataException {
-		int motiveSize = motives.size();
-		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
-		for (int i = 0; i < motiveSize; i++) {
-			List<Note> notes = motives.get(i).getNotes();
-			createTrack(sequence, notes, instrument);
-		}
-		return sequence;
-	}
+//	public Sequence createSequence(List<CpMelody> motives, Instrument instrument)
+//			throws InvalidMidiDataException {
+//		int motiveSize = motives.size();
+//		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
+//		for (int i = 0; i < motiveSize; i++) {
+//			List<Note> notes = motives.get(i).getNotes();
+//			createTrack(sequence, notes, instrument);
+//		}
+//		return sequence;
+//	}
 	
 	public Sequence createSequence(List<MelodyInstrument> melodies)
 			throws InvalidMidiDataException {
 		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
 		for (MelodyInstrument melodyInstrument : melodies) {
-			if (melodyInstrument.getInstrument() != null) {
-				createTrack(sequence, melodyInstrument.getNotes(), melodyInstrument.getInstrument());
+			if (melodyInstrument.getInstrumentMapping() != null) {
+				createTrack(sequence, melodyInstrument.getNotes(), melodyInstrument.getInstrumentMapping().getInstrument(), melodyInstrument.getInstrumentMapping().getChannel() );
 			}
 		}
 		return sequence;
@@ -128,8 +133,8 @@ public class MidiDevicesUtil {
 			throws InvalidMidiDataException {
 		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
 		for (MelodyInstrument melodyInstrument : melodies) {
-			if (melodyInstrument.getInstrument() != null) {
-				createTrackGeneralMidi(sequence, melodyInstrument.getNotes(), melodyInstrument.getInstrument(), tempo);
+			if (melodyInstrument.getInstrumentMapping() != null) {
+//				createTrackGeneralMidi(sequence, melodyInstrument.getNotes(), melodyInstrument.getInstrument(), tempo);
 			}
 		}
 		return sequence;
@@ -139,31 +144,33 @@ public class MidiDevicesUtil {
 			throws InvalidMidiDataException {
 		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
 		for (MelodyBlock melody : melodies) {
-			createTrackGeneralMidi(sequence, melody.getMelodyBlockNotesWithRests(), melody.getInstrument(), tempo);
+			int channel = instrumentConfig.getChannelForVoice(melody.getVoice());
+			Instrument instrument = instrumentConfig.getInstrumentForVoice(melody.getVoice());
+			createTrackGeneralMidi(sequence, melody.getMelodyBlockNotesWithRests(), instrument, tempo, channel);
 		}
 		return sequence;
 	}
 	
-	private void createTrack(Sequence sequence, List<Note> notes, Instrument instrument)
+	private void createTrack(Sequence sequence, List<Note> notes, Instrument instrument, int channel)
 			throws InvalidMidiDataException {
 		Track track = sequence.createTrack();
 		int prevArticulation = 0;
 		for (Note notePos : notes) {
 			int articulation = instrument.getArticulation(notePos.getArticulation());
 			if (articulation != prevArticulation) {
-				MidiEvent changeEvent = createInstrumentChange(instrument, articulation, notePos.getPosition());
+				MidiEvent changeEvent = createInstrumentChange(instrument, articulation, notePos.getPosition(), channel);
 				track.add(changeEvent);
 				prevArticulation = articulation;
 			}
 							
-			MidiEvent eventOn = createNoteMidiEvent(ShortMessage.NOTE_ON, notePos, notePos.getPosition(), instrument.getChannel());
+			MidiEvent eventOn = createNoteMidiEvent(ShortMessage.NOTE_ON, notePos, notePos.getPosition(), channel);
 			track.add(eventOn);
-			MidiEvent eventOff = createNoteMidiEvent(ShortMessage.NOTE_OFF, notePos, notePos.getPosition() + notePos.getLength(), instrument.getChannel());
+			MidiEvent eventOff = createNoteMidiEvent(ShortMessage.NOTE_OFF, notePos, notePos.getPosition() + notePos.getLength(), channel);
 			track.add(eventOff);	
 		}
 	}
 	
-	private void createTrackGeneralMidi(Sequence sequence, List<Note> notes, Instrument instrument, int tempo)
+	private void createTrackGeneralMidi(Sequence sequence, List<Note> notes, Instrument instrument, int tempo, int channel)
 			throws InvalidMidiDataException {
 		Track track = sequence.createTrack();
 
@@ -171,38 +178,40 @@ public class MidiDevicesUtil {
 		MidiEvent midiTempoEvent = midiTempo.getTempoMidiEvent(tempo);
 		track.add(midiTempoEvent);
 		
-		MidiEvent event = createGeneralMidiEvent(instrument);
+		MidiEvent event = createGeneralMidiEvent(instrument, channel);
 		track.add(event);
 		
 		int prevArticulation = 0;
 		for (Note notePos : notes) {
 			int articulation = instrument.getArticulation(notePos.getArticulation());
 			if (articulation != prevArticulation) {
-				MidiEvent changeEvent = createInstrumentChange(instrument, articulation, notePos.getPosition());
+				MidiEvent changeEvent = createInstrumentChange(instrument, articulation, notePos.getPosition(), channel);
 				track.add(changeEvent);
 				prevArticulation = articulation;
 			}
 			
-			MidiEvent eventOn = createNoteMidiEvent(ShortMessage.NOTE_ON, notePos, notePos.getPosition(), instrument.getChannel());
+			MidiEvent eventOn = createNoteMidiEvent(ShortMessage.NOTE_ON, notePos, notePos.getPosition(), channel);
 			track.add(eventOn);
-			MidiEvent eventOff = createNoteMidiEvent(ShortMessage.NOTE_OFF, notePos, notePos.getPosition() + notePos.getLength(), instrument.getChannel());
+			MidiEvent eventOff = createNoteMidiEvent(ShortMessage.NOTE_OFF, notePos, notePos.getPosition() + notePos.getLength(), channel);
 			track.add(eventOff);	
 		}
 	}
 
-	private MidiEvent createGeneralMidiEvent(Instrument instrument)
+	private MidiEvent createGeneralMidiEvent(Instrument instrument, int channel)
 			throws InvalidMidiDataException {
 		ShortMessage change = new ShortMessage();
-		change.setMessage(ShortMessage.PROGRAM_CHANGE, instrument.getChannel(), instrument.getGeneralMidi().getEvent(), 0);
+		if (instrument.getGeneralMidi() != null) {
+			change.setMessage(ShortMessage.PROGRAM_CHANGE, channel, instrument.getGeneralMidi().getEvent(), 0);
+		}
 		return new MidiEvent(change, 0);
 	}
 
-	private MidiEvent createInstrumentChange(Instrument instrument, int performance, int position) throws InvalidMidiDataException {
+	private MidiEvent createInstrumentChange(Instrument instrument, int performance, int position, int channel) throws InvalidMidiDataException {
 		if (instrument.hasKeySwitch()) {
 			Note keySwitch = createKeySwitch(performance);
-			return createNoteMidiEvent(ShortMessage.NOTE_ON, keySwitch, position, instrument.getChannel());
+			return createNoteMidiEvent(ShortMessage.NOTE_ON, keySwitch, position, channel);
 		} else {
-			return createProgramChangeMidiEvent(instrument.getChannel(), instrument.getGeneralMidi().getEvent(), performance);
+			return createProgramChangeMidiEvent(channel, instrument.getGeneralMidi().getEvent(), performance);
 		}
 	}
 
@@ -213,17 +222,17 @@ public class MidiDevicesUtil {
 		return keySwitch;
 	}
 
-	public Sequence createSequenceFromStructures(List<CpMelody> motives, List<Instrument> instruments)
-			throws InvalidMidiDataException {
-		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION, motives.size());
-		int i = 0;
-		for (CpMelody motive : motives) {
-			List<Note> notes = motive.getNotes();
-			createTrack(sequence, notes, instruments.get(i));
-			i++;
-		}
-		return sequence;
-	}
+//	public Sequence createSequenceFromStructures(List<CpMelody> motives, List<Instrument> instruments)
+//			throws InvalidMidiDataException {
+//		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION, motives.size());
+//		int i = 0;
+//		for (CpMelody motive : motives) {
+//			List<Note> notes = motive.getNotes();
+//			createTrack(sequence, notes, instruments.get(i));
+//			i++;
+//		}
+//		return sequence;
+//	}
 
 	private MidiEvent createNoteMidiEvent(int cmd, Note notePos, int position, int channel)
 			throws InvalidMidiDataException {
@@ -288,7 +297,7 @@ public class MidiDevicesUtil {
 
 		// **** set track name (meta event) ****
 		mt = new MetaMessage();
-		String TrackName = new String("midifile track");
+		String TrackName = "midifile track";
 		mt.setMessage(0x03, TrackName.getBytes(), TrackName.length());
 		me = new MidiEvent(mt, (long) 0);
 		t.add(me);

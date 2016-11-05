@@ -8,11 +8,6 @@ import cp.out.instrument.register.InstrumentRegister;
 
 public class Bassoon extends Instrument {
 
-	public Bassoon(int voice, int channel) {
-		super(voice, channel);
-		init();
-	}
-
 	private void init() {
 		instrumentGroup = InstrumentGroup.WOODWINDS;
 		order = 8;

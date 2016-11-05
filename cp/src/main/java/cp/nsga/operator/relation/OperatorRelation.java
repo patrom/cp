@@ -7,8 +7,6 @@ import cp.model.melody.Operator;
 import cp.nsga.MusicVariable;
 import jmetal.core.Solution;
 
-import static java.util.stream.Collectors.toList;
-
 /**
  * Created by prombouts on 24/10/2016.
  */
@@ -33,51 +31,45 @@ public class OperatorRelation {
         MelodyBlock melodyBlockTarget = motive.getRandomMelodyForVoice(target);
         if (melodyBlockSource != null && melodyBlockTarget != null) {
             int end = melodyBlockSource.getLastMelody().getEnd();
-            MelodyBlock melodyBlock = melodyBlockSource.clone(end - offset, target);
-            melodyBlock.setInstrument(melodyBlockTarget.getInstrument());
-
+            MelodyBlock melodyBlock = null;
             switch (operator) {
                 case T:
+                    melodyBlock = melodyBlockSource.clone(end - offset, target);
                     melodyBlock.T(steps);
                     break;
                 case I:
+                    melodyBlock = melodyBlockSource.clone(end - offset, target);
                     melodyBlock.I();
                     break;
                 case R:
+                    melodyBlock = melodyBlockSource.clone(end - offset, target);
                     melodyBlock.R();
                     break;
                 case M:
+                    melodyBlock = melodyBlockSource.clone(end - offset, target);
                     melodyBlock.M(steps);
                     break;
                 case T_RELATIVE:
+                    melodyBlock = melodyBlockSource.clone(end - offset, target);
                     melodyBlock.Trelative(steps, timeLine);
                     break;
                 case I_RELATIVE:
+                    melodyBlock = melodyBlockSource.clone(end - offset, target);
                     melodyBlock.Irelative(degree, timeLine);
                     break;
                 case AUGMENTATION:
-                    melodyBlock.augmentation(steps, timeLine);
-                    melodyBlock.getMelodyBlocks().stream()
-                            .filter(m -> m.getStart() < end - offset)
-                            .map(m -> m.clone(end - offset, target))
-                            .collect(toList());
+                    melodyBlock = melodyBlockSource.clone((int) ((end - offset)/factor ), target);
+                    melodyBlock.augmentation(factor, timeLine);
                     break;
                 case DIMINUTION:
+                    melodyBlock = melodyBlockSource.clone(end - offset, target);
                     melodyBlock.diminution(steps, timeLine);
                 case RHYTHMIC:
                 default:
                     break;
             }
 
-//            melodyBlock.getMelodyBlocks().stream()
-//                    .forEach(m -> m.setVoice(target));
-//            melodyBlock.getMelodyBlocks().stream()
-//                    .flatMap(m -> m.getNotes().stream())
-//                    .forEach(note -> {
-//                        note.setVoice(target);
-//                        note.setPosition(note.getPosition() + offset);
-//                    });
-
+            melodyBlock.setInstrument(melodyBlockTarget.getInstrument());
             melodyBlock.getMelodyBlocks().stream()
                     .flatMap(m -> m.getNotes().stream())
                     .forEach(note -> note.setPosition(note.getPosition() + offset));

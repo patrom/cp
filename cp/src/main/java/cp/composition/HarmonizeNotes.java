@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static cp.model.note.NoteBuilder.note;
 import static cp.model.rhythm.DurationConstants.EIGHT;
 import static cp.model.rhythm.DurationConstants.HALF;
+import static java.util.stream.Collectors.toList;
 
 @Component
 public class HarmonizeNotes {
@@ -42,7 +42,7 @@ public class HarmonizeNotes {
 			parser.parseMusicXML();
 			Map<String, List<Note>> notesPerInstrument = parser.getNotesPerInstrument();
 			String instrument = "P1";
-			return notesPerInstrument.entrySet().stream().flatMap(entry -> entry.getValue().stream()).filter(n -> n.getInstrument().startsWith(instrument)).collect(Collectors.toList());
+			return notesPerInstrument.entrySet().stream().flatMap(entry -> entry.getValue().stream()).filter(n -> n.getInstrument().startsWith(instrument)).collect(toList());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -5,11 +5,6 @@ import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
 
 public class Tuba extends Instrument {
-	
-	public Tuba(int voice, int channel) {
-		super(voice, channel);
-		init();
-	}
 
 	public Tuba(InstrumentRegister instrumentRegister) {
 		init();

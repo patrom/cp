@@ -28,8 +28,7 @@ public class FourNoteSexTuplet {
 //			notes.forEach(n -> n.setTriplet(true));
 //			return notes;
 		case DurationConstants.THREE_EIGHTS:
-			notes =  posWithBeam(length3, noteLength, noteLength, noteLength);
-			return notes;
+			return posWithBeam(length3, noteLength, noteLength, noteLength);
 		default:
 			notes =  pos(length3, noteLength, noteLength, noteLength);
 			return notes;
@@ -50,8 +49,7 @@ public class FourNoteSexTuplet {
 //			notes.forEach(n -> n.setTriplet(true));
 //			return notes;
 		case DurationConstants.THREE_EIGHTS:
-			notes =  posWithBeam(length2, noteLength, noteLength, length2);
-			return notes;
+			return posWithBeam(length2, noteLength, noteLength, length2);
 		default:
 			notes =  pos(length2, noteLength, noteLength, length2);
 			return notes;
@@ -72,8 +70,7 @@ public class FourNoteSexTuplet {
 //			notes.forEach(n -> n.setTriplet(true));
 //			return notes;
 		case DurationConstants.THREE_EIGHTS:
-			notes =  posWithBeam(length2, length2, noteLength, noteLength);
-			return notes;
+			return  posWithBeam(length2, length2, noteLength, noteLength);
 		default:
 			notes =  pos(length2, length2, noteLength, noteLength);
 			return notes;

@@ -5,12 +5,7 @@ import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
 
 public class Harp extends Instrument {
-	
-	public Harp(int voice, int channel) {
-		super(voice, channel);
-		init();
-	}
-	
+
 	public Harp() {
 		init();
 	}

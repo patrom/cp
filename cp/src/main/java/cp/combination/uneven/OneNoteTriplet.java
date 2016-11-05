@@ -35,8 +35,9 @@ public class OneNoteTriplet {
 	//			notes.forEach(n -> n.setTriplet(true));
 	//			return notes;
 			case DurationConstants.THREE_EIGHTS:
-				notes =  posRest(noteLength, noteLength2);
-				return notes;
+				return posRest(noteLength, noteLength2);
+			case DurationConstants.THREE_QUARTERS:
+				return posRest(noteLength, noteLength2);
 			default:
 				notes =  posRest(noteLength, noteLength2);
 				return notes;
@@ -61,6 +62,8 @@ public class OneNoteTriplet {
 			case DurationConstants.THREE_EIGHTS:
 				notes =  posRest(noteLength2, noteLength);
 				return notes;
+			case DurationConstants.THREE_QUARTERS:
+				return posRest(noteLength2, noteLength);
 			default:
 				notes =  posRest(noteLength2, noteLength);
 				return notes;
@@ -83,16 +86,16 @@ public class OneNoteTriplet {
 	
 	public static void main(String[] args) {
 		OneNoteTriplet oneNoteUneven = new OneNoteTriplet();
-		List<Note > notes = oneNoteUneven.pos1(DurationConstants.THREE_EIGHTS);
+		List<Note > notes = oneNoteUneven.pos1(DurationConstants.THREE_QUARTERS);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 		
-		notes = oneNoteUneven.pos1(DurationConstants.SIX_EIGHTS);
+		notes = oneNoteUneven.pos1(DurationConstants.THREE_QUARTERS);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 		
-		notes = oneNoteUneven.pos2(DurationConstants.SIX_EIGHTS);
+		notes = oneNoteUneven.pos2(DurationConstants.THREE_QUARTERS);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 		
-		notes = oneNoteUneven.pos3(DurationConstants.SIX_EIGHTS);
+		notes = oneNoteUneven.pos3(DurationConstants.THREE_QUARTERS);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 	}
 

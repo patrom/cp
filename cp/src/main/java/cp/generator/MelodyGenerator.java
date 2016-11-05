@@ -79,10 +79,10 @@ public class MelodyGenerator {
 		return melodyBlock;
 	}
 
-	public MelodyBlock generateEmptyBlock(final Instrument instrument){
-		MelodyBlock melodyBlock = new MelodyBlock(instrument.pickRandomOctaveFromRange(), instrument.getVoice());
+	public MelodyBlock generateEmptyBlock(final Instrument instrument, int voice){
+		MelodyBlock melodyBlock = new MelodyBlock(instrument.pickRandomOctaveFromRange(), voice);
 		melodyBlock.setTimeConfig(composition.getTimeConfig());
-		melodyBlock.setVoice(instrument.getVoice());
+		melodyBlock.setVoice(voice);
 		melodyBlock.setInstrument(instrument);
 		return melodyBlock;
 	}
@@ -157,12 +157,9 @@ public class MelodyGenerator {
 		return melody;
 	}
 	
-	public MelodyBlock duplicateRhythmMelodyBlock(MelodyBlock melodyBlock, Instrument instrument){
-		MelodyBlock clonedMelodyBlock = melodyBlock.clone();
+	public MelodyBlock duplicateRhythmMelodyBlock(MelodyBlock melodyBlock, Instrument instrument, int voice){
+		MelodyBlock clonedMelodyBlock = melodyBlock.clone(voice);
 		clonedMelodyBlock.setInstrument(instrument);
-		clonedMelodyBlock.setVoice(instrument.getVoice());
-		clonedMelodyBlock.getMelodyBlocks().forEach(m -> m.setVoice(instrument.getVoice()));
-		clonedMelodyBlock.getMelodyBlockNotesWithRests().forEach(n -> n.setVoice(instrument.getVoice()));
 		List<Note> melodyBlockNotes = clonedMelodyBlock.getMelodyBlockNotes();
 		pitchClassGenerator.updatePitchClasses(melodyBlockNotes);
 		clonedMelodyBlock.dependsOn(melodyBlock.getVoice());

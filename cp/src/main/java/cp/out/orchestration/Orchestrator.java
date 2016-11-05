@@ -89,14 +89,14 @@ public class Orchestrator {
 		
 		orchestra.setFlute(orchestra.duplicate(orchestra.getOboe()));
 		orchestra.setOboe(melodyBlocks.get(0).getMelodyBlockNotesWithRests());
-		orchestra.setClarinet(melodyBlocks.get(1).getMelodyBlockNotesWithRests());
+//		orchestra.setClarinet(melodyBlocks.get(1).getMelodyBlockNotesWithRests());
 //		orchestra.setClarinet(orchestra.duplicate(orchestra.getFlute()), pleasant.getInstrument(InstrumentName.CLARINET.getName())::updateInQualityRange);
-		orchestra.setBassoon(orchestra.duplicate(orchestra.getOboe(), -12));
-		
-//		orchestra.setTrumpet(orchestra.duplicate(orchestra.getClarinet()), brilliant.getInstrument(InstrumentName.TRUMPET.getName())::updateInQualityRange);
-		
-		orchestra.setViolin1(orchestra.duplicate(orchestra.getClarinet()), pleasant.getBasicInstrument(InstrumentName.VIOLIN_I.getName())::updateInQualityRange);
-		orchestra.setViola(orchestra.duplicate(orchestra.getClarinet()), pleasant.getBasicInstrument(InstrumentName.VIOLA.getName())::updateInQualityRange);
+//		orchestra.setBassoon(orchestra.duplicate(orchestra.getOboe(), -12));
+//
+////		orchestra.setTrumpet(orchestra.duplicate(orchestra.getClarinet()), brilliant.getInstrument(InstrumentName.TRUMPET.getName())::updateInQualityRange);
+//
+//		orchestra.setViolin1(orchestra.duplicate(orchestra.getClarinet()), pleasant.getBasicInstrument(InstrumentName.VIOLIN_I.getName())::updateInQualityRange);
+//		orchestra.setViola(orchestra.duplicate(orchestra.getClarinet()), pleasant.getBasicInstrument(InstrumentName.VIOLA.getName())::updateInQualityRange);
 //		orchestra.setCello(orchestra.duplicate(orchestra.getFlute(), 0), pleasant.getInstrument(InstrumentName.CELLO.getName())::updateInQualityRange);
 //		orchestra.setBass(notes);
 //		ChordOrchestration chordOrchestration = new ChordOrchestration(0, 48, 5);
@@ -116,12 +116,14 @@ public class Orchestrator {
 	
 	private void generateMusicXml(String id, Orchestra orchestra) throws Exception{
 		Resource resource = new FileSystemResource("");
-		musicXMLWriter.createXML(new FileOutputStream(resource.getFile().getPath() + "cp/src/main/resources/xml/" + id + ".xml"), orchestra.getOrchestra());
+		String path = resource.getFile().getPath() + "src/main/resources/test/";
+		musicXMLWriter.createXML(new FileOutputStream(path  + id + ".xml"), orchestra.getOrchestra());
 	}
 
 	private void writeMidi(String id, Orchestra orchestra) throws InvalidMidiDataException, IOException {
 			Sequence sequence = midiDevicesUtil.createSequence(orchestra.getOrchestra(), musicProperties.getTempo());
-			midiDevicesUtil.write(sequence, "resources/orch/" + id + ".mid");
+			Resource resource = new FileSystemResource("");
+			midiDevicesUtil.write(sequence, resource.getFile().getPath()+ "src/main/resources/orch/" + id + ".mid");
 	}
 	
 }

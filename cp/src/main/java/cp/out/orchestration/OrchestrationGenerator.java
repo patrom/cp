@@ -6,6 +6,7 @@ import cp.out.instrument.Instrument;
 import cp.out.orchestration.orchestra.ClassicalOrchestra;
 import cp.out.orchestration.orchestra.Orchestra;
 import cp.out.orchestration.quality.*;
+import cp.out.play.InstrumentMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,7 @@ public class OrchestrationGenerator {
 		return orchestralQualities;
 	}
 	
-	public Map<Instrument, List<Note>> orchestrateChord(int[] pitches, int noteLength, List<Instrument> instruments, List<Instrument> combiningInstrument) {
+	public Map<InstrumentMapping, List<Note>> orchestrateChord(int[] pitches, int noteLength, List<Instrument> instruments, List<Instrument> combiningInstrument) {
 		int position = 0;
 		List<OrchestralQuality> orchestralQualities = getOrchestralQualities();
 		for (OrchestralQuality orchestralQuality : orchestralQualities) {

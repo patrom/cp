@@ -5,12 +5,7 @@ import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
 
 public class Timpani extends Instrument {
-	
-	public Timpani(int voice, int channel) {
-		super(voice, channel);
-		init();
-	}
-	
+
 	public Timpani() {
 		init();
 	}

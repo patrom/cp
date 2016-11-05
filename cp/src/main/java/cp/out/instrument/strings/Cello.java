@@ -7,11 +7,6 @@ import cp.out.instrument.register.InstrumentRegister;
 
 public class Cello extends Instrument {
 	
-	public Cello(int voice, int channel) {
-		super(voice, channel);
-		init();
-	}
-	
 	public Cello() {
 		init();
 	}
