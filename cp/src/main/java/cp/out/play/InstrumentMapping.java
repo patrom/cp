@@ -29,7 +29,7 @@ public class InstrumentMapping implements Comparable<InstrumentMapping>{
         return scoreOrder;
     }
 
-    	@Override
+    @Override
 	public int compareTo(InstrumentMapping instrumentMapping) {
 		if (this.scoreOrder < instrumentMapping.getScoreOrder()) {
 			return -1;

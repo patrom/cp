@@ -28,11 +28,9 @@ public class FiveNoteSexTuplet {
 //			notes.forEach(n -> n.setTriplet(true));
 //			return notes;
 		case DurationConstants.THREE_EIGHTS:
-			notes =  posWithBeam(length2, noteLength, noteLength, noteLength, noteLength);
-			return notes;
+			return posWithBeam(length2, noteLength, noteLength, noteLength, noteLength);
 		default:
-			notes =  pos(length2, noteLength, noteLength, noteLength, noteLength);
-			return notes;
+			return  pos(length2, noteLength, noteLength, noteLength, noteLength);
 		}
 	}
 	

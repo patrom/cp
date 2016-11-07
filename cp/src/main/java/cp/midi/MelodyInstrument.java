@@ -6,7 +6,7 @@ import cp.out.play.InstrumentMapping;
 import java.util.Collections;
 import java.util.List;
 
-public class MelodyInstrument {
+public class MelodyInstrument implements Comparable<MelodyInstrument>{
 
 	private int voice;
 	private List<Note> notes;
@@ -40,6 +40,15 @@ public class MelodyInstrument {
 		this.notes.addAll(notes);
 		Collections.sort(this.notes);
 	}
-	
-	
+
+
+	@Override
+	public int compareTo(MelodyInstrument melodyInstrument) {
+		if (this.getInstrumentMapping().getScoreOrder() < melodyInstrument.getInstrumentMapping().getScoreOrder()) {
+			return -1;
+		}else if (this.getInstrumentMapping().getScoreOrder() > melodyInstrument.getInstrumentMapping().getScoreOrder()){
+			return 1;
+		}
+		return 0;
+	}
 }

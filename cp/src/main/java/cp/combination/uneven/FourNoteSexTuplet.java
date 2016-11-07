@@ -30,8 +30,7 @@ public class FourNoteSexTuplet {
 		case DurationConstants.THREE_EIGHTS:
 			return posWithBeam(length3, noteLength, noteLength, noteLength);
 		default:
-			notes =  pos(length3, noteLength, noteLength, noteLength);
-			return notes;
+			return  pos(length3, noteLength, noteLength, noteLength);
 		}
 	}
 	
@@ -51,8 +50,7 @@ public class FourNoteSexTuplet {
 		case DurationConstants.THREE_EIGHTS:
 			return posWithBeam(length2, noteLength, noteLength, length2);
 		default:
-			notes =  pos(length2, noteLength, noteLength, length2);
-			return notes;
+			return  pos(length2, noteLength, noteLength, length2);
 		}
 	}
 	
@@ -72,8 +70,7 @@ public class FourNoteSexTuplet {
 		case DurationConstants.THREE_EIGHTS:
 			return  posWithBeam(length2, length2, noteLength, noteLength);
 		default:
-			notes =  pos(length2, length2, noteLength, noteLength);
-			return notes;
+			return  pos(length2, length2, noteLength, noteLength);
 		}
 	}
 	

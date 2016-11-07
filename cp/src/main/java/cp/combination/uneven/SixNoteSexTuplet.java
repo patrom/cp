@@ -15,27 +15,32 @@ public class SixNoteSexTuplet {
 
 	public List<Note> pos123456(int beat) {
 		List<Note> notes;
-		int noteLength = beat/6;
+		int noteLength = beat / 6;
 		switch (beat) {
-		case DurationConstants.QUARTER:
-			notes =  posWithBeam(noteLength, noteLength, noteLength, noteLength, noteLength, noteLength);
-			notes.forEach(n -> {n.setSextuplet(true);
-								n.setTimeModification("16th");});
-			return notes;
-//		case 24:
-//			notes =  pos(beat/3);
-//			notes.forEach(n -> n.setTriplet(true));
-//			return notes;
-		case DurationConstants.THREE_EIGHTS:
-			notes =  posWithBeam(noteLength, noteLength, noteLength, noteLength, noteLength, noteLength);
-			return notes;
-		default:
-			notes =  pos(noteLength, noteLength, noteLength, noteLength, noteLength, noteLength);
-			return notes;
+			case DurationConstants.QUARTER:
+				notes = posWithBeamTuplet(noteLength, noteLength, noteLength, noteLength, noteLength, noteLength);
+				notes.forEach(n -> {
+					n.setSextuplet(true);
+					n.setTimeModification("16th");
+				});
+				return notes;
+			case DurationConstants.HALF:
+				notes = posWithBeamTuplet(noteLength, noteLength, noteLength, noteLength, noteLength, noteLength);
+				notes.forEach(n -> {
+					n.setSextuplet(true);
+					n.setTimeModification("eighth");
+				});
+				return notes;
+			case DurationConstants.THREE_EIGHTS:
+				return pos(noteLength, noteLength, noteLength, noteLength, noteLength, noteLength);
+			case DurationConstants.THREE_QUARTERS:
+				return pos(noteLength, noteLength, noteLength, noteLength, noteLength, noteLength);
+			default:
+				return pos(noteLength, noteLength, noteLength, noteLength, noteLength, noteLength);
 		}
 	}
 	
-	private List<Note> posWithBeam(int first, int second, int third, int fourth, int fifth, int sixth){
+	private List<Note> posWithBeamTuplet(int first, int second, int third, int fourth, int fifth, int sixth){
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).len(first).beam(BeamType.BEGIN).tuplet(TupletType.START).build());
 		notes.add(note().pos(first).len(second).beam(BeamType.CONTINUE).build());

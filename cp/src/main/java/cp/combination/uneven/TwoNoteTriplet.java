@@ -15,18 +15,18 @@ import static cp.model.note.NoteBuilder.note;
 public class TwoNoteTriplet {
 	
 	public List<Note> pos13(int beat) {
-		List<Note> notes = new ArrayList<>();
+		List<Note> notes;
 		int noteLength = beat/3;
 		int noteLength2 = noteLength * 2;
 		switch (beat) {
 			case DurationConstants.QUARTER:
-				notes =  pos(noteLength2, noteLength);
+				notes = pos(noteLength2, noteLength);
 				notes.forEach(n -> {n.setTriplet(true);
 									n.setTimeModification("eighth");
 									n.setBracket(true);});
 				return notes;
 			case DurationConstants.HALF:
-				notes =  pos(noteLength2, noteLength);
+				notes = pos(noteLength2, noteLength);
 				notes.forEach(n -> {n.setTriplet(true);
 									n.setTimeModification("quarter");
 									n.setBracket(true);});
@@ -34,9 +34,9 @@ public class TwoNoteTriplet {
 			case DurationConstants.THREE_EIGHTS:
 				return posWithBeam(noteLength2, noteLength);
 			case DurationConstants.THREE_QUARTERS:
-				return  pos(noteLength2, noteLength);
+				return pos(noteLength2, noteLength);
 			default:
-				return notes;
+				return pos(noteLength2, noteLength);
 		}
 	}
 	
@@ -46,13 +46,13 @@ public class TwoNoteTriplet {
 		int noteLength2 = noteLength * 2;
 		switch (beat) {
 			case DurationConstants.QUARTER:
-				notes =  pos(noteLength, noteLength2);
+				notes = pos(noteLength, noteLength2);
 				notes.forEach(n -> {n.setTriplet(true);
 									n.setTimeModification("eighth");
 									n.setBracket(true);});
 				return notes;
 			case DurationConstants.HALF:
-				notes =  pos(noteLength, noteLength2);
+				notes = pos(noteLength, noteLength2);
 				notes.forEach(n -> {n.setTriplet(true);
 									n.setTimeModification("quarter");
 									n.setBracket(true);});
@@ -60,10 +60,9 @@ public class TwoNoteTriplet {
 			case DurationConstants.THREE_EIGHTS:
 				return  posWithBeam(noteLength, noteLength2);
 			case DurationConstants.THREE_QUARTERS:
-				return  pos(noteLength, noteLength2);
+				return pos(noteLength, noteLength2);
 			default:
-				notes =  pos(noteLength, noteLength2);
-				return notes;
+				return pos(noteLength, noteLength2);
 		}
 	}
 	
@@ -73,25 +72,24 @@ public class TwoNoteTriplet {
 		int noteLength2 = noteLength * 2;
 		switch (beat) {
 			case DurationConstants.QUARTER:
-				notes =  posWithBeamStartRestTriplet(noteLength, noteLength2);
+				notes = posWithBeamStartRestTriplet(noteLength, noteLength2);
 				notes.forEach(n -> {n.setTriplet(true);
 									n.setTimeModification("eighth");
 									n.setBracket(true);});
 				return notes;
 			case DurationConstants.HALF:
-				notes =  posWithBracketStartRestTriplet(noteLength, noteLength2);
-				notes =  pos(noteLength, noteLength2);
+				notes = posWithBracketStartRestTriplet(noteLength, noteLength2);
+				notes = pos(noteLength, noteLength2);
 				notes.forEach(n -> {n.setTriplet(true);
 									n.setTimeModification("quarter");
 									n.setBracket(true);});
 				return notes;
 			case DurationConstants.THREE_EIGHTS:
-				return  posWithBeamStartRest(noteLength, noteLength2);
+				return posWithBeamStartRest(noteLength, noteLength2);
 			case DurationConstants.THREE_QUARTERS:
-				return  posWithBeamStartRestTriplet(noteLength, noteLength2);
+				return posStartRest(noteLength, noteLength2);
 			default:
-				notes =  posStartRest(noteLength, noteLength2);
-				return notes;
+				return posStartRest(noteLength, noteLength2);
 		}
 	}
 	
@@ -133,13 +131,6 @@ public class TwoNoteTriplet {
 		notes.add(note().pos(firstLength).len(secondLength).beam(BeamType.END).build());
 		return notes;
 	}
-	
-//	private List<Note> posWithBeamTuplet(int firstLength, int secondLength){
-//		List<Note> notes = new ArrayList<Note>();
-//		notes.add(note().pos(0).len(firstLength).beam(BeamType.BEGIN).tuplet(TupletType.START).build());
-//		notes.add(note().pos(firstLength).len(secondLength).beam(BeamType.END).tuplet(TupletType.STOP).build());
-//		return notes;
-//	}
 	
 	private List<Note> pos(int firstLength, int secondLength){
 		List<Note> notes = new ArrayList<>();

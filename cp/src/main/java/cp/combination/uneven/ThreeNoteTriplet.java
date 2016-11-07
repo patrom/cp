@@ -17,24 +17,27 @@ public class ThreeNoteTriplet {
 	public List<Note> pos123(int beat) {
 		List<Note> notes;
 		switch (beat) {
-		case DurationConstants.QUARTER:
-			notes =  posWithBeamTuplet(beat/3);
-			notes.forEach(n -> {n.setTriplet(true);
-								n.setTimeModification("eighth");});
-			return notes;
-		case DurationConstants.HALF:
-			notes =  posTuplet(beat/3);
-			notes.forEach(n -> {n.setTriplet(true);
-								n.setTimeModification("quarter");
-								n.setBracket(true);});
-			return notes;
-		case DurationConstants.THREE_EIGHTS:
-			return posWithBeam(beat/3);
+			case DurationConstants.QUARTER:
+				notes = posWithBeamTuplet(beat / 3);
+				notes.forEach(n -> {
+					n.setTriplet(true);
+					n.setTimeModification("eighth");
+				});
+				return notes;
+			case DurationConstants.HALF:
+				notes = posTuplet(beat / 3);
+				notes.forEach(n -> {
+					n.setTriplet(true);
+					n.setTimeModification("quarter");
+					n.setBracket(true);
+				});
+				return notes;
+			case DurationConstants.THREE_EIGHTS:
+				return posWithBeam(beat / 3);
 			case DurationConstants.THREE_QUARTERS:
-			return pos(beat/3);
-		default:
-			notes =  pos(beat/3);
-			return notes;
+				return pos(beat / 3);
+			default:
+				return pos(beat / 3);
 		}
 	}
 	

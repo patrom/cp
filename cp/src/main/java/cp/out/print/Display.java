@@ -5,6 +5,7 @@ import cp.midi.MidiDevicesUtil;
 import cp.model.Motive;
 import cp.model.harmony.CpHarmony;
 import cp.model.melody.MelodyBlock;
+import cp.out.play.InstrumentConfig;
 import jm.music.data.Score;
 import jm.util.View;
 import org.slf4j.Logger;
@@ -36,6 +37,8 @@ public class Display {
 	private MusicProperties musicProperties;
 	@javax.annotation.Resource(name="fileResource")
 	private Resource resource;
+	@Autowired
+	private InstrumentConfig instrumentConfig;
 
 	public void view(Motive motive, String id) throws Exception {
 		printHarmonies(motive.getHarmonies());
@@ -55,7 +58,6 @@ public class Display {
 
 	private void viewScore(List<MelodyBlock> melodies, String id, double tempo)
 			throws InvalidMidiDataException, IOException {
-
 		Collections.sort(melodies, new MelodyVoiceComparator());
 		melodies.forEach(m -> LOGGER.info(m.getMelodyBlockContour() + ", "));
 		melodies.forEach(m -> LOGGER.info(m.getMelodyBlockNotesWithRests() + ", "));

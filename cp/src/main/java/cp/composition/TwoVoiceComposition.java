@@ -7,6 +7,7 @@ import cp.nsga.operator.relation.CopyRangeRelation;
 import cp.nsga.operator.relation.OperatorRelation;
 import cp.out.instrument.Instrument;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class TwoVoiceComposition extends Composition{
 
 	@PostConstruct
 	public void initInstruments(){
+		Assert.isTrue(instrumentConfig.getSize() >= 2);
 		instrument1 = instrumentConfig.getInstrumentForVoice(voice0);
 		instrument2 = instrumentConfig.getInstrumentForVoice(voice1);
 	}

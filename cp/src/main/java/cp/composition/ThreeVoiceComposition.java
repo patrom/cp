@@ -9,6 +9,7 @@ import cp.nsga.operator.relation.OperatorRelation;
 import cp.out.instrument.Instrument;
 import cp.out.play.InstrumentMapping;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class ThreeVoiceComposition extends Composition{
 
 	@PostConstruct
 	public void initInstruments(){
+		Assert.isTrue(instrumentConfig.getSize() >= 3);
 		instrument1 = instrumentConfig.getInstrumentForVoice(voice0);
 		instrument2 = instrumentConfig.getInstrumentForVoice(voice1);
 		instrument3 = instrumentConfig.getInstrumentForVoice(voice2);

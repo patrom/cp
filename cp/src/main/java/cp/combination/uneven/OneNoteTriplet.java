@@ -30,17 +30,18 @@ public class OneNoteTriplet {
 									n.setTimeModification("eighth");
 									n.setBracket(true);});
 				return notes;
-	//		case 24:
-	//			notes =  pos(beat/3);
-	//			notes.forEach(n -> n.setTriplet(true));
-	//			return notes;
+			case DurationConstants.HALF:
+				notes =  posRestTuplet(noteLength, noteLength2);
+				notes.forEach(n -> {n.setTriplet(true);
+									n.setTimeModification("quarter");
+									n.setBracket(true);});
+				return notes;
 			case DurationConstants.THREE_EIGHTS:
 				return posRest(noteLength, noteLength2);
 			case DurationConstants.THREE_QUARTERS:
 				return posRest(noteLength, noteLength2);
 			default:
-				notes =  posRest(noteLength, noteLength2);
-				return notes;
+				return posRest(noteLength, noteLength2);
 		}
 	}
 	
@@ -55,18 +56,19 @@ public class OneNoteTriplet {
 									n.setTimeModification("eighth");
 									n.setBracket(true);});
 				return notes;
-	//		case 24:
-	//			notes =  pos(beat/3);
-	//			notes.forEach(n -> n.setTriplet(true));
-	//			return notes;
+			case DurationConstants.HALF:
+				notes =  posRestTuplet(noteLength2, noteLength);
+				notes.forEach(n -> {n.setTriplet(true);
+									n.setTimeModification("quarter");
+									n.setBracket(true);});
+				return notes;
 			case DurationConstants.THREE_EIGHTS:
-				notes =  posRest(noteLength2, noteLength);
+				notes = posRest(noteLength2, noteLength);
 				return notes;
 			case DurationConstants.THREE_QUARTERS:
 				return posRest(noteLength2, noteLength);
 			default:
-				notes =  posRest(noteLength2, noteLength);
-				return notes;
+				return posRest(noteLength2, noteLength);
 		}
 	}
 	
@@ -88,14 +90,14 @@ public class OneNoteTriplet {
 		OneNoteTriplet oneNoteUneven = new OneNoteTriplet();
 		List<Note > notes = oneNoteUneven.pos1(DurationConstants.THREE_QUARTERS);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
-		
+
 		notes = oneNoteUneven.pos1(DurationConstants.THREE_QUARTERS);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
-		
-		notes = oneNoteUneven.pos2(DurationConstants.THREE_QUARTERS);
+
+		notes = oneNoteUneven.pos2(DurationConstants.HALF);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
-		
-		notes = oneNoteUneven.pos3(DurationConstants.THREE_QUARTERS);
+
+		notes = oneNoteUneven.pos3(DurationConstants.HALF);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 	}
 

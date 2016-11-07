@@ -5,7 +5,9 @@ import cp.model.melody.Operator;
 import cp.nsga.operator.relation.OperatorRelation;
 import cp.out.instrument.Instrument;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,12 +27,13 @@ public class FourVoiceComposition extends  Composition {
     private Instrument instrument3;
     private Instrument instrument4;
 
-
+    @PostConstruct
     public void initInstruments(){
+        Assert.isTrue(instrumentConfig.getSize() >= 4);
         instrument1 = instrumentConfig.getInstrumentForVoice(voice0);
         instrument2 = instrumentConfig.getInstrumentForVoice(voice1);
         instrument3 = instrumentConfig.getInstrumentForVoice(voice2);
-//        instrument4 = instrumentConfig.getInstrumentForVoice(voice3);
+        instrument4 = instrumentConfig.getInstrumentForVoice(voice3);
     }
 
     public List<MelodyBlock> canon(){

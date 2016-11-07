@@ -31,6 +31,7 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -105,7 +106,8 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 //			arrangement.transpose(melodies.get(1).getNotes(), -12);
 			
 //			embellish(melodies);
-			parsedMelodies.stream().flatMap(m -> m.getNotes().stream()).forEach(n -> n.setPitch(n.getPitch() + 12));// for miroslav string quartet
+			parsedMelodies.stream().flatMap(m -> m.getNotes().stream()).forEach(n -> n.setPitch(n.getPitch() + 24));// for miroslav string quartet
+			Collections.sort(parsedMelodies);
 			playOnKontakt(parsedMelodies, midiInfo.getTempo());
 			Score score = scoreUtilities.createScoreFromMelodyInstrument(parsedMelodies, midiInfo.getTempo());
 			score.setTitle(midiFile.getName());
