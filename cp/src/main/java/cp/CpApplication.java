@@ -122,7 +122,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(threeVoiceComposition::accFixedRhythm);
 //		composeInGenres.add(threeVoiceComposition::operatorTplusAcc);
 //		composeInGenres.add(threeVoiceComposition::operatorT);
-//		threeVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);//TODO
+//		threeVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
 //		threeVoiceComposition.setHarmonizeVoice(2);
 //		composeInGenres.add(threeVoiceComposition::harmonize);
 //		composeInGenres.add(threeVoiceComposition::halfTimeHomophonicRhythm);
@@ -130,8 +130,9 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(threeVoiceComposition::accDuplicateRhythm);
 //		composeInGenres.add(threeVoiceComposition::allRandom);
 
-		composeInGenres.add(fourVoiceComposition::canon);
-		
+//		composeInGenres.add(fourVoiceComposition::canon);
+		composeInGenres.add(fourVoiceComposition::accDuplicateRhythm);
+
 		for (CompositionGenre compositionGenre : composeInGenres) {
 			composeInGenre.setCompositionGenre(compositionGenre);
 			List<MelodyBlock> melodyBlocks = composeInGenre.composeInGenre();
@@ -197,6 +198,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 
 	private static void deleteFiles(String path){
 		final Resource resource = new FileSystemResource(path);
+
         try {
             final File dir = resource.getFile();
             for (File file : dir.listFiles()) {

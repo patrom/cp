@@ -92,4 +92,8 @@ public class Pleasant extends OrchestralQuality{
 		return getBasicInstrument(InstrumentName.BASS.getName());
 	}
 
+	public Instrument getPiano(){
+		return getBasicInstrument(InstrumentName.PIANO.getName());
+	}
+
 }

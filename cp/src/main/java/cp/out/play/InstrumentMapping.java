@@ -1,6 +1,10 @@
 package cp.out.play;
 
 import cp.out.instrument.Instrument;
+import cp.out.orchestration.quality.OrchestralQuality;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by prombouts on 4/11/2016.
@@ -8,13 +12,23 @@ import cp.out.instrument.Instrument;
 public class InstrumentMapping implements Comparable<InstrumentMapping>{
 
     private Instrument instrument;
-    private int channel;
-    private int scoreOrder;
+    private int channel;//playback channel on Kontakt/Vienna (+1)
+    private int scoreOrder;//order on page layout: 0 is top, ...
+    private OrchestralQuality orchestralQuality;
+    private List<InstrumentMapping> dependantInstruments = new ArrayList<>();
 
     public InstrumentMapping(Instrument instrument, int channel, int scoreOrder) {
         this.instrument = instrument;
-        this.channel = channel;
+        this.channel = channel - 1;
         this.scoreOrder = scoreOrder;
+    }
+
+    public void addDependantInstrument(InstrumentMapping instrumentMapping){
+        dependantInstruments.add(instrumentMapping);
+    }
+
+    public List<InstrumentMapping> getDependantInstruments() {
+        return dependantInstruments;
     }
 
     public Instrument getInstrument() {
@@ -27,6 +41,14 @@ public class InstrumentMapping implements Comparable<InstrumentMapping>{
 
     public int getScoreOrder() {
         return scoreOrder;
+    }
+
+    public OrchestralQuality getOrchestralQuality() {
+        return orchestralQuality;
+    }
+
+    public void setOrchestralQuality(OrchestralQuality orchestralQuality) {
+        this.orchestralQuality = orchestralQuality;
     }
 
     @Override

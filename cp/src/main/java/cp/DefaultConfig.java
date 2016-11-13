@@ -20,7 +20,7 @@ public class DefaultConfig {
 		probabilityParamters.put("probabilityOneNote", 0.9);
 		probabilityParamters.put("probabilityArticulation", 0.0);
 		probabilityParamters.put("probabilityReplaceMelody", 1.0);
-		probabilityParamters.put("probabilityCopyMelody", 0.0);
+		probabilityParamters.put("probabilityCopyMelody", 1.0);
 		return probabilityParamters;
 	}
 	

@@ -15,8 +15,6 @@ import static java.util.stream.Collectors.toList;
 
 public class Instrument {
 
-//	protected int lowest;
-//	protected int highest;
 	protected KeySwitch keySwitch;
 	protected GeneralMidi generalMidi;
 	//musicXML properties
@@ -199,6 +197,7 @@ public class Instrument {
 	public void setClef(String clef) {
 		this.clef = clef;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -230,15 +229,6 @@ public class Instrument {
 			return false;
 		return true;
 	}
-//	@Override
-//	public int compareTo(Instrument instrument) {
-//		if (this.voice < instrument.getVoice()) {
-//			return -1;
-//		}else if (this.voice > instrument.getVoice()){
-//			return 1;
-//		}
-//		return 0;
-//	}
 
 	public InstrumentRegister getInstrumentRegister() {
 		return instrumentRegister;

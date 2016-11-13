@@ -19,8 +19,8 @@ public class Time58 extends TimeConfig{
 	@Override
 	public void init() {
 		super.init();
-		BeatGroup defaultGroupUneven = beatGroupFactory.getBeatGroupUneven(6, "fixed");
-		BeatGroup defaultGroupEven = beatGroupFactory.getBeatGroupEven(6, "");
+		BeatGroup defaultGroupUneven = beatGroupFactory.getBeatGroupUneven(DurationConstants.EIGHT, "fixed");
+		BeatGroup defaultGroupEven = beatGroupFactory.getBeatGroupEven(DurationConstants.EIGHT, "fixed");
 		beats.add(defaultGroupEven); // 2 + 3
 		beats.add(defaultGroupUneven);
 		beatsDoubleLength.add(defaultGroupEven);

@@ -24,7 +24,6 @@ public class Mellow extends OrchestralQuality{
 		type = "basic";
 		instruments = Stream.of(
 				new FrenchHorn(new InstrumentRegister(41, 55)),
-//				new Piano(new InstrumentRegister(28, 55)),
 				new ViolinsI(new InstrumentRegister(55, 67)),
 				new Viola(new InstrumentRegister(48, 60)),
 				new Cello(new InstrumentRegister(36, 49)),

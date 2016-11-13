@@ -111,7 +111,7 @@ public abstract class Composition {
 	private Ensemble ensemble;
 	
 	protected final int start = 0;
-	protected final int end = 4 * DurationConstants.WHOLE;
+	protected final int end = 5 * DurationConstants.WHOLE;
 	
 	private TimeConfig timeConfig;
 	
@@ -144,8 +144,8 @@ public abstract class Composition {
 
 	@PostConstruct
 	public void init(){
-		composeInKey(C);
-		inTempo(90);
+		composeInKey(Eflat);
+		inTempo(100);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
 		meterObjective.setComposition(this);
@@ -160,10 +160,10 @@ public abstract class Composition {
 
 		setTimeconfig();
 		List<TimeLineKey> keys = new ArrayList<>();
-		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, DurationConstants.WHOLE));
-		keys.add(new TimeLineKey(D, Scale.HARMONIC_MINOR_SCALE, DurationConstants.WHOLE, 2 * DurationConstants.WHOLE));
-		keys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 2 * DurationConstants.WHOLE, 3 * DurationConstants.WHOLE));
-		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 3 * DurationConstants.WHOLE, end));
+		keys.add(new TimeLineKey(C, Scale.HARMONIC_MINOR_SCALE, start, 2 * DurationConstants.WHOLE));
+		keys.add(new TimeLineKey(Eflat, Scale.MAJOR_SCALE, 1 * DurationConstants.WHOLE, 3 * DurationConstants.WHOLE));
+		keys.add(new TimeLineKey(G, Scale.HARMONIC_MINOR_SCALE, 3 * DurationConstants.WHOLE, end));
+//		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 3 * DurationConstants.WHOLE, end));
 //		keys.add(new TimeLineKey(C, clarinet.filterScale(Scale.HARMONIC_MINOR_SCALE), 48, 192));//match length
 //		keys.add(new TimeLineKey(A, Scale.HARMONIC_MINOR_SCALE, 48, 96));
 //		keys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 96, 144));
