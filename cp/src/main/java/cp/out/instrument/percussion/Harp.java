@@ -3,6 +3,7 @@ package cp.out.instrument.percussion;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.orchestration.InstrumentName;
 
 public class Harp extends Instrument {
 
@@ -17,7 +18,7 @@ public class Harp extends Instrument {
 		setHighest(103);
 //		setGeneralMidi(GeneralMidi.CELLO);
 		
-		setInstrumentName("Harp");
+		setInstrumentName(InstrumentName.HARP.toString());
 		setInstrumentSound("pluck.harp");
 		setVirtualName("Harp");
 	}

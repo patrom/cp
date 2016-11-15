@@ -1,10 +1,13 @@
 package cp.out.play;
 
+import cp.model.note.Note;
 import cp.out.instrument.Instrument;
 import cp.out.orchestration.quality.OrchestralQuality;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by prombouts on 4/11/2016.
@@ -32,6 +35,9 @@ public class InstrumentMapping implements Comparable<InstrumentMapping>{
     }
 
     public Instrument getInstrument() {
+        if(orchestralQuality != null){
+            return orchestralQuality.getBasicInstrument(instrument.getInstrumentName());
+        }
         return instrument;
     }
 
@@ -68,7 +74,6 @@ public class InstrumentMapping implements Comparable<InstrumentMapping>{
 
         InstrumentMapping that = (InstrumentMapping) o;
 
-        if (getChannel() != that.getChannel()) return false;
         if (getScoreOrder() != that.getScoreOrder()) return false;
         return getInstrument() != null ? getInstrument().equals(that.getInstrument()) : that.getInstrument() == null;
 
@@ -77,8 +82,21 @@ public class InstrumentMapping implements Comparable<InstrumentMapping>{
     @Override
     public int hashCode() {
         int result = getInstrument() != null ? getInstrument().hashCode() : 0;
-        result = 31 * result + getChannel();
         result = 31 * result + getScoreOrder();
         return result;
+    }
+
+    public List<Note> duplicate(List<Note> notes, int octave) {
+        List<Note> duplicateNotes =  notes.stream()
+                .map(n -> n.clone())
+                .map(n -> {
+                    if(!n.isRest()){
+                        n.transposePitch(octave);
+                    }
+                    return n;
+                })
+                .collect(toList());
+        getInstrument().updateMelodyInRange(duplicateNotes.stream().filter(n -> !n.isRest()).collect(toList()));
+        return duplicateNotes;
     }
 }

@@ -22,13 +22,6 @@ import static cp.model.rhythm.DurationConstants.HALF;
 @Component(value="threeVoiceComposition")
 public class ThreeVoiceComposition extends Composition{
 
-	private final int voice0 = 0;
-	private final int voice1 = 1;
-	private final int voice2 = 2;
-	private Instrument instrument1;
-	private Instrument instrument2;
-	private Instrument instrument3;
-
 	@PostConstruct
 	public void initInstruments(){
 		Assert.isTrue(instrumentConfig.getSize() >= 3);

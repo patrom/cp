@@ -4,6 +4,7 @@ import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.orchestration.InstrumentName;
 
 
 public class Flute extends Instrument {
@@ -15,7 +16,7 @@ public class Flute extends Instrument {
 		setHighest(84);
 		setGeneralMidi(GeneralMidi.FLUTE);
 		
-		setInstrumentName("Flute (2)");
+		setInstrumentName(InstrumentName.FLUTE.toString());
 		setInstrumentSound("wind.flutes.flute");
 		setVirtualName("Flute 1");
 	}

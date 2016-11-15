@@ -3,6 +3,7 @@ package cp.out.instrument.percussion;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.orchestration.InstrumentName;
 
 public class Xylophone  extends Instrument {
 	
@@ -17,7 +18,7 @@ public class Xylophone  extends Instrument {
 		setHighest(108);
 //		setGeneralMidi(GeneralMidi.CELLO);
 		
-		setInstrumentName("Xylophone (2)");
+		setInstrumentName(InstrumentName.XYLOPHONE.toString());
 		setInstrumentSound("pitched-percussion.xylophone");
 		setVirtualName("Xylophone");
 	}

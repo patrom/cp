@@ -21,6 +21,7 @@ import cp.objective.harmony.HarmonicObjective;
 import cp.objective.harmony.HarmonicResolutionObjective;
 import cp.objective.meter.MeterObjective;
 import cp.out.instrument.Ensemble;
+import cp.out.instrument.Instrument;
 import cp.out.orchestration.quality.Brilliant;
 import cp.out.orchestration.quality.Mellow;
 import cp.out.orchestration.quality.Pleasant;
@@ -36,7 +37,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Composition {
-	
+
+	protected int voice0 = 0;
+	protected int voice1 = 1;
+	protected int voice2 = 2;
+	protected int voice3 = 3;
+	protected int voice4 = 4;
+	protected Instrument instrument1;
+	protected Instrument instrument2;
+	protected Instrument instrument3;
+	protected Instrument instrument4;
+	protected Instrument instrument5;
+
+
 	@Autowired
 	protected ReplaceMelody replaceMelody;
 
@@ -49,8 +62,8 @@ public abstract class Composition {
 	protected RandomPitchClasses randomPitchClasses;
 	@Autowired
 	protected PassingPitchClasses passingPitchClasses;
-	
-	@Autowired
+
+    @Autowired
 	private HarmonicResolutionObjective harmonicResolutionObjective;
 	@Autowired
 	private DissonantResolutionImpl dissonantResolutionImpl;
@@ -91,6 +104,8 @@ public abstract class Composition {
 	protected Key Gsharp;
 	@Autowired
 	protected Key A;
+	@Autowired
+	protected Key Aflat;
 	@Autowired
 	protected Key Bflat;
 	@Autowired
@@ -145,7 +160,7 @@ public abstract class Composition {
 	@PostConstruct
 	public void init(){
 		composeInKey(Eflat);
-		inTempo(100);
+		inTempo(75);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
 		meterObjective.setComposition(this);
@@ -161,8 +176,8 @@ public abstract class Composition {
 		setTimeconfig();
 		List<TimeLineKey> keys = new ArrayList<>();
 		keys.add(new TimeLineKey(C, Scale.HARMONIC_MINOR_SCALE, start, 2 * DurationConstants.WHOLE));
-		keys.add(new TimeLineKey(Eflat, Scale.MAJOR_SCALE, 1 * DurationConstants.WHOLE, 3 * DurationConstants.WHOLE));
-		keys.add(new TimeLineKey(G, Scale.HARMONIC_MINOR_SCALE, 3 * DurationConstants.WHOLE, end));
+		keys.add(new TimeLineKey(Aflat, Scale.MAJOR_SCALE, 2 * DurationConstants.WHOLE, 3 * DurationConstants.WHOLE));
+		keys.add(new TimeLineKey(F, Scale.HARMONIC_MINOR_SCALE, 3 * DurationConstants.WHOLE, end));
 //		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 3 * DurationConstants.WHOLE, end));
 //		keys.add(new TimeLineKey(C, clarinet.filterScale(Scale.HARMONIC_MINOR_SCALE), 48, 192));//match length
 //		keys.add(new TimeLineKey(A, Scale.HARMONIC_MINOR_SCALE, 48, 96));

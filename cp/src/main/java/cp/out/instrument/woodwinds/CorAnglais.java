@@ -3,6 +3,7 @@ package cp.out.instrument.woodwinds;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.orchestration.InstrumentName;
 
 public class CorAnglais extends Instrument{
 
@@ -13,7 +14,7 @@ public class CorAnglais extends Instrument{
 		setHighest(84);
 //		setGeneralMidi(GeneralMidi.FLUTE);
 		
-		setInstrumentName("Cor Anglais");
+		setInstrumentName(InstrumentName.COR_ANGLAIS.toString());
 		setInstrumentSound("wind.reed.english-horn");
 		setVirtualName("English Horn");
 	}

@@ -3,6 +3,7 @@ package cp.out.instrument.woodwinds;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.orchestration.InstrumentName;
 
 public class ClarinetEFlat extends Instrument {
 
@@ -13,7 +14,7 @@ public class ClarinetEFlat extends Instrument {
 		setHighest(95);
 //		setGeneralMidi(GeneralMidi.CLARINET);
 		
-		setInstrumentName("Clarinet in E^b");
+		setInstrumentName(InstrumentName.SMALL_CLARINET.toString());
 		setInstrumentSound("wind.reed.clarinet");
 		setVirtualName("Clarinet Bb 1");
 	}

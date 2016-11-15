@@ -3,6 +3,7 @@ package cp.out.instrument.percussion;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.orchestration.InstrumentName;
 
 public class Timpani extends Instrument {
 
@@ -17,7 +18,7 @@ public class Timpani extends Instrument {
 		setHighest(53);
 //		setGeneralMidi(GeneralMidi.CELLO);
 		
-		setInstrumentName("Timpani");
+		setInstrumentName(InstrumentName.TIMPANI.toString());
 		setInstrumentSound("drum.timpani");
 		setVirtualName("Timpani hit");
 	}

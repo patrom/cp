@@ -3,6 +3,7 @@ package cp.out.instrument.woodwinds;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.orchestration.InstrumentName;
 
 public class AltoFlute extends Instrument{
 
@@ -13,7 +14,7 @@ public class AltoFlute extends Instrument{
 		setHighest(91);
 //		setGeneralMidi(GeneralMidi.FLUTE);
 		
-		setInstrumentName("Alto Flute");
+		setInstrumentName(InstrumentName.ALTO_FLUTE.toString());
 		setInstrumentSound("wind.flutes.flute.alto");
 		setVirtualName("Alto Flute");
 	}

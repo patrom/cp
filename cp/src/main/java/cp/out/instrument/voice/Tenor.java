@@ -4,6 +4,7 @@ import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.orchestration.InstrumentName;
 
 public class Tenor extends Instrument {
 
@@ -17,7 +18,7 @@ public class Tenor extends Instrument {
 		setHighest(68);
 		setGeneralMidi(GeneralMidi.CHOIR);
 		
-//		setInstrumentName("Violoncello (2)");
+		setInstrumentName(InstrumentName.TENOR.toString());
 //		setInstrumentSound("strings.cello");
 //		setVirtualName("Celli");
 	}

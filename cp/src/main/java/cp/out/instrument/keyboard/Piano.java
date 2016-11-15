@@ -4,6 +4,7 @@ import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.orchestration.InstrumentName;
 
 public class Piano extends Instrument {
 
@@ -23,7 +24,7 @@ public class Piano extends Instrument {
 		setHighest(92);//105
 		setGeneralMidi(GeneralMidi.PIANO);
 		
-		setInstrumentName("Piano (2)");
+		setInstrumentName(InstrumentName.PIANO.toString());
 		setInstrumentSound("keyboard.piano.grand");
 		setVirtualName("Concert Grand Piano");
 	}

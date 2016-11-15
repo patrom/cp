@@ -4,6 +4,7 @@ import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.orchestration.InstrumentName;
 
 
 public class FrenchHorn extends Instrument {
@@ -24,7 +25,7 @@ public class FrenchHorn extends Instrument {
 		setHighest(70);
 		setGeneralMidi(GeneralMidi.FRENCH_HORN);
 		
-		setInstrumentName("Horn in F (2)");
+		setInstrumentName(InstrumentName.HORN.toString());
 		setInstrumentSound("brass.french-horn");
 		setVirtualName("Horn");
 	}

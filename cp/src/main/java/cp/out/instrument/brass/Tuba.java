@@ -3,6 +3,7 @@ package cp.out.instrument.brass;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.orchestration.InstrumentName;
 
 public class Tuba extends Instrument {
 
@@ -22,7 +23,7 @@ public class Tuba extends Instrument {
 		setHighest(53);
 //		setGeneralMidi(GeneralMidi.CELLO);
 		
-		setInstrumentName("Tuba");
+		setInstrumentName(InstrumentName.TUBA.toString());
 		setInstrumentSound("brass.tuba");
 		setVirtualName("Tuba Bb");
 		setClef("F");

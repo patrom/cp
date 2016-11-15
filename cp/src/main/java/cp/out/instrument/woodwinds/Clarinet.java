@@ -4,6 +4,7 @@ import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.orchestration.InstrumentName;
 
 
 public class Clarinet extends Instrument {
@@ -15,7 +16,7 @@ public class Clarinet extends Instrument {
 		setHighest(84);
 		setGeneralMidi(GeneralMidi.CLARINET);
 		
-		setInstrumentName("Clarinet in B^b");
+		setInstrumentName(InstrumentName.CLARINET.toString());
 		setInstrumentSound("wind.reed.clarinet");
 		setVirtualName("Clarinet Bb 1");
 	}

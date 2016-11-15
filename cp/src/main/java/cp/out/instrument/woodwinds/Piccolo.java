@@ -3,6 +3,7 @@ package cp.out.instrument.woodwinds;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.orchestration.InstrumentName;
 
 public class Piccolo extends Instrument{
 
@@ -13,7 +14,7 @@ public class Piccolo extends Instrument{
 		setHighest(108);
 //		setGeneralMidi(GeneralMidi.FLUTE);
 		
-		setInstrumentName("Piccolo");
+		setInstrumentName(InstrumentName.PICCOLO.toString());
 		setInstrumentSound("wind.flutes.flute.piccolo");
 		setVirtualName("Piccolo");
 	}

@@ -6,6 +6,10 @@ import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.plucked.Guitar;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.*;
+import cp.out.instrument.voice.Alto;
+import cp.out.instrument.voice.Bass;
+import cp.out.instrument.voice.Soprano;
+import cp.out.instrument.voice.Tenor;
 import cp.out.instrument.woodwinds.*;
 import cp.out.orchestration.InstrumentName;
 import cp.out.orchestration.quality.*;
@@ -39,10 +43,16 @@ public class InstrumentConfig {
     private Warm warm;
 
     private Map<Integer, InstrumentMapping> instruments = new TreeMap<>();
+    private List<InstrumentMapping> allInstrumentMappings = new ArrayList<>();
 
     @PostConstruct
     public void instrumentInit() {
-        instruments = getPianoAndViolin();
+        instruments = getOrchestra();
+        for (InstrumentMapping instrumentMapping : instruments.values()) {
+            allInstrumentMappings.add(instrumentMapping);
+            allInstrumentMappings.addAll(instrumentMapping.getDependantInstruments());
+        }
+        Collections.sort(allInstrumentMappings);
     }
 
     public Map<Integer, InstrumentMapping> getInstruments(){
@@ -67,6 +77,14 @@ public class InstrumentConfig {
         instruments.put(2,new InstrumentMapping(new ViolinSolo(), 3, 1));
         instruments.put(1,new InstrumentMapping(new ViolaSolo(), 2, 2));
         instruments.put(0,new InstrumentMapping(new CelloSolo(), 1, 3));
+        return instruments;
+    }
+
+    private Map<Integer, InstrumentMapping> getSATBChoir(){
+        instruments.put(3,new InstrumentMapping(new Soprano(), 1, 0));
+        instruments.put(2,new InstrumentMapping(new Alto(), 1, 1));
+        instruments.put(1,new InstrumentMapping(new Tenor(), 1, 2));
+        instruments.put(0,new InstrumentMapping(new Bass(), 1, 3));
         return instruments;
     }
 
@@ -144,10 +162,14 @@ public class InstrumentConfig {
         InstrumentMapping cello = new InstrumentMapping(new Cello(), 10, 18);
         InstrumentMapping bass = new InstrumentMapping(new Doublebass(), 11, 19);
 
+        violin1.setOrchestralQuality(rich);
+        flute.setOrchestralQuality(bright);
+        violin1.addDependantInstrument(flute);
         instruments.put(3,violin1);
-        instruments.put(2, violin2);
-        instruments.put(1, viola);
-        instruments.put(0, cello);
+        instruments.put(2,violin2);
+        instruments.put(1,viola);
+        cello.addDependantInstrument(bassoon);
+        instruments.put(0,cello);
         return  instruments;
     }
 
@@ -159,6 +181,10 @@ public class InstrumentConfig {
 
     public InstrumentMapping getInstrumentMappingForVoice(int voice){
         return instruments.get(voice);
+    }
+
+    public InstrumentMapping getInstrumentMapping(int index){
+        return allInstrumentMappings.get(index);
     }
 
     public Instrument getInstrumentForVoice(int voice){

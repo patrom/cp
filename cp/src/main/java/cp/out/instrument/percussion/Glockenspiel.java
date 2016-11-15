@@ -3,6 +3,7 @@ package cp.out.instrument.percussion;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.orchestration.InstrumentName;
 
 public class Glockenspiel extends Instrument {
 
@@ -17,7 +18,7 @@ public class Glockenspiel extends Instrument {
 		setHighest(108);
 //		setGeneralMidi(GeneralMidi.CELLO);
 		
-		setInstrumentName("Glockenspiel (2)");
+		setInstrumentName(InstrumentName.GLOCKENSPIEL.toString());
 		setInstrumentSound("pitched-percussion.glockenspiel");
 		setVirtualName("Glockenspiel");
 	}

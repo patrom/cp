@@ -3,6 +3,7 @@ package cp.out.instrument.brass;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.orchestration.InstrumentName;
 
 public class BassTrombone extends Instrument{
 
@@ -18,7 +19,7 @@ public class BassTrombone extends Instrument{
 		setHighest(65);
 //		setGeneralMidi(GeneralMidi.CELLO);
 		
-		setInstrumentName("Bass Trombone");
+		setInstrumentName(InstrumentName.BASS_TROMBONE.toString());
 		setInstrumentSound("brass.trombone.bass");
 		setVirtualName("Bass Trombone");
 		setClef("F");

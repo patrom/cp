@@ -3,7 +3,6 @@ package cp.composition;
 import cp.model.melody.MelodyBlock;
 import cp.model.melody.Operator;
 import cp.nsga.operator.relation.OperatorRelation;
-import cp.out.instrument.Instrument;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -18,17 +17,6 @@ import java.util.List;
 @Component(value="fourVoiceComposition")
 public class FourVoiceComposition extends  Composition {
 
-    private int voice0 = 0;
-    private int voice1 = 1;
-    private int voice2 = 2;
-    private int voice3 = 3;
-    private int voice4 = 4;
-    private Instrument instrument1;
-    private Instrument instrument2;
-    private Instrument instrument3;
-    private Instrument instrument4;
-    private Instrument instrument5;
-
     @PostConstruct
     public void initInstruments(){
         Assert.isTrue(instrumentConfig.getSize() >= 4);
@@ -36,7 +24,6 @@ public class FourVoiceComposition extends  Composition {
         instrument2 = instrumentConfig.getInstrumentForVoice(voice1);
         instrument3 = instrumentConfig.getInstrumentForVoice(voice2);
         instrument4 = instrumentConfig.getInstrumentForVoice(voice3);
-        instrument5 = instrumentConfig.getInstrumentForVoice(voice4);
     }
 
     public List<MelodyBlock> canon(){
@@ -106,14 +93,10 @@ public class FourVoiceComposition extends  Composition {
         MelodyBlock melodyBlock3 = melodyGenerator.duplicateRhythmMelodyBlock(melodyBlock2, instrument3, voice2);
         melodyBlocks.add(melodyBlock3);
 
-        MelodyBlock melodyBlock4 = melodyGenerator.generateMelodyBlock(voice3, instrument4.pickRandomOctaveFromRange(), getTimeConfig()::getBeatsDoubleLength);
+        //melody
+        MelodyBlock melodyBlock4 = melodyGenerator.generateMelodyBlock(voice3, instrument4.pickRandomOctaveFromRange());
         melodyBlock4.setInstrument(instrument4);
         melodyBlocks.add(melodyBlock4);
-
-        //melody
-        MelodyBlock melodyBlock5 = melodyGenerator.generateMelodyBlock(voice4, instrument5.pickRandomOctaveFromRange());
-        melodyBlock5.setInstrument(instrument5);
-        melodyBlocks.add(melodyBlock5);
 
         return melodyBlocks;
     }

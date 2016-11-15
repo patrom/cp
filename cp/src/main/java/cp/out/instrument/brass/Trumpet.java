@@ -3,6 +3,7 @@ package cp.out.instrument.brass;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.orchestration.InstrumentName;
 
 public class Trumpet extends Instrument {
 	
@@ -18,7 +19,7 @@ public class Trumpet extends Instrument {
 		setHighest(84);
 //		setGeneralMidi(GeneralMidi.CELLO);
 		
-		setInstrumentName("Trumpet in B^b (2)");
+		setInstrumentName(InstrumentName.TRUMPET.toString());
 		setInstrumentSound("brass.trumpet");
 		setVirtualName("Trumpet 1");
 	}

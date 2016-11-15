@@ -91,7 +91,7 @@ public class MidiParser {
 
 //			if (!notes.isEmpty()) {
 				MelodyInstrument melody = new MelodyInstrument(notes, j);
-				InstrumentMapping instrumentMapping = instrumentConfig.getInstrumentMappingForVoice(j);
+				InstrumentMapping instrumentMapping = instrumentConfig.getInstrumentMapping(j);
 				melody.setInstrumentMapping(instrumentMapping);
 				map.put(j, melody);
 //			}
@@ -122,11 +122,7 @@ public class MidiParser {
 		jNote.setDynamicLevel(velocity);
 		return jNote;
 	}
-	
-	/**
-	 * Generates random tempo between 50 - 150 bpm
-	 * @return
-	 */
+
 	public float randomTempoFloat() {
 		float r = random.nextFloat();
 		if (r < 0.5) {
@@ -189,7 +185,7 @@ public class MidiParser {
 					| (abData[2] & 0xFF);           // tempo in microseconds per beat
 			float bpm = convertTempo(nTempo);
 			// truncate it to 2 digits after dot
-			bpm = (float) (Math.round(bpm*100.0f)/100.0f);
+			bpm = (Math.round(bpm*100.0f)/100.0f);
 			midiInfo.setTempo((int) bpm);
 			break;
 		case 0x54:

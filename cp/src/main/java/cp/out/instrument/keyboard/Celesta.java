@@ -3,6 +3,7 @@ package cp.out.instrument.keyboard;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.orchestration.InstrumentName;
 
 public class Celesta extends Instrument {
 
@@ -17,7 +18,7 @@ public class Celesta extends Instrument {
 		setHighest(108);
 //		setGeneralMidi(GeneralMidi.CELLO);
 		
-		setInstrumentName("Celesta");
+		setInstrumentName(InstrumentName.CELESTA.toString());
 		setInstrumentSound("keyboard.celesta");
 		setVirtualName("Celesta");
 	}

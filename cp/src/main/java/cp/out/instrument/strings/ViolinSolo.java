@@ -3,6 +3,7 @@ package cp.out.instrument.strings;
 import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
+import cp.out.orchestration.InstrumentName;
 
 
 public class ViolinSolo extends Instrument {
@@ -14,7 +15,7 @@ public class ViolinSolo extends Instrument {
 		setHighest(84);
 		setGeneralMidi(GeneralMidi.VIOLIN);
 		
-		setInstrumentName("Violin");
+		setInstrumentName(InstrumentName.VIOLA_SOLO.toString());
 		setInstrumentSound("strings.violin");
 		setVirtualName("Violin 1 solo");
 	}

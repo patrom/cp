@@ -163,7 +163,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 					String id = dateID + "_" + CpApplication.COUNTER.getAndIncrement();
 					LOGGER.info(id);
 					display.view(solutionMotive, id);
-//					orchestrator.orchestrate(solutionMotive.getMelodyBlocks(), id);
+					orchestrator.orchestrate(solutionMotive.getMelodyBlocks(), id);
 					i++;
 				}
 			   

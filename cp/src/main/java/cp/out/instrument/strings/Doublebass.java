@@ -4,6 +4,7 @@ import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.orchestration.InstrumentName;
 
 public class Doublebass extends Instrument {
 
@@ -14,7 +15,7 @@ public class Doublebass extends Instrument {
 		setHighest(67);
 		setGeneralMidi(GeneralMidi.CONTRABASS);
 		
-		setInstrumentName("Contrabass (2)");
+		setInstrumentName(InstrumentName.BASS.toString());
 		setInstrumentSound("strings.Contrabass");
 		setVirtualName("Basses");
 		setClef("F");

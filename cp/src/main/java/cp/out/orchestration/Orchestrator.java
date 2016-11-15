@@ -9,11 +9,13 @@ import cp.combination.uneven.*;
 import cp.generator.MusicProperties;
 import cp.midi.MidiDevicesUtil;
 import cp.model.melody.MelodyBlock;
+import cp.model.note.Note;
 import cp.out.orchestration.notetemplate.TwoNoteTemplate;
 import cp.out.orchestration.orchestra.ClassicalOrchestra;
-import cp.out.orchestration.orchestra.Orchestra;
 import cp.out.orchestration.quality.Brilliant;
 import cp.out.orchestration.quality.Pleasant;
+import cp.out.play.InstrumentConfig;
+import cp.out.play.InstrumentMapping;
 import cp.out.print.MusicXMLWriter;
 import cp.out.print.ScoreUtilities;
 import org.slf4j.Logger;
@@ -28,6 +30,8 @@ import javax.sound.midi.Sequence;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Component
 public class Orchestrator {
@@ -69,7 +73,8 @@ public class Orchestrator {
 	
 	@Autowired
 	private TwoNoteTemplate twoNoteTemplate;
-
+	@Autowired
+	private InstrumentConfig instrumentConfig;
 	
 	@Autowired
 	private Pleasant pleasant;
@@ -86,9 +91,19 @@ public class Orchestrator {
 //				orchestra.setInstrument(orchestra.getClarinet(), instrumentToUpdate, instrumentRegister::updateInQualityRange);
 //			};
 //		}
+		Map<InstrumentMapping, List<Note>> melodiesForInstrument = new TreeMap<>();
+		for (Map.Entry<Integer,InstrumentMapping> entry : instrumentConfig.getInstruments().entrySet()) {
+			MelodyBlock melodyBlock = melodyBlocks.get(entry.getKey());
+			InstrumentMapping instrumentMapping = entry.getValue();
+			melodiesForInstrument.put(instrumentMapping, melodyBlock.getMelodyBlockNotesWithRests());
+			for (InstrumentMapping dependantInstrumentMapping : instrumentMapping.getDependantInstruments()) {
+				List<Note> notes = dependantInstrumentMapping.duplicate(melodyBlock.getMelodyBlockNotesWithRests(), 0);
+				melodiesForInstrument.put(dependantInstrumentMapping, notes);
+			}
+		}
 		
-		orchestra.setFlute(orchestra.duplicate(orchestra.getOboe()));
-		orchestra.setOboe(melodyBlocks.get(0).getMelodyBlockNotesWithRests());
+//		orchestra.setFlute(orchestra.duplicate(orchestra.getOboe()));
+//		orchestra.setOboe(melodyBlocks.get(0).getMelodyBlockNotesWithRests());
 //		orchestra.setClarinet(melodyBlocks.get(1).getMelodyBlockNotesWithRests());
 //		orchestra.setClarinet(orchestra.duplicate(orchestra.getFlute()), pleasant.getInstrument(InstrumentName.CLARINET.getName())::updateInQualityRange);
 //		orchestra.setBassoon(orchestra.duplicate(orchestra.getOboe(), -12));
@@ -110,20 +125,20 @@ public class Orchestrator {
 //		map.put(new Bassoon(8, 3), chordOrchestration.orchestrate(sixNoteSexTuplet::pos123456, 12, C(4), E(4)));
 //		orchestra.setOboe(chordOrchestration.orchestrate(new int[]{0,4},twoNoteTemplate::note011Repetition,threeNoteUneven::pos123, 12, twoNoteUneven::pos13, 12, Articulation.STACCATO));
 //		map.put(new Trumpet(9, 4), chordOrchestration.orchestrate(new int[]{4,0},twoNoteTemplate::note01,twoNoteEven::pos13, 12));
-		generateMusicXml(id, orchestra);
-		writeMidi(id, orchestra);
+		generateMusicXml(id, melodiesForInstrument);
+		writeMidi(id, melodiesForInstrument);
 	}
 	
-	private void generateMusicXml(String id, Orchestra orchestra) throws Exception{
+	private void generateMusicXml(String id, Map<InstrumentMapping, List<Note>> orchestra) throws Exception{
 		Resource resource = new FileSystemResource("");
-		String path = resource.getFile().getPath() + "src/main/resources/test/";
-		musicXMLWriter.createXML(new FileOutputStream(path  + id + ".xml"), orchestra.getOrchestra());
+		String path = resource.getFile().getPath() + "cp/src/main/resources/xml/";
+		musicXMLWriter.createXML(new FileOutputStream(path  + id + ".xml"), orchestra);
 	}
 
-	private void writeMidi(String id, Orchestra orchestra) throws InvalidMidiDataException, IOException {
-			Sequence sequence = midiDevicesUtil.createSequence(orchestra.getOrchestra(), musicProperties.getTempo());
+	private void writeMidi(String id, Map<InstrumentMapping, List<Note>> orchestra) throws InvalidMidiDataException, IOException {
+			Sequence sequence = midiDevicesUtil.createSequence(orchestra, musicProperties.getTempo());
 			Resource resource = new FileSystemResource("");
-			midiDevicesUtil.write(sequence, resource.getFile().getPath()+ "src/main/resources/orch/" + id + ".mid");
+			midiDevicesUtil.write(sequence, resource.getFile().getPath()+ "cp/src/main/resources/orch/" + id + ".mid");
 	}
 	
 }

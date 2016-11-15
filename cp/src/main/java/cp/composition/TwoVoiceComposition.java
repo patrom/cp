@@ -5,7 +5,6 @@ import cp.model.melody.Operator;
 import cp.model.rhythm.DurationConstants;
 import cp.nsga.operator.relation.CopyRangeRelation;
 import cp.nsga.operator.relation.OperatorRelation;
-import cp.out.instrument.Instrument;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -14,11 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 @Component(value="twoVoiceComposition")
 public class TwoVoiceComposition extends Composition{
-
-	private final int voice0 = 0;
-	private final int voice1 = 1;
-	private Instrument instrument1;
-	private Instrument instrument2;
 
 	@PostConstruct
 	public void initInstruments(){

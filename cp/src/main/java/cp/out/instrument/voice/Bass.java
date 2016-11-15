@@ -4,6 +4,7 @@ import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.orchestration.InstrumentName;
 
 public class Bass extends Instrument {
 
@@ -17,7 +18,7 @@ public class Bass extends Instrument {
 		setHighest(58);
 		setGeneralMidi(GeneralMidi.CHOIR);
 		
-//		setInstrumentName("Violoncello (2)");
+		setInstrumentName(InstrumentName.BASS.toString());
 //		setInstrumentSound("strings.cello");
 //		setVirtualName("Celli");
 	}

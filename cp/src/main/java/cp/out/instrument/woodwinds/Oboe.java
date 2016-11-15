@@ -4,6 +4,7 @@ import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.orchestration.InstrumentName;
 
 
 public class Oboe extends Instrument {
@@ -19,7 +20,7 @@ public class Oboe extends Instrument {
 		setHighest(84);
 		setGeneralMidi(GeneralMidi.OBOE);
 		
-		setInstrumentName("Oboe");
+		setInstrumentName(InstrumentName.OBOE.toString());
 		setInstrumentSound("wind.reed.oboe");
 		setVirtualName("Oboe 1");
 	}

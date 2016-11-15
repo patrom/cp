@@ -4,6 +4,7 @@ import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.orchestration.InstrumentName;
 
 public class Soprano extends Instrument {
 
@@ -17,9 +18,9 @@ public class Soprano extends Instrument {
 		setHighest(79);
 		setGeneralMidi(GeneralMidi.CHOIR);
 		
-//		setInstrumentName("Violoncello (2)");
-//		setInstrumentSound("strings.cello");
-//		setVirtualName("Celli");
+		setInstrumentName(InstrumentName.SOPRANO.toString());
+		setInstrumentSound("strings.cello");
+		setVirtualName("Celli");
 	}
 
 	public Soprano(InstrumentRegister instrumentRegister) {

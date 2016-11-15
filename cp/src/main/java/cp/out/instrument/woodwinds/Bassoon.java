@@ -4,6 +4,7 @@ import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.orchestration.InstrumentName;
 
 
 public class Bassoon extends Instrument {
@@ -15,7 +16,7 @@ public class Bassoon extends Instrument {
 		setHighest(70);
 		setGeneralMidi(GeneralMidi.BASSOON);
 		
-		setInstrumentName("Bassoon");
+		setInstrumentName(InstrumentName.BASSOON.toString());
 		setInstrumentSound("wind.reed.bassoon");
 		setVirtualName("Bassoon 1");
 		setClef("F");

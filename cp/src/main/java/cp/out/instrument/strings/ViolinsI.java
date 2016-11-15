@@ -4,6 +4,7 @@ import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.orchestration.InstrumentName;
 
 public class ViolinsI extends Instrument {
 
@@ -18,7 +19,7 @@ public class ViolinsI extends Instrument {
 		setHighest(84);
 		setGeneralMidi(GeneralMidi.VIOLIN);
 		
-		setInstrumentName("Violin I");
+		setInstrumentName(InstrumentName.VIOLIN_I.toString());
 		setInstrumentSound("strings.violin");
 		setVirtualName("Violins");
 	}
