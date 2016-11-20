@@ -14,7 +14,7 @@ public class Piccolo extends Instrument{
 		setHighest(108);
 //		setGeneralMidi(GeneralMidi.FLUTE);
 		
-		setInstrumentName(InstrumentName.PICCOLO.toString());
+		setInstrumentName(InstrumentName.PICCOLO.getName());
 		setInstrumentSound("wind.flutes.flute.piccolo");
 		setVirtualName("Piccolo");
 	}

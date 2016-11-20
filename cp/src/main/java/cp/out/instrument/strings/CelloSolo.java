@@ -15,7 +15,7 @@ public class CelloSolo extends Instrument {
 		setHighest(70);
 		setGeneralMidi(GeneralMidi.CELLO);
 
-		setInstrumentName(InstrumentName.CELLO_SOLO.toString());
+		setInstrumentName(InstrumentName.CELLO_SOLO.getName());
 		setInstrumentSound("strings.cello");
 		setVirtualName("Cello 1 solo");
 		setClef("F");

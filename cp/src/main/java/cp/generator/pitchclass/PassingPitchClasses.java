@@ -4,6 +4,8 @@ import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.note.Note;
 import cp.util.RandomUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,11 +15,14 @@ import static java.util.stream.Collectors.toList;
 
 @Component
 public class PassingPitchClasses{
+
+	private static Logger LOGGER = LoggerFactory.getLogger(PassingPitchClasses.class);
 	
 	@Autowired
 	private TimeLine timeLine;
 
 	public List<Note> updatePitchClasses(List<Note> notes) {
+		LOGGER.debug("PassingPitchClasses");
 		List<Note> melodyNotes = notes.stream().filter(n -> !n.isRest()).collect(toList());
 		Note firstNote = melodyNotes.get(0);
 		TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(firstNote.getPosition(), firstNote.getVoice());

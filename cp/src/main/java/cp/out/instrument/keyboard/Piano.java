@@ -24,7 +24,7 @@ public class Piano extends Instrument {
 		setHighest(92);//105
 		setGeneralMidi(GeneralMidi.PIANO);
 		
-		setInstrumentName(InstrumentName.PIANO.toString());
+		setInstrumentName(InstrumentName.PIANO.getName());
 		setInstrumentSound("keyboard.piano.grand");
 		setVirtualName("Concert Grand Piano");
 	}

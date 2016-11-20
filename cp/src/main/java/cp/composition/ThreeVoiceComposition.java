@@ -9,7 +9,6 @@ import cp.nsga.operator.relation.OperatorRelation;
 import cp.out.instrument.Instrument;
 import cp.out.play.InstrumentMapping;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -24,10 +23,11 @@ public class ThreeVoiceComposition extends Composition{
 
 	@PostConstruct
 	public void initInstruments(){
-		Assert.isTrue(instrumentConfig.getSize() >= 3);
-		instrument1 = instrumentConfig.getInstrumentForVoice(voice0);
-		instrument2 = instrumentConfig.getInstrumentForVoice(voice1);
-		instrument3 = instrumentConfig.getInstrumentForVoice(voice2);
+		if(instrumentConfig.getSize() >= 3){
+			instrument1 = instrumentConfig.getInstrumentForVoice(voice0);
+			instrument2 = instrumentConfig.getInstrumentForVoice(voice1);
+			instrument3 = instrumentConfig.getInstrumentForVoice(voice2);
+		}
 	}
 
 	public List<MelodyBlock> canon2Voice1Acc(){
@@ -133,10 +133,9 @@ public class ThreeVoiceComposition extends Composition{
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
 		//harmonization
 		List<Note> notes = harmonizeMelody.getNotesToHarmonize();
-		notes.forEach(n -> System.out.println(n.getPitchClass()));
 		InstrumentMapping instrumentHarmonize = instrumentConfig.getInstrumentMappingForVoice(harmonizeVoice);
 		CpMelody melody = new CpMelody(notes, harmonizeVoice, start, end);
-		MelodyBlock melodyBlockHarmonize = new MelodyBlock(0, harmonizeVoice);
+		MelodyBlock melodyBlockHarmonize = new MelodyBlock(instrumentHarmonize.getInstrument().pickRandomOctaveFromRange(), harmonizeVoice);
 		melodyBlockHarmonize.addMelodyBlock(melody);
 		melodyBlockHarmonize.setTimeConfig(getTimeConfig());
 		melodyBlockHarmonize.setMutable(false);
@@ -222,21 +221,21 @@ public class ThreeVoiceComposition extends Composition{
 	
 	/**
 	 * Voice 0: bass halftime
-	 * Voice 1: melody rhythm duplicate
+	 * Voice 1: rhythm bass duplicate
 	 * Voice 2: melody 
 	 * @return melodies
 	 */
 	public List<MelodyBlock> accDuplicateRhythm(){
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(voice0, instrument1.pickRandomOctaveFromRange(), getTimeConfig()::getBeatsDoubleLength);
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(voice0, instrument1.pickRandomOctaveFromRange(), getTimeConfig()::getHomophonicBeatGroup);
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);
 
-		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlock(voice1, instrument2.pickRandomOctaveFromRange());
-		melodyBlock2.setInstrument(instrument2);
+		MelodyBlock melodyBlock2 = melodyGenerator.duplicateRhythmMelodyBlock(melodyBlock, instrument2, voice1);
 		melodyBlocks.add(melodyBlock2);
 
-		MelodyBlock melodyBlock3 = melodyGenerator.duplicateRhythmMelodyBlock(melodyBlock2, instrument3, voice2);
+		MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlock(voice2, instrument3.pickRandomOctaveFromRange());
+		melodyBlock3.setInstrument(instrument2);
 		melodyBlocks.add(melodyBlock3);
 
 		return melodyBlocks;

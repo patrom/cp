@@ -15,7 +15,7 @@ public class DoublebassSolo extends Instrument {
 		setHighest(67);
 		setGeneralMidi(GeneralMidi.CONTRABASS);
 		
-		setInstrumentName(InstrumentName.CONTRABASS_SOLO.toString());
+		setInstrumentName(InstrumentName.CONTRABASS_SOLO.getName());
 		setInstrumentSound("strings.Contrabass");
 		setVirtualName("Bass 1 solo");
 		setClef("F");

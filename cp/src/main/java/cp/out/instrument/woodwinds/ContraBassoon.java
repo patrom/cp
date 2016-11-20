@@ -14,7 +14,7 @@ public class ContraBassoon extends Instrument{
 		setHighest(54);
 //		setGeneralMidi(GeneralMidi.BASSOON);
 		
-		setInstrumentName(InstrumentName.CONTRABASSOON.toString());
+		setInstrumentName(InstrumentName.CONTRABASSOON.getName());
 		setInstrumentSound("wind.reed.contrabassoon");
 		setVirtualName("Contra Bassoon");
 		setClef("F");

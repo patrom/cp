@@ -20,7 +20,7 @@ public class Oboe extends Instrument {
 		setHighest(84);
 		setGeneralMidi(GeneralMidi.OBOE);
 		
-		setInstrumentName(InstrumentName.OBOE.toString());
+		setInstrumentName(InstrumentName.OBOE.getName());
 		setInstrumentSound("wind.reed.oboe");
 		setVirtualName("Oboe 1");
 	}

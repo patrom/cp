@@ -75,8 +75,8 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 	}
 	
 	public void playMidiFilesOnKontaktFor() throws Exception {
-		final Resource resource = new FileSystemResource("cp/src/main/resources/orch");
-//		final Resource resource = new FileSystemResource("cp/src/main/resources/midi");
+//		final Resource resource = new FileSystemResource("cp/src/main/resources/orch");
+		final Resource resource = new FileSystemResource("cp/src/main/resources/midi");
 		File dir = resource.getFile();
 		for (File midiFile : dir.listFiles()) {
 			LOGGER.info(midiFile.getName());
@@ -107,17 +107,19 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 //			arrangement.transpose(melodies.get(1).getNotes(), -12);
 			
 //			embellish(melodies);
-			parsedMelodies.stream().filter(m -> m.getVoice() == 4).flatMap(m -> m.getNotes().stream()).forEach(n -> n.setPitch(n.getPitch() + 12));// for miroslav string quartet
-//			parsedMelodies.stream().flatMap(m -> m.getNotes().stream()).forEach(n -> n.setPitch(n.getPitch() + 12));// for miroslav string quartet
+
 			Collections.sort(parsedMelodies);
 			Collections.reverse(parsedMelodies);
-			playOnKontakt(parsedMelodies, midiInfo.getTempo());
 			Score score = scoreUtilities.createScoreFromMelodyInstrument(parsedMelodies, midiInfo.getTempo());
 			score.setTitle(midiFile.getName());
 			View.notate(score);
+			//			parsedMelodies.stream().filter(m -> m.getVoice() == 4).flatMap(m -> m.getNotes().stream()).forEach(n -> n.setPitch(n.getPitch() + 12));// for miroslav string quartet
+//			parsedMelodies.stream().flatMap(m -> m.getNotes().stream()).forEach(n -> n.setPitch(n.getPitch() + 12));// for miroslav string quartet
+			playOnKontakt(parsedMelodies, midiInfo.getTempo());
+
 //			write(parsedMelodies , "resources/transform/" + midiFile.getName(), midiInfo.getTempo());
 //			generateMusicXml(parsedMelodies, midiFile.getName());
-			Thread.sleep(18000);
+			Thread.sleep(35000);
 		}
 	}
 

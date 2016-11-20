@@ -19,7 +19,7 @@ public class Trombone extends Instrument {
 		setHighest(71);
 //		setGeneralMidi(GeneralMidi.t);
 		
-		setInstrumentName(InstrumentName.TROMBONE.toString());
+		setInstrumentName(InstrumentName.TROMBONE.getName());
 		setInstrumentSound("brass.trombone.tenor");
 		setVirtualName("Trombone");
 	}

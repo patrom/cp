@@ -19,7 +19,7 @@ public class BassTrombone extends Instrument{
 		setHighest(65);
 //		setGeneralMidi(GeneralMidi.CELLO);
 		
-		setInstrumentName(InstrumentName.BASS_TROMBONE.toString());
+		setInstrumentName(InstrumentName.BASS_TROMBONE.getName());
 		setInstrumentSound("brass.trombone.bass");
 		setVirtualName("Bass Trombone");
 		setClef("F");

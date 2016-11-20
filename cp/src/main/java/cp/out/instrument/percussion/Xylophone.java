@@ -18,7 +18,7 @@ public class Xylophone  extends Instrument {
 		setHighest(108);
 //		setGeneralMidi(GeneralMidi.CELLO);
 		
-		setInstrumentName(InstrumentName.XYLOPHONE.toString());
+		setInstrumentName(InstrumentName.XYLOPHONE.getName());
 		setInstrumentSound("pitched-percussion.xylophone");
 		setVirtualName("Xylophone");
 	}

@@ -111,7 +111,7 @@ public class VoiceLeadingTest extends AbstractTest {
 	}
 	
 	@Test
-	public void testAllChordsVoiceLeading(){
+	public void testAllTrichordalVoiceLeading(){
 		java.util.Set<VoiceLeadingSize> voiceLeadingSizes = new TreeSet<>();
 		TnTnIType type = new TnTnIType();
 		type.initPrime3();
@@ -144,5 +144,123 @@ public class VoiceLeadingTest extends AbstractTest {
 		Multiset<Integer> targetSet = target.getChord().getPitchClassMultiSet();
 		return VoiceLeading.caculateSize(sourceSet, targetSet);
 	}
+
+	@Test
+	public void testAllTetrachordalVoiceLeading(){
+		java.util.Set<VoiceLeadingSize> voiceLeadingSizes = new TreeSet<>();
+		TnTnIType type = new TnTnIType();
+		type.initPrime4();
+		Set[] set = type.prime4;
+		for (int i = 0; i < set.length; i++) {
+			for (int j = 0; j < set.length; j++) {
+				CpHarmony source = chordGenerator.generateChord(set[i].name);
+				CpHarmony target = chordGenerator.generateChord(set[j].name);
+				for (int pcLoop = 0; pcLoop < 11; pcLoop++) {
+					target.transpose(1);
+					VoiceLeadingSize voiceLeadingSize = getVoiceLeading(source, target);
+					if (voiceLeadingSize.getSize() <= 3) {
+						voiceLeadingSize.setSourceForteName(set[i].name);
+						voiceLeadingSize.setTargetForteName(set[j].name);
+						voiceLeadingSizes.add(voiceLeadingSize);
+					}
+				}
+			}
+		}
+
+		for (VoiceLeadingSize voiceLeadingSize : voiceLeadingSizes) {
+			print(voiceLeadingSize);
+		}
+	}
+
+	@Test
+	public void testAllTetrachordalWithTrichordalVoiceLeading() {
+		java.util.Set<VoiceLeadingSize> voiceLeadingSizes = new TreeSet<>();
+		TnTnIType type3 = new TnTnIType();
+		type3.initPrime3();
+		Set[] set3 = type3.prime3;
+		TnTnIType type4 = new TnTnIType();
+		type4.initPrime4();
+		Set[] set4 = type4.prime4;
+		for (int i = 0; i < set3.length; i++) {
+			for (int j = 0; j < set4.length; j++) {
+				CpHarmony source = chordGenerator.generateChord(set3[i].name);
+				CpHarmony target = chordGenerator.generateChord(set4[j].name);
+				for (int pcLoop = 0; pcLoop < 11; pcLoop++) {
+					target.transpose(1);
+					VoiceLeadingSize voiceLeadingSize = getVoiceLeading(source, target);
+					if (voiceLeadingSize.getSize() <= 3) {
+						voiceLeadingSize.setSourceForteName(set3[i].name);
+						voiceLeadingSize.setTargetForteName(set4[j].name);
+						voiceLeadingSizes.add(voiceLeadingSize);
+					}
+				}
+			}
+		}
+
+		for (VoiceLeadingSize voiceLeadingSize : voiceLeadingSizes) {
+			print(voiceLeadingSize);
+		}
+	}
+
+	@Test
+	public void testAllPentachordalWithTrichordalVoiceLeading() {
+		java.util.Set<VoiceLeadingSize> voiceLeadingSizes = new TreeSet<>();
+		TnTnIType type3 = new TnTnIType();
+		type3.initPrime3();
+		Set[] set3 = type3.prime3;
+		TnTnIType type5 = new TnTnIType();
+		type5.initPrime5();
+		Set[] set5 = type5.prime5;
+		for (int i = 0; i < set3.length; i++) {
+			for (int j = 0; j < set5.length; j++) {
+				CpHarmony source = chordGenerator.generateChord(set3[i].name);
+				CpHarmony target = chordGenerator.generateChord(set5[j].name);
+				for (int pcLoop = 0; pcLoop < 11; pcLoop++) {
+					target.transpose(1);
+					VoiceLeadingSize voiceLeadingSize = getVoiceLeading(source, target);
+					if (voiceLeadingSize.getSize() <= 3) {
+						voiceLeadingSize.setSourceForteName(set3[i].name);
+						voiceLeadingSize.setTargetForteName(set5[j].name);
+						voiceLeadingSizes.add(voiceLeadingSize);
+					}
+				}
+			}
+		}
+
+		for (VoiceLeadingSize voiceLeadingSize : voiceLeadingSizes) {
+			print(voiceLeadingSize);
+		}
+	}
+
+	@Test
+	public void testAllPentachordalWithTetrachordalVoiceLeading() {
+		java.util.Set<VoiceLeadingSize> voiceLeadingSizes = new TreeSet<>();
+		TnTnIType type4 = new TnTnIType();
+		type4.initPrime4();
+		Set[] set4 = type4.prime4;
+		TnTnIType type5 = new TnTnIType();
+		type5.initPrime5();
+		Set[] set5 = type5.prime5;
+		for (int i = 0; i < set4.length; i++) {
+			for (int j = 0; j < set5.length; j++) {
+				CpHarmony source = chordGenerator.generateChord(set4[i].name);
+				CpHarmony target = chordGenerator.generateChord(set5[j].name);
+				for (int pcLoop = 0; pcLoop < 11; pcLoop++) {
+					target.transpose(1);
+					VoiceLeadingSize voiceLeadingSize = getVoiceLeading(source, target);
+					if (voiceLeadingSize.getSize() <= 3) {
+						voiceLeadingSize.setSourceForteName(set4[i].name);
+						voiceLeadingSize.setTargetForteName(set5[j].name);
+						voiceLeadingSizes.add(voiceLeadingSize);
+					}
+				}
+			}
+		}
+
+		for (VoiceLeadingSize voiceLeadingSize : voiceLeadingSizes) {
+			print(voiceLeadingSize);
+		}
+	}
+
 
 }

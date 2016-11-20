@@ -22,7 +22,8 @@ public class VoiceLeadingObjective extends Objective {
 
 	@Override
 	public double evaluate(Motive motive) {
-		List<CpHarmony> filteredHarmonies = filterHarmonies(motive.getHarmonies());
+//		List<CpHarmony> filteredHarmonies = filterHarmonies(motive.getHarmonies());
+		List<CpHarmony> filteredHarmonies = motive.getHarmonies();
 		double totalSize = 0;
 		int harmoniesSize = filteredHarmonies.size() - 1;
 		for(int i = 0; i < harmoniesSize; i++){

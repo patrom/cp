@@ -18,7 +18,7 @@ public class Glockenspiel extends Instrument {
 		setHighest(108);
 //		setGeneralMidi(GeneralMidi.CELLO);
 		
-		setInstrumentName(InstrumentName.GLOCKENSPIEL.toString());
+		setInstrumentName(InstrumentName.GLOCKENSPIEL.getName());
 		setInstrumentSound("pitched-percussion.glockenspiel");
 		setVirtualName("Glockenspiel");
 	}

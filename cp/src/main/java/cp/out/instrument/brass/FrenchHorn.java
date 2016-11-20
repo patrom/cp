@@ -25,7 +25,7 @@ public class FrenchHorn extends Instrument {
 		setHighest(70);
 		setGeneralMidi(GeneralMidi.FRENCH_HORN);
 		
-		setInstrumentName(InstrumentName.HORN.toString());
+		setInstrumentName(InstrumentName.HORN.getName());
 		setInstrumentSound("brass.french-horn");
 		setVirtualName("Horn");
 	}

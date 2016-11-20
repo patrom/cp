@@ -23,7 +23,7 @@ public class Guitar extends Instrument {
 		setHighest(79);
 		setGeneralMidi(GeneralMidi.NYLON_GUITAR);
 		
-		setInstrumentName(InstrumentName.GUITAR.toString());
+		setInstrumentName(InstrumentName.GUITAR.getName());
 		setInstrumentSound("pluck.guitar.nylon-string");
 		setVirtualName("Nylon Guitar");
 	}

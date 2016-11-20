@@ -14,7 +14,7 @@ public class BassClarinet extends Instrument{
 		setHighest(82);
 //		setGeneralMidi(GeneralMidi.CLARINET);
 		
-		setInstrumentName(InstrumentName.BASS_CLARINET.toString());
+		setInstrumentName(InstrumentName.BASS_CLARINET.getName());
 		setInstrumentSound("wind.reed.clarinet.bass");
 		setVirtualName("Bass Clarinet");
 		setClef("F");

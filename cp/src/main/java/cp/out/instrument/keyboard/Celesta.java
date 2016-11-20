@@ -18,7 +18,7 @@ public class Celesta extends Instrument {
 		setHighest(108);
 //		setGeneralMidi(GeneralMidi.CELLO);
 		
-		setInstrumentName(InstrumentName.CELESTA.toString());
+		setInstrumentName(InstrumentName.CELESTA.getName());
 		setInstrumentSound("keyboard.celesta");
 		setVirtualName("Celesta");
 	}

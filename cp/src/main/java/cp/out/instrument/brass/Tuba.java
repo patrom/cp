@@ -23,7 +23,7 @@ public class Tuba extends Instrument {
 		setHighest(53);
 //		setGeneralMidi(GeneralMidi.CELLO);
 		
-		setInstrumentName(InstrumentName.TUBA.toString());
+		setInstrumentName(InstrumentName.TUBA.getName());
 		setInstrumentSound("brass.tuba");
 		setVirtualName("Tuba Bb");
 		setClef("F");

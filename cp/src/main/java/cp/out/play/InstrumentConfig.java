@@ -47,7 +47,8 @@ public class InstrumentConfig {
 
     @PostConstruct
     public void instrumentInit() {
-        instruments = getOrchestra();
+//        instruments.put(0,new InstrumentMapping(new ViolinSolo(), 3, 0));
+        instruments = getStrings(mellow);
         for (InstrumentMapping instrumentMapping : instruments.values()) {
             allInstrumentMappings.add(instrumentMapping);
             allInstrumentMappings.addAll(instrumentMapping.getDependantInstruments());
@@ -73,18 +74,33 @@ public class InstrumentConfig {
     }
 
     private Map<Integer, InstrumentMapping> getStringQuartet(){
-        instruments.put(3,new InstrumentMapping(new ViolinSolo(), 4, 0));
+        instruments.put(3,new InstrumentMapping(new ViolinSolo(), 3, 0));
         instruments.put(2,new InstrumentMapping(new ViolinSolo(), 3, 1));
         instruments.put(1,new InstrumentMapping(new ViolaSolo(), 2, 2));
         instruments.put(0,new InstrumentMapping(new CelloSolo(), 1, 3));
         return instruments;
     }
 
+    private Map<Integer, InstrumentMapping> getSAChoir(){
+        instruments.put(1,new InstrumentMapping(new Soprano(), 1, 0));
+        instruments.put(0,new InstrumentMapping(new Alto(), 2, 1));
+        return instruments;
+    }
+
     private Map<Integer, InstrumentMapping> getSATBChoir(){
-        instruments.put(3,new InstrumentMapping(new Soprano(), 1, 0));
-        instruments.put(2,new InstrumentMapping(new Alto(), 1, 1));
-        instruments.put(1,new InstrumentMapping(new Tenor(), 1, 2));
-        instruments.put(0,new InstrumentMapping(new Bass(), 1, 3));
+        instruments.put(3,new InstrumentMapping(new Soprano(), 1, 1));
+        instruments.put(2,new InstrumentMapping(new Alto(), 2, 1));
+        instruments.put(1,new InstrumentMapping(new Tenor(), 3, 2));
+        instruments.put(0,new InstrumentMapping(new Bass(), 4, 3));
+        return instruments;
+    }
+
+    private Map<Integer, InstrumentMapping> getSAATBChoir(){
+        instruments.put(4,new InstrumentMapping(new Soprano(), 1, 0));
+        instruments.put(3,new InstrumentMapping(new Alto(), 2, 1));
+        instruments.put(2,new InstrumentMapping(new Alto(), 2, 2));
+        instruments.put(1,new InstrumentMapping(new Tenor(), 3, 3));
+        instruments.put(0,new InstrumentMapping(new Bass(), 4, 4));
         return instruments;
     }
 

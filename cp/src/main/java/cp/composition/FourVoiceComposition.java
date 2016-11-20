@@ -4,7 +4,6 @@ import cp.model.melody.MelodyBlock;
 import cp.model.melody.Operator;
 import cp.nsga.operator.relation.OperatorRelation;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -19,11 +18,12 @@ public class FourVoiceComposition extends  Composition {
 
     @PostConstruct
     public void initInstruments(){
-        Assert.isTrue(instrumentConfig.getSize() >= 4);
-        instrument1 = instrumentConfig.getInstrumentForVoice(voice0);
-        instrument2 = instrumentConfig.getInstrumentForVoice(voice1);
-        instrument3 = instrumentConfig.getInstrumentForVoice(voice2);
-        instrument4 = instrumentConfig.getInstrumentForVoice(voice3);
+       if(instrumentConfig.getSize() >= 4){
+           instrument1 = instrumentConfig.getInstrumentForVoice(voice0);
+           instrument2 = instrumentConfig.getInstrumentForVoice(voice1);
+           instrument3 = instrumentConfig.getInstrumentForVoice(voice2);
+           instrument4 = instrumentConfig.getInstrumentForVoice(voice3);
+       }
     }
 
     public List<MelodyBlock> canon(){
@@ -73,6 +73,45 @@ public class FourVoiceComposition extends  Composition {
         return melodyBlocks;
     }
 
+    public List<MelodyBlock> doubleCanon(){
+        List<MelodyBlock> melodyBlocks = new ArrayList<>();
+//		cello.setKeySwitch(new KontactStringsKeySwitch());
+
+        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(voice0, instrument1.pickRandomOctaveFromRange(), getTimeConfig()::getBeatsDoubleLength);
+        melodyBlock.setInstrument(instrument1);
+        melodyBlocks.add(melodyBlock);
+
+        MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlock(voice1, instrument2.pickRandomOctaveFromRange(), getTimeConfig()::getBeatsDoubleLength);
+        melodyBlock2.setInstrument(instrument2);
+        melodyBlocks.add(melodyBlock2);
+
+        MelodyBlock melodyBlock3 = melodyGenerator.generateEmptyBlock(instrument3, voice2);
+        melodyBlock3.setCalculable(false);
+        melodyBlocks.add(melodyBlock3);
+
+        OperatorRelation operatorRelation = new OperatorRelation(Operator.T_RELATIVE);
+        operatorRelation.setSource(voice0);
+        operatorRelation.setTarget(voice2);
+        operatorRelation.setSteps(0);
+        operatorRelation.setTimeLine(timeLine);
+        operatorRelation.setOffset(getTimeConfig().getOffset() * 2);
+        operatorConfig.addOperatorRelations(operatorRelation::execute);
+
+        MelodyBlock melodyBlock4 = melodyGenerator.generateEmptyBlock(instrument4, voice3);
+        melodyBlock4.setCalculable(false);
+        melodyBlocks.add(melodyBlock4);
+
+        operatorRelation = new OperatorRelation(Operator.T_RELATIVE);
+        operatorRelation.setSource(voice1);
+        operatorRelation.setTarget(voice3);
+        operatorRelation.setSteps(0);
+        operatorRelation.setTimeLine(timeLine);
+        operatorRelation.setOffset(getTimeConfig().getOffset() * 2);
+        operatorConfig.addOperatorRelations(operatorRelation::execute);
+
+        return melodyBlocks;
+    }
+
     /**
      * Voice 0: bass halftime
      * Voice 1: halftime rhythm
@@ -82,11 +121,11 @@ public class FourVoiceComposition extends  Composition {
      */
     public List<MelodyBlock> accDuplicateRhythm(){
         List<MelodyBlock> melodyBlocks = new ArrayList<>();
-        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(voice0, instrument1.pickRandomOctaveFromRange(), getTimeConfig()::getBeatsDoubleLength);
+        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(voice0, instrument1.pickRandomOctaveFromRange(), getTimeConfig()::getHomophonicBeatGroup);
         melodyBlock.setInstrument(instrument1);
         melodyBlocks.add(melodyBlock);
 
-        MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlock(voice1, instrument2.pickRandomOctaveFromRange(), getTimeConfig()::getHomophonicBeatGroup);
+        MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlock(voice1, instrument2.pickRandomOctaveFromRange());
         melodyBlock2.setInstrument(instrument2);
         melodyBlocks.add(melodyBlock2);
 

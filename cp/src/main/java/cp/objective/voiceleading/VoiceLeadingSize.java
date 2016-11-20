@@ -116,7 +116,7 @@ public class VoiceLeadingSize implements Comparable<VoiceLeadingSize>{
 		if (sourceForteName == null) {
 			if (other.sourceForteName != null)
 				return false;
-		} 
+		}
 		if (targetForteName == null) {
 			if (other.targetForteName != null)
 				return false;
@@ -127,7 +127,11 @@ public class VoiceLeadingSize implements Comparable<VoiceLeadingSize>{
 
 	@Override
 	public int compareTo(VoiceLeadingSize voiceLeadingSize) {
-		return this.sourceForteName.compareTo(voiceLeadingSize.getSourceForteName());
+		int sourceComparison = this.sourceForteName.compareTo(voiceLeadingSize.getSourceForteName());
+		if(sourceComparison == 0){
+			return this.targetForteName.compareTo(voiceLeadingSize.getTargetForteName());
+		}
+		return sourceComparison;
 	}
      
 }

@@ -4,11 +4,10 @@ import cp.composition.beat.BeatGroupFactory;
 import cp.composition.timesignature.TimeConfig;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
-import cp.generator.pitchclass.PassingPitchClasses;
-import cp.generator.pitchclass.RandomPitchClasses;
+import cp.generator.pitchclass.*;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
-import cp.model.dissonance.IntervalAndTriadsAndTetra;
+import cp.model.dissonance.DyadTriadsTetraAndPentaChordal;
 import cp.model.dissonance.IntervalDissonance;
 import cp.model.dissonance.SetClassDissonance;
 import cp.model.dissonance.TonalDissonance;
@@ -28,6 +27,7 @@ import cp.out.orchestration.quality.Pleasant;
 import cp.out.orchestration.quality.Rich;
 import cp.out.play.InstrumentConfig;
 import cp.out.print.note.Key;
+import cp.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -62,6 +62,12 @@ public abstract class Composition {
 	protected RandomPitchClasses randomPitchClasses;
 	@Autowired
 	protected PassingPitchClasses passingPitchClasses;
+	@Autowired
+	protected RestPitchClasses restPitchClasses;
+	@Autowired
+	protected RepeatingPitchClasses repeatingPitchClasses;
+
+	private List<PitchClassGenerator> pitchClassGenerators = new ArrayList<>();
 
     @Autowired
 	private HarmonicResolutionObjective harmonicResolutionObjective;
@@ -72,7 +78,7 @@ public abstract class Composition {
 	@Autowired
 	protected IntervalDissonance intervalDissonance;
 	@Autowired
-	protected IntervalAndTriadsAndTetra intervalAndTriadsAndTetra;
+	protected DyadTriadsTetraAndPentaChordal dyadTriadsTetraAndPentaChordal;
 	@Autowired
 	protected SetClassDissonance setClassDissonance;
 	@Autowired
@@ -126,7 +132,7 @@ public abstract class Composition {
 	private Ensemble ensemble;
 	
 	protected final int start = 0;
-	protected final int end = 5 * DurationConstants.WHOLE;
+	protected final int end = 6 * DurationConstants.WHOLE;
 	
 	private TimeConfig timeConfig;
 	
@@ -159,8 +165,8 @@ public abstract class Composition {
 
 	@PostConstruct
 	public void init(){
-		composeInKey(Eflat);
-		inTempo(75);
+		composeInKey(A);
+		inTempo(55);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
 		meterObjective.setComposition(this);
@@ -175,9 +181,9 @@ public abstract class Composition {
 
 		setTimeconfig();
 		List<TimeLineKey> keys = new ArrayList<>();
-		keys.add(new TimeLineKey(C, Scale.HARMONIC_MINOR_SCALE, start, 2 * DurationConstants.WHOLE));
-		keys.add(new TimeLineKey(Aflat, Scale.MAJOR_SCALE, 2 * DurationConstants.WHOLE, 3 * DurationConstants.WHOLE));
-		keys.add(new TimeLineKey(F, Scale.HARMONIC_MINOR_SCALE, 3 * DurationConstants.WHOLE, end));
+		keys.add(new TimeLineKey(Aflat, Scale.MAJOR_SCALE, start, end));
+//		keys.add(new TimeLineKey(Aflat, Scale.MAJOR_SCALE, 2 * DurationConstants.WHOLE, 3 * DurationConstants.WHOLE));
+//		keys.add(new TimeLineKey(F, Scale.HARMONIC_MINOR_SCALE, 3 * DurationConstants.WHOLE, end));
 //		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 3 * DurationConstants.WHOLE, end));
 //		keys.add(new TimeLineKey(C, clarinet.filterScale(Scale.HARMONIC_MINOR_SCALE), 48, 192));//match length
 //		keys.add(new TimeLineKey(A, Scale.HARMONIC_MINOR_SCALE, 48, 96));
@@ -212,14 +218,20 @@ public abstract class Composition {
 //		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT, end));
 ////		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, 2 * DurationConstants.WHOLE, end));
 //		timeLine.addKeysForVoice(webern3, 2);
-		
+		pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
+		pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
+		pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
+//		pitchClassGenerators.add(restPitchClasses::updatePitchClasses);
+
 		melodyGenerator.setCompostion(this);
 		melodyGenerator.setBeatGroupStrategy(timeConfig::getAllBeats);
-		replaceMelody.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
 		replaceMelody.setComposition(this);
-		melodyGenerator.setPitchClassGenerator(passingPitchClasses::updatePitchClasses);
-		harmonicObjective.setDissonance(intervalAndTriadsAndTetra::getDissonance);
+		harmonicObjective.setDissonance(dyadTriadsTetraAndPentaChordal::getDissonance);
 		harmonicResolutionObjective.setDissonantResolution(dissonantResolutionImpl::isDissonant);
+	}
+
+	public PitchClassGenerator getRandomPitchClassGenerator() {
+		return RandomUtil.getRandomFromList(pitchClassGenerators);
 	}
 	
 	private void setTimeconfig(){

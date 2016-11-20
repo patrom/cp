@@ -1,10 +1,14 @@
 package cp.model.dissonance;
 
 import cp.model.harmony.Chord;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class IntervalAndTriadsAndTetra {
+public class DyadTriadsTetraAndPentaChordal {
+
+	@Autowired
+	private TonalSetClassDissonance tonalSetClassDissonance;
 	
 	public double getDissonance(Chord chord) {
 		int size = chord.getPitchClassSet().size();
@@ -15,11 +19,17 @@ public class IntervalAndTriadsAndTetra {
 				return triads(chord);
 			case 4:
 				return tetra(chord);
+			case 5:
+				return penta(chord);
 		}
 		return 0;
 	}
 
-    private double tetra(Chord chord) {
+	private double penta(Chord chord) {
+		return tonalSetClassDissonance.getDissonance(chord);
+	}
+
+	private double tetra(Chord chord) {
         switch (chord.getChordType()) {
             case MAJOR7:
                 return 1.0;
@@ -43,10 +53,8 @@ public class IntervalAndTriadsAndTetra {
                 return 1.0;
             case DIM7:
                 return 1.0;
-            default:
-                break;
         }
-        return 0;
+		return tonalSetClassDissonance.getDissonance(chord);
     }
 
     private double triads(Chord chord){
@@ -79,10 +87,8 @@ public class IntervalAndTriadsAndTetra {
 				return 1.0;
 			case MINOR7_OMIT5_1:
 				return 0.99;
-			default:
-				break;
 		}
-		return 0;
+		return tonalSetClassDissonance.getDissonance(chord);
 	}
 
 	private double intervals(Chord chord) {
@@ -97,7 +103,7 @@ public class IntervalAndTriadsAndTetra {
 				return 0.97;
 				
 			case CH1://octaaf
-				return 0.9;
+				return 0.8;
 			case CH2_KWART:
 				return 0.9;
 			case CH2_KWINT:
@@ -114,7 +120,7 @@ public class IntervalAndTriadsAndTetra {
 			case CH2_TRITONE:
 				return 0.7;
 		}
-		return 0;
+		return tonalSetClassDissonance.getDissonance(chord);
 	}
 
 }

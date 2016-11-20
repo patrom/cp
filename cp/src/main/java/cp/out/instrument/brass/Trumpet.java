@@ -19,7 +19,7 @@ public class Trumpet extends Instrument {
 		setHighest(84);
 //		setGeneralMidi(GeneralMidi.CELLO);
 		
-		setInstrumentName(InstrumentName.TRUMPET.toString());
+		setInstrumentName(InstrumentName.TRUMPET.getName());
 		setInstrumentSound("brass.trumpet");
 		setVirtualName("Trumpet 1");
 	}

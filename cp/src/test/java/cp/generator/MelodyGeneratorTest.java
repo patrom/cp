@@ -90,7 +90,6 @@ public class MelodyGeneratorTest extends JFrame{
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		musicProperties.setKey(C);
-		melodyGenerator.setPitchClassGenerator(randomPitchClasses::randomPitchClasses);
 	}
 
 	@Test

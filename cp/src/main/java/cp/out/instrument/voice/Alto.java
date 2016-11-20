@@ -15,11 +15,11 @@ public class Alto extends Instrument {
 	private void init() {
 		instrumentGroup = InstrumentGroup.VOICES;
 		order = 2;
-		setLowest(50);
+		setLowest(53);
 		setHighest(73);
 		setGeneralMidi(GeneralMidi.CHOIR);
 		
-		setInstrumentName(InstrumentName.ALTO.toString());
+		setInstrumentName(InstrumentName.ALTO.getName());
 //		setInstrumentSound("strings.cello");
 //		setVirtualName("Celli");
 	}

@@ -18,7 +18,7 @@ public class Soprano extends Instrument {
 		setHighest(79);
 		setGeneralMidi(GeneralMidi.CHOIR);
 		
-		setInstrumentName(InstrumentName.SOPRANO.toString());
+		setInstrumentName(InstrumentName.SOPRANO.getName());
 		setInstrumentSound("strings.cello");
 		setVirtualName("Celli");
 	}

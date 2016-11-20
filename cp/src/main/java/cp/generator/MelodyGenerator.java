@@ -4,7 +4,6 @@ import cp.composition.Composition;
 import cp.composition.beat.BeatGroup;
 import cp.composition.beat.BeatGroupStrategy;
 import cp.composition.timesignature.TimeConfig;
-import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.TimeLine;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
@@ -29,8 +28,6 @@ public class MelodyGenerator {
 
 	@Autowired
 	private TimeLine timeLine;
-	
-	private PitchClassGenerator pitchClassGenerator;
 
 	private Composition composition;
 	
@@ -151,7 +148,7 @@ public class MelodyGenerator {
 			n.setVoice(voice);
 			n.setPosition(n.getPosition() + start);
 		});
-		melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes);
+		melodyNotes = composition.getRandomPitchClassGenerator().updatePitchClasses(melodyNotes);
 		CpMelody melody = new CpMelody(melodyNotes, voice, start, start + beatGroup.getBeatLength());
 		melody.setBeatGroup(beatGroup);
 		return melody;
@@ -161,7 +158,7 @@ public class MelodyGenerator {
 		MelodyBlock clonedMelodyBlock = melodyBlock.clone(voice);
 		clonedMelodyBlock.setInstrument(instrument);
 		List<Note> melodyBlockNotes = clonedMelodyBlock.getMelodyBlockNotes();
-		pitchClassGenerator.updatePitchClasses(melodyBlockNotes);
+		composition.getRandomPitchClassGenerator().updatePitchClasses(melodyBlockNotes);
 		clonedMelodyBlock.dependsOn(melodyBlock.getVoice());
 		clonedMelodyBlock.setRhythmMutable(false);
 		clonedMelodyBlock.setRhythmDependant(true);
@@ -239,10 +236,6 @@ public class MelodyGenerator {
 	
 	public void setBeatGroupStrategy(BeatGroupStrategy beatGroupStrategy) {
 		this.beatGroupStrategy = beatGroupStrategy;
-	}
-	
-	public void setPitchClassGenerator(PitchClassGenerator pitchClassGenerator) {
-		this.pitchClassGenerator = pitchClassGenerator;
 	}
 	
 }

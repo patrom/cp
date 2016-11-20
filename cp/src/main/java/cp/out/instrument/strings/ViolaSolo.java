@@ -14,7 +14,7 @@ public class ViolaSolo extends Instrument {
 		setHighest(72);
 		setGeneralMidi(GeneralMidi.VIOLA);
 		
-		setInstrumentName(InstrumentName.VIOLA_SOLO.toString());
+		setInstrumentName(InstrumentName.VIOLA_SOLO.getName());
 		setInstrumentSound("strings.viola");
 		setVirtualName("Viola 1 solo");
 	}

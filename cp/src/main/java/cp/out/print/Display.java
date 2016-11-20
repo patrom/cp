@@ -5,7 +5,9 @@ import cp.midi.MidiDevicesUtil;
 import cp.model.Motive;
 import cp.model.harmony.CpHarmony;
 import cp.model.melody.MelodyBlock;
+import cp.model.note.Note;
 import cp.out.play.InstrumentConfig;
+import cp.out.play.InstrumentMapping;
 import jm.music.data.Score;
 import jm.util.View;
 import org.slf4j.Logger;
@@ -19,8 +21,9 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Component
 public class Display {
@@ -42,7 +45,7 @@ public class Display {
 
 	public void view(Motive motive, String id) throws Exception {
 		printHarmonies(motive.getHarmonies());
-		viewScore(motive.getMelodyBlocks(), id, musicProperties.getTempo());
+		viewScore(motive.getMelodyBlocks(), id);
 		generateMusicXml(motive.getMelodyBlocks(), id);
 		// printVextab(sentences);
 	}
@@ -53,19 +56,25 @@ public class Display {
 	}
 
 	private void generateMusicXml(List<MelodyBlock> melodies, String id) throws Exception {
-		musicXMLWriter.generateMusicXMLForMelodies(melodies, new FileOutputStream(resource.getFile().getPath() + "cp/src/main/resources/xml/" + id + ".xml"));
-	}
+		Map<InstrumentMapping, List<Note>> melodiesForInstrument = new TreeMap<>();
+		for (Map.Entry<Integer,InstrumentMapping> entry : instrumentConfig.getInstruments().entrySet()) {
+			InstrumentMapping instrumentMapping = entry.getValue();
+			MelodyBlock melodyBlock = melodies.get(entry.getKey());
+			melodiesForInstrument.put(instrumentMapping, melodyBlock.getMelodyBlockNotesWithRests());
+		}
+		musicXMLWriter.createXML(new FileOutputStream(resource.getFile().getPath() + "cp/src/main/resources/xml/" + id + ".xml"), melodiesForInstrument);
 
-	private void viewScore(List<MelodyBlock> melodies, String id, double tempo)
-			throws InvalidMidiDataException, IOException {
-		Collections.sort(melodies, new MelodyVoiceComparator());
-		melodies.forEach(m -> LOGGER.info(m.getMelodyBlockContour() + ", "));
-		melodies.forEach(m -> LOGGER.info(m.getMelodyBlockNotesWithRests() + ", "));
-		Score score = scoreUtilities.createScoreMelodies(melodies, tempo);
-		score.setTitle(id);
-		Sequence sequence = midiDevicesUtil.createSequence(melodies, (int) tempo);
+		Sequence sequence = midiDevicesUtil.createSequence(melodiesForInstrument, (int) musicProperties.getTempo());
 		Resource resource = new FileSystemResource("");
 		midiDevicesUtil.write(sequence, resource.getFile().getPath()+ "cp/src/main/resources/midi/" + id + ".mid");
+	}
+
+	private void viewScore(List<MelodyBlock> melodies, String id)
+			throws InvalidMidiDataException, IOException {
+		melodies.forEach(m -> LOGGER.info(m.getMelodyBlockContour() + ", "));
+		melodies.forEach(m -> LOGGER.info(m.getMelodyBlockNotesWithRests() + ", "));
+		Score score = scoreUtilities.createScoreMelodies(melodies, musicProperties.getTempo());
+		score.setTitle(id);
 		View.notate(score);
 	}
 

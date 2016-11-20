@@ -14,7 +14,7 @@ public class AltoFlute extends Instrument{
 		setHighest(91);
 //		setGeneralMidi(GeneralMidi.FLUTE);
 		
-		setInstrumentName(InstrumentName.ALTO_FLUTE.toString());
+		setInstrumentName(InstrumentName.ALTO_FLUTE.getName());
 		setInstrumentSound("wind.flutes.flute.alto");
 		setVirtualName("Alto Flute");
 	}

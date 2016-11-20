@@ -1,7 +1,6 @@
 package cp.nsga.operator.mutation.melody;
 
 import cp.composition.Composition;
-import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.Motive;
 import cp.model.TimeLine;
 import cp.model.melody.CpMelody;
@@ -30,13 +29,6 @@ public class CopyMelody extends AbstractMutation{
 
 	@Autowired
 	private ReplaceRhythmDependantMelody replaceRhythmDependantMelody;
-
-	private PitchClassGenerator pitchClassGenerator;
-
-	public void setPitchClassGenerator(PitchClassGenerator pitchClassGenerator) {
-		this.pitchClassGenerator = pitchClassGenerator;
-		replaceRhythmDependantMelody.setPitchClassGenerator(pitchClassGenerator);
-	}
 
 	@Autowired
 	private TimeLine timeLine;
@@ -114,6 +106,7 @@ public class CopyMelody extends AbstractMutation{
 	}
 
 	public void setComposition(Composition composition) {
+		replaceRhythmDependantMelody.setComposition(composition);
 		this.composition = composition;
 	} 
 

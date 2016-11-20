@@ -14,7 +14,7 @@ public class CorAnglais extends Instrument{
 		setHighest(84);
 //		setGeneralMidi(GeneralMidi.FLUTE);
 		
-		setInstrumentName(InstrumentName.COR_ANGLAIS.toString());
+		setInstrumentName(InstrumentName.COR_ANGLAIS.getName());
 		setInstrumentSound("wind.reed.english-horn");
 		setVirtualName("English Horn");
 	}

@@ -1,12 +1,15 @@
 package cp.composition;
 
+import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.melody.Operator;
+import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 import cp.nsga.operator.relation.CopyRangeRelation;
 import cp.nsga.operator.relation.OperatorRelation;
+import cp.out.instrument.Instrument;
+import cp.out.play.InstrumentMapping;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -16,9 +19,10 @@ public class TwoVoiceComposition extends Composition{
 
 	@PostConstruct
 	public void initInstruments(){
-		Assert.isTrue(instrumentConfig.getSize() >= 2);
-		instrument1 = instrumentConfig.getInstrumentForVoice(voice0);
-		instrument2 = instrumentConfig.getInstrumentForVoice(voice1);
+		if (instrumentConfig.getSize() >= 2) {
+			instrument1 = instrumentConfig.getInstrumentForVoice(voice0);
+			instrument2 = instrumentConfig.getInstrumentForVoice(voice1);
+		}
 	}
 
 	public List<MelodyBlock> beatEven(){
@@ -188,6 +192,33 @@ public class TwoVoiceComposition extends Composition{
 		operatorRelation.setFactor(factor);
 		operatorRelation.setOffset(getTimeConfig().getOffset());
 		operatorConfig.addOperatorRelations(operatorRelation::execute);
+
+		return melodyBlocks;
+	}
+
+	public List<MelodyBlock> harmonize(){
+		List<MelodyBlock> melodyBlocks = new ArrayList<>();
+		//harmonization
+		List<Note> notes = harmonizeMelody.getNotesToHarmonize();
+		InstrumentMapping instrumentHarmonize = instrumentConfig.getInstrumentMappingForVoice(harmonizeVoice);
+		CpMelody melody = new CpMelody(notes, harmonizeVoice, start, end);
+		MelodyBlock melodyBlockHarmonize = new MelodyBlock(instrumentHarmonize.getInstrument().pickRandomOctaveFromRange(), harmonizeVoice);
+		melodyBlockHarmonize.addMelodyBlock(melody);
+		melodyBlockHarmonize.setTimeConfig(getTimeConfig());
+		melodyBlockHarmonize.setMutable(false);
+		melodyBlockHarmonize.setInstrument(instrumentHarmonize.getInstrument());
+//		melodyBlockHarmonize.I();
+
+		melodyBlocks.add(melodyBlockHarmonize);
+		int size = instrumentConfig.getSize();
+		for (int i = 0; i < size; i++) {
+			if (i != harmonizeVoice) {
+				Instrument instrument = instrumentConfig.getInstrumentForVoice(i);
+				MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(i, instrument.pickRandomOctaveFromRange());
+				melodyBlock.setInstrument(instrument);
+				melodyBlocks.add(melodyBlock);
+			}
+		}
 
 		return melodyBlocks;
 	}

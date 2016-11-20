@@ -14,7 +14,7 @@ public class ClarinetEFlat extends Instrument {
 		setHighest(95);
 //		setGeneralMidi(GeneralMidi.CLARINET);
 		
-		setInstrumentName(InstrumentName.SMALL_CLARINET.toString());
+		setInstrumentName(InstrumentName.SMALL_CLARINET.getName());
 		setInstrumentSound("wind.reed.clarinet");
 		setVirtualName("Clarinet Bb 1");
 	}

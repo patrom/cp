@@ -15,7 +15,7 @@ public class Doublebass extends Instrument {
 		setHighest(67);
 		setGeneralMidi(GeneralMidi.CONTRABASS);
 		
-		setInstrumentName(InstrumentName.BASS.toString());
+		setInstrumentName(InstrumentName.BASS.getName());
 		setInstrumentSound("strings.Contrabass");
 		setVirtualName("Basses");
 		setClef("F");

@@ -2,7 +2,6 @@ package cp.nsga.operator.mutation.melody;
 
 import cp.composition.Composition;
 import cp.composition.beat.BeatGroup;
-import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.Motive;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
@@ -32,15 +31,8 @@ public class ReplaceMelody extends AbstractMutation{
 	@Autowired
 	private ReplaceRhythmDependantMelody replaceRhythmDependantMelody;
 
-	private PitchClassGenerator pitchClassGenerator;
-	
-	public void setPitchClassGenerator(PitchClassGenerator pitchClassGenerator) {
-		this.pitchClassGenerator = pitchClassGenerator;
-		replaceRhythmDependantMelody.setPitchClassGenerator(pitchClassGenerator);
-	}
-	
 	private Composition composition;
-	
+
 	@Autowired
 	public ReplaceMelody(HashMap<String, Object> parameters) {
 		super(parameters);
@@ -64,7 +56,7 @@ public class ReplaceMelody extends AbstractMutation{
 					n.setVoice(melody.getVoice());
 					n.setPosition(n.getPosition() + melody.getStart());
 				});
-				melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes);
+				melodyNotes = composition.getRandomPitchClassGenerator().updatePitchClasses(melodyNotes);
 				melody.updateNotes(melodyNotes);
 //				LOGGER.info("Melody replaced: " + melody.getVoice());
 
@@ -98,6 +90,7 @@ public class ReplaceMelody extends AbstractMutation{
 	}
 
 	public void setComposition(Composition composition) {
+		this.replaceRhythmDependantMelody.setComposition(composition);
 		this.composition = composition;
 	} 
 

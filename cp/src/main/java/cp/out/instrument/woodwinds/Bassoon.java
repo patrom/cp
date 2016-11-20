@@ -16,7 +16,7 @@ public class Bassoon extends Instrument {
 		setHighest(70);
 		setGeneralMidi(GeneralMidi.BASSOON);
 		
-		setInstrumentName(InstrumentName.BASSOON.toString());
+		setInstrumentName(InstrumentName.BASSOON.getName());
 		setInstrumentSound("wind.reed.bassoon");
 		setVirtualName("Bassoon 1");
 		setClef("F");

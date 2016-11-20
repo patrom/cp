@@ -38,11 +38,14 @@ public class HarmonizeNotes {
 	
 	public List<Note> getFileToHarmonize() {
 		try {
-			MusicXMLParser parser  = new MusicXMLParser("cp/src/main/resources/harmonize/cello4.xml");
+			MusicXMLParser parser  = new MusicXMLParser("cp/src/main/resources/harmonize/kyrieComplete.xml");
 			parser.parseMusicXML();
 			Map<String, List<Note>> notesPerInstrument = parser.getNotesPerInstrument();
 			String instrument = "P1";
-			return notesPerInstrument.entrySet().stream().flatMap(entry -> entry.getValue().stream()).filter(n -> n.getInstrument().startsWith(instrument)).collect(toList());
+			return notesPerInstrument.entrySet().stream()
+					.flatMap(entry -> entry.getValue().stream())
+					.filter(n -> n.getInstrument().startsWith(instrument))
+					.collect(toList());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

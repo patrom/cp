@@ -18,7 +18,7 @@ public class Timpani extends Instrument {
 		setHighest(53);
 //		setGeneralMidi(GeneralMidi.CELLO);
 		
-		setInstrumentName(InstrumentName.TIMPANI.toString());
+		setInstrumentName(InstrumentName.TIMPANI.getName());
 		setInstrumentSound("drum.timpani");
 		setVirtualName("Timpani hit");
 	}

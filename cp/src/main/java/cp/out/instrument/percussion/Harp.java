@@ -18,7 +18,7 @@ public class Harp extends Instrument {
 		setHighest(103);
 //		setGeneralMidi(GeneralMidi.CELLO);
 		
-		setInstrumentName(InstrumentName.HARP.toString());
+		setInstrumentName(InstrumentName.HARP.getName());
 		setInstrumentSound("pluck.harp");
 		setVirtualName("Harp");
 	}

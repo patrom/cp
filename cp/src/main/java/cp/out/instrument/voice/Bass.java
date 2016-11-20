@@ -14,11 +14,11 @@ public class Bass extends Instrument {
 
 	private void init() {
 		instrumentGroup = InstrumentGroup.VOICES;
-		setLowest(37);
+		setLowest(40);
 		setHighest(58);
 		setGeneralMidi(GeneralMidi.CHOIR);
 		
-		setInstrumentName(InstrumentName.BASS.toString());
+		setInstrumentName(InstrumentName.BASS.getName());
 //		setInstrumentSound("strings.cello");
 //		setVirtualName("Celli");
 	}

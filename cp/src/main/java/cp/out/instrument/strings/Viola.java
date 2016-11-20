@@ -19,7 +19,7 @@ public class Viola extends Instrument {
 		setHighest(72);
 		setGeneralMidi(GeneralMidi.VIOLA);
 		
-		setInstrumentName(InstrumentName.VIOLA.toString());
+		setInstrumentName(InstrumentName.VIOLA.getName());
 		setInstrumentSound("strings.viola");
 		setVirtualName("Violas");
 		setClef("C");

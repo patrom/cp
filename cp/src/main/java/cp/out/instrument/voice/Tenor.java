@@ -14,11 +14,11 @@ public class Tenor extends Instrument {
 
 	private void init() {
 		instrumentGroup = InstrumentGroup.VOICES;
-		setLowest(49);
+		setLowest(48);
 		setHighest(68);
 		setGeneralMidi(GeneralMidi.CHOIR);
 		
-		setInstrumentName(InstrumentName.TENOR.toString());
+		setInstrumentName(InstrumentName.TENOR.getName());
 //		setInstrumentSound("strings.cello");
 //		setVirtualName("Celli");
 	}

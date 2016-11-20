@@ -15,7 +15,7 @@ public class ViolinsII extends Instrument {
 		setHighest(84);
 		setGeneralMidi(GeneralMidi.VIOLIN);
 		
-		setInstrumentName(InstrumentName.VIOLIN_II.toString());
+		setInstrumentName(InstrumentName.VIOLIN_II.getName());
 		setInstrumentSound("strings.violin");
 		setVirtualName("Violins");
 	}
