@@ -1,6 +1,7 @@
 package cp.nsga.operator.mutation.melody;
 
 import cp.composition.Composition;
+import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.Motive;
 import cp.model.TimeLine;
 import cp.model.melody.CpMelody;
@@ -83,6 +84,8 @@ public class CopyMelody extends AbstractMutation{
 //				LOGGER.info("Melody copy: ");
 
 				//Rhythm dependant melodies
+				PitchClassGenerator pitchClassGenerator = composition.getRandomPitchClassGenerator();
+				replaceRhythmDependantMelody.setPitchClassGenerator(pitchClassGenerator);
 				List<MelodyBlock> rhythmDependantMelodies =  motive.getMelodyBlocks().stream()
 						.filter(m -> m.isRhythmDependant() && m.getDependingVoice() == melodyToReplace.getVoice())
 						.collect(toList());
@@ -106,7 +109,6 @@ public class CopyMelody extends AbstractMutation{
 	}
 
 	public void setComposition(Composition composition) {
-		replaceRhythmDependantMelody.setComposition(composition);
 		this.composition = composition;
 	} 
 

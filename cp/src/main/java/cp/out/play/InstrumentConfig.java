@@ -47,7 +47,9 @@ public class InstrumentConfig {
 
     @PostConstruct
     public void instrumentInit() {
-//        instruments.put(0,new InstrumentMapping(new ViolinSolo(), 3, 0));
+        Piano piano = new Piano();
+        piano.setInstrumentRegister(new InstrumentRegister(67,80));
+        instruments.put(4,new InstrumentMapping(piano, 4, 4));
         instruments = getStrings(mellow);
         for (InstrumentMapping instrumentMapping : instruments.values()) {
             allInstrumentMappings.add(instrumentMapping);
@@ -139,8 +141,9 @@ public class InstrumentConfig {
 		Instrument cello = orchestralQuality.getBasicInstrument(InstrumentName.CELLO.getName());
 		Instrument viola = orchestralQuality.getBasicInstrument(InstrumentName.VIOLA.getName());
 		Instrument violin = orchestralQuality.getBasicInstrument(InstrumentName.VIOLIN_I.getName());
-        instruments.put(3,new InstrumentMapping(bright.getViolinsI(), 3, 0));
+        instruments.put(3,new InstrumentMapping(violin, 3, 0));
         instruments.put(2,new InstrumentMapping(violin, 3, 1));
+//        instruments.put(2,new InstrumentMapping(viola, 2, 2));
         instruments.put(1,new InstrumentMapping(viola, 2, 2));
         instruments.put(0,new InstrumentMapping(cello, 1, 3));
         return instruments;

@@ -2,6 +2,7 @@ package cp.nsga.operator.mutation.melody;
 
 import cp.composition.Composition;
 import cp.composition.beat.BeatGroup;
+import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.Motive;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
@@ -56,11 +57,13 @@ public class ReplaceMelody extends AbstractMutation{
 					n.setVoice(melody.getVoice());
 					n.setPosition(n.getPosition() + melody.getStart());
 				});
-				melodyNotes = composition.getRandomPitchClassGenerator().updatePitchClasses(melodyNotes);
+				PitchClassGenerator pitchClassGenerator = composition.getRandomPitchClassGenerator();
+				melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes);
 				melody.updateNotes(melodyNotes);
 //				LOGGER.info("Melody replaced: " + melody.getVoice());
 
 				//Rhythm dependant melodies
+				this.replaceRhythmDependantMelody.setPitchClassGenerator(pitchClassGenerator);
 				List<MelodyBlock> rhythmDependantMelodies =  motive.getMelodyBlocks().stream()
 						.filter(m -> m.isRhythmDependant() && m.getDependingVoice() == melody.getVoice())
 						.collect(toList());
@@ -90,7 +93,6 @@ public class ReplaceMelody extends AbstractMutation{
 	}
 
 	public void setComposition(Composition composition) {
-		this.replaceRhythmDependantMelody.setComposition(composition);
 		this.composition = composition;
 	} 
 

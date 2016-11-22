@@ -1,6 +1,6 @@
 package cp.nsga.operator.mutation.melody;
 
-import cp.composition.Composition;
+import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
@@ -13,10 +13,10 @@ import java.util.stream.Collectors;
 @Component
 public class ReplaceRhythmDependantMelody {
 
-    private Composition composition;
+    private PitchClassGenerator pitchClassGenerator;
 
-    public void setComposition(Composition composition) {
-        this.composition = composition;
+    public void setPitchClassGenerator(PitchClassGenerator pitchClassGenerator) {
+        this.pitchClassGenerator = pitchClassGenerator;
     }
 
     public void updateDependantMelodyBlockWithMelody(CpMelody melody, List<MelodyBlock> rhythmDependantMelodies) {
@@ -31,7 +31,7 @@ public class ReplaceRhythmDependantMelody {
                         return clone;
                     }
             ).collect(Collectors.toList());
-            clonedMelodyNotes = composition.getRandomPitchClassGenerator().updatePitchClasses(clonedMelodyNotes);
+            clonedMelodyNotes = pitchClassGenerator.updatePitchClasses(clonedMelodyNotes);
             dependantMelody.updateNotes(clonedMelodyNotes);
 //			LOGGER.info("dependant Melody replaced: " + dependantMelody.getVoice());
         }

@@ -38,7 +38,7 @@ public class FiveVoiceComposition extends Composition {
     public List<MelodyBlock> accDuplicateRhythm(){
         List<MelodyBlock> melodyBlocks = new ArrayList<>();
 
-        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(voice0, instrument1.pickRandomOctaveFromRange(), getTimeConfig()::getBeatsDoubleLength);
+        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(voice0, instrument1.pickRandomOctaveFromRange(), getTimeConfig()::getHomophonicBeatGroup);
         melodyBlock.setInstrument(instrument1);
         melodyBlocks.add(melodyBlock);
 

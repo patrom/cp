@@ -142,10 +142,10 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(threeVoiceComposition::allRandom);
 
 //		composeInGenres.add(fourVoiceComposition::canon);
-		composeInGenres.add(fourVoiceComposition::accDuplicateRhythm);
+//		composeInGenres.add(fourVoiceComposition::accDuplicateRhythm);
 //		composeInGenres.add(fourVoiceComposition::doubleCanon);
 
-//		composeInGenres.add(fiveVoiceComposition::accDuplicateRhythm);
+		composeInGenres.add(fiveVoiceComposition::accDuplicateRhythm);
 //		fiveVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
 //		fiveVoiceComposition.setHarmonizeVoice(4);
 //		composeInGenres.add(fiveVoiceComposition::harmonize);
@@ -167,10 +167,10 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 			    
 //			    population.sort(Comparator.comparing(MusicSolution::getMelody).thenComparing(MusicSolution::getHarmony));
 			    population.sort(Comparator
-						.comparing(MusicSolution::getVoiceLeading)
-						.thenComparing(MusicSolution::getHarmony)
-			    		.thenComparing(MusicSolution::getResolution)
-			    		.thenComparing(MusicSolution::getMelody));
+						.comparing(MusicSolution::getHarmony)
+						.thenComparing(MusicSolution::getMelody)
+			    		.thenComparing(MusicSolution::getVoiceLeading)
+			    		.thenComparing(MusicSolution::getResolution));
 
 			    
 			    Iterator<Solution> solutionIterator = population.iterator();
@@ -193,7 +193,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		// Algorithm parameters
 	    int populationSize = 30;
 	    algorithm.setInputParameter("populationSize", populationSize);
-	    algorithm.setInputParameter("maxEvaluations", populationSize * 15);
+	    algorithm.setInputParameter("maxEvaluations", populationSize * 1500);
 	    
 	    // Mutation and Crossover
 	    crossover.setParameter("probabilityCrossover", 1.0); 

@@ -36,7 +36,7 @@ public class DyadTriadsTetraAndPentaChordal {
             case MAJOR7_1:
                 return 1.0;
             case MAJOR7_2:
-                return 0.99;
+                return 0.98;
             case MAJOR7_3:
                 return 0.98;
             case MINOR7:
@@ -44,9 +44,9 @@ public class DyadTriadsTetraAndPentaChordal {
             case MINOR7_1:
                 return 1.0;
             case MINOR7_2:
-                return 0.99;
+                return 0.98;
             case MINOR7_3:
-                return 0.99;
+                return 0.98;
             case DOM7:
                 return 1.0;
             case HALFDIM7:

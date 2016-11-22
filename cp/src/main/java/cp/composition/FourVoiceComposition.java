@@ -125,7 +125,7 @@ public class FourVoiceComposition extends  Composition {
         melodyBlock.setInstrument(instrument1);
         melodyBlocks.add(melodyBlock);
 
-        MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlock(voice1, instrument2.pickRandomOctaveFromRange());
+        MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlock(voice1, instrument2.pickRandomOctaveFromRange(), getTimeConfig()::getHomophonicBeatGroup);
         melodyBlock2.setInstrument(instrument2);
         melodyBlocks.add(melodyBlock2);
 
