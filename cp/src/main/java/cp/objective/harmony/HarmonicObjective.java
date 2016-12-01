@@ -25,7 +25,7 @@ public class HarmonicObjective extends Objective {
 	@Override
 	public double evaluate(Motive motive) {
 		List<CpHarmony> harmonies = motive.getHarmonies();
-		if (harmonies.isEmpty()) {
+		if (harmonies.size() <= 1) {
 			return 0.0;
 		}
 		return getHarmonyWeights(harmonies);

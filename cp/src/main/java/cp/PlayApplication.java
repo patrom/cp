@@ -75,8 +75,8 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 	}
 	
 	public void playMidiFilesOnKontaktFor() throws Exception {
-//		final Resource resource = new FileSystemResource("cp/src/main/resources/orch");
-		final Resource resource = new FileSystemResource("cp/src/main/resources/midi");
+		final Resource resource = new FileSystemResource("cp/src/main/resources/orch");
+//		final Resource resource = new FileSystemResource("cp/src/main/resources/midi");
 		File dir = resource.getFile();
 		for (File midiFile : dir.listFiles()) {
 			LOGGER.info(midiFile.getName());
@@ -119,7 +119,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 
 //			write(parsedMelodies , "resources/transform/" + midiFile.getName(), midiInfo.getTempo());
 //			generateMusicXml(parsedMelodies, midiFile.getName());
-			Thread.sleep(35000);
+			Thread.sleep(20000);
 		}
 	}
 

@@ -15,10 +15,11 @@ public abstract class TimeConfig {
 	protected final List<BeatGroup> beatsDoubleLength = new ArrayList<>();
 	protected final List<BeatGroup> beatsAll = new ArrayList<>();
 	
-	protected int minimumRhythmFilterLevel = DurationConstants.QUARTER; //levels pitch, crest/keel, ...
-	
+	protected double minimumRhythmFilterLevel = 3.0; //levels pitch, crest/keel, ...
+	protected int minimumLength = DurationConstants.SIXTEENTH;
+
 	protected int[] distance;
-	
+
 	protected int offset;
 	
 	@Autowired
@@ -43,7 +44,7 @@ public abstract class TimeConfig {
 	public List<BeatGroup> getBeatsDoubleLength() {
 		return beatsDoubleLength;
 	}
-	
+
 	public int getOffset() {
 		return offset;
 	}
@@ -52,12 +53,15 @@ public abstract class TimeConfig {
 		return distance;
 	}
 	
-	public int getMinimumRhythmFilterLevel() {
+	public double getMinimumRhythmFilterLevel() {
 		return minimumRhythmFilterLevel;
 	}
-	
+
 	public abstract List<BeatGroup> getFixedBeatGroup();
 	
 	public abstract List<BeatGroup> getHomophonicBeatGroup();
-	
+
+	public int getMinimumLength() {
+		return minimumLength;
+	}
 }

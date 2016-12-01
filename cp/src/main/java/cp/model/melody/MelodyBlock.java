@@ -1,6 +1,5 @@
 package cp.model.melody;
 
-import cp.composition.timesignature.TimeConfig;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.note.Note;
@@ -10,9 +9,11 @@ import cp.util.RandomUtil;
 import cp.util.Util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import static java.util.Comparator.reverseOrder;
 import static java.util.stream.Collectors.toList;
@@ -25,7 +26,6 @@ public class MelodyBlock {
 	private int dependingVoice = -1;
 	private int voice = -1;
 	private int offset;
-	private TimeConfig timeConfig;
 	private boolean mutable = true;
 	private boolean rhythmMutable = true;
 	private boolean rhythmDependant;
@@ -62,7 +62,6 @@ public class MelodyBlock {
 		this.dependingVoice = anotherBlock.getDependingVoice();
 		this.voice = anotherBlock.getVoice();
 		this.offset = anotherBlock.getOffset();
-		this.timeConfig = anotherBlock.getTimeConfig();
 		this.rhythmDependant = anotherBlock.isRhythmDependant();
 		this.calculable = anotherBlock.isCalculable();
 	}
@@ -236,6 +235,32 @@ public class MelodyBlock {
 		this.melodyBlocks.add(melody);
 	}
 
+	public void updateMelodyBlock(MelodyBlock melodyBlock, int position){
+		int end = melodyBlock.getLastMelody().getEnd() + position;
+		int endBlock = this.getLastMelody().getEnd();
+		List<CpMelody> filteredBlock = melodyBlocks.stream().filter(m -> m.getStart() < position || m.getStart() >= end).collect(toList());
+		List<CpMelody> melodyBlocksToInsert = melodyBlock.getMelodyBlocks();
+		List<CpMelody> clonedMelodyBlock = melodyBlocksToInsert.stream()
+				.filter(m -> m.getEnd() <= endBlock)
+				.map(m -> m.clone())
+				.map(m -> {
+					m.getNotes()
+							.forEach(n -> {
+								n.setPosition(position + n.getPosition());
+								n.setVoice(this.voice);
+							});
+					m.setVoice(this.voice);
+					m.setStart(position + m.getStart());
+					m.setEnd(position + m.getEnd());
+					return m;
+				})
+				.collect(Collectors.toList());
+		melodyBlocks.clear();
+		melodyBlocks.addAll(filteredBlock);
+		melodyBlocks.addAll(clonedMelodyBlock);
+		Collections.sort(melodyBlocks);
+	}
+
 	public boolean isMutable() {
 		return mutable;
 	}
@@ -303,19 +328,24 @@ public class MelodyBlock {
 	public void setOffset(int offset) {
 		this.offset = offset;
 	}
+
+	public CpMelody getFirstMelody(){
+		return this.melodyBlocks.get(0);
+	}
 	
 	public CpMelody getLastMelody(){
+		Collections.sort(melodyBlocks);
 		int last = this.melodyBlocks.size() - 1;
 		return this.melodyBlocks.get(last);
 	}
 
-	public TimeConfig getTimeConfig() {
-		return timeConfig;
-	}
-
-	public void setTimeConfig(TimeConfig timeConfig) {
-		this.timeConfig = timeConfig;
-	}
+//	public TimeConfig getTimeConfig() {
+//		return timeConfig;
+//	}
+//
+//	public void setTimeConfig(TimeConfig timeConfig) {
+//		this.timeConfig = timeConfig;
+//	}
 
 	public void setMelodyBlocks(List<CpMelody> melodyBlocks) {
 		this.melodyBlocks = melodyBlocks;

@@ -1,6 +1,7 @@
 package cp.evaluation;
 
-import cp.generator.MusicProperties;
+import cp.composition.Composition;
+import cp.composition.voice.VoiceConfig;
 import cp.model.Motive;
 import cp.model.TimeLine;
 import cp.model.harmony.CpHarmony;
@@ -43,13 +44,13 @@ public class FitnessEvaluationTemplate {
 	@Autowired
 	private HarmonyExtractor harmonyExtractor;
 	@Autowired
-	private MusicProperties musicProperties;
+	private Composition composition;
 	@Autowired
 	private TimeLine timeLine;
 
 	public FitnessObjectiveValues evaluate(Motive motive) {
 		List<MelodyBlock> melodies = motive.getMelodyBlocks();
-		List<MelodyBlock> melodiesToCalculate = melodies.stream().filter(m -> m.isCalculable()).collect(toList());
+		List<MelodyBlock> melodiesToCalculate = melodies.stream().filter(m -> m.isCalculable() && !m.getMelodyBlockNotes().isEmpty()).collect(toList());
 		updatePitchesFromContour(melodiesToCalculate);
 		updateRhythmWeight(melodiesToCalculate);
 
@@ -70,20 +71,12 @@ public class FitnessEvaluationTemplate {
 
 	protected void updateRhythmWeight(List<MelodyBlock> melodies) {
 		for (MelodyBlock melody : melodies) {
+			VoiceConfig voiceConfig = composition.getVoiceConfiguration(melody.getVoice());
 			List<Note> notes = melody.getMelodyBlockNotes();
 			rhythmWeight.setNotes(notes);
-			rhythmWeight.updateRhythmWeightMinimum(musicProperties.getMinimumLength());
+			rhythmWeight.updateRhythmWeightMinimum(voiceConfig.getTimeConfig().getMinimumLength());
 		}
 	}
-
-//	private void dependingMelodies(List<MelodyBlock> melodies) {
-//		List<MelodyBlock> dependantMelodies = melodies.stream().filter(m -> m.isDependant()).collect(toList());
-//		for (MelodyBlock dependantMelody : dependantMelodies) {
-//			MelodyBlock dux = findMelodyForVoice(melodies, dependantMelody.getDependingVoice());
-//			MelodyBlock comes = findMelodyForVoice(melodies, dependantMelody.getVoice());
-//			comes.transformDependingOn(dux, timeLine);
-//		}
-//	}
 
 	protected MelodyBlock findMelodyForVoice(List<MelodyBlock> melodies, int voice) {
 		return melodies.stream().filter(m -> m.getVoice() == voice).findFirst().get();
@@ -96,8 +89,8 @@ public class FitnessEvaluationTemplate {
 		double harmonyResolution = harmonicResolutionObjective.evaluate(motive);
 		LOGGER.debug("harmonyResolution: " + harmonyResolution);
 		
-//		double voiceLeading = voiceLeadingObjective.evaluate(motive);
-//		LOGGER.fine("voiceLeadingSize: " + voiceLeading);
+		double voiceLeading = voiceLeadingObjective.evaluate(motive);
+		LOGGER.debug("voiceLeadingSize: " + voiceLeading);
 		
 		double melodic = melodicObjective.evaluate(motive);
 		LOGGER.debug("melodic = " + melodic);
@@ -114,7 +107,7 @@ public class FitnessEvaluationTemplate {
 		FitnessObjectiveValues fitnessObjectives = new FitnessObjectiveValues();
 		fitnessObjectives.setHarmony(harmony);
 		fitnessObjectives.setMelody(melodic);
-//		fitnessObjectives.setVoiceleading(voiceLeading);
+		fitnessObjectives.setVoiceleading(voiceLeading);
 //		fitnessObjectives.setTonality(tonality);
 		fitnessObjectives.setRhythm(rhythm);
 		fitnessObjectives.setMeter(meter);

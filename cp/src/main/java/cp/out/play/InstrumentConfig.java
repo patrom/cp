@@ -47,10 +47,12 @@ public class InstrumentConfig {
 
     @PostConstruct
     public void instrumentInit() {
-        Piano piano = new Piano();
-        piano.setInstrumentRegister(new InstrumentRegister(67,80));
-        instruments.put(4,new InstrumentMapping(piano, 4, 4));
-        instruments = getStrings(mellow);
+//        Piano piano = new Piano();
+//        piano.setInstrumentRegister(new InstrumentRegister(67,80));
+//        instruments.put(4,new InstrumentMapping(piano, 4, 4));
+//        instruments = getSAATBChoir();
+//        instruments.put(0,new InstrumentMapping(new Piano(), 1, 0));
+        instruments = getOrchestra();
         for (InstrumentMapping instrumentMapping : instruments.values()) {
             allInstrumentMappings.add(instrumentMapping);
             allInstrumentMappings.addAll(instrumentMapping.getDependantInstruments());
@@ -181,12 +183,16 @@ public class InstrumentConfig {
         InstrumentMapping cello = new InstrumentMapping(new Cello(), 10, 18);
         InstrumentMapping bass = new InstrumentMapping(new Doublebass(), 11, 19);
 
-        violin1.setOrchestralQuality(rich);
+        violin1.setOrchestralQuality(bright);
         flute.setOrchestralQuality(bright);
         violin1.addDependantInstrument(flute);
-        instruments.put(3,violin1);
-        instruments.put(2,violin2);
-        instruments.put(1,viola);
+        violin1.addDependantInstrument(clarinet);
+
+        instruments.put(1,violin1);
+//        instruments.put(2,violin2);
+//        instruments.put(1,viola);
+        cello.addDependantInstrument(horn);
+        cello.setOrchestralQuality(rich);
         cello.addDependantInstrument(bassoon);
         instruments.put(0,cello);
         return  instruments;

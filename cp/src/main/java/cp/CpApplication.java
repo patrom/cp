@@ -7,10 +7,7 @@ import cp.model.melody.MelodyBlock;
 import cp.nsga.MusicSolution;
 import cp.nsga.MusicSolutionType;
 import cp.nsga.MusicVariable;
-import cp.nsga.operator.mutation.melody.ArticulationMutation;
-import cp.nsga.operator.mutation.melody.CopyMelody;
-import cp.nsga.operator.mutation.melody.OneNoteMutation;
-import cp.nsga.operator.mutation.melody.ReplaceMelody;
+import cp.nsga.operator.mutation.melody.*;
 import cp.out.orchestration.Orchestrator;
 import cp.out.orchestration.quality.Brilliant;
 import cp.out.orchestration.quality.Pleasant;
@@ -29,6 +26,7 @@ import org.springframework.boot.Banner.Mode;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
@@ -58,6 +56,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	@Autowired
 	private CopyMelody copyMelody;
 	@Autowired
+	private ReplaceMelodyBlock replaceMelodyBlock;
+	@Autowired
 	private Algorithm algorithm;
 	@Autowired
 	private Display display;
@@ -68,19 +68,19 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 
 	@Autowired
 	private ComposeInGenre composeInGenre;
-	@Autowired
+	@Autowired @Lazy
 	@Qualifier(value="melodyComposition")
 	private MelodyComposition melodyComposition;
-	@Autowired
+	@Autowired @Lazy
 	@Qualifier(value="twoVoiceComposition")
 	private TwoVoiceComposition twoVoiceComposition;
-	@Autowired
+	@Autowired @Lazy
 	@Qualifier(value="threeVoiceComposition")
 	private ThreeVoiceComposition threeVoiceComposition;
-	@Autowired
+	@Autowired @Lazy
 	@Qualifier(value="fourVoiceComposition")
 	private FourVoiceComposition fourVoiceComposition;
-	@Autowired
+	@Autowired @Lazy
 	@Qualifier(value="fiveVoiceComposition")
 	private FiveVoiceComposition fiveVoiceComposition;
 	@Autowired
@@ -115,6 +115,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		List<CompositionGenre> composeInGenres = new ArrayList<>();
 //		composeInGenres.add(melodyComposition::melody);
 
+//		composeInGenres.add(twoVoiceComposition::voiceConfig);
+
 //		composeInGenres.add(twoVoiceComposition::beatEven);
 //		composeInGenres.add(twoVoiceComposition::canon);
 //		composeInGenres.add(twoVoiceComposition::fugueInverse);
@@ -129,7 +131,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		twoVoiceComposition.setHarmonizeVoice(1);
 //		composeInGenres.add(twoVoiceComposition::harmonize);
 
-//		composeInGenres.add(threeVoiceComposition::canon2Voice1Acc);
+		composeInGenres.add(threeVoiceComposition::canon2Voice1Acc);
 //		composeInGenres.add(threeVoiceComposition::accFixedRhythm);
 //		composeInGenres.add(threeVoiceComposition::operatorTplusAcc);
 //		composeInGenres.add(threeVoiceComposition::operatorT);
@@ -144,8 +146,11 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(fourVoiceComposition::canon);
 //		composeInGenres.add(fourVoiceComposition::accDuplicateRhythm);
 //		composeInGenres.add(fourVoiceComposition::doubleCanon);
+//		fourVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
+//		fourVoiceComposition.setHarmonizeVoice(1);
+//		composeInGenres.add(fourVoiceComposition::harmonize);
 
-		composeInGenres.add(fiveVoiceComposition::accDuplicateRhythm);
+//		composeInGenres.add(fiveVoiceComposition::accDuplicateRhythm);
 //		fiveVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
 //		fiveVoiceComposition.setHarmonizeVoice(4);
 //		composeInGenres.add(fiveVoiceComposition::harmonize);
@@ -167,10 +172,10 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 			    
 //			    population.sort(Comparator.comparing(MusicSolution::getMelody).thenComparing(MusicSolution::getHarmony));
 			    population.sort(Comparator
-						.comparing(MusicSolution::getHarmony)
-						.thenComparing(MusicSolution::getMelody)
+						.comparing(MusicSolution::getMelody)
+						.thenComparing(MusicSolution::getResolution)
 			    		.thenComparing(MusicSolution::getVoiceLeading)
-			    		.thenComparing(MusicSolution::getResolution));
+			    		.thenComparing(MusicSolution::getHarmony));
 
 			    
 			    Iterator<Solution> solutionIterator = population.iterator();
@@ -182,7 +187,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 					String id = dateID + "_" + CpApplication.COUNTER.getAndIncrement();
 					LOGGER.info(id);
 					display.view(solutionMotive, id);
-//					orchestrator.orchestrate(solutionMotive.getMelodyBlocks(), id);
+					orchestrator.orchestrate(solutionMotive.getMelodyBlocks(), id);
 					i++;
 				}
 			   
@@ -206,6 +211,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	    algorithm.addOperator("articulationMutation", articulationMutation);
 	    algorithm.addOperator("replaceMelody", replaceMelody);
 		algorithm.addOperator("copyMelody", copyMelody);
+		algorithm.addOperator("replaceMelodyBlock", replaceMelodyBlock);
 	    algorithm.addOperator("selection", SelectionFactory.getSelectionOperator("BinaryTournament2", parameters));
 	}
 	

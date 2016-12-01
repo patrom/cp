@@ -38,7 +38,7 @@ public class HarmonizeNotes {
 	
 	public List<Note> getFileToHarmonize() {
 		try {
-			MusicXMLParser parser  = new MusicXMLParser("cp/src/main/resources/harmonize/kyrieComplete.xml");
+			MusicXMLParser parser  = new MusicXMLParser("cp/src/main/resources/harmonize/kyrie3.xml");
 			parser.parseMusicXML();
 			Map<String, List<Note>> notesPerInstrument = parser.getNotesPerInstrument();
 			String instrument = "P1";
@@ -49,6 +49,6 @@ public class HarmonizeNotes {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-       return Collections.EMPTY_LIST;
+       return Collections.emptyList();
 	}
 }

@@ -2,6 +2,7 @@ package cp.composition;
 
 import cp.composition.beat.BeatGroupFactory;
 import cp.composition.timesignature.TimeConfig;
+import cp.composition.voice.*;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
 import cp.generator.pitchclass.*;
@@ -11,6 +12,9 @@ import cp.model.dissonance.DyadTriadsTetraAndPentaChordal;
 import cp.model.dissonance.IntervalDissonance;
 import cp.model.dissonance.SetClassDissonance;
 import cp.model.dissonance.TonalDissonance;
+import cp.model.melody.CpMelody;
+import cp.model.melody.MelodyBlock;
+import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
 import cp.nsga.operator.mutation.melody.ReplaceMelody;
@@ -26,8 +30,8 @@ import cp.out.orchestration.quality.Mellow;
 import cp.out.orchestration.quality.Pleasant;
 import cp.out.orchestration.quality.Rich;
 import cp.out.play.InstrumentConfig;
+import cp.out.play.InstrumentMapping;
 import cp.out.print.note.Key;
-import cp.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,6 +39,8 @@ import org.springframework.beans.factory.annotation.Value;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public abstract class Composition {
 
@@ -132,7 +138,7 @@ public abstract class Composition {
 	private Ensemble ensemble;
 	
 	protected final int start = 0;
-	protected final int end = 6 * DurationConstants.WHOLE;
+	protected final int end = 3 * DurationConstants.WHOLE;
 	
 	private TimeConfig timeConfig;
 	
@@ -163,9 +169,11 @@ public abstract class Composition {
 	@Autowired
 	protected InstrumentConfig instrumentConfig;
 
+	protected Map<Integer, VoiceConfig> voiceConfiguration = new TreeMap<>();
+
 	@PostConstruct
 	public void init(){
-		composeInKey(Aflat);
+		composeInKey(A);
 		inTempo(55);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
@@ -181,7 +189,7 @@ public abstract class Composition {
 
 		setTimeconfig();
 		List<TimeLineKey> keys = new ArrayList<>();
-		keys.add(new TimeLineKey(Aflat, Scale.MAJOR_SCALE, start, end));
+		keys.add(new TimeLineKey(A, Scale.MAJOR_SCALE, start, 2 * end));
 //		keys.add(new TimeLineKey(Aflat, Scale.MAJOR_SCALE, 2 * DurationConstants.WHOLE, 3 * DurationConstants.WHOLE));
 //		keys.add(new TimeLineKey(F, Scale.HARMONIC_MINOR_SCALE, 3 * DurationConstants.WHOLE, end));
 //		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 3 * DurationConstants.WHOLE, end));
@@ -223,15 +231,27 @@ public abstract class Composition {
 		pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
 //		pitchClassGenerators.add(restPitchClasses::updatePitchClasses);
 
-		melodyGenerator.setCompostion(this);
 		melodyGenerator.setBeatGroupStrategy(timeConfig::getAllBeats);
-		replaceMelody.setComposition(this);
 		harmonicObjective.setDissonance(dyadTriadsTetraAndPentaChordal::getDissonance);
 		harmonicResolutionObjective.setDissonantResolution(dissonantResolutionImpl::isDissonant);
+
 	}
 
-	public PitchClassGenerator getRandomPitchClassGenerator() {
-		return RandomUtil.getRandomFromList(pitchClassGenerators);
+	@Autowired
+	protected MelodyVoice melodyVoice;
+	@Autowired
+	protected HomophonicVoice homophonicVoice;
+	@Autowired
+	protected BassVoice bassVoice;
+	@Autowired
+	protected FixedVoice fixedVoice;
+
+	public VoiceConfig getVoiceConfiguration(int voice){
+		return voiceConfiguration.get(voice);
+	}
+
+	public PitchClassGenerator getRandomPitchClassGenerator(int voice) {
+		return voiceConfiguration.get(voice).getRandomPitchClassGenerator();
 	}
 	
 	private void setTimeconfig(){
@@ -274,5 +294,51 @@ public abstract class Composition {
 	public void setHarmonizeVoice(int harmonizeVoice) {
 		this.harmonizeVoice = harmonizeVoice;
 	}
+
+	protected List<Integer> getContour(List<Note> notes){
+		List<Integer> contour = new ArrayList<>();
+		int size = notes.size() - 1;
+		for (int i = 0; i < size; i++) {
+			Note note = notes.get(i);
+			Note nextNote = notes.get(i + 1);
+			int difference = nextNote.getPitch() - note.getPitch();
+			if(difference < 0){
+				contour.add(-1);
+			}else{
+				contour.add(1);
+			}
+		}
+		return contour;
+	}
+
+	public List<MelodyBlock> harmonize(){
+		List<MelodyBlock> melodyBlocks = new ArrayList<>();
+		//harmonization
+		List<Note> notes = harmonizeMelody.getNotesToHarmonize();
+
+		InstrumentMapping instrumentHarmonize = instrumentConfig.getInstrumentMappingForVoice(harmonizeVoice);
+		CpMelody melody = new CpMelody(notes, harmonizeVoice, start, end);
+		List<Integer> contour = getContour(notes);
+		melody.setContour(contour);
+		MelodyBlock melodyBlockHarmonize = new MelodyBlock(6, harmonizeVoice);
+		melodyBlockHarmonize.addMelodyBlock(melody);
+		melodyBlockHarmonize.setMutable(false);
+		melodyBlockHarmonize.setInstrument(instrumentHarmonize.getInstrument());
+//		melodyBlockHarmonize.I();
+
+		melodyBlocks.add(melodyBlockHarmonize);
+		int size = instrumentConfig.getSize();
+		for (int i = 0; i < size; i++) {
+			if (i != harmonizeVoice) {
+				Instrument instrument = instrumentConfig.getInstrumentForVoice(i);
+				MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(i, instrument.pickRandomOctaveFromRange());
+				melodyBlock.setInstrument(instrument);
+				melodyBlocks.add(melodyBlock);
+			}
+		}
+
+		return melodyBlocks;
+	}
+
 
 }

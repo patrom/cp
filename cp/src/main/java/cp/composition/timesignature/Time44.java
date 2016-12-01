@@ -25,7 +25,7 @@ public class Time44 extends TimeConfig{
 		beatsDoubleLength.add(defaultGroup12);
 		beatsAll.add(defaultGroup6);
 		beatsAll.add(defaultGroup12);
-		minimumRhythmFilterLevel = DurationConstants.QUARTER;
+		minimumLength = DurationConstants.QUARTER;
 		distance = new int[]{2,4,8,10,12,14,16,18,20,21,22,24,26,27,28,30,32};//minimumRhythmicValue = 12 - 4/4
 		offset = DurationConstants.WHOLE;
 	}

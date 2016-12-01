@@ -37,8 +37,12 @@ public class Scale {
 			WEBERN_TRICHORD_1 = new Scale(new int[]{10, 11, 2}),//op. 24
 			WEBERN_TRICHORD_2 = new Scale(new int[]{6, 7, 3}),
 			WEBERN_TRICHORD_3 = new Scale(new int[]{4, 5 , 8}),
-			WEBERN_TRICHORD_4 = new Scale(new int[]{0, 1, 9});
-		
+			WEBERN_TRICHORD_4 = new Scale(new int[]{0, 1, 9}),
+
+			VARIATIONS_FOR_ORCHESTRA_OP31 = new Scale(new int[]{10,4,6,3,5,9,2,1,7,8,11,0}),
+			VARIATIONS_FOR_ORCHESTRA_OP31_HEXA1 = new Scale(new int[]{10,4,6,3,5,9}),
+			VARIATIONS_FOR_ORCHESTRA_OP31_HEXA2 = new Scale(new int[]{2,1,7,8,11,0});
+
 			
 	private final Random random = new Random(System.currentTimeMillis());
 	private final int[] scale;
@@ -68,7 +72,7 @@ public class Scale {
 	/**
 	 * @param functionalDegreeCenter functional degree (I = 1, II = 2, ..., VII = 7)
 	 * @param pitchClass pc to inverse
-	 * @return
+	 * @return inverse pc
 	 */
 	public int getInversedPitchClass(int functionalDegreeCenter, int pitchClass){
 		if (functionalDegreeCenter < 1 || functionalDegreeCenter > 7) {

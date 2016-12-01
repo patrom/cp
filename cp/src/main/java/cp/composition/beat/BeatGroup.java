@@ -4,7 +4,6 @@ import cp.combination.RhythmCombination;
 import cp.model.note.Note;
 import cp.util.RandomUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BeatGroup {
@@ -34,19 +33,20 @@ public abstract class BeatGroup {
 	}
 
 	public List<Note> getNotes() {
-		int size = rhythmCombinations.size();
-		int beatLength = getBeatLength() / size;
-		RhythmCombination rhythmCombination = rhythmCombinations.get(0);
-		List<Note> notes = rhythmCombination.getNotes(beatLength);
-		List<Note> melodyNotes = new ArrayList<>(notes);
-		for (int i = 1; i < size; i++) {
-			rhythmCombination = rhythmCombinations.get(i);
-			int beatPosition = i * beatLength;
-			notes = rhythmCombination.getNotes(beatLength);
-			notes.forEach(n -> {n.setPosition(n.getPosition() + beatPosition);});
-			melodyNotes.addAll(notes);
-		}
-		return melodyNotes;
+		return rhythmCombinations.get(0).getNotes(getBeatLength());
+//		int size = rhythmCombinations.size();
+//		int beatLength = getBeatLength() / size;
+//		RhythmCombination rhythmCombination = rhythmCombinations.get(0);
+//		List<Note> notes = rhythmCombination.getNotes(beatLength);
+//		List<Note> melodyNotes = new ArrayList<>(notes);
+//		for (int i = 1; i < size; i++) {
+//			rhythmCombination = rhythmCombinations.get(i);
+//			int beatPosition = i * beatLength;
+//			notes = rhythmCombination.getNotes(beatLength);
+//			notes.forEach(n -> {n.setPosition(n.getPosition() + beatPosition);});
+//			melodyNotes.addAll(notes);
+//		}
+//		return melodyNotes;
 	}
 
 	public List<Note> getNotesRandom() {

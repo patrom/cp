@@ -6,6 +6,7 @@ import cp.composition.beat.BeatGroupFactory;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.note.Note;
+import cp.model.note.NoteBuilder;
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Instrument;
@@ -492,6 +493,37 @@ public class MelodyBlockTest {
 		assertEquals(1, notes.get(4).getPitchClass());//key of D
 	}
 
+	@Test
+	public void testUpdateMelodyBlock() {
+		melodyBlock = new MelodyBlock(5,0);
+		List<Note> notes = new ArrayList<>();
+		melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+		melodyBlock.addMelodyBlock(melody);
+		melody = new CpMelody(notes, 0,  DurationConstants.WHOLE,  2* DurationConstants.WHOLE);
+		melodyBlock.addMelodyBlock(melody);
+		melody = new CpMelody(notes, 0,2 * DurationConstants.WHOLE,  4 * DurationConstants.WHOLE);
+		melodyBlock.addMelodyBlock(melody);
+		melody = new CpMelody(notes, 0,4 * DurationConstants.WHOLE,  6 * DurationConstants.WHOLE);
+		melodyBlock.addMelodyBlock(melody);
+		melody = new CpMelody(notes, 0,6 * DurationConstants.WHOLE,  8 * DurationConstants.WHOLE);
+		melodyBlock.addMelodyBlock(melody);
 
+		MelodyBlock melodyBlockToUpdate = new MelodyBlock(4,1);
+		notes = new ArrayList<>();
+		notes.add(NoteBuilder.note().pc(0).pos(0).build());
+		melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+		melodyBlockToUpdate.addMelodyBlock(melody);
+		notes = new ArrayList<>();
+		notes.add(NoteBuilder.note().pc(2).pos(DurationConstants.WHOLE).build());
+		melody = new CpMelody(notes, 0,  DurationConstants.WHOLE,  4* DurationConstants.WHOLE);
+		melodyBlockToUpdate.addMelodyBlock(melody);
+
+		melodyBlock.updateMelodyBlock(melodyBlockToUpdate,2* DurationConstants.WHOLE );
+		CpMelody melody = melodyBlock.getMelodyBlocks().get(2);
+		Note note = melodyBlock.getMelodyBlocks().get(2).getNotes().get(0);
+		assertEquals(2 * DurationConstants.WHOLE, melody.getStart());
+		assertEquals(2* DurationConstants.WHOLE, note.getPosition());
+		assertEquals(0, note.getVoice());
+	}
 
 }

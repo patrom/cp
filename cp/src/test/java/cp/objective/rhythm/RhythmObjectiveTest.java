@@ -1,7 +1,9 @@
 package cp.objective.rhythm;
 
 import cp.DefaultConfig;
+import cp.composition.Composition;
 import cp.composition.timesignature.TimeConfig;
+import cp.composition.voice.MelodyVoice;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
 import cp.model.melody.CpMelody;
@@ -12,6 +14,10 @@ import cp.out.print.ScoreUtilities;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +38,7 @@ public class RhythmObjectiveTest extends JFrame {
 	private static Logger LOGGER = LoggerFactory.getLogger(RhythmObjectiveTest.class.getName());
 	
 	@Autowired
+	@InjectMocks
 	private RhythmObjective rhythmObjective;
 	@Autowired
 	private ScoreUtilities scoreUtilities;
@@ -42,14 +49,19 @@ public class RhythmObjectiveTest extends JFrame {
 	@Autowired
 	@Qualifier(value="time44")
 	private TimeConfig time44;
+	@Mock
+	private Composition composition;
+	@Autowired
+	private MelodyVoice melodyVoice;
 	
 	@Before
 	public void setUp() throws Exception {
-		musicProperties.setMinimumLength(12);
+		MockitoAnnotations.initMocks(this);
 	}
 
 	@Test
 	public void testGetProfile() {
+		Mockito.when(composition.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pitch(60).positionWeight(4.0).build());
 		notes.add(note().pos(DurationConstants.QUARTER).pitch(60).positionWeight(1.0).build());
@@ -61,8 +73,7 @@ public class RhythmObjectiveTest extends JFrame {
 		CpMelody melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE * 2);
 		MelodyBlock melodyBlock = new MelodyBlock(5, 0);
 		melodyBlock.addMelodyBlock(melody);
-		melodyBlock.setTimeConfig(time44);
-		double profileAverage = rhythmObjective.getProfileAverage(melodyBlock, 3.0, DurationConstants.QUARTER);
+		double profileAverage = rhythmObjective.getProfileAverage(melodyBlock);
 		assertEquals(0.75 , profileAverage, 0);
 	}
 

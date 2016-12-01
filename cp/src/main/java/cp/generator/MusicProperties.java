@@ -10,7 +10,6 @@ public class MusicProperties {
 	
 	private int harmonyBeatDivider = DurationConstants.QUARTER;
 	private int tempo = 100;
-	private int minimumLength = 3; //for rhythm weight
 	private double[] filterLevels = {0.5};
 //	private int minimumRhythmFilterLevel = 12; //levels pitch, crest/keel, ...
 //	private int[] distance = {2,3,4,5,6,8,9,10,12,14,15,16,18,20,21,22,24,26,27,28,30,32};//minimumRhythmicValue = 12 - default
@@ -127,14 +126,6 @@ public class MusicProperties {
 		this.tempo = tempo;
 	}
 	
-	public int getMinimumLength() {
-		return minimumLength;
-	}
-	
-	public void setMinimumLength(int minimumLength) {
-		this.minimumLength = minimumLength;
-	}
-	
 	public void setScale(Scale scale) {
 		this.scale = scale;
 	}
@@ -178,14 +169,6 @@ public class MusicProperties {
 	public void setHarmonies(int[][] harmonies) {
 		this.harmonies = harmonies;
 	}
-
-//	public int getMinimumRhythmFilterLevel() {
-//		return minimumRhythmFilterLevel;
-//	}
-//
-//	public void setMinimumRhythmFilterLevel(int minimumRhythmFilterLevel) {
-//		this.minimumRhythmFilterLevel = minimumRhythmFilterLevel;
-//	}
 
 	public int[] getDistance() {
 		return distance;

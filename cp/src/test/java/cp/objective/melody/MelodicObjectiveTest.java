@@ -39,7 +39,6 @@ public class MelodicObjectiveTest extends AbstractTest {
 	
 	@Before
 	public void setup() {
-		musicProperties.setMinimumLength(6);
 		melodyNotes = new ArrayList<>();
 	}
 	

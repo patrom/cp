@@ -27,7 +27,7 @@ public class Time58 extends TimeConfig{
 		beatsDoubleLength.add(defaultGroupUneven);
 		beatsAll.add(defaultGroupEven);
 		beatsAll.add(defaultGroupUneven);
-		minimumRhythmFilterLevel = DurationConstants.EIGHT;
+		minimumLength = DurationConstants.EIGHT;
 		distance = new int[]{2,5,7,10,12,15,17,20};
 		offset = 5 * DurationConstants.EIGHT;
 	}

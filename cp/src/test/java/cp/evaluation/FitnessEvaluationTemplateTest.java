@@ -2,7 +2,9 @@ package cp.evaluation;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
+import cp.composition.Composition;
 import cp.composition.timesignature.TimeConfig;
+import cp.composition.voice.MelodyVoice;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
 import cp.model.Motive;
@@ -15,6 +17,10 @@ import cp.out.print.ScoreUtilities;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +41,7 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 	private static final Logger LOGGER = LoggerFactory.getLogger(FitnessEvaluationTemplateTest.class);
 	
 	@Autowired
+	@InjectMocks
 	private FitnessEvaluationTemplate fitnessEvaluationTemplate;
 	@Autowired
 	private MelodyGenerator melodyGenerator;
@@ -47,10 +54,16 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 	private TimeConfig time44;
 	
 	private List<MelodyBlock> melodies;
+	@Mock
+	private Composition composition;
+	@Autowired
+	private MelodyVoice melodyVoice;
 
 	@Before
 	public void setUp() throws Exception {
 		melodies = new ArrayList<>();
+		MockitoAnnotations.initMocks(this);
+		Mockito.when(composition.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
 	}
 
 	@Test
@@ -66,7 +79,6 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
-		melodyBlock.setTimeConfig(time44);
 		melodies.add(melodyBlock);
 		
 		evaluate();
@@ -96,7 +108,6 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
-		melodyBlock.setTimeConfig(time44);
 		melodies.add(melodyBlock);
 		
 		notes = new ArrayList<>();
@@ -105,7 +116,6 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		melody = new CpMelody(notes, 0, 0 , 60);
 		melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
-		melodyBlock.setTimeConfig(time44);
 		melodies.add(melodyBlock);
 		
 		evaluate();
@@ -120,7 +130,6 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
-		melodyBlock.setTimeConfig(time44);
 		melodies.add(melodyBlock);
 		
 		notes = new ArrayList<>();
@@ -129,7 +138,6 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		melody = new CpMelody(notes, 0, 0 , 60);
 		melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
-		melodyBlock.setTimeConfig(time44);
 		melodies.add(melodyBlock);
 		
 		evaluate();
@@ -144,7 +152,6 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
-		melodyBlock.setTimeConfig(time44);
 		melodies.add(melodyBlock);
 		
 		notes = new ArrayList<>();
@@ -153,7 +160,6 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		melody = new CpMelody(notes, 0, 0 , 60);
 		melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
-		melodyBlock.setTimeConfig(time44);
 		melodies.add(melodyBlock);
 		
 		evaluate();
@@ -169,7 +175,6 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
-		melodyBlock.setTimeConfig(time44);
 		melodies.add(melodyBlock);
 		
 		notes = new ArrayList<>();
@@ -179,7 +184,6 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		melody = new CpMelody(notes, 0, 0 , 60);
 		melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
-		melodyBlock.setTimeConfig(time44);
 		melodies.add(melodyBlock);
 		
 		evaluate();
@@ -194,7 +198,6 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
-		melodyBlock.setTimeConfig(time44);
 		melodies.add(melodyBlock);
 		
 		notes = new ArrayList<>();
@@ -203,7 +206,6 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		melody = new CpMelody(notes, 0, 0 , 60);
 		melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
-		melodyBlock.setTimeConfig(time44);
 		melodies.add(melodyBlock);
 		
 		evaluate();
@@ -225,7 +227,6 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
-		melodyBlock.setTimeConfig(time44);
 		melodies.add(melodyBlock);
 		
 		notes = new ArrayList<>();
@@ -240,7 +241,6 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		melody = new CpMelody(notes, 0, 0 , 60);
 		melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
-		melodyBlock.setTimeConfig(time44);
 		melodies.add(melodyBlock);
 		
 		evaluate();
@@ -258,11 +258,9 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pc(4).pitch(64).build());
 		notes.add(note().pos(42).pc(2).pitch(62).build());
 		notes.add(note().pos(DurationConstants.WHOLE).pc(5).pitch(65).build());
-		musicProperties.setMinimumLength(6);
 		CpMelody melody = new CpMelody(notes, 1, 0, 60);
 		MelodyBlock melodyBlock = new MelodyBlock(5,1);
 		melodyBlock.addMelodyBlock(melody);
-		melodyBlock.setTimeConfig(time44);
 		melodies.add(melodyBlock);
 		
 		evaluate();

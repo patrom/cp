@@ -3,6 +3,7 @@ package cp.composition;
 import cp.model.melody.MelodyBlock;
 import cp.model.melody.Operator;
 import cp.nsga.operator.relation.OperatorRelation;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -14,23 +15,30 @@ import java.util.List;
  */
 
 @Component(value="fourVoiceComposition")
+@ConditionalOnProperty(name = "composition.voices", havingValue = "4")
 public class FourVoiceComposition extends  Composition {
 
     @PostConstruct
     public void initInstruments(){
-       if(instrumentConfig.getSize() >= 4){
-           instrument1 = instrumentConfig.getInstrumentForVoice(voice0);
-           instrument2 = instrumentConfig.getInstrumentForVoice(voice1);
-           instrument3 = instrumentConfig.getInstrumentForVoice(voice2);
-           instrument4 = instrumentConfig.getInstrumentForVoice(voice3);
+       if(instrumentConfig.getSize() < 4){
+          throw new IllegalStateException("Set instrument config to correct instrument");
        }
+        instrument1 = instrumentConfig.getInstrumentForVoice(voice0);
+        instrument2 = instrumentConfig.getInstrumentForVoice(voice1);
+        instrument3 = instrumentConfig.getInstrumentForVoice(voice2);
+        instrument4 = instrumentConfig.getInstrumentForVoice(voice3);
+
+        voiceConfiguration.put(voice0, bassVoice);
+        voiceConfiguration.put(voice1, homophonicVoice);
+        voiceConfiguration.put(voice2, homophonicVoice);
+        voiceConfiguration.put(voice3, melodyVoice);
     }
 
     public List<MelodyBlock> canon(){
         List<MelodyBlock> melodyBlocks = new ArrayList<>();
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
-        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(voice0, instrument1.pickRandomOctaveFromRange(), getTimeConfig()::getBeatsDoubleLength);
+        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
         melodyBlock.setInstrument(instrument1);
         melodyBlocks.add(melodyBlock);
 
@@ -77,13 +85,14 @@ public class FourVoiceComposition extends  Composition {
         List<MelodyBlock> melodyBlocks = new ArrayList<>();
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
-        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(voice0, instrument1.pickRandomOctaveFromRange(), getTimeConfig()::getBeatsDoubleLength);
+        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
         melodyBlock.setInstrument(instrument1);
         melodyBlocks.add(melodyBlock);
 
-        MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlock(voice1, instrument2.pickRandomOctaveFromRange(), getTimeConfig()::getBeatsDoubleLength);
+        MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfig(voice1, instrument2.pickRandomOctaveFromRange());
         melodyBlock2.setInstrument(instrument2);
         melodyBlocks.add(melodyBlock2);
+
 
         MelodyBlock melodyBlock3 = melodyGenerator.generateEmptyBlock(instrument3, voice2);
         melodyBlock3.setCalculable(false);
@@ -121,22 +130,26 @@ public class FourVoiceComposition extends  Composition {
      */
     public List<MelodyBlock> accDuplicateRhythm(){
         List<MelodyBlock> melodyBlocks = new ArrayList<>();
-        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(voice0, instrument1.pickRandomOctaveFromRange(), getTimeConfig()::getHomophonicBeatGroup);
+        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
         melodyBlock.setInstrument(instrument1);
         melodyBlocks.add(melodyBlock);
 
-        MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlock(voice1, instrument2.pickRandomOctaveFromRange(), getTimeConfig()::getHomophonicBeatGroup);
+        MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfig(voice1, instrument2.pickRandomOctaveFromRange());
         melodyBlock2.setInstrument(instrument2);
         melodyBlocks.add(melodyBlock2);
+
 
         MelodyBlock melodyBlock3 = melodyGenerator.duplicateRhythmMelodyBlock(melodyBlock2, instrument3, voice2);
         melodyBlocks.add(melodyBlock3);
 
-        //melody
-        MelodyBlock melodyBlock4 = melodyGenerator.generateMelodyBlock(voice3, instrument4.pickRandomOctaveFromRange());
+        MelodyBlock melodyBlock4 = melodyGenerator.generateMelodyBlockConfig(voice3, instrument4.pickRandomOctaveFromRange());
         melodyBlock4.setInstrument(instrument4);
         melodyBlocks.add(melodyBlock4);
 
         return melodyBlocks;
+    }
+
+    public List<MelodyBlock> harmonize(){
+        return super.harmonize();
     }
 }

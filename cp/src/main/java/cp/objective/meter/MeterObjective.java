@@ -42,7 +42,7 @@ public class MeterObjective extends Objective{
 	public double getProfileMergedMelodiesAverage(List<Integer> positionsFiltered){
 		Integer[] filteredPos = new Integer[positionsFiltered.size()];
 		InnerMetricWeight innerMetricWeightMerged = innerMetricWeightFunctions.getInnerMetricWeight(ArrayUtils.toPrimitive(positionsFiltered.toArray(filteredPos)) 
-				,musicProperties.getMinimumLength(), composition.getTimeConfig().getDistance());
+				,composition.getTimeConfig().getMinimumLength(), composition.getTimeConfig().getDistance());
 		LOGGER.debug(innerMetricWeightMerged.getInnerMetricWeightMap().toString());
 		return innerMetricWeightMerged.getInnerMetricWeightAverage();
 	}

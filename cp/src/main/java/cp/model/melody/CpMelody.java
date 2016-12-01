@@ -16,7 +16,7 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-public class CpMelody {
+public class CpMelody implements Comparable<CpMelody>{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CpMelody.class);
 	
@@ -275,7 +275,11 @@ public class CpMelody {
 	public List<Integer> getContour() {
 		return contour;
 	}
-	
+
+	public void setContour(List<Integer> contour) {
+		this.contour = contour;
+	}
+
 	public boolean isMutable() {
 		return mutable;
 	}
@@ -330,5 +334,15 @@ public class CpMelody {
 
 	public void setEnd(int end) {
 		this.end = end;
+	}
+
+	@Override
+	public int compareTo(CpMelody melody) {
+		if(this.start < melody.getStart()){
+			return -1;
+		}else if(this.start < melody.getStart()){
+			return 1;
+		}
+		return 0;
 	}
 }

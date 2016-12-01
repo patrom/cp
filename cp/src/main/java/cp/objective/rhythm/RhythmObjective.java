@@ -1,5 +1,7 @@
 package cp.objective.rhythm;
 
+import cp.composition.Composition;
+import cp.composition.voice.VoiceConfig;
 import cp.model.Motive;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
@@ -21,23 +23,27 @@ public class RhythmObjective extends Objective{
 	
 	@Autowired
 	private InnerMetricWeightFunctions innerMetricWeightFunctions;
+	@Autowired
+	private Composition composition;
 
 	@Override
 	public double evaluate(Motive motive) {
+
 		List<MelodyBlock> melodies = motive.getMelodyBlocks();
         return melodies.stream()
-                .mapToDouble(melody -> getProfileAverage(melody, melody.getTimeConfig().getMinimumRhythmFilterLevel(), musicProperties.getMinimumLength()))
+                .mapToDouble(melody -> getProfileAverage(melody))
                 .average()
                 .getAsDouble();
 	}
 	
-	public double getProfileAverage(MelodyBlock melody, double minimumFilterLevel, int minimumRhythmicValue){
-		List<Note> filteredNotes = filterRhythmWeigths(melody.getMelodyBlockNotes(), minimumFilterLevel);
+	public double getProfileAverage(MelodyBlock melody){
+		VoiceConfig voiceConfig = composition.getVoiceConfiguration(melody.getVoice());
+		List<Note> filteredNotes = filterRhythmWeigths(melody.getMelodyBlockNotes(), voiceConfig.getTimeConfig().getMinimumRhythmFilterLevel());
 		LOGGER.debug(filteredNotes.toString());
 		if (filteredNotes.isEmpty()) {
 			return 0;
 		}
-		InnerMetricWeight innerMetricWeight = innerMetricWeightFunctions.getInnerMetricWeight(filteredNotes , minimumRhythmicValue, melody.getTimeConfig().getDistance());
+		InnerMetricWeight innerMetricWeight = innerMetricWeightFunctions.getInnerMetricWeight(filteredNotes , voiceConfig.getTimeConfig().getMinimumLength(), voiceConfig.getTimeConfig().getDistance());
 		LOGGER.debug("InnerMetricMap: " + innerMetricWeight.getInnerMetricWeightMap().toString());
 		return innerMetricWeight.getInnerMetricWeightAverage();
 	}

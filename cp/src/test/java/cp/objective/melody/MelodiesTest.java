@@ -3,7 +3,9 @@ package cp.objective.melody;
 import cp.AbstractTest;
 import cp.DefaultConfig;
 import cp.combination.RhythmCombination;
+import cp.composition.Composition;
 import cp.composition.beat.BeatGroupTwo;
+import cp.composition.voice.MelodyVoice;
 import cp.evaluation.FitnessEvaluationTemplate;
 import cp.generator.MelodyGenerator;
 import cp.midi.MelodyInstrument;
@@ -25,6 +27,10 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,11 +66,22 @@ public class MelodiesTest extends AbstractTest {
 	@Autowired
 	private RhythmWeight rhythmWeight;
 	@Autowired
+	@InjectMocks
 	private RhythmObjective rhythmObjective;
 	@Autowired
 	private MelodyGenerator melodyGenerator;
 	@Resource(name="defaultUnevenCombinations")
 	private List<RhythmCombination> defaultUnEvenCombinations;
+	@Mock
+	private Composition composition;
+	@Autowired
+	private MelodyVoice melodyVoice;
+
+	@Before
+	public void setUp() throws Exception {
+		MockitoAnnotations.initMocks(this);
+		Mockito.when(composition.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
+	}
 
 	@Test
 	public void testMelodies() throws InvalidMidiDataException, IOException {
@@ -121,11 +138,11 @@ public class MelodiesTest extends AbstractTest {
 			CpMelody melody = new CpMelody(notes, 0, 0, 200);
 			MelodyBlock melodyBlock = new MelodyBlock(5,0);
 			melodyBlock.addMelodyBlock(melody);
-			double profile = rhythmObjective.getProfileAverage(melodyBlock, 3.0, 12);
+			double profile = rhythmObjective.getProfileAverage(melodyBlock);//quarter
 			LOGGER.info("profile 12: " + profile);
-			double profile2 = rhythmObjective.getProfileAverage(melodyBlock, 3.0, 6);
+			double profile2 = rhythmObjective.getProfileAverage(melodyBlock);//eigth
 			LOGGER.info("profile 6: " + profile2);
-			double profile3 = rhythmObjective.getProfileAverage(melodyBlock, 3.0, 24);
+			double profile3 = rhythmObjective.getProfileAverage(melodyBlock); //half
 			LOGGER.info("profile 24: " + profile3);
 			Score score = scoreUtilities.createScoreFromMelodyInstrument(melodies, (double) midiInfo.getTempo());
 			View.notate(score);
@@ -153,7 +170,7 @@ public class MelodiesTest extends AbstractTest {
 			List<Note> filteredNotes = rhythmWeight.filterRhythmWeigths(3.0);
 			double filtered = melodicObjective.evaluateMelody(filteredNotes, 1);
 			LOGGER.info("filtered : " + filtered);
-			double profile = rhythmObjective.getProfileAverage(melodyBlock, 3.0, 12);
+			double profile = rhythmObjective.getProfileAverage(melodyBlock);//quarter
 			LOGGER.info("profile : " + profile);
 			Phrase phrase = scoreUtilities.createPhrase(notes);
 			Score score = new Score();

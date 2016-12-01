@@ -33,7 +33,7 @@ public class CopyMelody extends AbstractMutation{
 
 	@Autowired
 	private TimeLine timeLine;
-
+	@Autowired
 	private Composition composition;
 
 	@Autowired
@@ -84,7 +84,7 @@ public class CopyMelody extends AbstractMutation{
 //				LOGGER.info("Melody copy: ");
 
 				//Rhythm dependant melodies
-				PitchClassGenerator pitchClassGenerator = composition.getRandomPitchClassGenerator();
+				PitchClassGenerator pitchClassGenerator = composition.getRandomPitchClassGenerator(melodyToReplace.getVoice());
 				replaceRhythmDependantMelody.setPitchClassGenerator(pitchClassGenerator);
 				List<MelodyBlock> rhythmDependantMelodies =  motive.getMelodyBlocks().stream()
 						.filter(m -> m.isRhythmDependant() && m.getDependingVoice() == melodyToReplace.getVoice())
@@ -108,8 +108,8 @@ public class CopyMelody extends AbstractMutation{
 		return solution;
 	}
 
-	public void setComposition(Composition composition) {
-		this.composition = composition;
-	} 
+//	public void setComposition(Composition composition) {
+//		this.composition = composition;
+//	}
 
 }

@@ -1,7 +1,7 @@
 package cp.nsga.operator.mutation.melody;
 
 import cp.composition.Composition;
-import cp.composition.beat.BeatGroup;
+import cp.composition.voice.VoiceConfig;
 import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.Motive;
 import cp.model.melody.CpMelody;
@@ -31,7 +31,7 @@ public class ReplaceMelody extends AbstractMutation{
 
 	@Autowired
 	private ReplaceRhythmDependantMelody replaceRhythmDependantMelody;
-
+	@Autowired
 	private Composition composition;
 
 	@Autowired
@@ -46,18 +46,13 @@ public class ReplaceMelody extends AbstractMutation{
 			Optional<CpMelody> optionalMelody = melodyBlock.getRandomMelody(m -> m.isReplaceable());
 			if (optionalMelody.isPresent()) {
 				CpMelody melody = optionalMelody.get();
-				BeatGroup beatGroup = melody.getBeatGroup();
-				List<Note> melodyNotes;
-				if (composition.getTimeConfig().randomCombination()) {
-					melodyNotes = beatGroup.getNotesRandom();
-				} else {
-					melodyNotes = beatGroup.getNotes();
-				}
+				VoiceConfig voiceConfig = composition.getVoiceConfiguration(melodyBlock.getVoice());
+				List<Note> melodyNotes = voiceConfig.getNotes(melody.getBeatGroup());
 				melodyNotes.forEach(n -> {
 					n.setVoice(melody.getVoice());
 					n.setPosition(n.getPosition() + melody.getStart());
 				});
-				PitchClassGenerator pitchClassGenerator = composition.getRandomPitchClassGenerator();
+				PitchClassGenerator pitchClassGenerator = composition.getRandomPitchClassGenerator(melody.getVoice());
 				melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes);
 				melody.updateNotes(melodyNotes);
 //				LOGGER.info("Melody replaced: " + melody.getVoice());
@@ -91,9 +86,5 @@ public class ReplaceMelody extends AbstractMutation{
 		doMutation(probability, solution);
 		return solution;
 	}
-
-	public void setComposition(Composition composition) {
-		this.composition = composition;
-	} 
 
 }

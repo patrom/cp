@@ -1,28 +1,45 @@
 package cp.composition;
 
-import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.melody.Operator;
-import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 import cp.nsga.operator.relation.CopyRangeRelation;
 import cp.nsga.operator.relation.OperatorRelation;
-import cp.out.instrument.Instrument;
-import cp.out.play.InstrumentMapping;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 @Component(value="twoVoiceComposition")
+@ConditionalOnProperty(name = "composition.voices", havingValue = "2")
 public class TwoVoiceComposition extends Composition{
 
 	@PostConstruct
 	public void initInstruments(){
-		if (instrumentConfig.getSize() >= 2) {
-			instrument1 = instrumentConfig.getInstrumentForVoice(voice0);
-			instrument2 = instrumentConfig.getInstrumentForVoice(voice1);
+		if(instrumentConfig.getSize() < 2){
+			throw new IllegalStateException("Set instrument config to correct instrument");
 		}
+		instrument1 = instrumentConfig.getInstrumentForVoice(voice0);
+		instrument2 = instrumentConfig.getInstrumentForVoice(voice1);
+
+		voiceConfiguration.put(voice0, melodyVoice);
+		voiceConfiguration.put(voice1, melodyVoice);
+	}
+
+	public List<MelodyBlock> voiceConfig(){
+		List<MelodyBlock> melodyBlocks = new ArrayList<>();
+//		cello.setKeySwitch(new KontactStringsKeySwitch());
+
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
+		melodyBlock.setInstrument(instrument1);
+		melodyBlocks.add(melodyBlock);
+
+		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfig(voice1, instrument2.pickRandomOctaveFromRange());
+		melodyBlock2.setInstrument(instrument2);
+		melodyBlocks.add(melodyBlock2);
+
+		return melodyBlocks;
 	}
 
 	public List<MelodyBlock> beatEven(){
@@ -69,12 +86,11 @@ public class TwoVoiceComposition extends Composition{
 
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(voice0, instrument1.pickRandomOctaveFromRange());
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);	
 
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), voice1);
-		melodyBlock2.setTimeConfig(getTimeConfig());
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
 		melodyBlock2.setInstrument(instrument2);
 		melodyBlock2.setCalculable(false);
@@ -96,12 +112,11 @@ public class TwoVoiceComposition extends Composition{
 
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(voice0, instrument1.pickRandomOctaveFromRange());
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);
 
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), voice1);
-		melodyBlock2.setTimeConfig(getTimeConfig());
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
 		melodyBlock2.setInstrument(instrument2);
 		melodyBlock2.setCalculable(false);
@@ -147,12 +162,11 @@ public class TwoVoiceComposition extends Composition{
 
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(voice0, instrument1.pickRandomOctaveFromRange());
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);
 
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), voice1);
-		melodyBlock2.setTimeConfig(getTimeConfig());
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
 		melodyBlock2.setInstrument(instrument2);
 		melodyBlock2.setCalculable(false);
@@ -174,12 +188,11 @@ public class TwoVoiceComposition extends Composition{
 
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(voice0, instrument1.pickRandomOctaveFromRange(), getTimeConfig()::getBeatsDoubleLength);
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);
 
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), voice1);
-		melodyBlock2.setTimeConfig(getTimeConfig());
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
 		melodyBlock2.setInstrument(instrument2);
 		melodyBlock2.setCalculable(false);
@@ -197,29 +210,7 @@ public class TwoVoiceComposition extends Composition{
 	}
 
 	public List<MelodyBlock> harmonize(){
-		List<MelodyBlock> melodyBlocks = new ArrayList<>();
-		//harmonization
-		List<Note> notes = harmonizeMelody.getNotesToHarmonize();
-		InstrumentMapping instrumentHarmonize = instrumentConfig.getInstrumentMappingForVoice(harmonizeVoice);
-		CpMelody melody = new CpMelody(notes, harmonizeVoice, start, end);
-		MelodyBlock melodyBlockHarmonize = new MelodyBlock(instrumentHarmonize.getInstrument().pickRandomOctaveFromRange(), harmonizeVoice);
-		melodyBlockHarmonize.addMelodyBlock(melody);
-		melodyBlockHarmonize.setTimeConfig(getTimeConfig());
-		melodyBlockHarmonize.setMutable(false);
-		melodyBlockHarmonize.setInstrument(instrumentHarmonize.getInstrument());
-//		melodyBlockHarmonize.I();
-
-		melodyBlocks.add(melodyBlockHarmonize);
-		int size = instrumentConfig.getSize();
-		for (int i = 0; i < size; i++) {
-			if (i != harmonizeVoice) {
-				Instrument instrument = instrumentConfig.getInstrumentForVoice(i);
-				MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(i, instrument.pickRandomOctaveFromRange());
-				melodyBlock.setInstrument(instrument);
-				melodyBlocks.add(melodyBlock);
-			}
-		}
-
-		return melodyBlocks;
+		return super.harmonize();
 	}
+
 }
