@@ -56,6 +56,13 @@ public class MidiParser {
 									.getResolution()) * RESOLUTION) ;
 					ShortMessage sm = (ShortMessage) message;
 					LOGGER.debug("Pitch: " + sm.getData1() + " ");
+					if (sm.getCommand() == ShortMessage.CONTROL_CHANGE) {
+						System.out.println("track: " + j);
+						System.out.println("controller : " + sm.getData1() + ", " + sm.getData2());
+//						Note jNote = createNote(j, ticks, sm);
+//						notes.add(jNote);
+					}
+
 					// Er zijn twee manieren om een note-off commando te
 					// versturen.
 					// // Er bestaat een echt note-off commando, maar de meeste
@@ -78,8 +85,7 @@ public class MidiParser {
 						for (int k = l - 1; k > -1; k--) {// find note on belonging to note off
 							Note noteOn = notes.get(k);
 							if (noteOn.getPitch() == key) {
-								noteOn.setLength((int) ticks
-										- noteOn.getPosition());
+								noteOn.setLength(ticks - noteOn.getPosition());
 								break;
 							}
 						}
@@ -89,13 +95,10 @@ public class MidiParser {
 				}
 			}
 
-//			if (!notes.isEmpty()) {
-				MelodyInstrument melody = new MelodyInstrument(notes, j);
-				InstrumentMapping instrumentMapping = instrumentConfig.getInstrumentMapping(j);
-				melody.setInstrumentMapping(instrumentMapping);
-				map.put(j, melody);
-//			}
-//			voice--;
+			MelodyInstrument melody = new MelodyInstrument(notes, j);
+			InstrumentMapping instrumentMapping = instrumentConfig.getInstrumentMapping(j);
+			melody.setInstrumentMapping(instrumentMapping);
+			map.put(j, melody);
 		}
 		List<MelodyInstrument> melodies = new ArrayList<>(map.values());
 		midiInfo.setMelodies(melodies);

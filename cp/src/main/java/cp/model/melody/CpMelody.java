@@ -162,14 +162,16 @@ public class CpMelody implements Comparable<CpMelody>{
 	
 	public void updateArticulation() {
 		List<Note> notesNoRest = getNotesNoRest();
-//		notes.forEach(note -> note.setArticulation(Note.DEFAULT_ARTICULATION));//reset?
-		Articulation[] articulations = Articulation.class.getEnumConstants();
-		Articulation articulation = RandomUtil.getRandomFromArray(articulations);
-		Note note = RandomUtil.getRandomFromList(notesNoRest);
-		note.setArticulation(articulation);
-		
-		Note removeArticulation = RandomUtil.getRandomFromList(notesNoRest);
-		removeArticulation.setArticulation(Note.DEFAULT_ARTICULATION);
+		if (notesNoRest.size() > 1) {
+			//		notes.forEach(note -> note.setArticulation(Note.DEFAULT_ARTICULATION));//reset?
+			Articulation[] articulations = Articulation.class.getEnumConstants();
+			Articulation articulation = RandomUtil.getRandomFromArray(articulations);
+			Note note = RandomUtil.getRandomFromList(notesNoRest);
+			note.setArticulation(articulation);
+
+			Note removeArticulation = RandomUtil.getRandomFromList(notesNoRest);
+			removeArticulation.setArticulation(Note.DEFAULT_ARTICULATION);
+		}
 	}
 	
 	protected int invertPitchClass(int functionalDegreeCenter, int pitchClass, Scale scale, Scale dependingScale, int key, int dependingKey){

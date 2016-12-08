@@ -174,7 +174,7 @@ public abstract class Composition {
 	@PostConstruct
 	public void init(){
 		composeInKey(A);
-		inTempo(55);
+		inTempo(80);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
 		meterObjective.setComposition(this);
@@ -188,21 +188,16 @@ public abstract class Composition {
 //		instruments = ensemble.getStringQuartet();
 
 		setTimeconfig();
-		List<TimeLineKey> keys = new ArrayList<>();
-		keys.add(new TimeLineKey(A, Scale.MAJOR_SCALE, start, 2 * end));
-//		keys.add(new TimeLineKey(Aflat, Scale.MAJOR_SCALE, 2 * DurationConstants.WHOLE, 3 * DurationConstants.WHOLE));
-//		keys.add(new TimeLineKey(F, Scale.HARMONIC_MINOR_SCALE, 3 * DurationConstants.WHOLE, end));
-//		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 3 * DurationConstants.WHOLE, end));
-//		keys.add(new TimeLineKey(C, clarinet.filterScale(Scale.HARMONIC_MINOR_SCALE), 48, 192));//match length
-//		keys.add(new TimeLineKey(A, Scale.HARMONIC_MINOR_SCALE, 48, 96));
-//		keys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 96, 144));
-//		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 144, 192));
-		int instrumentSize = instrumentConfig.getSize();
-		for (int i = 0; i < instrumentSize; i++) {
-			timeLine.addKeysForVoice(keys, i);
-		}
-		timeLine.addKeysForVoice(keys, 0);
-		
+		List<TimeLineKey> timeLineKeys = new ArrayList<>();
+		timeLineKeys.add(new TimeLineKey(A, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0 ,0));
+		List<Integer> durations = new ArrayList<>();
+		durations.add(DurationConstants.QUARTER);
+		durations.add(DurationConstants.EIGHT);
+		durations.add(DurationConstants.HALF);
+//		timeLine.randomKeysAndDurations(timeLineKeys, durations);
+		timeLine.randomKeys(timeLineKeys, DurationConstants.WHOLE, DurationConstants.WHOLE, DurationConstants.WHOLE);
+
 		//polytonality
 //		List<TimeLineKey> minor = new ArrayList<>();
 //		minor.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, end));
@@ -245,6 +240,8 @@ public abstract class Composition {
 	protected BassVoice bassVoice;
 	@Autowired
 	protected FixedVoice fixedVoice;
+	@Autowired
+	protected DoubleTimeVoice doubleTimeVoice;
 
 	public VoiceConfig getVoiceConfiguration(int voice){
 		return voiceConfiguration.get(voice);

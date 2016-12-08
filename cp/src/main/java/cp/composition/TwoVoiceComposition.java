@@ -23,8 +23,8 @@ public class TwoVoiceComposition extends Composition{
 		instrument1 = instrumentConfig.getInstrumentForVoice(voice0);
 		instrument2 = instrumentConfig.getInstrumentForVoice(voice1);
 
-		voiceConfiguration.put(voice0, melodyVoice);
-		voiceConfiguration.put(voice1, melodyVoice);
+		voiceConfiguration.put(voice0, fixedVoice);
+		voiceConfiguration.put(voice1, fixedVoice);
 	}
 
 	public List<MelodyBlock> voiceConfig(){

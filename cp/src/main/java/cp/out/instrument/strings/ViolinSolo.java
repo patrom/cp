@@ -3,6 +3,7 @@ package cp.out.instrument.strings;
 import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
+import cp.out.instrument.keyswitch.VSLStringsKeySwitch;
 import cp.out.orchestration.InstrumentName;
 
 
@@ -18,6 +19,7 @@ public class ViolinSolo extends Instrument {
 		setInstrumentName(InstrumentName.VIOLA_SOLO.getName());
 		setInstrumentSound("strings.violin");
 		setVirtualName("Violin 1 solo");
+		keySwitch = new VSLStringsKeySwitch();
 	}
 
 }

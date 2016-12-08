@@ -10,7 +10,9 @@ import cp.composition.beat.BeatGroupFactory;
 import cp.composition.beat.BeatGroupStrategy;
 import cp.composition.timesignature.TimeConfig;
 import cp.generator.pitchclass.*;
+import cp.model.note.Dynamic;
 import cp.model.note.Note;
+import cp.out.instrument.Articulation;
 import cp.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -89,6 +91,8 @@ public abstract class VoiceConfig {
 
     protected boolean randomBeats;
     protected boolean randomRhytmCombinations = true;
+    protected int volume = Dynamic.MF.getLevel();
+    protected Articulation articulation = Articulation.LEGATO;
 
     protected void setTimeconfig(){
         if (numerator == 4 && denominator == 4) {
@@ -116,9 +120,6 @@ public abstract class VoiceConfig {
     }
 
     public List<Note> getNotes(BeatGroup beatGroup) {
-        if(beatGroup == null){
-            System.out.println("null");
-        }
         if (randomRhytmCombinations) {
             return beatGroup.getNotesRandom();
         }
@@ -142,4 +143,11 @@ public abstract class VoiceConfig {
         this.randomRhytmCombinations = randomRhytmCombinations;
     }
 
+    public int getVolume() {
+        return volume;
+    }
+
+    public Articulation getArticulation() {
+        return articulation;
+    }
 }

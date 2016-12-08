@@ -160,6 +160,7 @@ public class MelodyGenerator {
 		List<Note> melodyNotes = voiceConfig.getNotes(beatGroup);
 		melodyNotes.forEach(n -> {
 			n.setVoice(voice);
+			n.setDynamicLevel(voiceConfig.getVolume());
 			n.setPosition(n.getPosition() + start);
 		});
 		melodyNotes = composition.getRandomPitchClassGenerator(voice).updatePitchClasses(melodyNotes);

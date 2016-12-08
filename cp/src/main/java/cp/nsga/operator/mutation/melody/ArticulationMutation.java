@@ -30,7 +30,7 @@ public class ArticulationMutation extends AbstractMutation{
 			Motive motive = ((MusicVariable)solution.getDecisionVariables()[0]).getMotive();
 			MelodyBlock mutableMelody = motive.getRandomMutableMelody();
 			mutableMelody.updateArticulation();
-			LOGGER.info("articulation mutated");
+//			LOGGER.info("articulation mutated");
 		} 
 	}
 

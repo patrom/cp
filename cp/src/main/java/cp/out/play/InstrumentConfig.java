@@ -51,8 +51,8 @@ public class InstrumentConfig {
 //        piano.setInstrumentRegister(new InstrumentRegister(67,80));
 //        instruments.put(4,new InstrumentMapping(piano, 4, 4));
 //        instruments = getSAATBChoir();
-//        instruments.put(0,new InstrumentMapping(new Piano(), 1, 0));
-        instruments = getOrchestra();
+//        instruments.put(0,new InstrumentMapping(new ViolinSolo() , 3, 0));
+        instruments = getStringTrio();
         for (InstrumentMapping instrumentMapping : instruments.values()) {
             allInstrumentMappings.add(instrumentMapping);
             allInstrumentMappings.addAll(instrumentMapping.getDependantInstruments());

@@ -104,7 +104,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	@Override
 	public void run(String... arg0) throws Exception {
 		musicProperties.setOutputCountRun(2);
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 1; i++) {
 			LOGGER.info("RUN: " + i + " START");		
 			compose();
 		    LOGGER.info("RUN: " + i + " END");
@@ -131,14 +131,14 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		twoVoiceComposition.setHarmonizeVoice(1);
 //		composeInGenres.add(twoVoiceComposition::harmonize);
 
-		composeInGenres.add(threeVoiceComposition::canon2Voice1Acc);
+//		composeInGenres.add(threeVoiceComposition::canon2Voice1Acc);
 //		composeInGenres.add(threeVoiceComposition::accFixedRhythm);
 //		composeInGenres.add(threeVoiceComposition::operatorTplusAcc);
 //		composeInGenres.add(threeVoiceComposition::operatorT);
 //		threeVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
 //		threeVoiceComposition.setHarmonizeVoice(2);
 //		composeInGenres.add(threeVoiceComposition::harmonize);
-//		composeInGenres.add(threeVoiceComposition::halfTimeHomophonicRhythm);
+		composeInGenres.add(threeVoiceComposition::halfTimeHomophonicRhythm);
 //		composeInGenres.add(threeVoiceComposition::threeOverXX);
 //		composeInGenres.add(threeVoiceComposition::accDuplicateRhythm);
 //		composeInGenres.add(threeVoiceComposition::allRandom);
@@ -187,7 +187,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 					String id = dateID + "_" + CpApplication.COUNTER.getAndIncrement();
 					LOGGER.info(id);
 					display.view(solutionMotive, id);
-					orchestrator.orchestrate(solutionMotive.getMelodyBlocks(), id);
+//					orchestrator.orchestrate(solutionMotive.getMelodyBlocks(), id);
 					i++;
 				}
 			   
@@ -198,7 +198,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		// Algorithm parameters
 	    int populationSize = 30;
 	    algorithm.setInputParameter("populationSize", populationSize);
-	    algorithm.setInputParameter("maxEvaluations", populationSize * 1500);
+	    algorithm.setInputParameter("maxEvaluations", populationSize * 15);
 	    
 	    // Mutation and Crossover
 	    crossover.setParameter("probabilityCrossover", 1.0); 
