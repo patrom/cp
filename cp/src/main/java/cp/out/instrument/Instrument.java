@@ -3,7 +3,6 @@ package cp.out.instrument;
 import cp.midi.GeneralMidi;
 import cp.model.note.Note;
 import cp.model.note.Scale;
-import cp.out.instrument.keyswitch.KeySwitch;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.util.RandomUtil;
 
@@ -15,7 +14,6 @@ import static java.util.stream.Collectors.toList;
 
 public class Instrument {
 
-	protected KeySwitch keySwitch;
 	protected GeneralMidi generalMidi;
 	//musicXML properties
 	protected String instrumentName;
@@ -26,16 +24,8 @@ public class Instrument {
 	private InstrumentRegister instrumentRegister = new InstrumentRegister();
 	protected int order;
 	protected InstrumentGroup instrumentGroup;
-	
+
 	public Instrument() {
-	}
-	
-	public int getArticulation(Articulation articulation) {
-		if (hasKeySwitch()) {
-			return keySwitch.getArticulation(articulation);
-		} else {
-			return 0;
-		}
 	}
 	
 	public void updateMelodyInRange(List<Note> notes){
@@ -154,12 +144,6 @@ public class Instrument {
 	}
 	public void setHighest(int highest) {
 		this.instrumentRegister.setHigh(highest);
-	}
-	public boolean hasKeySwitch() {
-		return keySwitch != null;
-	}
-	public void setKeySwitch(KeySwitch keySwitch) {
-		this.keySwitch = keySwitch;
 	}
 	public GeneralMidi getGeneralMidi() {
 		return generalMidi;

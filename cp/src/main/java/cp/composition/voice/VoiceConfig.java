@@ -12,7 +12,6 @@ import cp.composition.timesignature.TimeConfig;
 import cp.generator.pitchclass.*;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
-import cp.out.instrument.Articulation;
 import cp.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -92,7 +91,6 @@ public abstract class VoiceConfig {
     protected boolean randomBeats;
     protected boolean randomRhytmCombinations = true;
     protected int volume = Dynamic.MF.getLevel();
-    protected Articulation articulation = Articulation.LEGATO;
 
     protected void setTimeconfig(){
         if (numerator == 4 && denominator == 4) {
@@ -147,7 +145,4 @@ public abstract class VoiceConfig {
         return volume;
     }
 
-    public Articulation getArticulation() {
-        return articulation;
-    }
 }

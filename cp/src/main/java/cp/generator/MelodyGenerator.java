@@ -3,7 +3,6 @@ package cp.generator;
 import cp.composition.Composition;
 import cp.composition.beat.BeatGroup;
 import cp.composition.beat.BeatGroupStrategy;
-import cp.composition.timesignature.TimeConfig;
 import cp.composition.voice.VoiceConfig;
 import cp.model.TimeLine;
 import cp.model.melody.CpMelody;
@@ -11,7 +10,9 @@ import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
+import cp.out.instrument.Articulation;
 import cp.out.instrument.Instrument;
+import cp.out.play.InstrumentConfig;
 import cp.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,20 +32,22 @@ public class MelodyGenerator {
 	private TimeLine timeLine;
 	@Autowired
 	private Composition composition;
+	@Autowired
+	private InstrumentConfig instrumentConfig;
 	
 	private BeatGroupStrategy beatGroupStrategy;
 	
-	public MelodyBlock generateMelodyBlock(final int voice, int octave){
-		return generateMelodyBlock(voice, octave, composition.getTimeConfig().randomBeatGroup(), beatGroupStrategy, composition.getTimeConfig());
-	}
-	
-	public MelodyBlock generateMelodyBlock(final int voice, int octave, BeatGroupStrategy beatGroupStrategy){
-		return generateMelodyBlock(voice, octave, composition.getTimeConfig().randomBeatGroup(), beatGroupStrategy, composition.getTimeConfig());
-	}
-	
-	public MelodyBlock generateMelodyBlock(final int voice, int octave, BeatGroupStrategy beatGroupStrategy, TimeConfig timeConfig){
-		return generateMelodyBlock(voice, octave, composition.getTimeConfig().randomBeatGroup(), beatGroupStrategy, timeConfig);
-	}
+//	public MelodyBlock generateMelodyBlock(final int voice, int octave){
+//		return generateMelodyBlock(voice, octave, composition.getTimeConfig().randomBeatGroup(), beatGroupStrategy, composition.getTimeConfig());
+//	}
+//
+//	public MelodyBlock generateMelodyBlock(final int voice, int octave, BeatGroupStrategy beatGroupStrategy){
+//		return generateMelodyBlock(voice, octave, composition.getTimeConfig().randomBeatGroup(), beatGroupStrategy, composition.getTimeConfig());
+//	}
+//
+//	public MelodyBlock generateMelodyBlock(final int voice, int octave, BeatGroupStrategy beatGroupStrategy, TimeConfig timeConfig){
+//		return generateMelodyBlock(voice, octave, composition.getTimeConfig().randomBeatGroup(), beatGroupStrategy, timeConfig);
+//	}
 
 	public MelodyBlock generateDependantMelodyBlock(final int voice, int octave, MelodyBlock dependingMelodyBlock){
 		int start = composition.getStart();
@@ -104,35 +107,35 @@ public class MelodyGenerator {
 		return clonedMelody;
 	}
 
-	public MelodyBlock generateMelodyBlock(final int voice, int octave, boolean randomBeats, BeatGroupStrategy beatGroupStrategy, TimeConfig timeConfig){
-		int start = composition.getStart();
-		int stop = composition.getEnd();
-		List<BeatGroup> beatGroups = beatGroupStrategy.getBeatGroups();
-		MelodyBlock melodyBlock = new MelodyBlock(octave, voice);
-		melodyBlock.setOffset(timeConfig.getOffset());
-		BeatGroup beatGroup;
-		int i = 0;
-		int size = beatGroups.size();
-		if (randomBeats) {
-			beatGroup = RandomUtil.getRandomFromList(beatGroups);
-		}else{
-			beatGroup = beatGroups.get(i);
-		}
-		int end = start + beatGroup.getBeatLength();
-		while (end <= stop) {
-			CpMelody melody = generateMelody(voice, start, beatGroup);
-			melodyBlock.addMelodyBlock(melody);
-			if (randomBeats) {
-				beatGroup = RandomUtil.getRandomFromList(beatGroups);
-			} else {
-				i++;
-				beatGroup = beatGroups.get(i % size);
-			}		
-			start = end;
-			end = start + beatGroup.getBeatLength();
-		}
-		return melodyBlock;
-	}
+//	public MelodyBlock generateMelodyBlock(final int voice, int octave, boolean randomBeats, BeatGroupStrategy beatGroupStrategy, TimeConfig timeConfig){
+//		int start = composition.getStart();
+//		int stop = composition.getEnd();
+//		List<BeatGroup> beatGroups = beatGroupStrategy.getBeatGroups();
+//		MelodyBlock melodyBlock = new MelodyBlock(octave, voice);
+//		melodyBlock.setOffset(timeConfig.getOffset());
+//		BeatGroup beatGroup;
+//		int i = 0;
+//		int size = beatGroups.size();
+//		if (randomBeats) {
+//			beatGroup = RandomUtil.getRandomFromList(beatGroups);
+//		}else{
+//			beatGroup = beatGroups.get(i);
+//		}
+//		int end = start + beatGroup.getBeatLength();
+//		while (end <= stop) {
+//			CpMelody melody = generateMelody(voice, start, beatGroup);
+//			melodyBlock.addMelodyBlock(melody);
+//			if (randomBeats) {
+//				beatGroup = RandomUtil.getRandomFromList(beatGroups);
+//			} else {
+//				i++;
+//				beatGroup = beatGroups.get(i % size);
+//			}
+//			start = end;
+//			end = start + beatGroup.getBeatLength();
+//		}
+//		return melodyBlock;
+//	}
 
 	public MelodyBlock generateMelodyBlockConfig(final int voice, int octave){
 		VoiceConfig voiceConfig = composition.getVoiceConfiguration(voice);
@@ -158,9 +161,11 @@ public class MelodyGenerator {
 
 	public CpMelody generateMelodyConfig(int voice, int start, BeatGroup beatGroup, VoiceConfig voiceConfig) {
 		List<Note> melodyNotes = voiceConfig.getNotes(beatGroup);
+		Articulation articulation = instrumentConfig.getArticuationForVoice(voice);
 		melodyNotes.forEach(n -> {
 			n.setVoice(voice);
 			n.setDynamicLevel(voiceConfig.getVolume());
+			n.setArticulation(articulation);
 			n.setPosition(n.getPosition() + start);
 		});
 		melodyNotes = composition.getRandomPitchClassGenerator(voice).updatePitchClasses(melodyNotes);

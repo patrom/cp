@@ -1,6 +1,7 @@
 package cp.out.play;
 
 import cp.model.note.Note;
+import cp.out.instrument.Articulation;
 import cp.out.instrument.Instrument;
 import cp.out.orchestration.quality.OrchestralQuality;
 
@@ -19,6 +20,7 @@ public class InstrumentMapping implements Comparable<InstrumentMapping>{
     private int scoreOrder;//order on page layout: 0 is top, ...
     private OrchestralQuality orchestralQuality;
     private List<InstrumentMapping> dependantInstruments = new ArrayList<>();
+    private Articulation articulation = Articulation.LEGATO;
 
     public InstrumentMapping(Instrument instrument, int channel, int scoreOrder) {
         this.instrument = instrument;
@@ -98,5 +100,13 @@ public class InstrumentMapping implements Comparable<InstrumentMapping>{
                 .collect(toList());
         getInstrument().updateMelodyInRange(duplicateNotes.stream().filter(n -> !n.isRest()).collect(toList()));
         return duplicateNotes;
+    }
+
+    public void setArticulation(Articulation articulation) {
+        this.articulation = articulation;
+    }
+
+    public Articulation getArticulation() {
+        return articulation;
     }
 }

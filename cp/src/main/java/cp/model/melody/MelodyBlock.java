@@ -2,8 +2,10 @@ package cp.model.melody;
 
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
+import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
+import cp.out.instrument.Articulation;
 import cp.out.instrument.Instrument;
 import cp.util.RandomUtil;
 import cp.util.Util;
@@ -95,9 +97,14 @@ public class MelodyBlock {
 		return melodyBlocks.stream().flatMap(m -> m.getContour().stream()).collect(toList());
 	}
 	
-	public void updateArticulation(){
+	public void updateArticulation(Articulation articulation){
 		CpMelody melody = RandomUtil.getRandomFromList(melodyBlocks);
-		melody.updateArticulation();
+		melody.updateArticulation(articulation);
+	}
+
+	public void updateDynamic(Dynamic dynamic){
+		CpMelody melody = RandomUtil.getRandomFromList(melodyBlocks);
+		melody.updateDynamic(dynamic);
 	}
 	
 	public Optional<CpMelody> getRandomMelody(Predicate<CpMelody> filterPredicate){

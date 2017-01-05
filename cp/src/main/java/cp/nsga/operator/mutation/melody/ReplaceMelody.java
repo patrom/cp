@@ -9,6 +9,8 @@ import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.nsga.MusicVariable;
 import cp.nsga.operator.mutation.AbstractMutation;
+import cp.out.instrument.Articulation;
+import cp.out.play.InstrumentConfig;
 import jmetal.core.Solution;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
@@ -33,6 +35,8 @@ public class ReplaceMelody extends AbstractMutation{
 	private ReplaceRhythmDependantMelody replaceRhythmDependantMelody;
 	@Autowired
 	private Composition composition;
+	@Autowired
+	private InstrumentConfig instrumentConfig;
 
 	@Autowired
 	public ReplaceMelody(HashMap<String, Object> parameters) {
@@ -48,8 +52,11 @@ public class ReplaceMelody extends AbstractMutation{
 				CpMelody melody = optionalMelody.get();
 				VoiceConfig voiceConfig = composition.getVoiceConfiguration(melodyBlock.getVoice());
 				List<Note> melodyNotes = voiceConfig.getNotes(melody.getBeatGroup());
+				Articulation articulation = instrumentConfig.getArticuationForVoice(melodyBlock.getVoice());
 				melodyNotes.forEach(n -> {
 					n.setVoice(melody.getVoice());
+					n.setDynamicLevel(voiceConfig.getVolume());
+					n.setArticulation(articulation);
 					n.setPosition(n.getPosition() + melody.getStart());
 				});
 				PitchClassGenerator pitchClassGenerator = composition.getRandomPitchClassGenerator(melody.getVoice());

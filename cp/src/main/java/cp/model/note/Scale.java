@@ -41,7 +41,9 @@ public class Scale {
 
 			VARIATIONS_FOR_ORCHESTRA_OP31 = new Scale(new int[]{10,4,6,3,5,9,2,1,7,8,11,0}),
 			VARIATIONS_FOR_ORCHESTRA_OP31_HEXA1 = new Scale(new int[]{10,4,6,3,5,9}),
-			VARIATIONS_FOR_ORCHESTRA_OP31_HEXA2 = new Scale(new int[]{2,1,7,8,11,0});
+			VARIATIONS_FOR_ORCHESTRA_OP31_HEXA2 = new Scale(new int[]{2,1,7,8,11,0}),
+
+			MAJOR_CHORD = new Scale(new int[]{0, 4 , 7});
 
 			
 	private final Random random = new Random(System.currentTimeMillis());

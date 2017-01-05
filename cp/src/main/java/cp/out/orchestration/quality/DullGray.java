@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 @Component
-public class Dull extends OrchestralQuality{
+public class DullGray extends OrchestralQuality{
 
-	public Dull() {
+	public DullGray() {
 		color = "gray";
 		quality = "dull";
 		type = "basic";

@@ -6,9 +6,7 @@ import cp.out.instrument.keyboard.Celesta;
 import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.percussion.Glockenspiel;
 import cp.out.instrument.register.InstrumentRegister;
-import cp.out.instrument.strings.Cello;
-import cp.out.instrument.strings.Viola;
-import cp.out.instrument.strings.ViolinsI;
+import cp.out.instrument.strings.*;
 import cp.out.instrument.woodwinds.Clarinet;
 import cp.out.instrument.woodwinds.Piccolo;
 import cp.out.orchestration.InstrumentName;
@@ -20,14 +18,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Component
-public class Brilliant extends OrchestralQuality{
+public class BrilliantWhite extends OrchestralQuality{
 	
 	@Autowired
-	private Bright bright;
+	private BrightYellow brightYellow;
 
-	public Brilliant() {
+	public BrilliantWhite() {
 		color = "white";
-		quality = "brilliant";
+		quality = "brilliantWhite";
 		type = "basic";
 		instruments = Stream.of(
 				new Piccolo(new InstrumentRegister(83, 108)),
@@ -35,8 +33,11 @@ public class Brilliant extends OrchestralQuality{
 				new Trumpet(new InstrumentRegister(82, 92)),
 //				new Piano(new InstrumentRegister(96, 108)),
 				new ViolinsI(new InstrumentRegister(89, 100)),
+				new ViolinSolo(new InstrumentRegister(89, 100)),
 				new Viola(new InstrumentRegister(81, 93)),
+				new ViolaSolo(new InstrumentRegister(81, 93)),
 				new Cello(new InstrumentRegister(69, 81)),
+				new CelloSolo(new InstrumentRegister(69, 81)),
 				new Glockenspiel(new InstrumentRegister(103, 108)),
 				new Celesta(new InstrumentRegister(96, 108)),
 				new Piano(new InstrumentRegister(96, 108))
@@ -46,7 +47,7 @@ public class Brilliant extends OrchestralQuality{
 	
 	@PostConstruct
 	private void initComplementaryQualities(){
-		closeQualities.add(bright);
+		closeQualities.add(brightYellow);
 	}
 	
 	public Instrument getClarinet(){

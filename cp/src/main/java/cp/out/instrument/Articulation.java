@@ -4,15 +4,28 @@ public enum Articulation {
 	
 	LEGATO("legato"),
 	MARCATO("accent"),
-//	PIZZICATO("pizzicato"),
+	SFORZANDO("sforzando"),
 	PORTATO("portato"),
-	SPICCATO("spiccato"),
+
 	STACCATO("staccato"),
 	STACCATISSIMO("staccatissimo"),
 	TENUTO("tenuto"),
-//	MARTELATO(""),
-//	TREMELO("");
-	SFORZANDO("sforzando");
+	MARTELATO(""),
+	TREMELO(""),
+	FORTEPIANO(""),
+
+	PONTICELLO_STACCATO(""),
+	PONTICELLO_SUSTAIN(""),
+	PONTICELL_TREMELO(""),
+
+	SUSTAINVIBRATO(""),
+	REPEATLEGATO(""),
+	PORTAMENTO(""),
+	DETACHE(""),
+	HARMONIC(""),
+	SPICCATO("spiccato"),
+	PIZZICATO("pizzicato");
+
 	
 	private final String musicXmlLabel;
 	

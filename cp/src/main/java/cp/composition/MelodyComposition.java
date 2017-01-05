@@ -24,7 +24,7 @@ public class MelodyComposition extends Composition {
     public List<MelodyBlock> melody(){
         List<MelodyBlock> melodyBlocks = new ArrayList<>();
 
-        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(voice0, instrument1.pickRandomOctaveFromRange());
+        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
         melodyBlock.setInstrument(instrument1);
         melodyBlocks.add(melodyBlock);
 

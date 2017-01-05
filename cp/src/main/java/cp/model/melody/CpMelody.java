@@ -3,6 +3,7 @@ package cp.model.melody;
 import cp.composition.beat.BeatGroup;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
+import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.out.instrument.Articulation;
@@ -160,17 +161,28 @@ public class CpMelody implements Comparable<CpMelody>{
 		updateContour();
 	}
 	
-	public void updateArticulation() {
+	public void updateArticulation(Articulation articulation) {
 		List<Note> notesNoRest = getNotesNoRest();
 		if (notesNoRest.size() > 1) {
 			//		notes.forEach(note -> note.setArticulation(Note.DEFAULT_ARTICULATION));//reset?
-			Articulation[] articulations = Articulation.class.getEnumConstants();
-			Articulation articulation = RandomUtil.getRandomFromArray(articulations);
 			Note note = RandomUtil.getRandomFromList(notesNoRest);
 			note.setArticulation(articulation);
 
 			Note removeArticulation = RandomUtil.getRandomFromList(notesNoRest);
 			removeArticulation.setArticulation(Note.DEFAULT_ARTICULATION);
+		}
+	}
+
+	public void updateDynamic(Dynamic dynamic) {
+		List<Note> notesNoRest = getNotesNoRest();
+		if (notesNoRest.size() > 1) {
+			//		notes.forEach(note -> note.setArticulation(Note.DEFAULT_ARTICULATION));//reset?
+			Note note = RandomUtil.getRandomFromList(notesNoRest);
+			note.setDynamic(dynamic);
+			note.setDynamicLevel(dynamic.getLevel());
+
+			Note removeArticulation = RandomUtil.getRandomFromList(notesNoRest);
+			removeArticulation.setDynamic(Note.DEFAULT_DYNAMIC);
 		}
 	}
 	

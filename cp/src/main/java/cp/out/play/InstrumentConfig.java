@@ -1,5 +1,6 @@
 package cp.out.play;
 
+import cp.out.instrument.Articulation;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.brass.*;
 import cp.out.instrument.keyboard.Piano;
@@ -26,33 +27,33 @@ import java.util.*;
 public class InstrumentConfig {
 
     @Autowired
-    private Brilliant brilliant;
+    private BrilliantWhite brilliantWhite;
     @Autowired
-    private Bright bright;
+    private BrightYellow brightYellow;
     @Autowired
-    private Pleasant pleasant;
+    private PleasantGreen pleasantGreen;
     @Autowired
-    private Rich rich;
+    private RichBlue richBlue;
     @Autowired
-    private Golden golden;
+    private GoldenOrange goldenOrange;
     @Autowired
-    private Glowing glowing;
+    private GlowingRed glowingRed;
     @Autowired
-    private Mellow mellow;
+    private MellowPurple mellowPurple;
     @Autowired
-    private Warm warm;
+    private WarmBrown warmBrown;
 
     private Map<Integer, InstrumentMapping> instruments = new TreeMap<>();
     private List<InstrumentMapping> allInstrumentMappings = new ArrayList<>();
 
     @PostConstruct
-    public void instrumentInit() {
+    public void instrumentInit(){
 //        Piano piano = new Piano();
 //        piano.setInstrumentRegister(new InstrumentRegister(67,80));
 //        instruments.put(4,new InstrumentMapping(piano, 4, 4));
 //        instruments = getSAATBChoir();
 //        instruments.put(0,new InstrumentMapping(new ViolinSolo() , 3, 0));
-        instruments = getStringTrio();
+        instruments = getPianoAndStrinqQuartet(richBlue, mellowPurple, richBlue);
         for (InstrumentMapping instrumentMapping : instruments.values()) {
             allInstrumentMappings.add(instrumentMapping);
             allInstrumentMappings.addAll(instrumentMapping.getDependantInstruments());
@@ -71,17 +72,76 @@ public class InstrumentConfig {
     }
 
     private Map<Integer, InstrumentMapping> getStringTrio(){
-        instruments.put(2,new InstrumentMapping(new ViolinSolo(), 3, 0));
-        instruments.put(1,new InstrumentMapping(new ViolaSolo(), 2, 1));
-        instruments.put(0,new InstrumentMapping(new CelloSolo(), 1, 2));
+        InstrumentMapping violin = new InstrumentMapping(new ViolinSolo(), 3, 0);
+        violin.setArticulation(Articulation.DETACHE);
+        instruments.put(2,violin);
+        InstrumentMapping viola = new InstrumentMapping(new ViolaSolo(), 2, 1);
+        viola.setArticulation(Articulation.DETACHE);
+        instruments.put(1,viola);
+        InstrumentMapping cello = new InstrumentMapping(new CelloSolo(), 1, 2);
+        cello.setArticulation(Articulation.DETACHE);
+        instruments.put(0,cello);
         return instruments;
     }
 
+    private Map<Integer, InstrumentMapping> getStrinqQuartet(OrchestralQuality orchestralQualityMelody, OrchestralQuality orchestralQualityBass, OrchestralQuality orchestralQualityAcc) {
+        InstrumentMapping violin1 = new InstrumentMapping(new ViolinSolo(), 3, 0);
+        violin1.setArticulation(Articulation.DETACHE);
+        violin1.setOrchestralQuality(orchestralQualityMelody);
+        instruments.put(3, violin1);
+        InstrumentMapping violin2 = new InstrumentMapping(new ViolinSolo(), 3, 1);
+        violin2.setArticulation(Articulation.DETACHE);
+        violin2.setOrchestralQuality(orchestralQualityAcc);
+        instruments.put(2, violin2);
+        InstrumentMapping viola = new InstrumentMapping(new ViolaSolo(), 2, 2);
+        viola.setArticulation(Articulation.DETACHE);
+        viola.setOrchestralQuality(orchestralQualityAcc);
+        instruments.put(1, viola);
+        InstrumentMapping cello = new InstrumentMapping(new CelloSolo(), 1, 3);
+        cello.setArticulation(Articulation.DETACHE);
+        cello.setOrchestralQuality(orchestralQualityBass);
+        instruments.put(0, cello);
+        return instruments;
+    }
+
+    private Map<Integer, InstrumentMapping> getPianoAndStrinqQuartet(OrchestralQuality orchestralQualityMelody, OrchestralQuality orchestralQualityBass, OrchestralQuality orchestralQualityAcc) {
+        InstrumentMapping piano = new InstrumentMapping(new Piano(), 4, 4);
+        piano.setOrchestralQuality(orchestralQualityMelody);
+        instruments.put(4, piano);
+
+        InstrumentMapping violin1 = new InstrumentMapping(new ViolinSolo(), 3, 0);
+        violin1.setArticulation(Articulation.DETACHE);
+        violin1.setOrchestralQuality(orchestralQualityAcc);
+        instruments.put(3, violin1);
+        InstrumentMapping violin2 = new InstrumentMapping(new ViolinSolo(), 3, 1);
+        violin2.setArticulation(Articulation.DETACHE);
+        violin2.setOrchestralQuality(orchestralQualityAcc);
+        instruments.put(2, violin2);
+        InstrumentMapping viola = new InstrumentMapping(new ViolaSolo(), 2, 2);
+        viola.setArticulation(Articulation.DETACHE);
+        viola.setOrchestralQuality(orchestralQualityAcc);
+        instruments.put(1, viola);
+        InstrumentMapping cello = new InstrumentMapping(new CelloSolo(), 1, 3);
+        cello.setArticulation(Articulation.DETACHE);
+        cello.setOrchestralQuality(orchestralQualityBass);
+        instruments.put(0, cello);
+        return instruments;
+    }
+
+
     private Map<Integer, InstrumentMapping> getStringQuartet(){
-        instruments.put(3,new InstrumentMapping(new ViolinSolo(), 3, 0));
-        instruments.put(2,new InstrumentMapping(new ViolinSolo(), 3, 1));
-        instruments.put(1,new InstrumentMapping(new ViolaSolo(), 2, 2));
-        instruments.put(0,new InstrumentMapping(new CelloSolo(), 1, 3));
+        InstrumentMapping violin1 = new InstrumentMapping(new ViolinSolo(), 3, 0);
+        violin1.setArticulation(Articulation.DETACHE);
+        instruments.put(3,violin1);
+        InstrumentMapping violin2 = new InstrumentMapping(new ViolinSolo(), 3, 1);
+        violin2.setArticulation(Articulation.DETACHE);
+        instruments.put(2,violin2);
+        InstrumentMapping viola = new InstrumentMapping(new ViolaSolo(), 2, 2);
+        viola.setArticulation(Articulation.DETACHE);
+        instruments.put(1,viola);
+        InstrumentMapping cello = new InstrumentMapping(new CelloSolo(), 1, 3);
+        cello.setArticulation(Articulation.DETACHE);
+        instruments.put(0,cello);
         return instruments;
     }
 
@@ -132,10 +192,10 @@ public class InstrumentConfig {
 	}
 
 	public Map<Integer, InstrumentMapping> getFluteClarinetBassoonGreen(){
-        instruments.put(3,new InstrumentMapping(pleasant.getFlute(), 4, 0));
-        instruments.put(2,new InstrumentMapping(pleasant.getClarinet(), 2, 1));
-        instruments.put(1,new InstrumentMapping(pleasant.getClarinet(), 2, 2));
-        instruments.put(0,new InstrumentMapping(pleasant.getBassoon(), 1, 3));
+        instruments.put(3,new InstrumentMapping(pleasantGreen.getFlute(), 4, 0));
+        instruments.put(2,new InstrumentMapping(pleasantGreen.getClarinet(), 2, 1));
+        instruments.put(1,new InstrumentMapping(pleasantGreen.getClarinet(), 2, 2));
+        instruments.put(0,new InstrumentMapping(pleasantGreen.getBassoon(), 1, 3));
 		return instruments;
 	}
 
@@ -153,10 +213,10 @@ public class InstrumentConfig {
 
 	public Map<Integer, InstrumentMapping> getPianoAndViolin(){
         instruments.put(4,new InstrumentMapping(new ViolinSolo(), 3, 0));
-        instruments.put(3,new InstrumentMapping(pleasant.getPiano(), 4, 1));
-        instruments.put(2,new InstrumentMapping(rich.getPiano(), 4, 2));
-        instruments.put(1,new InstrumentMapping(rich.getPiano(), 4, 3));
-        instruments.put(0,new InstrumentMapping(mellow.getPiano(), 4, 4));
+        instruments.put(3,new InstrumentMapping(pleasantGreen.getPiano(), 4, 1));
+        instruments.put(2,new InstrumentMapping(richBlue.getPiano(), 4, 2));
+        instruments.put(1,new InstrumentMapping(richBlue.getPiano(), 4, 3));
+        instruments.put(0,new InstrumentMapping(mellowPurple.getPiano(), 4, 4));
         return instruments;
 	}
 	public Map<Integer, InstrumentMapping> getOrchestra(){
@@ -183,8 +243,8 @@ public class InstrumentConfig {
         InstrumentMapping cello = new InstrumentMapping(new Cello(), 10, 18);
         InstrumentMapping bass = new InstrumentMapping(new Doublebass(), 11, 19);
 
-        violin1.setOrchestralQuality(bright);
-        flute.setOrchestralQuality(bright);
+        violin1.setOrchestralQuality(brightYellow);
+        flute.setOrchestralQuality(brightYellow);
         violin1.addDependantInstrument(flute);
         violin1.addDependantInstrument(clarinet);
 
@@ -192,7 +252,7 @@ public class InstrumentConfig {
 //        instruments.put(2,violin2);
 //        instruments.put(1,viola);
         cello.addDependantInstrument(horn);
-        cello.setOrchestralQuality(rich);
+        cello.setOrchestralQuality(richBlue);
         cello.addDependantInstrument(bassoon);
         instruments.put(0,cello);
         return  instruments;
@@ -215,9 +275,17 @@ public class InstrumentConfig {
     public Instrument getInstrumentForVoice(int voice){
         InstrumentMapping instrumentMapping = instruments.get(voice);
         if (instrumentMapping == null){
-            return null;
+            throw new IllegalStateException("InstrumentConfig not available for voice: " + voice);
         }
         return instrumentMapping.getInstrument();
+    }
+
+    public Articulation getArticuationForVoice(int voice){
+        InstrumentMapping instrumentMapping = instruments.get(voice);
+        if (instrumentMapping == null){
+            throw new IllegalStateException("InstrumentConfig not available for voice: " + voice);
+        }
+        return instrumentMapping.getArticulation();
     }
 
     public int getChannelForVoice(int voice){

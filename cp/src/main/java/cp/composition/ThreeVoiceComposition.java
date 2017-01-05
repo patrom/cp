@@ -187,16 +187,19 @@ public class ThreeVoiceComposition extends Composition{
 	 * @return melodies
 	 */
 	public List<MelodyBlock> threeOverXX(){
+		voiceConfiguration.put(voice0, homophonicVoice);
+		voiceConfiguration.put(voice1, timeVoice);
+		voiceConfiguration.put(voice2, melodyVoice);
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(voice0, instrument1.pickRandomOctaveFromRange(), getTimeConfig()::getFixedBeatGroup);
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);
 
-		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlock(voice1, instrument2.pickRandomOctaveFromRange(), time34::getFixedBeatGroup, time34);
+		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfig(voice1, instrument2.pickRandomOctaveFromRange());
 		melodyBlock2.setInstrument(instrument2);
 		melodyBlocks.add(melodyBlock2);
 
-		MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlock(voice2, instrument3.pickRandomOctaveFromRange());
+		MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlockConfig(voice2, instrument3.pickRandomOctaveFromRange());
 		melodyBlock3.setInstrument(instrument3);
 		melodyBlocks.add(melodyBlock3);
 
@@ -210,15 +213,18 @@ public class ThreeVoiceComposition extends Composition{
 	 * @return melodies
 	 */
 	public List<MelodyBlock> accDuplicateRhythm(){
+		voiceConfiguration.put(voice0, homophonicVoice);
+		voiceConfiguration.put(voice1, homophonicVoice);
+		voiceConfiguration.put(voice2, melodyVoice);
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(voice0, instrument1.pickRandomOctaveFromRange(), getTimeConfig()::getHomophonicBeatGroup);
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);
 
 		MelodyBlock melodyBlock2 = melodyGenerator.duplicateRhythmMelodyBlock(melodyBlock, instrument2, voice1);
 		melodyBlocks.add(melodyBlock2);
 
-		MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlock(voice2, instrument3.pickRandomOctaveFromRange());
+		MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlockConfig(voice2, instrument3.pickRandomOctaveFromRange());
 		melodyBlock3.setInstrument(instrument2);
 		melodyBlocks.add(melodyBlock3);
 
@@ -226,16 +232,19 @@ public class ThreeVoiceComposition extends Composition{
 	}
 	
 	public List<MelodyBlock> allRandom(){
+		voiceConfiguration.put(voice0, melodyVoice);
+		voiceConfiguration.put(voice1, melodyVoice);
+		voiceConfiguration.put(voice2, melodyVoice);
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlock(voice0, instrument1.pickRandomOctaveFromRange());
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);
 
-		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlock(voice1, instrument2.pickRandomOctaveFromRange());
+		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfig(voice1, instrument2.pickRandomOctaveFromRange());
 		melodyBlock2.setInstrument(instrument2);
 		melodyBlocks.add(melodyBlock2);
 
-		MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlock(voice2, instrument3.pickRandomOctaveFromRange());
+		MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlockConfig(voice2, instrument3.pickRandomOctaveFromRange());
 		melodyBlock3.setInstrument(instrument3);
 		melodyBlocks.add(melodyBlock3);
 

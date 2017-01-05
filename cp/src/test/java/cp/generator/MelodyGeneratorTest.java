@@ -8,6 +8,7 @@ import cp.composition.beat.BeatGroup;
 import cp.composition.beat.BeatGroupStrategy;
 import cp.composition.beat.BeatGroupTwo;
 import cp.composition.timesignature.TimeConfig;
+import cp.composition.voice.MelodyVoice;
 import cp.generator.pitchclass.PitchClassGenerator;
 import cp.generator.pitchclass.RandomPitchClasses;
 import cp.midi.MidiDevicesUtil;
@@ -24,16 +25,14 @@ import cp.out.instrument.MidiDevice;
 import cp.out.instrument.strings.ViolinSolo;
 import cp.out.print.ScoreUtilities;
 import cp.out.print.note.Key;
-import jm.music.data.Part;
-import jm.music.data.Phrase;
 import jm.music.data.Score;
-import jm.util.Play;
 import jm.util.View;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +50,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.when;
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -75,8 +75,6 @@ public class MelodyGeneratorTest extends JFrame{
 	@Mock
 	private PitchClassGenerator pitchClassGenerator;
 	@Mock
-	private Composition compostion;
-	@Mock
 	private BeatGroupStrategy beatGroupStrategy;
 	@Mock
 	private TimeLine timeLine;
@@ -85,6 +83,10 @@ public class MelodyGeneratorTest extends JFrame{
 	private TimeConfig time44;
 	@Resource(name = "fixedEven")
 	private List<RhythmCombination> fixedEven;
+	@Mock
+	private Composition composition;
+	@Autowired
+	private MelodyVoice melodyVoice;
 
 	@Before
 	public void setUp() throws Exception {
@@ -120,53 +122,43 @@ public class MelodyGeneratorTest extends JFrame{
 	}
 	
 	@Test
-	public void testGenerate() {
-		int[] harmony = {0, DurationConstants.WHOLE};
-		int max = 8;
-		int[] positions = melodyGenerator.generateMelodyPositions(harmony, DurationConstants.EIGHT, max);
-		List<Note> melodyNotes = melodyGenerator.generateMelodyNotes(positions, Scale.MAJOR_SCALE.getPitchClasses());
-		melodyNotes.forEach(note -> note.setPitch(note.getPitchClass() + 60));
-		System.out.println(melodyNotes);
-		Score score = new Score();
-		Phrase phrase = scoreUtilities.createPhrase(melodyNotes);	
-		Part part = new Part(phrase);
-		score.add(part);
-		View.notate(score);
-		Play.midi(score, true);
-	}
-	
-	@Test
 	public void testGenerateMelodyBlock() {
 		List<Note> notes = new ArrayList<>();
 		notes.add(NoteBuilder.note().pos(0).build());
-		when(compostion.getStart()).thenReturn(0);
-		when(compostion.getEnd()).thenReturn(DurationConstants.WHOLE);
-		when(compostion.getTimeConfig()).thenReturn(time44);
+		when(composition.getStart()).thenReturn(0);
+		when(composition.getEnd()).thenReturn(DurationConstants.WHOLE);
+		when(composition.getTimeConfig()).thenReturn(time44);
 		List<BeatGroup> beatGroups = new ArrayList<>();
 		beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER, fixedEven));
 		when(beatGroupStrategy.getBeatGroups()).thenReturn(beatGroups);
 		when(pitchClassGenerator.updatePitchClasses(notes)).thenReturn(notes);
-		List<Integer> beats = new ArrayList<>();
-		beats.add(12);
-		MelodyBlock melody = melodyGenerator.generateMelodyBlock(1, 5);
+		when(composition.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
+		when(composition.getRandomPitchClassGenerator(Mockito.anyInt())).thenReturn(new PitchClassGenerator() {
+			@Override
+			public List<Note> updatePitchClasses(List<Note> notes) {
+				return new ArrayList<Note>();
+			}
+		});
+		MelodyBlock melody = melodyGenerator.generateMelodyBlockConfig(1, 5);
 		assertEquals(1, melody.getVoice());
-		assertEquals(2, melody.getMelodyBlocks().size());
+		assertTrue(melody.getMelodyBlocks().size() > 1);
 	}
 
 	@Test
 	public void testGenerateDependantMelodyBlock() {
 		List<Note> notes = new ArrayList<>();
 		notes.add(NoteBuilder.note().pos(0).build());
-		when(compostion.getStart()).thenReturn(0);
-		when(compostion.getEnd()).thenReturn(2 * DurationConstants.WHOLE);
-		when(compostion.getTimeConfig()).thenReturn(time44);
+		when(composition.getStart()).thenReturn(0);
+		when(composition.getEnd()).thenReturn(2 * DurationConstants.WHOLE);
+		when(composition.getTimeConfig()).thenReturn(time44);
 		List<BeatGroup> beatGroups = new ArrayList<>();
 		beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER, fixedEven));
 		when(beatGroupStrategy.getBeatGroups()).thenReturn(beatGroups);
 		when(pitchClassGenerator.updatePitchClasses(notes)).thenReturn(notes);
+		when(composition.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
 		List<Integer> beats = new ArrayList<>();
 		beats.add(12);
-		MelodyBlock dependingBlock = melodyGenerator.generateMelodyBlock(1, 5);
+		MelodyBlock dependingBlock = melodyGenerator.generateMelodyBlockConfig(1, 5);
 
 		when(timeLine.getTimeLineKeyAtPosition(anyInt(), anyInt())).thenReturn(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, 2 * DurationConstants.WHOLE));
 

@@ -6,10 +6,7 @@ import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.percussion.Glockenspiel;
 import cp.out.instrument.percussion.Harp;
 import cp.out.instrument.register.InstrumentRegister;
-import cp.out.instrument.strings.Cello;
-import cp.out.instrument.strings.Doublebass;
-import cp.out.instrument.strings.Viola;
-import cp.out.instrument.strings.ViolinsI;
+import cp.out.instrument.strings.*;
 import cp.out.instrument.woodwinds.*;
 import cp.out.orchestration.InstrumentName;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +18,14 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
 @Component
-public class Pleasant extends OrchestralQuality{
+public class PleasantGreen extends OrchestralQuality{
 	
 	@Autowired
-	private Rich rich;
+	private RichBlue richBlue;
 
-	public Pleasant() {
+	public PleasantGreen() {
 		color = "green";
-		quality = "pleasant";
+		quality = "pleasantGreen";
 		type = "basic";
 		instruments = Stream.of(
 				new Flute(new InstrumentRegister(71, 79)),
@@ -37,8 +34,11 @@ public class Pleasant extends OrchestralQuality{
 				new BassClarinet(new InstrumentRegister(55, 82)),
 				new Bassoon(new InstrumentRegister(34, 72)),
 				new ViolinsI(new InstrumentRegister(69, 81)),
+				new ViolinSolo(new InstrumentRegister(69, 81)),
 				new Viola(new InstrumentRegister(62, 74)),
+				new ViolaSolo(new InstrumentRegister(62, 74)),
 				new Cello(new InstrumentRegister(50, 61)),
+				new CelloSolo(new InstrumentRegister(50, 61)),
 				new Doublebass(new InstrumentRegister(43, 49)),
 				new Glockenspiel(new InstrumentRegister(87, 103)),
 				new Celesta(new InstrumentRegister(72, 84)),
@@ -61,7 +61,7 @@ public class Pleasant extends OrchestralQuality{
 	
 	@PostConstruct
 	private void initComplementaryQualities(){
-		closeQualities.add(rich);
+		closeQualities.add(richBlue);
 	}
 	
 	public Instrument getFlute(){

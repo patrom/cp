@@ -1,6 +1,5 @@
 package cp.model;
 
-import cp.composition.Composition;
 import cp.out.play.InstrumentConfig;
 import cp.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,8 @@ public class TimeLine {
 	private final Map<Integer, List<TimeLineKey>> keysPerVoice = new TreeMap<>();
 	@Autowired
 	private InstrumentConfig instrumentConfig;
-	@Autowired
-	private Composition composition;
+
+	private int end;
 	
 	public TimeLineKey getTimeLineKeyAtPosition(int position, int voice){
 		List<TimeLineKey> keys = keysPerVoice.get(voice);
@@ -51,7 +50,7 @@ public class TimeLine {
 		List<TimeLineKey> keys = new ArrayList<>();
 		int start = 0;
 		int end = 0;
-		while (start < composition.getEnd()) {
+		while (start < end) {
 			int duration = RandomUtil.getRandomFromList(durations);
 			end = end + duration;
 			TimeLineKey timeLineKey = RandomUtil.getRandomFromList(timeLineKeys);
@@ -64,4 +63,7 @@ public class TimeLine {
 		}
 	}
 
+	public void setEnd(int end) {
+		this.end = end;
+	}
 }

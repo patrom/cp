@@ -5,10 +5,7 @@ import cp.out.instrument.brass.FrenchHorn;
 import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.percussion.Harp;
 import cp.out.instrument.register.InstrumentRegister;
-import cp.out.instrument.strings.Cello;
-import cp.out.instrument.strings.Doublebass;
-import cp.out.instrument.strings.Viola;
-import cp.out.instrument.strings.ViolinsI;
+import cp.out.instrument.strings.*;
 import cp.out.orchestration.InstrumentName;
 import org.springframework.stereotype.Component;
 
@@ -16,17 +13,20 @@ import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 @Component
-public class Mellow extends OrchestralQuality{
+public class MellowPurple extends OrchestralQuality{
 
-	public Mellow() {
+	public MellowPurple() {
 		color = "purple";
-		quality = "mellow";
+		quality = "mellowPurple";
 		type = "basic";
 		instruments = Stream.of(
 				new FrenchHorn(new InstrumentRegister(41, 55)),
 				new ViolinsI(new InstrumentRegister(55, 67)),
+				new ViolinSolo(new InstrumentRegister(55, 67)),
 				new Viola(new InstrumentRegister(48, 60)),
+				new ViolaSolo(new InstrumentRegister(48, 60)),
 				new Cello(new InstrumentRegister(36, 49)),
+				new CelloSolo(new InstrumentRegister(36, 49)),
 				new Doublebass(new InstrumentRegister(24, 50)),
 				new Harp(new InstrumentRegister(23, 41)),
 				new Piano(new InstrumentRegister(28, 55))

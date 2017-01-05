@@ -1,6 +1,6 @@
 package cp.out.instrument;
 
-import cp.out.orchestration.quality.Pleasant;
+import cp.out.orchestration.quality.PleasantGreen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class Ensemble {
 	
 	@Autowired
-	private Pleasant pleasant;
+	private PleasantGreen pleasantGreen;
 	
 //	public List<Instrument> getStringDuo(){
 //		List<Instrument> stringDuo = new ArrayList<>();
@@ -85,7 +85,7 @@ public class Ensemble {
 //
 //
 //	public List<Instrument> getStrings(OrchestralQuality orchestralQuality){
-////		Instrument basses = pleasant.getBasicInstrument(InstrumentName.BASS.getName());
+////		Instrument basses = pleasantGreen.getBasicInstrument(InstrumentName.BASS.getName());
 //		Instrument cellos = orchestralQuality.getBasicInstrument(InstrumentName.CELLO.getName());
 //		Instrument violas = orchestralQuality.getBasicInstrument(InstrumentName.VIOLA.getName());
 //		Instrument violins = orchestralQuality.getBasicInstrument(InstrumentName.VIOLIN_I.getName());
@@ -120,9 +120,9 @@ public class Ensemble {
 //	}
 //
 //	public List<Instrument> getFluteClarinetBassoonGreen(){
-//		Instrument bassoon = pleasant.getBasicInstrument(InstrumentName.BASSOON.getName());
-//		Instrument clarinet = pleasant.getBasicInstrument(InstrumentName.CLARINET.getName());
-//		Instrument flute = pleasant.getBasicInstrument(InstrumentName.FLUTE.getName());
+//		Instrument bassoon = pleasantGreen.getBasicInstrument(InstrumentName.BASSOON.getName());
+//		Instrument clarinet = pleasantGreen.getBasicInstrument(InstrumentName.CLARINET.getName());
+//		Instrument flute = pleasantGreen.getBasicInstrument(InstrumentName.FLUTE.getName());
 //		List<Instrument> instruments = new ArrayList<>();
 //		instruments.add(bassoon);
 //		instruments.add(clarinet);

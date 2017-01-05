@@ -45,6 +45,7 @@ public class MidiParser {
 		for (int j = 0; j < tracks.length; j++) {
 			Track track = tracks[j];
 			List<Note> notes = new ArrayList<>();
+			List<MidiEvent> events = new ArrayList<>();
 			for (int i = 0; i < track.size(); i++) {
 				MidiEvent event = track.get(i);
 				LOGGER.debug("@" + event.getTick() + " ");
@@ -56,11 +57,8 @@ public class MidiParser {
 									.getResolution()) * RESOLUTION) ;
 					ShortMessage sm = (ShortMessage) message;
 					LOGGER.debug("Pitch: " + sm.getData1() + " ");
-					if (sm.getCommand() == ShortMessage.CONTROL_CHANGE) {
-						System.out.println("track: " + j);
-						System.out.println("controller : " + sm.getData1() + ", " + sm.getData2());
-//						Note jNote = createNote(j, ticks, sm);
-//						notes.add(jNote);
+					if (sm.getCommand() == ShortMessage.CONTROL_CHANGE || sm.getCommand() == ShortMessage.PROGRAM_CHANGE ) {
+						events.add(new MidiEvent(sm, ticks));
 					}
 
 					// Er zijn twee manieren om een note-off commando te
@@ -97,6 +95,7 @@ public class MidiParser {
 
 			MelodyInstrument melody = new MelodyInstrument(notes, j);
 			InstrumentMapping instrumentMapping = instrumentConfig.getInstrumentMapping(j);
+			melody.setMidiEvents(events);
 			melody.setInstrumentMapping(instrumentMapping);
 			map.put(j, melody);
 		}

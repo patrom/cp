@@ -8,10 +8,7 @@ import cp.generator.MusicProperties;
 import cp.generator.pitchclass.*;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
-import cp.model.dissonance.DyadTriadsTetraAndPentaChordal;
-import cp.model.dissonance.IntervalDissonance;
-import cp.model.dissonance.SetClassDissonance;
-import cp.model.dissonance.TonalDissonance;
+import cp.model.dissonance.*;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
@@ -25,10 +22,10 @@ import cp.objective.harmony.HarmonicResolutionObjective;
 import cp.objective.meter.MeterObjective;
 import cp.out.instrument.Ensemble;
 import cp.out.instrument.Instrument;
-import cp.out.orchestration.quality.Brilliant;
-import cp.out.orchestration.quality.Mellow;
-import cp.out.orchestration.quality.Pleasant;
-import cp.out.orchestration.quality.Rich;
+import cp.out.orchestration.quality.BrilliantWhite;
+import cp.out.orchestration.quality.MellowPurple;
+import cp.out.orchestration.quality.PleasantGreen;
+import cp.out.orchestration.quality.RichBlue;
 import cp.out.play.InstrumentConfig;
 import cp.out.play.InstrumentMapping;
 import cp.out.print.note.Key;
@@ -86,6 +83,8 @@ public abstract class Composition {
 	@Autowired
 	protected DyadTriadsTetraAndPentaChordal dyadTriadsTetraAndPentaChordal;
 	@Autowired
+	protected TorkeDissonance torkeDissonance;
+	@Autowired
 	protected SetClassDissonance setClassDissonance;
 	@Autowired
 	private TonalDissonance tonalDissonance;
@@ -124,13 +123,13 @@ public abstract class Composition {
 	protected Key B;
 	
 	@Autowired
-	protected Pleasant pleasant;
+	protected PleasantGreen pleasantGreen;
 	@Autowired
-	protected Mellow mellow;
+	protected MellowPurple mellowPurple;
 	@Autowired
-	protected Rich rich;
+	protected RichBlue richBlue;
 	@Autowired
-	protected Brilliant brilliant;
+	protected BrilliantWhite brilliantWhite;
 	
 //	private InstrumentCombination instrumentCombination;
 //	protected List<Instrument> instruments = new ArrayList<>();
@@ -138,7 +137,7 @@ public abstract class Composition {
 	private Ensemble ensemble;
 	
 	protected final int start = 0;
-	protected final int end = 3 * DurationConstants.WHOLE;
+	protected final int end = 6 * DurationConstants.WHOLE;
 	
 	private TimeConfig timeConfig;
 	
@@ -173,30 +172,53 @@ public abstract class Composition {
 
 	@PostConstruct
 	public void init(){
-		composeInKey(A);
-		inTempo(80);
+		composeInKey(G);
+		inTempo(100);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
 		meterObjective.setComposition(this);
 		
 //		instruments = Choral.getSATB();
 //		instruments = ensemble.getFluteClarinetBassoonGreen();
-//		instruments = ensemble.getStrings(mellow);
+//		instruments = ensemble.getStrings(mellowPurple);
 //		instruments = ensemble.getStringDuo();
 //		instruments = ensemble.getStringTrio();
 //		instruments = ensemble.getPiano(3);
 //		instruments = ensemble.getStringQuartet();
 
 		setTimeconfig();
+		timeLine.setEnd(end);
+		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
-		timeLineKeys.add(new TimeLineKey(A, Scale.MAJOR_SCALE, 0 ,0));
-		timeLineKeys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0 ,0));
+//		timeLineKeys.add(new TimeLineKey(A, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(E, Scale.MAJOR_SCALE, 0 ,0));
 		List<Integer> durations = new ArrayList<>();
 		durations.add(DurationConstants.QUARTER);
-		durations.add(DurationConstants.EIGHT);
+		durations.add(DurationConstants.WHOLE);
 		durations.add(DurationConstants.HALF);
 //		timeLine.randomKeysAndDurations(timeLineKeys, durations);
-		timeLine.randomKeys(timeLineKeys, DurationConstants.WHOLE, DurationConstants.WHOLE, DurationConstants.WHOLE);
+		timeLine.randomKeys(timeLineKeys, DurationConstants.WHOLE, DurationConstants.WHOLE, 4 * DurationConstants.WHOLE);
+
+//		List<TimeLineKey> major = new ArrayList<>();
+//		major.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, DurationConstants.WHOLE));
+//		major.add(new TimeLineKey(C, Scale.MAJOR_SCALE, DurationConstants.WHOLE, end));
+//		timeLine.addKeysForVoice(major, 0);
+//
+//		List<TimeLineKey> major1 = new ArrayList<>();
+//		major1.add(new TimeLineKey(C, Scale.MAJOR_CHORD, start, DurationConstants.WHOLE));
+//		major1.add(new TimeLineKey(G, Scale.MAJOR_CHORD, DurationConstants.WHOLE, end));
+//		timeLine.addKeysForVoice(major1, 1);
+//
+//		List<TimeLineKey> major2 = new ArrayList<>();
+//		major2.add(new TimeLineKey(C, Scale.MAJOR_CHORD, start, DurationConstants.WHOLE));
+//		major2.add(new TimeLineKey(G, Scale.MAJOR_CHORD, DurationConstants.WHOLE, end));
+//		timeLine.addKeysForVoice(major1, 2);
+//
+//		List<TimeLineKey> major3 = new ArrayList<>();
+//		major3.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, DurationConstants.WHOLE));
+//		major3.add(new TimeLineKey(C, Scale.MAJOR_SCALE, DurationConstants.WHOLE, end));
+//		timeLine.addKeysForVoice(major3, 3);
 
 		//polytonality
 //		List<TimeLineKey> minor = new ArrayList<>();
@@ -227,7 +249,7 @@ public abstract class Composition {
 //		pitchClassGenerators.add(restPitchClasses::updatePitchClasses);
 
 		melodyGenerator.setBeatGroupStrategy(timeConfig::getAllBeats);
-		harmonicObjective.setDissonance(dyadTriadsTetraAndPentaChordal::getDissonance);
+		harmonicObjective.setDissonance(torkeDissonance::getDissonance);
 		harmonicResolutionObjective.setDissonantResolution(dissonantResolutionImpl::isDissonant);
 
 	}
@@ -242,6 +264,8 @@ public abstract class Composition {
 	protected FixedVoice fixedVoice;
 	@Autowired
 	protected DoubleTimeVoice doubleTimeVoice;
+	@Autowired
+	protected timeVoice timeVoice;
 
 	public VoiceConfig getVoiceConfiguration(int voice){
 		return voiceConfiguration.get(voice);

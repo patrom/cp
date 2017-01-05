@@ -5,7 +5,10 @@ import cp.out.instrument.brass.BassTrombone;
 import cp.out.instrument.brass.FrenchHorn;
 import cp.out.instrument.brass.Trombone;
 import cp.out.instrument.brass.Trumpet;
+import cp.out.instrument.percussion.Harp;
+import cp.out.instrument.percussion.Xylophone;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.instrument.strings.ViolinSolo;
 import cp.out.instrument.strings.ViolinsI;
 import cp.out.instrument.woodwinds.AltoFlute;
 import cp.out.instrument.woodwinds.CorAnglais;
@@ -18,30 +21,34 @@ import javax.annotation.PostConstruct;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 @Component
-public class Glowing extends OrchestralQuality{
+public class GoldenOrange extends OrchestralQuality{
 	
 	@Autowired
-	private Warm warm;
+	private GlowingRed glowingRed;
 
-	public Glowing() {
-		color = "red";
-		quality = "glowing";
+	public GoldenOrange() {
+		color = "orange";
+		quality = "golden";
 		type = "basic";
 		instruments = Stream.of(
-				new AltoFlute(new InstrumentRegister(67, 80)),
-				new CorAnglais(new InstrumentRegister(52, 67)),
-				new Oboe(new InstrumentRegister(58, 67)),
+				new AltoFlute(new InstrumentRegister(80, 91)),
+				new CorAnglais(new InstrumentRegister(67, 84)),
+				new Oboe(new InstrumentRegister(67, 80)),
 				new FrenchHorn(new InstrumentRegister(68, 79)),
-				new Trumpet(new InstrumentRegister(64, 70)),
-				new Trombone(new InstrumentRegister(53, 64)),
-				new BassTrombone(new InstrumentRegister(41, 55)),
-				new ViolinsI(new InstrumentRegister(67, 74))
+				new Trumpet(new InstrumentRegister(70, 78)),
+				new Trombone(new InstrumentRegister(64, 77)),
+				new BassTrombone(new InstrumentRegister(55, 69)),
+				new ViolinsI(new InstrumentRegister(74, 84)),
+				new ViolinSolo(new InstrumentRegister(74, 84)),
+				new Xylophone(new InstrumentRegister(65, 108)),
+				new Harp(new InstrumentRegister(60, 84))
 				).collect(Collectors.toList());
+		
 	}
 	
 	@PostConstruct
 	private void initComplementaryQualities(){
-		closeQualities.add(warm);
+		closeQualities.add(glowingRed);
 	}
 	
 	public Instrument getOboe(){

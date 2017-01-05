@@ -24,21 +24,21 @@ public class OrchestrationGenerator {
 	private static final Logger LOGGER = LoggerFactory.getLogger(OrchestrationGenerator.class);
 
 	@Autowired
-	private Brilliant brilliant;
+	private BrilliantWhite brilliantWhite;
 	@Autowired
-	private Bright bright;
+	private BrightYellow brightYellow;
 	@Autowired
-	private Pleasant pleasant;
+	private PleasantGreen pleasantGreen;
 	@Autowired
-	private Rich rich;
+	private RichBlue richBlue;
 	@Autowired
-	private Golden golden;
+	private GoldenOrange goldenOrange;
 	@Autowired
-	private Glowing glowing;
+	private GlowingRed glowingRed;
 	@Autowired
-	private Mellow mellow;
+	private MellowPurple mellowPurple;
 	@Autowired
-	private Warm warm;
+	private WarmBrown warmBrown;
 	@Autowired
 	private VerticalRelations verticalRelations;
 	
@@ -46,14 +46,14 @@ public class OrchestrationGenerator {
 
 	public List<OrchestralQuality> getOrchestralQualities() {
 		List<OrchestralQuality> orchestralQualities = new ArrayList<>();
-		orchestralQualities.add(brilliant);
-		orchestralQualities.add(bright);
-		orchestralQualities.add(pleasant);
-		orchestralQualities.add(rich);
-		orchestralQualities.add(golden);
-		orchestralQualities.add(glowing);
-		orchestralQualities.add(mellow);
-		orchestralQualities.add(warm);
+		orchestralQualities.add(brilliantWhite);
+		orchestralQualities.add(brightYellow);
+		orchestralQualities.add(pleasantGreen);
+		orchestralQualities.add(richBlue);
+		orchestralQualities.add(goldenOrange);
+		orchestralQualities.add(glowingRed);
+		orchestralQualities.add(mellowPurple);
+		orchestralQualities.add(warmBrown);
 		return orchestralQualities;
 	}
 	

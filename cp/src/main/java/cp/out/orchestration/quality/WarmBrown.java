@@ -18,12 +18,12 @@ import javax.annotation.PostConstruct;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 @Component
-public class Warm extends OrchestralQuality{
+public class WarmBrown extends OrchestralQuality{
 
 	@Autowired
-	private Mellow mellow;
+	private MellowPurple mellowPurple;
 
-	public Warm() {
+	public WarmBrown() {
 		color = "brown";
 		quality = "warm";
 		type = "basic";
@@ -42,7 +42,7 @@ public class Warm extends OrchestralQuality{
 	
 	@PostConstruct
 	private void initComplementaryQualities(){
-		closeQualities.add(mellow);
+		closeQualities.add(mellowPurple);
 	}
 	
 	public Instrument getFrenchHorn(){

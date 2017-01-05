@@ -46,21 +46,21 @@ import static org.junit.Assert.assertNull;
 public class OrchestrationGeneratorTest {
 	
 	@Autowired
-	private Brilliant brilliant;
+	private BrilliantWhite brilliantWhite;
 	@Autowired
-	private Bright bright;
+	private BrightYellow brightYellow;
 	@Autowired
-	private Pleasant pleasant;
+	private PleasantGreen pleasantGreen;
 	@Autowired
-	private Rich rich;
+	private RichBlue richBlue;
 	@Autowired
-	private Golden golden;
+	private GoldenOrange goldenOrange;
 	@Autowired
-	private Glowing glowing;
+	private GlowingRed glowingRed;
 	@Autowired
-	private Mellow mellow;
+	private MellowPurple mellowPurple;
 	@Autowired
-	private Warm warm;
+	private WarmBrown warmBrown;
 	
 	@Autowired
 	private OrchestrationGenerator orchestrationGenerator;
@@ -284,50 +284,50 @@ public class OrchestrationGeneratorTest {
 	}
 	
 	public void closeCombinationsWhiteYellow(int[] pitches, InstrumentGroup instrumentGroup){
-		List<Instrument> white = brilliant.getBasicInstrumentsByGroup(instrumentGroup);
-		List<Instrument> yellow = bright.getBasicInstrumentsByGroup(instrumentGroup);
+		List<Instrument> white = brilliantWhite.getBasicInstrumentsByGroup(instrumentGroup);
+		List<Instrument> yellow = brightYellow.getBasicInstrumentsByGroup(instrumentGroup);
 		combineCloseCombinations(pitches, white, yellow, 0);
 	}
 	
 	public void closeCombinationsYellowGreen(int[] pitches, InstrumentGroup instrumentGroup){
-		List<Instrument> yellow = bright.getBasicInstrumentsByGroup(instrumentGroup);
-		List<Instrument> green = pleasant.getBasicInstrumentsByGroup(instrumentGroup);
+		List<Instrument> yellow = brightYellow.getBasicInstrumentsByGroup(instrumentGroup);
+		List<Instrument> green = pleasantGreen.getBasicInstrumentsByGroup(instrumentGroup);
 		combineCloseCombinations(pitches, yellow, green, 0);
 	}
 	
 	public void closeCombinationsGreenBlue(int[] pitches, InstrumentGroup instrumentGroup){
-		List<Instrument> green = pleasant.getBasicInstrumentsByGroup(instrumentGroup);
-		List<Instrument> blue = rich.getBasicInstrumentsByGroup(instrumentGroup);
+		List<Instrument> green = pleasantGreen.getBasicInstrumentsByGroup(instrumentGroup);
+		List<Instrument> blue = richBlue.getBasicInstrumentsByGroup(instrumentGroup);
 		combineCloseCombinations(pitches,green, blue, 0);
 	}
 	
 	public void closeCombinationsBluePurple(int[] pitches, InstrumentGroup instrumentGroup){
-		List<Instrument> blue = rich.getBasicInstrumentsByGroup(instrumentGroup);
-		List<Instrument> purple = mellow.getBasicInstrumentsByGroup(instrumentGroup);
+		List<Instrument> blue = richBlue.getBasicInstrumentsByGroup(instrumentGroup);
+		List<Instrument> purple = mellowPurple.getBasicInstrumentsByGroup(instrumentGroup);
 		combineCloseCombinations(pitches, blue, purple, 0);
 	}
 	
 	public void closeCombinationsYellowOrange(int[] pitches, InstrumentGroup instrumentGroup){
-		List<Instrument> yellow = bright.getBasicInstrumentsByGroup(instrumentGroup);
-		List<Instrument> orange = golden.getBasicInstrumentsByGroup(instrumentGroup);
+		List<Instrument> yellow = brightYellow.getBasicInstrumentsByGroup(instrumentGroup);
+		List<Instrument> orange = goldenOrange.getBasicInstrumentsByGroup(instrumentGroup);
 		combineCloseCombinations(pitches, yellow, orange, 0);
 	}
 	
 	public void closeCombinationsOrangeRed(int[] pitches, InstrumentGroup instrumentGroup){
-		List<Instrument> orange = golden.getBasicInstrumentsByGroup(instrumentGroup);
-		List<Instrument> red = glowing.getBasicInstrumentsByGroup(instrumentGroup);
+		List<Instrument> orange = goldenOrange.getBasicInstrumentsByGroup(instrumentGroup);
+		List<Instrument> red = glowingRed.getBasicInstrumentsByGroup(instrumentGroup);
 		combineCloseCombinations(pitches, orange, red, 0);
 	}
 	
 	public void closeCombinationsRedBrown(int[] pitches, InstrumentGroup instrumentGroup){
-		List<Instrument> red = glowing.getBasicInstrumentsByGroup(instrumentGroup);
-		List<Instrument> brown = warm.getBasicInstrumentsByGroup(instrumentGroup);
+		List<Instrument> red = glowingRed.getBasicInstrumentsByGroup(instrumentGroup);
+		List<Instrument> brown = warmBrown.getBasicInstrumentsByGroup(instrumentGroup);
 		combineCloseCombinations(pitches, red, brown, 0);
 	}
 	
 	public void closeCombinationsBrownPurple(int[] pitches, InstrumentGroup instrumentGroup){
-		List<Instrument> brown = warm.getBasicInstrumentsByGroup(instrumentGroup);
-		List<Instrument> purple = mellow.getBasicInstrumentsByGroup(instrumentGroup);
+		List<Instrument> brown = warmBrown.getBasicInstrumentsByGroup(instrumentGroup);
+		List<Instrument> purple = mellowPurple.getBasicInstrumentsByGroup(instrumentGroup);
 		combineCloseCombinations(pitches, brown, purple, 0);
 	}
 	
@@ -349,14 +349,14 @@ public class OrchestrationGeneratorTest {
 		
 //		InstrumentGroup instrumentGroup = InstrumentGroup.STRINGS;
 		
-		List<Instrument> yellow = bright.getBasicInstrumentsByGroup(instrumentGroup);
-		List<Instrument> orange = golden.getBasicInstrumentsByGroup(instrumentGroup);
-		List<Instrument> red = glowing.getBasicInstrumentsByGroup(instrumentGroup);
-		List<Instrument> brown = warm.getBasicInstrumentsByGroup(instrumentGroup);
-		List<Instrument> purple = mellow.getBasicInstrumentsByGroup(instrumentGroup);
-		List<Instrument> white = brilliant.getBasicInstrumentsByGroup(instrumentGroup);
-		List<Instrument> blue = rich.getBasicInstrumentsByGroup(instrumentGroup);
-		List<Instrument> green = pleasant.getBasicInstrumentsByGroup(instrumentGroup);
+		List<Instrument> yellow = brightYellow.getBasicInstrumentsByGroup(instrumentGroup);
+		List<Instrument> orange = goldenOrange.getBasicInstrumentsByGroup(instrumentGroup);
+		List<Instrument> red = glowingRed.getBasicInstrumentsByGroup(instrumentGroup);
+		List<Instrument> brown = warmBrown.getBasicInstrumentsByGroup(instrumentGroup);
+		List<Instrument> purple = mellowPurple.getBasicInstrumentsByGroup(instrumentGroup);
+		List<Instrument> white = brilliantWhite.getBasicInstrumentsByGroup(instrumentGroup);
+		List<Instrument> blue = richBlue.getBasicInstrumentsByGroup(instrumentGroup);
+		List<Instrument> green = pleasantGreen.getBasicInstrumentsByGroup(instrumentGroup);
 		
 		int position = 0;
 		int[] chord = new int[]{16,7,0};
@@ -416,14 +416,14 @@ public class OrchestrationGeneratorTest {
 			}
 			//close Combinations
 			System.out.println("----CLOSE-----");
-			List<Instrument> yellow = bright.getBasicInstrumentsByGroup(instrumentGroup);
-			List<Instrument> orange = golden.getBasicInstrumentsByGroup(instrumentGroup);
-			List<Instrument> red = glowing.getBasicInstrumentsByGroup(instrumentGroup);
-			List<Instrument> brown = warm.getBasicInstrumentsByGroup(instrumentGroup);
-			List<Instrument> purple = mellow.getBasicInstrumentsByGroup(instrumentGroup);
-			List<Instrument> white = brilliant.getBasicInstrumentsByGroup(instrumentGroup);
-			List<Instrument> blue = rich.getBasicInstrumentsByGroup(instrumentGroup);
-			List<Instrument> green = pleasant.getBasicInstrumentsByGroup(instrumentGroup);
+			List<Instrument> yellow = brightYellow.getBasicInstrumentsByGroup(instrumentGroup);
+			List<Instrument> orange = goldenOrange.getBasicInstrumentsByGroup(instrumentGroup);
+			List<Instrument> red = glowingRed.getBasicInstrumentsByGroup(instrumentGroup);
+			List<Instrument> brown = warmBrown.getBasicInstrumentsByGroup(instrumentGroup);
+			List<Instrument> purple = mellowPurple.getBasicInstrumentsByGroup(instrumentGroup);
+			List<Instrument> white = brilliantWhite.getBasicInstrumentsByGroup(instrumentGroup);
+			List<Instrument> blue = richBlue.getBasicInstrumentsByGroup(instrumentGroup);
+			List<Instrument> green = pleasantGreen.getBasicInstrumentsByGroup(instrumentGroup);
 			
 			position = combineCloseCombinations(pitches, white, yellow, position, noteLength);
 			position = combineCloseCombinations(pitches, yellow, green, position, noteLength);
@@ -459,14 +459,14 @@ public class OrchestrationGeneratorTest {
 			}
 			//close Combinations
 //			System.out.println("----CLOSE-----");
-//			List<Instrument> yellow = bright.getBasicInstrumentsByGroup(instrumentGroup);
-//			List<Instrument> orange = golden.getBasicInstrumentsByGroup(instrumentGroup);
-//			List<Instrument> red = glowing.getBasicInstrumentsByGroup(instrumentGroup);
-//			List<Instrument> brown = warm.getBasicInstrumentsByGroup(instrumentGroup);
-//			List<Instrument> purple = mellow.getBasicInstrumentsByGroup(instrumentGroup);
-//			List<Instrument> white = brilliant.getBasicInstrumentsByGroup(instrumentGroup);
-//			List<Instrument> blue = rich.getBasicInstrumentsByGroup(instrumentGroup);
-//			List<Instrument> green = pleasant.getBasicInstrumentsByGroup(instrumentGroup);
+//			List<Instrument> yellow = brightYellow.getBasicInstrumentsByGroup(instrumentGroup);
+//			List<Instrument> orange = goldenOrange.getBasicInstrumentsByGroup(instrumentGroup);
+//			List<Instrument> red = glowingRed.getBasicInstrumentsByGroup(instrumentGroup);
+//			List<Instrument> brown = warmBrown.getBasicInstrumentsByGroup(instrumentGroup);
+//			List<Instrument> purple = mellowPurple.getBasicInstrumentsByGroup(instrumentGroup);
+//			List<Instrument> white = brilliantWhite.getBasicInstrumentsByGroup(instrumentGroup);
+//			List<Instrument> blue = richBlue.getBasicInstrumentsByGroup(instrumentGroup);
+//			List<Instrument> green = pleasantGreen.getBasicInstrumentsByGroup(instrumentGroup);
 //			
 //			position = combineCloseCombinations(pitches, white, yellow, position, noteLength);
 //			position = combineCloseCombinations(pitches, yellow, green, position, noteLength);
@@ -524,14 +524,14 @@ public class OrchestrationGeneratorTest {
 			}
 			//close Combinations
 			System.out.println("----CLOSE-----");
-			List<Instrument> yellow = bright.getBasicInstrumentsByGroup(instrumentGroup);
-			List<Instrument> orange = golden.getBasicInstrumentsByGroup(instrumentGroup);
-			List<Instrument> red = glowing.getBasicInstrumentsByGroup(instrumentGroup);
-			List<Instrument> brown = warm.getBasicInstrumentsByGroup(instrumentGroup);
-			List<Instrument> purple = mellow.getBasicInstrumentsByGroup(instrumentGroup);
-			List<Instrument> white = brilliant.getBasicInstrumentsByGroup(instrumentGroup);
-			List<Instrument> blue = rich.getBasicInstrumentsByGroup(instrumentGroup);
-			List<Instrument> green = pleasant.getBasicInstrumentsByGroup(instrumentGroup);
+			List<Instrument> yellow = brightYellow.getBasicInstrumentsByGroup(instrumentGroup);
+			List<Instrument> orange = goldenOrange.getBasicInstrumentsByGroup(instrumentGroup);
+			List<Instrument> red = glowingRed.getBasicInstrumentsByGroup(instrumentGroup);
+			List<Instrument> brown = warmBrown.getBasicInstrumentsByGroup(instrumentGroup);
+			List<Instrument> purple = mellowPurple.getBasicInstrumentsByGroup(instrumentGroup);
+			List<Instrument> white = brilliantWhite.getBasicInstrumentsByGroup(instrumentGroup);
+			List<Instrument> blue = richBlue.getBasicInstrumentsByGroup(instrumentGroup);
+			List<Instrument> green = pleasantGreen.getBasicInstrumentsByGroup(instrumentGroup);
 			
 			position = combineCloseCombinations(pitches, white, yellow, position, noteLength);
 			position = combineCloseCombinations(pitches, yellow, green, position, noteLength);
@@ -588,8 +588,8 @@ public class OrchestrationGeneratorTest {
 	
 	@Test
 	public void testFindOrchestralBasicAndComplementaryQuality(){
-		Optional<OrchestralQuality> quality = orchestrationGenerator.findOrchestralBasicQuality(64, warm, new FrenchHorn());
-		assertEquals(warm, quality.get());
+		Optional<OrchestralQuality> quality = orchestrationGenerator.findOrchestralBasicQuality(64, warmBrown, new FrenchHorn());
+		assertEquals(warmBrown, quality.get());
 	}
 	
 	@Test
@@ -602,7 +602,7 @@ public class OrchestrationGeneratorTest {
 				new Trombone(),
 				new BassTrombone()
 				).collect(Collectors.toList());
-		Optional<Instrument> instrument = orchestrationGenerator.findBasicInstrumentWithQuality(instruments, mellow);
+		Optional<Instrument> instrument = orchestrationGenerator.findBasicInstrumentWithQuality(instruments, mellowPurple);
 		assertEquals(instruments.get(2), instrument.get());
 	}
 	
@@ -611,7 +611,7 @@ public class OrchestrationGeneratorTest {
 		List<Instrument> instruments = Stream.of(
 				new BassTrombone()
 				).collect(Collectors.toList());
-		Optional<Instrument> instrument = orchestrationGenerator.findBasicInstrumentWithQuality(instruments, glowing);
+		Optional<Instrument> instrument = orchestrationGenerator.findBasicInstrumentWithQuality(instruments, glowingRed);
 		assertEquals(new BassTrombone().getInstrumentName(), instrument.get().getInstrumentName());
 	}
 	
@@ -625,7 +625,7 @@ public class OrchestrationGeneratorTest {
 				new Trombone(),
 				new BassTrombone()
 				).collect(Collectors.toList());
-		Instrument instrument = orchestrationGenerator.findInstrumentInBasicQualityForPitch(49, instruments, warm);
+		Instrument instrument = orchestrationGenerator.findInstrumentInBasicQualityForPitch(49, instruments, warmBrown);
 		assertEquals(new Trombone().getInstrumentName(), instrument.getInstrumentName());
 	}
 	
@@ -634,7 +634,7 @@ public class OrchestrationGeneratorTest {
 		List<Instrument> instruments = Stream.of(
 				new BassTrombone()
 				).collect(Collectors.toList());
-		Instrument instrument = orchestrationGenerator.findInstrumentInBasicQualityForPitch(40, instruments, glowing);
+		Instrument instrument = orchestrationGenerator.findInstrumentInBasicQualityForPitch(40, instruments, glowingRed);
 		assertNull(instrument);
 	}
 	

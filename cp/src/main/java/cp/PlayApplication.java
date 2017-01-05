@@ -35,7 +35,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Import(DefaultConfig.class)
+@Import({DefaultConfig.class, VariationConfig.class})
 public class PlayApplication extends JFrame implements CommandLineRunner{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(PlayApplication.class.getName());
@@ -119,7 +119,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 
 //			write(parsedMelodies , "resources/transform/" + midiFile.getName(), midiInfo.getTempo());
 //			generateMusicXml(parsedMelodies, midiFile.getName());
-			Thread.sleep(20000);
+			Thread.sleep(15000);
 		}
 	}
 

@@ -6,10 +6,7 @@ import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.percussion.Glockenspiel;
 import cp.out.instrument.percussion.Timpani;
 import cp.out.instrument.register.InstrumentRegister;
-import cp.out.instrument.strings.Cello;
-import cp.out.instrument.strings.Doublebass;
-import cp.out.instrument.strings.Viola;
-import cp.out.instrument.strings.ViolinsI;
+import cp.out.instrument.strings.*;
 import cp.out.instrument.woodwinds.BassClarinet;
 import cp.out.instrument.woodwinds.Clarinet;
 import cp.out.instrument.woodwinds.Flute;
@@ -21,22 +18,25 @@ import javax.annotation.PostConstruct;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 @Component
-public class Rich extends OrchestralQuality{
+public class RichBlue extends OrchestralQuality{
 	
 	@Autowired
-	private Mellow mellow;
+	private MellowPurple mellowPurple;
 
-	public Rich() {
+	public RichBlue() {
 		color = "blue";
-		quality = "rich";
+		quality = "richBlue";
 		type = "basic";
 		instruments = Stream.of(
 				new Flute(new InstrumentRegister(59, 71)),
 				new Clarinet(new InstrumentRegister(50, 65)),
 				new BassClarinet(new InstrumentRegister(34, 53)),
 				new ViolinsI(new InstrumentRegister(62, 74)),
+				new ViolinSolo(new InstrumentRegister(62, 74)),
 				new Viola(new InstrumentRegister(55, 67)),
+				new ViolaSolo(new InstrumentRegister(55, 67)),
 				new Cello(new InstrumentRegister(43, 55)),
+				new CelloSolo(new InstrumentRegister(43, 55)),
 				new Doublebass(new InstrumentRegister(38, 55)),
 				new Piano(new InstrumentRegister(55, 72)),
 				new Glockenspiel(new InstrumentRegister(77, 87)),
@@ -48,7 +48,7 @@ public class Rich extends OrchestralQuality{
 	
 	@PostConstruct
 	private void initComplementaryQualities(){
-		closeQualities.add(mellow);
+		closeQualities.add(mellowPurple);
 	}
 	
 	public Instrument getFlute(){

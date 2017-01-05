@@ -8,9 +8,10 @@ import cp.nsga.MusicSolution;
 import cp.nsga.MusicSolutionType;
 import cp.nsga.MusicVariable;
 import cp.nsga.operator.mutation.melody.*;
+import cp.out.instrument.ArticulationConverter;
 import cp.out.orchestration.Orchestrator;
-import cp.out.orchestration.quality.Brilliant;
-import cp.out.orchestration.quality.Pleasant;
+import cp.out.orchestration.quality.BrilliantWhite;
+import cp.out.orchestration.quality.PleasantGreen;
 import cp.out.print.Display;
 import jmetal.core.Algorithm;
 import jmetal.core.Operator;
@@ -52,6 +53,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	@Autowired
 	private ArticulationMutation articulationMutation;
 	@Autowired
+	private DynamicMutation dynamicMutation;
+	@Autowired
 	private ReplaceMelody replaceMelody;
 	@Autowired
 	private CopyMelody copyMelody;
@@ -84,11 +87,14 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	@Qualifier(value="fiveVoiceComposition")
 	private FiveVoiceComposition fiveVoiceComposition;
 	@Autowired
+	@Qualifier(value = "vslArticulationConverter")
+	private ArticulationConverter articulationConverter;
+	@Autowired
 	private Orchestrator orchestrator;
 	@Autowired
-	private Pleasant pleasant;
+	private PleasantGreen pleasantGreen;
 	@Autowired
-	private Brilliant brilliant;
+	private BrilliantWhite brilliantWhite;
 	@Autowired
 	private HarmonizeNotes harmonizeNotes;
 	
@@ -104,7 +110,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	@Override
 	public void run(String... arg0) throws Exception {
 		musicProperties.setOutputCountRun(2);
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < 10; i++) {
 			LOGGER.info("RUN: " + i + " START");		
 			compose();
 		    LOGGER.info("RUN: " + i + " END");
@@ -118,7 +124,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(twoVoiceComposition::voiceConfig);
 
 //		composeInGenres.add(twoVoiceComposition::beatEven);
-//		composeInGenres.add(twoVoiceComposition::canon);
+//		composeInGenres.add(twoVoiceComposition::canonA3);
 //		composeInGenres.add(twoVoiceComposition::fugueInverse);
 //		composeInGenres.add(twoVoiceComposition::operatorT);
 //		composeInGenres.add(twoVoiceComposition::operatorI);
@@ -138,19 +144,22 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		threeVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
 //		threeVoiceComposition.setHarmonizeVoice(2);
 //		composeInGenres.add(threeVoiceComposition::harmonize);
-		composeInGenres.add(threeVoiceComposition::halfTimeHomophonicRhythm);
+//		composeInGenres.add(threeVoiceComposition::halfTimeHomophonicRhythm);
 //		composeInGenres.add(threeVoiceComposition::threeOverXX);
 //		composeInGenres.add(threeVoiceComposition::accDuplicateRhythm);
 //		composeInGenres.add(threeVoiceComposition::allRandom);
 
+//		composeInGenres.add(fourVoiceComposition::canonA3);
 //		composeInGenres.add(fourVoiceComposition::canon);
 //		composeInGenres.add(fourVoiceComposition::accDuplicateRhythm);
 //		composeInGenres.add(fourVoiceComposition::doubleCanon);
+//		composeInGenres.add(fourVoiceComposition::homophonicRhythm);
 //		fourVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
 //		fourVoiceComposition.setHarmonizeVoice(1);
 //		composeInGenres.add(fourVoiceComposition::harmonize);
 
 //		composeInGenres.add(fiveVoiceComposition::accDuplicateRhythm);
+		composeInGenres.add(fiveVoiceComposition::homophonicRhythm);
 //		fiveVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
 //		fiveVoiceComposition.setHarmonizeVoice(4);
 //		composeInGenres.add(fiveVoiceComposition::harmonize);
@@ -172,10 +181,10 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 			    
 //			    population.sort(Comparator.comparing(MusicSolution::getMelody).thenComparing(MusicSolution::getHarmony));
 			    population.sort(Comparator
-						.comparing(MusicSolution::getMelody)
-						.thenComparing(MusicSolution::getResolution)
-			    		.thenComparing(MusicSolution::getVoiceLeading)
-			    		.thenComparing(MusicSolution::getHarmony));
+						.comparing(MusicSolution::getVoiceLeading)
+						.thenComparing(MusicSolution::getHarmony)
+			    		.thenComparing(MusicSolution::getMelody)
+			    		.thenComparing(MusicSolution::getResolution));
 
 			    
 			    Iterator<Solution> solutionIterator = population.iterator();
@@ -198,7 +207,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		// Algorithm parameters
 	    int populationSize = 30;
 	    algorithm.setInputParameter("populationSize", populationSize);
-	    algorithm.setInputParameter("maxEvaluations", populationSize * 15);
+	    algorithm.setInputParameter("maxEvaluations", populationSize * 1500);
 	    
 	    // Mutation and Crossover
 	    crossover.setParameter("probabilityCrossover", 1.0); 
@@ -209,6 +218,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //	    algorithm.addOperator("addRhythm", addRhythm);
 //	    algorithm.addOperator("removeRhythm", removeRhythm);
 	    algorithm.addOperator("articulationMutation", articulationMutation);
+	    algorithm.addOperator("dynamicMutation", dynamicMutation);
 	    algorithm.addOperator("replaceMelody", replaceMelody);
 		algorithm.addOperator("copyMelody", copyMelody);
 		algorithm.addOperator("replaceMelodyBlock", replaceMelodyBlock);

@@ -6,9 +6,7 @@ import cp.out.instrument.keyboard.Celesta;
 import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.percussion.Harp;
 import cp.out.instrument.register.InstrumentRegister;
-import cp.out.instrument.strings.Cello;
-import cp.out.instrument.strings.Viola;
-import cp.out.instrument.strings.ViolinsI;
+import cp.out.instrument.strings.*;
 import cp.out.instrument.woodwinds.*;
 import cp.out.orchestration.InstrumentName;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +17,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Component
-public class Bright extends OrchestralQuality{
+public class BrightYellow extends OrchestralQuality{
 	
 	@Autowired
-	private Pleasant pleasant;
+	private PleasantGreen pleasantGreen;
 	@Autowired
-	private Golden golden;
+	private GoldenOrange goldenOrange;
 
-	public Bright() {
+	public BrightYellow() {
 		color = "yellow";
 		quality = "bright";
 		type = "basic";
@@ -38,8 +36,11 @@ public class Bright extends OrchestralQuality{
 				new Clarinet(new InstrumentRegister(77, 82)),
 				new Trumpet(new InstrumentRegister(78, 83)),
 				new ViolinsI(new InstrumentRegister(76, 89)),
+				new ViolinSolo(new InstrumentRegister(76, 89)),
 				new Viola(new InstrumentRegister(69, 81)),
+				new ViolaSolo(new InstrumentRegister(69, 81)),
 				new Cello(new InstrumentRegister(57, 69)),
+				new CelloSolo(new InstrumentRegister(57, 69)),
 				new Celesta(new InstrumentRegister(84, 96)),
 				new Harp(new InstrumentRegister(95, 103)),
 				new Piano(new InstrumentRegister(84, 96))
@@ -50,8 +51,8 @@ public class Bright extends OrchestralQuality{
 	
 	@PostConstruct
 	private void initComplementaryQualities(){
-		closeQualities.add(pleasant);
-		closeQualities.add(golden);
+		closeQualities.add(pleasantGreen);
+		closeQualities.add(goldenOrange);
 	}
 	
 	public Instrument getFlute(){

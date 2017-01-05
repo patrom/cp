@@ -4,6 +4,11 @@ import cp.model.Motive;
 import cp.model.melody.MelodyBlock;
 import cp.nsga.MusicVariable;
 import cp.nsga.operator.mutation.AbstractMutation;
+import cp.out.instrument.Articulation;
+import cp.out.instrument.Instrument;
+import cp.out.instrument.InstrumentArticulation;
+import cp.out.play.InstrumentConfig;
+import cp.util.RandomUtil;
 import jmetal.core.Solution;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
@@ -14,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.List;
 
 @Component(value="articulationMutation")
 public class ArticulationMutation extends AbstractMutation{
@@ -24,12 +30,18 @@ public class ArticulationMutation extends AbstractMutation{
 	public ArticulationMutation(HashMap<String, Object> parameters) {
 		super(parameters);
 	}
+	@Autowired
+	private InstrumentConfig instrumentConfig;
+	@Autowired
+	private InstrumentArticulation instrumentArticulation;
 
 	public void doMutation(double probability, Solution solution) throws JMException {
 		if (PseudoRandom.randDouble() < probability) {
 			Motive motive = ((MusicVariable)solution.getDecisionVariables()[0]).getMotive();
 			MelodyBlock mutableMelody = motive.getRandomMutableMelody();
-			mutableMelody.updateArticulation();
+			Instrument instrument = instrumentConfig.getInstrumentForVoice(mutableMelody.getVoice());
+			List<Articulation> articulations = instrumentArticulation.getArticulations(instrument.getInstrumentGroup());
+			mutableMelody.updateArticulation(RandomUtil.getRandomFromList(articulations));
 //			LOGGER.info("articulation mutated");
 		} 
 	}

@@ -117,6 +117,10 @@ public class Note implements Comparable<Note>{
 		return pitch;
 	}
 
+	public double getRegisterValue(){
+		return pitch/100d;
+	}
+
 	public void setPitch(int pitch) {
 		this.pitch = pitch;
 	}
@@ -185,7 +189,7 @@ public class Note implements Comparable<Note>{
 	public String toString() {
 		return "np[p=" + ((pitch == Integer.MIN_VALUE) ? "Rest":pitch) + ", pc=" + pitchClass
 		+ ", v=" + voice + ", o=" + octave + ", pos=" + position +  ", l=" + length + ", dl= " + displayLength + ", pos w="
-		+ positionWeight + ", a=" + articulation + "]";
+		+ positionWeight + ", a=" + articulation +  ", d= " + dynamicLevel + "]";
 	}
 
 	public double getPositionWeight() {

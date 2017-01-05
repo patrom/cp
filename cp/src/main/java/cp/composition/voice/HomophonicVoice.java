@@ -14,9 +14,9 @@ public class HomophonicVoice extends VoiceConfig{
     @PostConstruct
     public void init(){
         setTimeconfig();
-        volume = Dynamic.MP.getLevel();
+        volume = Dynamic.MF.getLevel();
         pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
-        pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
+//        pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
         pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
 //        pitchClassGenerators.add(restPitchClasses::updatePitchClasses);
         beatGroupStrategy = timeConfig::getHomophonicBeatGroup;

@@ -12,8 +12,8 @@ import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.out.orchestration.notetemplate.TwoNoteTemplate;
 import cp.out.orchestration.orchestra.ClassicalOrchestra;
-import cp.out.orchestration.quality.Brilliant;
-import cp.out.orchestration.quality.Pleasant;
+import cp.out.orchestration.quality.BrilliantWhite;
+import cp.out.orchestration.quality.PleasantGreen;
 import cp.out.play.InstrumentConfig;
 import cp.out.play.InstrumentMapping;
 import cp.out.print.MusicXMLWriter;
@@ -77,17 +77,17 @@ public class Orchestrator {
 	private InstrumentConfig instrumentConfig;
 	
 	@Autowired
-	private Pleasant pleasant;
+	private PleasantGreen pleasantGreen;
 	@Autowired
-	private Brilliant brilliant;
+	private BrilliantWhite brilliantWhite;
 
 	public void orchestrate(List<MelodyBlock> melodyBlocks, String id) throws Exception {
 		id = id + "_orch";
 		ClassicalOrchestra orchestra = new ClassicalOrchestra();
 //		for (int i = 0; i < 5; i++) {
 //			Instrument instrumentToUpdate = orchestra.getRandomEmptyInstrument();
-//			if(brilliant.hasInstrument(instrumentToUpdate)){
-//				Instrument instrumentRegister = brilliant.getInstrument(instrumentToUpdate.getInstrumentName());
+//			if(brilliantWhite.hasInstrument(instrumentToUpdate)){
+//				Instrument instrumentRegister = brilliantWhite.getInstrument(instrumentToUpdate.getInstrumentName());
 //				orchestra.setInstrument(orchestra.getClarinet(), instrumentToUpdate, instrumentRegister::updateInQualityRange);
 //			};
 //		}
@@ -105,14 +105,14 @@ public class Orchestrator {
 //		orchestra.setFlute(orchestra.duplicate(orchestra.getOboe()));
 //		orchestra.setOboe(melodyBlocks.get(0).getMelodyBlockNotesWithRests());
 //		orchestra.setClarinet(melodyBlocks.get(1).getMelodyBlockNotesWithRests());
-//		orchestra.setClarinet(orchestra.duplicate(orchestra.getFlute()), pleasant.getInstrument(InstrumentName.CLARINET.getName())::updateInQualityRange);
+//		orchestra.setClarinet(orchestra.duplicate(orchestra.getFlute()), pleasantGreen.getInstrument(InstrumentName.CLARINET.getName())::updateInQualityRange);
 //		orchestra.setBassoon(orchestra.duplicate(orchestra.getOboe(), -12));
 //
-////		orchestra.setTrumpet(orchestra.duplicate(orchestra.getClarinet()), brilliant.getInstrument(InstrumentName.TRUMPET.getName())::updateInQualityRange);
+////		orchestra.setTrumpet(orchestra.duplicate(orchestra.getClarinet()), brilliantWhite.getInstrument(InstrumentName.TRUMPET.getName())::updateInQualityRange);
 //
-//		orchestra.setViolin1(orchestra.duplicate(orchestra.getClarinet()), pleasant.getBasicInstrument(InstrumentName.VIOLIN_I.getName())::updateInQualityRange);
-//		orchestra.setViola(orchestra.duplicate(orchestra.getClarinet()), pleasant.getBasicInstrument(InstrumentName.VIOLA.getName())::updateInQualityRange);
-//		orchestra.setCello(orchestra.duplicate(orchestra.getFlute(), 0), pleasant.getInstrument(InstrumentName.CELLO.getName())::updateInQualityRange);
+//		orchestra.setViolin1(orchestra.duplicate(orchestra.getClarinet()), pleasantGreen.getBasicInstrument(InstrumentName.VIOLIN_I.getName())::updateInQualityRange);
+//		orchestra.setViola(orchestra.duplicate(orchestra.getClarinet()), pleasantGreen.getBasicInstrument(InstrumentName.VIOLA.getName())::updateInQualityRange);
+//		orchestra.setCello(orchestra.duplicate(orchestra.getFlute(), 0), pleasantGreen.getInstrument(InstrumentName.CELLO.getName())::updateInQualityRange);
 //		orchestra.setBass(notes);
 //		ChordOrchestration chordOrchestration = new ChordOrchestration(0, 48, 5);
 //		map.put(new CelloSolo(0, 1), chordOrchestration.orchestrate(oneNoteEven::pos3, 12, C(4)));
