@@ -34,6 +34,7 @@ public class FiveVoiceComposition extends Composition {
         voiceConfiguration.put(voice2, homophonicVoice);
         voiceConfiguration.put(voice3, homophonicVoice);
         voiceConfiguration.put(voice4, melodyVoice);
+
     }
 
     /**

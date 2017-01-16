@@ -138,10 +138,13 @@ public class MelodyGenerator {
 //	}
 
 	public MelodyBlock generateMelodyBlockConfig(final int voice, int octave){
-		VoiceConfig voiceConfig = composition.getVoiceConfiguration(voice);
 		int start = composition.getStart();
 		int stop = composition.getEnd();
+		return generateMelodyBlockConfig(voice, octave, start, stop);
+	}
 
+	public MelodyBlock generateMelodyBlockConfig(int voice, int octave, int start, int stop) {
+		VoiceConfig voiceConfig = composition.getVoiceConfiguration(voice);
 		MelodyBlock melodyBlock = new MelodyBlock(octave, voice);
 		melodyBlock.setOffset(voiceConfig.getTimeConfig().getOffset());
 

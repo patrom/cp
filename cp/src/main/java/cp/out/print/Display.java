@@ -5,9 +5,7 @@ import cp.midi.MidiDevicesUtil;
 import cp.model.Motive;
 import cp.model.harmony.CpHarmony;
 import cp.model.melody.MelodyBlock;
-import cp.model.note.Note;
 import cp.out.play.InstrumentConfig;
-import cp.out.play.InstrumentMapping;
 import jm.music.data.Score;
 import jm.util.View;
 import org.slf4j.Logger;
@@ -22,8 +20,6 @@ import javax.sound.midi.Sequence;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 @Component
 public class Display {
@@ -56,15 +52,15 @@ public class Display {
 	}
 
 	private void generateMusicXml(List<MelodyBlock> melodies, String id) throws Exception {
-		Map<InstrumentMapping, List<Note>> melodiesForInstrument = new TreeMap<>();
-		for (Map.Entry<Integer,InstrumentMapping> entry : instrumentConfig.getInstruments().entrySet()) {
-			InstrumentMapping instrumentMapping = entry.getValue();
-			MelodyBlock melodyBlock = melodies.get(entry.getKey());
-			melodiesForInstrument.put(instrumentMapping, melodyBlock.getMelodyBlockNotesWithRests());
-		}
-		musicXMLWriter.createXML(new FileOutputStream(resource.getFile().getPath() + "cp/src/main/resources/xml/" + id + ".xml"), melodiesForInstrument);
+//		Map<InstrumentMapping, List<Note>> melodiesForInstrument = new TreeMap<>();
+//		for (Map.Entry<Integer,InstrumentMapping> entry : instrumentConfig.getInstruments().entrySet()) {
+//			InstrumentMapping instrumentMapping = entry.getValue();
+//			MelodyBlock melodyBlock = melodies.get(entry.getKey());
+//			melodiesForInstrument.put(instrumentMapping, melodyBlock.getMelodyBlockNotesWithRests());
+//		}
+		musicXMLWriter.generateMusicXMLForMelodies(melodies, new FileOutputStream(resource.getFile().getPath() + "cp/src/main/resources/xml/" + id + ".xml"));
 
-		Sequence sequence = midiDevicesUtil.createSequence(melodiesForInstrument, (int) musicProperties.getTempo());
+		Sequence sequence = midiDevicesUtil.createSequence(melodies, musicProperties.getTempo());
 		Resource resource = new FileSystemResource("");
 		midiDevicesUtil.write(sequence, resource.getFile().getPath()+ "cp/src/main/resources/midi/" + id + ".mid");
 	}

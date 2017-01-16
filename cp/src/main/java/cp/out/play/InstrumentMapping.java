@@ -21,6 +21,7 @@ public class InstrumentMapping implements Comparable<InstrumentMapping>{
     private OrchestralQuality orchestralQuality;
     private List<InstrumentMapping> dependantInstruments = new ArrayList<>();
     private Articulation articulation = Articulation.LEGATO;
+    private InstrumentMapping harmonyInstrumentMapping;
 
     public InstrumentMapping(Instrument instrument, int channel, int scoreOrder) {
         this.instrument = instrument;
@@ -30,6 +31,10 @@ public class InstrumentMapping implements Comparable<InstrumentMapping>{
 
     public void addDependantInstrument(InstrumentMapping instrumentMapping){
         dependantInstruments.add(instrumentMapping);
+    }
+
+    public void addHarmonyInstrumentMapping(int channel, int scoreOrder){
+        harmonyInstrumentMapping = new InstrumentMapping(this.instrument, channel, scoreOrder);
     }
 
     public List<InstrumentMapping> getDependantInstruments() {

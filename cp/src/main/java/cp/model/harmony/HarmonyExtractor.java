@@ -1,5 +1,6 @@
 package cp.model.harmony;
 
+import cp.composition.Composition;
 import cp.model.dissonance.Dissonance;
 import cp.model.note.Note;
 import org.slf4j.Logger;
@@ -8,11 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import static cp.model.note.NoteBuilder.note;
@@ -25,6 +23,8 @@ public class HarmonyExtractor {
 	@Autowired 
 	@Qualifier(value="TonalDissonance")
 	private Dissonance dissonance;
+	@Autowired
+	private Composition composition;
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(HarmonyExtractor.class.getName());
 
@@ -35,11 +35,10 @@ public class HarmonyExtractor {
 			tempHarmonyNotes.add(note().voice(i).build());
 		}
 		
-//		TreeMap<Integer, List<Note>> positionsMap = mapNotesForPosition(melodyNotes);
 		Map<Integer, List<Note>> harmonyMap = mapNotesForPosition(melodyNotes);
 		for (Entry<Integer, List<Note>> entry : harmonyMap.entrySet()) {
 			//update position - remove weight
-			tempHarmonyNotes.stream().forEach(n -> {
+			tempHarmonyNotes.forEach(n -> {
 				n.setPosition(entry.getKey());
 				n.setPositionWeight(0);
 			});
@@ -66,10 +65,22 @@ public class HarmonyExtractor {
 			}
 		}
 		LOGGER.debug(extractedHarmonies.toString());
+		updateHarmonyEnd(extractedHarmonies);
 		return extractedHarmonies;
 	}
-	
-	
+
+	private void updateHarmonyEnd(List<CpHarmony> extractedHarmonies) {
+		Collections.sort(extractedHarmonies);
+		int size = extractedHarmonies.size() - 1;
+		for (int i = 0; i < size; i++) {
+			CpHarmony harmony = extractedHarmonies.get(i);
+			CpHarmony nextHarmony = extractedHarmonies.get(i + 1);
+			harmony.setEnd(nextHarmony.getPosition());
+		}
+		extractedHarmonies.get(size).setEnd(composition.getEnd());
+	}
+
+
 	protected Map<Integer, List<Note>> getHarmonyMap(TreeMap<Integer, List<Note>> positionsMap){
 		int startingKey = positionsMap.firstKey();
 		for (Entry<Integer, List<Note>> entry : positionsMap.entrySet()) {

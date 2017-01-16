@@ -6,9 +6,9 @@ import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.util.RandomUtil;
 
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
 
@@ -74,6 +74,38 @@ public class Motive implements Cloneable {
 				.filter(m -> m.getVoice() == voice)
 				.collect(toList());
 		return RandomUtil.getRandomFromList(mutableMelodies);
+	}
+
+	public Note getRandomHarmonyNoteForPosition(int position, Predicate<Note> harmonyFilter){
+		Optional<CpHarmony> optional = harmonies.stream().filter(h -> h.getPosition() <= position && position < h.getEnd()).findFirst();
+		CpHarmony harmony = optional.get();
+		return RandomUtil.getRandomFromList(harmony.getNotes().stream().filter(harmonyFilter).collect(Collectors.toList()));
+	}
+
+	public Note getNextHarmonyNoteForPosition(int position, Predicate<Note> harmonyFilter, int counter){
+		Optional<CpHarmony> optional = harmonies.stream().filter(h -> h.getPosition() <= position && position < h.getEnd()).findFirst();
+		CpHarmony harmony = optional.get();
+		List<Note> harmonyNotes = harmony.getNotes().stream().filter(harmonyFilter).distinct().sorted().collect(toList());
+		return harmonyNotes.get(counter % harmonyNotes.size());
+	}
+
+	public List<Note> getHarmonyNotesPosition(int position, int size, Predicate<Note> harmonyFilter){
+		Optional<CpHarmony> optional = harmonies.stream()
+				.filter(h -> h.getPosition() <= position && position < h.getEnd())
+				.findFirst();
+		if (!optional.isPresent()){
+			return Collections.emptyList();
+		}
+		List<Note> harmonyNotes = optional.get().getNotes().stream().filter(harmonyFilter).collect(toList());;
+		Collections.shuffle(harmonyNotes);
+		if(size > harmonyNotes.size()){
+			return harmonyNotes.subList(0, harmonyNotes.size());
+		}
+		return harmonyNotes.subList(0, size);
+	}
+
+	public MelodyBlock getMelodyBlock(int voice){
+		return melodyBlocks.stream().filter(m -> m.getVoice() == voice).findFirst().get();
 	}
 	
 }

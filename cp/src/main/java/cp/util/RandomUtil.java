@@ -52,6 +52,14 @@ public class RandomUtil {
 	public static boolean toggleSelection(){
 		return random.nextBoolean();
 	}
+
+	public static int toggleDirection(){
+		if (random.nextBoolean()) {
+			return 1;
+		} else {
+			return -1;
+		}
+	}
 	
 	public static int randomAscendingOrDescending(){
 		if (random.nextBoolean()) {

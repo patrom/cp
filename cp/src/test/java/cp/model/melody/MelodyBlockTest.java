@@ -526,4 +526,26 @@ public class MelodyBlockTest {
 		assertEquals(0, note.getVoice());
 	}
 
+	@Test
+	public void testNoteAtPosition(){
+		melodyBlock = new MelodyBlock(5,0);
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(64).ocatve(5).build());
+		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(11).pitch(71).ocatve(5).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(7).pitch(67).ocatve(5).build());
+		notes.add(note().pos(DurationConstants.WHOLE).pc(9).pitch(69).ocatve(5).build());
+		melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+		melodyBlock.addMelodyBlock(melody);
+
+		Note note = melodyBlock.getNoteAtPosition(DurationConstants.QUARTER);
+		assertEquals(64 , note.getPitch());
+
+		note = melodyBlock.getNoteAtPosition(DurationConstants.HALF + DurationConstants.QUARTER);
+		assertEquals(67 , note.getPitch());
+
+		note = melodyBlock.getNoteAtPosition(DurationConstants.WHOLE + DurationConstants.QUARTER);
+		assertEquals(69 , note.getPitch());
+	}
+
 }

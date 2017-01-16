@@ -5,7 +5,6 @@ import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

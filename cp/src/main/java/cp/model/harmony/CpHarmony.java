@@ -4,11 +4,12 @@ import cp.model.note.Note;
 
 import java.util.List;
 
-public class CpHarmony {
+public class CpHarmony implements Comparable<CpHarmony>{
 
 	private final List<Note> notes;
 	private Chord chord;
 	private final int position;
+	private int end;
 
 	public CpHarmony(List<Note> notes, int position) {
 		this.notes = notes;
@@ -54,5 +55,24 @@ public class CpHarmony {
 
 	public int getPosition() {
 		return position;
+	}
+
+	public void setEnd(int end) {
+		this.end = end;
+	}
+
+	public int getEnd() {
+		return end;
+	}
+
+	@Override
+	public int compareTo(CpHarmony harmony) {
+		if (getPosition() < harmony.getPosition()) {
+			return -1;
+		} if (getPosition() > harmony.getPosition()) {
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 }

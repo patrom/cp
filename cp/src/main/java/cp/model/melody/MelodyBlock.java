@@ -2,6 +2,7 @@ package cp.model.melody;
 
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
+import cp.model.contour.Contour;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
@@ -88,6 +89,19 @@ public class MelodyBlock {
 		return melodyBlocks.stream()
 				.flatMap(m -> m.getNotesNoRest().stream()).sorted().collect(toList());
 	}
+
+	public Note getNoteAtPosition(int position){
+		List<Note> notes = getMelodyBlockNotes();
+		int size = notes.size() - 1;
+		for (int i = 0; i < size; i++) {
+			 Note note = notes.get(i);
+			 Note nextNote = notes.get(i + 1);
+			 if(position >= note.getPosition()  && position < nextNote.getPosition()){
+			 	return note;
+			 }
+		}
+		return notes.get(size);
+	}
 	
 	public List<Note> getMelodyBlockNotesWithRests(){
 		return melodyBlocks.stream().flatMap(m -> m.getNotes().stream()).sorted().collect(toList());
@@ -130,6 +144,23 @@ public class MelodyBlock {
 			int difference = nextNote.getPitchClass() - note.getPitchClass();
 			int direction = contour.get(i);
 			int interval = Util.calculateInterval(direction, difference);
+			nextNote.setPitch(note.getPitch() + interval);
+			nextNote.setOctave(nextNote.getPitch()/12);
+		}
+	}
+
+	public void updatePitchesFromContour(TimeLine timeLine){
+		List<Note> notes = getMelodyBlockNotes();
+		int size = notes.size() - 1;
+		Note firstNote = notes.get(0);
+		firstNote.setPitch((startOctave * 12) + firstNote.getPitchClass());
+		firstNote.setOctave(startOctave);
+		for (int i = 0; i < size; i++) {
+			Note note = notes.get(i);
+			Note nextNote = notes.get(i + 1);
+			int difference = nextNote.getPitchClass() - note.getPitchClass();
+			Contour contour = timeLine.getContourAtPosition(note.getPosition(), note.getVoice());
+			int interval = Util.calculateInterval(contour.getDirection(), difference);
 			nextNote.setPitch(note.getPitch() + interval);
 			nextNote.setOctave(nextNote.getPitch()/12);
 		}

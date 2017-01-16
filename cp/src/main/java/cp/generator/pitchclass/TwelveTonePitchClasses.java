@@ -1,8 +1,8 @@
 package cp.generator.pitchclass;
 
 import cp.model.TimeLine;
-import cp.model.TimeLineKey;
 import cp.model.note.Note;
+import cp.model.note.Scale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,21 +16,22 @@ public class TwelveTonePitchClasses {
 	@Autowired
 	private TimeLine timeLine;
 
+	private int counter = 0;
+	private Scale scale = Scale.VARIATIONS_FOR_ORCHESTRA_OP31;
+
 	public List<Note> updatePitchClasses(List<Note> notes) {
 		List<Note> melodyNotes = notes.stream().filter(n -> !n.isRest()).collect(toList());
 		Note firstNote = melodyNotes.get(0);
-		TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(firstNote.getPosition(), firstNote.getVoice());
-		int tempPC = timeLineKey.getScale().getPitchClasses()[0];
-		
-		firstNote.setPitchClass(tempPC);
+		firstNote.setPitchClass(getNextPitchClass());
 		for (int i = 1; i < melodyNotes.size(); i++) {
 			Note nextNote = melodyNotes.get(i);
-			timeLineKey = timeLine.getTimeLineKeyAtPosition(nextNote.getPosition(), nextNote.getVoice());
-			int pitchClass = timeLineKey.getScale().pickNextPitchFromScale(tempPC);			
-			tempPC = pitchClass;
-			nextNote.setPitchClass(pitchClass);
+			nextNote.setPitchClass(getNextPitchClass());
 		}
 		return notes;
+	}
+
+	private int getNextPitchClass(){
+		return scale.getPitchClasses()[counter];
 	}
 
 }

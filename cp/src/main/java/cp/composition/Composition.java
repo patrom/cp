@@ -8,6 +8,7 @@ import cp.generator.MusicProperties;
 import cp.generator.pitchclass.*;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
+import cp.model.contour.Contour;
 import cp.model.dissonance.*;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
@@ -46,6 +47,9 @@ public abstract class Composition {
 	protected int voice2 = 2;
 	protected int voice3 = 3;
 	protected int voice4 = 4;
+	protected int voice5 = 5;
+	protected int voice6 = 6;
+	protected int voice7 = 7;
 	protected Instrument instrument1;
 	protected Instrument instrument2;
 	protected Instrument instrument3;
@@ -69,6 +73,8 @@ public abstract class Composition {
 	protected RestPitchClasses restPitchClasses;
 	@Autowired
 	protected RepeatingPitchClasses repeatingPitchClasses;
+	@Autowired
+	private TwelveTonePitchClasses twelveTonePitchClasses;
 
 	private List<PitchClassGenerator> pitchClassGenerators = new ArrayList<>();
 
@@ -192,13 +198,32 @@ public abstract class Composition {
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
 //		timeLineKeys.add(new TimeLineKey(A, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 		timeLineKeys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 0 ,0));
-		timeLineKeys.add(new TimeLineKey(E, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 		List<Integer> durations = new ArrayList<>();
 		durations.add(DurationConstants.QUARTER);
 		durations.add(DurationConstants.WHOLE);
 		durations.add(DurationConstants.HALF);
 //		timeLine.randomKeysAndDurations(timeLineKeys, durations);
 		timeLine.randomKeys(timeLineKeys, DurationConstants.WHOLE, DurationConstants.WHOLE, 4 * DurationConstants.WHOLE);
+
+		List<Contour> contouren = new ArrayList<>();
+		contouren.add(new Contour(0 ,DurationConstants.WHOLE, 1));
+		contouren.add(new Contour(DurationConstants.WHOLE ,2* DurationConstants.WHOLE, -1));
+		contouren.add(new Contour(2* DurationConstants.WHOLE ,3* DurationConstants.WHOLE, 1));
+		contouren.add(new Contour(3* DurationConstants.WHOLE ,4* DurationConstants.WHOLE, -1));
+		contouren.add(new Contour(4* DurationConstants.WHOLE ,5* DurationConstants.WHOLE, 1));
+		contouren.add(new Contour(5* DurationConstants.WHOLE ,6* DurationConstants.WHOLE, -1));
+		contouren.add(new Contour(6* DurationConstants.WHOLE ,7* DurationConstants.WHOLE, 1));
+		contouren.add(new Contour(7* DurationConstants.WHOLE ,8* DurationConstants.WHOLE, -1));
+		timeLine.addContourForVoice(contouren, voice5);
+
+		voiceConfiguration.put(voice5, harmonyVoice);
+		voiceConfiguration.put(voice6, harmonyVoice);
+		voiceConfiguration.put(voice7, harmonyVoice);
+
+		timeLine.repeatContourPattern(DurationConstants.HALF, voice5, new int[]{1,-1});
+		timeLine.repeatContourPattern(DurationConstants.HALF, voice6, new int[]{1,-1});
+		timeLine.repeatContourPattern(DurationConstants.HALF, voice7, new int[]{1,-1});
 
 //		List<TimeLineKey> major = new ArrayList<>();
 //		major.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, DurationConstants.WHOLE));
@@ -247,9 +272,10 @@ public abstract class Composition {
 		pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
 		pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
 //		pitchClassGenerators.add(restPitchClasses::updatePitchClasses);
+//		pitchClassGenerators.add(twelveTonePitchClasses::updatePitchClasses);
 
 		melodyGenerator.setBeatGroupStrategy(timeConfig::getAllBeats);
-		harmonicObjective.setDissonance(torkeDissonance::getDissonance);
+		harmonicObjective.setDissonance(dyadTriadsTetraAndPentaChordal::getDissonance);
 		harmonicResolutionObjective.setDissonantResolution(dissonantResolutionImpl::isDissonant);
 
 	}
@@ -266,6 +292,8 @@ public abstract class Composition {
 	protected DoubleTimeVoice doubleTimeVoice;
 	@Autowired
 	protected timeVoice timeVoice;
+	@Autowired
+	protected HarmonyVoice harmonyVoice;
 
 	public VoiceConfig getVoiceConfiguration(int voice){
 		return voiceConfiguration.get(voice);

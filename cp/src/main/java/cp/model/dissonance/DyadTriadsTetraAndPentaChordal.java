@@ -14,7 +14,8 @@ public class DyadTriadsTetraAndPentaChordal {
 		int size = chord.getPitchClassSet().size();
 		switch (size){
 			case 2:
-				return intervals(chord);
+//				return intervals(chord);
+				return 0;
 			case 3:
 				return triads(chord);
 			case 4:
@@ -54,7 +55,8 @@ public class DyadTriadsTetraAndPentaChordal {
             case DIM7:
                 return 1.0;
         }
-		return tonalSetClassDissonance.getDissonance(chord);
+//		return tonalSetClassDissonance.getDissonance(chord);
+		return 0;
     }
 
     private double triads(Chord chord){
@@ -88,7 +90,8 @@ public class DyadTriadsTetraAndPentaChordal {
 			case MINOR7_OMIT5_1:
 				return 0.99;
 		}
-		return tonalSetClassDissonance.getDissonance(chord);
+//		return tonalSetClassDissonance.getDissonance(chord);
+		return 0;
 	}
 
 	private double intervals(Chord chord) {
@@ -120,7 +123,8 @@ public class DyadTriadsTetraAndPentaChordal {
 			case CH2_TRITONE:
 				return 0.7;
 		}
-		return tonalSetClassDissonance.getDissonance(chord);
+//		return tonalSetClassDissonance.getDissonance(chord);
+		return 0;
 	}
 
 }

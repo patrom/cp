@@ -4,11 +4,13 @@ import cp.composition.*;
 import cp.generator.MusicProperties;
 import cp.model.Motive;
 import cp.model.melody.MelodyBlock;
+import cp.model.note.Note;
 import cp.nsga.MusicSolution;
 import cp.nsga.MusicSolutionType;
 import cp.nsga.MusicVariable;
 import cp.nsga.operator.mutation.melody.*;
 import cp.out.instrument.ArticulationConverter;
+import cp.out.orchestration.HarmonyOrchestrator;
 import cp.out.orchestration.Orchestrator;
 import cp.out.orchestration.quality.BrilliantWhite;
 import cp.out.orchestration.quality.PleasantGreen;
@@ -38,6 +40,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
 
 @Import({DefaultConfig.class, VariationConfig.class})
 public class CpApplication extends JFrame implements CommandLineRunner{
@@ -97,6 +100,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	private BrilliantWhite brilliantWhite;
 	@Autowired
 	private HarmonizeNotes harmonizeNotes;
+	@Autowired
+	private HarmonyOrchestrator harmonyOrchestrator;
 	
 	private static final AtomicInteger COUNTER = new AtomicInteger();
 	
@@ -181,21 +186,35 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 			    
 //			    population.sort(Comparator.comparing(MusicSolution::getMelody).thenComparing(MusicSolution::getHarmony));
 			    population.sort(Comparator
-						.comparing(MusicSolution::getVoiceLeading)
-						.thenComparing(MusicSolution::getHarmony)
-			    		.thenComparing(MusicSolution::getMelody)
-			    		.thenComparing(MusicSolution::getResolution));
+						.comparing(MusicSolution::getMelody)
+						.thenComparing(MusicSolution::getResolution)
+			    		.thenComparing(MusicSolution::getHarmony)
+			    		.thenComparing(MusicSolution::getVoiceLeading));
 
 			    
 			    Iterator<Solution> solutionIterator = population.iterator();
 			    int i = 1;
 			    while (solutionIterator.hasNext() && i < musicProperties.getOutputCountRun()) {
 			    	Solution solution = solutionIterator.next();
+
 			    	Motive solutionMotive = ((MusicVariable) solution.getDecisionVariables()[0]).getMotive();
+
+//			    	MelodyBlock harmonyBlock = harmonyOrchestrator.orchestrateHarmony(solutionMotive);
+//					solutionMotive.getMelodyBlocks().add(harmonyBlock);
+
+			    	MelodyBlock block = harmonyOrchestrator.varyOriginalNote(solutionMotive, 2, 5);
+					solutionMotive.getMelodyBlocks().add(block);
+
+					Predicate<Note> harmonyFilter = n -> n.getVoice() != 4;
+					block = harmonyOrchestrator.varyRandomHarmonyNote(solutionMotive, 3, 6, harmonyFilter);
+					solutionMotive.getMelodyBlocks().add(block);
+
 			    	String dateID = generateDateID();
 					String id = dateID + "_" + CpApplication.COUNTER.getAndIncrement();
 					LOGGER.info(id);
 					display.view(solutionMotive, id);
+					MusicSolution musicSolution = (MusicSolution) solution;
+					LOGGER.info(musicSolution.toString());
 //					orchestrator.orchestrate(solutionMotive.getMelodyBlocks(), id);
 					i++;
 				}

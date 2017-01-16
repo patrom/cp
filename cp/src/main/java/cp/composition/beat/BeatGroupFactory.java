@@ -15,8 +15,11 @@ public class BeatGroupFactory {
 	@Resource(name = "defaultEvenCombinations")
 	private List<RhythmCombination> defaultEvenCombinations;
 
-	@Resource(name = "longCombination")
-	private List<RhythmCombination> longCombination;
+	@Resource(name = "homophonicEven")
+	private List<RhythmCombination> homophonicEven;
+
+	@Resource(name = "homophonicUneven")
+	private List<RhythmCombination> homophonicUneven;
 	
 	@Resource(name = "fixedEven")
 	private List<RhythmCombination> fixedEven;
@@ -37,7 +40,7 @@ public class BeatGroupFactory {
 	public BeatGroup getBeatGroupUneven(int length, String groupName) {
 		switch (groupName) {
 		case "homophonic":
-			return new BeatGroupThree(length, longCombination);
+			return new BeatGroupThree(length, homophonicUneven);
 		case "fixed":
 			return new BeatGroupThree(length, fixedUneven);
 		default:
@@ -49,7 +52,7 @@ public class BeatGroupFactory {
 	public BeatGroup getBeatGroupEven(int length, String groupName) {
 		switch (groupName) {
 		case "homophonic":
-			return new BeatGroupTwo(length, longCombination);
+			return new BeatGroupTwo(length, homophonicEven);
 		case "fixed":
 			return new BeatGroupTwo(length, fixedEven);
 		default:
