@@ -103,7 +103,7 @@ public class HarmonyOrchestratorTest {
         Motive motive = new Motive(melodyBlocks);
         motive.setHarmonies(harmonies);
         Predicate<Note> harmonyFilter = n -> n.getVoice() != 4;
-        MelodyBlock block = harmonyOrchestrator.varyRandomHarmonyNote(motive, 0, 1, harmonyFilter);
+        MelodyBlock block = harmonyOrchestrator.varyNextHarmonyNote(motive, 0, 1, harmonyFilter);
         List<Note> melodyBlockNotes = block.getMelodyBlockNotes();
         for (Note melodyBlockNote : melodyBlockNotes) {
                 assertTrue(melodyBlockNote.getPitch() >= 48 || melodyBlockNote.getPitch() <= 50);
@@ -111,7 +111,7 @@ public class HarmonyOrchestratorTest {
     }
 
     @Test
-    public void orchestrateHarmonies() throws Exception {
+    public void varyHarmonyRhythmDependant() throws Exception {
         List<CpHarmony> harmonies = new ArrayList<>();
         List<Note> notes = new ArrayList<>();
         notes.add(note().pos(0).pc(0).voice(5).build());
@@ -139,7 +139,8 @@ public class HarmonyOrchestratorTest {
         melodyBlocks.add(melodyBlock);
         Motive motive = new Motive(melodyBlocks);
         motive.setHarmonies(harmonies);
-        List<MelodyBlock> blocks = harmonyOrchestrator.orchestrateHarmonies(motive);
+        Predicate<Note> harmonyFilter = n -> n.getVoice() != 4;
+        List<MelodyBlock> blocks = harmonyOrchestrator.varyHarmonyRhythmDependant(motive, 0, 1, harmonyFilter, 3);
         for (MelodyBlock block : blocks) {
             List<Note> melodyBlockNotes = block.getMelodyBlockNotes();
             for (Note melodyBlockNote : melodyBlockNotes) {

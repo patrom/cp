@@ -35,10 +35,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public abstract class Composition {
 
@@ -197,14 +194,19 @@ public abstract class Composition {
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
 //		timeLineKeys.add(new TimeLineKey(A, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
-		timeLineKeys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 0 ,0));
-		timeLineKeys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(G, Scale.MAJOR_CHORD, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(E, Scale.MINOR_CHORD, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(B, Scale.MINOR_CHORD, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(A, Scale.MAJOR_CHORD, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(C, Scale.MAJOR_CHORD, 0 ,0));
 		List<Integer> durations = new ArrayList<>();
 		durations.add(DurationConstants.QUARTER);
 		durations.add(DurationConstants.WHOLE);
 		durations.add(DurationConstants.HALF);
 //		timeLine.randomKeysAndDurations(timeLineKeys, durations);
 		timeLine.randomKeys(timeLineKeys, DurationConstants.WHOLE, DurationConstants.WHOLE, 4 * DurationConstants.WHOLE);
+
+		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(G, Scale.LYDIAN_SCALE, 0 ,end)),4);
 
 		List<Contour> contouren = new ArrayList<>();
 		contouren.add(new Contour(0 ,DurationConstants.WHOLE, 1));
@@ -217,8 +219,8 @@ public abstract class Composition {
 		contouren.add(new Contour(7* DurationConstants.WHOLE ,8* DurationConstants.WHOLE, -1));
 		timeLine.addContourForVoice(contouren, voice5);
 
-		voiceConfiguration.put(voice5, harmonyVoice);
-		voiceConfiguration.put(voice6, harmonyVoice);
+		voiceConfiguration.put(voice5, fixedVoice);
+		voiceConfiguration.put(voice6, fixedVoice);
 		voiceConfiguration.put(voice7, harmonyVoice);
 
 		timeLine.repeatContourPattern(DurationConstants.HALF, voice5, new int[]{1,-1});

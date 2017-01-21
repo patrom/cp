@@ -93,10 +93,7 @@ public class Motive implements Cloneable {
 		Optional<CpHarmony> optional = harmonies.stream()
 				.filter(h -> h.getPosition() <= position && position < h.getEnd())
 				.findFirst();
-		if (!optional.isPresent()){
-			return Collections.emptyList();
-		}
-		List<Note> harmonyNotes = optional.get().getNotes().stream().filter(harmonyFilter).collect(toList());;
+		List<Note> harmonyNotes = optional.get().getNotes().stream().filter(harmonyFilter).collect(toList());
 		Collections.shuffle(harmonyNotes);
 		if(size > harmonyNotes.size()){
 			return harmonyNotes.subList(0, harmonyNotes.size());

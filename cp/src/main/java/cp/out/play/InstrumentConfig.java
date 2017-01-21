@@ -58,7 +58,7 @@ public class InstrumentConfig {
 //        instruments.put(4,new InstrumentMapping(piano, 4, 4));
 //        instruments = getSAATBChoir();
 //        instruments.put(0,new InstrumentMapping(new ViolinSolo() , 3, 0));
-        instruments = getPianoAndStrinqQuartet(pleasantGreen, mellowPurple, richBlue);
+        instruments = getPianoAndStrinqQuartet(pleasantGreen, mellowPurple, mediumRange);
         for (InstrumentMapping instrumentMapping : instruments.values()) {
             allInstrumentMappings.add(instrumentMapping);
             allInstrumentMappings.addAll(instrumentMapping.getDependantInstruments());
@@ -111,14 +111,11 @@ public class InstrumentConfig {
 
     private Map<Integer, InstrumentMapping> getPianoAndStrinqQuartet(OrchestralQuality orchestralQualityMelody, OrchestralQuality orchestralQualityBass, OrchestralQuality orchestralQualityAcc) {
         InstrumentMapping harmony1 = new InstrumentMapping(new ViolinSolo(), 7, 7);
-        harmony1.setOrchestralQuality(mediumRange);
         instruments.put(7, harmony1);
         InstrumentMapping harmony2 = new InstrumentMapping(new ViolinSolo(), 6, 6);
-        harmony2.setOrchestralQuality(mediumRange);
         instruments.put(6, harmony2);
         InstrumentMapping harmony3 = new InstrumentMapping(new ViolinSolo(), 5, 5);
-        harmony2.setOrchestralQuality(mediumRange);
-        instruments.put(5, harmony2);
+        instruments.put(5, harmony3);
 
 
         InstrumentMapping piano = new InstrumentMapping(new Piano(), 4, 4);

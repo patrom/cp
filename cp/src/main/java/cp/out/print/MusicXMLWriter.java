@@ -317,14 +317,16 @@ public class MusicXMLWriter {
 	}
 
 	private void createArticulationElement(Note note) throws XMLStreamException {
-		xmlStreamWriter.writeStartElement("articulations");
-		xmlStreamWriter.writeCharacters("\n");
-		
-		xmlStreamWriter.writeEmptyElement(note.getArticulation().getMusicXmlLabel());
-		
-		xmlStreamWriter.writeEndElement();
-		xmlStreamWriter.writeCharacters("\n");
-		
+		if (StringUtils.isNotBlank(note.getArticulation().getMusicXmlLabel())) {
+			xmlStreamWriter.writeStartElement("articulations");
+			xmlStreamWriter.writeCharacters("\n");
+
+			xmlStreamWriter.writeEmptyElement(note.getArticulation().getMusicXmlLabel());
+
+			xmlStreamWriter.writeEndElement();
+			xmlStreamWriter.writeCharacters("\n");
+		}
+
 	}
 
 	private void createTimeModification(Note note, NoteType noteType) throws XMLStreamException {

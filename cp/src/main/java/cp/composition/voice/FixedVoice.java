@@ -33,7 +33,7 @@ public class FixedVoice extends VoiceConfig {
     private List<BeatGroup> getBeatGroups(){
         List<BeatGroup> beatGroups = new ArrayList<>();
         beatGroups.add(new BeatGroupTwo(DurationConstants.EIGHT, Collections.singletonList(twoNoteEven::pos13)));
-        beatGroups.add(new BeatGroupTwo(DurationConstants.EIGHT, Collections.singletonList(twoNoteEven::pos12)));
+        beatGroups.add(new BeatGroupTwo(DurationConstants.EIGHT, Collections.singletonList(threeNoteEven::pos124)));
         return beatGroups;
     }
 }

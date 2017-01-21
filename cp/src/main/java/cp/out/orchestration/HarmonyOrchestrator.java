@@ -40,7 +40,7 @@ public class HarmonyOrchestrator {
     @Autowired
     private MelodyVoice melodyVoice;
 
-    public MelodyBlock varyRandomHarmonyNote(Motive motive, int voiceSource, int voiceTarget, Predicate<Note> harmonyFilter){
+    public MelodyBlock varyNextHarmonyNote(Motive motive, int voiceSource, int voiceTarget, Predicate<Note> harmonyFilter){
         Instrument instrument = instrumentConfig.getInstrumentForVoice(voiceSource);
         int start = motive.getHarmonies().get(0).getPosition();
         MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voiceTarget, instrument.pickRandomOctaveFromRange(), start, composition.getEnd());
@@ -59,29 +59,25 @@ public class HarmonyOrchestrator {
         return  melodyBlock;
     }
 
-    public List<MelodyBlock> orchestrateHarmonies(Motive motive){
+    public List<MelodyBlock> varyHarmonyRhythmDependant(Motive motive, int voiceSource, int voiceTarget, Predicate<Note> harmonyFilter, int harmonySize){
         List<MelodyBlock> melodyBlocks = new ArrayList<>();
-        int voice = 5;
-        int size = 3;
 
-        Instrument instrument = instrumentConfig.getInstrumentForVoice(voice);
+        Instrument instrument = instrumentConfig.getInstrumentForVoice(voiceSource);
         int start = motive.getHarmonies().get(0).getPosition();
-        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice, instrument.pickRandomOctaveFromRange(), start, composition.getEnd());
+        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voiceTarget, instrument.pickRandomOctaveFromRange(), start, composition.getEnd());
         melodyBlock.setInstrument(instrument);
 
         List<Note> melodyBlockNotes = melodyBlock.getMelodyBlockNotes();
         List<Note> notes = new ArrayList<>();
-        Predicate<Note> harmonyFilter = n -> n.getVoice() != 4;
         for (int i = 0; i < melodyBlockNotes.size(); i++) {
             Note note = melodyBlockNotes.get(i);
-            int randomSize = RandomUtil.getRandomNumberInRange(1, size);
-            //TODO no harmony available (begin)
+            int randomSize = RandomUtil.getRandomNumberInRange(1, harmonySize);
             List<Note> harmonyNotes = motive.getHarmonyNotesPosition(note.getPosition(), randomSize, harmonyFilter);
             if(!harmonyNotes.isEmpty()){
                 note.setPitchClass(harmonyNotes.get(0).getPitchClass());
                 for (int j = 1; j < harmonyNotes.size(); j++) {
                     Note clonedNote =  note.clone();
-                    clonedNote.setVoice(voice + j);
+                    clonedNote.setVoice(voiceTarget + j);
                     clonedNote.setPitchClass(harmonyNotes.get(j).getPitchClass());
                     notes.add(clonedNote);
                 }
@@ -94,7 +90,7 @@ public class HarmonyOrchestrator {
 
         Map<Integer, List<Note>> notesPerVoice = notes.stream().collect(groupingBy(Note::getVoice, TreeMap::new, Collectors.toList()));
         for (Map.Entry<Integer,List<Note>> voiceEntry : notesPerVoice.entrySet()) {
-            instrument = instrumentConfig.getInstrumentForVoice(voice);
+            instrument = instrumentConfig.getInstrumentForVoice(voiceSource);
             CpMelody melody = new CpMelody(voiceEntry.getValue(),voiceEntry.getKey(), composition.getStart(), composition.getEnd());
             MelodyBlock block = new MelodyBlock(instrument.pickRandomOctaveFromRange(), voiceEntry.getKey());
             block.setInstrument(instrument);

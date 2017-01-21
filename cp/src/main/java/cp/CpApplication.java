@@ -198,16 +198,17 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 			    	Solution solution = solutionIterator.next();
 
 			    	Motive solutionMotive = ((MusicVariable) solution.getDecisionVariables()[0]).getMotive();
-
-//			    	MelodyBlock harmonyBlock = harmonyOrchestrator.orchestrateHarmony(solutionMotive);
-//					solutionMotive.getMelodyBlocks().add(harmonyBlock);
-
-			    	MelodyBlock block = harmonyOrchestrator.varyOriginalNote(solutionMotive, 2, 5);
-					solutionMotive.getMelodyBlocks().add(block);
-
 					Predicate<Note> harmonyFilter = n -> n.getVoice() != 4;
-					block = harmonyOrchestrator.varyRandomHarmonyNote(solutionMotive, 3, 6, harmonyFilter);
-					solutionMotive.getMelodyBlocks().add(block);
+
+//			    	List<MelodyBlock> harmonyBlocks = harmonyOrchestrator.varyHarmonyRhythmDependant(solutionMotive,2,5, harmonyFilter, 2 );
+//					solutionMotive.getMelodyBlocks().addAll(harmonyBlocks);
+
+//			    	MelodyBlock block = harmonyOrchestrator.varyOriginalNote(solutionMotive, 2, 5);
+//					solutionMotive.getMelodyBlocks().add(block);
+//
+//
+//					block = harmonyOrchestrator.varyNextHarmonyNote(solutionMotive, 3, 6, harmonyFilter);
+//					solutionMotive.getMelodyBlocks().add(block);
 
 			    	String dateID = generateDateID();
 					String id = dateID + "_" + CpApplication.COUNTER.getAndIncrement();

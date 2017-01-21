@@ -107,7 +107,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 //			arrangement.transpose(melodies.get(1).getNotes(), -12);
 			
 //			embellish(melodies);
-
+			parsedMelodies = parsedMelodies.stream().filter(m -> m.getVoice() != 1 && m.getVoice() != 2 && m.getVoice() != 3).collect(Collectors.toList());
 			Collections.sort(parsedMelodies);
 			Collections.reverse(parsedMelodies);
 			Score score = scoreUtilities.createScoreFromMelodyInstrument(parsedMelodies, midiInfo.getTempo());

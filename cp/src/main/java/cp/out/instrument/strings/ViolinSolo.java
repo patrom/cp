@@ -20,7 +20,7 @@ public class ViolinSolo extends Instrument {
 		setHighest(84);
 		setGeneralMidi(GeneralMidi.VIOLIN);
 
-		setInstrumentName(InstrumentName.VIOLA_SOLO.getName());
+		setInstrumentName(InstrumentName.VIOLIN_SOLO.getName());
 		setInstrumentSound("strings.violin");
 		setVirtualName("Violin 1 solo");
 	}
