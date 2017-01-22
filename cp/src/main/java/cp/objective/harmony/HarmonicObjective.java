@@ -40,10 +40,10 @@ public class HarmonicObjective extends Objective {
 					Chord chord = h.getChord();
 					LOGGER.debug("chord: " + chord);
 					double dissonanceChord = dissonance.getDissonance(chord);
-					return dissonanceChord* (harmonyWeight / totalHarmonyWeight);
+					return dissonanceChord * (harmonyWeight / totalHarmonyWeight);
 				})
 				.peek(w -> LOGGER.debug("Weight: " + w))
-				.average().getAsDouble();
+				.sum();
 	}
 
 	protected double getTotalHarmonyWeight(List<CpHarmony> harmonies) {

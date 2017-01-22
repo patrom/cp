@@ -194,11 +194,11 @@ public abstract class Composition {
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
 //		timeLineKeys.add(new TimeLineKey(A, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
-		timeLineKeys.add(new TimeLineKey(G, Scale.MAJOR_CHORD, 0 ,0));
-		timeLineKeys.add(new TimeLineKey(E, Scale.MINOR_CHORD, 0 ,0));
-		timeLineKeys.add(new TimeLineKey(B, Scale.MINOR_CHORD, 0 ,0));
-		timeLineKeys.add(new TimeLineKey(A, Scale.MAJOR_CHORD, 0 ,0));
-		timeLineKeys.add(new TimeLineKey(C, Scale.MAJOR_CHORD, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
+//		timeLineKeys.add(new TimeLineKey(B, Scale.MINOR_CHORD, 0 ,0));
+//		timeLineKeys.add(new TimeLineKey(A, Scale.MAJOR_CHORD, 0 ,0));
+//		timeLineKeys.add(new TimeLineKey(C, Scale.MAJOR_CHORD, 0 ,0));
 		List<Integer> durations = new ArrayList<>();
 		durations.add(DurationConstants.QUARTER);
 		durations.add(DurationConstants.WHOLE);

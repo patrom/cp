@@ -31,10 +31,8 @@ public class HarmonicResolutionObjective extends Objective {
 		for (int i = 0; i < size; i++) {
 			CpHarmony harmony = harmonies.get(i);
 			CpHarmony nextHarmony = harmonies.get(i + 1);
-			if (dissonantResolution.isDissonant(harmony.getChord()) && !dissonantResolution.isDissonant(nextHarmony.getChord())) {
+			if (dissonantResolution.isDissonant(harmony.getChord()) && dissonantResolution.isDissonant(nextHarmony.getChord())) {
 				total = total + 1;
-			}else{
-				total = total + 0;
 			}
 		}
 		return total/size;

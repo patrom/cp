@@ -72,8 +72,7 @@ public class MusicProblem extends Problem {
 		solution.setObjective(3, meterObjective);
 //		double tonality = 1 - objectives.getTonality();
 //		solution.setObjective(4, tonality);
-		double resolutionObjective = 1 - objectives.getResolution();
-		solution.setObjective(0, resolutionObjective);
+		solution.setObjective(0, objectives.getResolution());
 		
 		// //constraints
 		// objectives[5] = lowestIntervalRegisterValue;
@@ -89,7 +88,7 @@ public class MusicProblem extends Problem {
 //		musicSolution.setTonality(tonality);
 		musicSolution.setRhythm(rhythmObjective);
 		musicSolution.setMeter(meterObjective);
-		musicSolution.setResolution(resolutionObjective);
+		musicSolution.setResolution(objectives.getResolution());
 		// musicSolution.setConstraintLowestInterval(objectives[5]);
 		// musicSolution.setConstraintRhythm(objectives[6]);
 		// musicSolution.setConstraintRepetition(objectives[7]);
