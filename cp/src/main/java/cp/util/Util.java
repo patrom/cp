@@ -120,4 +120,8 @@ public class Util {
 //					10, 10 }));
 //		}
 	}
+
+	public static int convertToKeyOfC(int pitchClass, int key) {
+		return (12 + pitchClass - key) % 12;
+	}
 }

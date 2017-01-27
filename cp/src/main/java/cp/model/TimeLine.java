@@ -37,7 +37,6 @@ public class TimeLine {
 		throw new IllegalArgumentException("No Contour found at position; " + position + " for voice: " + voice);
 	}
 
-
 	public void addKeysForVoice(List<TimeLineKey> keys, int voice){
 		this.keysPerVoice.put(voice, keys);
 	}
@@ -97,4 +96,5 @@ public class TimeLine {
 	public void setEnd(int compositionEnd) {
 		this.compositionEnd = compositionEnd;
 	}
+
 }

@@ -1,9 +1,9 @@
 package cp.composition;
 
+import cp.model.harmony.ChordType;
+import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.melody.Operator;
-import cp.model.rhythm.DurationConstants;
-import cp.nsga.operator.relation.CopyRangeRelation;
 import cp.nsga.operator.relation.OperatorRelation;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -23,8 +23,8 @@ public class TwoVoiceComposition extends Composition{
 		instrument1 = instrumentConfig.getInstrumentForVoice(voice0);
 		instrument2 = instrumentConfig.getInstrumentForVoice(voice1);
 
-		voiceConfiguration.put(voice0, fixedVoice);
-		voiceConfiguration.put(voice1, fixedVoice);
+		voiceConfiguration.put(voice0, homophonicVoice);
+		voiceConfiguration.put(voice1, melodyVoice);
 	}
 
 	public List<MelodyBlock> voiceConfig(){
@@ -44,26 +44,37 @@ public class TwoVoiceComposition extends Composition{
 
 	public List<MelodyBlock> beatEven(){
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
-//		cello.setKeySwitch(new KontactStringsKeySwitch());
+
+		//has to be set first, before generation
+		melodyVoice.hasDependentHarmony(true);
+//		melodyVoice.addChordType(ChordType.CH2_GROTE_TERTS);
+//		melodyVoice.addChordType(ChordType.CH2_KWART);
+//		melodyVoice.addChordType(ChordType.CH2_KWINT);
+		melodyVoice.addChordType(ChordType.ALL);
+//		melodyVoice.addChordType(ChordType.CH2_GROTE_SIXT);
+		voiceConfiguration.put(voice2, melodyVoice);
+		dependantGenerator.setSourceVoice(voice1);
+		dependantGenerator.setDependantVoice(voice2);
+		MelodyBlock dependantMelodyBlock = new MelodyBlock(5, voice2);
+		dependantMelodyBlock.addMelodyBlock(new CpMelody(new ArrayList<>(),voice2,start,end));
+		dependantMelodyBlock.setMutable(false);
+		dependantMelodyBlock.setRhythmDependant(true);
+		melodyBlocks.add(dependantMelodyBlock);
 
 		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);
 
-		MelodyBlock melodyBlock2 = melodyGenerator.generateDependantMelodyBlock(voice1, instrument2.pickRandomOctaveFromRange(), melodyBlock);
+		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfig(voice1, instrument2.pickRandomOctaveFromRange());
 		melodyBlock2.setInstrument(instrument2);
-		melodyBlock2.setMutable(false);
+		melodyBlocks.add(melodyBlock2);
 
-		CopyRangeRelation copyRangeRelation = new CopyRangeRelation();
-		copyRangeRelation.setSource(voice0);
-		copyRangeRelation.setTarget(voice1);
-		copyRangeRelation.setTimeLine(timeLine);
-		copyRangeRelation.setEndComposition(end);
-		copyRangeRelation.setRangeLength(DurationConstants.WHOLE);
-//		copyRangeRelation.setRangeLength(end);
-		copyRangeRelation.setMinimumLength(DurationConstants.EIGHT);
-		operatorConfig.addOperatorRelations(copyRangeRelation::execute);
 
+
+//		HarmonyRelation harmonyRelation = new HarmonyRelation();
+//		harmonyRelation.setSource(voice0);
+//		harmonyRelation.setTarget(voice2);
+//		operatorConfig.addOperatorRelations(harmonyRelation::execute);
 
 //		Instrument instrument2 = instruments.get(1);
 //		instrument2.setVoice(1);
@@ -75,8 +86,6 @@ public class TwoVoiceComposition extends Composition{
 //		instrument2.setVoice(1);
 //		instrument2.setChannel(1);
 //		MelodyBlock melodyBlock2 = melodyGenerator.duplicateRhythmMelodyBlock(melodyBlock, instrument2);
-		
-		melodyBlocks.add(melodyBlock2);
 
 		return melodyBlocks;
 	}

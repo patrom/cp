@@ -92,4 +92,16 @@ public class ScaleTest {
 		assertTrue(Arrays.equals(transpositions, scale.getPitchClasses()));
 	}
 
+	@Test
+	public void testPickHigerStepFromScale() {
+		int higher = scale.pickHigerStepFromScale(4, 3);
+		assertEquals(9, higher);
+
+		higher = scale.pickHigerStepFromScale(9, 3);
+		assertEquals(2, higher);
+
+		higher = scale.pickHigerStepFromScale(4, 2);
+		assertEquals(7, higher);
+	}
+
 }

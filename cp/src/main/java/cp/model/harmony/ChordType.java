@@ -1,7 +1,9 @@
 package cp.model.harmony;
 
 public enum ChordType {
-	
+
+	ALL(12),
+
 	CH0(0),
 	CH1(1),
 	

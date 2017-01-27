@@ -36,18 +36,6 @@ public class MelodyGenerator {
 	private InstrumentConfig instrumentConfig;
 	
 	private BeatGroupStrategy beatGroupStrategy;
-	
-//	public MelodyBlock generateMelodyBlock(final int voice, int octave){
-//		return generateMelodyBlock(voice, octave, composition.getTimeConfig().randomBeatGroup(), beatGroupStrategy, composition.getTimeConfig());
-//	}
-//
-//	public MelodyBlock generateMelodyBlock(final int voice, int octave, BeatGroupStrategy beatGroupStrategy){
-//		return generateMelodyBlock(voice, octave, composition.getTimeConfig().randomBeatGroup(), beatGroupStrategy, composition.getTimeConfig());
-//	}
-//
-//	public MelodyBlock generateMelodyBlock(final int voice, int octave, BeatGroupStrategy beatGroupStrategy, TimeConfig timeConfig){
-//		return generateMelodyBlock(voice, octave, composition.getTimeConfig().randomBeatGroup(), beatGroupStrategy, timeConfig);
-//	}
 
 	public MelodyBlock generateDependantMelodyBlock(final int voice, int octave, MelodyBlock dependingMelodyBlock){
 		int start = composition.getStart();
@@ -106,36 +94,6 @@ public class MelodyGenerator {
 		clonedMelody.setEnd(start + randomMelody.getBeatGroupLength());
 		return clonedMelody;
 	}
-
-//	public MelodyBlock generateMelodyBlock(final int voice, int octave, boolean randomBeats, BeatGroupStrategy beatGroupStrategy, TimeConfig timeConfig){
-//		int start = composition.getStart();
-//		int stop = composition.getEnd();
-//		List<BeatGroup> beatGroups = beatGroupStrategy.getBeatGroups();
-//		MelodyBlock melodyBlock = new MelodyBlock(octave, voice);
-//		melodyBlock.setOffset(timeConfig.getOffset());
-//		BeatGroup beatGroup;
-//		int i = 0;
-//		int size = beatGroups.size();
-//		if (randomBeats) {
-//			beatGroup = RandomUtil.getRandomFromList(beatGroups);
-//		}else{
-//			beatGroup = beatGroups.get(i);
-//		}
-//		int end = start + beatGroup.getBeatLength();
-//		while (end <= stop) {
-//			CpMelody melody = generateMelody(voice, start, beatGroup);
-//			melodyBlock.addMelodyBlock(melody);
-//			if (randomBeats) {
-//				beatGroup = RandomUtil.getRandomFromList(beatGroups);
-//			} else {
-//				i++;
-//				beatGroup = beatGroups.get(i % size);
-//			}
-//			start = end;
-//			end = start + beatGroup.getBeatLength();
-//		}
-//		return melodyBlock;
-//	}
 
 	public MelodyBlock generateMelodyBlockConfig(final int voice, int octave){
 		int start = composition.getStart();

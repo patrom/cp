@@ -4,6 +4,7 @@ import cp.composition.Composition;
 import cp.composition.voice.VoiceConfig;
 import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.Motive;
+import cp.model.TimeLine;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
@@ -37,6 +38,8 @@ public class ReplaceMelody extends AbstractMutation{
 	private Composition composition;
 	@Autowired
 	private InstrumentConfig instrumentConfig;
+	@Autowired
+	private TimeLine timeLine;
 
 	@Autowired
 	public ReplaceMelody(HashMap<String, Object> parameters) {
@@ -50,8 +53,21 @@ public class ReplaceMelody extends AbstractMutation{
 			Optional<CpMelody> optionalMelody = melodyBlock.getRandomMelody(m -> m.isReplaceable());
 			if (optionalMelody.isPresent()) {
 				CpMelody melody = optionalMelody.get();
+
+//				final List<Note> notesToRemove = melody.getNotes();
 				VoiceConfig voiceConfig = composition.getVoiceConfiguration(melodyBlock.getVoice());
+
 				List<Note> melodyNotes = voiceConfig.getNotes(melody.getBeatGroup());
+
+//				if (timeLine.hasDependantHarmonies(melody.getVoice())) {
+//					for (Note note : notesToRemove) {
+//                        timeLine.removeDependantHarmonyAtPosition(note.getPosition(), melody.getVoice());
+//                    }
+//					for (Note note : melodyNotes) {
+//                        timeLine.insertDependantHarmonyAtPosition(note.getPosition(), melody.getVoice());
+//                    }
+//				}
+
 				Articulation articulation = instrumentConfig.getArticuationForVoice(melodyBlock.getVoice());
 				melodyNotes.forEach(n -> {
 					n.setVoice(melody.getVoice());

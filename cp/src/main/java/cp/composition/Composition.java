@@ -5,6 +5,7 @@ import cp.composition.timesignature.TimeConfig;
 import cp.composition.voice.*;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
+import cp.generator.dependant.DependantGenerator;
 import cp.generator.pitchclass.*;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
@@ -172,6 +173,8 @@ public abstract class Composition {
 	protected InstrumentConfig instrumentConfig;
 
 	protected Map<Integer, VoiceConfig> voiceConfiguration = new TreeMap<>();
+	@Autowired
+	protected DependantGenerator dependantGenerator;
 
 	@PostConstruct
 	public void init(){

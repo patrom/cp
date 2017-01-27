@@ -1,5 +1,6 @@
 package cp.model.note;
 
+import cp.model.harmony.DependantHarmony;
 import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Articulation;
 
@@ -50,7 +51,7 @@ public class Note implements Comparable<Note>{
 	
 	//parsing musicXML
 	private String instrument;
-
+	private DependantHarmony dependantHarmony;
 	
 	private Articulation articulation = DEFAULT_ARTICULATION;
 	private Dynamic dynamic = DEFAULT_DYNAMIC;
@@ -65,7 +66,8 @@ public class Note implements Comparable<Note>{
 		this.length = length;
 	}
 	
-	public Note(Note anotherNote) {
+	private Note(Note anotherNote) {
+		this.dependantHarmony = anotherNote.getDependantHarmony() == null?null:anotherNote.getDependantHarmony().clone();
 		this.length = anotherNote.getLength();
 		this.position =anotherNote.getPosition();
 		this.pitch = anotherNote.getPitch();
@@ -183,6 +185,14 @@ public class Note implements Comparable<Note>{
 
 	public void setVoice(int voice) {
 		this.voice = voice;
+	}
+
+	public DependantHarmony getDependantHarmony() {
+		return dependantHarmony;
+	}
+
+	public void setDependantHarmony(DependantHarmony dependantHarmony) {
+		this.dependantHarmony = dependantHarmony;
 	}
 
 	@Override

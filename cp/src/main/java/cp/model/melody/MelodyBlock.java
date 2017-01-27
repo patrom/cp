@@ -299,6 +299,12 @@ public class MelodyBlock {
 		Collections.sort(melodyBlocks);
 	}
 
+	public void setNotes(List<Note> notes){
+//		melodyBlocks.clear();
+		CpMelody melody = melodyBlocks.get(0);
+		melody.setNotes(notes);
+	}
+
 	public boolean isMutable() {
 		return mutable;
 	}

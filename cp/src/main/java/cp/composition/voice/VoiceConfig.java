@@ -10,6 +10,8 @@ import cp.composition.beat.BeatGroupFactory;
 import cp.composition.beat.BeatGroupStrategy;
 import cp.composition.timesignature.TimeConfig;
 import cp.generator.pitchclass.*;
+import cp.model.harmony.ChordType;
+import cp.model.harmony.DependantHarmony;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.util.RandomUtil;
@@ -92,6 +94,9 @@ public abstract class VoiceConfig {
     protected boolean randomRhytmCombinations = true;
     protected int volume = Dynamic.MF.getLevel();
 
+    protected boolean hasDependentHarmony;
+    protected List<ChordType> chordTypes = new ArrayList<>();
+
     protected void setTimeconfig(){
         if (numerator == 4 && denominator == 4) {
             randomBeats = true;
@@ -118,10 +123,20 @@ public abstract class VoiceConfig {
     }
 
     public List<Note> getNotes(BeatGroup beatGroup) {
+        List<Note> notes = new ArrayList<>();
         if (randomRhytmCombinations) {
-            return beatGroup.getNotesRandom();
+            notes = beatGroup.getNotesRandom();
+        }else{
+            notes =  beatGroup.getNotes();
         }
-        return beatGroup.getNotes();
+        if(hasDependentHarmony){
+            for (Note note : notes) {
+                DependantHarmony dependantHarmony = new DependantHarmony();
+                dependantHarmony.setChordType(RandomUtil.getRandomFromList(chordTypes));
+                note.setDependantHarmony(dependantHarmony);
+            }
+        }
+        return notes;
     }
 
     public BeatGroup getBeatGroup(int index){
@@ -145,4 +160,11 @@ public abstract class VoiceConfig {
         return volume;
     }
 
+    public void hasDependentHarmony(boolean hasDependentHarmony) {
+        this.hasDependentHarmony = hasDependentHarmony;
+    }
+
+    public void addChordType(ChordType chordType){
+        chordTypes.add(chordType);
+    }
 }

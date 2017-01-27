@@ -136,6 +136,16 @@ public class Scale {
 		}
 		return pitchClass;
 	}
+
+	public int pickHigerStepFromScale(int pitchClass, int higherStep){
+		for (int i = 0; i < scale.length; i++) {
+			if (pitchClass == scale[i]) {
+				int step = (i + higherStep) % scale.length;
+				return scale[step];
+			}
+		}
+		return pitchClass;
+	}
 	
 	public int[] getPitchClasses() {
 		return scale;

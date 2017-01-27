@@ -4,7 +4,6 @@ import cp.composition.*;
 import cp.generator.MusicProperties;
 import cp.model.Motive;
 import cp.model.melody.MelodyBlock;
-import cp.model.note.Note;
 import cp.nsga.MusicSolution;
 import cp.nsga.MusicSolutionType;
 import cp.nsga.MusicVariable;
@@ -40,7 +39,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Predicate;
 
 @Import({DefaultConfig.class, VariationConfig.class})
 public class CpApplication extends JFrame implements CommandLineRunner{
@@ -128,7 +126,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 
 //		composeInGenres.add(twoVoiceComposition::voiceConfig);
 
-//		composeInGenres.add(twoVoiceComposition::beatEven);
+		composeInGenres.add(twoVoiceComposition::beatEven);
 //		composeInGenres.add(twoVoiceComposition::canonA3);
 //		composeInGenres.add(twoVoiceComposition::fugueInverse);
 //		composeInGenres.add(twoVoiceComposition::operatorT);
@@ -164,7 +162,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(fourVoiceComposition::harmonize);
 
 //		composeInGenres.add(fiveVoiceComposition::accDuplicateRhythm);
-		composeInGenres.add(fiveVoiceComposition::homophonicRhythm);
+//		composeInGenres.add(fiveVoiceComposition::homophonicRhythm);
 //		fiveVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
 //		fiveVoiceComposition.setHarmonizeVoice(4);
 //		composeInGenres.add(fiveVoiceComposition::harmonize);
@@ -186,9 +184,9 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 			    
 //			    population.sort(Comparator.comparing(MusicSolution::getMelody).thenComparing(MusicSolution::getHarmony));
 			    population.sort(Comparator
-						.comparing(MusicSolution::getMelody)
+						.comparing(MusicSolution::getHarmony)
 						.thenComparing(MusicSolution::getResolution)
-			    		.thenComparing(MusicSolution::getHarmony)
+			    		.thenComparing(MusicSolution::getMelody)
 			    		.thenComparing(MusicSolution::getVoiceLeading));
 
 			    
@@ -198,7 +196,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 			    	Solution solution = solutionIterator.next();
 
 			    	Motive solutionMotive = ((MusicVariable) solution.getDecisionVariables()[0]).getMotive();
-					Predicate<Note> harmonyFilter = n -> n.getVoice() != 4;
+//					Predicate<Note> harmonyFilter = n -> n.getVoice() != 4;
 
 //			    	List<MelodyBlock> harmonyBlocks = harmonyOrchestrator.varyHarmonyRhythmDependant(solutionMotive,2,5, harmonyFilter, 2 );
 //					solutionMotive.getMelodyBlocks().addAll(harmonyBlocks);

@@ -14,8 +14,8 @@ public class DyadTriadsTetraAndPentaChordal {
 		int size = chord.getPitchClassSet().size();
 		switch (size){
 			case 2:
-//				return intervals(chord);
-				return 0;
+				return intervals(chord);
+//				return 0;
 			case 3:
 				return triads(chord);
 			case 4:

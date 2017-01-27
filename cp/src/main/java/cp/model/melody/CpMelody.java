@@ -191,7 +191,7 @@ public class CpMelody implements Comparable<CpMelody>{
 			throw new IllegalArgumentException("Scales should have the same length");
 		}
 		
-		int pitchClassKeyOfC = convertToKeyOfC(pitchClass, key);
+		int pitchClassKeyOfC = Util.convertToKeyOfC(pitchClass, key);
 		
 		int invertedPC;
 		if (scale != dependingScale) {
@@ -222,7 +222,7 @@ public class CpMelody implements Comparable<CpMelody>{
 			throw new IllegalArgumentException("Scales should have the same length");
 		}
 		
-		int pitchClassKeyOfC = convertToKeyOfC(pitchClass, key);
+		int pitchClassKeyOfC = Util.convertToKeyOfC(pitchClass, key);
 		
 		int rotatedPC;
 		if (scale != dependingScale) {
@@ -269,10 +269,14 @@ public class CpMelody implements Comparable<CpMelody>{
 	public void M(int steps){
 		this.getNotesNoRest().forEach(note -> note.setPitchClass((note.getPitchClass() * steps) % 12));
 	}
-	
-	private int convertToKeyOfC(int pitchClass, int key) {
-		return (12 + pitchClass - key) % 12;
+
+	public void setNotes(List<Note> notes){
+		this.notes = notes;
 	}
+	
+//	private int convertToKeyOfC(int pitchClass, int key) {
+//		return (12 + pitchClass - key) % 12;
+//	}
 	
 	public boolean isRhythmMutable() {
 		return rhythmMutable;
