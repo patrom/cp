@@ -1,6 +1,5 @@
 package cp.composition;
 
-import cp.model.harmony.ChordType;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.melody.Operator;
@@ -23,8 +22,16 @@ public class TwoVoiceComposition extends Composition{
 		instrument1 = instrumentConfig.getInstrumentForVoice(voice0);
 		instrument2 = instrumentConfig.getInstrumentForVoice(voice1);
 
-		voiceConfiguration.put(voice0, homophonicVoice);
+		voiceConfiguration.put(voice0, melodyVoice);
 		voiceConfiguration.put(voice1, melodyVoice);
+
+		dependantConfig.setSourceVoice(voice1);
+		dependantConfig.setDependingVoice(voice2);
+		dependantConfig.setSecondDepedingVoice(voice3);
+
+		voiceConfiguration.put(voice2, melodyVoice);
+		//add only if triad chordtypes are available
+		voiceConfiguration.put(voice3, melodyVoice);
 	}
 
 	public List<MelodyBlock> voiceConfig(){
@@ -45,22 +52,6 @@ public class TwoVoiceComposition extends Composition{
 	public List<MelodyBlock> beatEven(){
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
 
-		//has to be set first, before generation
-		melodyVoice.hasDependentHarmony(true);
-//		melodyVoice.addChordType(ChordType.CH2_GROTE_TERTS);
-//		melodyVoice.addChordType(ChordType.CH2_KWART);
-//		melodyVoice.addChordType(ChordType.CH2_KWINT);
-		melodyVoice.addChordType(ChordType.ALL);
-//		melodyVoice.addChordType(ChordType.CH2_GROTE_SIXT);
-		voiceConfiguration.put(voice2, melodyVoice);
-		dependantGenerator.setSourceVoice(voice1);
-		dependantGenerator.setDependantVoice(voice2);
-		MelodyBlock dependantMelodyBlock = new MelodyBlock(5, voice2);
-		dependantMelodyBlock.addMelodyBlock(new CpMelody(new ArrayList<>(),voice2,start,end));
-		dependantMelodyBlock.setMutable(false);
-		dependantMelodyBlock.setRhythmDependant(true);
-		melodyBlocks.add(dependantMelodyBlock);
-
 		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
 		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);
@@ -68,6 +59,18 @@ public class TwoVoiceComposition extends Composition{
 		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfig(voice1, instrument2.pickRandomOctaveFromRange());
 		melodyBlock2.setInstrument(instrument2);
 		melodyBlocks.add(melodyBlock2);
+
+		MelodyBlock dependantMelodyBlock = new MelodyBlock(5, voice2);
+		dependantMelodyBlock.addMelodyBlock(new CpMelody(new ArrayList<>(),voice2,start,end));
+		dependantMelodyBlock.setMutable(false);
+		dependantMelodyBlock.setRhythmDependant(true);
+		melodyBlocks.add(dependantMelodyBlock);
+
+//		dependantMelodyBlock = new MelodyBlock(5, voice3);
+//		dependantMelodyBlock.addMelodyBlock(new CpMelody(new ArrayList<>(),voice3,start,end));
+//		dependantMelodyBlock.setMutable(false);
+//		dependantMelodyBlock.setRhythmDependant(true);
+//		melodyBlocks.add(dependantMelodyBlock);
 
 
 
@@ -89,10 +92,9 @@ public class TwoVoiceComposition extends Composition{
 
 		return melodyBlocks;
 	}
-	
+
 	public List<MelodyBlock> canon(){
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
-
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
 		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
@@ -118,7 +120,6 @@ public class TwoVoiceComposition extends Composition{
 	
 	public List<MelodyBlock> fugueInverse(){
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
-
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
 		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
@@ -168,7 +169,6 @@ public class TwoVoiceComposition extends Composition{
 
 	private List<MelodyBlock> operator(Operator operator, int steps) {
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
-
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
 		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());

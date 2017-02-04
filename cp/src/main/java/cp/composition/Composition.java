@@ -5,6 +5,7 @@ import cp.composition.timesignature.TimeConfig;
 import cp.composition.voice.*;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
+import cp.generator.dependant.DependantConfig;
 import cp.generator.dependant.DependantGenerator;
 import cp.generator.pitchclass.*;
 import cp.model.TimeLine;
@@ -176,6 +177,12 @@ public abstract class Composition {
 	@Autowired
 	protected DependantGenerator dependantGenerator;
 
+	protected CompositionGenre compositionGenre;
+
+	public void setCompositionGenre(CompositionGenre compositionGenre) {
+		this.compositionGenre = compositionGenre;
+	}
+
 	@PostConstruct
 	public void init(){
 		composeInKey(G);
@@ -299,6 +306,8 @@ public abstract class Composition {
 	protected timeVoice timeVoice;
 	@Autowired
 	protected HarmonyVoice harmonyVoice;
+	@Autowired
+	protected DependantConfig dependantConfig;
 
 	public VoiceConfig getVoiceConfiguration(int voice){
 		return voiceConfiguration.get(voice);
@@ -394,5 +403,46 @@ public abstract class Composition {
 		return melodyBlocks;
 	}
 
+	protected MelodyBlock dependantMelodyBlock;
+	protected MelodyBlock secondDependantMelodyBlock;
+
+	public List<MelodyBlock> dependingHarmonies(){
+		//has to be set first, before generation
+//		melodyVoice.hasDependentHarmony(true);
+//		melodyVoice.addChordType(ChordType.CH2_GROTE_TERTS);
+//		melodyVoice.addChordType(ChordType.CH2_KWART);
+//		melodyVoice.addChordType(ChordType.CH2_KWINT);
+//		melodyVoice.addChordType(ChordType.ALL_INTERVALS);
+//		melodyVoice.addChordType(ChordType.CH2_GROTE_SIXT);
+//		melodyVoice.addChordType(ChordType.MAJOR);
+//		melodyVoice.addChordType(ChordType.MAJOR_1);
+//		melodyVoice.addChordType(ChordType.MAJOR_2);
+//		fixedVoice.addChordType(ChordType.DOM);
+
+//		dependantGenerator.setSourceVoice(voice0);
+//
+//		voiceConfiguration.put(voice2, melodyVoice);
+//		dependantGenerator.setDependantVoice(voice2);
+
+//		voiceConfiguration.put(voice3, melodyVoice);
+//		dependantGenerator.setSecondDependantVoice(voice3);
+
+		List<MelodyBlock> melodyBlocks = compositionGenre.composeInGenre();
+
+		melodyBlocks.add(dependantMelodyBlock);
+		if (secondDependantMelodyBlock != null) {
+			melodyBlocks.add(secondDependantMelodyBlock);
+		}
+
+		return melodyBlocks;
+	}
+
+	protected MelodyBlock getDependantMelodyBlock(int voice){
+		MelodyBlock dependantMelodyBlock = new MelodyBlock(0, voice);
+		dependantMelodyBlock.addMelodyBlock(new CpMelody(new ArrayList<>(),voice,start, end));
+		dependantMelodyBlock.setMutable(false);
+		dependantMelodyBlock.setRhythmDependant(true);
+		return dependantMelodyBlock;
+	}
 
 }

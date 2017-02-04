@@ -66,7 +66,7 @@ public class CpMelody implements Comparable<CpMelody>{
 				.collect(toList());
 		clone(anotherMelody);
 	}
-	
+
 	private void clone(CpMelody anotherMelody) {
 		this.mutable = anotherMelody.isMutable();
 		this.rhythmMutable = anotherMelody.isRhythmMutable();

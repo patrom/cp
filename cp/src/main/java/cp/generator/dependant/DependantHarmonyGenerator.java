@@ -10,5 +10,5 @@ import java.util.List;
 @FunctionalInterface
 public interface DependantHarmonyGenerator {
 
-    void generateDependantHarmonies(List<MelodyBlock> melodies) ;
+     void generateDependantHarmonies(List<MelodyBlock> melodies);
 }

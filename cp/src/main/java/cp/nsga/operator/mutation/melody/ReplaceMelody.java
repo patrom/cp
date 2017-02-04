@@ -25,8 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.stream.Collectors.toList;
-
 @Component(value="replaceMelody")
 public class ReplaceMelody extends AbstractMutation{
 
@@ -81,11 +79,11 @@ public class ReplaceMelody extends AbstractMutation{
 //				LOGGER.info("Melody replaced: " + melody.getVoice());
 
 				//Rhythm dependant melodies
-				this.replaceRhythmDependantMelody.setPitchClassGenerator(pitchClassGenerator);
-				List<MelodyBlock> rhythmDependantMelodies =  motive.getMelodyBlocks().stream()
-						.filter(m -> m.isRhythmDependant() && m.getDependingVoice() == melody.getVoice())
-						.collect(toList());
-				replaceRhythmDependantMelody.updateDependantMelodyBlockWithMelody(melody, rhythmDependantMelodies);
+//				this.replaceRhythmDependantMelody.setPitchClassGenerator(pitchClassGenerator);
+//				List<MelodyBlock> rhythmDependantMelodies =  motive.getMelodyBlocks().stream()
+//						.filter(m -> m.isRhythmDependant() && m.getDependingVoice() == melody.getVoice())
+//						.collect(toList());
+//				replaceRhythmDependantMelody.updateDependantMelodyBlockWithMelody(melody, rhythmDependantMelodies);
 			}
 		} 
 	}

@@ -2,24 +2,21 @@ package cp.evaluation;
 
 import cp.composition.Composition;
 import cp.composition.voice.VoiceConfig;
-import cp.generator.dependant.DependantGenerator;
+import cp.generator.dependant.DependantHarmonyGenerator;
 import cp.model.Motive;
 import cp.model.TimeLine;
-import cp.model.TimeLineKey;
 import cp.model.harmony.CpHarmony;
-import cp.model.harmony.DependantHarmony;
 import cp.model.harmony.HarmonyExtractor;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.rhythm.RhythmWeight;
 import cp.objective.Objective;
-import cp.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -53,7 +50,8 @@ public class FitnessEvaluationTemplate {
 	@Autowired
 	private TimeLine timeLine;
 	@Autowired
-	private DependantGenerator dependantGenerator;
+	@Qualifier(value = "dependantGenerator")
+	private DependantHarmonyGenerator dependantGenerator;
 
 	public FitnessObjectiveValues evaluate(Motive motive) {
 		List<MelodyBlock> melodies = motive.getMelodyBlocks();
@@ -61,39 +59,13 @@ public class FitnessEvaluationTemplate {
 		updatePitchesFromContour(melodies);
 		updateRhythmWeight(melodiesToCalculate);
 
-		//todo voices
 		dependantGenerator.generateDependantHarmonies(melodies);
-//		generateDependantHarmonies(melodies);
-
 
 		List<Note> allNotes = melodies.stream().flatMap(m -> m.getMelodyBlockNotes().stream()).collect(toList());
 		List<CpHarmony> harmonies = harmonyExtractor.extractHarmony(allNotes, motive.getMelodyBlocks().size());
 		motive.setHarmonies(harmonies);
 //		melodies.forEach(h ->  LOGGER.debug(h.getMelodyBlockNotes() + ", "));
 		return evaluateObjectives(motive);
-	}
-
-	private void generateDependantHarmonies(List<MelodyBlock> melodies) {
-		MelodyBlock MelodyBlock = melodies.stream().filter(m -> m.getVoice() == 1).findFirst().get();
-		MelodyBlock dependantMelodyBlock = melodies.stream().filter(m -> m.getVoice() == 2).findFirst().get();
-		List<Note> notes = new ArrayList<>();
-		List<Note> melodyBlockNotesWithRests = MelodyBlock.getMelodyBlockNotesWithRests();
-		for (Note note : melodyBlockNotesWithRests) {
-			DependantHarmony dependantHarmony = note.getDependantHarmony();
-			Note clone = note.clone();
-			clone.setVoice(dependantMelodyBlock.getVoice());
-			if(!note.isRest()){
-				TimeLineKey timeLineKeyAtPosition = timeLine.getTimeLineKeyAtPosition(note.getPosition(), note.getVoice());
-				int pcInKeyOfC = Util.convertToKeyOfC(note.getPitchClass(), timeLineKeyAtPosition.getKey().getInterval());
-				int pitchClass = timeLineKeyAtPosition.getScale().pickHigerStepFromScale(pcInKeyOfC, 2);
-				pitchClass = (pitchClass + timeLineKeyAtPosition.getKey().getInterval()) % 12;
-				clone.setPitchClass(pitchClass);
-				int ic = Util.intervalClass(pitchClass - note.getPitchClass());
-				clone.setPitch(note.getPitch() + ic);
-			}
-			notes.add(clone);
-		}
-		dependantMelodyBlock.setNotes(notes);
 	}
 
 	private void updatePitchesFromContour(List<MelodyBlock> melodies) {

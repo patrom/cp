@@ -124,11 +124,13 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		List<CompositionGenre> composeInGenres = new ArrayList<>();
 //		composeInGenres.add(melodyComposition::melody);
 
-//		composeInGenres.add(twoVoiceComposition::voiceConfig);
+//		twoVoiceComposition.setCompositionGenre(twoVoiceComposition::canon);
+//		composeInGenres.add(twoVoiceComposition::dependingHarmonies);
 
-		composeInGenres.add(twoVoiceComposition::beatEven);
-//		composeInGenres.add(twoVoiceComposition::canonA3);
-//		composeInGenres.add(twoVoiceComposition::fugueInverse);
+//		composeInGenres.add(twoVoiceComposition::voiceConfig);
+//		composeInGenres.add(twoVoiceComposition::beatEven);
+		composeInGenres.add(twoVoiceComposition::canon);
+		composeInGenres.add(twoVoiceComposition::fugueInverse);
 //		composeInGenres.add(twoVoiceComposition::operatorT);
 //		composeInGenres.add(twoVoiceComposition::operatorI);
 		//TODO:
@@ -139,6 +141,10 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		twoVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
 //		twoVoiceComposition.setHarmonizeVoice(1);
 //		composeInGenres.add(twoVoiceComposition::harmonize);
+
+
+//		threeVoiceComposition.setCompositionGenre(threeVoiceComposition::canon2Voice1Acc);
+//		composeInGenres.add(threeVoiceComposition::dependingHarmonies);
 
 //		composeInGenres.add(threeVoiceComposition::canon2Voice1Acc);
 //		composeInGenres.add(threeVoiceComposition::accFixedRhythm);

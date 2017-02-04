@@ -152,7 +152,7 @@ public class Note implements Comparable<Note>{
 //	}
 
 	public boolean isRest() {
-		return this.getPitch() == REST;
+		return this.pitch == REST;
 	}
 
 	public boolean samePitch(Note note) {
