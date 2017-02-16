@@ -19,6 +19,6 @@ public class BassVoice extends VoiceConfig {
 //        pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
         pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
 //		pitchClassGenerators.add(restPitchClasses::updatePitchClasses);
-        beatGroupStrategy = timeConfig::getBeatsDoubleLength;
+        beatGroupStrategy = timeConfig::getHomophonicBeatGroup;
     }
 }

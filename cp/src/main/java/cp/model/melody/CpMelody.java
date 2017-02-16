@@ -114,6 +114,18 @@ public class CpMelody implements Comparable<CpMelody>{
 //			LOGGER.info("one note mutated");
 		}
 	}
+
+	public void updateRandomNote(int pitchClass) {
+		List<Note> notesNoRest = getNotesNoRest();
+		if (!notesNoRest.isEmpty()) {
+			int index = RandomUtil.getRandomIndex(notesNoRest);
+			Note note = notesNoRest.get(index);
+			note.setPitchClass(pitchClass);
+
+			updateContourDirections(index);
+//			LOGGER.info("one note mutated");
+		}
+	}
 	
 	protected void updateContourDirections(int index){
 		updateNextContour(index, RandomUtil.randomAscendingOrDescending()); 

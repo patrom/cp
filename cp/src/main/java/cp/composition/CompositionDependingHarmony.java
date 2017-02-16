@@ -1,6 +1,5 @@
 package cp.composition;
 
-import cp.generator.dependant.DependantConfig;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,8 @@ public abstract class CompositionDependingHarmony {
 
     @Autowired
     protected Composition composition;
-    @Autowired
-    protected DependantConfig dependantConfig;
+//    @Autowired
+//    protected DependantConfig dependantConfig;
 
     protected MelodyBlock getDependantMelodyBlock(int voice){
         MelodyBlock dependantMelodyBlock = new MelodyBlock(0, voice);

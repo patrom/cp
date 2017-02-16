@@ -1,5 +1,7 @@
 package cp.composition;
 
+import cp.generator.dependant.DependantGenerator;
+import cp.model.harmony.ChordType;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.melody.Operator;
@@ -24,14 +26,6 @@ public class TwoVoiceComposition extends Composition{
 
 		voiceConfiguration.put(voice0, melodyVoice);
 		voiceConfiguration.put(voice1, melodyVoice);
-
-		dependantConfig.setSourceVoice(voice1);
-		dependantConfig.setDependingVoice(voice2);
-		dependantConfig.setSecondDepedingVoice(voice3);
-
-		voiceConfiguration.put(voice2, melodyVoice);
-		//add only if triad chordtypes are available
-		voiceConfiguration.put(voice3, melodyVoice);
 	}
 
 	public List<MelodyBlock> voiceConfig(){
@@ -140,6 +134,31 @@ public class TwoVoiceComposition extends Composition{
 		operatorRelation.setOffset(getTimeConfig().getOffset());
 		operatorConfig.addOperatorRelations(operatorRelation::execute);
 		
+		return melodyBlocks;
+	}
+
+	public List<MelodyBlock> depending(){
+		//dependant harmony
+		dependantHarmonyGenerators = new ArrayList<>();
+		DependantGenerator dependantGenerator = new DependantGenerator(timeLine, voice0, voice1);
+		dependantHarmonyGenerators.add(dependantGenerator);
+
+		dependantGenerator = new DependantGenerator(timeLine, voice0, voice1);
+		dependantHarmonyGenerators.add(dependantGenerator);
+		//has to be set first, before generation
+		melodyVoice.hasDependentHarmony(true);
+		melodyVoice.addChordType(ChordType.CH2_GROTE_TERTS);
+		melodyVoice.addChordType(ChordType.CH2_GROTE_TERTS_CHR);
+//		melodyVoice.addChordType(ChordType.CH2_KWART);
+//		melodyVoice.addChordType(ChordType.CH2_KWINT);
+//		melodyVoice.addChordType(ChordType.ALL);
+		melodyVoice.addChordType(ChordType.CH2_GROTE_SIXT);
+		melodyVoice.addChordType(ChordType.CH2_GROTE_SIXT_CHR);
+
+		List<MelodyBlock> melodyBlocks = new ArrayList<>();
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
+		melodyBlock.setInstrument(instrument1);
+		melodyBlocks.add(melodyBlock);
 		return melodyBlocks;
 	}
 	

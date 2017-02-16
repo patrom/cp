@@ -71,6 +71,9 @@ public abstract class VoiceConfig {
     @Qualifier(value="time34")
     protected TimeConfig time34;
     @Autowired
+    @Qualifier(value="time24")
+    protected TimeConfig time24;
+    @Autowired
     @Qualifier(value="time68")
     protected TimeConfig time68;
     @Autowired
@@ -110,6 +113,9 @@ public abstract class VoiceConfig {
         } else if (numerator == 5 && denominator == 8) {
             randomBeats = false;
             timeConfig = time58;
+        } else if (numerator == 2 && denominator == 4) {
+            randomBeats = true;
+            timeConfig = time24;
         }
         beatGroupStrategy = timeConfig::getAllBeats;
     }

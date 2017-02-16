@@ -1,5 +1,7 @@
 package cp.composition;
 
+import cp.generator.dependant.DependantGenerator;
+import cp.model.harmony.ChordType;
 import cp.model.melody.MelodyBlock;
 import cp.model.melody.Operator;
 import cp.model.rhythm.DurationConstants;
@@ -183,10 +185,37 @@ public class FourVoiceComposition extends  Composition {
      * @return melodies
      */
     public List<MelodyBlock> accDuplicateRhythm(){
-        voiceConfiguration.put(voice0, doubleTimeVoice);
+        voiceConfiguration.put(voice0, bassVoice);
         voiceConfiguration.put(voice1, homophonicVoice);
         voiceConfiguration.put(voice2, homophonicVoice);
         voiceConfiguration.put(voice3, melodyVoice);
+
+        dependantHarmonyGenerators = new ArrayList<>();
+        DependantGenerator dependantGenerator = new DependantGenerator(timeLine, voice1, voice2);
+        dependantHarmonyGenerators.add(dependantGenerator);
+//
+//		dependantGenerator = new DependantGenerator(timeLine, voice2, voice4);
+//		dependantHarmonyGenerators.add(dependantGenerator);
+//
+//		voiceConfiguration.put(voice3, homophonicVoice);
+//		voiceConfiguration.put(voice4, homophonicVoice);
+//
+//		//has to be set first, before generation
+        homophonicVoice.hasDependentHarmony(true);
+        homophonicVoice.addChordType(ChordType.CH2_GROTE_TERTS);
+        homophonicVoice.addChordType(ChordType.CH2_GROTE_TERTS_CHR);
+        homophonicVoice.addChordType(ChordType.CH2_KLEINE_TERTS_CHR);
+        homophonicVoice.addChordType(ChordType.CH2_KWART);
+//		homophonicVoice.addChordType(ChordType.CH2_KWINT);
+//		homophonicVoice.addChordType(ChordType.ALL);
+        homophonicVoice.addChordType(ChordType.CH2_GROTE_SIXT);
+        homophonicVoice.addChordType(ChordType.CH2_GROTE_SIXT_CHR);
+        homophonicVoice.addChordType(ChordType.CH2_KLEINE_SIXT_CHR);
+//		homophonicVoice.addChordType(ChordType.MAJOR);
+//		homophonicVoice.addChordType(ChordType.MAJOR_1);
+//      homophonicVoice.addChordType(ChordType.MAJOR_2);
+//      homophonicVoice.addChordType(ChordType.DOM);
+
         List<MelodyBlock> melodyBlocks = new ArrayList<>();
         MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
         melodyBlock.setInstrument(instrument1);
@@ -195,10 +224,6 @@ public class FourVoiceComposition extends  Composition {
         MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfig(voice1, instrument2.pickRandomOctaveFromRange());
         melodyBlock2.setInstrument(instrument2);
         melodyBlocks.add(melodyBlock2);
-
-
-        MelodyBlock melodyBlock3 = melodyGenerator.duplicateRhythmMelodyBlock(melodyBlock2, instrument3, voice2);
-        melodyBlocks.add(melodyBlock3);
 
         MelodyBlock melodyBlock4 = melodyGenerator.generateMelodyBlockConfig(voice3, instrument4.pickRandomOctaveFromRange());
         melodyBlock4.setInstrument(instrument4);

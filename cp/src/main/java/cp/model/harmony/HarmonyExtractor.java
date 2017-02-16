@@ -52,6 +52,7 @@ public class HarmonyExtractor {
 						n.setPitch(note.getPitch());
 						n.setPitchClass(note.getPitchClass());
 						n.setPositionWeight(note.getPositionWeight());
+						n.setOctave(note.getOctave());
 						});
 			}
 			List<Note> harmonyNotes = tempHarmonyNotes.stream()
@@ -70,14 +71,16 @@ public class HarmonyExtractor {
 	}
 
 	private void updateHarmonyEnd(List<CpHarmony> extractedHarmonies) {
-		Collections.sort(extractedHarmonies);
-		int size = extractedHarmonies.size() - 1;
-		for (int i = 0; i < size; i++) {
-			CpHarmony harmony = extractedHarmonies.get(i);
-			CpHarmony nextHarmony = extractedHarmonies.get(i + 1);
-			harmony.setEnd(nextHarmony.getPosition());
+		if (!extractedHarmonies.isEmpty()) {
+			Collections.sort(extractedHarmonies);
+			int size = extractedHarmonies.size() - 1;
+			for (int i = 0; i < size; i++) {
+                CpHarmony harmony = extractedHarmonies.get(i);
+                CpHarmony nextHarmony = extractedHarmonies.get(i + 1);
+                harmony.setEnd(nextHarmony.getPosition());
+            }
+			extractedHarmonies.get(size).setEnd(composition.getEnd());
 		}
-		extractedHarmonies.get(size).setEnd(composition.getEnd());
 	}
 
 

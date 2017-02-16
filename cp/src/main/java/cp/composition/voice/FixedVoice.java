@@ -1,6 +1,7 @@
 package cp.composition.voice;
 
 import cp.composition.beat.BeatGroup;
+import cp.composition.beat.BeatGroupThree;
 import cp.composition.beat.BeatGroupTwo;
 import cp.model.note.Dynamic;
 import cp.model.rhythm.DurationConstants;
@@ -25,15 +26,28 @@ public class FixedVoice extends VoiceConfig {
         pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
         pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
 //        pitchClassGenerators.add(restPitchClasses::updatePitchClasses);
-        beatGroupStrategy = this::getBeatGroups;
+        beatGroupStrategy = this::getWaltzBeatGroups;
         randomBeats = false;
         randomRhytmCombinations = false;
     }
 
     private List<BeatGroup> getBeatGroups(){
         List<BeatGroup> beatGroups = new ArrayList<>();
-        beatGroups.add(new BeatGroupTwo(DurationConstants.EIGHT, Collections.singletonList(twoNoteEven::pos13)));
-        beatGroups.add(new BeatGroupTwo(DurationConstants.EIGHT, Collections.singletonList(threeNoteEven::pos124)));
+        beatGroups.add(new BeatGroupTwo(DurationConstants.HALF, Collections.singletonList(twoNoteEven::pos13)));
+        beatGroups.add(new BeatGroupTwo(DurationConstants.HALF, Collections.singletonList(threeNoteUneven::pos123)));
+        return beatGroups;
+    }
+
+    private List<BeatGroup> getUnevenBeatGroups(){
+        List<BeatGroup> beatGroups = new ArrayList<>();
+        beatGroups.add(new BeatGroupThree(DurationConstants.QUARTER, Collections.singletonList(twoNoteUneven::pos13)));
+        beatGroups.add(new BeatGroupThree(DurationConstants.QUARTER, Collections.singletonList(threeNoteUneven::pos123)));
+        return beatGroups;
+    }
+
+    private List<BeatGroup> getWaltzBeatGroups(){
+        List<BeatGroup> beatGroups = new ArrayList<>();
+        beatGroups.add(new BeatGroupThree(DurationConstants.QUARTER, Collections.singletonList(twoNoteUneven::pos23)));
         return beatGroups;
     }
 }

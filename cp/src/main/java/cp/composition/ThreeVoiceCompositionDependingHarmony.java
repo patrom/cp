@@ -9,19 +9,19 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * Created by prombouts on 4/02/2017.
+ * Created by prombouts on 6/02/2017.
  */
 @Aspect
 @Component
-public class TwoVoiceCompositionDependingHarmony extends CompositionDependingHarmony {
+public class ThreeVoiceCompositionDependingHarmony extends CompositionDependingHarmony {
 
-    @AfterReturning(pointcut="execution(* cp..*TwoVoiceComposition.*(..))", returning="melodyBlocks")
+    @AfterReturning(pointcut="execution(* cp..*ThreeVoiceComposition.*(..))", returning="melodyBlocks")
     public void addDependingHarmonies(List<MelodyBlock> melodyBlocks) {
         for (DependantHarmonyGenerator dependantHarmonyGenerator : composition.getDependantHarmonyGenerators()) {
             melodyBlocks.add(getDependantMelodyBlock(dependantHarmonyGenerator.getDependingVoice()));
-//            if (dependantHarmonyGenerator.hasSecondDependingVoice()) {
-//                melodyBlocks.add(getDependantMelodyBlock(dependantHarmonyGenerator.getSecondDependingVoice()));
-//            }
+            if (dependantHarmonyGenerator.hasSecondDependingVoice()) {
+                melodyBlocks.add(getDependantMelodyBlock(dependantHarmonyGenerator.getSecondDependingVoice()));
+            }
         }
     }
 

@@ -171,4 +171,44 @@ public class HarmonyOrchestratorTest {
         }
     }
 
+//    @Test
+//    public void getChordsRhythmDependant() throws Exception {
+//        List<CpHarmony> harmonies = new ArrayList<>();
+//        List<Note> notes = new ArrayList<>();
+//        notes.add(note().pos(0).pc(0).voice(0).build());
+//        notes.add(note().pos(0).pc(4).voice(1).build());
+//        CpHarmony harmony = new CpHarmony(notes, 0);
+//        harmony.setEnd(DurationConstants.QUARTER);
+//        harmonies.add(harmony);
+//
+//        notes = new ArrayList<>();
+//        notes.add(note().pos(DurationConstants.QUARTER).pc(1).voice(0).build());
+//        notes.add(note().pos(DurationConstants.QUARTER).pc(5).voice(1).build());
+//        harmony = new CpHarmony(notes, DurationConstants.QUARTER);
+//        harmony.setEnd(DurationConstants.HALF);
+//        harmonies.add(harmony);
+//
+//        notes = new ArrayList<>();
+//        notes.add(note().pos(DurationConstants.HALF).pc(2).voice(0).build());
+//        notes.add(note().pos(DurationConstants.HALF).pc(6).voice(1).build());
+//        harmony = new CpHarmony(notes, DurationConstants.HALF);
+//        harmony.setEnd(DurationConstants.WHOLE);
+//        harmonies.add(harmony);
+//
+//        List<MelodyBlock> melodyBlocks = new ArrayList<>();
+//        MelodyBlock melodyBlock = new MelodyBlock(5,3);
+//        melodyBlocks.add(melodyBlock);
+//        Motive motive = new Motive(melodyBlocks);
+//        motive.setHarmonies(harmonies);
+//        Predicate<Note> harmonyFilter = n -> n.getVoice() != 3;
+//        MelodyBlock block = harmonyOrchestrator.getChordsRhythmDependant(motive,  2, harmonyFilter, 3);
+//        List<Note> melodyBlockNotesWithRests = block.getMelodyBlockNotesWithRests();
+//        for (Note note : melodyBlockNotesWithRests) {
+//            assertEquals(2, note.getVoice());
+//
+//        }
+//
+//    }
+
+
 }

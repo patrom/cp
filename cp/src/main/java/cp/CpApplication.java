@@ -1,9 +1,11 @@
 package cp;
 
 import cp.composition.*;
+import cp.composition.voice.FixedVoice;
 import cp.generator.MusicProperties;
 import cp.model.Motive;
 import cp.model.melody.MelodyBlock;
+import cp.model.note.Note;
 import cp.nsga.MusicSolution;
 import cp.nsga.MusicSolutionType;
 import cp.nsga.MusicVariable;
@@ -39,6 +41,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
 
 @Import({DefaultConfig.class, VariationConfig.class})
 public class CpApplication extends JFrame implements CommandLineRunner{
@@ -51,6 +54,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	private Operator crossover;
 	@Autowired
 	private OneNoteMutation oneNoteMutation;
+	@Autowired
+	private OneNoteChromaticMutation oneNoteChromaticMutation;
 	@Autowired
 	private ArticulationMutation articulationMutation;
 	@Autowired
@@ -100,6 +105,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	private HarmonizeNotes harmonizeNotes;
 	@Autowired
 	private HarmonyOrchestrator harmonyOrchestrator;
+	@Autowired
+	private FixedVoice fixedVoice;
 	
 	private static final AtomicInteger COUNTER = new AtomicInteger();
 	
@@ -124,13 +131,11 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		List<CompositionGenre> composeInGenres = new ArrayList<>();
 //		composeInGenres.add(melodyComposition::melody);
 
-//		twoVoiceComposition.setCompositionGenre(twoVoiceComposition::canon);
-//		composeInGenres.add(twoVoiceComposition::dependingHarmonies);
-
 //		composeInGenres.add(twoVoiceComposition::voiceConfig);
 //		composeInGenres.add(twoVoiceComposition::beatEven);
-		composeInGenres.add(twoVoiceComposition::canon);
-		composeInGenres.add(twoVoiceComposition::fugueInverse);
+//		composeInGenres.add(twoVoiceComposition::depending);
+//		composeInGenres.add(twoVoiceComposition::canon);
+//		composeInGenres.add(twoVoiceComposition::fugueInverse);
 //		composeInGenres.add(twoVoiceComposition::operatorT);
 //		composeInGenres.add(twoVoiceComposition::operatorI);
 		//TODO:
@@ -142,11 +147,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		twoVoiceComposition.setHarmonizeVoice(1);
 //		composeInGenres.add(twoVoiceComposition::harmonize);
 
-
-//		threeVoiceComposition.setCompositionGenre(threeVoiceComposition::canon2Voice1Acc);
-//		composeInGenres.add(threeVoiceComposition::dependingHarmonies);
-
 //		composeInGenres.add(threeVoiceComposition::canon2Voice1Acc);
+//		composeInGenres.add(threeVoiceComposition::depending);
 //		composeInGenres.add(threeVoiceComposition::accFixedRhythm);
 //		composeInGenres.add(threeVoiceComposition::operatorTplusAcc);
 //		composeInGenres.add(threeVoiceComposition::operatorT);
@@ -167,7 +169,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		fourVoiceComposition.setHarmonizeVoice(1);
 //		composeInGenres.add(fourVoiceComposition::harmonize);
 
-//		composeInGenres.add(fiveVoiceComposition::accDuplicateRhythm);
+		composeInGenres.add(fiveVoiceComposition::accDuplicateRhythm);
 //		composeInGenres.add(fiveVoiceComposition::homophonicRhythm);
 //		fiveVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
 //		fiveVoiceComposition.setHarmonizeVoice(4);
@@ -191,9 +193,9 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //			    population.sort(Comparator.comparing(MusicSolution::getMelody).thenComparing(MusicSolution::getHarmony));
 			    population.sort(Comparator
 						.comparing(MusicSolution::getHarmony)
-						.thenComparing(MusicSolution::getResolution)
-			    		.thenComparing(MusicSolution::getMelody)
-			    		.thenComparing(MusicSolution::getVoiceLeading));
+						.thenComparing(MusicSolution::getMelody)
+			    		.thenComparing(MusicSolution::getVoiceLeading)
+			    		.thenComparing(MusicSolution::getResolution));
 
 			    
 			    Iterator<Solution> solutionIterator = population.iterator();
@@ -202,10 +204,11 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 			    	Solution solution = solutionIterator.next();
 
 			    	Motive solutionMotive = ((MusicVariable) solution.getDecisionVariables()[0]).getMotive();
-//					Predicate<Note> harmonyFilter = n -> n.getVoice() != 4;
+					Predicate<Note> harmonyFilter = n -> n.getVoice() != 4 && n.getVoice() != 3 && n.getVoice() != 0;
 
-//			    	List<MelodyBlock> harmonyBlocks = harmonyOrchestrator.varyHarmonyRhythmDependant(solutionMotive,2,5, harmonyFilter, 2 );
-//					solutionMotive.getMelodyBlocks().addAll(harmonyBlocks);
+					fiveVoiceComposition.addVoiceConfiguration(5 , fixedVoice);
+			    	MelodyBlock melodyBlock = harmonyOrchestrator.getChordsRhythmDependant(solutionMotive,5,fixedVoice, harmonyFilter, 2 );
+					solutionMotive.getMelodyBlocks().add(melodyBlock);
 
 //			    	MelodyBlock block = harmonyOrchestrator.varyOriginalNote(solutionMotive, 2, 5);
 //					solutionMotive.getMelodyBlocks().add(block);
@@ -239,6 +242,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	    // Add the operators to the algorithm
 	    algorithm.addOperator("crossover", crossover);
 	    algorithm.addOperator("oneNoteMutation", oneNoteMutation);
+	    algorithm.addOperator("oneNoteChromaticMutation", oneNoteChromaticMutation);
 //	    algorithm.addOperator("addRhythm", addRhythm);
 //	    algorithm.addOperator("removeRhythm", removeRhythm);
 	    algorithm.addOperator("articulationMutation", articulationMutation);

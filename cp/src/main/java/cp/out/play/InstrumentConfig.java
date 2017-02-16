@@ -58,8 +58,10 @@ public class InstrumentConfig {
 //        instruments.put(4,new InstrumentMapping(piano, 4, 4));
 //        instruments = getSAATBChoir();
 //        instruments.put(0,new InstrumentMapping(new ViolinSolo() , 3, 0));
-//        instruments = getPianoAndStrinqQuartet(pleasantGreen, mellowPurple, mediumRange);
-        instruments = getInstrument(4, new Clarinet());
+        instruments = getPianoAndStrinqQuartet(pleasantGreen, mellowPurple, richBlue);
+//        instruments = getStrinqQuartet(pleasantGreen, mellowPurple, mediumRange);
+//        instruments = getStringTrio();
+//        instruments = getInstrument(5, new Clarinet());
         for (InstrumentMapping instrumentMapping : instruments.values()) {
             allInstrumentMappings.add(instrumentMapping);
             allInstrumentMappings.addAll(instrumentMapping.getDependantInstruments());
@@ -111,21 +113,21 @@ public class InstrumentConfig {
     }
 
     private Map<Integer, InstrumentMapping> getPianoAndStrinqQuartet(OrchestralQuality orchestralQualityMelody, OrchestralQuality orchestralQualityBass, OrchestralQuality orchestralQualityAcc) {
-        InstrumentMapping harmony1 = new InstrumentMapping(new ViolinSolo(), 7, 7);
-        instruments.put(7, harmony1);
-        InstrumentMapping harmony2 = new InstrumentMapping(new ViolinSolo(), 6, 6);
-        instruments.put(6, harmony2);
+//        InstrumentMapping harmony1 = new InstrumentMapping(new ViolinSolo(), 7, 7);
+//        instruments.put(7, harmony1);
+//        InstrumentMapping harmony2 = new InstrumentMapping(new ViolinSolo(), 6, 6);
+//        instruments.put(6, harmony2);
         InstrumentMapping harmony3 = new InstrumentMapping(new ViolinSolo(), 5, 5);
         instruments.put(5, harmony3);
 
 
         InstrumentMapping piano = new InstrumentMapping(new Piano(), 4, 4);
-        piano.setOrchestralQuality(orchestralQualityMelody);
+        piano.setOrchestralQuality(orchestralQualityAcc);
         instruments.put(4, piano);
 
         InstrumentMapping violin1 = new InstrumentMapping(new ViolinSolo(), 3, 0);
         violin1.setArticulation(Articulation.DETACHE);
-        violin1.setOrchestralQuality(orchestralQualityAcc);
+        violin1.setOrchestralQuality(orchestralQualityMelody);
         instruments.put(3, violin1);
         InstrumentMapping violin2 = new InstrumentMapping(new ViolinSolo(), 3, 1);
         violin2.setArticulation(Articulation.DETACHE);

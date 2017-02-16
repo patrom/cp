@@ -1,7 +1,5 @@
 package cp.generator.dependant;
 
-import cp.DefaultConfig;
-import cp.VariationConfig;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.harmony.ChordType;
@@ -11,68 +9,54 @@ import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
+import cp.out.print.note.D;
 import cp.out.print.note.Key;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.when;
 
 /**
  * Created by prombouts on 27/01/2017.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {DefaultConfig.class, VariationConfig.class})
+
 public class DependantGeneratorTest {
 
-    @Autowired
-    @InjectMocks
     private DependantGenerator dependantGenerator;
 
-    @Mock
     private TimeLine timeLine;
-    @Mock
-    private DependantConfig dependantConfig;
-    @Autowired
+
     private Key D;
 
     @Before
     public void setUp() {
-        TimeLineKey timeLineKey = new TimeLineKey(D, Scale.MAJOR_SCALE, 0, 48);
-        MockitoAnnotations.initMocks(this);
-        when(timeLine.getTimeLineKeyAtPosition(anyInt(), anyInt())).thenReturn(timeLineKey);
-        when(dependantConfig.getSourceVoice()).thenReturn(1);
-        when(dependantConfig.getDependingVoice()).thenReturn(2);
-        when(dependantConfig.getSecondDependingVoice()).thenReturn(3);
+        D = new D();
+        TimeLineKey timeLineKey = new TimeLineKey(D, Scale.MAJOR_SCALE, 0, 500);
+        timeLine = new TimeLine();
+        this.timeLine.addKeysForVoice(Collections.singletonList(timeLineKey), 1);
+        dependantGenerator = new DependantGenerator(this.timeLine, 1,2,3);
     }
 
     @Test
     public void getDependantPitchClass() {
-        Note note = note().pc(2).build();
+        Note note = note().voice(1).pc(2).build();
         int pitchClass = dependantGenerator.getDependantPitchClass(note , 2);
         assertEquals(6, pitchClass);
 
         pitchClass = dependantGenerator.getDependantPitchClass(note , 5);
         assertEquals(11, pitchClass);
 
-        note = note().pc(6).build();
+        note = note().voice(1).pc(6).build();
         pitchClass = dependantGenerator.getDependantPitchClass(note , 2);
         assertEquals(9, pitchClass);
 
-        note = note().pc(11).build();
+        note = note().voice(1).pc(11).build();
         pitchClass = dependantGenerator.getDependantPitchClass(note , 2);
         assertEquals(2, pitchClass);
     }
@@ -88,7 +72,7 @@ public class DependantGeneratorTest {
 
     @Test
     public void singleNoteDependency() {
-        Note note = note().pc(2).pitch(62).build();
+        Note note = note().voice(1).pc(2).pitch(62).build();
         DependantHarmony dependantHarmony = new DependantHarmony();
         dependantHarmony.setChordType(ChordType.CH2_GROTE_TERTS);
         note.setDependantHarmony(dependantHarmony);
@@ -98,7 +82,7 @@ public class DependantGeneratorTest {
 
     @Test
     public void multiNoteDependency() {
-        Note note = note().pc(2).pitch(62).build();
+        Note note = note().voice(1).pc(2).pitch(62).build();
         DependantHarmony dependantHarmony = new DependantHarmony();
         dependantHarmony.setChordType(ChordType.MAJOR_1);
         note.setDependantHarmony(dependantHarmony);
@@ -110,13 +94,13 @@ public class DependantGeneratorTest {
     @Test
     public void generateDependantHarmonies() {
         List<Note> notes = new ArrayList<>();
-        Note note = note().pc(2).pitch(62).pos(0).build();
+        Note note = note().voice(1).pc(2).pitch(62).pos(0).build();
         DependantHarmony dependantHarmony = new DependantHarmony();
         dependantHarmony.setChordType(ChordType.CH2_GROTE_TERTS);
         note.setDependantHarmony(dependantHarmony);
         notes.add(note);
 
-        note = note().pc(1).pitch(61).pos(DurationConstants.QUARTER).build();
+        note = note().voice(1).pc(1).pitch(61).pos(DurationConstants.QUARTER).build();
         dependantHarmony = new DependantHarmony();
         dependantHarmony.setChordType(ChordType.MAJOR_1);
         note.setDependantHarmony(dependantHarmony);

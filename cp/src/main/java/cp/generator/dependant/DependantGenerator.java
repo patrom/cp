@@ -6,8 +6,6 @@ import cp.model.harmony.DependantHarmony;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.util.Util;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,53 +14,64 @@ import java.util.Optional;
 /**
  * Created by prombouts on 26/01/2017.
  */
-@Component(value = "dependantGenerator")
 public class DependantGenerator implements DependantHarmonyGenerator{
 
-    @Autowired
     private TimeLine timeLine;
-    @Autowired
-    private DependantConfig dependantConfig;
+
+    private int sourceVoice;
+    private int dependingVoice;
+    private int secondDependingVoice = -1;
+
+    public DependantGenerator(TimeLine timeLine, int sourceVoice, int dependingVoice) {
+        this.timeLine = timeLine;
+        this.sourceVoice = sourceVoice;
+        this.dependingVoice = dependingVoice;
+    }
+
+    public DependantGenerator(TimeLine timeLine, int sourceVoice, int dependingVoice, int secondDependingVoice) {
+        this.timeLine = timeLine;
+        this.sourceVoice = sourceVoice;
+        this.dependingVoice = dependingVoice;
+        this.secondDependingVoice = secondDependingVoice;
+    }
 
     public void generateDependantHarmonies(List<MelodyBlock> melodies) {
-        if (dependantConfig.hasSourcegVoice()) {
-            MelodyBlock MelodyBlock = melodies.stream().filter(m -> m.getVoice() == dependantConfig.getSourceVoice()).findFirst().get();
-            MelodyBlock dependantMelodyBlock = melodies.stream().filter(m -> m.getVoice() == dependantConfig.getDependingVoice()).findFirst().get();
-            Optional<MelodyBlock> secondDependantMelodyBlock = melodies.stream().filter(m -> m.getVoice() == dependantConfig.getSecondDependingVoice()).findFirst();
-            List<Note> notes = new ArrayList<>();
-            List<Note> notesSecondBlock = new ArrayList<>();
-            List<Note> melodyBlockNotesWithRests = MelodyBlock.getMelodyBlockNotesWithRests();
-            for (Note note : melodyBlockNotesWithRests) {
-                DependantHarmony dependantHarmony = note.getDependantHarmony();
-                switch (dependantHarmony.getChordType().getSize()){
-                    case 2:
-                        Note clone = singleNoteDependency(note);
-                        clone.setVoice(dependantMelodyBlock.getVoice());
-                        notes.add(clone);
-                        if (secondDependantMelodyBlock.isPresent()) {
-                            Note rest = note.clone();
-                            rest.setPitch(Note.REST);
-                            rest.setVoice(secondDependantMelodyBlock.get().getVoice());
-                            notesSecondBlock.add(rest);
-                        }
-                        break;
-                    case 3:
-                        NoteTuple noteTuple = multiNoteDependency(note);
-                        Note first = noteTuple.getFirst();
-                        first.setVoice(dependantMelodyBlock.getVoice());
-                        notes.add(first);
-                        Note second = noteTuple.getSecond();
-                        second.setVoice(secondDependantMelodyBlock.get().getVoice());
-                        notesSecondBlock.add(second);
-                        break;
-                    default:
-                        throw new IllegalArgumentException("Dependant harmony not set for note: " + note);
-                }
+        MelodyBlock MelodyBlock = melodies.stream().filter(m -> m.getVoice() == sourceVoice).findFirst().get();
+        MelodyBlock dependantMelodyBlock = melodies.stream().filter(m -> m.getVoice() == dependingVoice).findFirst().get();
+        Optional<MelodyBlock> secondDependantMelodyBlock = melodies.stream().filter(m -> m.getVoice() == secondDependingVoice).findFirst();
+        List<Note> notes = new ArrayList<>();
+        List<Note> notesSecondBlock = new ArrayList<>();
+        List<Note> melodyBlockNotesWithRests = MelodyBlock.getMelodyBlockNotesWithRests();
+        for (Note note : melodyBlockNotesWithRests) {
+            DependantHarmony dependantHarmony = note.getDependantHarmony();
+            switch (dependantHarmony.getChordType().getSize()){
+                case 2:
+                    Note clone = singleNoteDependency(note);
+                    clone.setVoice(dependantMelodyBlock.getVoice());
+                    notes.add(clone);
+                    if (secondDependantMelodyBlock.isPresent()) {
+                        Note rest = note.clone();
+                        rest.setPitch(Note.REST);
+                        rest.setVoice(secondDependantMelodyBlock.get().getVoice());
+                        notesSecondBlock.add(rest);
+                    }
+                    break;
+                case 3:
+                    NoteTuple noteTuple = multiNoteDependency(note);
+                    Note first = noteTuple.getFirst();
+                    first.setVoice(dependantMelodyBlock.getVoice());
+                    notes.add(first);
+                    Note second = noteTuple.getSecond();
+                    second.setVoice(secondDependantMelodyBlock.get().getVoice());
+                    notesSecondBlock.add(second);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Dependant harmony not set for type: " + dependantHarmony.getChordType());
             }
-            dependantMelodyBlock.setNotes(notes);
-            if (secondDependantMelodyBlock.isPresent()) {
-                secondDependantMelodyBlock.get().setNotes(notesSecondBlock);
-            }
+        }
+        dependantMelodyBlock.setNotes(notes);
+        if (secondDependantMelodyBlock.isPresent()) {
+            secondDependantMelodyBlock.get().setNotes(notesSecondBlock);
         }
     }
 
@@ -129,6 +138,7 @@ public class DependantGenerator implements DependantHarmonyGenerator{
                     pitchClass = getDependantPitchClass(note, 2);
                     interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
                     break;
+
                 case CH2_GROTE_SIXT:
                     pitchClass = getDependantPitchClass(note, 5);
                     interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
@@ -140,6 +150,13 @@ public class DependantGenerator implements DependantHarmonyGenerator{
                 case CH2_KWINT:
                     pitchClass = getDependantPitchClass(note, 4);
                     interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
+                    break;
+                case CH2_GROTE_TERTS_CHR:
+                case CH2_KLEINE_TERTS_CHR:
+                case CH2_GROTE_SIXT_CHR:
+                case CH2_KLEINE_SIXT_CHR:
+                    interval = note.getDependantHarmony().getChordType().getInterval();
+                    pitchClass = (note.getPitchClass() + interval) % 12;
                     break;
                 default:
                     throw new IllegalArgumentException("Dependant harmony not set for note: " + note);
@@ -164,4 +181,23 @@ public class DependantGenerator implements DependantHarmonyGenerator{
         return pitchClass;
     }
 
+    @Override
+    public boolean hasSecondDependingVoice() {
+        return secondDependingVoice > 0;
+    }
+
+    @Override
+    public int getSourceVoice() {
+        return sourceVoice;
+    }
+
+    @Override
+    public int getDependingVoice() {
+        return dependingVoice;
+    }
+
+    @Override
+    public int getSecondDependingVoice() {
+        return secondDependingVoice;
+    }
 }

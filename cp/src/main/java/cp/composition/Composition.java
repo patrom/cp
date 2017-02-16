@@ -5,12 +5,10 @@ import cp.composition.timesignature.TimeConfig;
 import cp.composition.voice.*;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
-import cp.generator.dependant.DependantConfig;
-import cp.generator.dependant.DependantGenerator;
+import cp.generator.dependant.DependantHarmonyGenerator;
 import cp.generator.pitchclass.*;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
-import cp.model.contour.Contour;
 import cp.model.dissonance.*;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
@@ -37,7 +35,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public abstract class Composition {
 
@@ -117,6 +118,8 @@ public abstract class Composition {
 	@Autowired
 	protected Key G;
 	@Autowired
+	protected Key Gflat;
+	@Autowired
 	protected Key Gsharp;
 	@Autowired
 	protected Key A;
@@ -174,8 +177,6 @@ public abstract class Composition {
 	protected InstrumentConfig instrumentConfig;
 
 	protected Map<Integer, VoiceConfig> voiceConfiguration = new TreeMap<>();
-	@Autowired
-	protected DependantGenerator dependantGenerator;
 
 	protected CompositionGenre compositionGenre;
 
@@ -185,8 +186,8 @@ public abstract class Composition {
 
 	@PostConstruct
 	public void init(){
-		composeInKey(G);
-		inTempo(100);
+		composeInKey(Eflat);
+		inTempo(150);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
 		meterObjective.setComposition(this);
@@ -203,9 +204,10 @@ public abstract class Composition {
 		timeLine.setEnd(end);
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
-//		timeLineKeys.add(new TimeLineKey(A, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
-		timeLineKeys.add(new TimeLineKey(G, Scale.MAJOR_SCALE, 0 ,0));
-		timeLineKeys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(Eflat, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(Gflat, Scale.MAJOR_SCALE, 0 ,0));
+//		timeLineKeys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(B, Scale.MINOR_CHORD, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(A, Scale.MAJOR_CHORD, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(C, Scale.MAJOR_CHORD, 0 ,0));
@@ -216,26 +218,26 @@ public abstract class Composition {
 //		timeLine.randomKeysAndDurations(timeLineKeys, durations);
 		timeLine.randomKeys(timeLineKeys, DurationConstants.WHOLE, DurationConstants.WHOLE, 4 * DurationConstants.WHOLE);
 
-		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(G, Scale.LYDIAN_SCALE, 0 ,end)),4);
+//		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(G, Scale.LYDIAN_SCALE, 0 ,end)),4);
+//
+//		List<Contour> contouren = new ArrayList<>();
+//		contouren.add(new Contour(0 ,DurationConstants.WHOLE, 1));
+//		contouren.add(new Contour(DurationConstants.WHOLE ,2* DurationConstants.WHOLE, -1));
+//		contouren.add(new Contour(2* DurationConstants.WHOLE ,3* DurationConstants.WHOLE, 1));
+//		contouren.add(new Contour(3* DurationConstants.WHOLE ,4* DurationConstants.WHOLE, -1));
+//		contouren.add(new Contour(4* DurationConstants.WHOLE ,5* DurationConstants.WHOLE, 1));
+//		contouren.add(new Contour(5* DurationConstants.WHOLE ,6* DurationConstants.WHOLE, -1));
+//		contouren.add(new Contour(6* DurationConstants.WHOLE ,7* DurationConstants.WHOLE, 1));
+//		contouren.add(new Contour(7* DurationConstants.WHOLE ,8* DurationConstants.WHOLE, -1));
+//		timeLine.addContourForVoice(contouren, voice3);
 
-		List<Contour> contouren = new ArrayList<>();
-		contouren.add(new Contour(0 ,DurationConstants.WHOLE, 1));
-		contouren.add(new Contour(DurationConstants.WHOLE ,2* DurationConstants.WHOLE, -1));
-		contouren.add(new Contour(2* DurationConstants.WHOLE ,3* DurationConstants.WHOLE, 1));
-		contouren.add(new Contour(3* DurationConstants.WHOLE ,4* DurationConstants.WHOLE, -1));
-		contouren.add(new Contour(4* DurationConstants.WHOLE ,5* DurationConstants.WHOLE, 1));
-		contouren.add(new Contour(5* DurationConstants.WHOLE ,6* DurationConstants.WHOLE, -1));
-		contouren.add(new Contour(6* DurationConstants.WHOLE ,7* DurationConstants.WHOLE, 1));
-		contouren.add(new Contour(7* DurationConstants.WHOLE ,8* DurationConstants.WHOLE, -1));
-		timeLine.addContourForVoice(contouren, voice5);
+//		voiceConfiguration.put(voice5, fixedVoice);
+//		voiceConfiguration.put(voice6, fixedVoice);
+//		voiceConfiguration.put(voice7, harmonyVoice);
 
-		voiceConfiguration.put(voice5, fixedVoice);
-		voiceConfiguration.put(voice6, fixedVoice);
-		voiceConfiguration.put(voice7, harmonyVoice);
-
-		timeLine.repeatContourPattern(DurationConstants.HALF, voice5, new int[]{1,-1});
-		timeLine.repeatContourPattern(DurationConstants.HALF, voice6, new int[]{1,-1});
-		timeLine.repeatContourPattern(DurationConstants.HALF, voice7, new int[]{1,-1});
+//		timeLine.repeatContourPattern(DurationConstants.HALF, voice3, new int[]{1,-1});
+//		timeLine.repeatContourPattern(DurationConstants.HALF, voice4, new int[]{1,-1});
+//		timeLine.repeatContourPattern(DurationConstants.HALF, voice7, new int[]{1,-1});
 
 //		List<TimeLineKey> major = new ArrayList<>();
 //		major.add(new TimeLineKey(C, Scale.MAJOR_SCALE, start, DurationConstants.WHOLE));
@@ -303,14 +305,19 @@ public abstract class Composition {
 	@Autowired
 	protected DoubleTimeVoice doubleTimeVoice;
 	@Autowired
-	protected timeVoice timeVoice;
+	protected TimeVoice timeVoice;
 	@Autowired
 	protected HarmonyVoice harmonyVoice;
-	@Autowired
-	protected DependantConfig dependantConfig;
+//	@Autowired
+//	protected DependantConfig dependantConfig;
+	protected List<DependantHarmonyGenerator> dependantHarmonyGenerators;
 
 	public VoiceConfig getVoiceConfiguration(int voice){
 		return voiceConfiguration.get(voice);
+	}
+
+	public void addVoiceConfiguration(int voice, VoiceConfig voiceConfig){
+		voiceConfiguration.put(voice, voiceConfig);
 	}
 
 	public PitchClassGenerator getRandomPitchClassGenerator(int voice) {
@@ -403,46 +410,7 @@ public abstract class Composition {
 		return melodyBlocks;
 	}
 
-	protected MelodyBlock dependantMelodyBlock;
-	protected MelodyBlock secondDependantMelodyBlock;
-
-	public List<MelodyBlock> dependingHarmonies(){
-		//has to be set first, before generation
-//		melodyVoice.hasDependentHarmony(true);
-//		melodyVoice.addChordType(ChordType.CH2_GROTE_TERTS);
-//		melodyVoice.addChordType(ChordType.CH2_KWART);
-//		melodyVoice.addChordType(ChordType.CH2_KWINT);
-//		melodyVoice.addChordType(ChordType.ALL_INTERVALS);
-//		melodyVoice.addChordType(ChordType.CH2_GROTE_SIXT);
-//		melodyVoice.addChordType(ChordType.MAJOR);
-//		melodyVoice.addChordType(ChordType.MAJOR_1);
-//		melodyVoice.addChordType(ChordType.MAJOR_2);
-//		fixedVoice.addChordType(ChordType.DOM);
-
-//		dependantGenerator.setSourceVoice(voice0);
-//
-//		voiceConfiguration.put(voice2, melodyVoice);
-//		dependantGenerator.setDependantVoice(voice2);
-
-//		voiceConfiguration.put(voice3, melodyVoice);
-//		dependantGenerator.setSecondDependantVoice(voice3);
-
-		List<MelodyBlock> melodyBlocks = compositionGenre.composeInGenre();
-
-		melodyBlocks.add(dependantMelodyBlock);
-		if (secondDependantMelodyBlock != null) {
-			melodyBlocks.add(secondDependantMelodyBlock);
-		}
-
-		return melodyBlocks;
+	public List<DependantHarmonyGenerator> getDependantHarmonyGenerators() {
+		return dependantHarmonyGenerators;
 	}
-
-	protected MelodyBlock getDependantMelodyBlock(int voice){
-		MelodyBlock dependantMelodyBlock = new MelodyBlock(0, voice);
-		dependantMelodyBlock.addMelodyBlock(new CpMelody(new ArrayList<>(),voice,start, end));
-		dependantMelodyBlock.setMutable(false);
-		dependantMelodyBlock.setRhythmDependant(true);
-		return dependantMelodyBlock;
-	}
-
 }

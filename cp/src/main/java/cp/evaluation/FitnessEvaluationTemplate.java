@@ -14,7 +14,6 @@ import cp.objective.Objective;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -49,19 +48,25 @@ public class FitnessEvaluationTemplate {
 	private Composition composition;
 	@Autowired
 	private TimeLine timeLine;
-	@Autowired
-	@Qualifier(value = "dependantGenerator")
-	private DependantHarmonyGenerator dependantGenerator;
 
 	public FitnessObjectiveValues evaluate(Motive motive) {
 		List<MelodyBlock> melodies = motive.getMelodyBlocks();
+		for (DependantHarmonyGenerator dependantGenerator : composition.getDependantHarmonyGenerators()) {
+			dependantGenerator.generateDependantHarmonies(melodies);
+		}
+
 		List<MelodyBlock> melodiesToCalculate = melodies.stream().filter(m -> m.isCalculable() && !m.getMelodyBlockNotes().isEmpty()).collect(toList());
 		updatePitchesFromContour(melodies);
 		updateRhythmWeight(melodiesToCalculate);
 
-		dependantGenerator.generateDependantHarmonies(melodies);
+
 
 		List<Note> allNotes = melodies.stream().flatMap(m -> m.getMelodyBlockNotes().stream()).collect(toList());
+		for (Note allNote : allNotes) {
+			if (allNote.getPositionWeight() == 0) {
+				System.out.println("stop");
+			}
+		}
 		List<CpHarmony> harmonies = harmonyExtractor.extractHarmony(allNotes, motive.getMelodyBlocks().size());
 		motive.setHarmonies(harmonies);
 //		melodies.forEach(h ->  LOGGER.debug(h.getMelodyBlockNotes() + ", "));
@@ -124,6 +129,6 @@ public class FitnessEvaluationTemplate {
 //		objectives[7] = repetitionsPitchesMean;	//only for small motives (5 - 10 notes)
 		return fitnessObjectives;	
 	}
-	
+
 }
 

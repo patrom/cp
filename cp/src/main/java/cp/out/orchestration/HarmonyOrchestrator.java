@@ -2,6 +2,7 @@ package cp.out.orchestration;
 
 import cp.composition.Composition;
 import cp.composition.voice.MelodyVoice;
+import cp.composition.voice.VoiceConfig;
 import cp.generator.MelodyGenerator;
 import cp.model.Motive;
 import cp.model.TimeLine;
@@ -22,6 +23,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by prombouts on 7/01/2017.
@@ -123,6 +125,40 @@ public class HarmonyOrchestrator {
         generatedMelodyBlock.updatePitchesFromContour(timeLine);
         generatedMelodyBlock.updateMelodyBetween();
         return generatedMelodyBlock;
+    }
+
+    public MelodyBlock getChordsRhythmDependant(Motive motive, int voiceTarget, VoiceConfig voiceConfig,  Predicate<Note> harmonyFilter, int harmonySize){
+        List<MelodyBlock> melodyBlocks = new ArrayList<>();
+
+        Instrument instrument = instrumentConfig.getInstrumentForVoice(voiceTarget);
+        int start = motive.getHarmonies().get(0).getPosition();
+        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voiceTarget, voiceConfig, instrument.pickRandomOctaveFromRange(), start, composition.getEnd());
+
+        List<Note> melodyBlockNotes = melodyBlock.getMelodyBlockNotesWithRests();
+        List<Note> allHarmonyNotes = new ArrayList<>();
+        for (Note note : melodyBlockNotes) {
+            if (note.isRest()){
+                allHarmonyNotes.add(note.clone());
+            }else{
+//                int randomSize = RandomUtil.getRandomNumberInRange(1, harmonySize);
+                List<Note> harmonyNotes = motive.getHarmonyNotesPosition(note.getPosition(), harmonySize, harmonyFilter);
+                List<Note> clonedHarmonyNotes = harmonyNotes.stream().map(n ->
+                {   Note clone = n.clone();
+                    clone.setPosition(note.getPosition());
+                    clone.setVoice(voiceTarget);
+                    clone.setLength(note.getLength());
+                    clone.setDisplayLength(note.getDisplayLength());
+                    return clone;
+                }).collect(toList());
+                allHarmonyNotes.addAll(clonedHarmonyNotes);
+            }
+        }
+
+        MelodyBlock dependantMelodyBlock = new MelodyBlock(0, voiceTarget);
+        dependantMelodyBlock.addMelodyBlock(new CpMelody(allHarmonyNotes,voiceTarget,composition.getStart(), composition.getEnd()));
+        dependantMelodyBlock.setInstrument(instrument);
+        dependantMelodyBlock.updateMelodyBetween();
+        return dependantMelodyBlock;
     }
 
 }
