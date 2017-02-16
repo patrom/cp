@@ -53,7 +53,7 @@ public class FiveVoiceComposition extends Composition {
         voiceConfiguration.put(voice2, homophonicVoice);
         voiceConfiguration.put(voice3, timeVoice);
 //        voiceConfiguration.put(voice4, melodyVoice);
-//        timeVoice.setTimeconfig(2,4);
+//        TimeVoice.setTimeconfig(2,4);
         voiceConfiguration.put(voice4, melodyVoice);
 
         dependantHarmonyGenerators = new ArrayList<>();
