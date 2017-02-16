@@ -9,7 +9,7 @@ import javax.annotation.PostConstruct;
  * Created by prombouts on 10/12/2016.
  */
 @Component
-public class timeVoice extends VoiceConfig {
+public class TimeVoice extends VoiceConfig {
 
     @PostConstruct
     public void init(){
