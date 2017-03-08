@@ -78,10 +78,10 @@ public class DependantGenerator implements DependantHarmonyGenerator{
     protected NoteTuple multiNoteDependency(Note note) {
         Note clone = note.clone();
         Note secondClone = note.clone();
-        int pitchClass = -1;
-        int interval = 0;
-        int pitchClassSecond = -1;
-        int intervalSecond = 0;
+        int pitchClass;
+        int interval;
+        int pitchClassSecond;
+        int intervalSecond;
         if (!note.isRest()) {
             switch (note.getDependantHarmony().getChordType()){
                 case MAJOR:
@@ -106,6 +106,12 @@ public class DependantGenerator implements DependantHarmonyGenerator{
                     pitchClass = getDependantPitchClass(note, 3);
                     interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
                     pitchClassSecond = getDependantPitchClass(note, 6);
+                    intervalSecond = getIntervalClockWise(note.getPitchClass(), pitchClassSecond);
+                    break;
+                case MAJOR_1_CHR:
+                    pitchClass = (note.getPitchClass() + 3) % 12;
+                    interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
+                    pitchClassSecond = (note.getPitchClass() + 8) % 12;
                     intervalSecond = getIntervalClockWise(note.getPitchClass(), pitchClassSecond);
                     break;
                 default:

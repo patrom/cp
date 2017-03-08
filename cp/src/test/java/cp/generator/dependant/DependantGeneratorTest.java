@@ -92,6 +92,17 @@ public class DependantGeneratorTest {
     }
 
     @Test
+    public void multiNoteDependencyChromatic() {
+        Note note = note().voice(1).pc(0).pitch(60).build();
+        DependantHarmony dependantHarmony = new DependantHarmony();
+        dependantHarmony.setChordType(ChordType.MAJOR_1_CHR);
+        note.setDependantHarmony(dependantHarmony);
+        NoteTuple tuple = dependantGenerator.multiNoteDependency(note);
+        assertEquals(63, tuple.getFirst().getPitch());
+        assertEquals(68, tuple.getSecond().getPitch());
+    }
+
+    @Test
     public void generateDependantHarmonies() {
         List<Note> notes = new ArrayList<>();
         Note note = note().voice(1).pc(2).pitch(62).pos(0).build();

@@ -58,11 +58,11 @@ public class MusicProblem extends Problem {
 //		double harmonyObjective = 1 - harmonyMembershipFunction.membership(1 - objectives.getHarmony());
 		double harmonyObjective = 1 - objectives.getHarmony();
 		solution.setObjective(4, harmonyObjective);// harmony
-//		if (objectives.getVoiceleading() < 4) {
-//			solution.setObjective(1, 0);
-//		} else {
+		if (objectives.getVoiceleading() < 4) {
+			solution.setObjective(1, 0);
+		} else {
 		solution.setObjective(1, objectives.getVoiceleading());
-//		}
+		}
 		double melodyObjective = 1 - melodyMembershipFunction.membership(1 - objectives.getMelody());
 //		double melodyObjective = 1 - objectives.getMelody();
 		solution.setObjective(1, melodyObjective);// melody
@@ -71,8 +71,10 @@ public class MusicProblem extends Problem {
 		double meterObjective = 1 - objectives.getMeter();
 		solution.setObjective(3, meterObjective);
 //		double tonality = 1 - objectives.getTonality();
-//		solution.setObjective(4, tonality);
+//		solution.setObjective(5, tonality);
 		solution.setObjective(0, objectives.getResolution());
+//		double register = objectives.getRegister();
+//		solution.setObjective(3, register);
 		
 		// //constraints
 		// objectives[5] = lowestIntervalRegisterValue;
@@ -89,6 +91,7 @@ public class MusicProblem extends Problem {
 		musicSolution.setRhythm(rhythmObjective);
 		musicSolution.setMeter(meterObjective);
 		musicSolution.setResolution(objectives.getResolution());
+//		musicSolution.setRegister(register);
 		// musicSolution.setConstraintLowestInterval(objectives[5]);
 		// musicSolution.setConstraintRhythm(objectives[6]);
 		// musicSolution.setConstraintRepetition(objectives[7]);

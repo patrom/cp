@@ -136,7 +136,7 @@ public class MelodyGeneratorTest extends JFrame{
 		when(composition.getRandomPitchClassGenerator(Mockito.anyInt())).thenReturn(new PitchClassGenerator() {
 			@Override
 			public List<Note> updatePitchClasses(List<Note> notes) {
-				return new ArrayList<Note>();
+				return new ArrayList<>();
 			}
 		});
 		MelodyBlock melody = melodyGenerator.generateMelodyBlockConfig(1, 5);
@@ -156,6 +156,8 @@ public class MelodyGeneratorTest extends JFrame{
 		when(beatGroupStrategy.getBeatGroups()).thenReturn(beatGroups);
 		when(pitchClassGenerator.updatePitchClasses(notes)).thenReturn(notes);
 		when(composition.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
+		when(composition.getRandomPitchClassGenerator(Mockito.anyInt())).thenReturn(pitchClassGenerator);
+
 		List<Integer> beats = new ArrayList<>();
 		beats.add(12);
 		MelodyBlock dependingBlock = melodyGenerator.generateMelodyBlockConfig(1, 5);

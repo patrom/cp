@@ -184,9 +184,8 @@ public class MelodyBlockTest {
 		Instrument instrument = new Instrument();
 		instrument.setLowest(60);
 		instrument.setHighest(80);
-		melodyBlock.setInstrument(instrument);
 		melodyBlock.addMelodyBlock(melody);
-		melodyBlock.updateMelodyBetween();
+		instrument.updateMelodyInRange(melodyBlock.getMelodyBlockNotes());
 		assertEquals(60, notes.get(0).getPitch());
 		assertEquals(71, notes.get(1).getPitch());
 		assertEquals(77, notes.get(2).getPitch());

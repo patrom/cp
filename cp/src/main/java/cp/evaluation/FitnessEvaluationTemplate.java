@@ -11,6 +11,8 @@ import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.rhythm.RhythmWeight;
 import cp.objective.Objective;
+import cp.out.instrument.Instrument;
+import cp.out.play.InstrumentConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +40,13 @@ public class FitnessEvaluationTemplate {
 	@Autowired
 	private Objective rhythmObjective;
 	@Autowired
+	private Objective registerObjective;
+	@Autowired
 	private RhythmWeight rhythmWeight;
 	@Autowired
 	private Objective meterObjective;
+	@Autowired
+	private InstrumentConfig instrumentConfig;
 	
 	@Autowired
 	private HarmonyExtractor harmonyExtractor;
@@ -75,8 +81,13 @@ public class FitnessEvaluationTemplate {
 
 	private void updatePitchesFromContour(List<MelodyBlock> melodies) {
 		List<MelodyBlock> updatebleMelodies = melodies.stream().filter(m -> m.isCalculable() && !m.isRhythmDependant() && !m.getMelodyBlockNotes().isEmpty()).collect(toList());
-		updatebleMelodies.forEach(m -> m.updatePitchesFromContour());
-		updatebleMelodies.forEach(m -> m.updateMelodyBetween());
+
+		for (MelodyBlock updatebleMelody : updatebleMelodies) {
+			Instrument instrument = instrumentConfig.getInstrumentForVoice(updatebleMelody.getVoice());
+//			updatebleMelody.updatePitchesFromInstrument(instrument);
+			updatebleMelody.updatePitchesFromContour();
+			instrument.updateMelodyInRange(updatebleMelody.getMelodyBlockNotes());
+		}
 	}
 
 	protected void updateRhythmWeight(List<MelodyBlock> melodies) {
@@ -113,6 +124,9 @@ public class FitnessEvaluationTemplate {
 		
 		double meter = meterObjective.evaluate(motive);
 		LOGGER.debug("meter = " + meter);
+
+		double register = registerObjective.evaluate(motive);
+		LOGGER.debug("register = " + register);
 		
 		FitnessObjectiveValues fitnessObjectives = new FitnessObjectiveValues();
 		fitnessObjectives.setHarmony(harmony);
@@ -121,6 +135,7 @@ public class FitnessEvaluationTemplate {
 //		fitnessObjectives.setTonality(tonality);
 		fitnessObjectives.setRhythm(rhythm);
 		fitnessObjectives.setMeter(meter);
+		fitnessObjectives.setRegister(register);
 		fitnessObjectives.setResolution(harmonyResolution);
 
 		//constraints

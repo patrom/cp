@@ -5,6 +5,7 @@ import cp.model.TimeLine;
 import cp.model.melody.MelodyBlock;
 import cp.model.melody.Operator;
 import cp.nsga.MusicVariable;
+import cp.out.instrument.Instrument;
 import jmetal.core.Solution;
 
 /**
@@ -20,6 +21,7 @@ public class OperatorRelation {
     private TimeLine timeLine;
     private int degree;
     private double factor;
+    private Instrument instrument;
 
     public OperatorRelation(Operator operator) {
         this.operator = operator;
@@ -69,12 +71,10 @@ public class OperatorRelation {
                     break;
             }
 
-            melodyBlock.setInstrument(melodyBlockTarget.getInstrument());
             melodyBlock.getMelodyBlocks().stream()
                     .flatMap(m -> m.getNotes().stream())
                     .forEach(note -> note.setPosition(note.getPosition() + offset));
-            melodyBlock.updatePitchesFromContour();
-            melodyBlock.updateMelodyBetween();
+//            melodyBlock.updatePitchesFromContour();//TODO check if can be removed??
             melodyBlockTarget.setMelodyBlocks(melodyBlock.getMelodyBlocks());
         }
         return solution;
@@ -134,5 +134,9 @@ public class OperatorRelation {
 
     public void setDegree(int degree) {
         this.degree = degree;
+    }
+
+    public void setInstrument(Instrument instrument){
+        this.instrument = instrument;
     }
 }

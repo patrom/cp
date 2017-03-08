@@ -136,5 +136,18 @@ public class Interval  {
 //		}
 		return intervalMap.get(Math.abs(difference % 12));
 	}
+
+	public static boolean isDissonantInterval(int difference){
+		Integer interval = Math.abs(difference % 12);
+		switch (interval){
+			case 1:
+			case 2:
+			case 10:
+			case 11:
+			case 6:
+				return true;
+		}
+		return false;
+	}
 	
 }

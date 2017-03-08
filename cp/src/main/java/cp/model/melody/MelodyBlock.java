@@ -25,7 +25,6 @@ public class MelodyBlock {
 
 	private List<CpMelody> melodyBlocks = new ArrayList<>();
 	private int startOctave;
-	private Instrument instrument;
 	private int dependingVoice = -1;
 	private int voice = -1;
 	private int offset;
@@ -59,7 +58,6 @@ public class MelodyBlock {
 	
 	private void clone(MelodyBlock anotherBlock) {
 		this.startOctave = anotherBlock.getStartOctave();
-		this.instrument = anotherBlock.getInstrument();
 		this.mutable = anotherBlock.isMutable();
 		this.rhythmMutable = anotherBlock.isRhythmMutable();
 		this.dependingVoice = anotherBlock.getDependingVoice();
@@ -149,6 +147,23 @@ public class MelodyBlock {
 		}
 	}
 
+	public void updatePitchesFromInstrument(Instrument instrument){
+		List<Note> notes = getMelodyBlockNotes();
+		int size = notes.size() - 1;
+		Note firstNote = notes.get(0);
+		int startOctave = instrument.pickRandomOctaveFromRange();
+		firstNote.setPitch((startOctave * 12) + firstNote.getPitchClass());
+		firstNote.setOctave(startOctave);
+		for (int i = 0; i < size; i++) {
+			Note note = notes.get(i);
+			Note nextNote = notes.get(i + 1);
+			int difference = nextNote.getPitchClass() - note.getPitchClass();
+			int octave = instrument.pickRandomOctaveFromRange();
+			nextNote.setPitch(note.getPitchClass() + (12 * octave));
+			nextNote.setOctave(octave);
+		}
+	}
+
 	public void updatePitchesFromContour(TimeLine timeLine){
 		List<Note> notes = getMelodyBlockNotes();
 		int size = notes.size() - 1;
@@ -166,10 +181,6 @@ public class MelodyBlock {
 		}
 	}
 	
-	public void updateMelodyBetween(){
-		instrument.updateMelodyInRange(getMelodyBlockNotes());
-	}
-
 	public MelodyBlock Trelative(int steps, TimeLine timeLine){
 		melodyBlocks.forEach(m -> m.transposePitchClasses(steps, offset, timeLine));
 		return this;
@@ -329,14 +340,6 @@ public class MelodyBlock {
 		return voice;
 	}
 	
-	public Instrument getInstrument() {
-		return instrument;
-	}
-	
-	public void setInstrument(Instrument instrument) {
-		this.instrument = instrument;
-	}
-	
 	public boolean isRhythmDependant(){
 		return rhythmDependant;
 	}
@@ -382,14 +385,6 @@ public class MelodyBlock {
 		int last = this.melodyBlocks.size() - 1;
 		return this.melodyBlocks.get(last);
 	}
-
-//	public TimeConfig getTimeConfig() {
-//		return timeConfig;
-//	}
-//
-//	public void setTimeConfig(TimeConfig timeConfig) {
-//		this.timeConfig = timeConfig;
-//	}
 
 	public void setMelodyBlocks(List<CpMelody> melodyBlocks) {
 		this.melodyBlocks = melodyBlocks;

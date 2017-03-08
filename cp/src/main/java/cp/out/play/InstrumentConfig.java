@@ -58,10 +58,11 @@ public class InstrumentConfig {
 //        instruments.put(4,new InstrumentMapping(piano, 4, 4));
 //        instruments = getSAATBChoir();
 //        instruments.put(0,new InstrumentMapping(new ViolinSolo() , 3, 0));
-        instruments = getPianoAndStrinqQuartet(pleasantGreen, mellowPurple, richBlue);
-//        instruments = getStrinqQuartet(pleasantGreen, mellowPurple, mediumRange);
+//        instruments = getPianoAndStrinqQuartet(pleasantGreen, mellowPurple, richBlue);
+        instruments = getStrinqQuartet(mediumRange, mellowPurple, mediumRange);
 //        instruments = getStringTrio();
 //        instruments = getInstrument(5, new Clarinet());
+//        instruments.put(0,new InstrumentMapping(new ViolinSolo() , 3, 0));
         for (InstrumentMapping instrumentMapping : instruments.values()) {
             allInstrumentMappings.add(instrumentMapping);
             allInstrumentMappings.addAll(instrumentMapping.getDependantInstruments());

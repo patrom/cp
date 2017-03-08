@@ -47,7 +47,6 @@ public class HarmonyOrchestrator {
         int start = motive.getHarmonies().get(0).getPosition();
         MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voiceTarget, instrument.pickRandomOctaveFromRange(), start, composition.getEnd());
 
-        melodyBlock.setInstrument(instrument);
 
         List<Note> melodyBlockNotes = melodyBlock.getMelodyBlockNotes();
         int counter = 0;
@@ -57,7 +56,8 @@ public class HarmonyOrchestrator {
             counter++;
         }
         melodyBlock.updatePitchesFromContour(timeLine);
-        melodyBlock.updateMelodyBetween();
+//        melodyBlock.updateMelodyBetween();
+        instrument.updateMelodyInRange(melodyBlock.getMelodyBlockNotes());
         return  melodyBlock;
     }
 
@@ -67,7 +67,6 @@ public class HarmonyOrchestrator {
         Instrument instrument = instrumentConfig.getInstrumentForVoice(voiceSource);
         int start = motive.getHarmonies().get(0).getPosition();
         MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voiceTarget, instrument.pickRandomOctaveFromRange(), start, composition.getEnd());
-        melodyBlock.setInstrument(instrument);
 
         List<Note> melodyBlockNotes = melodyBlock.getMelodyBlockNotes();
         List<Note> notes = new ArrayList<>();
@@ -87,7 +86,8 @@ public class HarmonyOrchestrator {
         }
 
         melodyBlock.updatePitchesFromContour(timeLine);
-        melodyBlock.updateMelodyBetween();
+//        melodyBlock.updateMelodyBetween();
+        instrument.updateMelodyInRange(melodyBlock.getMelodyBlockNotes());
         melodyBlocks.add(melodyBlock);
 
         Map<Integer, List<Note>> notesPerVoice = notes.stream().collect(groupingBy(Note::getVoice, TreeMap::new, Collectors.toList()));
@@ -95,10 +95,10 @@ public class HarmonyOrchestrator {
             instrument = instrumentConfig.getInstrumentForVoice(voiceSource);
             CpMelody melody = new CpMelody(voiceEntry.getValue(),voiceEntry.getKey(), composition.getStart(), composition.getEnd());
             MelodyBlock block = new MelodyBlock(instrument.pickRandomOctaveFromRange(), voiceEntry.getKey());
-            block.setInstrument(instrument);
             block.addMelodyBlock(melody);
             block.updatePitchesFromContour(timeLine);
-            block.updateMelodyBetween();
+//            block.updateMelodyBetween();
+            instrument.updateMelodyInRange(block.getMelodyBlockNotes());
             melodyBlocks.add(block);
         }
 
@@ -111,7 +111,6 @@ public class HarmonyOrchestrator {
 
         int start = melodyBlock.getMelodyBlocks().get(0).getStart();
         MelodyBlock generatedMelodyBlock = melodyGenerator.generateMelodyBlockConfig(voiceTarget, instrument.pickRandomOctaveFromRange(), start, composition.getEnd());
-        generatedMelodyBlock.setInstrument(instrument);
 
         List<Note> melodyBlockNotes = generatedMelodyBlock.getMelodyBlockNotes();
         for (int i = 0; i < melodyBlockNotes.size(); i++) {
@@ -123,7 +122,8 @@ public class HarmonyOrchestrator {
         }
 
         generatedMelodyBlock.updatePitchesFromContour(timeLine);
-        generatedMelodyBlock.updateMelodyBetween();
+//        generatedMelodyBlock.updateMelodyBetween();
+        instrument.updateMelodyInRange(generatedMelodyBlock.getMelodyBlockNotes());
         return generatedMelodyBlock;
     }
 
@@ -156,8 +156,8 @@ public class HarmonyOrchestrator {
 
         MelodyBlock dependantMelodyBlock = new MelodyBlock(0, voiceTarget);
         dependantMelodyBlock.addMelodyBlock(new CpMelody(allHarmonyNotes,voiceTarget,composition.getStart(), composition.getEnd()));
-        dependantMelodyBlock.setInstrument(instrument);
-        dependantMelodyBlock.updateMelodyBetween();
+//        dependantMelodyBlock.updateMelodyBetween();
+        instrument.updateMelodyInRange(dependantMelodyBlock.getMelodyBlockNotes());
         return dependantMelodyBlock;
     }
 

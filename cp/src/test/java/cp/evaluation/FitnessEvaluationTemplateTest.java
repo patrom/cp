@@ -12,7 +12,6 @@ import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
-import cp.out.instrument.strings.ViolinSolo;
 import cp.out.print.ScoreUtilities;
 import org.junit.Before;
 import org.junit.Test;
@@ -85,7 +84,6 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 	}
 
 	protected void evaluate() {
-		melodies.forEach(m -> m.setInstrument(new ViolinSolo()));
 		Motive motive = new Motive(melodies);
 		FitnessObjectiveValues objectives = fitnessEvaluationTemplate.evaluate(motive);
 		LOGGER.info(objectives.toString());

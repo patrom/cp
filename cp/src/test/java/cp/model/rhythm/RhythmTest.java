@@ -18,7 +18,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -100,7 +99,7 @@ public class RhythmTest {
 		
 		MelodyInstrument melodyInstrument = new MelodyInstrument(notes, 0);
 		melodyInstrument.setInstrumentMapping(new InstrumentMapping(new Piano(),0,0));
-		playOnKontakt(Collections.singletonList(melodyInstrument), 90, 5000);
+//		playOnKontakt(Collections.singletonList(melodyInstrument), 90, 5000);
 		
 	}
 	
@@ -136,7 +135,7 @@ public class RhythmTest {
 		MelodyInstrument melodyInstrument2 = new MelodyInstrument(notes2, 0);
 		melodyInstrument2.setInstrumentMapping(new InstrumentMapping(new Piano(),0,0));
 		melodyInstruments.add(melodyInstrument2);
-		playOnKontakt(melodyInstruments, 90, 5000);
+//		playOnKontakt(melodyInstruments, 90, 5000);
 	}
 	
 	@Test
@@ -150,7 +149,7 @@ public class RhythmTest {
 		
 		MelodyInstrument melodyInstrument = new MelodyInstrument(notes, 0);
 		melodyInstrument.setInstrumentMapping(new InstrumentMapping(new Piano(),0,0));
-		playOnKontakt(Collections.singletonList(melodyInstrument), 90, 5000);
+//		playOnKontakt(Collections.singletonList(melodyInstrument), 90, 5000);
 		
 	}
 	

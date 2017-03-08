@@ -15,6 +15,20 @@ public class TonalityFunctions {
 	public static final double[] vectorMinorTemplate;
 	
 	static {
+//		vectorMajorTemplate = new double[12];
+//		vectorMajorTemplate[0] = 33;
+//		vectorMajorTemplate[1] = 0;
+//		vectorMajorTemplate[2] = 0;
+//		vectorMajorTemplate[3] = 0;
+//		vectorMajorTemplate[4] = 33;
+//		vectorMajorTemplate[5] = 0;
+//		vectorMajorTemplate[6] = 0;
+//		vectorMajorTemplate[7] = 33;
+//		vectorMajorTemplate[8] = 0;
+//		vectorMajorTemplate[9] = 0;
+//		vectorMajorTemplate[10] = 0;
+//		vectorMajorTemplate[11] = 0;
+
 		vectorMajorTemplate = new double[12];
 		vectorMajorTemplate[0] = 6.35;
 		vectorMajorTemplate[1] = 2.23;
@@ -72,15 +86,26 @@ public class TonalityFunctions {
 		for (MelodyBlock melodyBlock: melodyBlocks) {
 			List<cp.model.note.Note> notePositions = melodyBlock.getMelodyBlockNotes();
 			for (cp.model.note.Note note : notePositions) {
-				int pitchClass = note.getPitch() % 12;
-				if (pitchClass < 0) {
-					System.out.println("pcsdfsdf sd");
-				}
+				int pitchClass = note.getPitchClass();
 				durationVector[pitchClass] = durationVector[pitchClass]
 						+ note.getLength();
 			}
 		}
 		return getMaximumCorrelation(template, durationVector);
+	}
+
+	public static double getMaxCorrelationTonality(int scale, List<MelodyBlock> melodyBlocks,
+												   double[] template) {
+		double[] durationVector = new double[12];
+		for (MelodyBlock melodyBlock: melodyBlocks) {
+			List<cp.model.note.Note> notePositions = melodyBlock.getMelodyBlockNotes();
+			for (cp.model.note.Note note : notePositions) {
+				int pitchClass =  note.getPitchClass();
+				durationVector[pitchClass] = durationVector[pitchClass]
+						+ note.getLength();
+			}
+		}
+		return getMaximumCorrelationForScale(scale, template, durationVector);
 	}
 
 //	public static double getMaxCorrelationTonality(
@@ -149,6 +174,13 @@ public class TonalityFunctions {
         return Collections.max(correlations);
 	}
 
+	private static Double getMaximumCorrelationForScale(int scale , double[] vectorScale,
+												double[] vectorWeights) {
+		List<Double> correlations = new ArrayList<>();
+		correlations.add(getPearsonCorrelation(vectorScale, vectorWeights));
+		return Collections.max(correlations);
+	}
+
 	private static Map<Integer, Double> getCorrelationMap(double[] vectorScale,
 			double[] vectorWeights) {
 		Map<Integer, Double> correlations = new TreeMap<>();
@@ -163,7 +195,7 @@ public class TonalityFunctions {
 
 	private static double getPearsonCorrelation(double[] vectorTemplate,
 			double[] melody) {
-		return new PearsonsCorrelation().correlation(vectorTemplate, melody);
+		return Math.abs(new PearsonsCorrelation().correlation(vectorTemplate, melody));
 	}
 	
 	public static void rotate(double[] theArray) {

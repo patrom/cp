@@ -12,6 +12,7 @@ public class MusicSolution extends Solution {
 	private double tonality;
 	private double meter;
 	private double resolution;
+	private double register;
 	
 	private double constraintLowestInterval;
 	private double constraintRhythm;
@@ -79,7 +80,15 @@ public class MusicSolution extends Solution {
 	public void setTonality(double tonality) {
 		this.tonality = tonality;
 	}
-	
+
+	public double getRegister() {
+		return register;
+	}
+
+	public void setRegister(double register) {
+		this.register = register;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -146,6 +155,6 @@ public class MusicSolution extends Solution {
 		return "MusicSolution [harmony=" + harmony + ", melody=" + melody
 				+ ", voiceLeading=" + voiceLeading + ", rhythm=" + rhythm
 				+ ", tonality=" + tonality + ", meter=" + meter
-				+ ", resolution=" + resolution + "]";
+				+ ", resolution=" + resolution + ", register=" +register + "]";
 	}
 }

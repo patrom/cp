@@ -28,16 +28,14 @@ public class TwoVoiceComposition extends Composition{
 		voiceConfiguration.put(voice1, melodyVoice);
 	}
 
-	public List<MelodyBlock> voiceConfig(){
+	public List<MelodyBlock> random(){
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
 		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
-		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);
 
 		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfig(voice1, instrument2.pickRandomOctaveFromRange());
-		melodyBlock2.setInstrument(instrument2);
 		melodyBlocks.add(melodyBlock2);
 
 		return melodyBlocks;
@@ -47,11 +45,9 @@ public class TwoVoiceComposition extends Composition{
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
 
 		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
-		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);
 
 		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfig(voice1, instrument2.pickRandomOctaveFromRange());
-		melodyBlock2.setInstrument(instrument2);
 		melodyBlocks.add(melodyBlock2);
 
 		MelodyBlock dependantMelodyBlock = new MelodyBlock(5, voice2);
@@ -92,12 +88,10 @@ public class TwoVoiceComposition extends Composition{
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
 		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
-		melodyBlock.setInstrument(instrument1);
-		melodyBlocks.add(melodyBlock);	
+		melodyBlocks.add(melodyBlock);
 
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), voice1);
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
-		melodyBlock2.setInstrument(instrument2);
 		melodyBlock2.setCalculable(false);
 		melodyBlocks.add(melodyBlock2);
 
@@ -117,12 +111,10 @@ public class TwoVoiceComposition extends Composition{
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
 		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
-		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);
 
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), voice1);
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
-		melodyBlock2.setInstrument(instrument2);
 		melodyBlock2.setCalculable(false);
 		melodyBlocks.add(melodyBlock2);
 
@@ -157,7 +149,6 @@ public class TwoVoiceComposition extends Composition{
 
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
 		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
-		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);
 		return melodyBlocks;
 	}
@@ -191,12 +182,10 @@ public class TwoVoiceComposition extends Composition{
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
 		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
-		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);
 
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), voice1);
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
-		melodyBlock2.setInstrument(instrument2);
 		melodyBlock2.setCalculable(false);
 		melodyBlocks.add(melodyBlock2);
 
@@ -217,12 +206,10 @@ public class TwoVoiceComposition extends Composition{
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
 		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
-		melodyBlock.setInstrument(instrument1);
 		melodyBlocks.add(melodyBlock);
 
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), voice1);
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
-		melodyBlock2.setInstrument(instrument2);
 		melodyBlock2.setCalculable(false);
 		melodyBlocks.add(melodyBlock2);
 

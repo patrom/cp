@@ -9,6 +9,7 @@ public class FitnessObjectiveValues {
 	private double rhythm;
 	private double meter;
 	private double resolution;
+	private double register;
 	
 	public double getHarmony() {
 		return harmony;
@@ -40,7 +41,15 @@ public class FitnessObjectiveValues {
 	public void setRhythm(double rhythm) {
 		this.rhythm = rhythm;
 	}
-	
+
+	public double getRegister() {
+		return register;
+	}
+
+	public void setRegister(double register) {
+		this.register = register;
+	}
+
 	public double getMeter() {
 		return meter;
 	}
@@ -58,7 +67,7 @@ public class FitnessObjectiveValues {
 		return "FitnessObjectiveValues [harmony=" + harmony + ", melody="
 				+ melody + ", voiceleading=" + voiceleading + ", tonality="
 				+ tonality + ", rhythm=" + rhythm + ", meter=" + meter
-				+ ", resolution=" + resolution + "]";
+				+ ", resolution=" + resolution + ",  register=" + register + "]";
 	}
 	
 }

@@ -18,10 +18,10 @@ public class FourCubeTrio implements Dissonance {
 			case "4-28"://dim
 				return 1.0;
 			
-			case "3-11":
-				return 0.95;
-			case "3-12"://aug
-				return 1.0;
+//			case "3-11":
+//				return 0.95;
+//			case "3-12"://aug
+//				return 1.0;
 		}
 		return 0;
 	}

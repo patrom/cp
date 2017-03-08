@@ -21,12 +21,12 @@ public class FixedVoice extends VoiceConfig {
     @PostConstruct
     public void init(){
         setTimeconfig();
-        volume = Dynamic.MP.getLevel();
+        volume = Dynamic.MF.getLevel();
         pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
         pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
         pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
 //        pitchClassGenerators.add(restPitchClasses::updatePitchClasses);
-        beatGroupStrategy = this::getWaltzBeatGroups;
+        beatGroupStrategy = this::getUnevenBeatGroups;
         randomBeats = false;
         randomRhytmCombinations = false;
     }
@@ -40,8 +40,8 @@ public class FixedVoice extends VoiceConfig {
 
     private List<BeatGroup> getUnevenBeatGroups(){
         List<BeatGroup> beatGroups = new ArrayList<>();
-        beatGroups.add(new BeatGroupThree(DurationConstants.QUARTER, Collections.singletonList(twoNoteUneven::pos13)));
-        beatGroups.add(new BeatGroupThree(DurationConstants.QUARTER, Collections.singletonList(threeNoteUneven::pos123)));
+        beatGroups.add(new BeatGroupThree(DurationConstants.QUARTER, Collections.singletonList(fourNoteSexTuplet::pos1245)));
+//        beatGroups.add(new BeatGroupThree(DurationConstants.QUARTER, Collections.singletonList(threeNoteUneven::pos123)));
         return beatGroups;
     }
 

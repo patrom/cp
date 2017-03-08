@@ -10,12 +10,15 @@ public class DissonantResolutionImpl {
 		int size = chord.getPitchClassSet().size();
 		switch (size) {
 			case 2:
-				return isIntervalDissonant(chord);
+//				return isIntervalDissonant(chord);
+				return true;
 			case 3:
-				return isTriadDissonant(chord);
+//				return isTriadDissonant(chord);
 //				return isSetClassDissonant(chord);
+				return true;
 			case 4:
-				return isTetraDissonant(chord);
+				return isSetClassDissonant(chord);
+//				return isTetraDissonant(chord);
 			default:
 				break;
 		}
@@ -46,8 +49,12 @@ public class DissonantResolutionImpl {
 	private boolean isSetClassDissonant(Chord chord) {
 		switch (chord.getForteName()) {
 //			case "3-1":
-			case "3-3":
+//			case "3-3":
 //			case "3-5":
+			case "4-25"://dom7b5
+			case "4-26"://m7
+			case "4-27"://dom7, halfdim7
+			case "4-28"://dim
 				return false;
 			default:
 				break;

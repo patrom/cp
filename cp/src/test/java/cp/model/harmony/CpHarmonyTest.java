@@ -37,4 +37,15 @@ public class CpHarmonyTest {
 		assertEquals(ChordType.MAJOR, chord.getChordType());
 	}
 
+	@Test
+	public void testRegister() {
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pc(5).pitch(65).ocatve(5).positionWeight(3.0).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(11).pitch(59).ocatve(4).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(0).pitch(60).ocatve(5).positionWeight(3.0).build());
+		cpHarmony = new CpHarmony(notes, 0);
+		float register = cpHarmony.getRegister(64);
+		assertEquals(14.6, register, 0.1);
+	}
+
 }

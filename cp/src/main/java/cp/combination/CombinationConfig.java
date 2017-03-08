@@ -176,7 +176,7 @@ public class CombinationConfig {
 //		rhythmCombinations.add(oneNoteEven::pos3);
 //		rhythmCombinations.add(oneNoteEven::pos4);
 
-//		rhythmCombinations.add(twoNoteEven::pos12);
+		rhythmCombinations.add(twoNoteEven::pos12);
 		rhythmCombinations.add(twoNoteEven::pos13);
 		rhythmCombinations.add(twoNoteEven::pos14);
 //		rhythmCombinations.add(twoNoteEven::pos34);
@@ -223,7 +223,13 @@ public class CombinationConfig {
 //		rhythmCombinations.add(twoNoteUneven::pos23);
 		rhythmCombinations.add(twoNoteUneven::pos12);
 		rhythmCombinations.add(twoNoteUneven::pos13);
-		rhythmCombinations.add(threeNoteSexTuplet::pos156);
+//		rhythmCombinations.add(threeNoteSexTuplet::pos156);
+//		rhythmCombinations.add(threeNoteSexTuplet::pos136);
+//		rhythmCombinations.add(threeNoteSexTuplet::pos145);
+//		rhythmCombinations.add(fourNoteSexTuplet::pos1346);
+//		rhythmCombinations.add(fourNoteSexTuplet::pos1356);
+//		rhythmCombinations.add(fourNoteSexTuplet::pos1456);
+//		rhythmCombinations.add(fourNoteSexTuplet::pos1245);
 		return rhythmCombinations;
 	}
 	
