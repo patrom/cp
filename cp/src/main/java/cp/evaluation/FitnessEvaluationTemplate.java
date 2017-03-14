@@ -65,14 +65,7 @@ public class FitnessEvaluationTemplate {
 		updatePitchesFromContour(melodies);
 		updateRhythmWeight(melodiesToCalculate);
 
-
-
-		List<Note> allNotes = melodies.stream().flatMap(m -> m.getMelodyBlockNotes().stream()).collect(toList());
-		for (Note allNote : allNotes) {
-			if (allNote.getPositionWeight() == 0) {
-				System.out.println("stop");
-			}
-		}
+		List<Note> allNotes = melodies.stream().flatMap(m -> m.filterMelody().stream()).collect(toList());
 		List<CpHarmony> harmonies = harmonyExtractor.extractHarmony(allNotes, motive.getMelodyBlocks().size());
 		motive.setHarmonies(harmonies);
 //		melodies.forEach(h ->  LOGGER.debug(h.getMelodyBlockNotes() + ", "));

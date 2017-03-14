@@ -67,30 +67,6 @@ public class MelodyBlockTest {
 		melody.getContour().set(1, 5);
 		melodyBlock.addMelodyBlock(melody);
 	}
-
-//	@Test
-//	public void testUpdateRandomNote() {
-//		melodyBlock.updateRandomNote();
-//		LOGGER.info("Notes: " + melodyBlock.getMelodyBlockNotes());
-//		LOGGER.info("Notes: " + melodyBlock.getMelodyBlockContour());
-//	}
-	
-	
-//	@Test
-//	public void testReplaceMelody() {
-//		List<Note> notes = new ArrayList<>();
-//		melodyBlock = new MelodyBlock(5,1);
-//		CpMelodyBuilder cpMelodyBuilder = new CpMelodyBuilder();
-//		CpMelody melody = cpMelodyBuilder.start(0).build();
-//		melodyBlock.addMelodyBlock(melody);
-//		melody = cpMelodyBuilder.start(24).build();
-//		melodyBlock.addMelodyBlock(melody);
-//		melody  = new CpMelody(notes, 0, 0 , DurationConstants.QUARTER);
-//		melodyBlock.replaceMelody(melody);
-////		assertEquals(50, melodyBlock.getMelodyBlockNotes().get(3).getPitch());
-//		LOGGER.info("Notes: " + melodyBlock.getMelodyBlockNotes());
-//		LOGGER.info("Notes: " + melodyBlock.getMelodyBlockContour());
-//	}
 	
 	@Test
 	public void testUpdatePitchesFromContour() {
@@ -119,38 +95,6 @@ public class MelodyBlockTest {
 		LOGGER.info("Notes: " + melodyBlock.getMelodyBlockContour());
 	}
 	
-//	@Test
-//	public void testTransformDependingOn() {
-//		melodyBlock = new MelodyBlock(5,1);
-//		List<Note> notes = new ArrayList<>();
-//		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
-//		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(64).ocatve(5).build());
-//		melody = new CpMelody(notes, 1, 0 , DurationConstants.HALF);
-//		melodyBlock.addMelodyBlock(melody);
-//
-//		notes = new ArrayList<>();
-//		notes.add(note().pos(DurationConstants.HALF).pc(5).pitch(65).ocatve(5).build());
-//		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pc(7).pitch(67).ocatve(5).build());
-//		melody = new CpMelody(notes, 1, DurationConstants.HALF , DurationConstants.SIX_EIGHTS);
-//		melodyBlock.addMelodyBlock(melody);
-//
-//		MelodyBlock melodyBlockCopy = new MelodyBlock(5,1);
-//		melodyBlockCopy.setOffset(DurationConstants.HALF);
-//		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.T);
-//		melodyBlockCopy.setOperatorType(operatorType);
-//		melodyBlockCopy.setInstrument(new ViolinSolo(0, 0));
-//		List<TimeLineKey> keys = new ArrayList<>();
-//		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, DurationConstants.HALF));
-//		keys.add(new TimeLineKey(D, Scale.MAJOR_SCALE, DurationConstants.HALF, DurationConstants.WHOLE));
-//		timeLine.addKeysForVoice(keys, 0);
-//		melodyBlockCopy.transformDependingOn(melodyBlock, timeLine);
-//		assertEquals(1, melodyBlockCopy.getMelodyBlockNotes().size());
-//		LOGGER.info("Notes: " + melodyBlock.getMelodyBlockNotes());
-//		LOGGER.info("Notes: " + melodyBlock.getMelodyBlockContour());
-//		LOGGER.info("Notes: " + melodyBlockCopy.getMelodyBlockNotes());
-//		LOGGER.info("Notes: " + melodyBlockCopy.getMelodyBlockContour());
-//	}
-	
 	@Test
 	public void testUpdatePitches() {
 		melodyBlock = new MelodyBlock(5,1);
@@ -169,8 +113,6 @@ public class MelodyBlockTest {
 		assertEquals(5, notes.get(3).getPitch() % 12);
 		assertEquals(7, notes.get(4).getPitch() % 12);
 	}
-	
-
 	
 	@Test
 	public void testUpdateMelodyBetween() {
@@ -545,6 +487,25 @@ public class MelodyBlockTest {
 
 		note = melodyBlock.getNoteAtPosition(DurationConstants.WHOLE + DurationConstants.QUARTER);
 		assertEquals(69 , note.getPitch());
+	}
+
+	@Test
+	public void testFilter(){
+		melodyBlock = new MelodyBlock(5,0);
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).positionWeight(1.0).len(DurationConstants.QUARTER).pc(0).pitch(60).ocatve(5).build());
+		notes.add(note().pos(DurationConstants.QUARTER).positionWeight(1.0).len(DurationConstants.EIGHT).pc(4).pitch(64).ocatve(5).build());
+		notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.EIGHT).positionWeight(0.5).len(DurationConstants.EIGHT).pc(11).pitch(71).ocatve(5).build());
+		notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.QUARTER).positionWeight(1.0).len(DurationConstants.QUARTER).pc(5).pitch(65).ocatve(5).build());
+		notes.add(note().pos(DurationConstants.HALF).positionWeight(1.0).len(DurationConstants.HALF).pc(7).pitch(67).ocatve(5).build());
+		notes.add(note().pos(DurationConstants.WHOLE).positionWeight(1.0).len(DurationConstants.QUARTER).pc(9).pitch(69).ocatve(5).build());
+		melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+		melodyBlock.addMelodyBlock(melody);
+
+		List<Note> filterMelody = melodyBlock.filterMelody();
+		for (Note note : filterMelody) {
+			LOGGER.info(note.toString());
+		}
 	}
 
 }

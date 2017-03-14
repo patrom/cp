@@ -9,7 +9,6 @@ public class NoteBuilder {
 	private int position;
 	private int length;
 	private double positionWeight;
-	private double innerMetricWeight;
 	private int pitch;
 	private int octave;
 	private int voice;
@@ -71,11 +70,6 @@ public class NoteBuilder {
 		return this;
 	}
 	
-	public NoteBuilder innerWeight(Double innerMetricWeight) {
-		this.innerMetricWeight = innerMetricWeight;
-		return this;
-	}
-	
 	public NoteBuilder rest() {
 		this.pitch = Note.REST;
 		return this;
@@ -101,7 +95,6 @@ public class NoteBuilder {
 		note.setPitchClass(pitchClass);
 		note.setPosition(position);
 		note.setPositionWeight(positionWeight);
-		note.setInnerMetricWeight(innerMetricWeight);
 		note.setLength(length);
 		note.setPitch(pitch);
 		note.setOctave(octave);

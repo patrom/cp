@@ -98,4 +98,5 @@ public class HarmonyExtractor {
 	protected  TreeMap<Integer, List<Note>> mapNotesForPosition(List<Note> notes){
 		return  notes.stream().collect(groupingBy(Note::getPosition, TreeMap::new, Collectors.toList()));
 	}
+
 }

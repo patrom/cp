@@ -20,18 +20,22 @@ public class RegisterObjective extends Objective {
     @Override
     public double evaluate(Motive motive) {
         List<CpHarmony> harmonies = motive.getHarmonies();
-//        if (harmonies.size() <= 1) {
-//            return 0.0;
-//        }
-        for (CpHarmony harmony : harmonies) {
-            float register = harmony.getRegister(60);
+        if (harmonies.size() <= 1) {
+            return 0.0;
         }
-        return harmonies.stream().mapToDouble(h -> h.getRegister(60)).sum();
+//        for (CpHarmony harmony : harmonies) {
+//            double register = harmony.getRegister(60);
+//        }
+        return getRegisterValue(harmonies);
 //        double totalRegisterValue = 0;
 //        for (CpHarmony harmony : harmonies) {
 //            totalRegisterValue = totalRegisterValue + getHarmonyRegisterValue(harmony.getNotes());
 //        }
 //        return totalRegisterValue/harmonies.size();
+    }
+
+    protected double getRegisterValue(List<CpHarmony> harmonies) {
+        return harmonies.stream().mapToDouble(h -> h.getRegister(60)).average().getAsDouble();
     }
 
 //    protected double getHarmonyRegisterValue(List<Note> harmonyNotes) {

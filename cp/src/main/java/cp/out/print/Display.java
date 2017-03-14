@@ -5,7 +5,6 @@ import cp.midi.MidiDevicesUtil;
 import cp.model.Motive;
 import cp.model.harmony.CpHarmony;
 import cp.model.melody.MelodyBlock;
-import cp.out.play.InstrumentConfig;
 import jm.music.data.Score;
 import jm.util.View;
 import org.slf4j.Logger;
@@ -36,8 +35,6 @@ public class Display {
 	private MusicProperties musicProperties;
 	@javax.annotation.Resource(name="fileResource")
 	private Resource resource;
-	@Autowired
-	private InstrumentConfig instrumentConfig;
 
 	public void view(Motive motive, String id) throws Exception {
 		printHarmonies(motive.getHarmonies());
@@ -47,17 +44,11 @@ public class Display {
 	}
 
 	private void printHarmonies(List<CpHarmony> harmonies) {
-		harmonies.forEach(h -> LOGGER.info(h.getChord() + ", " + h.getHarmonyWeight() + ", pos: " + h.getPosition() + ", register: " + h.getRegister()));
+		harmonies.forEach(h -> LOGGER.info(h.getChord() + ", " + h.getHarmonyWeight() + ", pos: " + h.getPosition() + ", register: " + h.getRegister(60)));
 		// harmonies.forEach(h -> LOGGER.info(h.getNotes() + ", "));
 	}
 
 	private void generateMusicXml(List<MelodyBlock> melodies, String id) throws Exception {
-//		Map<InstrumentMapping, List<Note>> melodiesForInstrument = new TreeMap<>();
-//		for (Map.Entry<Integer,InstrumentMapping> entry : instrumentConfig.getInstruments().entrySet()) {
-//			InstrumentMapping instrumentMapping = entry.getValue();
-//			MelodyBlock melodyBlock = melodies.get(entry.getKey());
-//			melodiesForInstrument.put(instrumentMapping, melodyBlock.getMelodyBlockNotesWithRests());
-//		}
 		musicXMLWriter.generateMusicXMLForMelodies(melodies, new FileOutputStream(resource.getFile().getPath() + "cp/src/main/resources/xml/" + id + ".xml"));
 
 		Sequence sequence = midiDevicesUtil.createSequence(melodies, musicProperties.getTempo());

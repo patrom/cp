@@ -47,7 +47,7 @@ public class MelodicObjective extends Objective {
 	}
 	
 	protected List<Note> filterNotesWithWeightEqualToOrGreaterThan(Collection<Note> notes, double filterValue){
-		return notes.stream().filter(n -> n.getWeightedSum() > filterValue).collect(toList());
+		return notes.stream().filter(n -> n.getPositionWeight() > filterValue).collect(toList());
 	}
 
 	protected List<Note> extractNotesOnLevel(Collection<Note> notes, int level) {
@@ -55,7 +55,7 @@ public class MelodicObjective extends Objective {
 		Map<Double, List<Note>> treeMap = new TreeMap<>(unsortMap);
 		List<Note> notePosition = new ArrayList<>();
 		for (List<Note> noteList : treeMap.values()) {
-			Optional<Note> maxNote = noteList.stream().max(comparing(Note::getWeightedSum));
+			Optional<Note> maxNote = noteList.stream().max(comparing(Note::getPositionWeight));
 			if (maxNote.isPresent()) {
 				notePosition.add(maxNote.get());
 			}

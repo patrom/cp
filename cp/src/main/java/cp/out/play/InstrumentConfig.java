@@ -48,26 +48,27 @@ public class InstrumentConfig {
     private MediumRange mediumRange;
 
     private Map<Integer, InstrumentMapping> instruments = new TreeMap<>();
-    private List<InstrumentMapping> allInstrumentMappings = new ArrayList<>();
+//    private List<InstrumentMapping> allInstrumentMappings = new ArrayList<>();
 
     @PostConstruct
     public void instrumentInit(){
 
-//        Piano piano = new Piano();
-//        piano.setInstrumentRegister(new InstrumentRegister(67,80));
-//        instruments.put(4,new InstrumentMapping(piano, 4, 4));
+//        Clarinet piano = new Clarinet();
+//        piano.setInstrumentRegister(new InstrumentRegister(60,80));
+//        instruments.put(0,new InstrumentMapping(piano, 3, 0));
 //        instruments = getSAATBChoir();
 //        instruments.put(0,new InstrumentMapping(new ViolinSolo() , 3, 0));
 //        instruments = getPianoAndStrinqQuartet(pleasantGreen, mellowPurple, richBlue);
-        instruments = getStrinqQuartet(mediumRange, mellowPurple, mediumRange);
+//        instruments = getStrinqQuartet(mediumRange, mellowPurple, mediumRange);
+        instruments = getFluteClarinetBassoonGreen();
 //        instruments = getStringTrio();
 //        instruments = getInstrument(5, new Clarinet());
 //        instruments.put(0,new InstrumentMapping(new ViolinSolo() , 3, 0));
-        for (InstrumentMapping instrumentMapping : instruments.values()) {
-            allInstrumentMappings.add(instrumentMapping);
-            allInstrumentMappings.addAll(instrumentMapping.getDependantInstruments());
-        }
-        Collections.sort(allInstrumentMappings);
+//        for (InstrumentMapping instrumentMapping : instruments.values()) {
+//            allInstrumentMappings.add(instrumentMapping);
+//            allInstrumentMappings.addAll(instrumentMapping.getDependantInstruments());
+//        }
+//        Collections.sort(allInstrumentMappings);
     }
 
     public Map<Integer, InstrumentMapping> getInstruments(){
@@ -214,10 +215,10 @@ public class InstrumentConfig {
 	}
 
 	public Map<Integer, InstrumentMapping> getFluteClarinetBassoonGreen(){
-        instruments.put(3,new InstrumentMapping(pleasantGreen.getFlute(), 4, 0));
-        instruments.put(2,new InstrumentMapping(pleasantGreen.getClarinet(), 2, 1));
-        instruments.put(1,new InstrumentMapping(pleasantGreen.getClarinet(), 2, 2));
-        instruments.put(0,new InstrumentMapping(pleasantGreen.getBassoon(), 1, 3));
+        instruments.put(3,new InstrumentMapping(richBlue.getFlute(), 4, 0));
+        instruments.put(2,new InstrumentMapping(richBlue.getClarinet(), 3, 1));
+        instruments.put(1,new InstrumentMapping(richBlue.getClarinet(), 3, 2));
+        instruments.put(0,new InstrumentMapping(new Bassoon(), 1, 3));
 		return instruments;
 	}
 
@@ -291,7 +292,7 @@ public class InstrumentConfig {
     }
 
     public InstrumentMapping getInstrumentMapping(int index){
-        return allInstrumentMappings.get(index);
+        return instruments.get(index);
     }
 
     public Instrument getInstrumentForVoice(int voice){

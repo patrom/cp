@@ -16,6 +16,7 @@ import static java.util.stream.Collectors.toList;
 public class InstrumentArticulation {
 
     List<Articulation> stringArticulations = new ArrayList<>();
+    List<Articulation> woodwindArticulations = new ArrayList<>();
 
     public InstrumentArticulation() {
         stringArticulations = Stream.of(
@@ -27,12 +28,25 @@ public class InstrumentArticulation {
                 Articulation.PIZZICATO,
                 Articulation.TREMELO
         ).collect(toList());
+        woodwindArticulations = Stream.of(
+                Articulation.LEGATO,
+                Articulation.HARMONIC,
+                Articulation.SUSTAINVIBRATO,
+
+//                Articulation.PORTATO,
+                Articulation.SFORZANDO,
+                Articulation.STACCATO,
+                Articulation.MARCATO
+//                Articulation.TREMELO
+        ).collect(toList());
     }
 
     public List<Articulation> getArticulations(InstrumentGroup instrumentGroup) {
         switch (instrumentGroup){
             case STRINGS:
                 return stringArticulations;
+            case WOODWINDS:
+                return woodwindArticulations;
         }
         return Collections.emptyList();
     }

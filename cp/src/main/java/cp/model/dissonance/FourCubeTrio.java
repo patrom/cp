@@ -17,6 +17,26 @@ public class FourCubeTrio implements Dissonance {
 				return 1.0;
 			case "4-28"://dim
 				return 1.0;
+
+			//passing tones:
+//			case "4-21": //-> dom7
+//				return 0.99;
+//			case "4-22": //-> dom7
+//				return 0.99;
+//			case "4-23": //-> dom7
+//				return 0.99;
+//			case "4-24": //-> dom7
+//				return 0.99;
+//			case "4-Z29": //-> dom7
+//				return 0.99;
+//
+//			case "4-11": //-> m7
+//				return 0.99;
+//			case "4-13": //-> m7
+//				return 0.99;
+//
+//			case "4-12": //-> halfdim7
+//				return 0.99;
 			
 //			case "3-11":
 //				return 0.95;

@@ -30,7 +30,7 @@ public class MusicProblem extends Problem {
 	@Autowired
 	public MusicProblem(MusicProperties properties) throws ClassNotFoundException {
 		numberOfVariables_ = 1;
-		numberOfObjectives_ = 5;
+		numberOfObjectives_ = 6;
 		numberOfConstraints_ = 0;
 		problemName_ = "MusicProblem";
 
@@ -48,15 +48,10 @@ public class MusicProblem extends Problem {
 	@Override
 	public void evaluate(Solution solution) throws JMException {
 		Variable[] variables = solution.getDecisionVariables();
-//		fitnessEvaluationTemplate = new FitnessEvaluationTemplate(
-//				properties, ((MusicVariable) variables[0]).getMotive());
-		// FugaDecorator decorator = new FugaDecorator(controller, 12, 48);
-		// DebussyDecorator decorator = new DebussyDecorator(controller);
-
 		FitnessObjectiveValues objectives = fitnessEvaluationTemplate.evaluate(((MusicVariable) variables[0]).getMotive());
 
-//		double harmonyObjective = 1 - harmonyMembershipFunction.membership(1 - objectives.getHarmony());
-		double harmonyObjective = 1 - objectives.getHarmony();
+		double harmonyObjective = 1 - harmonyMembershipFunction.membership(1 - objectives.getHarmony());
+//		double harmonyObjective = 1 - objectives.getHarmony();
 		solution.setObjective(4, harmonyObjective);// harmony
 		if (objectives.getVoiceleading() < 4) {
 			solution.setObjective(1, 0);
@@ -73,8 +68,8 @@ public class MusicProblem extends Problem {
 //		double tonality = 1 - objectives.getTonality();
 //		solution.setObjective(5, tonality);
 		solution.setObjective(0, objectives.getResolution());
-//		double register = objectives.getRegister();
-//		solution.setObjective(3, register);
+		double register = objectives.getRegister();
+		solution.setObjective(5, register);
 		
 		// //constraints
 		// objectives[5] = lowestIntervalRegisterValue;
@@ -91,7 +86,7 @@ public class MusicProblem extends Problem {
 		musicSolution.setRhythm(rhythmObjective);
 		musicSolution.setMeter(meterObjective);
 		musicSolution.setResolution(objectives.getResolution());
-//		musicSolution.setRegister(register);
+		musicSolution.setRegister(register);
 		// musicSolution.setConstraintLowestInterval(objectives[5]);
 		// musicSolution.setConstraintRhythm(objectives[6]);
 		// musicSolution.setConstraintRepetition(objectives[7]);

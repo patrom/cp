@@ -119,7 +119,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 
 //			write(parsedMelodies , "resources/transform/" + midiFile.getName(), midiInfo.getTempo());
 //			generateMusicXml(parsedMelodies, midiFile.getName());
-			Thread.sleep(18000);
+			Thread.sleep(17000);
 		}
 	}
 

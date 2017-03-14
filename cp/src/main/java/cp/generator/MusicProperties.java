@@ -23,7 +23,7 @@ public class MusicProperties {
 	private Scale melodyScale = Scale.MAJOR_SCALE;
 	
 	//harmony
-	private double harmonyConsDissValue = 0.8;
+	private double harmonyConsDissValue = 0.10;
 	private int allowChordsOfPitchesOrHigher = 3;
 	
 	//melody

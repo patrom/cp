@@ -294,7 +294,7 @@ public abstract class Composition {
 //		pitchClassGenerators.add(twelveTonePitchClasses::updatePitchClasses);
 
 		melodyGenerator.setBeatGroupStrategy(timeConfig::getAllBeats);
-		harmonicObjective.setDissonance(fourCubeTrio::getDissonance);
+		harmonicObjective.setDissonance(dyadTriadsTetraAndPentaChordal::getDissonance);
 		harmonicResolutionObjective.setDissonantResolution(dissonantResolutionImpl::isDissonant);
 
 	}

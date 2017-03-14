@@ -179,18 +179,18 @@ public class CombinationConfig {
 		rhythmCombinations.add(twoNoteEven::pos12);
 		rhythmCombinations.add(twoNoteEven::pos13);
 		rhythmCombinations.add(twoNoteEven::pos14);
-//		rhythmCombinations.add(twoNoteEven::pos34);
+		rhythmCombinations.add(twoNoteEven::pos34);
 //		rhythmCombinations.add(twoNoteEven::pos23);
 //		rhythmCombinations.add(twoNoteEven::pos24);
 
 //		rhythmCombinations.add(threeNoteEven::pos123);
 		rhythmCombinations.add(threeNoteEven::pos134);
-//		rhythmCombinations.add(threeNoteEven::pos124);
-//		rhythmCombinations.add(threeNoteEven::pos234);
+		rhythmCombinations.add(threeNoteEven::pos124);
+		rhythmCombinations.add(threeNoteEven::pos234);
 
 //		rhythmCombinations.add(fourNoteEven::pos1234);
 
-//		rhythmCombinations.add(threeNoteUneven::pos123);
+		rhythmCombinations.add(threeNoteUneven::pos123);
 //		rhythmCombinations.add(twoNoteUneven::pos23);
 //		rhythmCombinations.add(twoNoteUneven::pos12);
 //		rhythmCombinations.add(twoNoteUneven::pos13);

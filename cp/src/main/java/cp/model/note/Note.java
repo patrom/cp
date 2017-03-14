@@ -25,7 +25,6 @@ public class Note implements Comparable<Note>{
 	private int position;
 
 	private double positionWeight;
-	private double innerMetricWeight;
 
 	private int octave;
 	private int pitchClass;
@@ -74,7 +73,6 @@ public class Note implements Comparable<Note>{
 		this.pitchClass = anotherNote.getPitchClass();
 //		this.setDuration(anotherNote.getDuration());
 		this.voice = anotherNote.getVoice();
-		this.innerMetricWeight = anotherNote.getInnerMetricWeight();
 		this.rhythmValue = anotherNote.getRhythmValue();
 		this.dynamicLevel = anotherNote.getDynamicLevel();
 		this.octave = anotherNote.getOctave();
@@ -159,10 +157,6 @@ public class Note implements Comparable<Note>{
 		return this.getPitch() == note.getPitch();
 	}
 
-	public double getWeightedSum() {
-		return (positionWeight + innerMetricWeight)/2;
-	}
-
 	public int getOctave() {
 		return octave;
 	}
@@ -208,14 +202,6 @@ public class Note implements Comparable<Note>{
 
 	public void setPositionWeight(double positionWeight) {
 		this.positionWeight = positionWeight;
-	}
-
-	public double getInnerMetricWeight() {
-		return innerMetricWeight;
-	}
-
-	public void setInnerMetricWeight(double innerMetricWeight) {
-		this.innerMetricWeight = innerMetricWeight;
 	}
 
 	public int compareTo(Note note) {

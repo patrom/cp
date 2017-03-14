@@ -41,8 +41,11 @@ public class ArticulationMutation extends AbstractMutation{
 			MelodyBlock mutableMelody = motive.getRandomMutableMelody();
 			Instrument instrument = instrumentConfig.getInstrumentForVoice(mutableMelody.getVoice());
 			List<Articulation> articulations = instrumentArticulation.getArticulations(instrument.getInstrumentGroup());
-			mutableMelody.updateArticulation(RandomUtil.getRandomFromList(articulations));
-//			LOGGER.info("articulation mutated");
+			if (articulations.isEmpty()){
+				LOGGER.info("articulations empty");
+			}else{
+				mutableMelody.updateArticulation(RandomUtil.getRandomFromList(articulations));
+			}
 		} 
 	}
 

@@ -36,12 +36,12 @@ public class DependantGenerator implements DependantHarmonyGenerator{
     }
 
     public void generateDependantHarmonies(List<MelodyBlock> melodies) {
-        MelodyBlock MelodyBlock = melodies.stream().filter(m -> m.getVoice() == sourceVoice).findFirst().get();
+        MelodyBlock melodyBlock = melodies.stream().filter(m -> m.getVoice() == sourceVoice).findFirst().get();
         MelodyBlock dependantMelodyBlock = melodies.stream().filter(m -> m.getVoice() == dependingVoice).findFirst().get();
         Optional<MelodyBlock> secondDependantMelodyBlock = melodies.stream().filter(m -> m.getVoice() == secondDependingVoice).findFirst();
         List<Note> notes = new ArrayList<>();
         List<Note> notesSecondBlock = new ArrayList<>();
-        List<Note> melodyBlockNotesWithRests = MelodyBlock.getMelodyBlockNotesWithRests();
+        List<Note> melodyBlockNotesWithRests = melodyBlock.getMelodyBlockNotesWithRests();
         for (Note note : melodyBlockNotesWithRests) {
             DependantHarmony dependantHarmony = note.getDependantHarmony();
             switch (dependantHarmony.getChordType().getSize()){

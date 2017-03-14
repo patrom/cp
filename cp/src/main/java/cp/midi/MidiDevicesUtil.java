@@ -141,9 +141,8 @@ public class MidiDevicesUtil {
 			throws InvalidMidiDataException {
 		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
 		for (MelodyBlock melody : melodies) {
-			int channel = instrumentConfig.getChannelForVoice(melody.getVoice());
-			Instrument instrument = instrumentConfig.getInstrumentForVoice(melody.getVoice());
-			createTrackGeneralMidi(sequence, melody.getMelodyBlockNotesWithRests(), instrument, tempo, channel);
+			InstrumentMapping instrumentMapping = instrumentConfig.getInstrumentMappingForVoice(melody.getVoice());
+			createTrackGeneralMidi(sequence, melody.getMelodyBlockNotesWithRests(), instrumentMapping.getInstrument(), tempo, instrumentMapping.getChannel());
 		}
 		return sequence;
 	}

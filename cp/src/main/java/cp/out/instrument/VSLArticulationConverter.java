@@ -60,6 +60,49 @@ public class VSLArticulationConverter implements ArticulationConverter{
             }
         }
 
+        if (InstrumentGroup.WOODWINDS == instrument.getInstrumentGroup()) {
+            switch (note.getArticulation()) {
+                case LEGATO:
+                    return createMidiEvents(channel, note, 2, 50);
+//                case PORTATO:
+//                    return createMidiEvents(channel, note, 3, 80);
+                case MARCATO:
+                    return createMidiEvents(channel, note, 1, 70);
+                case STACCATO:
+                    return createMidiEvents(channel, note, 2, 20);
+                case STACCATISSIMO:
+                    return createMidiEvents(channel, note, 2, 20);
+//                case TENUTO:
+//                    return createMidiEvents(channel, note, 3, 80);
+//                case SPICCATO:
+//                    return createMidiEvents(channel, note, 2, 20);
+//                case PIZZICATO:
+//                    return createMidiEvents(channel, note, 0, 70);
+//                case TREMELO:
+//                    return createMidiEvents(channel, note, 2, 120);
+//                case PONTICELLO_STACCATO:
+//                    return createMidiEvents(channel, note, 3, 20);
+//                case PONTICELLO_SUSTAIN:
+//                    return createMidiEvents(channel, note, 3, 10);
+//                case PONTICELL_TREMELO:
+//                    return createMidiEvents(channel, note, 3, 120);
+//                case PORTAMENTO:
+//                    return createMidiEvents(channel, note, 1, 90);
+                case FORTEPIANO:
+                    return createMidiEvents(channel, note, 0, 30);
+                case DETACHE:
+                    return createMidiEvents(channel, note, 2, 40);
+                case SUSTAINVIBRATO:
+                    return createMidiEvents(channel, note, 2, 10);
+                case HARMONIC:
+                    return createMidiEvents(channel, note, 0, 90);
+//                case REPEATLEGATO:
+//                    return createMidiEvents(channel, note, 2, 70);
+                case SFORZANDO:
+                    return createMidiEvents(channel, note, 2, 80);
+            }
+        }
+
         return Collections.emptyList();
     }
 

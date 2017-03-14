@@ -163,7 +163,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(fourVoiceComposition::accDuplicateRhythm);
 //		composeInGenres.add(fourVoiceComposition::doubleCanon);
 		composeInGenres.add(fourVoiceComposition::homophonicRhythm);
-//		composeInGenres.add(fourVoiceComposition::dependingHomophonicRhythm);
+//		composeInGenres.add(fourVoiceComposition::dependingOneVoicesHomophonicRhythm);
+//		composeInGenres.add(fourVoiceComposition::dependingTwoVoicesHomophonicRhythm);
 //		composeInGenres.add(fourVoiceComposition::dependingFixedRhythm);
 //		fourVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
 //		fourVoiceComposition.setHarmonizeVoice(1);
@@ -193,6 +194,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //			    population.sort(Comparator.comparing(MusicSolution::getMelody).thenComparing(MusicSolution::getHarmony));
 			    population.sort(Comparator
 						.comparing(MusicSolution::getHarmony)
+						.thenComparing(MusicSolution::getRegister)
 						.thenComparing(MusicSolution::getMelody)
 			    		.thenComparing(MusicSolution::getVoiceLeading)
 			    		.thenComparing(MusicSolution::getResolution));
