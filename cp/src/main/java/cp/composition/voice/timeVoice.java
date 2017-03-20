@@ -12,10 +12,10 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by prombouts on 10/12/2016.
+ * Created by prombouts on 20/03/2017.
  */
 @Component
-public class TimeVoice extends VoiceConfig {
+public class TimeVoice extends Voice {
 
     @PostConstruct
     public void init(){
