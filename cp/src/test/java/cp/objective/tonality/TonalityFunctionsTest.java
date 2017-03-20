@@ -25,14 +25,14 @@ public class TonalityFunctionsTest {
 	public void testMajorTonality() {
 		List<MelodyBlock> melodies = new ArrayList<>();
 		List<Note> notes = new ArrayList<>();
-		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(0).pitch(60).positionWeight(100.0).innerWeight(100.0).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(2).pitch(62).positionWeight(100.0).innerWeight(100.0).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(4).pitch(64).positionWeight(100.0).innerWeight(100.0).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(5).pitch(65).positionWeight(100.0).innerWeight(100.0).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(7).pitch(67).positionWeight(100.0).innerWeight(100.0).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(9).pitch(69).positionWeight(100.0).innerWeight(100.0).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(11).pitch(71).positionWeight(100.0).innerWeight(100.0).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(0).pitch(72).positionWeight(100.0).innerWeight(100.0).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(0).pitch(60).positionWeight(100.0).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(2).pitch(62).positionWeight(100.0).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(4).pitch(64).positionWeight(100.0).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(5).pitch(65).positionWeight(100.0).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(7).pitch(67).positionWeight(100.0).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(9).pitch(69).positionWeight(100.0).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(11).pitch(71).positionWeight(100.0).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(0).pitch(72).positionWeight(100.0).build());
 		MelodyBlock melodyBlock = new MelodyBlock(5, 0);
 		CpMelody melody = new CpMelody(notes, 0, 0 , 0);
 		melodyBlock.addMelodyBlock(melody);
@@ -45,15 +45,15 @@ public class TonalityFunctionsTest {
 	public void testMajorTonality2() {
 		List<MelodyBlock> melodies = new ArrayList<>();
 		List<Note> notes = new ArrayList<>();
-		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(1).positionWeight(100.0).innerWeight(100.0).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(4).positionWeight(100.0).innerWeight(100.0).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(4).positionWeight(100.0).innerWeight(100.0).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(7).positionWeight(100.0).innerWeight(100.0).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(7).positionWeight(100.0).innerWeight(100.0).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(4).positionWeight(100.0).innerWeight(100.0).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(1).positionWeight(100.0).innerWeight(100.0).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(1).positionWeight(100.0).innerWeight(100.0).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(7).positionWeight(100.0).innerWeight(100.0).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(1).positionWeight(100.0).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(4).positionWeight(100.0).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(4).positionWeight(100.0).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(7).positionWeight(100.0).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(7).positionWeight(100.0).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(4).positionWeight(100.0).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(1).positionWeight(100.0).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(1).positionWeight(100.0).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(7).positionWeight(100.0).build());
 		MelodyBlock melodyBlock = new MelodyBlock(5, 0);
 		CpMelody melody = new CpMelody(notes, 0, 0 , 0);
 		melodyBlock.addMelodyBlock(melody);
@@ -70,9 +70,9 @@ public class TonalityFunctionsTest {
 //		for (int i = 0; i < 20; i++) {
 //			notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(i).pitch(60 + i).positionWeight(100.0).innerWeight(100.0).build());
 //		}
-		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(0).pitch(60).positionWeight(100.0).innerWeight(100.0).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(2).pitch(62).positionWeight(100.0).innerWeight(100.0).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(7).pitch(67).positionWeight(100.0).innerWeight(100.0).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(0).pitch(60).positionWeight(100.0).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(2).pitch(62).positionWeight(100.0).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(7).pitch(67).positionWeight(100.0).build());
 		MelodyBlock melodyBlock = new MelodyBlock(5, 0);
 		CpMelody melody = new CpMelody(notes, 0, 0 , 0);
 		melodyBlock.addMelodyBlock(melody);

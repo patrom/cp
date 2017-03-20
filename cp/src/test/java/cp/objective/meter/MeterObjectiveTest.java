@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = DefaultConfig.class)
@@ -36,11 +35,6 @@ public class MeterObjectiveTest {
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-	}
-
-	@Test
-	public void testEvaluate() {
-		fail("Not yet implemented");
 	}
 
 	@Test

@@ -5,6 +5,7 @@ import cp.VariationConfig;
 import cp.combination.RhythmCombination;
 import cp.combination.even.TwoNoteEven;
 import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,18 +29,15 @@ public class BeatGroupTwoTest {
 	@Before
 	public void setUp() throws Exception {
 		List<RhythmCombination> rhythmCombinations = new ArrayList<>();
-		rhythmCombinations.add(twoNoteEven::pos13);
 		rhythmCombinations.add(twoNoteEven::pos12);
-		beatGroup = new BeatGroupTwo(12, rhythmCombinations);
+		beatGroup = new BeatGroupTwo(DurationConstants.QUARTER, rhythmCombinations);
 	}
 
 	@Test
 	public void testGetNotes() {
 		List<Note> notes = beatGroup.getNotes();
 		assertEquals(0, notes.get(0).getPosition());
-		assertEquals(6, notes.get(1).getPosition());
-		assertEquals(12, notes.get(2).getPosition());
-		assertEquals(15, notes.get(3).getPosition());
+		assertEquals(DurationConstants.EIGHT, notes.get(1).getPosition());
 	}
 
 }
