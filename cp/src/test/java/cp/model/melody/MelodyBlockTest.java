@@ -502,10 +502,8 @@ public class MelodyBlockTest {
 		melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
 		melodyBlock.addMelodyBlock(melody);
 
-		List<Note> filterMelody = melodyBlock.filterMelody();
-		for (Note note : filterMelody) {
-			LOGGER.info(note.toString());
-		}
+		List<Note> filterMelody = melodyBlock.filterMelody(DurationConstants.EIGHT);
+		assertEquals(5, filterMelody.size());
 	}
 
 }

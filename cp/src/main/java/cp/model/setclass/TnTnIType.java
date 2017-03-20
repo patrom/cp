@@ -785,6 +785,13 @@ public class TnTnIType extends TnIType {
 		prime2[4].name = "2-5";
 		prime2[5].name = "2-6";
 
+		prime2[0].description = "2-1";
+		prime2[1].description = "2-2";
+		prime2[2].description = "2-3";
+		prime2[3].description = "2-4";
+		prime2[4].description = "2-5";
+		prime2[5].description = "2-6";
+
 		prime2[0].tntnitype = new int[] { 0, 1 };
 		prime2[1].tntnitype = new int[] { 0, 2 };
 		prime2[2].tntnitype = new int[] { 0, 3 };
@@ -832,6 +839,19 @@ public class TnTnIType extends TnIType {
 		prime3[9].name = "3-10";
 		prime3[10].name = "3-11";
 		prime3[11].name = "3-12";
+
+		prime3[0].description = "3-1";
+		prime3[1].description = "3-2";
+		prime3[2].description = "3-3";
+		prime3[3].description = "3-4";
+		prime3[4].description = "3-5";
+		prime3[5].description = "3-6";
+		prime3[6].description = "3-7";
+		prime3[7].description = "3-8";
+		prime3[8].description = "3-9";
+		prime3[9].description = "dim";
+		prime3[10].description = "major/minor";
+		prime3[11].description = "augm";
 
 		prime3[0].tntnitype = new int[] { 0, 1, 2 };
 		prime3[1].tntnitype = new int[] { 0, 1, 3 };
@@ -920,6 +940,36 @@ public class TnTnIType extends TnIType {
 		prime4[26].name = "4-27";
 		prime4[27].name = "4-28";
 		prime4[28].name = "4-Z29";
+
+		prime4[0].description = "4-1";
+		prime4[1].description = "4-2";
+		prime4[2].description = "4-3";
+		prime4[3].description = "4-4";
+		prime4[4].description = "4-5";
+		prime4[5].description = "4-6";
+		prime4[6].description = "4-7";
+		prime4[7].description = "4-8";
+		prime4[8].description = "4-9";
+		prime4[9].description = "4-10";
+		prime4[10].description = "4-11";
+		prime4[11].description = "4-12";
+		prime4[12].description = "4-13";
+		prime4[13].description = "4-14";
+		prime4[14].description = "4-Z15";
+		prime4[15].description = "4-16";
+		prime4[16].description = "4-17";
+		prime4[17].description = "4-18";
+		prime4[18].description = "4-19";
+		prime4[19].description = "4-20";
+		prime4[20].description = "4-21";
+		prime4[21].description = "4-22";
+		prime4[22].description = "4-23";
+		prime4[23].description = "4-24";
+		prime4[24].description = "4-25";
+		prime4[25].description = "4-26";
+		prime4[26].description = "4-27";
+		prime4[27].description = "4-28";
+		prime4[28].description = "4-Z29";
 
 		prime4[0].tntnitype = new int[] { 0, 1, 2, 3 };
 		prime4[1].tntnitype = new int[] { 0, 1, 2, 4 };
@@ -1085,6 +1135,45 @@ public class TnTnIType extends TnIType {
 		prime5[35].name = "5-Z36";
 		prime5[36].name = "5-Z37";
 		prime5[37].name = "5-Z38";
+
+		prime5[0].description = "5-1";
+		prime5[1].description = "5-2";
+		prime5[2].description = "5-3";
+		prime5[3].description = "5-4";
+		prime5[4].description = "5-5";
+		prime5[5].description = "5-6";
+		prime5[6].description = "5-7";
+		prime5[7].description = "5-8";
+		prime5[8].description = "5-9";
+		prime5[9].description = "5-10";
+		prime5[10].description = "5-11";
+		prime5[11].description = "5-Z12";
+		prime5[12].description = "5-13";
+		prime5[13].description = "5-14";
+		prime5[14].description = "5-15";
+		prime5[15].description = "5-16";
+		prime5[16].description = "5-Z17";
+		prime5[17].description = "5-Z18";
+		prime5[18].description = "5-19";
+		prime5[19].description = "5-20";
+		prime5[20].description = "5-21";
+		prime5[21].description = "5-22";
+		prime5[22].description = "5-23";
+		prime5[23].description = "5-24";
+		prime5[24].description = "5-25";
+		prime5[25].description = "5-26";
+		prime5[26].description = "5-27";
+		prime5[27].description = "5-28";
+		prime5[28].description = "5-29";
+		prime5[29].description = "5-30";
+		prime5[30].description = "5-31";
+		prime5[31].description = "5-32";
+		prime5[32].description = "5-33";
+		prime5[33].description = "5-34";
+		prime5[34].description = "5-35";
+		prime5[35].description = "5-Z36";
+		prime5[36].description = "5-Z37";
+		prime5[37].description = "5-Z38";
 
 		prime5[0].tntnitype = new int[] { 0, 1, 2, 3, 4 };
 		prime5[1].tntnitype = new int[] { 0, 1, 2, 3, 5 };

@@ -17,6 +17,7 @@ public class Set {
 	public int[] combinatorial = new int[4];
 	public char[] charSet;
 	public String name; // Forte name
+	public String description;
 
 	// Duodecimal numbers, ab, AB, te, or TE.
 	public String base12String;

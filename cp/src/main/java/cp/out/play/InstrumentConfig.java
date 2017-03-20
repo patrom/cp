@@ -46,6 +46,8 @@ public class InstrumentConfig {
 
     @Autowired
     private MediumRange mediumRange;
+    @Autowired
+    private LowRange lowRange;
 
     private Map<Integer, InstrumentMapping> instruments = new TreeMap<>();
 //    private List<InstrumentMapping> allInstrumentMappings = new ArrayList<>();
@@ -53,7 +55,7 @@ public class InstrumentConfig {
     @PostConstruct
     public void instrumentInit(){
 
-//        Clarinet piano = new Clarinet();
+        Clarinet piano = new Clarinet();
 //        piano.setInstrumentRegister(new InstrumentRegister(60,80));
 //        instruments.put(0,new InstrumentMapping(piano, 3, 0));
 //        instruments = getSAATBChoir();
@@ -61,6 +63,7 @@ public class InstrumentConfig {
 //        instruments = getPianoAndStrinqQuartet(pleasantGreen, mellowPurple, richBlue);
 //        instruments = getStrinqQuartet(mediumRange, mellowPurple, mediumRange);
         instruments = getFluteClarinetBassoonGreen();
+//        instruments = getWoodWindsDuo();
 //        instruments = getStringTrio();
 //        instruments = getInstrument(5, new Clarinet());
 //        instruments.put(0,new InstrumentMapping(new ViolinSolo() , 3, 0));
@@ -78,6 +81,12 @@ public class InstrumentConfig {
     private Map<Integer, InstrumentMapping> getStringDuo(){
         instruments.put(1,new InstrumentMapping(new ViolinSolo(), 3, 0));
         instruments.put(0,new InstrumentMapping(new CelloSolo(), 1, 1));
+        return instruments;
+    }
+
+    private Map<Integer, InstrumentMapping> getWoodWindsDuo(){
+        instruments.put(1,new InstrumentMapping(new Flute(), 1, 0));
+        instruments.put(0,new InstrumentMapping(new Clarinet(), 3, 1));
         return instruments;
     }
 
@@ -215,10 +224,13 @@ public class InstrumentConfig {
 	}
 
 	public Map<Integer, InstrumentMapping> getFluteClarinetBassoonGreen(){
-        instruments.put(3,new InstrumentMapping(richBlue.getFlute(), 4, 0));
-        instruments.put(2,new InstrumentMapping(richBlue.getClarinet(), 3, 1));
+        instruments.put(3,new InstrumentMapping(pleasantGreen.getFlute(), 1, 0));
+        instruments.put(2,new InstrumentMapping(pleasantGreen.getClarinet(), 3, 1));
         instruments.put(1,new InstrumentMapping(richBlue.getClarinet(), 3, 2));
-        instruments.put(0,new InstrumentMapping(new Bassoon(), 1, 3));
+        InstrumentMapping bassoon = new InstrumentMapping(new Bassoon(), 4, 3);
+//        bassoon.setArticulation(Articulation.DETACHE);
+        bassoon.setOrchestralQuality(lowRange);
+        instruments.put(0, bassoon);
 		return instruments;
 	}
 

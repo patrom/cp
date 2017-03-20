@@ -44,29 +44,40 @@ public class DependantGenerator implements DependantHarmonyGenerator{
         List<Note> melodyBlockNotesWithRests = melodyBlock.getMelodyBlockNotesWithRests();
         for (Note note : melodyBlockNotesWithRests) {
             DependantHarmony dependantHarmony = note.getDependantHarmony();
-            switch (dependantHarmony.getChordType().getSize()){
-                case 2:
-                    Note clone = singleNoteDependency(note);
-                    clone.setVoice(dependantMelodyBlock.getVoice());
-                    notes.add(clone);
-                    if (secondDependantMelodyBlock.isPresent()) {
-                        Note rest = note.clone();
-                        rest.setPitch(Note.REST);
-                        rest.setVoice(secondDependantMelodyBlock.get().getVoice());
-                        notesSecondBlock.add(rest);
-                    }
-                    break;
-                case 3:
-                    NoteTuple noteTuple = multiNoteDependency(note);
-                    Note first = noteTuple.getFirst();
-                    first.setVoice(dependantMelodyBlock.getVoice());
-                    notes.add(first);
-                    Note second = noteTuple.getSecond();
-                    second.setVoice(secondDependantMelodyBlock.get().getVoice());
-                    notesSecondBlock.add(second);
-                    break;
-                default:
-                    throw new IllegalArgumentException("Dependant harmony not set for type: " + dependantHarmony.getChordType());
+            if (note.isRest()){
+                Note clone = note.clone();
+                clone.setPitch(Note.REST);
+                notes.add(clone);
+                if (secondDependantMelodyBlock.isPresent()) {
+                    Note secondClone = note.clone();
+                    secondClone.setPitch(Note.REST);
+                    notesSecondBlock.add(secondClone);
+                }
+            }else{
+                switch (dependantHarmony.getChordType().getSize()){
+                    case 2:
+                        Note clone = singleNoteDependency(note);
+                        clone.setVoice(dependantMelodyBlock.getVoice());
+                        notes.add(clone);
+                        if (secondDependantMelodyBlock.isPresent()) {
+                            Note rest = note.clone();
+                            rest.setPitch(Note.REST);
+                            rest.setVoice(secondDependantMelodyBlock.get().getVoice());
+                            notesSecondBlock.add(rest);
+                        }
+                        break;
+                    case 3:
+                        NoteTuple noteTuple = multiNoteDependency(note);
+                        Note first = noteTuple.getFirst();
+                        first.setVoice(dependantMelodyBlock.getVoice());
+                        notes.add(first);
+                        Note second = noteTuple.getSecond();
+                        second.setVoice(secondDependantMelodyBlock.get().getVoice());
+                        notesSecondBlock.add(second);
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Dependant harmony not set for type: " + dependantHarmony.getChordType());
+                }
             }
         }
         dependantMelodyBlock.setNotes(notes);

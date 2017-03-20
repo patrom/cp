@@ -71,6 +71,15 @@ public abstract class OrchestralQuality {
 		return closeQualities;
 	}
 
+	public List<Instrument> findInstrumentsInRange(int low, int high){
+		List<Instrument> instrumentsFound = new ArrayList<>();
+		for (Instrument instrument : instruments) {
+			if(instrument.getLowest() >= low && instrument.getHighest() >= high){
+				instrumentsFound.add(instrument);
+			}
 
+		}
+		return instrumentsFound;
+	}
 	
 }

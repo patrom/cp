@@ -21,6 +21,10 @@ public class PcSetUnorderedProperties {
 		return setClass.getPrimeByTnTnI().name;
 	}
 
+	public String getDescription() {
+		return setClass.getPrimeByTnTnI().description;
+	}
+
 	public String[] getSetClassProperties() {
 		prime = setClass.getPrimeByTnTnI();
 		String tntypeString = setClass.tntypeToString();

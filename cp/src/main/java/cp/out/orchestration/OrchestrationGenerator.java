@@ -301,5 +301,22 @@ public class OrchestrationGenerator {
 		}
 		return instrumentNoteMappings;
 	}
+
+	public List<Instrument> findInstrumentsForMelody(List<Note> notes){
+		List<Instrument> allInstruments = new ArrayList<>();
+		int highestNote = notes.stream().mapToInt(n -> n.getPitch()).max().getAsInt();
+		int lowestNote = notes.stream().mapToInt(n -> n.getPitch()).min().getAsInt();
+		for (OrchestralQuality orchestralQuality : getOrchestralQualities()) {
+			List<Instrument> instruments = orchestralQuality.findInstrumentsInRange(lowestNote, highestNote);
+			allInstruments.addAll(instruments);
+		}
+		return allInstruments;
+	}
+
+	public List<Instrument> findInstrumentsForMelody(List<Note> notes, OrchestralQuality orchestralQuality){
+		int highestNote = notes.stream().mapToInt(n -> n.getPitch()).max().getAsInt();
+		int lowestNote = notes.stream().mapToInt(n -> n.getPitch()).min().getAsInt();
+		return orchestralQuality.findInstrumentsInRange(lowestNote, highestNote);
+	}
 	
 }

@@ -2,6 +2,7 @@ package cp.out.orchestration;
 
 import cp.DefaultConfig;
 import cp.model.note.Note;
+import cp.model.note.NoteBuilder;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.brass.BassTrombone;
@@ -19,6 +20,8 @@ import cp.out.print.MusicXMLWriter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.core.io.FileSystemResource;
@@ -44,7 +47,9 @@ import static org.junit.Assert.assertNull;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = DefaultConfig.class)
 public class OrchestrationGeneratorTest {
-	
+
+	private static Logger LOGGER = LoggerFactory.getLogger(OrchestrationGeneratorTest.class);
+
 	@Autowired
 	private BrilliantWhite brilliantWhite;
 	@Autowired
@@ -636,6 +641,32 @@ public class OrchestrationGeneratorTest {
 				).collect(Collectors.toList());
 		Instrument instrument = orchestrationGenerator.findInstrumentInBasicQualityForPitch(40, instruments, glowingRed);
 		assertNull(instrument);
+	}
+
+	@Test
+	public void testFindAllInstrumentsInRange(){
+		List<Note> notes = new ArrayList<>();
+		notes.add(NoteBuilder.note().pitch(60).build());
+		notes.add(NoteBuilder.note().pitch(66).build());
+		notes.add(NoteBuilder.note().pitch(72).build());
+		notes.add(NoteBuilder.note().pitch(66).build());
+		List<Instrument> instruments = orchestrationGenerator.findInstrumentsForMelody(notes);
+		for (Instrument instrument : instruments) {
+			LOGGER.info(instrument.getInstrumentName());
+		}
+	}
+
+	@Test
+	public void testFindAllInstrumentsInRangeForQuality(){
+		List<Note> notes = new ArrayList<>();
+		notes.add(NoteBuilder.note().pitch(71).build());
+		notes.add(NoteBuilder.note().pitch(77).build());
+		notes.add(NoteBuilder.note().pitch(76).build());
+		notes.add(NoteBuilder.note().pitch(72).build());
+		List<Instrument> instruments = orchestrationGenerator.findInstrumentsForMelody(notes, pleasantGreen);
+		for (Instrument instrument : instruments) {
+			LOGGER.info(instrument.getInstrumentName());
+		}
 	}
 	
 }

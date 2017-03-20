@@ -45,7 +45,9 @@ public class Scale {
 
 			MAJOR_CHORD = new Scale(new int[]{0, 4 , 7}),
 			MINOR_CHORD = new Scale(new int[]{0, 3 , 7}),
-			HALF_DIMINISHED_CHORD = new Scale(new int[]{0, 3 , 6, 10});
+			HALF_DIMINISHED_CHORD = new Scale(new int[]{0, 3 , 6, 10}),
+			CHORD = new Scale(new int[]{0, 1 , 5}),
+			PEDAL = new Scale(new int[]{0});
 
 			
 	private final Random random = new Random(System.currentTimeMillis());

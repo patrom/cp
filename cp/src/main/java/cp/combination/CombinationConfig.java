@@ -46,31 +46,31 @@ public class CombinationConfig {
 	@Bean
 	public List<RhythmCombination> defaultEvenCombinations(){
 		List<RhythmCombination> rhythmCombinations = new ArrayList<>();
-//		rhythmCombinations.add(oneNoteEven::pos1);
-//		rhythmCombinations.add(oneNoteEven::pos2);
-//		rhythmCombinations.add(oneNoteEven::pos3);
-//		rhythmCombinations.add(oneNoteEven::pos4);
+		rhythmCombinations.add(oneNoteEven::pos1);
+		rhythmCombinations.add(oneNoteEven::pos2);
+		rhythmCombinations.add(oneNoteEven::pos3);
+		rhythmCombinations.add(oneNoteEven::pos4);
 		
 		rhythmCombinations.add(twoNoteEven::pos12);
 		rhythmCombinations.add(twoNoteEven::pos13);
 		rhythmCombinations.add(twoNoteEven::pos14);
-//		rhythmCombinations.add(twoNoteEven::pos34);
-//		rhythmCombinations.add(twoNoteEven::pos23);
+		rhythmCombinations.add(twoNoteEven::pos34);
+		rhythmCombinations.add(twoNoteEven::pos23);
 		rhythmCombinations.add(twoNoteEven::pos24);
 		
 		rhythmCombinations.add(threeNoteEven::pos123);
 		rhythmCombinations.add(threeNoteEven::pos134);
 		rhythmCombinations.add(threeNoteEven::pos124);
-//		rhythmCombinations.add(threeNoteEven::pos234);
+		rhythmCombinations.add(threeNoteEven::pos234);
 
-//		rhythmCombinations.add(fourNoteEven::pos1234);
+		rhythmCombinations.add(fourNoteEven::pos1234);
 
-//		rhythmCombinations.add(threeNoteUneven::pos123);
-//		rhythmCombinations.add(twoNoteUneven::pos23);
-//		rhythmCombinations.add(twoNoteUneven::pos12);
-//		rhythmCombinations.add(twoNoteUneven::pos13);
+		rhythmCombinations.add(threeNoteUneven::pos123);
+		rhythmCombinations.add(twoNoteUneven::pos23);
+		rhythmCombinations.add(twoNoteUneven::pos12);
+		rhythmCombinations.add(twoNoteUneven::pos13);
 
-//		rhythmCombinations.add(fiveNoteQuintuplet::pos12345);
+		rhythmCombinations.add(fiveNoteQuintuplet::pos12345);
 		return rhythmCombinations;
 	}
 	
@@ -83,7 +83,7 @@ public class CombinationConfig {
 //		rhythmCombinations.add(oneNoteEven::pos4);
 //		
 //		rhythmCombinations.add(twoNoteEven::pos12);
-//		rhythmCombinations.add(twoNoteEven::pos13);
+		rhythmCombinations.add(twoNoteEven::pos13);
 //		rhythmCombinations.add(twoNoteEven::pos14);
 //		rhythmCombinations.add(twoNoteEven::pos34);
 //		rhythmCombinations.add(twoNoteEven::pos23);
@@ -115,9 +115,9 @@ public class CombinationConfig {
 		rhythmCombinations.add(fourNoteSexTuplet::pos1346);
 		rhythmCombinations.add(fourNoteSexTuplet::pos1356);
 		
-		rhythmCombinations.add(fiveNoteSexTuplet::pos13456);
+//		rhythmCombinations.add(fiveNoteSexTuplet::pos13456);
 //		
-		rhythmCombinations.add(sixNoteSexTuplet::pos123456);
+//		rhythmCombinations.add(sixNoteSexTuplet::pos123456);
 		return rhythmCombinations;
 	}
 	
@@ -190,7 +190,7 @@ public class CombinationConfig {
 
 //		rhythmCombinations.add(fourNoteEven::pos1234);
 
-		rhythmCombinations.add(threeNoteUneven::pos123);
+//		rhythmCombinations.add(threeNoteUneven::pos123);
 //		rhythmCombinations.add(twoNoteUneven::pos23);
 //		rhythmCombinations.add(twoNoteUneven::pos12);
 //		rhythmCombinations.add(twoNoteUneven::pos13);

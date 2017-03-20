@@ -84,6 +84,7 @@ public class MidiParser {
 							Note noteOn = notes.get(k);
 							if (noteOn.getPitch() == key) {
 								noteOn.setLength(ticks - noteOn.getPosition());
+								noteOn.setDisplayLength(noteOn.getLength());
 								break;
 							}
 						}

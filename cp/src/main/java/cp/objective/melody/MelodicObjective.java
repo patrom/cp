@@ -1,5 +1,6 @@
 package cp.objective.melody;
 
+import cp.composition.Composition;
 import cp.model.Motive;
 import cp.model.dissonance.Dissonance;
 import cp.model.harmony.Chord;
@@ -23,14 +24,22 @@ public class MelodicObjective extends Objective {
 	@Autowired
 	@Qualifier(value="TonalDissonance")
 	private Dissonance dissonance;
+
+	@Autowired
+	protected Composition composition;
 	
 	@Override
 	public double evaluate(Motive motive) {
 		double totalMelodySum = 0;
 		List<MelodyBlock> melodies = motive.getMelodyBlocks();
 		int melodyCount = melodies.size();
+//		int beats = composition.getEnd()/ composition.getTimeConfig().getMinimumLength();
+//		int minNotes = beats  / 3;
 		for(MelodyBlock melody: melodies){
 			List<Note> notes =  melody.getMelodyBlockNotes();
+//			if(notes.size() < minNotes){
+//				return 0;
+//			}
 			double melodyValue = evaluateMelody(notes, 2);
 //			notes = extractNotesOnLevel(notes, 1);
 			for (double level : musicProperties.getFilterLevels()) {

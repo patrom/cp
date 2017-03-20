@@ -57,15 +57,17 @@ public class FitnessEvaluationTemplate {
 
 	public FitnessObjectiveValues evaluate(Motive motive) {
 		List<MelodyBlock> melodies = motive.getMelodyBlocks();
-		for (DependantHarmonyGenerator dependantGenerator : composition.getDependantHarmonyGenerators()) {
-			dependantGenerator.generateDependantHarmonies(melodies);
-		}
+
 
 		List<MelodyBlock> melodiesToCalculate = melodies.stream().filter(m -> m.isCalculable() && !m.getMelodyBlockNotes().isEmpty()).collect(toList());
 		updatePitchesFromContour(melodies);
+		//after update pitches for dependant melodies! (don't have contour)
+		for (DependantHarmonyGenerator dependantGenerator : composition.getDependantHarmonyGenerators()) {
+			dependantGenerator.generateDependantHarmonies(melodies);
+		}
 		updateRhythmWeight(melodiesToCalculate);
 
-		List<Note> allNotes = melodies.stream().flatMap(m -> m.filterMelody().stream()).collect(toList());
+		List<Note> allNotes = melodies.stream().flatMap(m -> m.getMelodyBlockNotes().stream()).collect(toList());
 		List<CpHarmony> harmonies = harmonyExtractor.extractHarmony(allNotes, motive.getMelodyBlocks().size());
 		motive.setHarmonies(harmonies);
 //		melodies.forEach(h ->  LOGGER.debug(h.getMelodyBlockNotes() + ", "));
@@ -74,7 +76,6 @@ public class FitnessEvaluationTemplate {
 
 	private void updatePitchesFromContour(List<MelodyBlock> melodies) {
 		List<MelodyBlock> updatebleMelodies = melodies.stream().filter(m -> m.isCalculable() && !m.isRhythmDependant() && !m.getMelodyBlockNotes().isEmpty()).collect(toList());
-
 		for (MelodyBlock updatebleMelody : updatebleMelodies) {
 			Instrument instrument = instrumentConfig.getInstrumentForVoice(updatebleMelody.getVoice());
 //			updatebleMelody.updatePitchesFromInstrument(instrument);
@@ -89,6 +90,7 @@ public class FitnessEvaluationTemplate {
 			List<Note> notes = melody.getMelodyBlockNotes();
 			rhythmWeight.setNotes(notes);
 			rhythmWeight.updateRhythmWeightMinimum(voiceConfig.getTimeConfig().getMinimumLength());
+
 		}
 	}
 

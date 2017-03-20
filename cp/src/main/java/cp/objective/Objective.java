@@ -10,6 +10,7 @@ public abstract class Objective {
 	@Autowired
 	protected MusicProperties musicProperties;
 
+
 	public abstract double evaluate(Motive motive);
 
 }

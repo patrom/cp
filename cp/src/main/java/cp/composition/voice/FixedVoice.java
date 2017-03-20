@@ -34,14 +34,15 @@ public class FixedVoice extends VoiceConfig {
     private List<BeatGroup> getBeatGroups(){
         List<BeatGroup> beatGroups = new ArrayList<>();
         beatGroups.add(new BeatGroupTwo(DurationConstants.HALF, Collections.singletonList(twoNoteEven::pos13)));
-        beatGroups.add(new BeatGroupTwo(DurationConstants.HALF, Collections.singletonList(threeNoteUneven::pos123)));
+        beatGroups.add(new BeatGroupTwo(DurationConstants.HALF, Collections.singletonList(twoNoteEven::pos14)));
         return beatGroups;
     }
 
     private List<BeatGroup> getUnevenBeatGroups(){
         List<BeatGroup> beatGroups = new ArrayList<>();
-        beatGroups.add(new BeatGroupThree(DurationConstants.QUARTER, Collections.singletonList(fourNoteSexTuplet::pos1245)));
+//        beatGroups.add(new BeatGroupThree(DurationConstants.QUARTER, Collections.singletonList(fourNoteSexTuplet::pos1456)));
 //        beatGroups.add(new BeatGroupThree(DurationConstants.QUARTER, Collections.singletonList(threeNoteUneven::pos123)));
+        beatGroups.add(new BeatGroupThree(DurationConstants.EIGHT, Collections.singletonList(twoNoteUneven::pos13)));
         return beatGroups;
     }
 

@@ -11,47 +11,47 @@ public class MelodicFunctions {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(MelodicFunctions.class.getName());
 	
-	public static List<Double> getMelodicWeights2(List<Note> melody, int windowSize){
-		int size = melody.size();
-		Note[] notes = new Note[size];
-		for (int i = 0; i < size; i++) {
-			notes[i] = melody.get(i);
-		}
-		return melodicWindow(notes, windowSize);
-	}
+//	public static List<Double> getMelodicWeights2(List<Note> melody, int windowSize){
+//		int size = melody.size();
+//		Note[] notes = new Note[size];
+//		for (int i = 0; i < size; i++) {
+//			notes[i] = melody.get(i);
+//		}
+//		return melodicWindow(notes, windowSize);
+//	}
 	
-	public static List<Double> melodicWindow(Note[] notes, int windowSize){
-		int length = notes.length - windowSize + 1;	
-		List<Double> values = new ArrayList<>();
-		for (int i = 0; i < length; i++) {
-			Note[] melody = new Note[windowSize];
-			for (int j = 0; j < windowSize; j++) {
-				melody[j] = notes[i + j];
-			}
-			values.add(computeMelodicValueWindow(melody));
-		}
-		return values; 
-	}
+//	public static List<Double> melodicWindow(Note[] notes, int windowSize){
+//		int length = notes.length - windowSize + 1;
+//		List<Double> values = new ArrayList<>();
+//		for (int i = 0; i < length; i++) {
+//			Note[] melody = new Note[windowSize];
+//			for (int j = 0; j < windowSize; j++) {
+//				melody[j] = notes[i + j];
+//			}
+//			values.add(computeMelodicValueWindow(melody));
+//		}
+//		return values;
+//	}
 
-	private static double computeMelodicValueWindow(Note[] melody ) {
-		List<Double> values = new ArrayList<>();
-		for (int j = 0; j < melody.length - 1; j++) {
-				Note note = melody[0];
-				Note nextNote = melody[j + 1];
-
-				int difference = nextNote.getPitch() - note.getPitch();
-				Interval interval = Interval.getEnumInterval(difference);
-					
-				double positionWeigtht = (nextNote.getPositionWeight() + note.getPositionWeight()) / 2;
-				double innerMetricWeight = (nextNote.getInnerMetricWeight() + note.getInnerMetricWeight())/2;
-//				double dynamic = ((note2.getDynamic() + note.getDynamic())/2) / 127d;//max midi TODO
-				double rhythmicWeight = (positionWeigtht + innerMetricWeight) / 2;
-				
-				double intervalValue = (interval.getMelodicValue() * 0.6) + (interval.getMelodicValue() * rhythmicWeight * 0.4);
-				values.add(intervalValue); 		
-		}
-		return (values.isEmpty())?0.0:Collections.min(values);
-	}
+//	private static double computeMelodicValueWindow(Note[] melody ) {
+//		List<Double> values = new ArrayList<>();
+//		for (int j = 0; j < melody.length - 1; j++) {
+//				Note note = melody[0];
+//				Note nextNote = melody[j + 1];
+//
+//				int difference = nextNote.getPitch() - note.getPitch();
+//				Interval interval = Interval.getEnumInterval(difference);
+//
+//				double positionWeigtht = (nextNote.getPositionWeight() + note.getPositionWeight()) / 2;
+//				double innerMetricWeight = (nextNote.getInnerMetricWeight() + note.getInnerMetricWeight())/2;
+////				double dynamic = ((note2.getDynamic() + note.getDynamic())/2) / 127d;//max midi TODO
+//				double rhythmicWeight = (positionWeigtht + innerMetricWeight) / 2;
+//
+//				double intervalValue = (interval.getMelodicValue() * 0.6) + (interval.getMelodicValue() * rhythmicWeight * 0.4);
+//				values.add(intervalValue);
+//		}
+//		return (values.isEmpty())?0.0:Collections.min(values);
+//	}
 	
 	public static double getIntervalVariation(Note[] melody){
 		Set<Interval> intervalSet = new HashSet<>();

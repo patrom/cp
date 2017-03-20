@@ -2,7 +2,6 @@ package cp.composition.timesignature;
 
 import cp.composition.beat.BeatGroup;
 import cp.composition.beat.BeatGroupFactory;
-import cp.model.rhythm.DurationConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -16,7 +15,7 @@ public abstract class TimeConfig {
 	protected final List<BeatGroup> beatsAll = new ArrayList<>();
 	
 	protected double minimumRhythmFilterLevel = 3.0; //levels pitch, crest/keel, ...
-	protected int minimumLength = DurationConstants.SIXTEENTH;
+	protected int minimumLength;
 
 	protected int[] distance;
 

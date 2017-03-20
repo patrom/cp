@@ -24,16 +24,16 @@ public class IntervalDissonance {
 		case CH2_KWINT:
 			return 0.8;
 		
-		case CH2_GROTE_SECONDE:
-			return 0.4;
-		case CH2_GROOT_SEPTIEM:
-			return 0.6;
-		case CH2_KLEIN_SEPTIEM:
-			return 0.7;
-		case CH2_KLEINE_SECONDE:
-			return 0.3;
-		case CH2_TRITONE:
-			return 0.7;
+//		case CH2_GROTE_SECONDE:
+//			return 0.4;
+//		case CH2_GROOT_SEPTIEM:
+//			return 0.6;
+//		case CH2_KLEIN_SEPTIEM:
+//			return 0.7;
+//		case CH2_KLEINE_SECONDE:
+//			return 0.3;
+//		case CH2_TRITONE:
+//			return 0.7;
 	}
 	return 0.0;
 	}

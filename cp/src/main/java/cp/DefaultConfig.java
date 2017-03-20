@@ -17,9 +17,9 @@ public class DefaultConfig {
 		HashMap<String, Object> probabilityParamters = new HashMap<>();
 //		probabilityParamters.put("probabilityAddRhythm", 0.0);
 //		probabilityParamters.put("probabilityRemoveRhythm", 0.0);
-		probabilityParamters.put("probabilityOneNote", 0.9);
-		probabilityParamters.put("probabilityOneNoteChromatic", 0.9);
-		probabilityParamters.put("probabilityArticulation", 1.0);
+		probabilityParamters.put("probabilityOneNote", 1.0);
+		probabilityParamters.put("probabilityOneNoteChromatic", 0.0);
+		probabilityParamters.put("probabilityArticulation", 0.0);
 		probabilityParamters.put("probabilityDynamic", 1.0);
 		probabilityParamters.put("probabilityReplaceMelody", 1.0);
 		probabilityParamters.put("probabilityReplaceMelodyBlock", 0.0);

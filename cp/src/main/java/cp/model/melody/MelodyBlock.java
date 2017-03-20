@@ -316,23 +316,25 @@ public class MelodyBlock {
 		melody.setNotes(notes);
 	}
 
-	public List<Note> filterMelody(){
+	public List<Note> filterMelody(int lengthToExclude){
         List<Note> melodyNotes = getMelodyBlockNotes();
         List<Note> filteredNotes = new ArrayList<>();
         int size = melodyNotes.size() - 2;
-        filteredNotes.add(melodyNotes.get(0));
-        for (int i = 0; i < size; i++) {
-            Note firstNote = melodyNotes.get(i);
-            Note middleNote = melodyNotes.get(i + 1);
-            Note lastNote = melodyNotes.get(i + 2);
-            if(middleNote.getLength() > DurationConstants.EIGHT
-                    || (middleNote.getPositionWeight() > firstNote.getPositionWeight()
+        if(melodyNotes.size() > 2){
+            filteredNotes.add(melodyNotes.get(0));
+            for (int i = 0; i < size; i++) {
+                Note firstNote = melodyNotes.get(i);
+                Note middleNote = melodyNotes.get(i + 1);
+                Note lastNote = melodyNotes.get(i + 2);
+                if(middleNote.getLength() > lengthToExclude
+                        || (middleNote.getPositionWeight() > firstNote.getPositionWeight()
                         || middleNote.getPositionWeight() > lastNote.getPositionWeight())){
-                filteredNotes.add(middleNote);
-            }
+                    filteredNotes.add(middleNote);
+                }
 
+            }
+            filteredNotes.add(melodyNotes.get(melodyNotes.size() - 1));
         }
-        filteredNotes.add(melodyNotes.get(melodyNotes.size() - 1));
         return filteredNotes;
     }
 

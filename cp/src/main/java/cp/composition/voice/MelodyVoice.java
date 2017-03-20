@@ -13,9 +13,9 @@ public class MelodyVoice extends VoiceConfig {
     @PostConstruct
     public void init(){
         setTimeconfig();
-        pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
+//        pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
         pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
         pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
-//		pitchClassGenerators.add(restPitchClasses::updatePitchClasses);
+		pitchClassGenerators.add(restPitchClasses::updatePitchClasses);
     }
 }

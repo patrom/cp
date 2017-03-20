@@ -20,12 +20,12 @@ public class Time68 extends TimeConfig{
 	public void init() {
 		super.init();
 		BeatGroup defaultGroup6 = beatGroupFactory.getBeatGroupUneven(DurationConstants.EIGHT, "");
-		BeatGroup group12 = beatGroupFactory.getBeatGroupUneven(DurationConstants.QUARTER, "homophonic");
+//		BeatGroup group12 = beatGroupFactory.getBeatGroupUneven(DurationConstants.QUARTER, "homophonic");
 		beats.add(defaultGroup6);
 		beatsDoubleLength.add(defaultGroup6);
-		beatsDoubleLength.add(group12);
+//		beatsDoubleLength.add(group12);
 		beatsAll.add(defaultGroup6);
-		beatsAll.add(group12);
+//		beatsAll.add(group12);
 		minimumLength = DurationConstants.EIGHT;
 		distance = new int[]{3,6,9,12,15,18,20,21,22,24,26,27,28,30,32};
 		offset = DurationConstants.SIX_EIGHTS;
