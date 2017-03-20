@@ -2,9 +2,9 @@ package cp.evaluation;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
-import cp.composition.Composition;
 import cp.composition.timesignature.TimeConfig;
 import cp.composition.voice.MelodyVoice;
+import cp.composition.voice.VoiceConfig;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
 import cp.model.Motive;
@@ -54,7 +54,7 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 	
 	private List<MelodyBlock> melodies;
 	@Mock
-	private Composition composition;
+	private VoiceConfig voiceConfig;
 	@Autowired
 	private MelodyVoice melodyVoice;
 
@@ -62,7 +62,7 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 	public void setUp() throws Exception {
 		melodies = new ArrayList<>();
 		MockitoAnnotations.initMocks(this);
-		Mockito.when(composition.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
+		Mockito.when(voiceConfig.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
 	}
 
 	@Test

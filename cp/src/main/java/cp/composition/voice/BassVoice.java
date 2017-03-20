@@ -9,7 +9,7 @@ import javax.annotation.PostConstruct;
  * Created by prombouts on 25/11/2016.
  */
 @Component
-public class BassVoice extends VoiceConfig {
+public class BassVoice extends Voice {
 
     @PostConstruct
     public void init(){

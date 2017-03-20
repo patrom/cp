@@ -3,6 +3,7 @@ package cp.generator;
 import cp.composition.Composition;
 import cp.composition.beat.BeatGroup;
 import cp.composition.beat.BeatGroupStrategy;
+import cp.composition.voice.Voice;
 import cp.composition.voice.VoiceConfig;
 import cp.model.TimeLine;
 import cp.model.melody.CpMelody;
@@ -34,6 +35,8 @@ public class MelodyGenerator {
 	private Composition composition;
 	@Autowired
 	private InstrumentConfig instrumentConfig;
+	@Autowired
+	private VoiceConfig voiceConfiguration;
 	
 	private BeatGroupStrategy beatGroupStrategy;
 
@@ -102,11 +105,11 @@ public class MelodyGenerator {
 	}
 
 	public MelodyBlock generateMelodyBlockConfig(int voice, int octave, int start, int stop) {
-		VoiceConfig voiceConfig = composition.getVoiceConfiguration(voice);
+		Voice voiceConfig = voiceConfiguration.getVoiceConfiguration(voice);
 		return generateMelodyBlockConfig(voice, voiceConfig, octave, start, stop);
 	}
 
-	public MelodyBlock generateMelodyBlockConfig(int voice, VoiceConfig voiceConfig, int octave, int start, int stop) {
+	public MelodyBlock generateMelodyBlockConfig(int voice, Voice voiceConfig, int octave, int start, int stop) {
 		MelodyBlock melodyBlock = new MelodyBlock(octave, voice);
 		melodyBlock.setOffset(voiceConfig.getTimeConfig().getOffset());
 
@@ -124,7 +127,7 @@ public class MelodyGenerator {
 		return melodyBlock;
 	}
 
-	public CpMelody generateMelodyConfig(int voice, int start, BeatGroup beatGroup, VoiceConfig voiceConfig) {
+	public CpMelody generateMelodyConfig(int voice, int start, BeatGroup beatGroup, Voice voiceConfig) {
 		List<Note> melodyNotes = voiceConfig.getNotes(beatGroup);
 		Articulation articulation = instrumentConfig.getArticuationForVoice(voice);
 		melodyNotes.forEach(n -> {
@@ -133,7 +136,7 @@ public class MelodyGenerator {
 			n.setArticulation(articulation);
 			n.setPosition(n.getPosition() + start);
 		});
-		melodyNotes = composition.getRandomPitchClassGenerator(voice).updatePitchClasses(melodyNotes);
+		melodyNotes = voiceConfiguration.getRandomPitchClassGenerator(voice).updatePitchClasses(melodyNotes);
 		CpMelody melody = new CpMelody(melodyNotes, voice, start, start + beatGroup.getBeatLength());
 		melody.setBeatGroup(beatGroup);
 		return melody;
@@ -150,7 +153,7 @@ public class MelodyGenerator {
 			n.setVoice(voice);
 			n.setPosition(n.getPosition() + start);
 		});
-		melodyNotes = composition.getRandomPitchClassGenerator(voice).updatePitchClasses(melodyNotes);
+		melodyNotes = voiceConfiguration.getRandomPitchClassGenerator(voice).updatePitchClasses(melodyNotes);
 		CpMelody melody = new CpMelody(melodyNotes, voice, start, start + beatGroup.getBeatLength());
 		melody.setBeatGroup(beatGroup);
 		return melody;

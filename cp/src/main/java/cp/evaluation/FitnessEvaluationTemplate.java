@@ -1,6 +1,7 @@
 package cp.evaluation;
 
 import cp.composition.Composition;
+import cp.composition.voice.Voice;
 import cp.composition.voice.VoiceConfig;
 import cp.generator.dependant.DependantHarmonyGenerator;
 import cp.model.Motive;
@@ -47,6 +48,8 @@ public class FitnessEvaluationTemplate {
 	private Objective meterObjective;
 	@Autowired
 	private InstrumentConfig instrumentConfig;
+	@Autowired
+	private VoiceConfig voiceConfig;
 	
 	@Autowired
 	private HarmonyExtractor harmonyExtractor;
@@ -86,10 +89,10 @@ public class FitnessEvaluationTemplate {
 
 	protected void updateRhythmWeight(List<MelodyBlock> melodies) {
 		for (MelodyBlock melody : melodies) {
-			VoiceConfig voiceConfig = composition.getVoiceConfiguration(melody.getVoice());
+			Voice voice = voiceConfig.getVoiceConfiguration(melody.getVoice());
 			List<Note> notes = melody.getMelodyBlockNotes();
 			rhythmWeight.setNotes(notes);
-			rhythmWeight.updateRhythmWeightMinimum(voiceConfig.getTimeConfig().getMinimumLength());
+			rhythmWeight.updateRhythmWeightMinimum(voice.getTimeConfig().getMinimumLength());
 
 		}
 	}

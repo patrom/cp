@@ -1,6 +1,5 @@
 package cp.objective.melody;
 
-import cp.composition.Composition;
 import cp.model.Motive;
 import cp.model.dissonance.Dissonance;
 import cp.model.harmony.Chord;
@@ -25,8 +24,8 @@ public class MelodicObjective extends Objective {
 	@Qualifier(value="TonalDissonance")
 	private Dissonance dissonance;
 
-	@Autowired
-	protected Composition composition;
+//	@Autowired
+//	protected Composition composition;
 	
 	@Override
 	public double evaluate(Motive motive) {

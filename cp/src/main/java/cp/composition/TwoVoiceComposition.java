@@ -1,5 +1,6 @@
 package cp.composition;
 
+import cp.composition.voice.Voice;
 import cp.generator.dependant.DependantGenerator;
 import cp.model.harmony.ChordType;
 import cp.model.melody.CpMelody;
@@ -24,8 +25,6 @@ public class TwoVoiceComposition extends Composition{
 		instrument1 = instrumentConfig.getInstrumentForVoice(voice0);
 		instrument2 = instrumentConfig.getInstrumentForVoice(voice1);
 
-		voiceConfiguration.put(voice0, melodyVoice);
-		voiceConfiguration.put(voice1, melodyVoice);
 	}
 
 	public List<MelodyBlock> random(){
@@ -135,17 +134,16 @@ public class TwoVoiceComposition extends Composition{
 		DependantGenerator dependantGenerator = new DependantGenerator(timeLine, voice0, voice1);
 		dependantHarmonyGenerators.add(dependantGenerator);
 
-		dependantGenerator = new DependantGenerator(timeLine, voice0, voice1);
-		dependantHarmonyGenerators.add(dependantGenerator);
+		Voice voice = voiceConfig.getVoiceConfiguration(voice0);
 		//has to be set first, before generation
-		melodyVoice.hasDependentHarmony(true);
-		melodyVoice.addChordType(ChordType.CH2_GROTE_TERTS);
-		melodyVoice.addChordType(ChordType.CH2_GROTE_TERTS_CHR);
-//		melodyVoice.addChordType(ChordType.CH2_KWART);
-//		melodyVoice.addChordType(ChordType.CH2_KWINT);
-//		melodyVoice.addChordType(ChordType.ALL);
-		melodyVoice.addChordType(ChordType.CH2_GROTE_SIXT);
-		melodyVoice.addChordType(ChordType.CH2_GROTE_SIXT_CHR);
+		voice.hasDependentHarmony(true);
+		voice.addChordType(ChordType.CH2_GROTE_TERTS);
+		voice.addChordType(ChordType.CH2_GROTE_TERTS_CHR);
+//		voice.addChordType(ChordType.CH2_KWART);
+//		voice.addChordType(ChordType.CH2_KWINT);
+//		voice.addChordType(ChordType.ALL);
+		voice.addChordType(ChordType.CH2_GROTE_SIXT);
+		voice.addChordType(ChordType.CH2_GROTE_SIXT_CHR);
 
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
 		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());

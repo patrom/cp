@@ -2,7 +2,7 @@ package cp.out.orchestration;
 
 import cp.composition.Composition;
 import cp.composition.voice.MelodyVoice;
-import cp.composition.voice.VoiceConfig;
+import cp.composition.voice.Voice;
 import cp.generator.MelodyGenerator;
 import cp.model.Motive;
 import cp.model.TimeLine;
@@ -70,8 +70,7 @@ public class HarmonyOrchestrator {
 
         List<Note> melodyBlockNotes = melodyBlock.getMelodyBlockNotes();
         List<Note> notes = new ArrayList<>();
-        for (int i = 0; i < melodyBlockNotes.size(); i++) {
-            Note note = melodyBlockNotes.get(i);
+        for (Note note : melodyBlockNotes) {
             int randomSize = RandomUtil.getRandomNumberInRange(1, harmonySize);
             List<Note> harmonyNotes = motive.getHarmonyNotesPosition(note.getPosition(), randomSize, harmonyFilter);
             if(!harmonyNotes.isEmpty()){
@@ -127,12 +126,12 @@ public class HarmonyOrchestrator {
         return generatedMelodyBlock;
     }
 
-    public MelodyBlock getChordsRhythmDependant(Motive motive, int voiceTarget, VoiceConfig voiceConfig,  Predicate<Note> harmonyFilter, int harmonySize){
+    public MelodyBlock getChordsRhythmDependant(Motive motive, int voiceTarget, Voice voice, Predicate<Note> harmonyFilter, int harmonySize){
         List<MelodyBlock> melodyBlocks = new ArrayList<>();
 
         Instrument instrument = instrumentConfig.getInstrumentForVoice(voiceTarget);
         int start = motive.getHarmonies().get(0).getPosition();
-        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voiceTarget, voiceConfig, instrument.pickRandomOctaveFromRange(), start, composition.getEnd());
+        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voiceTarget, voice, instrument.pickRandomOctaveFromRange(), start, composition.getEnd());
 
         List<Note> melodyBlockNotes = melodyBlock.getMelodyBlockNotesWithRests();
         List<Note> allHarmonyNotes = new ArrayList<>();

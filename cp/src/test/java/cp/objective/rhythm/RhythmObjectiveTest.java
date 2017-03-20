@@ -1,9 +1,9 @@
 package cp.objective.rhythm;
 
 import cp.DefaultConfig;
-import cp.composition.Composition;
 import cp.composition.timesignature.TimeConfig;
 import cp.composition.voice.MelodyVoice;
+import cp.composition.voice.VoiceConfig;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
 import cp.model.melody.CpMelody;
@@ -50,7 +50,7 @@ public class RhythmObjectiveTest extends JFrame {
 	@Qualifier(value="time44")
 	private TimeConfig time44;
 	@Mock
-	private Composition composition;
+	private VoiceConfig voiceConfig;
 	@Autowired
 	private MelodyVoice melodyVoice;
 	
@@ -61,7 +61,7 @@ public class RhythmObjectiveTest extends JFrame {
 
 	@Test
 	public void testGetProfile() {
-		Mockito.when(composition.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
+		Mockito.when(voiceConfig.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pitch(60).positionWeight(4.0).build());
 		notes.add(note().pos(DurationConstants.QUARTER).pitch(60).positionWeight(1.0).build());

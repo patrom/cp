@@ -9,6 +9,7 @@ import cp.composition.beat.BeatGroupStrategy;
 import cp.composition.beat.BeatGroupTwo;
 import cp.composition.timesignature.TimeConfig;
 import cp.composition.voice.MelodyVoice;
+import cp.composition.voice.VoiceConfig;
 import cp.generator.pitchclass.PitchClassGenerator;
 import cp.generator.pitchclass.RandomPitchClasses;
 import cp.midi.MidiDevicesUtil;
@@ -85,6 +86,8 @@ public class MelodyGeneratorTest extends JFrame{
 	private List<RhythmCombination> fixedEven;
 	@Mock
 	private Composition composition;
+	@Mock
+	private VoiceConfig voiceConfig;
 	@Autowired
 	private MelodyVoice melodyVoice;
 
@@ -132,8 +135,8 @@ public class MelodyGeneratorTest extends JFrame{
 		beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER, fixedEven));
 		when(beatGroupStrategy.getBeatGroups()).thenReturn(beatGroups);
 		when(pitchClassGenerator.updatePitchClasses(notes)).thenReturn(notes);
-		when(composition.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
-		when(composition.getRandomPitchClassGenerator(Mockito.anyInt())).thenReturn(new PitchClassGenerator() {
+		when(voiceConfig.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
+		when(voiceConfig.getRandomPitchClassGenerator(Mockito.anyInt())).thenReturn(new PitchClassGenerator() {
 			@Override
 			public List<Note> updatePitchClasses(List<Note> notes) {
 				return new ArrayList<>();
@@ -155,8 +158,8 @@ public class MelodyGeneratorTest extends JFrame{
 		beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER, fixedEven));
 		when(beatGroupStrategy.getBeatGroups()).thenReturn(beatGroups);
 		when(pitchClassGenerator.updatePitchClasses(notes)).thenReturn(notes);
-		when(composition.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
-		when(composition.getRandomPitchClassGenerator(Mockito.anyInt())).thenReturn(pitchClassGenerator);
+		when(voiceConfig.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
+		when(voiceConfig.getRandomPitchClassGenerator(Mockito.anyInt())).thenReturn(pitchClassGenerator);
 
 		List<Integer> beats = new ArrayList<>();
 		beats.add(12);

@@ -15,7 +15,7 @@ import java.util.List;
  * Created by prombouts on 5/12/2016.
  */
 @Component
-public class DoubleTimeVoice extends VoiceConfig {
+public class DoubleTimeVoice extends Voice {
 
     @PostConstruct
     public void init() {

@@ -8,7 +8,7 @@ import javax.annotation.PostConstruct;
  * Created by prombouts on 23/11/2016.
  */
 @Component
-public class MelodyVoice extends VoiceConfig {
+public class MelodyVoice extends Voice {
 
     @PostConstruct
     public void init(){

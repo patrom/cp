@@ -16,7 +16,7 @@ import java.util.List;
  * Created by prombouts on 25/11/2016.
  */
 @Component
-public class FixedVoice extends VoiceConfig {
+public class FixedVoice extends Voice {
 
     @PostConstruct
     public void init(){

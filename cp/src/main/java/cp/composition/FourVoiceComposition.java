@@ -1,5 +1,6 @@
 package cp.composition;
 
+import cp.composition.voice.Voice;
 import cp.generator.dependant.DependantGenerator;
 import cp.model.harmony.ChordType;
 import cp.model.melody.MelodyBlock;
@@ -30,11 +31,6 @@ public class FourVoiceComposition extends  Composition {
         instrument2 = instrumentConfig.getInstrumentForVoice(voice1);
         instrument3 = instrumentConfig.getInstrumentForVoice(voice2);
         instrument4 = instrumentConfig.getInstrumentForVoice(voice3);
-
-        voiceConfiguration.put(voice0, bassVoice);
-        voiceConfiguration.put(voice1, homophonicVoice);
-        voiceConfiguration.put(voice2, homophonicVoice);
-        voiceConfiguration.put(voice3, melodyVoice);
     }
 
     public List<MelodyBlock> canonA3(){
@@ -180,11 +176,6 @@ public class FourVoiceComposition extends  Composition {
      * @return melodies
      */
     public List<MelodyBlock> accDuplicateRhythm(){
-        voiceConfiguration.put(voice0, bassVoice);
-        voiceConfiguration.put(voice1, homophonicVoice);
-        voiceConfiguration.put(voice2, homophonicVoice);
-        voiceConfiguration.put(voice3, melodyVoice);
-
         dependantHarmonyGenerators = new ArrayList<>();
         DependantGenerator dependantGenerator = new DependantGenerator(timeLine, voice1, voice2);
         dependantHarmonyGenerators.add(dependantGenerator);
@@ -196,20 +187,21 @@ public class FourVoiceComposition extends  Composition {
 //		voiceConfiguration.put(voice4, homophonicVoice);
 //
 //		//has to be set first, before generation
-        homophonicVoice.hasDependentHarmony(true);
-        homophonicVoice.addChordType(ChordType.CH2_GROTE_TERTS);
-        homophonicVoice.addChordType(ChordType.CH2_GROTE_TERTS_CHR);
-        homophonicVoice.addChordType(ChordType.CH2_KLEINE_TERTS_CHR);
-        homophonicVoice.addChordType(ChordType.CH2_KWART);
-//		homophonicVoice.addChordType(ChordType.CH2_KWINT);
-//		homophonicVoice.addChordType(ChordType.ALL);
-        homophonicVoice.addChordType(ChordType.CH2_GROTE_SIXT);
-        homophonicVoice.addChordType(ChordType.CH2_GROTE_SIXT_CHR);
-        homophonicVoice.addChordType(ChordType.CH2_KLEINE_SIXT_CHR);
-//		homophonicVoice.addChordType(ChordType.MAJOR);
-//		homophonicVoice.addChordType(ChordType.MAJOR_1);
-//      homophonicVoice.addChordType(ChordType.MAJOR_2);
-//      homophonicVoice.addChordType(ChordType.DOM);
+        Voice voice = voiceConfig.getVoiceConfiguration(voice1);
+        voice.hasDependentHarmony(true);
+        voice.addChordType(ChordType.CH2_GROTE_TERTS);
+        voice.addChordType(ChordType.CH2_GROTE_TERTS_CHR);
+        voice.addChordType(ChordType.CH2_KLEINE_TERTS_CHR);
+        voice.addChordType(ChordType.CH2_KWART);
+//		voice.addChordType(ChordType.CH2_KWINT);
+//		voice.addChordType(ChordType.ALL);
+        voice.addChordType(ChordType.CH2_GROTE_SIXT);
+        voice.addChordType(ChordType.CH2_GROTE_SIXT_CHR);
+        voice.addChordType(ChordType.CH2_KLEINE_SIXT_CHR);
+//		voice.addChordType(ChordType.MAJOR);
+//		voice.addChordType(ChordType.MAJOR_1);
+//      voice.addChordType(ChordType.MAJOR_2);
+//      voice.addChordType(ChordType.DOM);
 
         List<MelodyBlock> melodyBlocks = new ArrayList<>();
         MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
@@ -232,10 +224,6 @@ public class FourVoiceComposition extends  Composition {
      * @return melodies
      */
     public List<MelodyBlock> homophonicRhythm(){
-        voiceConfiguration.put(voice0, homophonicVoice);
-        voiceConfiguration.put(voice1, homophonicVoice);
-        voiceConfiguration.put(voice2, homophonicVoice);
-        voiceConfiguration.put(voice3, melodyVoice);
         List<MelodyBlock> melodyBlocks = new ArrayList<>();
         MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
         melodyBlocks.add(melodyBlock);
@@ -253,11 +241,6 @@ public class FourVoiceComposition extends  Composition {
     }
 
     public List<MelodyBlock> dependingOneVoicesHomophonicRhythm(){
-        voiceConfiguration.put(voice0, homophonicVoice);
-        voiceConfiguration.put(voice1, homophonicVoice);
-        voiceConfiguration.put(voice2, melodyVoice);
-        voiceConfiguration.put(voice3, melodyVoice);
-
         dependantHarmonyGenerators = new ArrayList<>();
         DependantGenerator dependantGenerator = new DependantGenerator(timeLine, voice2, voice3);
         dependantHarmonyGenerators.add(dependantGenerator);
@@ -269,21 +252,22 @@ public class FourVoiceComposition extends  Composition {
 //		voiceConfiguration.put(voice4, homophonicVoice);
 //
 //		//has to be set first, before generation
-        melodyVoice.hasDependentHarmony(true);
-        melodyVoice.addChordType(ChordType.CH2_GROTE_TERTS);
-        melodyVoice.addChordType(ChordType.CH2_GROTE_TERTS_CHR);
-        melodyVoice.addChordType(ChordType.CH2_KLEINE_TERTS_CHR);
-        melodyVoice.addChordType(ChordType.CH2_KWART);
-        melodyVoice.addChordType(ChordType.CH2_KWINT);
-//		homophonicVoice.addChordType(ChordType.ALL);
-        melodyVoice.addChordType(ChordType.CH2_GROTE_SIXT);
-        melodyVoice.addChordType(ChordType.CH2_GROTE_SIXT_CHR);
-        melodyVoice.addChordType(ChordType.CH2_KLEINE_SIXT_CHR);
-//        homophonicVoice.addChordType(ChordType.MAJOR);
-//        homophonicVoice.addChordType(ChordType.MAJOR_1);
-//        homophonicVoice.addChordType(ChordType.MAJOR_1_CHR);
-//        homophonicVoice.addChordType(ChordType.MAJOR_2);
-//        homophonicVoice.addChordType(ChordType.DOM);
+        Voice voice = voiceConfig.getVoiceConfiguration(voice2);
+        voice.hasDependentHarmony(true);
+        voice.addChordType(ChordType.CH2_GROTE_TERTS);
+        voice.addChordType(ChordType.CH2_GROTE_TERTS_CHR);
+        voice.addChordType(ChordType.CH2_KLEINE_TERTS_CHR);
+        voice.addChordType(ChordType.CH2_KWART);
+        voice.addChordType(ChordType.CH2_KWINT);
+//		voice.addChordType(ChordType.ALL);
+        voice.addChordType(ChordType.CH2_GROTE_SIXT);
+        voice.addChordType(ChordType.CH2_GROTE_SIXT_CHR);
+        voice.addChordType(ChordType.CH2_KLEINE_SIXT_CHR);
+//        voice.addChordType(ChordType.MAJOR);
+//        voice.addChordType(ChordType.MAJOR_1);
+//        voice.addChordType(ChordType.MAJOR_1_CHR);
+//        voice.addChordType(ChordType.MAJOR_2);
+//        voice.addChordType(ChordType.DOM);
 
         List<MelodyBlock> melodyBlocks = new ArrayList<>();
         MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
@@ -300,11 +284,6 @@ public class FourVoiceComposition extends  Composition {
 
 
     public List<MelodyBlock> dependingTwoVoicesHomophonicRhythm(){
-        voiceConfiguration.put(voice0, homophonicVoice);
-        voiceConfiguration.put(voice1, homophonicVoice);
-        voiceConfiguration.put(voice2, homophonicVoice);
-        voiceConfiguration.put(voice3, melodyVoice);
-
         dependantHarmonyGenerators = new ArrayList<>();
         DependantGenerator dependantGenerator = new DependantGenerator(timeLine, voice0, voice1, voice2);
         dependantHarmonyGenerators.add(dependantGenerator);
@@ -316,21 +295,22 @@ public class FourVoiceComposition extends  Composition {
 //		voiceConfiguration.put(voice4, homophonicVoice);
 //
 //		//has to be set first, before generation
-        homophonicVoice.hasDependentHarmony(true);
-//        homophonicVoice.addChordType(ChordType.CH2_GROTE_TERTS);
-//        homophonicVoice.addChordType(ChordType.CH2_GROTE_TERTS_CHR);
-//        homophonicVoice.addChordType(ChordType.CH2_KLEINE_TERTS_CHR);
-//        homophonicVoice.addChordType(ChordType.CH2_KWART);
-//		homophonicVoice.addChordType(ChordType.CH2_KWINT);
-//		homophonicVoice.addChordType(ChordType.ALL);
-//        homophonicVoice.addChordType(ChordType.CH2_GROTE_SIXT);
-//        homophonicVoice.addChordType(ChordType.CH2_GROTE_SIXT_CHR);
-//        homophonicVoice.addChordType(ChordType.CH2_KLEINE_SIXT_CHR);
-		homophonicVoice.addChordType(ChordType.MAJOR);
-		homophonicVoice.addChordType(ChordType.MAJOR_1);
-//		homophonicVoice.addChordType(ChordType.MAJOR_1_CHR);
-        homophonicVoice.addChordType(ChordType.MAJOR_2);
-//        homophonicVoice.addChordType(ChordType.DOM);
+        Voice voice = voiceConfig.getVoiceConfiguration(voice1);
+        voice.hasDependentHarmony(true);
+//        voice.addChordType(ChordType.CH2_GROTE_TERTS);
+//        voice.addChordType(ChordType.CH2_GROTE_TERTS_CHR);
+//        voice.addChordType(ChordType.CH2_KLEINE_TERTS_CHR);
+//        voice.addChordType(ChordType.CH2_KWART);
+//		voice.addChordType(ChordType.CH2_KWINT);
+//		voice.addChordType(ChordType.ALL);
+//        voice.addChordType(ChordType.CH2_GROTE_SIXT);
+//        voice.addChordType(ChordType.CH2_GROTE_SIXT_CHR);
+//        voice.addChordType(ChordType.CH2_KLEINE_SIXT_CHR);
+        voice.addChordType(ChordType.MAJOR);
+        voice.addChordType(ChordType.MAJOR_1);
+//		voice.addChordType(ChordType.MAJOR_1_CHR);
+        voice.addChordType(ChordType.MAJOR_2);
+//        voice.addChordType(ChordType.DOM);
 
         List<MelodyBlock> melodyBlocks = new ArrayList<>();
         MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
@@ -343,10 +323,10 @@ public class FourVoiceComposition extends  Composition {
     }
 
     public List<MelodyBlock> dependingFixedRhythm(){
-        voiceConfiguration.put(voice0, fixedVoice);
-        voiceConfiguration.put(voice1, fixedVoice);
-        voiceConfiguration.put(voice2, fixedVoice);
-        voiceConfiguration.put(voice3, fixedVoice);
+//        voiceConfiguration.put(voice0, fixedVoice);
+//        voiceConfiguration.put(voice1, fixedVoice);
+//        voiceConfiguration.put(voice2, fixedVoice);
+//        voiceConfiguration.put(voice3, fixedVoice);
 
         dependantHarmonyGenerators = new ArrayList<>();
         DependantGenerator dependantGenerator = new DependantGenerator(timeLine, voice1, voice2, voice3);
@@ -359,21 +339,22 @@ public class FourVoiceComposition extends  Composition {
 //		voiceConfiguration.put(voice4, homophonicVoice);
 //
 //		//has to be set first, before generation
-        fixedVoice.hasDependentHarmony(true);
-//        fixedVoice.addChordType(ChordType.CH2_GROTE_TERTS);
-//        fixedVoice.addChordType(ChordType.CH2_GROTE_TERTS_CHR);
-//        fixedVoice.addChordType(ChordType.CH2_KLEINE_TERTS_CHR);
-//        fixedVoice.addChordType(ChordType.CH2_KWART);
-//		fixedVoice.addChordType(ChordType.CH2_KWINT);
-//		fixedVoice.addChordType(ChordType.ALL);
-//        fixedVoice.addChordType(ChordType.CH2_GROTE_SIXT);
-//        fixedVoice.addChordType(ChordType.CH2_GROTE_SIXT_CHR);
-//        fixedVoice.addChordType(ChordType.CH2_KLEINE_SIXT_CHR);
-        fixedVoice.addChordType(ChordType.MAJOR);
-        fixedVoice.addChordType(ChordType.MAJOR_1);
-        fixedVoice.addChordType(ChordType.MAJOR_1_CHR);
-        fixedVoice.addChordType(ChordType.MAJOR_2);
-        fixedVoice.addChordType(ChordType.DOM);
+        Voice voice = voiceConfig.getVoiceConfiguration(voice1);
+        voice.hasDependentHarmony(true);
+//        voice.addChordType(ChordType.CH2_GROTE_TERTS);
+//        voice.addChordType(ChordType.CH2_GROTE_TERTS_CHR);
+//        voice.addChordType(ChordType.CH2_KLEINE_TERTS_CHR);
+//        voice.addChordType(ChordType.CH2_KWART);
+//		voice.addChordType(ChordType.CH2_KWINT);
+//		voice.addChordType(ChordType.ALL);
+//        voice.addChordType(ChordType.CH2_GROTE_SIXT);
+//        voice.addChordType(ChordType.CH2_GROTE_SIXT_CHR);
+//        voice.addChordType(ChordType.CH2_KLEINE_SIXT_CHR);
+        voice.addChordType(ChordType.MAJOR);
+        voice.addChordType(ChordType.MAJOR_1);
+        voice.addChordType(ChordType.MAJOR_1_CHR);
+        voice.addChordType(ChordType.MAJOR_2);
+        voice.addChordType(ChordType.DOM);
 
         List<MelodyBlock> melodyBlocks = new ArrayList<>();
         MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());

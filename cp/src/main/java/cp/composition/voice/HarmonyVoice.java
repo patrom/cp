@@ -15,7 +15,7 @@ import java.util.List;
  * Created by prombouts on 7/01/2017.
  */
 @Component
-public class HarmonyVoice extends VoiceConfig {
+public class HarmonyVoice extends Voice {
 
     @PostConstruct
     public void init(){

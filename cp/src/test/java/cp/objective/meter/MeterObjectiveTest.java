@@ -3,6 +3,7 @@ package cp.objective.meter;
 import cp.DefaultConfig;
 import cp.composition.Composition;
 import cp.composition.timesignature.TimeConfig;
+import cp.model.rhythm.DurationConstants;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,11 +43,11 @@ public class MeterObjectiveTest {
 		when(composition.getTimeConfig()).thenReturn(time44);
 		List<Integer> positions = new ArrayList<>();
 		positions.add(0);
-		positions.add(12);
-		positions.add(24);
-		positions.add(36);
-		positions.add(48);
-		positions.add(60);
+		positions.add(DurationConstants.QUARTER);
+		positions.add(DurationConstants.HALF);
+		positions.add(DurationConstants.HALF + DurationConstants.EIGHT);
+		positions.add(DurationConstants.WHOLE);
+		positions.add(DurationConstants.WHOLE + DurationConstants.QUARTER);
 		double profileAverage = meterObjective.getProfileMergedMelodiesAverage(positions);
 		assertEquals(1.0 , profileAverage, 0);
 	}

@@ -1,9 +1,9 @@
 package cp.model.rhythm;
 
 import cp.DefaultConfig;
-import cp.composition.Composition;
 import cp.composition.timesignature.TimeConfig;
 import cp.composition.voice.MelodyVoice;
+import cp.composition.voice.VoiceConfig;
 import cp.midi.MidiInfo;
 import cp.midi.MidiParser;
 import cp.model.melody.CpMelody;
@@ -49,14 +49,14 @@ public class RhythmWeightMelodyTest extends JFrame{
 	@Qualifier(value="time44")
 	private TimeConfig time44;
 	@Mock
-	private Composition composition;
+	private VoiceConfig voiceConfig;
 	@Autowired
 	private MelodyVoice melodyVoice;
 
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		Mockito.when(composition.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
+		Mockito.when(voiceConfig.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
 	}
 	
 	@Test

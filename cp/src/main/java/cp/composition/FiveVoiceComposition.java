@@ -1,5 +1,6 @@
 package cp.composition;
 
+import cp.composition.voice.Voice;
 import cp.generator.dependant.DependantGenerator;
 import cp.model.harmony.ChordType;
 import cp.model.melody.CpMelody;
@@ -48,13 +49,12 @@ public class FiveVoiceComposition extends Composition {
      * @return melodies
      */
     public List<MelodyBlock> accDuplicateRhythm(){
-        voiceConfiguration.put(voice0, bassVoice);
-        voiceConfiguration.put(voice1, homophonicVoice);
-        voiceConfiguration.put(voice2, homophonicVoice);
-        voiceConfiguration.put(voice3, homophonicVoice);
+//        voiceConfiguration.put(voice0, bassVoice);
+//        voiceConfiguration.put(voice1, homophonicVoice);
+//        voiceConfiguration.put(voice2, homophonicVoice);
+//        voiceConfiguration.put(voice3, homophonicVoice);
 //        voiceConfiguration.put(voice4, melodyVoice);
-//        TimeVoice.setTimeconfig(2,4);
-        voiceConfiguration.put(voice4, melodyVoice);
+//        voiceConfiguration.put(voice4, melodyVoice);
 
         dependantHarmonyGenerators = new ArrayList<>();
         DependantGenerator dependantGenerator = new DependantGenerator(timeLine, voice1, voice2);
@@ -64,20 +64,21 @@ public class FiveVoiceComposition extends Composition {
 //		dependantHarmonyGenerators.add(dependantGenerator);
 
 		//has to be set first, before generation
-        homophonicVoice.hasDependentHarmony(true);
-        homophonicVoice.addChordType(ChordType.CH2_GROTE_TERTS);
-//        homophonicVoice.addChordType(ChordType.CH2_GROTE_TERTS_CHR);
-//        homophonicVoice.addChordType(ChordType.CH2_KLEINE_TERTS_CHR);
-        homophonicVoice.addChordType(ChordType.CH2_KWART);
-		homophonicVoice.addChordType(ChordType.CH2_KWINT);
-//		homophonicVoice.addChordType(ChordType.ALL_INTERVALS);
-        homophonicVoice.addChordType(ChordType.CH2_GROTE_SIXT);
-//        homophonicVoice.addChordType(ChordType.CH2_GROTE_SIXT_CHR);
-//        homophonicVoice.addChordType(ChordType.CH2_KLEINE_SIXT_CHR);
-//		homophonicVoice.addChordType(ChordType.MAJOR);
-//		homophonicVoice.addChordType(ChordType.MAJOR_1);
-//      homophonicVoice.addChordType(ChordType.MAJOR_2);
-//      homophonicVoice.addChordType(ChordType.DOM);
+        Voice voice = voiceConfig.getVoiceConfiguration(voice1);
+        voice.hasDependentHarmony(true);
+        voice.addChordType(ChordType.CH2_GROTE_TERTS);
+//        voice.addChordType(ChordType.CH2_GROTE_TERTS_CHR);
+//        voice.addChordType(ChordType.CH2_KLEINE_TERTS_CHR);
+        voice.addChordType(ChordType.CH2_KWART);
+        voice.addChordType(ChordType.CH2_KWINT);
+//		voice.addChordType(ChordType.ALL_INTERVALS);
+        voice.addChordType(ChordType.CH2_GROTE_SIXT);
+//        voice.addChordType(ChordType.CH2_GROTE_SIXT_CHR);
+//        voice.addChordType(ChordType.CH2_KLEINE_SIXT_CHR);
+//		voice.addChordType(ChordType.MAJOR);
+//		voice.addChordType(ChordType.MAJOR_1);
+//      voice.addChordType(ChordType.MAJOR_2);
+//      voice.addChordType(ChordType.DOM);
 
         //has to be set first, before generation
 //        melodyVoice.hasDependentHarmony(true);
@@ -168,11 +169,11 @@ public class FiveVoiceComposition extends Composition {
      * @return melodies
      */
     public List<MelodyBlock> homophonicRhythm(){
-        voiceConfiguration.put(voice0, homophonicVoice);
-        voiceConfiguration.put(voice1, homophonicVoice);
-        voiceConfiguration.put(voice2, homophonicVoice);
-        voiceConfiguration.put(voice3, homophonicVoice);
-        voiceConfiguration.put(voice4, melodyVoice);
+//        voiceConfiguration.put(voice0, homophonicVoice);
+//        voiceConfiguration.put(voice1, homophonicVoice);
+//        voiceConfiguration.put(voice2, homophonicVoice);
+//        voiceConfiguration.put(voice3, homophonicVoice);
+//        voiceConfiguration.put(voice4, melodyVoice);
         List<MelodyBlock> melodyBlocks = new ArrayList<>();
         MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
         melodyBlocks.add(melodyBlock);

@@ -2,7 +2,7 @@ package cp.composition;
 
 import cp.composition.beat.BeatGroupFactory;
 import cp.composition.timesignature.TimeConfig;
-import cp.composition.voice.*;
+import cp.composition.voice.VoiceConfig;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
 import cp.generator.dependant.DependantHarmonyGenerator;
@@ -21,12 +21,7 @@ import cp.objective.harmony.DissonantResolutionImpl;
 import cp.objective.harmony.HarmonicObjective;
 import cp.objective.harmony.HarmonicResolutionObjective;
 import cp.objective.meter.MeterObjective;
-import cp.out.instrument.Ensemble;
 import cp.out.instrument.Instrument;
-import cp.out.orchestration.quality.BrilliantWhite;
-import cp.out.orchestration.quality.MellowPurple;
-import cp.out.orchestration.quality.PleasantGreen;
-import cp.out.orchestration.quality.RichBlue;
 import cp.out.play.InstrumentConfig;
 import cp.out.play.InstrumentMapping;
 import cp.out.print.note.Key;
@@ -35,7 +30,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class Composition {
 
@@ -56,7 +53,6 @@ public abstract class Composition {
 
 	@Autowired
 	protected ReplaceMelody replaceMelody;
-
 	@Autowired
 	protected MusicProperties musicProperties;
 	@Autowired
@@ -93,7 +89,7 @@ public abstract class Composition {
 	private TonalDissonance tonalDissonance;
 	@Autowired
 	private TonalSetClassDissonance tonalSetClassDissonance;
-
+	@Autowired
 	private PolyTonality polyTonality;
 	@Autowired
 	private FourCubeTrio fourCubeTrio;
@@ -133,20 +129,6 @@ public abstract class Composition {
 	@Autowired
 	protected Key B;
 	
-	@Autowired
-	protected PleasantGreen pleasantGreen;
-	@Autowired
-	protected MellowPurple mellowPurple;
-	@Autowired
-	protected RichBlue richBlue;
-	@Autowired
-	protected BrilliantWhite brilliantWhite;
-	
-//	private InstrumentCombination instrumentCombination;
-//	protected List<Instrument> instruments = new ArrayList<>();
-	@Autowired
-	private Ensemble ensemble;
-	
 	protected final int start = 0;
 	protected final int end = 4 * DurationConstants.WHOLE;
 	
@@ -178,8 +160,8 @@ public abstract class Composition {
 	protected RelationConfig operatorConfig;
 	@Autowired
 	protected InstrumentConfig instrumentConfig;
-
-	protected Map<Integer, VoiceConfig> voiceConfiguration = new TreeMap<>();
+	@Autowired
+	protected VoiceConfig voiceConfig;
 
 	protected CompositionGenre compositionGenre;
 
@@ -300,34 +282,7 @@ public abstract class Composition {
 
 	}
 
-	@Autowired
-	protected MelodyVoice melodyVoice;
-	@Autowired
-	protected HomophonicVoice homophonicVoice;
-	@Autowired
-	protected BassVoice bassVoice;
-	@Autowired
-	protected FixedVoice fixedVoice;
-	@Autowired
-	protected DoubleTimeVoice doubleTimeVoice;
-	@Autowired
-	protected TimeVoice timeVoice;
-	@Autowired
-	protected HarmonyVoice harmonyVoice;
-
 	protected List<DependantHarmonyGenerator> dependantHarmonyGenerators = new ArrayList<>();
-
-	public VoiceConfig getVoiceConfiguration(int voice){
-		return voiceConfiguration.get(voice);
-	}
-
-	public void addVoiceConfiguration(int voice, VoiceConfig voiceConfig){
-		voiceConfiguration.put(voice, voiceConfig);
-	}
-
-	public PitchClassGenerator getRandomPitchClassGenerator(int voice) {
-		return voiceConfiguration.get(voice).getRandomPitchClassGenerator();
-	}
 	
 	private void setTimeconfig(){
 		if (numerator == 4 && denominator == 4) {
