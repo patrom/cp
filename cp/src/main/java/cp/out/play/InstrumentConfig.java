@@ -27,6 +27,9 @@ import java.util.*;
 public class InstrumentConfig {
 
     @Autowired
+    private OrchestralQualityConfig orchestralQualityConfig;
+
+    @Autowired
     private BrilliantWhite brilliantWhite;
     @Autowired
     private BrightYellow brightYellow;
@@ -55,14 +58,15 @@ public class InstrumentConfig {
     @PostConstruct
     public void instrumentInit(){
 
-        Clarinet piano = new Clarinet();
+//        Clarinet piano = new Clarinet();
 //        piano.setInstrumentRegister(new InstrumentRegister(60,80));
 //        instruments.put(0,new InstrumentMapping(piano, 3, 0));
 //        instruments = getSAATBChoir();
 //        instruments.put(0,new InstrumentMapping(new ViolinSolo() , 3, 0));
 //        instruments = getPianoAndStrinqQuartet(pleasantGreen, mellowPurple, richBlue);
 //        instruments = getStrinqQuartet(mediumRange, mellowPurple, mediumRange);
-        instruments = getFluteClarinetBassoonGreen();
+//        instruments = getFluteClarinetBassoonGreen();
+        instruments = getWoodWindsDuo();
 //        instruments = getWoodWindsDuo();
 //        instruments = getStringTrio();
 //        instruments = getInstrument(5, new Clarinet());
@@ -119,6 +123,26 @@ public class InstrumentConfig {
         InstrumentMapping cello = new InstrumentMapping(new CelloSolo(), 1, 3);
         cello.setArticulation(Articulation.DETACHE);
         cello.setOrchestralQuality(orchestralQualityBass);
+        instruments.put(0, cello);
+        return instruments;
+    }
+
+    public Map<Integer, InstrumentMapping> getStrinqQuartet() {
+        InstrumentMapping violin1 = new InstrumentMapping(new ViolinSolo(), 3, 0);
+        violin1.setArticulation(Articulation.DETACHE);
+        violin1.setOrchestralQuality(orchestralQualityConfig.getOchestralQualityForVoice(3));
+        instruments.put(3, violin1);
+        InstrumentMapping violin2 = new InstrumentMapping(new ViolinSolo(), 3, 1);
+        violin2.setArticulation(Articulation.DETACHE);
+        violin2.setOrchestralQuality(orchestralQualityConfig.getOchestralQualityForVoice(2));
+        instruments.put(2, violin2);
+        InstrumentMapping viola = new InstrumentMapping(new ViolaSolo(), 2, 2);
+        viola.setArticulation(Articulation.DETACHE);
+        viola.setOrchestralQuality(orchestralQualityConfig.getOchestralQualityForVoice(1));
+        instruments.put(1, viola);
+        InstrumentMapping cello = new InstrumentMapping(new CelloSolo(), 1, 3);
+        cello.setArticulation(Articulation.DETACHE);
+        cello.setOrchestralQuality(orchestralQualityConfig.getOchestralQualityForVoice(0));
         instruments.put(0, cello);
         return instruments;
     }

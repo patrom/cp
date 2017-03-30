@@ -34,7 +34,7 @@ public class DynamicMutation extends AbstractMutation {
             Motive motive = ((MusicVariable)solution.getDecisionVariables()[0]).getMotive();
             MelodyBlock mutableMelody = motive.getRandomMutableMelody();
             mutableMelody.updateDynamic(Dynamic.F);
-//			LOGGER.info("Dynamic mutated");
+			LOGGER.info("Dynamic mutated");
         }
     }
 

@@ -7,6 +7,7 @@ import cp.util.RandomUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -32,7 +33,11 @@ public abstract class OrchestralQuality {
 	}
 
 	public Instrument getBasicInstrument(String name){
-		return instruments.stream().filter(i -> i.getInstrumentName().equals(name)).findFirst().get();
+		Optional<Instrument> instrument = instruments.stream().filter(i -> i.getInstrumentName().equals(name)).findFirst();
+		if(instrument.isPresent()){
+			return instrument.get();
+		}
+		throw new IllegalArgumentException("No Basic instrument (" + quality + ") found for: " + name);
 	}
 	
 	public List<Instrument> getBasicInstruments(){
@@ -48,7 +53,11 @@ public abstract class OrchestralQuality {
 	}
 	
 	public Instrument getComplementaryInstrument(String name){
-		return complementaryInstruments.stream().filter(i -> i.getInstrumentName().equals(name)).findFirst().get();
+		Optional<Instrument> instrument = complementaryInstruments.stream().filter(i -> i.getInstrumentName().equals(name)).findFirst();
+		if(instrument.isPresent()){
+			return instrument.get();
+		}
+		throw new IllegalArgumentException("No complementary instrument (" + quality + ") found for: " + name);
 	}
 	
 	public List<Instrument> getComplementarInstruments(){

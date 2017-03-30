@@ -1,29 +1,47 @@
 package cp.out.instrument;
 
 public enum Articulation {
-	
-	LEGATO("legato"),
+
+
+	//musicXml articulations:
 	MARCATO("accent"),
-	SFORZANDO("sforzando"),
+	STRONG_ACCENT("strong-accent"),
+	STACCATO("staccato"),
+	TENUTO("tenuto"),
+	DETACHED_LEGATO("detached-legato"),//a tenuto line and staccato dot
+	STACCATISSIMO("staccatissimo"),
+	SPICCATO("spiccato"),
+	SCOOP("scoop"),
+	PLOP("plop"),
+	DOIT("doit"),
+	FALLOFF("falloff"),
+
+
+
+
+	LEGATO("legato"),
+
+//	SFORZANDO("sforzando"),
+//	FORTEPIANO(""),
+
 	PORTATO("portato"),
 
-	STACCATO("staccato"),
-	STACCATISSIMO("staccatissimo"),
-	TENUTO("tenuto"),
 	MARTELATO(""),
 	TREMELO(""),
-	FORTEPIANO(""),
+
 
 	PONTICELLO_STACCATO(""),
 	PONTICELLO_SUSTAIN(""),
 	PONTICELL_TREMELO(""),
 
-	SUSTAINVIBRATO(""),
+	SUSTAIN_VIBRATO(""),
+	SUSTAIN_NO_VIBRATO(""),
+	FLUTTER(""),
 	REPEATLEGATO(""),
 	PORTAMENTO(""),
-	DETACHE(""),
+	DETACHE("detaché"),
 	HARMONIC(""),
-	SPICCATO("spiccato"),
+
 	PIZZICATO("pizzicato");
 
 	
@@ -36,5 +54,12 @@ public enum Articulation {
 	public String getMusicXmlLabel() {
 		return musicXmlLabel;
 	}
+
+	public static Articulation getArticulation(String label){
+		for(Articulation articulation : values()) {
+			if(articulation.musicXmlLabel.equals(label)) return articulation;
+		}
+		throw new IllegalArgumentException("Articulation not found for: " + label);
+    }
 
 }

@@ -18,7 +18,6 @@ public class MelodyComposition extends Composition {
     @PostConstruct
     public void initInstruments() {
         instrument1 = instrumentConfig.getInstrumentForVoice(voice0);
-        voiceConfiguration.put(voice0, melodyVoice);
     }
 
     public List<MelodyBlock> melody(){

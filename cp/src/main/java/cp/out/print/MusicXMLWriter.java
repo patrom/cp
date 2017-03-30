@@ -2,6 +2,7 @@ package cp.out.print;
 
 import cp.generator.MusicProperties;
 import cp.model.melody.MelodyBlock;
+import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.model.note.TupletType;
 import cp.out.instrument.Instrument;
@@ -183,6 +184,19 @@ public class MusicXMLWriter {
 		xmlStreamWriter.writeCharacters("\n");
 	}
 
+	private void createNoteDirectionElement(Note note, Instrument instrument) throws XMLStreamException {
+		xmlStreamWriter.writeStartElement("direction");
+		xmlStreamWriter.writeCharacters("\n");
+
+		createNoteDirectionTypeElement(note);
+        createElementWithValue("voice", String.valueOf(note.getVoice()));
+//        createElementWithValue("staff", String.valueOf(getStaff(instrument, note)));
+        createElementWithValue("staff", "1");
+
+		xmlStreamWriter.writeEndElement();
+		xmlStreamWriter.writeCharacters("\n");
+	}
+
 	private void createDirectionTypeElement() throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("direction-type");
 		xmlStreamWriter.writeCharacters("\n");
@@ -192,6 +206,31 @@ public class MusicXMLWriter {
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
 	}
+
+	private void createNoteDirectionTypeElement(Note note) throws XMLStreamException {
+		xmlStreamWriter.writeStartElement("direction-type");
+		xmlStreamWriter.writeCharacters("\n");
+
+        createDynamicElement(note.getDynamic());
+
+		xmlStreamWriter.writeEndElement();
+		xmlStreamWriter.writeCharacters("\n");
+	}
+
+    private void createDynamicElement(Dynamic dynamic) throws XMLStreamException {
+        xmlStreamWriter.writeStartElement("dynamics");
+        xmlStreamWriter.writeAttribute("color", "#000000");
+        xmlStreamWriter.writeAttribute("font-family", "Opus Text Std");
+        xmlStreamWriter.writeAttribute("font-style", "normal");
+        xmlStreamWriter.writeAttribute("font-size", "11.9365");
+        xmlStreamWriter.writeAttribute("font-weight", "normal");
+        xmlStreamWriter.writeCharacters("\n");
+
+        xmlStreamWriter.writeEmptyElement(dynamic.name().toLowerCase());
+
+        xmlStreamWriter.writeEndElement();
+        xmlStreamWriter.writeCharacters("\n");
+    }
 
 	private void createMetronomeElement() throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("metronome");
@@ -243,7 +282,7 @@ public class MusicXMLWriter {
 		return measures;
 	}
 
-	private void createNoteElement(Note note, InstrumentMapping instrumentMapping, boolean isChordNote, int voice) throws XMLStreamException {
+	private void createNoteElement(Note note, InstrumentMapping instrumentMapping, boolean isChordNote) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("note");
 		xmlStreamWriter.writeCharacters("\n");
 		if (isChordNote) {
@@ -258,8 +297,8 @@ public class MusicXMLWriter {
 		int length =  note.getDisplayLength() * DIVISIONS / Note.DEFAULT_LENGTH;
 		createElementWithValue("duration", String.valueOf(length));
 		createElementWithAttributeValue("instrument", "id", "P" + instrumentMapping.getScoreOrder() + "-I" + instrumentMapping.getScoreOrder());
-		if (voice > -1) {
-			createElementWithValue("voice", String.valueOf(voice));
+		if (note.getVoice() > -1) {
+			createElementWithValue("voice", String.valueOf(note.getVoice()));
 		}
 		NoteType noteType = NoteType.getNoteType(length);
 		createElementWithValue("type", noteType.getName());
@@ -554,7 +593,8 @@ public class MusicXMLWriter {
 	}
 	
 	protected void createMeasureElements(List<Note> allNotes, InstrumentMapping instrumentMapping) throws XMLStreamException{
-		int measureSize = getMeasureSize();
+        updatePrintDynamicNote(allNotes);
+        int measureSize = getMeasureSize();
 		BeatMap notesPerMeasureBeat = new BeatMap();
 		notesPerMeasureBeat.createBeatMap(allNotes, measureSize);
 		for (int i = 0; i <= notesPerMeasureBeat.size(); i++) {
@@ -579,7 +619,21 @@ public class MusicXMLWriter {
 		}
 	}
 
-	private int getMeasureSize() {
+    private void updatePrintDynamicNote(List<Note> allNotes) {
+        Collections.sort(allNotes);
+        int size = allNotes.size() -1;
+        Note firstNote = allNotes.get(0);
+        firstNote.setPrintDynamic(true);
+        for (int i = 0; i < size; i++) {
+            Note note = allNotes.get(i);
+            Note nextNote = allNotes.get(i + 1);
+            if(note.getDynamic() != nextNote.getDynamic()){
+                nextNote.setPrintDynamic(true);
+            }
+        }
+    }
+
+    private int getMeasureSize() {
 		int numerator = musicProperties.getNumerator();
 		switch (musicProperties.getDenominator()) {
 		case 4:
@@ -609,9 +663,12 @@ public class MusicXMLWriter {
 //							}
 			
 			if (position == note.getPosition()) {
-				createNoteElement(note, instrumentMapping, true, note.getVoice());
+				createNoteElement(note, instrumentMapping, true);
 			} else {
-				createNoteElement(note, instrumentMapping, false, note.getVoice());
+			    if(note.isPrintDynamic()){
+			        createNoteDirectionElement(note, instrumentMapping.getInstrument());
+                }
+				createNoteElement(note, instrumentMapping, false);
 			}
 			position = note.getPosition();
 		}

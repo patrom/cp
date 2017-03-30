@@ -20,23 +20,30 @@ public class InstrumentArticulation {
 
     public InstrumentArticulation() {
         stringArticulations = Stream.of(
-                Articulation.LEGATO,
-//                Articulation.PORTATO,
-                Articulation.SFORZANDO,
-                Articulation.STACCATO,
                 Articulation.MARCATO,
-                Articulation.PIZZICATO,
-                Articulation.TREMELO
+                Articulation.STRONG_ACCENT,
+                Articulation.STACCATO,
+                Articulation.TENUTO,
+                Articulation.DETACHED_LEGATO,//a tenuto line and staccato dot
+                Articulation.STACCATISSIMO,
+                Articulation.SPICCATO
         ).collect(toList());
         woodwindArticulations = Stream.of(
-                Articulation.LEGATO,
-                Articulation.HARMONIC,
-                Articulation.SUSTAINVIBRATO,
+                Articulation.MARCATO,
+                Articulation.STRONG_ACCENT,
+                Articulation.STACCATO,
+                Articulation.TENUTO,
+                Articulation.DETACHED_LEGATO,//a tenuto line and staccato dot
+                Articulation.STACCATISSIMO
+
+//                Articulation.LEGATO,
+//                Articulation.DETACHE,
+//                Articulation.SUSTAIN_VIBRATO,
+//                Articulation.SUSTAIN_NO_VIBRATO,
 
 //                Articulation.PORTATO,
-                Articulation.SFORZANDO,
-                Articulation.STACCATO,
-                Articulation.MARCATO
+//                Articulation.STACCATO,
+//                Articulation.FLUTTER
 //                Articulation.TREMELO
         ).collect(toList());
     }

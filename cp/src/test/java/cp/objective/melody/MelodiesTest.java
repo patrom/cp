@@ -3,9 +3,9 @@ package cp.objective.melody;
 import cp.AbstractTest;
 import cp.DefaultConfig;
 import cp.combination.RhythmCombination;
-import cp.composition.Composition;
 import cp.composition.beat.BeatGroupTwo;
 import cp.composition.voice.MelodyVoice;
+import cp.composition.voice.VoiceConfig;
 import cp.evaluation.FitnessEvaluationTemplate;
 import cp.generator.MelodyGenerator;
 import cp.midi.MelodyInstrument;
@@ -73,14 +73,14 @@ public class MelodiesTest extends AbstractTest {
 	@Resource(name="defaultUnevenCombinations")
 	private List<RhythmCombination> defaultUnEvenCombinations;
 	@Mock
-	private Composition composition;
+	private VoiceConfig voiceConfig;
 	@Autowired
 	private MelodyVoice melodyVoice;
 
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		Mockito.when(composition.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
+		Mockito.when(voiceConfig.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
 	}
 
 	@Test

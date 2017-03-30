@@ -1,6 +1,6 @@
 package cp.nsga.operator.mutation.melody;
 
-import cp.composition.Composition;
+import cp.composition.voice.VoiceConfig;
 import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.Motive;
 import cp.model.TimeLine;
@@ -38,7 +38,7 @@ public class ReplaceMelodyBlock extends AbstractMutation {
     @Autowired
     private ReplaceRhythmDependantMelody replaceRhythmDependantMelody;
     @Autowired
-    private Composition composition;
+    private VoiceConfig voiceConfig;
     @Autowired
     private TimeLine timeLine;
 
@@ -70,7 +70,7 @@ public class ReplaceMelodyBlock extends AbstractMutation {
                         int degree = RandomUtil.getRandomNumberInRange(1, 7);
                         melodyToInsert.inversePitchClasses(degree, offsetKey , timeLine);
 					case 2:
-                        PitchClassGenerator pitchClassGenerator = composition.getRandomPitchClassGenerator(melodyToInsert.getVoice());
+                        PitchClassGenerator pitchClassGenerator = voiceConfig.getRandomPitchClassGenerator(melodyToInsert.getVoice());
                         pitchClassGenerator.updatePitchClasses(melodyToInsert.getNotes());
                     case 3:
 //                        melodyBlockToInsert.augmentation(2.0, timeLine);

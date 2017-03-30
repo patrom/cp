@@ -147,6 +147,15 @@ public class MidiDevicesUtil {
 		return sequence;
 	}
 
+	public Sequence createSequence2(List<Note> notes)
+			throws InvalidMidiDataException {
+		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
+			InstrumentMapping instrumentMapping = instrumentConfig.getInstrumentMappingForVoice(0);
+			createTrackGeneralMidi(sequence, notes, instrumentMapping.getInstrument(), 60, instrumentMapping.getChannel());
+
+		return sequence;
+	}
+
 	private List<MidiEvent> createTrack(List<Note> notes, int channel)
 			throws InvalidMidiDataException {
         List<MidiEvent> events = new ArrayList<>();
@@ -173,7 +182,7 @@ public class MidiDevicesUtil {
         Articulation prevArticulation = null;
         for (Note notePos : notes) {
             Articulation articulation = notePos.getArticulation();
-            if (articulation != prevArticulation) {
+            if (!notePos.isRest() && articulation != prevArticulation) {
                 List<MidiEvent> events = articulationConverter.convertArticulation(instrument,channel,notePos);
                 for (MidiEvent midiEvent : events) {
                     track.add(midiEvent);

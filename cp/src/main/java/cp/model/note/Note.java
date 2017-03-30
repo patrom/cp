@@ -43,6 +43,7 @@ public class Note implements Comparable<Note>{
 	private boolean quintuplet;
 	private boolean bracket;
 	private String timeModification;
+	private boolean printDynamic;
 	
 	private BeamType beamType;
 	//begin or end of tuplet
@@ -193,7 +194,7 @@ public class Note implements Comparable<Note>{
 	public String toString() {
 		return "np[p=" + ((pitch == Integer.MIN_VALUE) ? "Rest":pitch) + ", pc=" + pitchClass
 		+ ", v=" + voice + ", o=" + octave + ", pos=" + position +  ", l=" + length + ", dl= " + displayLength + ", pos w="
-		+ positionWeight + ", a=" + articulation +  ", d= " + dynamicLevel + "]";
+		+ positionWeight + ", a=" + articulation +  ", d= " + dynamic.name() + "]";
 	}
 
 	public double getPositionWeight() {
@@ -415,4 +416,11 @@ public class Note implements Comparable<Note>{
 		this.timeModification = timeModification;
 	}
 
+	public boolean isPrintDynamic() {
+		return printDynamic;
+	}
+
+	public void setPrintDynamic(boolean printDynamic) {
+		this.printDynamic = printDynamic;
+	}
 }

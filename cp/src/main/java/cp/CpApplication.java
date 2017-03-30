@@ -118,7 +118,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	@Override
 	public void run(String... arg0) throws Exception {
 		musicProperties.setOutputCountRun(2);
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 1; i++) {
 			LOGGER.info("RUN: " + i + " START");		
 			compose();
 		    LOGGER.info("RUN: " + i + " END");
@@ -236,7 +236,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		// Algorithm parameters
 	    int populationSize = 30;
 	    algorithm.setInputParameter("populationSize", populationSize);
-	    algorithm.setInputParameter("maxEvaluations", populationSize * 1500);
+	    algorithm.setInputParameter("maxEvaluations", populationSize * 15);
 	    
 	    // Mutation and Crossover
 	    crossover.setParameter("probabilityCrossover", 1.0); 

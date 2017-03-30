@@ -5,6 +5,7 @@ import cp.generator.MusicProperties;
 import cp.midi.*;
 import cp.model.note.Note;
 import cp.model.rhythm.Rhythm;
+import cp.musicxml.MusicXMLParser;
 import cp.out.arrangement.Arrangement;
 import cp.out.arrangement.Pattern;
 import cp.out.instrument.MidiDevice;
@@ -33,6 +34,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Import({DefaultConfig.class, VariationConfig.class})
@@ -71,7 +73,22 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 
 	@Override
 	public void run(String... arg0) throws Exception {
-		playMidiFilesOnKontaktFor();
+//		playMidiFilesOnKontaktFor();
+		MusicXMLParser parser = new MusicXMLParser("cp/src/main/resources/test.xml");
+		parser.parseMusicXML();
+		List<Note> notes = parser.getNotes();
+		notes.forEach(n -> System.out.println(n));
+		Map<String, List<Note>> notesPerInstrument = parser.getNotesPerInstrument();
+		notesPerInstrument.forEach((k,v) -> System.out.println(k + ":" + v));
+		parser.getNotesForVoice(2).forEach(n -> System.out.println(n));
+
+//		List<Note> notes = new ArrayList<>();
+//		notes.add(note().pos(0).len(DurationConstants.QUARTER).pc(0).pitch(60).ocatve(5).art(Articulation.STACCATO).build());
+//		notes.add(note().pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).pc(0).pitch(60).ocatve(5).art(Articulation.SUSTAIN_VIBRATO).build());
+//		notes.add(note().pos(DurationConstants.HALF).len(DurationConstants.QUARTER).pc(2).pitch(62).ocatve(5).art(Articulation.STACCATO).build());
+//		notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).len(DurationConstants.QUARTER).pc(5).pitch(65).ocatve(5).art(Articulation.LEGATO).build());
+		Sequence seq = midiDevicesUtil.createSequence2(notes);
+		midiDevicesUtil.playOnDevice(seq, 60, MidiDevice.KONTAKT);
 	}
 	
 	public void playMidiFilesOnKontaktFor() throws Exception {
@@ -262,5 +279,6 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 //	private void generateMusicXml(List<MelodyInstrument> melodies, String id) throws Exception{
 //		musicXMLWriter.generateMusicXML(melodies, id);
 //	}
+
 	
 }

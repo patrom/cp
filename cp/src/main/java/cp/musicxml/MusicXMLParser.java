@@ -1,9 +1,12 @@
 package cp.musicxml;
 
+import cp.midi.MidiDevicesUtil;
 import cp.model.note.BeamType;
+import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.model.note.TupletType;
 import cp.model.rhythm.DurationConstants;
+import cp.out.instrument.Articulation;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
@@ -11,6 +14,7 @@ import org.jsoup.select.Elements;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
+import javax.sound.midi.InvalidMidiDataException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -27,17 +31,19 @@ public class MusicXMLParser {
 	public int divisions;
 	private Map<String, List<Note>> notesPerInstrument;
 	private final List<Note> notes = new ArrayList<>();
+
+	private static MidiDevicesUtil midiDevicesUtil = new MidiDevicesUtil();
 	
-	 public static void main (String[]args)throws IOException {
-         MusicXMLParser parser = new MusicXMLParser("src/main/java/resources/cello3.xml");
+	 public static void main (String[]args) throws IOException, InvalidMidiDataException {
+         MusicXMLParser parser = new MusicXMLParser("cp/src/main/resources/test.xml");
          parser.parseMusicXML();
          List<Note> notes = parser.getNotes();
          notes.forEach(n -> System.out.println(n));
          Map<String, List<Note>> notesPerInstrument = parser.getNotesPerInstrument();
          notesPerInstrument.forEach((k,v) -> System.out.println(k + ":" + v));
          parser.getNotesForVoice(2).forEach(n -> System.out.println(n));
-
      }
+
 	
 	public Map<String, List<Note>> getNotesPerInstrument() {
 		return notesPerInstrument;
@@ -70,22 +76,29 @@ public class MusicXMLParser {
 			position = 0;
 			lastDuration = 0;
 			divisions = 1;
-			for (Element thismeasure : part.getElementsByTag("measure")) {
+			for (Element partElement : part.getElementsByTag("measure")) {
 				String measure = "0";
-				if (!thismeasure.getElementsByTag("divisions").isEmpty()) {
-					divisions = Integer.valueOf(thismeasure.getElementsByTag("divisions").text());
+				if (!partElement.getElementsByTag("divisions").isEmpty()) {
+					divisions = Integer.valueOf(partElement.getElementsByTag("divisions").text());
 				}
-				measure = thismeasure.attr("number");
-				for (Element thisnote : thismeasure.children()) {
-					if (thisnote.tagName().equals("note")) {
-						Note note = new Note();
-						if (!thisnote.getElementsByTag("voice").isEmpty()) {
-							currentVoice = Integer.valueOf(thisnote.getElementsByTag("voice").text());
+				measure = partElement.attr("number");
+				for (Element measureElement : partElement.children()) {
+					Note note = new Note();
+					if (!measureElement.getElementsByTag("direction").isEmpty() && !measureElement.getElementsByTag("direction-type").isEmpty()) {
+						Element dynamics = measureElement.getElementsByTag("dynamics").first();
+						if (dynamics != null) {
+							String dynamic = dynamics.tagName();
+							note.setDynamic(Dynamic.getDynamic(dynamic));
+						}
+					}
+					if (measureElement.tagName().equals("note")) {
+						if (!measureElement.getElementsByTag("voice").isEmpty()) {
+							currentVoice = Integer.valueOf(measureElement.getElementsByTag("voice").text());
 							note.setVoice(currentVoice);
 						}
 						// get the pitch
-						if (!thisnote.getElementsByTag("pitch").isEmpty()) {
-							for (Element thispitch : thisnote.getElementsByTag("pitch")) {
+						if (!measureElement.getElementsByTag("pitch").isEmpty()) {
+							for (Element thispitch : measureElement.getElementsByTag("pitch")) {
 								String step = thispitch.getElementsByTag("step").text();
 								int pitch = getPitchFromStep(step);
 								String octave = thispitch.getElementsByTag("octave").text()
@@ -113,35 +126,35 @@ public class MusicXMLParser {
 						} else {
 							note.setPitch(cp.model.note.Note.REST);
 						}
-						if(thisnote.getElementsByTag("time-modification").isEmpty()){
-							switch (thisnote.getElementsByTag("type").text()) {
+						if(measureElement.getElementsByTag("time-modification").isEmpty()){
+							switch (measureElement.getElementsByTag("type").text()) {
 							case "16th":
 								duration = DurationConstants.SIXTEENTH;
-								if(!thisnote.getElementsByTag("dot").isEmpty()){
+								if(!measureElement.getElementsByTag("dot").isEmpty()){
 									//TODO
 								}
 								break;
 							case "eighth":
 								duration = DurationConstants.EIGHT;
-								if(!thisnote.getElementsByTag("dot").isEmpty()){
+								if(!measureElement.getElementsByTag("dot").isEmpty()){
 									duration = DurationConstants.EIGHT + DurationConstants.SIXTEENTH;
 								}
 								break;
 							case "quarter":
 								duration = DurationConstants.QUARTER;
-								if(!thisnote.getElementsByTag("dot").isEmpty()){
+								if(!measureElement.getElementsByTag("dot").isEmpty()){
 									duration = DurationConstants.QUARTER + DurationConstants.EIGHT;
 								}
 								break;
 							case "half":
 								duration = DurationConstants.HALF;
-								if(!thisnote.getElementsByTag("dot").isEmpty()){
+								if(!measureElement.getElementsByTag("dot").isEmpty()){
 									duration = DurationConstants.HALF + DurationConstants.QUARTER;
 								}
 								break;
 							case "whole":
 								duration = DurationConstants.WHOLE;
-								if(!thisnote.getElementsByTag("dot").isEmpty()){
+								if(!measureElement.getElementsByTag("dot").isEmpty()){
 									duration = DurationConstants.WHOLE + DurationConstants.HALF;
 								}
 								break;
@@ -149,72 +162,72 @@ public class MusicXMLParser {
 								break;
 							}
 						}else{
-							if(thisnote.getElementsByTag("actual-notes").text().equals("3")){
+							if(measureElement.getElementsByTag("actual-notes").text().equals("3")){
 								note.setTriplet(true);
-								note.setTimeModification(thisnote.getElementsByTag("normal-type").text());
-								switch (thisnote.getElementsByTag("type").text()) {
+								note.setTimeModification(measureElement.getElementsByTag("normal-type").text());
+								switch (measureElement.getElementsByTag("type").text()) {
 								case "16th":
 									duration = DurationConstants.SIXTEENTH_TRIPLET;
 									break;
 								case "eighth":
 									duration = DurationConstants.EIGHT_TRIPLET;
-									if(!thisnote.getElementsByTag("dot").isEmpty()){
+									if(!measureElement.getElementsByTag("dot").isEmpty()){
 										duration = DurationConstants.EIGHT_TRIPLET + DurationConstants.SIXTEENTH_TRIPLET;
 									}
 									break;
 								case "quarter":
 									duration = DurationConstants.QUARTER_TRIPLET;
-									if(!thisnote.getElementsByTag("dot").isEmpty()){
+									if(!measureElement.getElementsByTag("dot").isEmpty()){
 										duration = DurationConstants.QUARTER_TRIPLET + DurationConstants.EIGHT_TRIPLET;
 									}
 									break;
 								case "half":
 									duration = DurationConstants.HALF_TRIPLET;
-									if(!thisnote.getElementsByTag("dot").isEmpty()){
+									if(!measureElement.getElementsByTag("dot").isEmpty()){
 										duration = DurationConstants.HALF_TRIPLET + DurationConstants.QUARTER_TRIPLET;
 									}
 									break;
 								default:
 									break;
 								}
-							}else if(thisnote.getElementsByTag("actual-notes").text().equals("6")){
+							}else if(measureElement.getElementsByTag("actual-notes").text().equals("6")){
 								note.setSextuplet(true);
-								note.setTimeModification(thisnote.getElementsByTag("normal-type").text());
-								switch (thisnote.getElementsByTag("type").text()) {
+								note.setTimeModification(measureElement.getElementsByTag("normal-type").text());
+								switch (measureElement.getElementsByTag("type").text()) {
 								case "16th":
 									duration = DurationConstants.SIXTEENTH_TRIPLET;
 									break;
 								case "eighth":
 									duration = DurationConstants.EIGHT_TRIPLET;
-									if(!thisnote.getElementsByTag("dot").isEmpty()){
+									if(!measureElement.getElementsByTag("dot").isEmpty()){
 										duration = DurationConstants.EIGHT_TRIPLET + DurationConstants.SIXTEENTH_TRIPLET;
 									}
 									break;
 								case "quarter":
 									duration = DurationConstants.QUARTER_TRIPLET;
-									if(!thisnote.getElementsByTag("dot").isEmpty()){
+									if(!measureElement.getElementsByTag("dot").isEmpty()){
 										duration = DurationConstants.QUARTER_TRIPLET + DurationConstants.EIGHT_TRIPLET;
 									}
 									break;
 								case "half":
 									duration = DurationConstants.HALF_TRIPLET;
-									if(!thisnote.getElementsByTag("dot").isEmpty()){
+									if(!measureElement.getElementsByTag("dot").isEmpty()){
 										duration = DurationConstants.HALF_TRIPLET + DurationConstants.QUARTER_TRIPLET;
 									}
 									break;
 								default:
 									break;
 								}
-							}else if(thisnote.getElementsByTag("actual-notes").text().equals("5")){
+							}else if(measureElement.getElementsByTag("actual-notes").text().equals("5")){
 								note.setQuintuplet(true);
-								note.setTimeModification(thisnote.getElementsByTag("normal-type").text());
-								switch (thisnote.getElementsByTag("type").text()) {
+								note.setTimeModification(measureElement.getElementsByTag("normal-type").text());
+								switch (measureElement.getElementsByTag("type").text()) {
 								case "16th":
 									duration = DurationConstants.SIXTEENTH_QUINTUPLET;
 									break;
 								case "eighth":
 									duration = DurationConstants.EIGHT_QUINTUPLET;
-									if(!thisnote.getElementsByTag("dot").isEmpty()){
+									if(!measureElement.getElementsByTag("dot").isEmpty()){
 										duration = DurationConstants.EIGHT_QUINTUPLET + DurationConstants.SIXTEENTH_QUINTUPLET;
 									}
 									break;
@@ -224,7 +237,7 @@ public class MusicXMLParser {
 							}
 						}
 						
-//						duration = Integer.valueOf(thisnote.getElementsByTag("duration").text()); // *
+//						duration = Integer.valueOf(measureElement.getElementsByTag("duration").text()); // *
 //																									// divMultiplier.get(divisions);			
 //						duration =  duration * Note.DEFAULT_LENGTH / MusicXMLWriter.DIVISIONS;
 						
@@ -233,7 +246,7 @@ public class MusicXMLParser {
 						
 		
 						// now check if it is a chord
-						if (!thisnote.getElementsByTag("chord").isEmpty()) {
+						if (!measureElement.getElementsByTag("chord").isEmpty()) {
 //							note.setStartTime(position);
 							// retract previous duration
 							note.setPosition(position - lastDuration);
@@ -246,19 +259,19 @@ public class MusicXMLParser {
 						}
 
 						lastDuration = duration;
-						note.setInstrument(thisnote.getElementsByTag("instrument").attr("id"));
+						note.setInstrument(measureElement.getElementsByTag("instrument").attr("id"));
 
-						if(!thisnote.getElementsByTag("tied").isEmpty()){
-							if(thisnote.getElementsByTag("tied").attr("type").equals("start")){
+						if(!measureElement.getElementsByTag("tied").isEmpty()){
+							if(measureElement.getElementsByTag("tied").attr("type").equals("start")){
 								note.setTieStart(true);
 							}
-							if(thisnote.getElementsByTag("tied").attr("type").equals("stop")){
+							if(measureElement.getElementsByTag("tied").attr("type").equals("stop")){
 								note.setTieEnd(true);
 							}
 						}
 						
-						if(!thisnote.getElementsByTag("tuplet").isEmpty()){
-							Element tuplet = thisnote.getElementsByTag("tuplet").first();
+						if(!measureElement.getElementsByTag("tuplet").isEmpty()){
+							Element tuplet = measureElement.getElementsByTag("tuplet").first();
 							if(tuplet.attr("type").equals("start")){
 								note.setTupletType(TupletType.START);
 							}
@@ -270,19 +283,19 @@ public class MusicXMLParser {
 							}
 						}
 						
-						if(!thisnote.getElementsByTag("beam").isEmpty()){
-							if(thisnote.getElementsByTag("beam").size() == 1) {
-								if( "begin".equals(thisnote.getElementsByTag("beam").text())){
+						if(!measureElement.getElementsByTag("beam").isEmpty()){
+							if(measureElement.getElementsByTag("beam").size() == 1) {
+								if( "begin".equals(measureElement.getElementsByTag("beam").text())){
 									note.setBeamType(BeamType.BEGIN);	
-								}else if("continue".equals(thisnote.getElementsByTag("beam").text())){
+								}else if("continue".equals(measureElement.getElementsByTag("beam").text())){
 									note.setBeamType(BeamType.CONTINUE);	
-								}else if("end".equals(thisnote.getElementsByTag("beam").text())){
+								}else if("end".equals(measureElement.getElementsByTag("beam").text())){
 									note.setBeamType(BeamType.END);	
 								}
 							}
-							if(thisnote.getElementsByTag("beam").size() == 2){
-								Element firsBeam = thisnote.getElementsByTag("beam").get(0);
-								Element secondBeam = thisnote.getElementsByTag("beam").get(1);
+							if(measureElement.getElementsByTag("beam").size() == 2){
+								Element firsBeam = measureElement.getElementsByTag("beam").get(0);
+								Element secondBeam = measureElement.getElementsByTag("beam").get(1);
 								if("begin".equals(firsBeam.text()) && "begin".equals(secondBeam.text())){
 									note.setBeamType(BeamType.BEGIN_BEGIN);	
 								}else if("continue".equals(firsBeam.text()) && "continue".equals(secondBeam.text())){
@@ -298,19 +311,26 @@ public class MusicXMLParser {
 								}
 							}
 						}
-						
+
+						if (!measureElement.getElementsByTag("notations").isEmpty()) {
+							Element articulations = measureElement.getElementsByTag("articulations").first();
+							if (articulations != null) {
+								String articulation = articulations.tagName();
+								note.setArticulation(Articulation.getArticulation(articulation));
+							}
+						}
 						
 						notes.add(note);
 
-					} else if (thisnote.tagName().equals("forward")) {
-						position = position + Integer.valueOf(thisnote.getElementsByTag("duration").text());
+					} else if (measureElement.tagName().equals("forward")) {
+						position = position + Integer.valueOf(measureElement.getElementsByTag("duration").text());
 								//* divMultiplier.get(divisions);
 
-					} else if (thisnote.tagName().equals("backup")) {
+					} else if (measureElement.tagName().equals("backup")) {
 						// System.out.println("BACKUP" +
-						// Integer.valueOf(thisnote.getElementsByTag("duration").text())
+						// Integer.valueOf(measureElement.getElementsByTag("duration").text())
 						// * divMultiplier.get(divisions));
-						position = position - Integer.valueOf(thisnote.getElementsByTag("duration").text());// *
+						position = position - Integer.valueOf(measureElement.getElementsByTag("duration").text());// *
 																											// divMultiplier.get(divisions);
 					}
 				}
