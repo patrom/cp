@@ -10,7 +10,6 @@ import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.nsga.MusicVariable;
 import cp.nsga.operator.mutation.AbstractMutation;
-import cp.out.instrument.Articulation;
 import cp.out.play.InstrumentConfig;
 import jmetal.core.Solution;
 import jmetal.util.Configuration;
@@ -66,11 +65,11 @@ public class ReplaceMelody extends AbstractMutation{
 //                    }
 //				}
 
-				Articulation articulation = instrumentConfig.getArticuationForVoice(melodyBlock.getVoice());
 				melodyNotes.forEach(n -> {
 					n.setVoice(melody.getVoice());
-					n.setDynamicLevel(voice.getVolume());
-					n.setArticulation(articulation);
+					n.setDynamic(voice.getDynamic());
+					n.setDynamicLevel(voice.getDynamic().getLevel());
+					n.setTechnical(voice.getTechnical());
 					n.setPosition(n.getPosition() + melody.getStart());
 				});
 				PitchClassGenerator pitchClassGenerator = voiceConfig.getRandomPitchClassGenerator(melody.getVoice());

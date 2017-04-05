@@ -3,9 +3,9 @@ package cp;
 import cp.evaluation.FitnessObjectiveValues;
 import cp.generator.MusicProperties;
 import cp.midi.MelodyInstrument;
+import cp.midi.MidiDevicePlayer;
 import cp.midi.MidiDevicesUtil;
 import cp.model.note.Note;
-import cp.out.instrument.MidiDevice;
 import cp.out.play.InstrumentMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +38,7 @@ public abstract class AbstractTest extends JFrame {
 			MelodyInstrument melodyInstrument = new MelodyInstrument(notes, 0);
 			melodyInstrument.setInstrumentMapping(instrumentMapping);
 			Sequence seq = midiDevicesUtil.createSequence(Collections.singletonList(melodyInstrument));
-			midiDevicesUtil.playOnDevice(seq, tempo, MidiDevice.KONTAKT);
+			midiDevicesUtil.playOnDevice(seq, tempo, MidiDevicePlayer.KONTAKT);
 			Thread.sleep(playTime);
 		} catch (InvalidMidiDataException | InterruptedException e) {
 			e.printStackTrace();
@@ -48,7 +48,7 @@ public abstract class AbstractTest extends JFrame {
 	protected void playOnKontakt(List<MelodyInstrument> melodies, int tempo, long playTime ){
 		try {
 			Sequence seq = midiDevicesUtil.createSequence(melodies);
-			midiDevicesUtil.playOnDevice(seq, tempo, MidiDevice.KONTAKT);
+			midiDevicesUtil.playOnDevice(seq, tempo, MidiDevicePlayer.KONTAKT);
 			Thread.sleep(playTime);
 		} catch (InvalidMidiDataException | InterruptedException e) {
 			e.printStackTrace();

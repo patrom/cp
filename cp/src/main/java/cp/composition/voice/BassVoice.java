@@ -14,7 +14,7 @@ public class BassVoice extends Voice {
     @PostConstruct
     public void init(){
         setTimeconfig();
-        volume = Dynamic.MP.getLevel();
+        dynamic = Dynamic.MP;
         pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
 //        pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
         pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);

@@ -20,7 +20,7 @@ public class InstrumentMapping implements Comparable<InstrumentMapping>{
     private int scoreOrder;//order on page layout: 0 is top, ...
     private OrchestralQuality orchestralQuality;
     private List<InstrumentMapping> dependantInstruments = new ArrayList<>();
-    private Articulation articulation = Articulation.LEGATO;
+    private Articulation articulation;
     private InstrumentMapping harmonyInstrumentMapping;
 
     public InstrumentMapping(Instrument instrument, int channel, int scoreOrder) {

@@ -11,9 +11,12 @@ import java.util.List;
 public class MelodyInstrument implements Comparable<MelodyInstrument>{
 
 	private int voice;
-	private List<Note> notes;
+	private List<Note> notes = new ArrayList<>();
 	private InstrumentMapping instrumentMapping;
 	private List<MidiEvent> midiEvents = new ArrayList<>();
+
+	public MelodyInstrument() {
+	}
 	
 	public MelodyInstrument(List<Note> notes, int voice) {
 		this.notes = notes;
@@ -53,6 +56,9 @@ public class MelodyInstrument implements Comparable<MelodyInstrument>{
 		Collections.sort(this.notes);
 	}
 
+	public void addNote(Note note){
+		this.notes.add(note);
+	}
 
 	@Override
 	public int compareTo(MelodyInstrument melodyInstrument) {

@@ -14,6 +14,7 @@ import cp.model.harmony.ChordType;
 import cp.model.harmony.DependantHarmony;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
+import cp.out.instrument.Technical;
 import cp.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -95,7 +96,8 @@ public abstract class Voice {
 
     protected boolean randomBeats;
     protected boolean randomRhytmCombinations = true;
-    protected int volume = Dynamic.MF.getLevel();
+    protected Dynamic dynamic = Dynamic.MF;
+    protected Technical technical = Note.DEFAULT_TECHNICAL;
 
     protected boolean hasDependentHarmony;
     protected List<ChordType> chordTypes = new ArrayList<>();
@@ -162,8 +164,12 @@ public abstract class Voice {
         this.randomRhytmCombinations = randomRhytmCombinations;
     }
 
-    public int getVolume() {
-        return volume;
+    public Dynamic getDynamic(){
+        return dynamic;
+    }
+
+    public Technical getTechnical(){
+        return technical;
     }
 
     public void hasDependentHarmony(boolean hasDependentHarmony) {

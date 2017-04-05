@@ -5,10 +5,15 @@
 
 package cp.musicxml;
 
+import cp.midi.MelodyInstrument;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
+import cp.musicxml.parsed.ComplexElement;
 import cp.musicxml.parsed.ElementWrapper;
 import cp.musicxml.parsed.Score;
+import cp.out.instrument.Technical;
+import cp.out.play.InstrumentConfig;
+import cp.out.play.InstrumentMapping;
 import org.codehaus.stax2.XMLInputFactory2;
 import org.codehaus.stax2.XMLStreamReader2;
 import org.springframework.core.io.FileSystemResource;
@@ -19,18 +24,24 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class XMLParser {
 
+    private Map<String, MelodyInstrument> notesPerInstrument = new HashMap<>();
+
     private XMLStreamReader2 xmlStreamReader;
     private Score score = null;
-    private List<Note> notes = new ArrayList<>();
     private int bpm;
+    private int position = 0;
 
     private ParseXMLHeader parseHeaderObj;
     private ParseXMLBody   parseBodyObj;
+    private InstrumentConfig instrumentConfig;
+
+    public void setInstrumentConfig(InstrumentConfig instrumentConfig) {
+        this.instrumentConfig = instrumentConfig;
+    }
 
     public static void main(String[] args) {
         XMLParser xmlParser = new XMLParser();
@@ -41,22 +52,33 @@ public class XMLParser {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        ComplexElement partList = xmlParser.getScore().getPartList();
+        xmlParser.setInstrumentNames(partList);
         ArrayList<ElementWrapper> body = xmlParser.getScore().getBody();
         xmlParser.traverse(body);
-        List<Note> notes = xmlParser.getNotes();
-        for (Note note : notes) {
-            System.out.println(note);
-            System.out.println(note.getDynamicLevel());
+        for (Map.Entry<String,MelodyInstrument> entry : xmlParser.getNotesPerInstrument().entrySet()) {
+            System.out.println(entry.getKey());
+            List<Note> notes = entry.getValue().getNotes();
+            notes.forEach(n -> System.out.println(n));
         }
-        System.out.println(xmlParser.getBpm());
 
 
+        
+
+
+//        List<Note> notes = xmlParser.getNotes(1);
+//        for (Note note : notes) {
+//            System.out.println(note);
+//            System.out.println(note.getDynamicLevel());
+//        }
+//        System.out.println(xmlParser.getBpm());
     }
 
-    private void traverse(ArrayList<ElementWrapper> body) {
-        int position = 0;
+    public void traverse(ArrayList<ElementWrapper> elementWrappers) {
         Dynamic dynamic = null;
-        for (ElementWrapper element : body) {
+        Technical words = null;
+        for (ElementWrapper element : elementWrappers) {
             if (element.getIsComplex()){
                 ArrayList<ElementWrapper> elements = element.getComplexElement().getElements();
                 if(element.getComplexElement().getElementName().equals("direction")){
@@ -65,23 +87,47 @@ public class XMLParser {
                         if(directionElement.getIsComplex() && directionElement.getComplexElement().getElementName().equals("direction-type")){
                             ArrayList<ElementWrapper> directionTypeElements = directionElement.getComplexElement().getElements();
                             for (ElementWrapper directionTypeElement : directionTypeElements) {
-                                if(directionTypeElement.getComplexElement().getElementName().equals("dynamics")){
+                                if(directionTypeElement.getIsComplex() && directionTypeElement.getComplexElement().getElementName().equals("dynamics")){
                                     dynamic = Dynamic.valueOf(directionTypeElement.getComplexElement().getElements().get(0).getElement().getElementName().toUpperCase());
+                                }
+                                if(!directionTypeElement.getIsComplex() && directionTypeElement.getElement().getElementName().equals("words")){
+                                    words = Technical.valueOf(directionTypeElement.getElement().getData());
                                 }
                             }
                         }
                     }
                 }
                 if (element.getComplexElement().getElementName().equals("note")){
-                    NoteParser noteParser = new NoteParser(position);
+                    NoteParser noteParser = new NoteParser();
                     Note note = noteParser.parseNote(element.getComplexElement().getElements());
-                    position = position + note.getLength();
+                    MelodyInstrument melodyInstrument = notesPerInstrument.get(note.getInstrument());
+                    List<Note> notes = melodyInstrument.getNotes();
+                    if (notes != null && !notes.isEmpty()) {
+                        Collections.sort(notes);
+                        Note lastNote = notes.get(notes.size() - 1);
+                        note.setPosition(lastNote.getPosition() + lastNote.getLength());
+                    } else {
+                        note.setPosition(0);
+                    }
                     if (dynamic != null) {
                         note.setDynamic(dynamic);
                         note.setDynamicLevel(dynamic.getLevel());
                     }
+                    if (words != null){
+                        note.setTechnical(words);
+                    }
                     dynamic = null;
-                    notes.add(note);
+                    notesPerInstrument.compute(note.getInstrument(), (k, v) -> {
+                                if (v == null) {
+                                    MelodyInstrument m = new MelodyInstrument();
+                                    m.addNote(note);
+                                    return m;
+                                }else {
+                                    v.addNote(note);
+                                    return v;
+                                }
+                            }
+                    );
                 }else {
                     traverse(elements);
                 }
@@ -93,6 +139,44 @@ public class XMLParser {
                     case "per-minute":
                         bpm = Integer.parseInt(element.getElement().getData());
                         break;
+                    case "score-instrument":
+                        if (instrumentConfig != null){
+                            String instrumentName = element.getComplexElement().getElements().get(0).getElement().getData();
+                            InstrumentMapping instrumentMapping = instrumentConfig.getInstrumentMapping(instrumentName);
+                            MelodyInstrument melodyInstrument = new MelodyInstrument();
+                            melodyInstrument.setInstrumentMapping(instrumentMapping);
+                            notesPerInstrument.put(element.getComplexElement().getAttributes().get(0).getAttributeName(), melodyInstrument);
+                        }
+                        break;
+
+                }
+            }
+        }
+    }
+
+    public void setInstrumentNames(ComplexElement partList){
+        ArrayList<ElementWrapper> elements = partList.getElements();
+        for (ElementWrapper scorePartElement : elements) {
+            if(scorePartElement.getIsComplex() && scorePartElement.getComplexElement().getElementName().equals("score-part")){
+                ArrayList<ElementWrapper> scoreElements = scorePartElement.getComplexElement().getElements();
+                for (ElementWrapper scoreElement : scoreElements) {
+                    if(scoreElement.getIsComplex() && scoreElement.getComplexElement().getElementName().equals("score-instrument")){
+                        ArrayList<ElementWrapper> instrumentElements = scoreElement.getComplexElement().getElements();
+                        String instrumentName;
+                        String instrument = scoreElement.getComplexElement().getAttributes().get(0).getAttributeText();
+                        for (ElementWrapper instrumentElement : instrumentElements) {
+                            if(!instrumentElement.getIsComplex() && instrumentElement.getElement().getElementName().equals("instrument-name")){
+                                if (instrumentConfig != null){
+                                    instrumentName = instrumentElement.getElement().getData();
+                                    InstrumentMapping instrumentMapping = instrumentConfig.getInstrumentMapping(instrumentName);
+                                    MelodyInstrument melodyInstrument = new MelodyInstrument();
+                                    melodyInstrument.setInstrumentMapping(instrumentMapping);
+                                    notesPerInstrument.put(instrument, melodyInstrument);
+                                }
+                            }
+                        }
+
+                    }
                 }
             }
         }
@@ -104,8 +188,8 @@ public class XMLParser {
         return score;
     }
 
-    public List<Note> getNotes() {
-        return notes;
+    public Map<String,MelodyInstrument> getNotesPerInstrument() {
+        return notesPerInstrument;
     }
 
     public int getBpm() {

@@ -1,11 +1,12 @@
 package cp.midi;
 
 import cp.model.melody.MelodyBlock;
+import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Articulation;
-import cp.out.instrument.ArticulationConverter;
 import cp.out.instrument.Instrument;
+import cp.out.instrument.Technical;
 import cp.out.play.InstrumentConfig;
 import cp.out.play.InstrumentMapping;
 import org.slf4j.Logger;
@@ -28,9 +29,9 @@ public class MidiDevicesUtil {
     @Autowired
     private InstrumentConfig instrumentConfig;
     @Autowired
-    private ArticulationConverter articulationConverter;
+    private MidiEventConverter midiEventConverter;
 
-	public void playOnDevice(Sequence sequence, int tempo, cp.out.instrument.MidiDevice kontakt) {
+	public void playOnDevice(Sequence sequence, int tempo, MidiDevicePlayer kontakt) {
 		LOGGER.info("tempo:" + tempo);
 		MidiDevice.Info[] infos = MidiSystem.getMidiDeviceInfo();
 		for (MidiDevice.Info info : infos) {
@@ -84,7 +85,7 @@ public class MidiDevicesUtil {
 		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
 		for (Entry<InstrumentMapping, List<Note>> entry: map.entrySet()) {
 			InstrumentMapping instrumentMapping = entry.getKey();
-			createTrackGeneralMidi(sequence, entry.getValue(), instrumentMapping.getInstrument(), tempo, instrumentMapping.getChannel());
+			createTrackGeneralMidi(sequence, entry.getValue(), instrumentMapping.getInstrument(), tempo, instrumentMapping.getChannel(), false);
 		}
 		return sequence;
 	}
@@ -126,13 +127,12 @@ public class MidiDevicesUtil {
 		return sequence;
 	}
 
-	public Sequence createSequenceGeneralMidi(List<MelodyInstrument> melodies, int tempo)
+	public Sequence createSequenceGeneralMidi(List<MelodyInstrument> melodies, int tempo, boolean isKontakt)
 			throws InvalidMidiDataException {
 		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
 		for (MelodyInstrument melodyInstrument : melodies) {
-			if (melodyInstrument.getInstrumentMapping() != null) {
-//				createTrackGeneralMidi(sequence, melodyInstrument.getNotes(), melodyInstrument.getInstrument(), tempo);
-			}
+			InstrumentMapping instrumentMapping = melodyInstrument.getInstrumentMapping();
+			createTrackGeneralMidi(sequence, melodyInstrument.getNotes(), instrumentMapping.getInstrument(), tempo, instrumentMapping.getChannel(), isKontakt);
 		}
 		return sequence;
 	}
@@ -142,7 +142,7 @@ public class MidiDevicesUtil {
 		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
 		for (MelodyBlock melody : melodies) {
 			InstrumentMapping instrumentMapping = instrumentConfig.getInstrumentMappingForVoice(melody.getVoice());
-			createTrackGeneralMidi(sequence, melody.getMelodyBlockNotesWithRests(), instrumentMapping.getInstrument(), tempo, instrumentMapping.getChannel());
+			createTrackGeneralMidi(sequence, melody.getMelodyBlockNotesWithRests(), instrumentMapping.getInstrument(), tempo, instrumentMapping.getChannel(), false);
 		}
 		return sequence;
 	}
@@ -151,7 +151,7 @@ public class MidiDevicesUtil {
 			throws InvalidMidiDataException {
 		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
 			InstrumentMapping instrumentMapping = instrumentConfig.getInstrumentMappingForVoice(0);
-			createTrackGeneralMidi(sequence, notes, instrumentMapping.getInstrument(), 60, instrumentMapping.getChannel());
+			createTrackGeneralMidi(sequence, notes, instrumentMapping.getInstrument(), 60, instrumentMapping.getChannel(), false);
 
 		return sequence;
 	}
@@ -168,7 +168,7 @@ public class MidiDevicesUtil {
 		return events;
 	}
 
-	private void createTrackGeneralMidi(Sequence sequence, List<Note> notes, Instrument instrument, int tempo, int channel)
+	private void createTrackGeneralMidi(Sequence sequence, List<Note> notes, Instrument instrument, int tempo, int channel, boolean isKontakt)
 			throws InvalidMidiDataException {
 		Track track = sequence.createTrack();
 
@@ -179,21 +179,45 @@ public class MidiDevicesUtil {
 		MidiEvent event = createGeneralMidiEvent(instrument, channel);
 		track.add(event);
 
-        Articulation prevArticulation = null;
-        for (Note notePos : notes) {
-            Articulation articulation = notePos.getArticulation();
-            if (!notePos.isRest() && articulation != prevArticulation) {
-                List<MidiEvent> events = articulationConverter.convertArticulation(instrument,channel,notePos);
-                for (MidiEvent midiEvent : events) {
-                    track.add(midiEvent);
-                }
-            }
-            MidiEvent eventOn = createNoteMidiEvent(ShortMessage.NOTE_ON, notePos, notePos.getPosition(), channel);
-            track.add(eventOn);
-            MidiEvent eventOff = createNoteMidiEvent(ShortMessage.NOTE_OFF, notePos, notePos.getPosition() + notePos.getLength(), channel);
-            track.add(eventOff);
-        }
-    }
+		Dynamic prevDynamic = null;
+		Technical prevTechinal = null;
+		Articulation prevArticulation = null;
+		for (Note note : notes) {
+			if (!note.isRest() && !isKontakt) {
+				Technical technical = note.getTechnical();
+				List<MidiEvent> technicalEvents = null;
+				if(prevArticulation != null || prevDynamic != null || technical != prevTechinal){
+					technicalEvents = midiEventConverter.convertTechnical(channel,note, instrument);
+					for (MidiEvent midiEvent : technicalEvents) {
+						track.add(midiEvent);
+					}
+					prevTechinal = technical;
+				}
+				Articulation articulation = note.getArticulation();
+				if (articulation != null) {
+					List<MidiEvent> articulationEvents = midiEventConverter.convertArticulation(channel,note, instrument);
+					for (MidiEvent midiEvent : articulationEvents) {
+                        track.add(midiEvent);
+                    }
+					prevArticulation = articulation;
+				}
+
+				Dynamic dynamic = note.getDynamic();
+				if(dynamic != prevDynamic){
+					List<MidiEvent> dynamicEvents = midiEventConverter.convertDynamic(channel,note, instrument);
+					for (MidiEvent midiEvent : dynamicEvents) {
+						track.add(midiEvent);
+					}
+					prevDynamic = dynamic;
+				}
+
+			}
+			MidiEvent eventOn = createNoteMidiEvent(ShortMessage.NOTE_ON, note, note.getPosition(), channel);
+			track.add(eventOn);
+			MidiEvent eventOff = createNoteMidiEvent(ShortMessage.NOTE_OFF, note, note.getPosition() + note.getLength(), channel);
+			track.add(eventOff);
+		}
+	}
 
 	private MidiEvent createGeneralMidiEvent(Instrument instrument, int channel)
 			throws InvalidMidiDataException {

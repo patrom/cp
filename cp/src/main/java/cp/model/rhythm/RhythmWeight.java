@@ -1,6 +1,9 @@
 package cp.model.rhythm;
 
+import cp.model.note.Dynamic;
 import cp.model.note.Note;
+import cp.out.instrument.Articulation;
+import cp.out.instrument.Technical;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -13,6 +16,7 @@ public class RhythmWeight {
 	private List<Note> notes;
 
 	private static final double ARTICULATION_WEIGHT = 1.0;
+	private static final double TECHNICAL_WEIGHT = 1.0;
 	private static final double DYNAMIC_WEIGHT = 1.0;
 	private static final double DIASTEMATY_WEIGHT = 1.0;
 
@@ -103,20 +107,36 @@ public class RhythmWeight {
 	}
 
 	protected void updateRhythmWeightDynamics() {
-		notes.forEach(note -> {
-			if (!note.getDynamic().equals(Note.DEFAULT_DYNAMIC)){
+		Dynamic prevDynamic = null;
+		for (Note note : notes) {
+			Dynamic dynamic = note.getDynamic();
+			if (dynamic != prevDynamic){
 				note.setPositionWeight(note.getPositionWeight() + DYNAMIC_WEIGHT);
 			}
-			
-		});
+			prevDynamic = dynamic;
+		}
 	}
 
 	protected void updateRhythmWeightArticulation() {
-		notes.forEach(note -> {
-			if (!note.getArticulation().equals(Note.DEFAULT_ARTICULATION)){
+		Articulation prevArticulation = null;
+		for (Note note : notes) {
+			Articulation articulation = note.getArticulation();
+			if (articulation != null && articulation != prevArticulation){
 				note.setPositionWeight(note.getPositionWeight() + ARTICULATION_WEIGHT);
 			}
-		});
+			prevArticulation = articulation;
+		}
+	}
+
+	protected void updateRhythmWeightTechnical() {
+		Technical prevTechnical = null;
+		for (Note note : notes) {
+			Technical technical = note.getTechnical();
+			if (technical != null && technical != prevTechnical){
+				note.setPositionWeight(note.getPositionWeight() + TECHNICAL_WEIGHT);
+			}
+			prevTechnical = technical;
+		}
 	}
 	
 	public void updateRhythmWeightMinimum(double min){
@@ -127,6 +147,7 @@ public class RhythmWeight {
 		updateRhythmWeightDiastematy(pitches);
 		updateRhythmWeightDynamics();
 		updateRhythmWeightArticulation();
+		updateRhythmWeightTechnical();
 	}
 	
 	public void updateRhythmWeight(){

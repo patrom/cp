@@ -1,12 +1,12 @@
-package cp.out.instrument;
+package cp.midi;
 
-public enum MidiDevice {
+public enum MidiDevicePlayer {
 
 	KONTAKT;
 	
 	private String name;
 	
-	MidiDevice(){
+	MidiDevicePlayer(){
 		String OS = System.getProperty("os.name").toLowerCase();
 		if (OS.indexOf("win") >= 0) {
 			this.name = "LoopBe Internal MIDI";

@@ -58,7 +58,7 @@
 			<direction>
 				<direction-type>
 					<dynamics color="#000000" font-family="Opus Text Std" font-style="normal" font-size="11.9365" font-weight="normal">
-						<f />
+						<ppp />
 					</dynamics>
 				</direction-type>
 				<voice>1</voice>
@@ -77,6 +77,15 @@
                 <notations>
                 </notations>
             </note>
+			<direction>
+				<direction-type>
+					<dynamics color="#000000" font-family="Opus Text Std" font-style="normal" font-size="11.9365" font-weight="normal">
+						<fff />
+					</dynamics>
+				</direction-type>
+				<voice>1</voice>
+				<staff>1</staff>
+			</direction>
             <note>
                 <pitch>
                     <step>D</step>

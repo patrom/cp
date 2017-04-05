@@ -20,7 +20,7 @@ public class TimeVoice extends Voice {
     @PostConstruct
     public void init(){
         setTimeconfig();
-        volume = Dynamic.MF.getLevel();
+        dynamic = Dynamic.MF;
         pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
         pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
         pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);

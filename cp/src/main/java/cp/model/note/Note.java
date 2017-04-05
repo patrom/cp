@@ -3,6 +3,7 @@ package cp.model.note;
 import cp.model.harmony.DependantHarmony;
 import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Articulation;
+import cp.out.instrument.Technical;
 
 
 public class Note implements Comparable<Note>{
@@ -11,7 +12,7 @@ public class Note implements Comparable<Note>{
 	public static final int REST = Integer.MIN_VALUE;
 	   /** default dynamic*/
     public static final int DEFAULT_DYNAMIC_LEVEL = Dynamic.MF.getLevel();
-    public static final Articulation DEFAULT_ARTICULATION = Articulation.LEGATO;
+    public static final Technical DEFAULT_TECHNICAL = Technical.PORTATO;
     public static final Dynamic DEFAULT_DYNAMIC = Dynamic.MF;
     public static final int DEFAULT_LENGTH = DurationConstants.QUARTER;
 
@@ -44,6 +45,8 @@ public class Note implements Comparable<Note>{
 	private boolean bracket;
 	private String timeModification;
 	private boolean printDynamic;
+	private boolean printTechnical;
+	private Technical technical = Note.DEFAULT_TECHNICAL;
 	
 	private BeamType beamType;
 	//begin or end of tuplet
@@ -53,7 +56,7 @@ public class Note implements Comparable<Note>{
 	private String instrument;
 	private DependantHarmony dependantHarmony;
 	
-	private Articulation articulation = DEFAULT_ARTICULATION;
+	private Articulation articulation;
 	private Dynamic dynamic = DEFAULT_DYNAMIC;
 
 	public Note() {
@@ -80,6 +83,7 @@ public class Note implements Comparable<Note>{
 		this.positionWeight = anotherNote.getPositionWeight();
 		this.articulation = anotherNote.getArticulation();
 		this.dynamic = anotherNote.getDynamic();
+		this.technical = anotherNote.getTechnical();
 		this.keel = anotherNote.isKeel();
 		this.crest = anotherNote.isCrest();
 		this.displayLength = anotherNote.getDisplayLength();
@@ -194,7 +198,7 @@ public class Note implements Comparable<Note>{
 	public String toString() {
 		return "np[p=" + ((pitch == Integer.MIN_VALUE) ? "Rest":pitch) + ", pc=" + pitchClass
 		+ ", v=" + voice + ", o=" + octave + ", pos=" + position +  ", l=" + length + ", dl= " + displayLength + ", pos w="
-		+ positionWeight + ", a=" + articulation +  ", d= " + dynamic.name() + "]";
+		+ positionWeight + ", a=" + articulation +  ", d= " + dynamic.name() + ", t= " + technical + "]";
 	}
 
 	public double getPositionWeight() {
@@ -249,7 +253,7 @@ public class Note implements Comparable<Note>{
 	}
 	
 	public boolean hasArticulation(){
-		return !articulation.equals(DEFAULT_ARTICULATION);
+		return articulation != null;
 	}
 	
 	public void setArticulation(Articulation articulation) {
@@ -422,5 +426,21 @@ public class Note implements Comparable<Note>{
 
 	public void setPrintDynamic(boolean printDynamic) {
 		this.printDynamic = printDynamic;
+	}
+
+	public Technical getTechnical() {
+		return technical;
+	}
+
+	public void setTechnical(Technical technical) {
+		this.technical = technical;
+	}
+
+	public boolean isPrintTechnical() {
+		return printTechnical;
+	}
+
+	public void setPrintTechnical(boolean printTechnical) {
+		this.printTechnical = printTechnical;
 	}
 }

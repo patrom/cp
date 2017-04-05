@@ -181,7 +181,7 @@ public class CpMelody implements Comparable<CpMelody>{
 			note.setArticulation(articulation);
 
 			Note removeArticulation = RandomUtil.getRandomFromList(notesNoRest);
-			removeArticulation.setArticulation(Note.DEFAULT_ARTICULATION);
+			removeArticulation.setArticulation(null);
 		}
 	}
 

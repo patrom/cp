@@ -6,6 +6,7 @@ import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.model.note.TupletType;
 import cp.out.instrument.Instrument;
+import cp.out.instrument.Technical;
 import cp.out.instrument.keyboard.Piano;
 import cp.out.play.InstrumentConfig;
 import cp.out.play.InstrumentMapping;
@@ -23,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.OutputStream;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static cp.model.note.NoteBuilder.note;
@@ -211,7 +213,28 @@ public class MusicXMLWriter {
 		xmlStreamWriter.writeStartElement("direction-type");
 		xmlStreamWriter.writeCharacters("\n");
 
-        createDynamicElement(note.getDynamic());
+        if (note.isPrintDynamic()) {
+            createDynamicElement(note.getDynamic());
+        }
+        if (note.isPrintTechnical()) {
+            createWordsElement(note.getTechnical());
+        }
+
+        xmlStreamWriter.writeEndElement();
+		xmlStreamWriter.writeCharacters("\n");
+	}
+
+	private void createWordsElement(Technical technical) throws XMLStreamException {
+		xmlStreamWriter.writeStartElement("words");
+		xmlStreamWriter.writeAttribute("justify", "left");
+		xmlStreamWriter.writeAttribute("valign", "middle");
+		xmlStreamWriter.writeAttribute("font-family", "Plantin MT Std");
+		xmlStreamWriter.writeAttribute("font-style", "normal");
+		xmlStreamWriter.writeAttribute("font-size", "11.9365");
+		xmlStreamWriter.writeAttribute("font-weight", "normal");
+		xmlStreamWriter.writeCharacters("\n");
+
+		xmlStreamWriter.writeCharacters(technical.getTechnical());
 
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
@@ -593,7 +616,7 @@ public class MusicXMLWriter {
 	}
 	
 	protected void createMeasureElements(List<Note> allNotes, InstrumentMapping instrumentMapping) throws XMLStreamException{
-        updatePrintDynamicNote(allNotes);
+        updatePrintDirectionTypeNote(allNotes);
         int measureSize = getMeasureSize();
 		BeatMap notesPerMeasureBeat = new BeatMap();
 		notesPerMeasureBeat.createBeatMap(allNotes, measureSize);
@@ -619,16 +642,20 @@ public class MusicXMLWriter {
 		}
 	}
 
-    private void updatePrintDynamicNote(List<Note> allNotes) {
-        Collections.sort(allNotes);
-        int size = allNotes.size() -1;
-        Note firstNote = allNotes.get(0);
+    private void updatePrintDirectionTypeNote(List<Note> allNotes) {
+        List<Note> allNotesNoRests = allNotes.stream().filter(n -> !n.isRest()).sorted().collect(Collectors.toList());
+        int size = allNotesNoRests.size() -1;
+        Note firstNote = allNotesNoRests.get(0);
         firstNote.setPrintDynamic(true);
+        firstNote.setPrintTechnical(true);
         for (int i = 0; i < size; i++) {
-            Note note = allNotes.get(i);
-            Note nextNote = allNotes.get(i + 1);
+            Note note = allNotesNoRests.get(i);
+            Note nextNote = allNotesNoRests.get(i + 1);
             if(note.getDynamic() != nextNote.getDynamic()){
                 nextNote.setPrintDynamic(true);
+            }
+            if(note.getTechnical() != null && !note.getTechnical().equals(nextNote.getTechnical())){
+                nextNote.setPrintTechnical(true);
             }
         }
     }
@@ -665,7 +692,7 @@ public class MusicXMLWriter {
 			if (position == note.getPosition()) {
 				createNoteElement(note, instrumentMapping, true);
 			} else {
-			    if(note.isPrintDynamic()){
+			    if(note.isPrintDynamic() || note.isPrintTechnical()){
 			        createNoteDirectionElement(note, instrumentMapping.getInstrument());
                 }
 				createNoteElement(note, instrumentMapping, false);

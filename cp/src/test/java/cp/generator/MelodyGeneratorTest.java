@@ -12,6 +12,7 @@ import cp.composition.voice.MelodyVoice;
 import cp.composition.voice.VoiceConfig;
 import cp.generator.pitchclass.PitchClassGenerator;
 import cp.generator.pitchclass.RandomPitchClasses;
+import cp.midi.MidiDevicePlayer;
 import cp.midi.MidiDevicesUtil;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
@@ -22,7 +23,6 @@ import cp.model.note.NoteBuilder;
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Articulation;
-import cp.out.instrument.MidiDevice;
 import cp.out.instrument.strings.ViolinSolo;
 import cp.out.print.ScoreUtilities;
 import cp.out.print.note.Key;
@@ -108,19 +108,19 @@ public class MelodyGeneratorTest extends JFrame{
 	@Test
 	public void testGenerateMelodyNotes() throws InvalidMidiDataException, InterruptedException {
 		List<Note> notes = new ArrayList<>();
-		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(4).pitch(64).ocatve(4).pos(0).art(Articulation.LEGATO).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(4).pitch(64).ocatve(4).pos(0).art(Articulation.STACCATO).build());
 		notes.add(NoteBuilder.note().len(DurationConstants.HALF).pc(2).pitch(62).ocatve(4).pos(DurationConstants.QUARTER).art(Articulation.STACCATO).build());
 		notes.add(NoteBuilder.note().len(DurationConstants.HALF).pc(4).pitch(64).ocatve(4).pos(DurationConstants.HALF + DurationConstants.QUARTER).art(Articulation.STACCATO).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.EIGHT).pc(5).pitch(65).ocatve(4).pos(DurationConstants.WHOLE + DurationConstants.QUARTER).art(Articulation.LEGATO).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.EIGHT).pc(5).pitch(65).ocatve(4).pos(DurationConstants.WHOLE + DurationConstants.QUARTER).art(Articulation.STACCATO).build());
 		notes.add(NoteBuilder.note().len(DurationConstants.EIGHT).pc(7).pitch(67).ocatve(4).pos(DurationConstants.WHOLE + DurationConstants.THREE_EIGHTS).art(Articulation.STACCATO).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(9).pitch(69).ocatve(4).pos(DurationConstants.WHOLE + DurationConstants.HALF).art(Articulation.LEGATO).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.HALF).pc(11).pitch(71).ocatve(4).pos(DurationConstants.WHOLE + DurationConstants.SIX_EIGHTS).art(Articulation.LEGATO).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(9).pitch(69).ocatve(4).pos(DurationConstants.WHOLE + DurationConstants.HALF).art(Articulation.STACCATO).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.HALF).pc(11).pitch(71).ocatve(4).pos(DurationConstants.WHOLE + DurationConstants.SIX_EIGHTS).art(Articulation.STACCATO).build());
 		notes.add(NoteBuilder.note().len(DurationConstants.HALF).pc(0).pitch(60).ocatve(4).pos(2 * DurationConstants.WHOLE + DurationConstants.QUARTER).art(Articulation.STACCATO).build());
 //		notes.forEach(note -> note.setArticulation(Articulation.STACCATO));
 		Score score = scoreUtilities.createMelody(notes);
 		View.notate(score);
 		Sequence seq = midiDevicesUtil.createSequenceNotes(notes, new  ViolinSolo(), 0);
-		midiDevicesUtil.playOnDevice(seq, 60, MidiDevice.KONTAKT);
+		midiDevicesUtil.playOnDevice(seq, 60, MidiDevicePlayer.KONTAKT);
 		Thread.sleep(10000);
 	}
 	

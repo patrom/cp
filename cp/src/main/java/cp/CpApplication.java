@@ -9,7 +9,6 @@ import cp.nsga.MusicSolution;
 import cp.nsga.MusicSolutionType;
 import cp.nsga.MusicVariable;
 import cp.nsga.operator.mutation.melody.*;
-import cp.out.instrument.ArticulationConverter;
 import cp.out.orchestration.HarmonyOrchestrator;
 import cp.out.orchestration.Orchestrator;
 import cp.out.orchestration.quality.BrilliantWhite;
@@ -91,9 +90,6 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	@Qualifier(value="fiveVoiceComposition")
 	private FiveVoiceComposition fiveVoiceComposition;
 	@Autowired
-	@Qualifier(value = "vslArticulationConverter")
-	private ArticulationConverter articulationConverter;
-	@Autowired
 	private Orchestrator orchestrator;
 	@Autowired
 	private PleasantGreen pleasantGreen;
@@ -118,7 +114,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	@Override
 	public void run(String... arg0) throws Exception {
 		musicProperties.setOutputCountRun(2);
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < 10; i++) {
 			LOGGER.info("RUN: " + i + " START");		
 			compose();
 		    LOGGER.info("RUN: " + i + " END");
@@ -236,7 +232,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		// Algorithm parameters
 	    int populationSize = 30;
 	    algorithm.setInputParameter("populationSize", populationSize);
-	    algorithm.setInputParameter("maxEvaluations", populationSize * 15);
+	    algorithm.setInputParameter("maxEvaluations", populationSize * 1500);
 	    
 	    // Mutation and Crossover
 	    crossover.setParameter("probabilityCrossover", 1.0); 

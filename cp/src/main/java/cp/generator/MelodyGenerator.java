@@ -11,7 +11,6 @@ import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
-import cp.out.instrument.Articulation;
 import cp.out.instrument.Instrument;
 import cp.out.play.InstrumentConfig;
 import cp.util.RandomUtil;
@@ -129,11 +128,11 @@ public class MelodyGenerator {
 
 	public CpMelody generateMelodyConfig(int voice, int start, BeatGroup beatGroup, Voice voiceConfig) {
 		List<Note> melodyNotes = voiceConfig.getNotes(beatGroup);
-		Articulation articulation = instrumentConfig.getArticuationForVoice(voice);
 		melodyNotes.forEach(n -> {
 			n.setVoice(voice);
-			n.setDynamicLevel(voiceConfig.getVolume());
-			n.setArticulation(articulation);
+			n.setDynamic(voiceConfig.getDynamic());
+			n.setDynamicLevel(voiceConfig.getDynamic().getLevel());
+			n.setTechnical(voiceConfig.getTechnical());
 			n.setPosition(n.getPosition() + start);
 		});
 		melodyNotes = voiceConfiguration.getRandomPitchClassGenerator(voice).updatePitchClasses(melodyNotes);

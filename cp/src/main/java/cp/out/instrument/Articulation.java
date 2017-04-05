@@ -14,35 +14,33 @@ public enum Articulation {
 	SCOOP("scoop"),
 	PLOP("plop"),
 	DOIT("doit"),
-	FALLOFF("falloff"),
+	FALLOFF("falloff");
 
 
-
-
-	LEGATO("legato"),
-
-//	SFORZANDO("sforzando"),
-//	FORTEPIANO(""),
-
-	PORTATO("portato"),
-
-	MARTELATO(""),
-	TREMELO(""),
-
-
-	PONTICELLO_STACCATO(""),
-	PONTICELLO_SUSTAIN(""),
-	PONTICELL_TREMELO(""),
-
-	SUSTAIN_VIBRATO(""),
-	SUSTAIN_NO_VIBRATO(""),
-	FLUTTER(""),
-	REPEATLEGATO(""),
-	PORTAMENTO(""),
-	DETACHE("detaché"),
-	HARMONIC(""),
-
-	PIZZICATO("pizzicato");
+//	LEGATO("legato"),
+//
+////	SFORZANDO("sforzando"),
+////	FORTEPIANO(""),
+//
+//	PORTATO("portato"),
+//
+//	MARTELATO(""),
+//	TREMELO(""),
+//
+//
+//	PONTICELLO_STACCATO(""),
+//	PONTICELLO_SUSTAIN(""),
+//	PONTICELL_TREMELO(""),
+//
+//	SUSTAIN_VIBRATO(""),
+//	SUSTAIN_NO_VIBRATO(""),
+//	FLUTTER(""),
+//	REPEATLEGATO(""),
+//	PORTAMENTO(""),
+//	DETACHE("detaché"),
+//	HARMONIC(""),
+//
+//	PIZZICATO("pizzicato");
 
 	
 	private final String musicXmlLabel;

@@ -96,32 +96,25 @@ public class InstrumentConfig {
 
     private Map<Integer, InstrumentMapping> getStringTrio(){
         InstrumentMapping violin = new InstrumentMapping(new ViolinSolo(), 3, 0);
-        violin.setArticulation(Articulation.DETACHE);
         instruments.put(2,violin);
         InstrumentMapping viola = new InstrumentMapping(new ViolaSolo(), 2, 1);
-        viola.setArticulation(Articulation.DETACHE);
         instruments.put(1,viola);
         InstrumentMapping cello = new InstrumentMapping(new CelloSolo(), 1, 2);
-        cello.setArticulation(Articulation.DETACHE);
         instruments.put(0,cello);
         return instruments;
     }
 
     private Map<Integer, InstrumentMapping> getStrinqQuartet(OrchestralQuality orchestralQualityMelody, OrchestralQuality orchestralQualityBass, OrchestralQuality orchestralQualityAcc) {
         InstrumentMapping violin1 = new InstrumentMapping(new ViolinSolo(), 3, 0);
-        violin1.setArticulation(Articulation.DETACHE);
         violin1.setOrchestralQuality(orchestralQualityMelody);
         instruments.put(3, violin1);
         InstrumentMapping violin2 = new InstrumentMapping(new ViolinSolo(), 3, 1);
-        violin2.setArticulation(Articulation.DETACHE);
         violin2.setOrchestralQuality(orchestralQualityAcc);
         instruments.put(2, violin2);
         InstrumentMapping viola = new InstrumentMapping(new ViolaSolo(), 2, 2);
-        viola.setArticulation(Articulation.DETACHE);
         viola.setOrchestralQuality(orchestralQualityAcc);
         instruments.put(1, viola);
         InstrumentMapping cello = new InstrumentMapping(new CelloSolo(), 1, 3);
-        cello.setArticulation(Articulation.DETACHE);
         cello.setOrchestralQuality(orchestralQualityBass);
         instruments.put(0, cello);
         return instruments;
@@ -129,19 +122,15 @@ public class InstrumentConfig {
 
     public Map<Integer, InstrumentMapping> getStrinqQuartet() {
         InstrumentMapping violin1 = new InstrumentMapping(new ViolinSolo(), 3, 0);
-        violin1.setArticulation(Articulation.DETACHE);
         violin1.setOrchestralQuality(orchestralQualityConfig.getOchestralQualityForVoice(3));
         instruments.put(3, violin1);
         InstrumentMapping violin2 = new InstrumentMapping(new ViolinSolo(), 3, 1);
-        violin2.setArticulation(Articulation.DETACHE);
         violin2.setOrchestralQuality(orchestralQualityConfig.getOchestralQualityForVoice(2));
         instruments.put(2, violin2);
         InstrumentMapping viola = new InstrumentMapping(new ViolaSolo(), 2, 2);
-        viola.setArticulation(Articulation.DETACHE);
         viola.setOrchestralQuality(orchestralQualityConfig.getOchestralQualityForVoice(1));
         instruments.put(1, viola);
         InstrumentMapping cello = new InstrumentMapping(new CelloSolo(), 1, 3);
-        cello.setArticulation(Articulation.DETACHE);
         cello.setOrchestralQuality(orchestralQualityConfig.getOchestralQualityForVoice(0));
         instruments.put(0, cello);
         return instruments;
@@ -161,19 +150,15 @@ public class InstrumentConfig {
         instruments.put(4, piano);
 
         InstrumentMapping violin1 = new InstrumentMapping(new ViolinSolo(), 3, 0);
-        violin1.setArticulation(Articulation.DETACHE);
         violin1.setOrchestralQuality(orchestralQualityMelody);
         instruments.put(3, violin1);
         InstrumentMapping violin2 = new InstrumentMapping(new ViolinSolo(), 3, 1);
-        violin2.setArticulation(Articulation.DETACHE);
         violin2.setOrchestralQuality(orchestralQualityAcc);
         instruments.put(2, violin2);
         InstrumentMapping viola = new InstrumentMapping(new ViolaSolo(), 2, 2);
-        viola.setArticulation(Articulation.DETACHE);
         viola.setOrchestralQuality(orchestralQualityAcc);
         instruments.put(1, viola);
         InstrumentMapping cello = new InstrumentMapping(new CelloSolo(), 1, 3);
-        cello.setArticulation(Articulation.DETACHE);
         cello.setOrchestralQuality(orchestralQualityBass);
         instruments.put(0, cello);
 
@@ -187,16 +172,12 @@ public class InstrumentConfig {
 
     private Map<Integer, InstrumentMapping> getStringQuartet(){
         InstrumentMapping violin1 = new InstrumentMapping(new ViolinSolo(), 3, 0);
-        violin1.setArticulation(Articulation.DETACHE);
         instruments.put(3,violin1);
         InstrumentMapping violin2 = new InstrumentMapping(new ViolinSolo(), 3, 1);
-        violin2.setArticulation(Articulation.DETACHE);
         instruments.put(2,violin2);
         InstrumentMapping viola = new InstrumentMapping(new ViolaSolo(), 2, 2);
-        viola.setArticulation(Articulation.DETACHE);
         instruments.put(1,viola);
         InstrumentMapping cello = new InstrumentMapping(new CelloSolo(), 1, 3);
-        cello.setArticulation(Articulation.DETACHE);
         instruments.put(0,cello);
         return instruments;
     }
@@ -353,5 +334,14 @@ public class InstrumentConfig {
 
     public int getSize(){
         return instruments.size();
+    }
+
+    public InstrumentMapping getInstrumentMapping(String instrumentName){
+        for (InstrumentMapping instrumentMapping : instruments.values()) {
+            if (instrumentMapping.getInstrument().getInstrumentName().equals(instrumentName)){
+                return instrumentMapping;
+            }
+        }
+        throw new IllegalStateException("No Instrument found in instrumentConfig for: " + instrumentName);
     }
 }

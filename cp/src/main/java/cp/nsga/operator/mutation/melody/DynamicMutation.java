@@ -5,6 +5,7 @@ import cp.model.melody.MelodyBlock;
 import cp.model.note.Dynamic;
 import cp.nsga.MusicVariable;
 import cp.nsga.operator.mutation.AbstractMutation;
+import cp.util.RandomUtil;
 import jmetal.core.Solution;
 import jmetal.util.Configuration;
 import jmetal.util.JMException;
@@ -33,8 +34,9 @@ public class DynamicMutation extends AbstractMutation {
         if (PseudoRandom.randDouble() < probability) {
             Motive motive = ((MusicVariable)solution.getDecisionVariables()[0]).getMotive();
             MelodyBlock mutableMelody = motive.getRandomMutableMelody();
-            mutableMelody.updateDynamic(Dynamic.F);
-			LOGGER.info("Dynamic mutated");
+            Dynamic dynamic = RandomUtil.getRandomFromArray(Dynamic.values());
+            mutableMelody.updateDynamic(dynamic);
+//			LOGGER.info("Dynamic mutated");
         }
     }
 

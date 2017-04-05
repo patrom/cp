@@ -4,6 +4,7 @@ import cp.DefaultConfig;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.out.instrument.Articulation;
+import cp.out.instrument.Technical;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -161,11 +162,30 @@ public class RhythmWeightTest {
 		rhythmWeight.setNotes(notes);
 		rhythmWeight.updateRhythmWeightDynamics();
 		assertEquals(1 , notes.get(0).getPositionWeight(), 0);
+		assertEquals(1 , notes.get(1).getPositionWeight(), 0);
+		assertEquals(0 , notes.get(2).getPositionWeight(), 0);
+		assertEquals(1 , notes.get(3).getPositionWeight(), 0);
+		assertEquals(1 , notes.get(4).getPositionWeight(), 0);
+		assertEquals(0 , notes.get(5).getPositionWeight(), 0);
+	}
+
+	@Test
+	public void testUpdateRhythmWeightTechnical() {
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pitch(60).tech(Technical.LEGATO).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pitch(60).build());
+		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pitch(62).build());
+		notes.add(note().pos(DurationConstants.HALF).pitch(61).tech(Technical.STACCATO).build());
+		notes.add(note().pos(DurationConstants.WHOLE).pitch(59).tech(Technical.STACCATO).build());
+		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pitch(60).tech(Technical.LEGATO).build());
+		rhythmWeight.setNotes(notes);
+		rhythmWeight.updateRhythmWeightTechnical();
+		assertEquals(1 , notes.get(0).getPositionWeight(), 0);
 		assertEquals(0 , notes.get(1).getPositionWeight(), 0);
 		assertEquals(0 , notes.get(2).getPositionWeight(), 0);
 		assertEquals(1 , notes.get(3).getPositionWeight(), 0);
 		assertEquals(0 , notes.get(4).getPositionWeight(), 0);
-		assertEquals(0 , notes.get(5).getPositionWeight(), 0);
+		assertEquals(1 , notes.get(5).getPositionWeight(), 0);
 	}
 
 	@Test
@@ -206,14 +226,14 @@ public class RhythmWeightTest {
 		rhythmWeight.setNotes(notes);
 		rhythmWeight.updateRhythmWeight();
 		
-		assertEquals(4 , notes.get(0).getPositionWeight(), 0);
-		assertEquals(2 , notes.get(1).getPositionWeight(), 0);
+		assertEquals(5 , notes.get(0).getPositionWeight(), 0);
+		assertEquals(3 , notes.get(1).getPositionWeight(), 0);
 		assertEquals(5 , notes.get(2).getPositionWeight(), 0);
 		assertEquals(2 , notes.get(3).getPositionWeight(), 0);
 		assertEquals(4 , notes.get(4).getPositionWeight(), 0);
 		assertEquals(2 , notes.get(5).getPositionWeight(), 0);
 		assertEquals(10 , notes.get(6).getPositionWeight(), 0);
-		assertEquals(4 , notes.get(7).getPositionWeight(), 0);
+		assertEquals(5 , notes.get(7).getPositionWeight(), 0);
 		assertEquals(1 , notes.get(8).getPositionWeight(), 0);
 		assertEquals(4 , notes.get(9).getPositionWeight(), 0);
 	}
@@ -258,7 +278,7 @@ public class RhythmWeightTest {
 		rhythmWeight.setNotes(notes);
 		rhythmWeight.updateRhythmWeight();
 		List<Note> filteredNotes = rhythmWeight.filterRhythmWeigths(4.0);
-		assertEquals(1 , filteredNotes.size());
+		assertEquals(2 , filteredNotes.size());
 		assertEquals(0 , filteredNotes.get(0).getPosition());
 	}
 	

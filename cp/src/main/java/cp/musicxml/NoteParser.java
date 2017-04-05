@@ -24,14 +24,10 @@ public class NoteParser {
     private String type = "";
     private boolean dot = false;
     private Note note = new Note();
-    private int position;
     private String instrumentName;
     private ComplexElement elementTimeModification;
     private List<Element> beams = new ArrayList<>();
-
-    public NoteParser(int position) {
-        this.position = position;
-    }
+    private boolean isRest;
 
     public Note parseNote(ArrayList<ElementWrapper> elements) {
         for (ElementWrapper element : elements) {
@@ -44,6 +40,9 @@ public class NoteParser {
                 if(element.getComplexElement().getElementName().equals("time-modification")){
                     elementTimeModification = element.getComplexElement();
                 }
+                if(element.getComplexElement().getElementName().equals("rest")){
+                    isRest = true;
+                }
                 ArrayList<ElementWrapper> elementWrappers = element.getComplexElement().getElements();
                 parseNote(elementWrappers);
             }else{
@@ -55,13 +54,10 @@ public class NoteParser {
                         note.setVoice(Integer.parseInt(element.getElement().getData()));
                         break;
                     case "octave":
-                        octave = Integer.parseInt(element.getElement().getData());
+                        octave = Integer.parseInt(element.getElement().getData()) + 1;
                         break;
                     case "alter":
                         alter = Integer.parseInt(element.getElement().getData());
-                        break;
-                    case "rest":
-                        note.setPitch(cp.model.note.Note.REST);
                         break;
                     case "type":
                         type = element.getElement().getData();
@@ -107,14 +103,17 @@ public class NoteParser {
                 }
             }
         }
-        int pitchClass = pc + alter;
-        note.setPitchClass(pitchClass);
-        note.setOctave(octave);
-        note.setPitch(pitchClass + 12 * octave);
+        if (isRest) {
+           note.setPitch(Note.REST);
+        }else{
+            int pitchClass = pc + alter;
+            note.setPitchClass(pitchClass);
+            note.setOctave(octave);
+            note.setPitch(pitchClass + 12 * octave);
+        }
         int duration = getDuration(type, dot, elementTimeModification);
         note.setLength(duration);
         note.setDisplayLength(duration);
-        note.setPosition(position + duration);
         note.setInstrument(instrumentName);
         setBeanType();
         return note;

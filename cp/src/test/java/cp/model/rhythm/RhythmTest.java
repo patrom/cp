@@ -3,9 +3,9 @@ package cp.model.rhythm;
 import cp.DefaultConfig;
 import cp.midi.HarmonyPosition;
 import cp.midi.MelodyInstrument;
+import cp.midi.MidiDevicePlayer;
 import cp.midi.MidiDevicesUtil;
 import cp.model.note.Note;
-import cp.out.instrument.MidiDevice;
 import cp.out.instrument.keyboard.Piano;
 import cp.out.play.InstrumentMapping;
 import org.junit.Before;
@@ -155,7 +155,7 @@ public class RhythmTest {
 	
 	private void playOnKontakt(List<MelodyInstrument> melodies, int tempo, long playTime ) throws InvalidMidiDataException, InterruptedException {
 		Sequence seq = midiDevicesUtil.createSequence(melodies);
-		midiDevicesUtil.playOnDevice(seq, tempo, MidiDevice.KONTAKT);
+		midiDevicesUtil.playOnDevice(seq, tempo, MidiDevicePlayer.KONTAKT);
 		Thread.sleep(playTime);
 	}
 

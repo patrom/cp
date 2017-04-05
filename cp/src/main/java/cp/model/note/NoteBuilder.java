@@ -1,6 +1,7 @@
 package cp.model.note;
 
 import cp.out.instrument.Articulation;
+import cp.out.instrument.Technical;
 
 
 public class NoteBuilder {
@@ -12,13 +13,14 @@ public class NoteBuilder {
 	private int pitch;
 	private int octave;
 	private int voice;
-//	private int dynamicLevel = Note.DEFAULT_DYNAMIC_LEVEL;
-	private Articulation articulation = Note.DEFAULT_ARTICULATION;
+	private int dynamicLevel;
+	private Articulation articulation;
 	private Dynamic dynamic = Dynamic.MF;
 	private int displayLength;
 	private BeamType beamType;
 	private TupletType tupletType;
 	private String timeModification;
+	private Technical technical = Note.DEFAULT_TECHNICAL;
 
 	public static NoteBuilder note(){
 		return new NoteBuilder();
@@ -59,6 +61,11 @@ public class NoteBuilder {
 		this.dynamic = dynamic;
 		return this;
 	}
+
+	public NoteBuilder lev(int dynamicLevel){
+		this.dynamicLevel = dynamicLevel;
+		return this;
+	}
 	
 	public NoteBuilder art(Articulation articulation){
 		this.articulation = articulation;
@@ -89,6 +96,11 @@ public class NoteBuilder {
 		this.timeModification = timeModification;
 		return this;
 	}
+
+	public NoteBuilder tech(Technical technical) {
+		this.technical = technical;
+		return this;
+	}
 	
 	public Note build(){
 		Note note = new Note();
@@ -99,13 +111,18 @@ public class NoteBuilder {
 		note.setPitch(pitch);
 		note.setOctave(octave);
 		note.setVoice(voice);
-//		note.setDynamicLevel(dynamicLevel);
+		if (dynamicLevel == 0 && dynamic != null) {
+			note.setDynamicLevel(dynamic.getLevel());
+		} else {
+			note.setDynamicLevel(Note.DEFAULT_DYNAMIC_LEVEL);
+		}
 		note.setArticulation(articulation);
 		note.setDynamic(dynamic);
 		note.setDisplayLength(displayLength);
 		note.setBeamType(beamType);
 		note.setTupletType(tupletType);
 		note.setTimeModification(timeModification);
+		note.setTechnical(technical);
 		return note;
 	}
 
