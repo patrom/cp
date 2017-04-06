@@ -4,7 +4,6 @@ import cp.composition.beat.BeatGroup;
 import cp.composition.beat.BeatGroupTwo;
 import cp.model.note.Dynamic;
 import cp.model.rhythm.DurationConstants;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -12,9 +11,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by prombouts on 20/03/2017.
+ * Created by prombouts on 6/04/2017.
  */
-@Component
 public class TimeVoice extends Voice {
 
     @PostConstruct
