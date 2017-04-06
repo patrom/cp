@@ -71,7 +71,7 @@ public class VSLArticulationConverter extends MidiEventConverter{
 
     @Override
     public List<MidiEvent> convertTechnical(int channel, Note note, Instrument instrument) throws InvalidMidiDataException {
-        if (instrument.getInstrumentGroup() == InstrumentGroup.WOODWINDS
+        if (instrument.getInstrumentGroup() == InstrumentGroup.STRINGS
                 || instrument.getInstrumentGroup() == InstrumentGroup.BRASS){
             switch (note.getTechnical()) {
                 case VIBRATO:
@@ -79,20 +79,6 @@ public class VSLArticulationConverter extends MidiEventConverter{
 //                case "molto vibrato":
                 case SENZA_VIBRATO:
                     return createMidiEvents(channel, note, 0, 25);
-//                case "progressive vibrato":
-//                case "sus":
-//                    return createMidiEvents(channel, note, 0, 5);
-//                case "tremelo":
-//                case "sul tasto":
-                case PIZZ:
-                    return createMidiEvents(channel, note, 0, 65);
-//                case "con sordino":
-//                case "arco":
-//                case "col legno":
-                case SUL_PONTICELLO:
-                    return createMidiEvents(channel, note, 3, 5);
-//                case "short"://detache short
-//                case "slap"://flute/saxophones
                 case STACCATO:
                     return createMidiEvents(channel, note, 0, 5);
 //                case "staccatissimo":
@@ -112,17 +98,21 @@ public class VSLArticulationConverter extends MidiEventConverter{
 //                case "molto vibrato":
                 case DETACHE_SHORT:
                     return createMidiEvents(channel, note, 2, 35);
+                case PIZZ:
+                    return createMidiEvents(channel, note, 0, 65);
+//                case "con sordino":
+//                case "arco":
+//                case "col legno":
+                case SUL_PONTICELLO:
+                    return createMidiEvents(channel, note, 3, 5);
 //                case "progressive vibrato":
 //                case "sus":
 //                    return createMidiEvents(channel, note, 0, 5);
 //                case "tremelo":
 //                case "sul tasto":
-//                case "pizz":
 //                case "con sordino":
 //                case "arco":
 //                case "col legno":
-//                case "sul ponticello":
-//                case "short"://detache short
 //                case "slap"://flute/saxophones
                 case STACCATO:
                     return createMidiEvents(channel, note, 2, 5);
