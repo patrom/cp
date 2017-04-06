@@ -26,8 +26,6 @@ public class VoiceConfig {
     private DoubleTimeVoice doubleTimeVoice;
     @Autowired
     private HarmonyVoice harmonyVoice;
-    @Autowired
-    private TimeVoice timeVoice;
 
     private Map<Integer, Voice> voiceConfiguration = new TreeMap<>();
 
