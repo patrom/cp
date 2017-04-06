@@ -12,7 +12,7 @@ public class Note implements Comparable<Note>{
 	public static final int REST = Integer.MIN_VALUE;
 	   /** default dynamic*/
     public static final int DEFAULT_DYNAMIC_LEVEL = Dynamic.MF.getLevel();
-    public static final Technical DEFAULT_TECHNICAL = Technical.PORTATO;
+    public static final Technical DEFAULT_TECHNICAL = Technical.LEGATO;
     public static final Dynamic DEFAULT_DYNAMIC = Dynamic.MF;
     public static final int DEFAULT_LENGTH = DurationConstants.QUARTER;
 

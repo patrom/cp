@@ -1,5 +1,6 @@
 package cp.out.instrument.brass;
 
+import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
@@ -17,7 +18,7 @@ public class Trombone extends Instrument {
 		order = 2;
 		setLowest(40);
 		setHighest(71);
-//		setGeneralMidi(GeneralMidi.t);
+		setGeneralMidi(GeneralMidi.TROMBONE);
 		
 		setInstrumentName(InstrumentName.TROMBONE.getName());
 		setInstrumentSound("brass.trombone.tenor");

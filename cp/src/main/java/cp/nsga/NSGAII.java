@@ -85,6 +85,7 @@ public class NSGAII extends Algorithm {
 		mutationOperators.add(operators_.get("oneNoteChromaticMutation"));
 		mutationOperators.add(operators_.get("articulationMutation"));
 		mutationOperators.add(operators_.get("dynamicMutation"));
+		mutationOperators.add(operators_.get("technicalMutation"));
 		Operator crossoverOperator = operators_.get("crossover");
 		Operator selectionOperator = operators_.get("selection");
 

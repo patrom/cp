@@ -7,6 +7,7 @@ import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.out.instrument.Articulation;
+import cp.out.instrument.Technical;
 import cp.util.RandomUtil;
 import cp.util.Util;
 import org.slf4j.Logger;
@@ -195,6 +196,18 @@ public class CpMelody implements Comparable<CpMelody>{
 
 			Note removeArticulation = RandomUtil.getRandomFromList(notesNoRest);
 			removeArticulation.setDynamic(Note.DEFAULT_DYNAMIC);
+		}
+	}
+
+	public void updateTechnical(Technical technical) {
+		List<Note> notesNoRest = getNotesNoRest();
+		if (notesNoRest.size() > 1) {
+			//		notes.forEach(note -> note.setArticulation(Note.DEFAULT_ARTICULATION));//reset?
+			Note note = RandomUtil.getRandomFromList(notesNoRest);
+			note.setTechnical(technical);
+
+			Note removeArticulation = RandomUtil.getRandomFromList(notesNoRest);
+			removeArticulation.setTechnical(Note.DEFAULT_TECHNICAL);
 		}
 	}
 	

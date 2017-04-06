@@ -91,7 +91,7 @@ public class XMLParser {
                                     dynamic = Dynamic.valueOf(directionTypeElement.getComplexElement().getElements().get(0).getElement().getElementName().toUpperCase());
                                 }
                                 if(!directionTypeElement.getIsComplex() && directionTypeElement.getElement().getElementName().equals("words")){
-                                    words = Technical.valueOf(directionTypeElement.getElement().getData());
+                                    words = Technical.getTechnical(directionTypeElement.getElement().getData());
                                 }
                             }
                         }
@@ -139,16 +139,6 @@ public class XMLParser {
                     case "per-minute":
                         bpm = Integer.parseInt(element.getElement().getData());
                         break;
-                    case "score-instrument":
-                        if (instrumentConfig != null){
-                            String instrumentName = element.getComplexElement().getElements().get(0).getElement().getData();
-                            InstrumentMapping instrumentMapping = instrumentConfig.getInstrumentMapping(instrumentName);
-                            MelodyInstrument melodyInstrument = new MelodyInstrument();
-                            melodyInstrument.setInstrumentMapping(instrumentMapping);
-                            notesPerInstrument.put(element.getComplexElement().getAttributes().get(0).getAttributeName(), melodyInstrument);
-                        }
-                        break;
-
                 }
             }
         }
@@ -161,21 +151,14 @@ public class XMLParser {
                 ArrayList<ElementWrapper> scoreElements = scorePartElement.getComplexElement().getElements();
                 for (ElementWrapper scoreElement : scoreElements) {
                     if(scoreElement.getIsComplex() && scoreElement.getComplexElement().getElementName().equals("score-instrument")){
-                        ArrayList<ElementWrapper> instrumentElements = scoreElement.getComplexElement().getElements();
-                        String instrumentName;
-                        String instrument = scoreElement.getComplexElement().getAttributes().get(0).getAttributeText();
-                        for (ElementWrapper instrumentElement : instrumentElements) {
-                            if(!instrumentElement.getIsComplex() && instrumentElement.getElement().getElementName().equals("instrument-name")){
-                                if (instrumentConfig != null){
-                                    instrumentName = instrumentElement.getElement().getData();
-                                    InstrumentMapping instrumentMapping = instrumentConfig.getInstrumentMapping(instrumentName);
-                                    MelodyInstrument melodyInstrument = new MelodyInstrument();
-                                    melodyInstrument.setInstrumentMapping(instrumentMapping);
-                                    notesPerInstrument.put(instrument, melodyInstrument);
-                                }
-                            }
+                        if (instrumentConfig != null){
+                            String id = scoreElement.getComplexElement().getAttributes().get(0).getAttributeText();
+                            int order = Character.getNumericValue(id.charAt(1));
+                            InstrumentMapping instrumentMapping = instrumentConfig.getInstrumentMappingForScoreOrder(order);
+                            MelodyInstrument melodyInstrument = new MelodyInstrument();
+                            melodyInstrument.setInstrumentMapping(instrumentMapping);
+                            notesPerInstrument.put(id, melodyInstrument);
                         }
-
                     }
                 }
             }

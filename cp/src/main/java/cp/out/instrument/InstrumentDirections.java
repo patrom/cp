@@ -13,12 +13,15 @@ import static java.util.stream.Collectors.toList;
  * Created by prombouts on 10/12/2016.
  */
 @Component
-public class InstrumentArticulation {
+public class InstrumentDirections {
 
     List<Articulation> stringArticulations = new ArrayList<>();
     List<Articulation> woodwindArticulations = new ArrayList<>();
 
-    public InstrumentArticulation() {
+    List<Technical> woodwindTechnicals = new ArrayList<>();
+    List<Technical> stringTechnicals = new ArrayList<>();
+
+    public InstrumentDirections() {
         stringArticulations = Stream.of(
                 Articulation.MARCATO,
                 Articulation.STRONG_ACCENT,
@@ -35,16 +38,25 @@ public class InstrumentArticulation {
                 Articulation.TENUTO,
                 Articulation.DETACHED_LEGATO,//a tenuto line and staccato dot
                 Articulation.STACCATISSIMO
+        ).collect(toList());
 
-//                Articulation.LEGATO,
-//                Articulation.DETACHE,
-//                Articulation.SUSTAIN_VIBRATO,
-//                Articulation.SUSTAIN_NO_VIBRATO,
+        stringTechnicals = Stream.of(
+                Technical.LEGATO,
+                Technical.PIZZ,
+                Technical.VIBRATO,
+                Technical.PORTATO,
+                Technical.SENZA_VIBRATO,
+                Technical.STACCATO,
+                Technical.SUL_PONTICELLO
+        ).collect(toList());
 
-//                Articulation.PORTATO,
-//                Articulation.STACCATO,
-//                Articulation.FLUTTER
-//                Articulation.TREMELO
+        woodwindTechnicals = Stream.of(
+                Technical.LEGATO,
+                Technical.VIBRATO,
+                Technical.PORTATO,
+                Technical.SENZA_VIBRATO,
+                Technical.STACCATO,
+                Technical.FLUTTER_TONGUE
         ).collect(toList());
     }
 
@@ -53,7 +65,19 @@ public class InstrumentArticulation {
             case STRINGS:
                 return stringArticulations;
             case WOODWINDS:
+            case BRASS:
                 return woodwindArticulations;
+        }
+        return Collections.emptyList();
+    }
+
+    public List<Technical> getTechnicals(InstrumentGroup instrumentGroup) {
+        switch (instrumentGroup){
+            case STRINGS:
+                return stringTechnicals;
+            case WOODWINDS:
+            case BRASS:
+                return woodwindTechnicals;
         }
         return Collections.emptyList();
     }

@@ -2,7 +2,6 @@ package cp.generator;
 
 import cp.composition.Composition;
 import cp.composition.beat.BeatGroup;
-import cp.composition.beat.BeatGroupStrategy;
 import cp.composition.voice.Voice;
 import cp.composition.voice.VoiceConfig;
 import cp.model.TimeLine;
@@ -12,7 +11,6 @@ import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Instrument;
-import cp.out.play.InstrumentConfig;
 import cp.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,11 +31,7 @@ public class MelodyGenerator {
 	@Autowired
 	private Composition composition;
 	@Autowired
-	private InstrumentConfig instrumentConfig;
-	@Autowired
 	private VoiceConfig voiceConfiguration;
-	
-	private BeatGroupStrategy beatGroupStrategy;
 
 	public MelodyBlock generateDependantMelodyBlock(final int voice, int octave, MelodyBlock dependingMelodyBlock){
 		int start = composition.getStart();
@@ -158,16 +152,6 @@ public class MelodyGenerator {
 		return melody;
 	}
 	
-//	public MelodyBlock duplicateRhythmMelodyBlock(MelodyBlock melodyBlock, Instrument instrument, int voice){
-//		MelodyBlock clonedMelodyBlock = melodyBlock.clone(voice);
-////		clonedMelodyBlock.setInstrument(instrument);
-//		composition.getRandomPitchClassGenerator(voice).updatePitchClasses(clonedMelodyBlock.getMelodyBlockNotes());
-//		clonedMelodyBlock.dependsOn(melodyBlock.getVoice());
-//		clonedMelodyBlock.setRhythmMutable(false);
-//		clonedMelodyBlock.setRhythmDependant(true);
-//		return clonedMelodyBlock;
-//	}
-	
 	public int[] generateMelodyPositions(int[] harmony, int minimumLength, int maxMelodyNotes){
 		int[] pos;
 		int limit = generateLimit(harmony[0], harmony[1], minimumLength);
@@ -231,10 +215,6 @@ public class MelodyGenerator {
 			}
 		}
 		return notes;
-	}
-	
-	public void setBeatGroupStrategy(BeatGroupStrategy beatGroupStrategy) {
-		this.beatGroupStrategy = beatGroupStrategy;
 	}
 	
 }

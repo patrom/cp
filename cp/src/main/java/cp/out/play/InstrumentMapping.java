@@ -1,9 +1,7 @@
 package cp.out.play;
 
 import cp.model.note.Note;
-import cp.out.instrument.Articulation;
 import cp.out.instrument.Instrument;
-import cp.out.orchestration.quality.OrchestralQuality;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +16,7 @@ public class InstrumentMapping implements Comparable<InstrumentMapping>{
     private Instrument instrument;
     private int channel;//playback channel on Kontakt/Vienna (+1)
     private int scoreOrder;//order on page layout: 0 is top, ...
-    private OrchestralQuality orchestralQuality;
     private List<InstrumentMapping> dependantInstruments = new ArrayList<>();
-    private Articulation articulation;
     private InstrumentMapping harmonyInstrumentMapping;
 
     public InstrumentMapping(Instrument instrument, int channel, int scoreOrder) {
@@ -42,9 +38,6 @@ public class InstrumentMapping implements Comparable<InstrumentMapping>{
     }
 
     public Instrument getInstrument() {
-        if(orchestralQuality != null){
-            return orchestralQuality.getBasicInstrument(instrument.getInstrumentName());
-        }
         return instrument;
     }
 
@@ -54,14 +47,6 @@ public class InstrumentMapping implements Comparable<InstrumentMapping>{
 
     public int getScoreOrder() {
         return scoreOrder;
-    }
-
-    public OrchestralQuality getOrchestralQuality() {
-        return orchestralQuality;
-    }
-
-    public void setOrchestralQuality(OrchestralQuality orchestralQuality) {
-        this.orchestralQuality = orchestralQuality;
     }
 
     @Override
@@ -107,11 +92,4 @@ public class InstrumentMapping implements Comparable<InstrumentMapping>{
         return duplicateNotes;
     }
 
-    public void setArticulation(Articulation articulation) {
-        this.articulation = articulation;
-    }
-
-    public Articulation getArticulation() {
-        return articulation;
-    }
 }

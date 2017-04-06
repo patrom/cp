@@ -5,6 +5,7 @@ import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.ViolaSolo;
 import cp.out.instrument.strings.ViolinSolo;
+import cp.out.instrument.woodwinds.Bassoon;
 import cp.out.orchestration.InstrumentName;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +26,7 @@ public class MediumRange extends OrchestralQuality {
 //                new ClarinetEFlat(new InstrumentRegister(55, 71)),
 //                new Clarinet(new InstrumentRegister(67, 77)),
 //                new BassClarinet(new InstrumentRegister(55, 82)),
-//                new Bassoon(new InstrumentRegister(34, 72)),
+                new Bassoon(range),
 //                new ViolinsI(new InstrumentRegister(69, 81)),
                 new ViolinSolo(range),//TODO Range?
 //                new Viola(new InstrumentRegister(62, 74)),

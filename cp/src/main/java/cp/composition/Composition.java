@@ -276,7 +276,6 @@ public abstract class Composition {
 //		pitchClassGenerators.add(restPitchClasses::updatePitchClasses);
 //		pitchClassGenerators.add(twelveTonePitchClasses::updatePitchClasses);
 
-		melodyGenerator.setBeatGroupStrategy(timeConfig::getAllBeats);
 		harmonicObjective.setDissonance(tonalSetClassDissonance::getDissonance);
 		harmonicResolutionObjective.setDissonantResolution(dissonantResolutionImpl::isDissonant);
 

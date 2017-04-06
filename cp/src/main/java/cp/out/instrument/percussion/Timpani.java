@@ -1,5 +1,6 @@
 package cp.out.instrument.percussion;
 
+import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
@@ -16,7 +17,7 @@ public class Timpani extends Instrument {
 		order = 1;
 		setLowest(41);
 		setHighest(53);
-//		setGeneralMidi(GeneralMidi.CELLO);
+		setGeneralMidi(GeneralMidi.TIMPANI);
 		
 		setInstrumentName(InstrumentName.TIMPANI.getName());
 		setInstrumentSound("drum.timpani");

@@ -30,7 +30,7 @@ public class WarmBrown extends OrchestralQuality{
 		instruments = Stream.of(
 				new AltoFlute(new InstrumentRegister(55, 71)),
 				new FrenchHorn(new InstrumentRegister(55, 68)),
-				new Trumpet(new InstrumentRegister(58, 55)),
+				new Trumpet(new InstrumentRegister(58, 64)),
 				new Trombone(new InstrumentRegister(48, 53)),
 				new BassTrombone(new InstrumentRegister(34, 51)),
 				new Doublebass(new InstrumentRegister(39, 45)),

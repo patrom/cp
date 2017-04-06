@@ -1,5 +1,6 @@
 package cp.out.instrument.woodwinds;
 
+import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
@@ -12,7 +13,7 @@ public class Piccolo extends Instrument{
 		order = 0;
 		setLowest(74);
 		setHighest(108);
-//		setGeneralMidi(GeneralMidi.FLUTE);
+		setGeneralMidi(GeneralMidi.PICCOLO);
 		
 		setInstrumentName(InstrumentName.PICCOLO.getName());
 		setInstrumentSound("wind.flutes.flute.piccolo");

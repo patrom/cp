@@ -232,9 +232,8 @@ public class MusicXMLWriter {
 		xmlStreamWriter.writeAttribute("font-style", "normal");
 		xmlStreamWriter.writeAttribute("font-size", "11.9365");
 		xmlStreamWriter.writeAttribute("font-weight", "normal");
-		xmlStreamWriter.writeCharacters("\n");
 
-		xmlStreamWriter.writeCharacters(technical.getTechnical());
+		xmlStreamWriter.writeCharacters(technical.getTechnicalLabel());
 
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");

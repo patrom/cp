@@ -8,6 +8,7 @@ import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.Instrument;
+import cp.out.instrument.Technical;
 import cp.util.RandomUtil;
 import cp.util.Util;
 
@@ -117,6 +118,11 @@ public class MelodyBlock {
 	public void updateDynamic(Dynamic dynamic){
 		CpMelody melody = RandomUtil.getRandomFromList(melodyBlocks);
 		melody.updateDynamic(dynamic);
+	}
+
+	public void updateTechnical(Technical technical){
+		CpMelody melody = RandomUtil.getRandomFromList(melodyBlocks);
+		melody.updateTechnical(technical);
 	}
 	
 	public Optional<CpMelody> getRandomMelody(Predicate<CpMelody> filterPredicate){

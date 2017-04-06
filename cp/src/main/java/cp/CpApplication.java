@@ -58,6 +58,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	@Autowired
 	private DynamicMutation dynamicMutation;
 	@Autowired
+	private TechnicalMutation technicalMutation;
+	@Autowired
 	private ReplaceMelody replaceMelody;
 	@Autowired
 	private CopyMelody copyMelody;
@@ -125,7 +127,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		List<CompositionGenre> composeInGenres = new ArrayList<>();
 //		composeInGenres.add(melodyComposition::melody);
 
-		composeInGenres.add(twoVoiceComposition::random);
+//		composeInGenres.add(twoVoiceComposition::random);
 //		composeInGenres.add(twoVoiceComposition::beatEven);
 //		composeInGenres.add(twoVoiceComposition::depending);
 //		composeInGenres.add(twoVoiceComposition::canon);
@@ -142,7 +144,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(twoVoiceComposition::harmonize);
 
 //		composeInGenres.add(threeVoiceComposition::canon2Voice1Acc);
-//		composeInGenres.add(threeVoiceComposition::depending);
+		composeInGenres.add(threeVoiceComposition::depending);
 //		composeInGenres.add(threeVoiceComposition::accFixedRhythm);
 //		composeInGenres.add(threeVoiceComposition::operatorTplusAcc);
 //		composeInGenres.add(threeVoiceComposition::operatorT);
@@ -245,6 +247,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //	    algorithm.addOperator("removeRhythm", removeRhythm);
 	    algorithm.addOperator("articulationMutation", articulationMutation);
 	    algorithm.addOperator("dynamicMutation", dynamicMutation);
+	    algorithm.addOperator("technicalMutation", technicalMutation);
 	    algorithm.addOperator("replaceMelody", replaceMelody);
 		algorithm.addOperator("copyMelody", copyMelody);
 		algorithm.addOperator("replaceMelodyBlock", replaceMelodyBlock);

@@ -26,7 +26,16 @@ public enum Technical {
         this.technical = technical;
     }
 
-    public String getTechnical() {
+    public String getTechnicalLabel() {
         return technical;
+    }
+
+    public static Technical getTechnical (String label){
+        for (Technical technical : Technical.values()) {
+            if (technical.getTechnicalLabel().equals(label)){
+                return technical;
+            }
+        }
+        throw new IllegalArgumentException("No technical found for :" + label);
     }
 }

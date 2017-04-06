@@ -6,7 +6,7 @@ import cp.nsga.MusicVariable;
 import cp.nsga.operator.mutation.AbstractMutation;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.Instrument;
-import cp.out.instrument.InstrumentArticulation;
+import cp.out.instrument.InstrumentDirections;
 import cp.out.play.InstrumentConfig;
 import cp.util.RandomUtil;
 import jmetal.core.Solution;
@@ -33,14 +33,14 @@ public class ArticulationMutation extends AbstractMutation{
 	@Autowired
 	private InstrumentConfig instrumentConfig;
 	@Autowired
-	private InstrumentArticulation instrumentArticulation;
+	private InstrumentDirections instrumentDirections;
 
 	public void doMutation(double probability, Solution solution) throws JMException {
 		if (PseudoRandom.randDouble() < probability) {
 			Motive motive = ((MusicVariable)solution.getDecisionVariables()[0]).getMotive();
 			MelodyBlock mutableMelody = motive.getRandomMutableMelody();
 			Instrument instrument = instrumentConfig.getInstrumentForVoice(mutableMelody.getVoice());
-			List<Articulation> articulations = instrumentArticulation.getArticulations(instrument.getInstrumentGroup());
+			List<Articulation> articulations = instrumentDirections.getArticulations(instrument.getInstrumentGroup());
 			if (articulations.isEmpty()){
 				LOGGER.info("articulations empty");
 			}else{

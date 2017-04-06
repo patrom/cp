@@ -18,7 +18,7 @@ public class HomophonicVoice extends Voice {
         pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
 //        pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
         pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
-//        pitchClassGenerators.add(restPitchClasses::updatePitchClasses);
+        pitchClassGenerators.add(restPitchClasses::updatePitchClasses);
         beatGroupStrategy = timeConfig::getHomophonicBeatGroup;
     }
 

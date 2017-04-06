@@ -20,6 +20,7 @@ public class DefaultConfig {
 		probabilityParamters.put("probabilityOneNote", 1.0);
 		probabilityParamters.put("probabilityOneNoteChromatic", 0.0);
 		probabilityParamters.put("probabilityArticulation", 1.0);
+		probabilityParamters.put("probabilityTechnical", 1.0);
 		probabilityParamters.put("probabilityDynamic", 1.0);
 		probabilityParamters.put("probabilityReplaceMelody", 1.0);
 		probabilityParamters.put("probabilityReplaceMelodyBlock", 0.0);

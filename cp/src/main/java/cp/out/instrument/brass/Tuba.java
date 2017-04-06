@@ -1,5 +1,6 @@
 package cp.out.instrument.brass;
 
+import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
@@ -21,7 +22,7 @@ public class Tuba extends Instrument {
 		order = 4;
 		setLowest(30);
 		setHighest(53);
-//		setGeneralMidi(GeneralMidi.CELLO);
+		setGeneralMidi(GeneralMidi.TUBA);
 		
 		setInstrumentName(InstrumentName.TUBA.getName());
 		setInstrumentSound("brass.tuba");

@@ -3,17 +3,15 @@ package cp;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
 import cp.midi.*;
-import cp.model.note.Dynamic;
 import cp.model.note.Note;
-import cp.model.rhythm.DurationConstants;
 import cp.model.rhythm.Rhythm;
+import cp.musicxml.XMLParser;
+import cp.musicxml.parsed.ComplexElement;
+import cp.musicxml.parsed.ElementWrapper;
 import cp.out.arrangement.Arrangement;
 import cp.out.arrangement.Pattern;
-import cp.out.instrument.Articulation;
-import cp.out.instrument.woodwinds.Flute;
 import cp.out.orchestration.orchestra.ClassicalOrchestra;
 import cp.out.play.InstrumentConfig;
-import cp.out.play.InstrumentMapping;
 import cp.out.print.MusicXMLWriter;
 import cp.out.print.ScoreUtilities;
 import cp.variation.Embellisher;
@@ -32,14 +30,14 @@ import org.springframework.core.io.Resource;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
 import javax.swing.*;
+import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
-
-import static cp.model.note.NoteBuilder.note;
 
 @Import({DefaultConfig.class, VariationConfig.class})
 public class PlayApplication extends JFrame implements CommandLineRunner{
@@ -86,47 +84,49 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 //		notesPerInstrument.forEach((k,v) -> System.out.println(k + ":" + v));
 //		parser.getNotesForVoice(2).forEach(n -> System.out.println(n));
 
-//		final Resource resource = new FileSystemResource("cp/src/main/resources/xml");
-//		File dir = resource.getFile();
-//		for (File midiFile : dir.listFiles()) {
-//			XMLParser xmlParser = new XMLParser();
-//			xmlParser.setInstrumentConfig(instrumentConfig);
-//			try {
-//				xmlParser.startParsing(midiFile.getPath());
-//			} catch (XMLStreamException e) {
-//				e.printStackTrace();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//			ComplexElement partList = xmlParser.getScore().getPartList();
-//			xmlParser.setInstrumentNames(partList);
-//			ArrayList<ElementWrapper> body = xmlParser.getScore().getBody();
-//			xmlParser.traverse(body);
-//			Map<String, MelodyInstrument> notesPerInstrument = xmlParser.getNotesPerInstrument();
-//            for (Map.Entry<String, MelodyInstrument> entry : notesPerInstrument.entrySet()) {
-//                System.out.println(entry.getKey());
-//                List<Note> notes = entry.getValue().getNotes();
-//                notes.forEach(n -> System.out.println(n));
-//            }
+		final Resource resource = new FileSystemResource("cp/src/main/resources/xml");
+		File dir = resource.getFile();
+		for (File midiFile : dir.listFiles()) {
+			XMLParser xmlParser = new XMLParser();
+			xmlParser.setInstrumentConfig(instrumentConfig);
+			try {
+				xmlParser.startParsing(midiFile.getPath());
+			} catch (XMLStreamException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			ComplexElement partList = xmlParser.getScore().getPartList();
+			xmlParser.setInstrumentNames(partList);
+			ArrayList<ElementWrapper> body = xmlParser.getScore().getBody();
+			xmlParser.traverse(body);
+			Map<String, MelodyInstrument> notesPerInstrument = xmlParser.getNotesPerInstrument();
+            for (Map.Entry<String, MelodyInstrument> entry : notesPerInstrument.entrySet()) {
+                System.out.println(entry.getKey());
+                List<Note> notes = entry.getValue().getNotes();
+                notes.forEach(n -> System.out.println(n));
+            }
 
-		List<Note> notes = new ArrayList<>();
-		notes.add(note().pos(0).len(DurationConstants.QUARTER).pc(0).pitch(60).ocatve(5).dyn(Dynamic.PP).build());
-		notes.add(note().pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).pc(0).pitch(60).ocatve(5).dyn(Dynamic.SFZ).build());
-		notes.add(note().pos(DurationConstants.HALF).len(DurationConstants.QUARTER).pc(2).pitch(62).art(Articulation.STACCATISSIMO).dyn(Dynamic.PPP).ocatve(5).build());
-		notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).len(DurationConstants.QUARTER).pc(5).pitch(65).ocatve(5).dyn(Dynamic.F).build());
-			MelodyInstrument melodyInstrument = new MelodyInstrument();
-			melodyInstrument.setNotes(notes);
-			melodyInstrument.setInstrumentMapping(new InstrumentMapping(new Flute(), 1, 0));
+//		List<Note> notes = new ArrayList<>();
+//		notes.add(note().pos(0).len(DurationConstants.QUARTER).pc(0).pitch(60).ocatve(5).dyn(Dynamic.PP).build());
+//		notes.add(note().pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).pc(0).pitch(60).ocatve(5).dyn(Dynamic.SFZ).build());
+//		notes.add(note().pos(DurationConstants.HALF).len(DurationConstants.QUARTER).pc(2).pitch(62).art(Articulation.STACCATISSIMO).dyn(Dynamic.PPP).ocatve(5).build());
+//		notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).len(DurationConstants.QUARTER).pc(5).pitch(65).ocatve(5).dyn(Dynamic.F).build());
+//			MelodyInstrument melodyInstrument = new MelodyInstrument();
+//			melodyInstrument.setNotes(notes);
+//			melodyInstrument.setInstrumentMapping(new InstrumentMapping(new Flute(), 1, 0));
 
-			List<MelodyInstrument> melodyInstruments = new ArrayList<>();
-			melodyInstruments.add(melodyInstrument);
+//			List<MelodyInstrument> melodyInstruments = new ArrayList<>();
+//			melodyInstruments.add(melodyInstrument);
+
+			List<MelodyInstrument> melodyInstruments = new ArrayList<>(notesPerInstrument.values());
 			Score score = scoreUtilities.createScoreFromMelodyInstrument(melodyInstruments, 60);
 //            score.setTitle(midiFile.getName());
             View.notate(score);
             playOnKontakt(melodyInstruments,60);
 //			midiDevicesUtil.playOnDevice(seq, xmlParser.getBpm(), MidiDevicePlayer.KONTAKT);
 			Thread.sleep(17000);
-//		}
+		}
 
 
 
