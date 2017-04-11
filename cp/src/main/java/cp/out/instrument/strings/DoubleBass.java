@@ -6,7 +6,7 @@ import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.orchestration.InstrumentName;
 
-public class Doublebass extends Instrument {
+public class DoubleBass extends Instrument {
 
 	private void init() {
 		instrumentGroup = InstrumentGroup.STRINGS;
@@ -21,11 +21,11 @@ public class Doublebass extends Instrument {
 		setClef("F");
 	}
 
-	public Doublebass() {
+	public DoubleBass() {
 		init();
 	}
 	
-	public Doublebass(InstrumentRegister instrumentRegister) {
+	public DoubleBass(InstrumentRegister instrumentRegister) {
 		init();
 		setInstrumentRegister(instrumentRegister);
 	}

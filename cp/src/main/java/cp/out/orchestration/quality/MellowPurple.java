@@ -27,7 +27,7 @@ public class MellowPurple extends OrchestralQuality{
 				new ViolaSolo(new InstrumentRegister(48, 60)),
 				new Cello(new InstrumentRegister(36, 49)),
 				new CelloSolo(new InstrumentRegister(36, 49)),
-				new Doublebass(new InstrumentRegister(24, 50)),
+				new DoubleBass(new InstrumentRegister(24, 50)),
 				new Harp(new InstrumentRegister(23, 41)),
 				new Piano(new InstrumentRegister(28, 55))
 				).collect(toList());

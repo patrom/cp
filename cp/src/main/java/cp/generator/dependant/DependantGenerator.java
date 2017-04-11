@@ -125,6 +125,24 @@ public class DependantGenerator implements DependantHarmonyGenerator{
                     pitchClassSecond = (note.getPitchClass() + 8) % 12;
                     intervalSecond = getIntervalClockWise(note.getPitchClass(), pitchClassSecond);
                     break;
+                case MAJOR_2_CHR:
+                    pitchClass = (note.getPitchClass() + 5) % 12;
+                    interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
+                    pitchClassSecond = (note.getPitchClass() + 9) % 12;
+                    intervalSecond = getIntervalClockWise(note.getPitchClass(), pitchClassSecond);
+                    break;
+                case MINOR_1_CHR:
+                    pitchClass = (note.getPitchClass() + 4) % 12;
+                    interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
+                    pitchClassSecond = (note.getPitchClass() + 9) % 12;
+                    intervalSecond = getIntervalClockWise(note.getPitchClass(), pitchClassSecond);
+                    break;
+                case MINOR_2_CHR:
+                    pitchClass = (note.getPitchClass() + 5) % 12;
+                    interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
+                    pitchClassSecond = (note.getPitchClass() + 8) % 12;
+                    intervalSecond = getIntervalClockWise(note.getPitchClass(), pitchClassSecond);
+                    break;
                 default:
                     throw new IllegalArgumentException("Dependant harmony not set for note: " + note);
             }

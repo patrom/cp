@@ -1,11 +1,12 @@
 package cp.nsga.operator.mutation.melody;
 
+import cp.composition.voice.Voice;
+import cp.composition.voice.VoiceConfig;
 import cp.model.Motive;
 import cp.model.melody.MelodyBlock;
 import cp.nsga.MusicVariable;
 import cp.nsga.operator.mutation.AbstractMutation;
 import cp.out.instrument.Instrument;
-import cp.out.instrument.InstrumentDirections;
 import cp.out.instrument.Technical;
 import cp.out.play.InstrumentConfig;
 import cp.util.RandomUtil;
@@ -36,14 +37,15 @@ public class TechnicalMutation extends AbstractMutation{
     @Autowired
     private InstrumentConfig instrumentConfig;
     @Autowired
-    private InstrumentDirections instrumentDirections;
+    private VoiceConfig voiceConfig;
 
     public void doMutation(double probability, Solution solution) throws JMException {
         if (PseudoRandom.randDouble() < probability) {
             Motive motive = ((MusicVariable)solution.getDecisionVariables()[0]).getMotive();
             MelodyBlock mutableMelody = motive.getRandomMutableMelody();
             Instrument instrument = instrumentConfig.getInstrumentForVoice(mutableMelody.getVoice());
-            List<Technical> technicals = instrumentDirections.getTechnicals(instrument.getInstrumentGroup());
+            Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(mutableMelody.getVoice());
+            List<Technical> technicals = voiceConfiguration.getTechnicals(instrument.getInstrumentGroup());
             if (technicals.isEmpty()){
                 LOGGER.info("technicals empty");
             }else{

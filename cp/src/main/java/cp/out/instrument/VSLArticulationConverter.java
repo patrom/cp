@@ -1,6 +1,7 @@
 package cp.out.instrument;
 
 import cp.midi.MidiEventConverter;
+import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import org.springframework.stereotype.Component;
 
@@ -40,6 +41,7 @@ public class VSLArticulationConverter extends MidiEventConverter{
                     return createMidiEvents(channel, note, 2, 20);
                 case MARCATO:
                 case STRONG_ACCENT:
+                    note.setDynamicLevel(Dynamic.PP.getLevel());//reduction level
                     return createMidiEvents(channel, note, 1, 65);
             }
         }
@@ -71,7 +73,7 @@ public class VSLArticulationConverter extends MidiEventConverter{
 
     @Override
     public List<MidiEvent> convertTechnical(int channel, Note note, Instrument instrument) throws InvalidMidiDataException {
-        if (instrument.getInstrumentGroup() == InstrumentGroup.STRINGS
+        if (instrument.getInstrumentGroup() == InstrumentGroup.WOODWINDS
                 || instrument.getInstrumentGroup() == InstrumentGroup.BRASS){
             switch (note.getTechnical()) {
                 case VIBRATO:

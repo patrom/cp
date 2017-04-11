@@ -37,6 +37,7 @@ public class MidiDevicesUtil {
 		for (MidiDevice.Info info : infos) {
 			try {
 //				LOGGER.info(info.getName());
+//				2- LoopBe Internal MIDI
 				if (info.getName().equals(kontakt.getName())) {
 					final MidiDevice device = MidiSystem.getMidiDevice(info);
 					device.open();

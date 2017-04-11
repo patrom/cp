@@ -11,7 +11,9 @@ import cp.musicxml.parsed.ElementWrapper;
 import cp.out.arrangement.Arrangement;
 import cp.out.arrangement.Pattern;
 import cp.out.orchestration.orchestra.ClassicalOrchestra;
+import cp.out.orchestration.quality.OrchestralQualityConfig;
 import cp.out.play.InstrumentConfig;
+import cp.out.play.InstrumentMapping;
 import cp.out.print.MusicXMLWriter;
 import cp.out.print.ScoreUtilities;
 import cp.variation.Embellisher;
@@ -64,6 +66,8 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 	private MusicXMLWriter musicXMLWriter;
 	@Autowired
 	private InstrumentConfig instrumentConfig;
+	@Autowired
+	private OrchestralQualityConfig orchestralQualityConfig;
 
 	private final ClassicalOrchestra classicalOrchestra = new ClassicalOrchestra();
 	
@@ -100,12 +104,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 			xmlParser.setInstrumentNames(partList);
 			ArrayList<ElementWrapper> body = xmlParser.getScore().getBody();
 			xmlParser.traverse(body);
-			Map<String, MelodyInstrument> notesPerInstrument = xmlParser.getNotesPerInstrument();
-            for (Map.Entry<String, MelodyInstrument> entry : notesPerInstrument.entrySet()) {
-                System.out.println(entry.getKey());
-                List<Note> notes = entry.getValue().getNotes();
-                notes.forEach(n -> System.out.println(n));
-            }
+			Map<String, List<Note>> notesPerInstrument = xmlParser.getNotesPerInstrument();
 
 //		List<Note> notes = new ArrayList<>();
 //		notes.add(note().pos(0).len(DurationConstants.QUARTER).pc(0).pitch(60).ocatve(5).dyn(Dynamic.PP).build());
@@ -119,17 +118,47 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 //			List<MelodyInstrument> melodyInstruments = new ArrayList<>();
 //			melodyInstruments.add(melodyInstrument);
 
-			List<MelodyInstrument> melodyInstruments = new ArrayList<>(notesPerInstrument.values());
-			Score score = scoreUtilities.createScoreFromMelodyInstrument(melodyInstruments, 60);
-//            score.setTitle(midiFile.getName());
+			List<MelodyInstrument> melodyInstruments = new ArrayList<>();
+
+			for (Map.Entry<String,List<Note>> entry : notesPerInstrument.entrySet()) {
+				int order = Character.getNumericValue(entry.getKey().charAt(1));
+				InstrumentMapping instrumentMapping = instrumentConfig.getInstrumentMappingForScoreOrder(order);
+				MelodyInstrument melodyInstrument = new MelodyInstrument();
+				melodyInstrument.setInstrumentMapping(instrumentMapping);
+				melodyInstrument.setNotes(entry.getValue());
+				melodyInstruments.add(melodyInstrument);
+			}
+
+			//random orcherstration
+//            List<Instrument> instrumentsConfigured = instrumentConfig.getOrchestraInstuments();
+//			for (Map.Entry<String,List<Note>> entry : notesPerInstrument.entrySet()) {
+//				int order = Character.getNumericValue(entry.getKey().charAt(1));
+//				OrchestralQuality ochestralQuality = orchestralQualityConfig.getOchestralQualityForVoice(order);
+//                List<Instrument> basicInstruments = ochestralQuality.getBasicInstruments();
+//                Collection<Instrument> instruments = CollectionUtils.intersection(instrumentsConfigured, basicInstruments);
+//                Instrument instrument = RandomUtil.getRandomFromList(new ArrayList<>(instruments));
+//
+//				//getInstrumentMapping
+//				InstrumentMapping instrumentMapping = instrumentConfig.getOrchestraInstrumentMappingForInstrument(instrument);
+//				MelodyInstrument melodyInstrument = new MelodyInstrument();
+//				melodyInstrument.setInstrumentMapping(instrumentMapping);
+//				List<Note> notes = instrument.updateInQualityRange(entry.getValue());
+//				melodyInstrument.setNotes(notes);
+//				melodyInstruments.add(melodyInstrument);
+//
+//                instrumentsConfigured.remove(instrument);
+//			}
+
+			Score score = scoreUtilities.createScoreFromMelodyInstrument(melodyInstruments, xmlParser.getBpm());
+            score.setTitle(midiFile.getName());
             View.notate(score);
-            playOnKontakt(melodyInstruments,60);
-//			midiDevicesUtil.playOnDevice(seq, xmlParser.getBpm(), MidiDevicePlayer.KONTAKT);
+
+            Sequence sequence = midiDevicesUtil.createSequenceGeneralMidi(melodyInstruments, xmlParser.getBpm(), false);
+            playOnKontakt(melodyInstruments, sequence, xmlParser.getBpm());
+            Resource outResource = new FileSystemResource("");
+            midiDevicesUtil.write(sequence, outResource.getFile().getPath()+ "cp/src/main/resources/orch/" + midiFile.getName() + ".mid");
 			Thread.sleep(17000);
 		}
-
-
-
 	}
 	
 	public void playMidiFilesOnKontaktFor() throws Exception {
@@ -173,7 +202,9 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 			View.notate(score);
 			//			parsedMelodies.stream().filter(m -> m.getVoice() == 4).flatMap(m -> m.getNotes().stream()).forEach(n -> n.setPitch(n.getPitch() + 12));// for miroslav string quartet
 //			parsedMelodies.stream().flatMap(m -> m.getNotes().stream()).forEach(n -> n.setPitch(n.getPitch() + 12));// for miroslav string quartet
-			playOnKontakt(parsedMelodies, midiInfo.getTempo());
+
+
+//			playOnKontakt(parsedMelodies,  midiInfo.getTempo());
 
 //			write(parsedMelodies , "resources/transform/" + midiFile.getName(), midiInfo.getTempo());
 //			generateMusicXml(parsedMelodies, midiFile.getName());
@@ -262,10 +293,9 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 //		}
 //	}
 	
-	private void playOnKontakt(List<MelodyInstrument> melodies,
+	private void playOnKontakt(List<MelodyInstrument> melodies, Sequence sequence,
 			int tempo) throws InvalidMidiDataException {
-		Sequence seq = midiDevicesUtil.createSequenceGeneralMidi(melodies, tempo, false);
-		midiDevicesUtil.playOnDevice(seq, tempo, MidiDevicePlayer.KONTAKT);
+		midiDevicesUtil.playOnDevice(sequence, tempo, MidiDevicePlayer.KONTAKT);
 	}
 
 //	public void playMidiFilesOnKontaktFor(Instrument instrument) throws IOException, InvalidMidiDataException, InterruptedException {
@@ -279,11 +309,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 //			Thread.sleep(8000);
 //		}
 //	}
-	
-	public void testPlayOnKontakt() throws InvalidMidiDataException, IOException {
-		MidiInfo midiInfo = midiParser.readMidi(PlayApplication.class.getResource("/melodies/Wagner-Tristan.mid").getPath());
-		playOnKontakt(midiInfo.getMelodies(), midiInfo.getTempo());
-	}
+
 	
 //	private void write(List<MelodyInstrument> melodies, String outputPath, int tempo) throws InvalidMidiDataException, IOException{
 //		Sequence seq;

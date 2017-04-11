@@ -65,7 +65,7 @@ public class FullOrchestra extends Orchestra {
 		violin2 = new InstrumentMapping(new ViolinsII(), 2, 1);
 		viola = new InstrumentMapping(new Viola(), 2, 1);
 		cello = new InstrumentMapping(new Cello(), 2, 1);
-		bass = new InstrumentMapping(new Doublebass(), 2, 1);
+		bass = new InstrumentMapping(new DoubleBass(), 2, 1);
 		map.put(violin1, new ArrayList<>());
 		map.put(violin2, new ArrayList<>());
 		map.put(viola, new ArrayList<>());

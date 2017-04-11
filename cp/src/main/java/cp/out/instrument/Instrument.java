@@ -237,5 +237,5 @@ public class Instrument {
 	public void setInstrumentGroup(InstrumentGroup instrumentGroup) {
 		this.instrumentGroup = instrumentGroup;
 	}
-	
+
 }

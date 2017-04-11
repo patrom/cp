@@ -68,6 +68,7 @@ public class FitnessEvaluationTemplate {
 		for (DependantHarmonyGenerator dependantGenerator : composition.getDependantHarmonyGenerators()) {
 			dependantGenerator.generateDependantHarmonies(melodies);
 		}
+		updateMelodyInRange(melodies);
 		updateRhythmWeight(melodiesToCalculate);
 
 		List<Note> allNotes = melodies.stream().flatMap(m -> m.getMelodyBlockNotes().stream()).collect(toList());
@@ -83,6 +84,13 @@ public class FitnessEvaluationTemplate {
 			Instrument instrument = instrumentConfig.getInstrumentForVoice(updatebleMelody.getVoice());
 //			updatebleMelody.updatePitchesFromInstrument(instrument);
 			updatebleMelody.updatePitchesFromContour();
+		}
+	}
+
+	private void updateMelodyInRange(List<MelodyBlock> melodies) {
+//		List<MelodyBlock> updatebleMelodies = melodies.stream().filter(m -> m.isCalculable() && !m.isRhythmDependant() && !m.getMelodyBlockNotes().isEmpty()).collect(toList());
+		for (MelodyBlock updatebleMelody : melodies) {
+			Instrument instrument = instrumentConfig.getInstrumentForVoice(updatebleMelody.getVoice());
 			instrument.updateMelodyInRange(updatebleMelody.getMelodyBlockNotes());
 		}
 	}

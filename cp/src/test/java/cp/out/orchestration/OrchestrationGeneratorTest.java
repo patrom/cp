@@ -10,7 +10,7 @@ import cp.out.instrument.brass.FrenchHorn;
 import cp.out.instrument.brass.Trombone;
 import cp.out.instrument.brass.Trumpet;
 import cp.out.instrument.strings.Cello;
-import cp.out.instrument.strings.Doublebass;
+import cp.out.instrument.strings.DoubleBass;
 import cp.out.instrument.strings.Viola;
 import cp.out.instrument.strings.ViolinsI;
 import cp.out.orchestration.orchestra.ClassicalOrchestra;
@@ -579,7 +579,7 @@ public class OrchestrationGeneratorTest {
 				new Viola(),
 				new Viola(),
 				new Cello(),
-				new Doublebass()
+				new DoubleBass()
 				).collect(Collectors.toList());
 		int[] pitches = new int[]{68,64,61,52, 40};
 		List<InstrumentNoteMapping> orchestrateLargeChord = orchestrationGenerator.orchestrateMultipleRegisterChord(pitches, instruments);

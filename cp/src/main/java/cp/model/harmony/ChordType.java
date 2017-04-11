@@ -65,8 +65,11 @@ public enum ChordType {
 	CH2_KLEIN_SEPTIEM_CHR(2,10),
 	CH2_GROOT_SEPTIEM_CHR(2,11),
 
-	MAJOR_1_CHR(3);
-	
+	MAJOR_1_CHR(3),
+	MAJOR_2_CHR(3),
+	MINOR_1_CHR(3),
+	MINOR_2_CHR(3);
+
 	public enum Inversion {
 		ROOT, INVERSION1, INVERSION2, OTHER
 	}

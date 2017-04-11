@@ -14,6 +14,8 @@ import cp.model.harmony.ChordType;
 import cp.model.harmony.DependantHarmony;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
+import cp.out.instrument.Articulation;
+import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.Technical;
 import cp.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by prombouts on 22/11/2016.
@@ -102,6 +109,46 @@ public abstract class Voice {
     protected boolean hasDependentHarmony;
     protected List<ChordType> chordTypes = new ArrayList<>();
 
+
+    public Voice() {
+        stringArticulations = Stream.of(
+                Articulation.MARCATO,
+                Articulation.STRONG_ACCENT,
+                Articulation.STACCATO,
+                Articulation.TENUTO,
+                Articulation.DETACHED_LEGATO,//a tenuto line and staccato dot
+                Articulation.STACCATISSIMO,
+                Articulation.SPICCATO
+        ).collect(toList());
+        woodwindArticulations = Stream.of(
+                Articulation.MARCATO,
+                Articulation.STRONG_ACCENT,
+                Articulation.STACCATO,
+                Articulation.TENUTO,
+                Articulation.DETACHED_LEGATO,//a tenuto line and staccato dot
+                Articulation.STACCATISSIMO
+        ).collect(toList());
+
+        stringTechnicals = Stream.of(
+                Technical.LEGATO,
+                Technical.PIZZ,
+                Technical.VIBRATO,
+                Technical.PORTATO,
+                Technical.SENZA_VIBRATO,
+                Technical.STACCATO,
+                Technical.SUL_PONTICELLO
+        ).collect(toList());
+
+        woodwindTechnicals = Stream.of(
+                Technical.LEGATO,
+                Technical.VIBRATO,
+                Technical.PORTATO,
+                Technical.SENZA_VIBRATO,
+                Technical.STACCATO
+//                Technical.FLUTTER_TONGUE
+        ).collect(toList());
+    }
+
     protected void setTimeconfig(){
         if (numerator == 4 && denominator == 4) {
             randomBeats = true;
@@ -178,5 +225,43 @@ public abstract class Voice {
 
     public void addChordType(ChordType chordType){
         chordTypes.add(chordType);
+    }
+
+    protected  List<Articulation> stringArticulations = new ArrayList<>();
+    protected List<Articulation> woodwindArticulations = new ArrayList<>();
+
+    protected List<Technical> woodwindTechnicals = new ArrayList<>();
+    protected List<Technical> stringTechnicals = new ArrayList<>();
+
+    public List<Articulation> getArticulations(InstrumentGroup instrumentGroup) {
+        switch (instrumentGroup){
+            case STRINGS:
+                return stringArticulations;
+            case WOODWINDS:
+            case BRASS:
+                return woodwindArticulations;
+        }
+        return Collections.emptyList();
+    }
+
+    public List<Technical> getTechnicals(InstrumentGroup instrumentGroup) {
+        switch (instrumentGroup){
+            case STRINGS:
+                return stringTechnicals;
+            case WOODWINDS:
+            case BRASS:
+                return woodwindTechnicals;
+        }
+        return Collections.emptyList();
+    }
+
+    public List<Dynamic> getDynamics(InstrumentGroup instrumentGroup) {
+        switch (instrumentGroup){
+            case STRINGS:
+            case WOODWINDS:
+            case BRASS:
+                return Arrays.asList(Dynamic.values());
+        }
+        return Collections.emptyList();
     }
 }

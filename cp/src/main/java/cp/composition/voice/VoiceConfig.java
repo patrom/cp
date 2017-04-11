@@ -41,7 +41,9 @@ public class VoiceConfig {
     public void initVoiceConfig(){
         voiceConfiguration.put(0, bassVoice);
         voiceConfiguration.put(1, homophonicVoice);
-        voiceConfiguration.put(2, melodyVoice);
+        voiceConfiguration.put(2, homophonicVoice);
+        voiceConfiguration.put(3, melodyVoice);
+
     }
 
     public void addVoiceConfiguration(int voice, Voice voiceConfig){
@@ -51,5 +53,7 @@ public class VoiceConfig {
     public PitchClassGenerator getRandomPitchClassGenerator(int voice) {
         return voiceConfiguration.get(voice).getRandomPitchClassGenerator();
     }
+
+
 
 }

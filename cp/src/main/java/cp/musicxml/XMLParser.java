@@ -5,7 +5,6 @@
 
 package cp.musicxml;
 
-import cp.midi.MelodyInstrument;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.musicxml.parsed.ComplexElement;
@@ -13,7 +12,6 @@ import cp.musicxml.parsed.ElementWrapper;
 import cp.musicxml.parsed.Score;
 import cp.out.instrument.Technical;
 import cp.out.play.InstrumentConfig;
-import cp.out.play.InstrumentMapping;
 import org.codehaus.stax2.XMLInputFactory2;
 import org.codehaus.stax2.XMLStreamReader2;
 import org.springframework.core.io.FileSystemResource;
@@ -28,7 +26,7 @@ import java.util.*;
 
 public class XMLParser {
 
-    private Map<String, MelodyInstrument> notesPerInstrument = new HashMap<>();
+    private Map<String, List<Note>> notesPerInstrument = new HashMap<>();
 
     private XMLStreamReader2 xmlStreamReader;
     private Score score = null;
@@ -57,9 +55,9 @@ public class XMLParser {
         xmlParser.setInstrumentNames(partList);
         ArrayList<ElementWrapper> body = xmlParser.getScore().getBody();
         xmlParser.traverse(body);
-        for (Map.Entry<String,MelodyInstrument> entry : xmlParser.getNotesPerInstrument().entrySet()) {
+        for (Map.Entry<String,List<Note>> entry : xmlParser.getNotesPerInstrument().entrySet()) {
             System.out.println(entry.getKey());
-            List<Note> notes = entry.getValue().getNotes();
+            List<Note> notes = entry.getValue();
             notes.forEach(n -> System.out.println(n));
         }
 
@@ -100,8 +98,7 @@ public class XMLParser {
                 if (element.getComplexElement().getElementName().equals("note")){
                     NoteParser noteParser = new NoteParser();
                     Note note = noteParser.parseNote(element.getComplexElement().getElements());
-                    MelodyInstrument melodyInstrument = notesPerInstrument.get(note.getInstrument());
-                    List<Note> notes = melodyInstrument.getNotes();
+                    List<Note> notes = notesPerInstrument.get(note.getInstrument());
                     if (notes != null && !notes.isEmpty()) {
                         Collections.sort(notes);
                         Note lastNote = notes.get(notes.size() - 1);
@@ -119,11 +116,11 @@ public class XMLParser {
                     dynamic = null;
                     notesPerInstrument.compute(note.getInstrument(), (k, v) -> {
                                 if (v == null) {
-                                    MelodyInstrument m = new MelodyInstrument();
-                                    m.addNote(note);
+                                    List<Note> m = new ArrayList<>();
+                                    m.add(note);
                                     return m;
                                 }else {
-                                    v.addNote(note);
+                                    v.add(note);
                                     return v;
                                 }
                             }
@@ -153,11 +150,7 @@ public class XMLParser {
                     if(scoreElement.getIsComplex() && scoreElement.getComplexElement().getElementName().equals("score-instrument")){
                         if (instrumentConfig != null){
                             String id = scoreElement.getComplexElement().getAttributes().get(0).getAttributeText();
-                            int order = Character.getNumericValue(id.charAt(1));
-                            InstrumentMapping instrumentMapping = instrumentConfig.getInstrumentMappingForScoreOrder(order);
-                            MelodyInstrument melodyInstrument = new MelodyInstrument();
-                            melodyInstrument.setInstrumentMapping(instrumentMapping);
-                            notesPerInstrument.put(id, melodyInstrument);
+                            notesPerInstrument.put(id, new ArrayList<>());
                         }
                     }
                 }
@@ -171,7 +164,7 @@ public class XMLParser {
         return score;
     }
 
-    public Map<String,MelodyInstrument> getNotesPerInstrument() {
+    public Map<String,List<Note>> getNotesPerInstrument() {
         return notesPerInstrument;
     }
 

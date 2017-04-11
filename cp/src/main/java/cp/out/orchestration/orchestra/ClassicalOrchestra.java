@@ -47,7 +47,7 @@ public class ClassicalOrchestra extends Orchestra {
 		violin2 = new InstrumentMapping(new ViolinsII(), 8, 16);
 		viola = new InstrumentMapping(new Viola(), 9, 17);
 		cello = new InstrumentMapping(new Cello(), 10, 18);
-		bass = new InstrumentMapping(new Doublebass(), 11, 19);
+		bass = new InstrumentMapping(new DoubleBass(), 11, 19);
 		map.put(violin1, new ArrayList<>());
 		map.put(violin2, new ArrayList<>());
 		map.put(viola, new ArrayList<>());

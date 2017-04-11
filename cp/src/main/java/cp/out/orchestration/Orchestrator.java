@@ -31,7 +31,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 @Component
 public class Orchestrator {
@@ -91,16 +90,16 @@ public class Orchestrator {
 //				orchestra.setInstrument(orchestra.getClarinet(), instrumentToUpdate, instrumentRegister::updateInQualityRange);
 //			};
 //		}
-		Map<InstrumentMapping, List<Note>> melodiesForInstrument = new TreeMap<>();
-		for (Map.Entry<Integer,InstrumentMapping> entry : instrumentConfig.getInstruments().entrySet()) {
-			MelodyBlock melodyBlock = melodyBlocks.get(entry.getKey());
-			InstrumentMapping instrumentMapping = entry.getValue();
-			melodiesForInstrument.put(instrumentMapping, melodyBlock.getMelodyBlockNotesWithRests());
-			for (InstrumentMapping dependantInstrumentMapping : instrumentMapping.getDependantInstruments()) {
-				List<Note> notes = dependantInstrumentMapping.duplicate(melodyBlock.getMelodyBlockNotesWithRests(), 0);
-				melodiesForInstrument.put(dependantInstrumentMapping, notes);
-			}
-		}
+//		Map<InstrumentMapping, List<Note>> melodiesForInstrument = new TreeMap<>();
+//		for (Map.Entry<Integer,InstrumentMapping> entry : instrumentConfig.getInstruments().entrySet()) {
+//			MelodyBlock melodyBlock = melodyBlocks.get(entry.getKey());
+//			InstrumentMapping instrumentMapping = entry.getValue();
+//			melodiesForInstrument.put(instrumentMapping, melodyBlock.getMelodyBlockNotesWithRests());
+//			for (InstrumentMapping dependantInstrumentMapping : instrumentMapping.getDependantInstruments()) {
+//				List<Note> notes = dependantInstrumentMapping.duplicate(melodyBlock.getMelodyBlockNotesWithRests(), 0);
+//				melodiesForInstrument.put(dependantInstrumentMapping, notes);
+//			}
+//		}
 		
 //		orchestra.setFlute(orchestra.duplicate(orchestra.getOboe()));
 //		orchestra.setOboe(melodyBlocks.get(0).getMelodyBlockNotesWithRests());
@@ -116,7 +115,7 @@ public class Orchestrator {
 //		orchestra.setBass(notes);
 //		ChordOrchestration chordOrchestration = new ChordOrchestration(0, 48, 5);
 //		map.put(new CelloSolo(0, 1), chordOrchestration.orchestrate(oneNoteEven::pos3, 12, C(4)));
-//		map.put(new Doublebass(5, 1), chordOrchestration.orchestrate(twoNoteEven::pos13, 48, C(3), E(3)));
+//		map.put(new DoubleBass(5, 1), chordOrchestration.orchestrate(twoNoteEven::pos13, 48, C(3), E(3)));
 //		map.put(new ViolaSolo(1, 2), chordOrchestration.orchestrate(twoNoteEven::pos13, 24, C(5), E(5)));
 //		map.put(new ViolinSolo(2, 2), chordOrchestration.orchestrate(twoNoteEven::pos34, 12, C(6), E(6), G(6)));
 //		map.put(new Flute(3, 3), chordOrchestration.orchestrate(fourNoteEven::pos1234, 12, C(6), E(6), G(6), C(7)));
@@ -125,8 +124,8 @@ public class Orchestrator {
 //		map.put(new Bassoon(8, 3), chordOrchestration.orchestrate(sixNoteSexTuplet::pos123456, 12, C(4), E(4)));
 //		orchestra.setOboe(chordOrchestration.orchestrate(new int[]{0,4},twoNoteTemplate::note011Repetition,threeNoteUneven::pos123, 12, twoNoteUneven::pos13, 12, Articulation.STACCATO));
 //		map.put(new Trumpet(9, 4), chordOrchestration.orchestrate(new int[]{4,0},twoNoteTemplate::note01,twoNoteEven::pos13, 12));
-		generateMusicXml(id, melodiesForInstrument);
-		writeMidi(id, melodiesForInstrument);
+//		generateMusicXml(id, melodiesForInstrument);
+//		writeMidi(id, melodiesForInstrument);
 	}
 	
 	private void generateMusicXml(String id, Map<InstrumentMapping, List<Note>> orchestra) throws Exception{

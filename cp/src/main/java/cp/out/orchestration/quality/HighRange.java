@@ -31,7 +31,7 @@ public class HighRange extends OrchestralQuality {
                 new ViolaSolo(range),
 //                new Cello(new InstrumentRegister(50, 61)),
 //                new CelloSolo(new InstrumentRegister(50, 61)),
-//                new Doublebass(new InstrumentRegister(43, 49)),
+//                new DoubleBass(new InstrumentRegister(43, 49)),
 //                new Glockenspiel(new InstrumentRegister(87, 103)),
 //                new Celesta(new InstrumentRegister(72, 84)),
 //                new Harp(new InstrumentRegister(84, 95)),

@@ -21,7 +21,7 @@ public class DefaultConfig {
 		probabilityParamters.put("probabilityOneNoteChromatic", 0.0);
 		probabilityParamters.put("probabilityArticulation", 1.0);
 		probabilityParamters.put("probabilityTechnical", 1.0);
-		probabilityParamters.put("probabilityDynamic", 1.0);
+		probabilityParamters.put("probabilityDynamic", 0.0);
 		probabilityParamters.put("probabilityReplaceMelody", 1.0);
 		probabilityParamters.put("probabilityReplaceMelodyBlock", 0.0);
 		probabilityParamters.put("probabilityCopyMelody", 0.0);//set to 0 when fixed beatgroup is used

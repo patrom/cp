@@ -1,10 +1,14 @@
 package cp.nsga.operator.mutation.melody;
 
+import cp.composition.voice.Voice;
+import cp.composition.voice.VoiceConfig;
 import cp.model.Motive;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Dynamic;
 import cp.nsga.MusicVariable;
 import cp.nsga.operator.mutation.AbstractMutation;
+import cp.out.instrument.Instrument;
+import cp.out.play.InstrumentConfig;
 import cp.util.RandomUtil;
 import jmetal.core.Solution;
 import jmetal.util.Configuration;
@@ -16,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by prombouts on 5/01/2017.
@@ -24,6 +29,11 @@ import java.util.HashMap;
 public class DynamicMutation extends AbstractMutation {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ArticulationMutation.class);
+
+    @Autowired
+    private VoiceConfig voiceConfig;
+    @Autowired
+    private InstrumentConfig instrumentConfig;
 
     @Autowired
     public DynamicMutation(HashMap<String, Object> parameters) {
@@ -35,7 +45,10 @@ public class DynamicMutation extends AbstractMutation {
         if (PseudoRandom.randDouble() < probability) {
             Motive motive = ((MusicVariable)solution.getDecisionVariables()[0]).getMotive();
             MelodyBlock mutableMelody = motive.getRandomMutableMelody();
-            Dynamic dynamic = RandomUtil.getRandomFromArray(Dynamic.values());
+            Instrument instrument = instrumentConfig.getInstrumentForVoice(mutableMelody.getVoice());
+            Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(mutableMelody.getVoice());
+            List<Dynamic> dynamics = voiceConfiguration.getDynamics(instrument.getInstrumentGroup());
+            Dynamic dynamic = RandomUtil.getRandomFromList(dynamics);
             mutableMelody.updateDynamic(dynamic);
 //			LOGGER.info("Dynamic mutated");
         }

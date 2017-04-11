@@ -145,10 +145,10 @@ public class FourVoiceComposition extends  Composition {
         melodyBlock3.setCalculable(false);
         melodyBlocks.add(melodyBlock3);
 
-        OperatorRelation operatorRelation = new OperatorRelation(Operator.T_RELATIVE);
+        OperatorRelation operatorRelation = new OperatorRelation(Operator.T);
         operatorRelation.setSource(voice0);
         operatorRelation.setTarget(voice2);
-        operatorRelation.setSteps(0);
+        operatorRelation.setSteps(2);
         operatorRelation.setTimeLine(timeLine);
         operatorRelation.setOffset(DurationConstants.HALF + DurationConstants.QUARTER);
         operatorConfig.addOperatorRelations(operatorRelation::execute);
@@ -157,10 +157,10 @@ public class FourVoiceComposition extends  Composition {
         melodyBlock4.setCalculable(false);
         melodyBlocks.add(melodyBlock4);
 
-        operatorRelation = new OperatorRelation(Operator.T_RELATIVE);
+        operatorRelation = new OperatorRelation(Operator.T);
         operatorRelation.setSource(voice1);
         operatorRelation.setTarget(voice3);
-        operatorRelation.setSteps(0);
+        operatorRelation.setSteps(2);
         operatorRelation.setTimeLine(timeLine);
         operatorRelation.setOffset(DurationConstants.HALF + DurationConstants.QUARTER);
         operatorConfig.addOperatorRelations(operatorRelation::execute);
@@ -223,7 +223,7 @@ public class FourVoiceComposition extends  Composition {
      * Voice 3: melody
      * @return melodies
      */
-    public List<MelodyBlock> homophonicRhythm(){
+    public List<MelodyBlock> allRandom(){
         List<MelodyBlock> melodyBlocks = new ArrayList<>();
         MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
         melodyBlocks.add(melodyBlock);
@@ -295,7 +295,7 @@ public class FourVoiceComposition extends  Composition {
 //		voiceConfiguration.put(voice4, homophonicVoice);
 //
 //		//has to be set first, before generation
-        Voice voice = voiceConfig.getVoiceConfiguration(voice1);
+        Voice voice = voiceConfig.getVoiceConfiguration(voice0);
         voice.hasDependentHarmony(true);
 //        voice.addChordType(ChordType.CH2_GROTE_TERTS);
 //        voice.addChordType(ChordType.CH2_GROTE_TERTS_CHR);
@@ -308,9 +308,12 @@ public class FourVoiceComposition extends  Composition {
 //        voice.addChordType(ChordType.CH2_KLEINE_SIXT_CHR);
         voice.addChordType(ChordType.MAJOR);
         voice.addChordType(ChordType.MAJOR_1);
-//		voice.addChordType(ChordType.MAJOR_1_CHR);
+		voice.addChordType(ChordType.MAJOR_1_CHR);
+		voice.addChordType(ChordType.MAJOR_2_CHR);
+		voice.addChordType(ChordType.MINOR_1_CHR);
+		voice.addChordType(ChordType.MINOR_2_CHR);
         voice.addChordType(ChordType.MAJOR_2);
-//        voice.addChordType(ChordType.DOM);
+        voice.addChordType(ChordType.DOM);
 
         List<MelodyBlock> melodyBlocks = new ArrayList<>();
         MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
