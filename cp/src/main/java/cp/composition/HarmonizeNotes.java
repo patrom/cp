@@ -2,9 +2,14 @@ package cp.composition;
 
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
-import cp.musicxml.MusicXMLParser;
+import cp.musicxml.XMLParser;
+import cp.musicxml.parsed.ComplexElement;
+import cp.musicxml.parsed.ElementWrapper;
+import cp.out.play.InstrumentConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,10 +19,12 @@ import java.util.Map;
 import static cp.model.note.NoteBuilder.note;
 import static cp.model.rhythm.DurationConstants.EIGHT;
 import static cp.model.rhythm.DurationConstants.HALF;
-import static java.util.stream.Collectors.toList;
 
 @Component
 public class HarmonizeNotes {
+
+	@Autowired
+	private InstrumentConfig instrumentConfig;
 
 	public List<Note> getMelodieToHarmonize() {
 		List<Note> notes = new ArrayList<>();
@@ -36,19 +43,19 @@ public class HarmonizeNotes {
 		return notes;
 	}
 	
-	public List<Note> getFileToHarmonize() {
+	public Map<String, List<Note>> getFileToHarmonize() {
 		try {
-			MusicXMLParser parser  = new MusicXMLParser("cp/src/main/resources/harmonize/kyrie3.xml");
-			parser.parseMusicXML();
-			Map<String, List<Note>> notesPerInstrument = parser.getNotesPerInstrument();
-			String instrument = "P1";
-			return notesPerInstrument.entrySet().stream()
-					.flatMap(entry -> entry.getValue().stream())
-					.filter(n -> n.getInstrument().startsWith(instrument))
-					.collect(toList());
-		} catch (IOException e) {
+			XMLParser xmlParser = new XMLParser();
+			xmlParser.setInstrumentConfig(instrumentConfig);
+			xmlParser.startParsing("cp/src/main/resources/harmonize/kyrie3.xml");
+			ComplexElement partList = xmlParser.getScore().getPartList();
+			xmlParser.setInstrumentNames(partList);
+			ArrayList<ElementWrapper> body = xmlParser.getScore().getBody();
+			xmlParser.traverse(body);
+			return xmlParser.getNotesPerInstrument();
+		} catch (IOException | XMLStreamException e) {
 			e.printStackTrace();
 		}
-       return Collections.emptyList();
+		return Collections.emptyMap();
 	}
 }

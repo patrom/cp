@@ -37,7 +37,7 @@ public abstract class AbstractTest extends JFrame {
 		try {
 			MelodyInstrument melodyInstrument = new MelodyInstrument(notes, 0);
 			melodyInstrument.setInstrumentMapping(instrumentMapping);
-			Sequence seq = midiDevicesUtil.createSequence(Collections.singletonList(melodyInstrument));
+			Sequence seq = midiDevicesUtil.createSequenceGeneralMidi(Collections.singletonList(melodyInstrument), tempo, false);
 			midiDevicesUtil.playOnDevice(seq, tempo, MidiDevicePlayer.KONTAKT);
 			Thread.sleep(playTime);
 		} catch (InvalidMidiDataException | InterruptedException e) {
@@ -47,8 +47,8 @@ public abstract class AbstractTest extends JFrame {
 	
 	protected void playOnKontakt(List<MelodyInstrument> melodies, int tempo, long playTime ){
 		try {
-			Sequence seq = midiDevicesUtil.createSequence(melodies);
-			midiDevicesUtil.playOnDevice(seq, tempo, MidiDevicePlayer.KONTAKT);
+			Sequence sequence = midiDevicesUtil.createSequenceGeneralMidi(melodies, tempo, false);
+			midiDevicesUtil.playOnDevice(sequence, tempo, MidiDevicePlayer.KONTAKT);
 			Thread.sleep(playTime);
 		} catch (InvalidMidiDataException | InterruptedException e) {
 			e.printStackTrace();

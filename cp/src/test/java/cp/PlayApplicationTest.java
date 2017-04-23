@@ -1,0 +1,44 @@
+package cp;
+
+import cp.midi.MelodyInstrument;
+import cp.model.note.Dynamic;
+import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
+import cp.out.instrument.Articulation;
+import cp.out.instrument.Technical;
+import cp.out.instrument.strings.Viola;
+import cp.out.play.InstrumentMapping;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static cp.model.note.NoteBuilder.note;
+
+/**
+ * Created by prombouts on 12/04/2017.
+ */
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = DefaultConfig.class)
+public class PlayApplicationTest extends AbstractTest {
+
+    @Test
+    public void playMidiFilesOnKontaktFor() throws Exception {
+        List<Note> notes = new ArrayList<>();
+        notes.add(note().pos(0).len(DurationConstants.QUARTER).pc(0).pitch(60).ocatve(5).tech(Technical.TREMELO).dyn(Dynamic.F).build());
+        notes.add(note().pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).pc(0).pitch(60).ocatve(5).dyn(Dynamic.F).art(Articulation.MARCATO).build());
+        notes.add(note().pos(DurationConstants.HALF).len(DurationConstants.QUARTER).pc(2).pitch(62).art(Articulation.STACCATISSIMO).dyn(Dynamic.F).ocatve(5).build());
+        notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).len(DurationConstants.QUARTER).pc(5).pitch(65).ocatve(5).dyn(Dynamic.MF).build());
+        MelodyInstrument melodyInstrument = new MelodyInstrument();
+        melodyInstrument.setNotes(notes);
+        melodyInstrument.setInstrumentMapping(new InstrumentMapping(new Viola(), 2, 0));
+
+        List<MelodyInstrument> melodyInstruments = new ArrayList<>();
+        melodyInstruments.add(melodyInstrument);
+        playOnKontakt(melodyInstruments, 60, 20000);
+    }
+
+}

@@ -104,7 +104,7 @@ public abstract class Voice {
     protected boolean randomBeats;
     protected boolean randomRhytmCombinations = true;
     protected Dynamic dynamic = Dynamic.MF;
-    protected Technical technical = Note.DEFAULT_TECHNICAL;
+    protected Technical technical = Technical.PORTATO;
 
     protected boolean hasDependentHarmony;
     protected List<ChordType> chordTypes = new ArrayList<>();
@@ -135,8 +135,8 @@ public abstract class Voice {
                 Technical.VIBRATO,
                 Technical.PORTATO,
                 Technical.SENZA_VIBRATO,
-                Technical.STACCATO,
-                Technical.SUL_PONTICELLO
+                Technical.STACCATO
+//                Technical.SUL_PONTICELLO
         ).collect(toList());
 
         woodwindTechnicals = Stream.of(
@@ -146,6 +146,13 @@ public abstract class Voice {
                 Technical.SENZA_VIBRATO,
                 Technical.STACCATO
 //                Technical.FLUTTER_TONGUE
+        ).collect(toList());
+
+        dynamics = Stream.of(
+                Dynamic.F,
+                Dynamic.MF,
+                Dynamic.MP,
+                Dynamic.P
         ).collect(toList());
     }
 
@@ -227,8 +234,9 @@ public abstract class Voice {
         chordTypes.add(chordType);
     }
 
-    protected  List<Articulation> stringArticulations = new ArrayList<>();
+    protected List<Articulation> stringArticulations = new ArrayList<>();
     protected List<Articulation> woodwindArticulations = new ArrayList<>();
+    protected List<Dynamic> dynamics = new ArrayList<>();
 
     protected List<Technical> woodwindTechnicals = new ArrayList<>();
     protected List<Technical> stringTechnicals = new ArrayList<>();
@@ -253,6 +261,10 @@ public abstract class Voice {
                 return woodwindTechnicals;
         }
         return Collections.emptyList();
+    }
+
+    public List<Dynamic> getDynamics() {
+        return dynamics;
     }
 
     public List<Dynamic> getDynamics(InstrumentGroup instrumentGroup) {

@@ -1,8 +1,15 @@
 package cp.util;
 
+import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
+
+import static cp.model.note.NoteBuilder.note;
 
 public class RandomUtil {
 	
@@ -10,6 +17,15 @@ public class RandomUtil {
 	
 	public static <T> T getRandomFromList(List<T> list) {
 		return list.get(randomInt(0, list.size()));
+	}
+
+	public static <T> List<T> getRandomListFromList(List<T> list) {
+		int from = getRandomNumberInRange(0, list.size() - 1);
+		int to = getRandomNumberInRange(1, list.size());
+		if (from < to){
+			return list.subList(from, to);
+		}
+		return Collections.emptyList();
 	}
 	
 	public static <T> int getRandomIndex(List<T> list) {
@@ -70,9 +86,16 @@ public class RandomUtil {
 	}
 	
 	public static void main(String[] args) {
-		for (int i = 0; i < 10; i++) {
-			System.out.println(randomAscendingOrDescending());
-		}
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pitch(60).pc(0).pos(0).len(DurationConstants.EIGHT).build());
+		notes.add(note().pitch(62).pc(2).pos(6).len(DurationConstants.EIGHT).build());
+		notes.add(note().pitch(64).pc(4).pos(DurationConstants.QUARTER).len(DurationConstants.EIGHT).build());
+		notes.add(note().pitch(65).pc(5).pos(DurationConstants.THREE_EIGHTS).len(DurationConstants.EIGHT).build());
+		List<Note> sublist = getRandomListFromList(notes);
+		sublist.forEach(n -> System.out.println(n));
+		sublist.forEach(n -> n.setPitch(n.getPitch() + 10));
+        sublist.forEach(n -> System.out.println(n));
+		notes.forEach(n -> System.out.println( "test" + n));
 	}
 	
 }

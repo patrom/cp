@@ -1,6 +1,8 @@
 package cp.out.orchestration;
 
+import cp.combination.even.FourNoteEven;
 import cp.composition.Composition;
+import cp.composition.accomp.AccompGroup;
 import cp.composition.voice.MelodyVoice;
 import cp.composition.voice.Voice;
 import cp.generator.MelodyGenerator;
@@ -12,13 +14,11 @@ import cp.model.note.Note;
 import cp.out.instrument.Instrument;
 import cp.out.play.InstrumentConfig;
 import cp.util.RandomUtil;
+import cp.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -41,6 +41,52 @@ public class HarmonyOrchestrator {
     private Composition composition;
     @Autowired
     private MelodyVoice melodyVoice;
+    @Autowired
+    private FourNoteEven fourNoteEven;
+
+    public MelodyBlock updateAccomp(Motive motive, AccompGroup accompGroup, int voice, Predicate<Note> harmonyFilter){
+        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockWithoutPitchClassGenerator(voice, accompGroup,  0);
+
+        for (CpMelody melody : melodyBlock.getMelodyBlocks()) {
+            List<Note> notes = melody.getNotesNoRest();
+            List<Integer> melodyContour = melody.getContour();
+            int size = notes.size();
+            Note firstNote = notes.get(0);
+            Optional<Note> optionalHarmonyNote = motive.getHarmonyNoteForPositionAndVoice(firstNote.getPosition(), voice);
+            if (optionalHarmonyNote.isPresent()) {
+                Note harmonyNoteVoice = optionalHarmonyNote.get();
+                firstNote.setPitchClass(harmonyNoteVoice.getPitchClass());
+                firstNote.setPitch(harmonyNoteVoice.getPitch());
+                firstNote.setOctave(harmonyNoteVoice.getOctave());
+                int counter = 0;
+                for (int i = 1; i < size; i++) {
+                    Note note = notes.get(i);
+                    Note harmonyNote = motive.getNextHarmonyNoteForPosition(note.getPosition(), harmonyFilter, counter);
+                    note.setPitchClass(harmonyNote.getPitchClass());
+                    note.setPitch(harmonyNote.getPitch());
+                    note.setOctave(harmonyNote.getOctave());
+                    counter++;
+                }
+                updatePitchesFromContour(notes, melodyContour);
+            }
+        }
+        return melodyBlock;
+    }
+
+    public void updatePitchesFromContour( List<Note> notes, List<Integer> contour){
+        int size = notes.size() - 1;
+//        firstNote.setPitch((startOctave * 12) + firstNote.getPitchClass());
+//        firstNote.setOctave(startOctave);
+        for (int i = 0; i < size; i++) {
+            Note note = notes.get(i);
+            Note nextNote = notes.get(i + 1);
+            int difference = nextNote.getPitchClass() - note.getPitchClass();
+            int direction = contour.get(i);
+            int interval = Util.calculateInterval(direction, difference);
+            nextNote.setPitch(note.getPitch() + interval);
+            nextNote.setOctave(nextNote.getPitch()/12);
+        }
+    }
 
     public MelodyBlock varyNextHarmonyNote(Motive motive, int voiceSource, int voiceTarget, Predicate<Note> harmonyFilter){
         Instrument instrument = instrumentConfig.getInstrumentForVoice(voiceSource);

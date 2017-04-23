@@ -82,10 +82,20 @@ public class Motive implements Cloneable {
 		return RandomUtil.getRandomFromList(harmony.getNotes().stream().filter(harmonyFilter).collect(Collectors.toList()));
 	}
 
+	public Optional<Note> getHarmonyNoteForPositionAndVoice(int position, int voice){
+		return harmonies.stream()
+				.filter(h -> h.getPosition() <= position && position < h.getEnd())
+				.flatMap(h -> h.getNotes().stream())
+				.filter(n -> n.getVoice() == voice).findFirst();
+	}
+
 	public Note getNextHarmonyNoteForPosition(int position, Predicate<Note> harmonyFilter, int counter){
-		Optional<CpHarmony> optional = harmonies.stream().filter(h -> h.getPosition() <= position && position < h.getEnd()).findFirst();
-		CpHarmony harmony = optional.get();
-		List<Note> harmonyNotes = harmony.getNotes().stream().filter(harmonyFilter).distinct().sorted().collect(toList());
+        List<Note> harmonyNotes = harmonies.stream()
+                .filter(h -> h.getPosition() <= position && position < h.getEnd())
+                .flatMap(h -> h.getNotes().stream())
+                .filter(harmonyFilter)
+                .distinct()
+                .collect(toList());
 		return harmonyNotes.get(counter % harmonyNotes.size());
 	}
 
@@ -105,5 +115,7 @@ public class Motive implements Cloneable {
 	public MelodyBlock getMelodyBlock(int voice){
 		return melodyBlocks.stream().filter(m -> m.getVoice() == voice).findFirst().get();
 	}
+
+
 	
 }

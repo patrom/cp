@@ -56,6 +56,8 @@ public class VSLArticulationConverter extends MidiEventConverter{
                 case FP:
                     return createMidiEvents(channel, note, 0, 110);
                 case SFZ:
+
+
                     return createMidiEvents(channel, note, 0, 120);
 
             }
@@ -110,7 +112,8 @@ public class VSLArticulationConverter extends MidiEventConverter{
 //                case "progressive vibrato":
 //                case "sus":
 //                    return createMidiEvents(channel, note, 0, 5);
-//                case "tremelo":
+                case TREMELO:
+                    return createMidiEvents(channel, note, 2, 115);
 //                case "sul tasto":
 //                case "con sordino":
 //                case "arco":
@@ -123,7 +126,7 @@ public class VSLArticulationConverter extends MidiEventConverter{
                 case LEGATO:
                     return createMidiEvents(channel, note, 2, 50);
                 case PORTATO:
-                    return createMidiEvents(channel, note, 2, 15);
+                    return createMidiEvents(channel, note, 2, 35);
             }
         }
         return Collections.emptyList();

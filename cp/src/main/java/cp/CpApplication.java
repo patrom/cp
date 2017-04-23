@@ -1,10 +1,12 @@
 package cp;
 
+import cp.combination.even.FourNoteEven;
 import cp.composition.*;
 import cp.composition.voice.FixedVoice;
 import cp.generator.MusicProperties;
 import cp.model.Motive;
 import cp.model.melody.MelodyBlock;
+import cp.model.note.Note;
 import cp.nsga.MusicSolution;
 import cp.nsga.MusicSolutionType;
 import cp.nsga.MusicVariable;
@@ -39,6 +41,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
 
 @Import({DefaultConfig.class, VariationConfig.class})
 public class CpApplication extends JFrame implements CommandLineRunner{
@@ -61,6 +64,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	private TechnicalMutation technicalMutation;
 	@Autowired
 	private ReplaceMelody replaceMelody;
+	@Autowired
+	private RepetitionMelody repetitionMelody;
 	@Autowired
 	private CopyMelody copyMelody;
 	@Autowired
@@ -103,6 +108,10 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	private HarmonyOrchestrator harmonyOrchestrator;
 	@Autowired
 	private FixedVoice fixedVoice;
+
+
+	@Autowired
+	private FourNoteEven fourNoteEven;
 	
 	private static final AtomicInteger COUNTER = new AtomicInteger();
 	
@@ -125,7 +134,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 
 	private void compose() throws Exception {
 		List<CompositionGenre> composeInGenres = new ArrayList<>();
-//		composeInGenres.add(melodyComposition::melody);
+		composeInGenres.add(melodyComposition::melody);
 
 //		composeInGenres.add(twoVoiceComposition::random);
 //		composeInGenres.add(twoVoiceComposition::beatEven);
@@ -156,8 +165,11 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(threeVoiceComposition::accDuplicateRhythm);
 //		composeInGenres.add(threeVoiceComposition::allRandom);
 
+//		composeInGenres.add(fourVoiceComposition::dependingMiddleVoicesRhythm);
 //		composeInGenres.add(fourVoiceComposition::dependingOneVoicesHomophonicRhythm);
-		composeInGenres.add(fourVoiceComposition::dependingTwoVoicesHomophonicRhythm);
+//		composeInGenres.add(fourVoiceComposition::dependingTwoVoicesHomophonicRhythm);
+//		composeInGenres.add(fourVoiceComposition::dependingTwoByTwoVoices);
+
 
 //		composeInGenres.add(fourVoiceComposition::canonA3);
 //		composeInGenres.add(fourVoiceComposition::canon);
@@ -207,9 +219,18 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 
 			    	Motive solutionMotive = ((MusicVariable) solution.getDecisionVariables()[0]).getMotive();
 
-//					Predicate<Note> harmonyFilter = n -> n.getVoice() != 4 && n.getVoice() != 3 && n.getVoice() != 0;
+					Predicate<Note> harmonyFilter = n -> n.getVoice() != 5;
 //					fiveVoiceComposition.addVoiceConfiguration(5 , fixedVoice);
 //			    	MelodyBlock melodyBlock = harmonyOrchestrator.getChordsRhythmDependant(solutionMotive,5,fixedVoice, harmonyFilter, 2 );
+//					solutionMotive.getMelodyBlocks().add(melodyBlock);
+
+//					ArrayList<Integer> accompContour = new ArrayList<>();
+//					accompContour.add(1);
+//					accompContour.add(1);
+//					accompContour.add(1);
+//					BeatGroup beatGroup = new BeatGroupTwo(DurationConstants.EIGHT, Collections.singletonList(fourNoteEven::pos1234));
+//					AccompGroup accompGroup = new AccompGroup(beatGroup, accompContour);
+//					MelodyBlock melodyBlock = harmonyOrchestrator.updateAccomp(solutionMotive, accompGroup, 1, harmonyFilter);
 //					solutionMotive.getMelodyBlocks().add(melodyBlock);
 
 //			    	MelodyBlock block = harmonyOrchestrator.varyOriginalNote(solutionMotive, 2, 5);
@@ -236,7 +257,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		// Algorithm parameters
 	    int populationSize = 30;
 	    algorithm.setInputParameter("populationSize", populationSize);
-	    algorithm.setInputParameter("maxEvaluations", populationSize * 1500);
+	    algorithm.setInputParameter("maxEvaluations", populationSize * 15);
 	    
 	    // Mutation and Crossover
 	    crossover.setParameter("probabilityCrossover", 1.0); 
@@ -251,6 +272,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	    algorithm.addOperator("dynamicMutation", dynamicMutation);
 	    algorithm.addOperator("technicalMutation", technicalMutation);
 	    algorithm.addOperator("replaceMelody", replaceMelody);
+	    algorithm.addOperator("repetitionMelody", repetitionMelody);
 		algorithm.addOperator("copyMelody", copyMelody);
 		algorithm.addOperator("replaceMelodyBlock", replaceMelodyBlock);
 	    algorithm.addOperator("selection", SelectionFactory.getSelectionOperator("BinaryTournament2", parameters));

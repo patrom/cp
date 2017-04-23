@@ -32,6 +32,7 @@ public class XMLParser {
     private Score score = null;
     private int bpm;
     private int position = 0;
+    Technical words = null;
 
     private ParseXMLHeader parseHeaderObj;
     private ParseXMLBody   parseBodyObj;
@@ -44,7 +45,7 @@ public class XMLParser {
     public static void main(String[] args) {
         XMLParser xmlParser = new XMLParser();
         try {
-            xmlParser.startParsing("cp/src/main/resources/test.xml");
+            xmlParser.startParsing("C:\\Users\\prombouts\\git\\cp\\cp\\src\\main\\resources\\xml\\1304_1647_0.xml");
         } catch (XMLStreamException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -75,7 +76,6 @@ public class XMLParser {
 
     public void traverse(ArrayList<ElementWrapper> elementWrappers) {
         Dynamic dynamic = null;
-        Technical words = null;
         for (ElementWrapper element : elementWrappers) {
             if (element.getIsComplex()){
                 ArrayList<ElementWrapper> elements = element.getComplexElement().getElements();

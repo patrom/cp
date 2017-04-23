@@ -3,6 +3,7 @@ package cp.model.melody;
 import cp.DefaultConfig;
 import cp.VariationConfig;
 import cp.composition.beat.BeatGroupFactory;
+import cp.composition.beat.BeatGroupTwo;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.note.Note;
@@ -505,5 +506,95 @@ public class MelodyBlockTest {
 		List<Note> filterMelody = melodyBlock.filterMelody(DurationConstants.EIGHT);
 		assertEquals(5, filterMelody.size());
 	}
+
+	@Test
+	public void testRepeatMelody(){
+		melodyBlock = new MelodyBlock(5,1);
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).build());
+		notes.add(note().pos(DurationConstants.EIGHT).build());
+		CpMelody melody = new CpMelody(notes, 1, 0 , DurationConstants.QUARTER);
+        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT, null));
+		melodyBlock.addMelodyBlock(melody);
+
+		notes = new ArrayList<>();
+		notes.add(note().pos(DurationConstants.QUARTER).build());
+		notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.EIGHT).build());
+		notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.EIGHT + DurationConstants.SIXTEENTH).build());
+		melody = new CpMelody(notes, 1, DurationConstants.QUARTER , DurationConstants.HALF);
+        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT, null));
+		melodyBlock.addMelodyBlock(melody);
+
+		notes = new ArrayList<>();
+		notes.add(note().pos(DurationConstants.HALF).build());
+		notes.add(note().pos(DurationConstants.HALF + DurationConstants.EIGHT).build());
+		melody = new CpMelody(notes, 1, DurationConstants.HALF , DurationConstants.HALF + DurationConstants.QUARTER);
+        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT, null));
+		melodyBlock.addMelodyBlock(melody);
+
+		notes = new ArrayList<>();
+		notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).build());
+		notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT).build());
+		melody = new CpMelody(notes, 1, DurationConstants.HALF + DurationConstants.QUARTER , DurationConstants.WHOLE);
+        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT, null));
+		melodyBlock.addMelodyBlock(melody);
+
+		melodyBlock.repeatMelody(1,2,1);
+        List<Note> melodyBlockNotes = melodyBlock.getMelodyBlockNotes();
+        assertEquals(10, melodyBlockNotes.size());
+        List<CpMelody> melodyBlocks = melodyBlock.getMelodyBlocks();
+        CpMelody replacedMelodyBlock = melodyBlocks.get(2);
+        assertEquals(3, replacedMelodyBlock.getNotes().size());
+        assertEquals(DurationConstants.HALF, replacedMelodyBlock.getStart());
+        assertEquals(DurationConstants.HALF + DurationConstants.QUARTER, replacedMelodyBlock.getEnd());
+
+    }
+
+    @Test
+    public void testRepeatMelody2(){
+        melodyBlock = new MelodyBlock(5,1);
+        List<Note> notes = new ArrayList<>();
+        notes.add(note().pos(0).build());
+        notes.add(note().pos(DurationConstants.EIGHT).build());
+        CpMelody melody = new CpMelody(notes, 1, 0 , DurationConstants.QUARTER);
+        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT, null));
+        melodyBlock.addMelodyBlock(melody);
+
+        notes = new ArrayList<>();
+        notes.add(note().pos(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.EIGHT).build());
+        notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.EIGHT + DurationConstants.SIXTEENTH).build());
+        melody = new CpMelody(notes, 1, DurationConstants.QUARTER , DurationConstants.HALF);
+        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT, null));
+        melodyBlock.addMelodyBlock(melody);
+
+        notes = new ArrayList<>();
+        notes.add(note().pos(DurationConstants.HALF).build());
+        melody = new CpMelody(notes, 1, DurationConstants.HALF , DurationConstants.HALF + DurationConstants.QUARTER);
+        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT, null));
+        melodyBlock.addMelodyBlock(melody);
+
+        notes = new ArrayList<>();
+        notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT).build());
+        melody = new CpMelody(notes, 1, DurationConstants.HALF + DurationConstants.QUARTER , DurationConstants.WHOLE);
+        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT, null));
+        melodyBlock.addMelodyBlock(melody);
+
+        melodyBlock.repeatMelody(0,2,4);
+        List<Note> melodyBlockNotes = melodyBlock.getMelodyBlockNotes();
+        assertEquals(10, melodyBlockNotes.size());
+        List<CpMelody> melodyBlocks = melodyBlock.getMelodyBlocks();
+        CpMelody replacedMelodyBlock = melodyBlocks.get(2);
+        assertEquals(2, replacedMelodyBlock.getNotes().size());
+        assertEquals(DurationConstants.HALF, replacedMelodyBlock.getStart());
+        assertEquals(DurationConstants.HALF + DurationConstants.QUARTER, replacedMelodyBlock.getEnd());
+
+        replacedMelodyBlock = melodyBlocks.get(3);
+        assertEquals(3, replacedMelodyBlock.getNotes().size());
+        assertEquals(DurationConstants.HALF + DurationConstants.QUARTER, replacedMelodyBlock.getStart());
+        assertEquals(DurationConstants.WHOLE, replacedMelodyBlock.getEnd());
+
+    }
 
 }

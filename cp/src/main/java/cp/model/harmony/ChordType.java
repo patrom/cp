@@ -3,6 +3,7 @@ package cp.model.harmony;
 public enum ChordType {
 
 	ALL_INTERVALS(2),
+	NO_INTERVALS(2),
 
 	CH0(0),
 	CH1(1),
@@ -65,8 +66,10 @@ public enum ChordType {
 	CH2_KLEIN_SEPTIEM_CHR(2,10),
 	CH2_GROOT_SEPTIEM_CHR(2,11),
 
+	MAJOR_CHR(3),
 	MAJOR_1_CHR(3),
 	MAJOR_2_CHR(3),
+	MINOR_CHR(3),
 	MINOR_1_CHR(3),
 	MINOR_2_CHR(3);
 

@@ -32,9 +32,7 @@ import org.springframework.core.io.Resource;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
 import javax.swing.*;
-import javax.xml.stream.XMLStreamException;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -93,30 +91,12 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 		for (File midiFile : dir.listFiles()) {
 			XMLParser xmlParser = new XMLParser();
 			xmlParser.setInstrumentConfig(instrumentConfig);
-			try {
-				xmlParser.startParsing(midiFile.getPath());
-			} catch (XMLStreamException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			xmlParser.startParsing(midiFile.getPath());
 			ComplexElement partList = xmlParser.getScore().getPartList();
 			xmlParser.setInstrumentNames(partList);
 			ArrayList<ElementWrapper> body = xmlParser.getScore().getBody();
 			xmlParser.traverse(body);
 			Map<String, List<Note>> notesPerInstrument = xmlParser.getNotesPerInstrument();
-
-//		List<Note> notes = new ArrayList<>();
-//		notes.add(note().pos(0).len(DurationConstants.QUARTER).pc(0).pitch(60).ocatve(5).dyn(Dynamic.PP).build());
-//		notes.add(note().pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).pc(0).pitch(60).ocatve(5).dyn(Dynamic.SFZ).build());
-//		notes.add(note().pos(DurationConstants.HALF).len(DurationConstants.QUARTER).pc(2).pitch(62).art(Articulation.STACCATISSIMO).dyn(Dynamic.PPP).ocatve(5).build());
-//		notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).len(DurationConstants.QUARTER).pc(5).pitch(65).ocatve(5).dyn(Dynamic.F).build());
-//			MelodyInstrument melodyInstrument = new MelodyInstrument();
-//			melodyInstrument.setNotes(notes);
-//			melodyInstrument.setInstrumentMapping(new InstrumentMapping(new Flute(), 1, 0));
-
-//			List<MelodyInstrument> melodyInstruments = new ArrayList<>();
-//			melodyInstruments.add(melodyInstrument);
 
 			List<MelodyInstrument> melodyInstruments = new ArrayList<>();
 

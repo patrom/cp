@@ -5,6 +5,8 @@ import cp.midi.MidiDevicesUtil;
 import cp.model.Motive;
 import cp.model.harmony.CpHarmony;
 import cp.model.melody.MelodyBlock;
+import cp.model.rhythm.DurationConstants;
+import cp.out.instrument.Articulation;
 import jm.music.data.Score;
 import jm.util.View;
 import org.slf4j.Logger;
@@ -37,6 +39,12 @@ public class Display {
 	private Resource resource;
 
 	public void view(Motive motive, String id) throws Exception {
+        motive.getMelodyBlocks().stream().flatMap(m -> m.getMelodyBlockNotes().stream()).forEach(n -> {
+            if (n.getLength() <= DurationConstants.SIXTEENTH) {
+                n.setArticulation(Articulation.STACCATO);
+            }
+        });
+
 		printHarmonies(motive.getHarmonies());
 		viewScore(motive.getMelodyBlocks(), id);
 		generateMusicXml(motive.getMelodyBlocks(), id);
@@ -50,7 +58,6 @@ public class Display {
 
 	private void generateMusicXml(List<MelodyBlock> melodies, String id) throws Exception {
 		musicXMLWriter.generateMusicXMLForMelodies(melodies, new FileOutputStream(resource.getFile().getPath() + "cp/src/main/resources/xml/" + id + ".xml"));
-
 		Sequence sequence = midiDevicesUtil.createSequence(melodies, musicProperties.getTempo());
 		Resource resource = new FileSystemResource("");
 		midiDevicesUtil.write(sequence, resource.getFile().getPath()+ "cp/src/main/resources/midi/" + id + ".mid");

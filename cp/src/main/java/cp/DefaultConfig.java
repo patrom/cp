@@ -17,12 +17,13 @@ public class DefaultConfig {
 		HashMap<String, Object> probabilityParamters = new HashMap<>();
 //		probabilityParamters.put("probabilityAddRhythm", 0.0);
 //		probabilityParamters.put("probabilityRemoveRhythm", 0.0);
-		probabilityParamters.put("probabilityOneNote", 1.0);
+		probabilityParamters.put("probabilityOneNote", 0.0);
 		probabilityParamters.put("probabilityOneNoteChromatic", 0.0);
-		probabilityParamters.put("probabilityArticulation", 1.0);
-		probabilityParamters.put("probabilityTechnical", 1.0);
+		probabilityParamters.put("probabilityArticulation", 0.0);
+		probabilityParamters.put("probabilityTechnical", 0.0);
 		probabilityParamters.put("probabilityDynamic", 0.0);
-		probabilityParamters.put("probabilityReplaceMelody", 1.0);
+		probabilityParamters.put("probabilityReplaceMelody", 0.0);
+		probabilityParamters.put("probabilityRepetitionMelody", 1.0);
 		probabilityParamters.put("probabilityReplaceMelodyBlock", 0.0);
 		probabilityParamters.put("probabilityCopyMelody", 0.0);//set to 0 when fixed beatgroup is used
 		return probabilityParamters;

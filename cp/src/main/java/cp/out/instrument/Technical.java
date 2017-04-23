@@ -18,7 +18,8 @@ public enum Technical {
     PORTATO("portato"),//detache short
     FLUTTER_TONGUE("flutter tongue"),
     VIBRATO("vibrato"),
-    SENZA_VIBRATO ("senza vibrato");
+    SENZA_VIBRATO ("senza vibrato"),
+    TREMELO("tremelo");
 
     private String technical;
 

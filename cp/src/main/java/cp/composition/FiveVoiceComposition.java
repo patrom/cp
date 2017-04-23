@@ -13,6 +13,9 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by prombouts on 14/11/2016.
@@ -129,7 +132,22 @@ public class FiveVoiceComposition extends Composition {
 
         //melody
         //harmonization
-        List<Note> notes = harmonizeMelody.getNotesToHarmonize();
+        Map<String, List<Note>> notesPerInstrument = harmonizeMelody.getNotesToHarmonize();
+        Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(harmonizeVoice);
+        notesPerInstrument.entrySet().stream().flatMap(entry -> entry.getValue().stream()).forEach(n -> {
+            n.setVoice(harmonizeVoice);
+            if(n.getDynamic() == null){
+                n.setDynamic(voiceConfiguration.getDynamic());
+                n.setDynamicLevel(voiceConfiguration.getDynamic().getLevel());
+            }
+            if(n.getTechnical() == null){
+                n.setTechnical(voiceConfiguration.getTechnical());
+            }
+        });
+        List<Note> notes = notesPerInstrument.entrySet().stream()
+                .flatMap(entry -> entry.getValue().stream())
+                .filter(n -> Character.getNumericValue(n.getInstrument().charAt(1)) == harmonizeVoice)
+                .collect(toList());
 
         InstrumentMapping instrumentHarmonize = instrumentConfig.getInstrumentMappingForVoice(harmonizeVoice);
         CpMelody melody = new CpMelody(notes, harmonizeVoice, start, end);
@@ -152,7 +170,6 @@ public class FiveVoiceComposition extends Composition {
 //            if (i != harmonizeVoice) {
 //                Instrument instrument = instrumentConfig.getInstrumentForVoice(i);
 //                MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(i, instrument.pickRandomOctaveFromRange());
-//                melodyBlock.setInstrument(instrument);
 //                melodyBlocks.add(melodyBlock);
 //            }
 //        }

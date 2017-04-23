@@ -3,7 +3,6 @@ package cp.out.play;
 import cp.model.note.Note;
 import cp.out.instrument.Instrument;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -16,7 +15,6 @@ public class InstrumentMapping implements Comparable<InstrumentMapping>{
     private Instrument instrument;
     private int channel;//playback channel on Kontakt/Vienna (+1)
     private int scoreOrder;//order on page layout: 0 is top, ...
-    private List<InstrumentMapping> dependantInstruments = new ArrayList<>();
     private InstrumentMapping harmonyInstrumentMapping;
 
     public InstrumentMapping(Instrument instrument, int channel, int scoreOrder) {
@@ -25,16 +23,8 @@ public class InstrumentMapping implements Comparable<InstrumentMapping>{
         this.scoreOrder = scoreOrder;
     }
 
-    public void addDependantInstrument(InstrumentMapping instrumentMapping){
-        dependantInstruments.add(instrumentMapping);
-    }
-
     public void addHarmonyInstrumentMapping(int channel, int scoreOrder){
         harmonyInstrumentMapping = new InstrumentMapping(this.instrument, channel, scoreOrder);
-    }
-
-    public List<InstrumentMapping> getDependantInstruments() {
-        return dependantInstruments;
     }
 
     public Instrument getInstrument() {

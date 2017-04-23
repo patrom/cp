@@ -3,11 +3,14 @@ package cp.generator;
 import cp.DefaultConfig;
 import cp.VariationConfig;
 import cp.combination.RhythmCombination;
+import cp.combination.even.FourNoteEven;
 import cp.composition.Composition;
+import cp.composition.accomp.AccompGroup;
 import cp.composition.beat.BeatGroup;
 import cp.composition.beat.BeatGroupStrategy;
 import cp.composition.beat.BeatGroupTwo;
 import cp.composition.timesignature.TimeConfig;
+import cp.composition.voice.FixedVoice;
 import cp.composition.voice.MelodyVoice;
 import cp.composition.voice.VoiceConfig;
 import cp.generator.pitchclass.PitchClassGenerator;
@@ -48,6 +51,7 @@ import javax.sound.midi.Sequence;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -90,6 +94,10 @@ public class MelodyGeneratorTest extends JFrame{
 	private VoiceConfig voiceConfig;
 	@Autowired
 	private MelodyVoice melodyVoice;
+	@Autowired
+	private FixedVoice fixedVoice;
+	@Autowired
+	private FourNoteEven fourNoteEven;
 
 	@Before
 	public void setUp() throws Exception {
@@ -146,6 +154,27 @@ public class MelodyGeneratorTest extends JFrame{
 		assertEquals(1, melody.getVoice());
 		assertTrue(melody.getMelodyBlocks().size() > 1);
 	}
+
+	@Test
+	public void testGenerateMelodyBlockConfig() {
+		when(composition.getStart()).thenReturn(0);
+		when(composition.getEnd()).thenReturn(DurationConstants.WHOLE);
+		ArrayList<Integer> contour = new ArrayList<>();
+		contour.add(1);
+		contour.add(1);
+		contour.add(1);
+		contour.add(-1);
+		BeatGroup beatGroup = new BeatGroupTwo(DurationConstants.QUARTER, Collections.singletonList(fourNoteEven::pos1234));
+		AccompGroup accompGroup = new AccompGroup(beatGroup, contour);
+		MelodyBlock melody = melodyGenerator.generateMelodyBlockWithoutPitchClassGenerator(1, accompGroup,  0);
+		List<Note> melodyBlockNotes = melody.getMelodyBlockNotes();
+		melodyBlockNotes.forEach(n -> System.out.println(n));
+		assertEquals(8, melodyBlockNotes.size());
+		for (Note melodyBlockNote : melodyBlockNotes) {
+			assertEquals(DurationConstants.EIGHT, melodyBlockNote.getLength());
+		}
+	}
+
 
 	@Test
 	public void testGenerateDependantMelodyBlock() {

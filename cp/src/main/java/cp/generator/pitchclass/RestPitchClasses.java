@@ -22,6 +22,6 @@ public class RestPitchClasses {
         LOGGER.debug("RestPitchClasses");
         int length = notes.stream().mapToInt(n -> n.getLength()).sum();
         Note firstNote = notes.get(0);
-        return Collections.singletonList(note().rest().pos(firstNote.getPosition()).len(length).voice(firstNote.getVoice()).build());
+        return Collections.singletonList(note().rest().pos(firstNote.getPosition()).len(length).tech(firstNote.getTechnical()).voice(firstNote.getVoice()).build());
     }
 }

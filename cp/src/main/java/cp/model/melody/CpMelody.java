@@ -190,12 +190,17 @@ public class CpMelody implements Comparable<CpMelody>{
 		List<Note> notesNoRest = getNotesNoRest();
 		if (notesNoRest.size() > 1) {
 			//		notes.forEach(note -> note.setArticulation(Note.DEFAULT_ARTICULATION));//reset?
-			Note note = RandomUtil.getRandomFromList(notesNoRest);
-			note.setDynamic(dynamic);
-			note.setDynamicLevel(dynamic.getLevel());
+//			Note note = RandomUtil.getRandomFromList(notesNoRest);
+//			note.setDynamic(dynamic);
+//			note.setDynamicLevel(dynamic.getLevel());
+            List<Note> sublist = RandomUtil.getRandomListFromList(notesNoRest);
+            for (Note note : sublist) {
+                note.setDynamic(dynamic);
+			    note.setDynamicLevel(dynamic.getLevel());
+            }
 
-			Note removeArticulation = RandomUtil.getRandomFromList(notesNoRest);
-			removeArticulation.setDynamic(Note.DEFAULT_DYNAMIC);
+//            Note removeArticulation = RandomUtil.getRandomFromList(notesNoRest);
+//			removeArticulation.setDynamic(Note.DEFAULT_DYNAMIC);
 		}
 	}
 
@@ -203,11 +208,16 @@ public class CpMelody implements Comparable<CpMelody>{
 		List<Note> notesNoRest = getNotesNoRest();
 		if (notesNoRest.size() > 1) {
 			//		notes.forEach(note -> note.setArticulation(Note.DEFAULT_ARTICULATION));//reset?
-			Note note = RandomUtil.getRandomFromList(notesNoRest);
-			note.setTechnical(technical);
+//			Note note = RandomUtil.getRandomFromList(notesNoRest);
+//			note.setTechnical(technical);
 
-			Note removeArticulation = RandomUtil.getRandomFromList(notesNoRest);
-			removeArticulation.setTechnical(Note.DEFAULT_TECHNICAL);
+            List<Note> sublist = RandomUtil.getRandomListFromList(notesNoRest);
+            for (Note note : sublist) {
+                note.setTechnical(technical);
+            }
+
+//			Note removeArticulation = RandomUtil.getRandomFromList(notesNoRest);
+//			removeArticulation.setTechnical(Note.DEFAULT_TECHNICAL);
 		}
 	}
 	

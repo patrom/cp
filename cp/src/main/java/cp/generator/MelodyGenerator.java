@@ -1,6 +1,7 @@
 package cp.generator;
 
 import cp.composition.Composition;
+import cp.composition.accomp.AccompGroup;
 import cp.composition.beat.BeatGroup;
 import cp.composition.voice.Voice;
 import cp.composition.voice.VoiceConfig;
@@ -118,6 +119,37 @@ public class MelodyGenerator {
 			end = start + beatGroup.getBeatLength();
 		}
 		return melodyBlock;
+	}
+
+	public MelodyBlock generateMelodyBlockWithoutPitchClassGenerator(int voice, AccompGroup accompGroup, int octave) {
+        int start = composition.getStart();
+        int stop = composition.getEnd();
+		MelodyBlock melodyBlock = new MelodyBlock(octave, voice);
+
+		int i = 0;
+		BeatGroup beatGroup = accompGroup.getBeatGroup();
+		int end = start + beatGroup.getBeatLength();
+		while (end <= stop) {
+			List<Note> melodyNotes = accompGroup.getNotes();
+			CpMelody melody = generateMelodyConfigWithoutPitchClassGenerator(voice, start, beatGroup, melodyNotes);
+			melody.setContour(accompGroup.getContour());
+			melodyBlock.addMelodyBlock(melody);
+			i++;
+//			beatGroup = accompGroup.getBeatGroup();
+			start = end;
+			end = start + beatGroup.getBeatLength();
+		}
+		return melodyBlock;
+	}
+
+	public CpMelody generateMelodyConfigWithoutPitchClassGenerator(int voice, int start, BeatGroup beatGroup, List<Note> melodyNotes) {
+		melodyNotes.forEach(n -> {
+			n.setVoice(voice);
+			n.setPosition(n.getPosition() + start);
+		});
+		CpMelody melody = new CpMelody(melodyNotes, voice, start, start + beatGroup.getBeatLength());
+		melody.setBeatGroup(beatGroup);
+		return melody;
 	}
 
 	public CpMelody generateMelodyConfig(int voice, int start, BeatGroup beatGroup, Voice voiceConfig) {

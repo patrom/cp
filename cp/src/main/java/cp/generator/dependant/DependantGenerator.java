@@ -47,10 +47,12 @@ public class DependantGenerator implements DependantHarmonyGenerator{
             if (note.isRest()){
                 Note clone = note.clone();
                 clone.setPitch(Note.REST);
+                clone.setVoice(dependantMelodyBlock.getVoice());
                 notes.add(clone);
                 if (secondDependantMelodyBlock.isPresent()) {
                     Note secondClone = note.clone();
                     secondClone.setPitch(Note.REST);
+                    secondClone.setVoice(secondDependantMelodyBlock.get().getVoice());
                     notesSecondBlock.add(secondClone);
                 }
             }else{
@@ -95,19 +97,19 @@ public class DependantGenerator implements DependantHarmonyGenerator{
         int intervalSecond;
         if (!note.isRest()) {
             switch (note.getDependantHarmony().getChordType()){
-                case MAJOR:
+                case MAJOR://major and minor
                     pitchClass = getDependantPitchClass(note, 2);
                     interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
                     pitchClassSecond = getDependantPitchClass(note, 4);
                     intervalSecond = getIntervalClockWise(note.getPitchClass(), pitchClassSecond);
                     break;
-                case MAJOR_1:
+                case MAJOR_1://major and minor
                     pitchClass = getDependantPitchClass(note, 2);
                     interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
                     pitchClassSecond = getDependantPitchClass(note, 5);
                     intervalSecond = getIntervalClockWise(note.getPitchClass(), pitchClassSecond);
                     break;
-                case MAJOR_2:
+                case MAJOR_2://major and minor
                     pitchClass = getDependantPitchClass(note, 3);
                     interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
                     pitchClassSecond = getDependantPitchClass(note, 5);
@@ -117,6 +119,12 @@ public class DependantGenerator implements DependantHarmonyGenerator{
                     pitchClass = getDependantPitchClass(note, 3);
                     interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
                     pitchClassSecond = getDependantPitchClass(note, 6);
+                    intervalSecond = getIntervalClockWise(note.getPitchClass(), pitchClassSecond);
+                    break;
+                case MAJOR_CHR:
+                    pitchClass = (note.getPitchClass() + 4) % 12;
+                    interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
+                    pitchClassSecond = (note.getPitchClass() + 7) % 12;
                     intervalSecond = getIntervalClockWise(note.getPitchClass(), pitchClassSecond);
                     break;
                 case MAJOR_1_CHR:
@@ -129,6 +137,12 @@ public class DependantGenerator implements DependantHarmonyGenerator{
                     pitchClass = (note.getPitchClass() + 5) % 12;
                     interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
                     pitchClassSecond = (note.getPitchClass() + 9) % 12;
+                    intervalSecond = getIntervalClockWise(note.getPitchClass(), pitchClassSecond);
+                    break;
+                case MINOR_CHR:
+                    pitchClass = (note.getPitchClass() + 3) % 12;
+                    interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
+                    pitchClassSecond = (note.getPitchClass() + 7) % 12;
                     intervalSecond = getIntervalClockWise(note.getPitchClass(), pitchClassSecond);
                     break;
                 case MINOR_1_CHR:
@@ -148,8 +162,10 @@ public class DependantGenerator implements DependantHarmonyGenerator{
             }
             clone.setPitchClass(pitchClass);
             clone.setPitch(note.getPitch() + interval);
+            clone.setOctave(clone.getPitch() / 12);
             secondClone.setPitchClass(pitchClassSecond);
             secondClone.setPitch(note.getPitch() + intervalSecond);
+            secondClone.setOctave(secondClone.getPitch() / 12);
         } else {
             clone.setPitch(Note.REST);
             secondClone.setPitch(Note.REST);
@@ -193,11 +209,15 @@ public class DependantGenerator implements DependantHarmonyGenerator{
                     interval = note.getDependantHarmony().getChordType().getInterval();
                     pitchClass = (note.getPitchClass() + interval) % 12;
                     break;
+//                case NO_INTERVALS:
+//                    clone.setPitch(Note.REST);
+//                    break;
                 default:
                     throw new IllegalArgumentException("Dependant harmony not set for note: " + note);
             }
             clone.setPitchClass(pitchClass);
             clone.setPitch(note.getPitch() + interval);
+            clone.setOctave(clone.getPitch() / 12);
         } else {
             clone.setPitch(Note.REST);
         }
@@ -235,4 +255,5 @@ public class DependantGenerator implements DependantHarmonyGenerator{
     public int getSecondDependingVoice() {
         return secondDependingVoice;
     }
+
 }
