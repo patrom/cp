@@ -289,20 +289,22 @@ public class CpMelody implements Comparable<CpMelody>{
 					TimeLineKey dependingTimeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition() + offset, n.getVoice());
 					int transposedPc = this.transposePitchClass(n.getPitchClass(), timeLineKey.getScale(), dependingTimeLineKey.getScale(), timeLineKey.getKey().getInterval(), dependingTimeLineKey.getKey().getInterval(), steps);
 					n.setPitchClass(transposedPc);
-
 				});
 	}
 
-	public void T(int steps){
+	public CpMelody T(int steps){
 		this.getNotesNoRest().forEach(note -> note.setPitchClass((note.getPitchClass() + steps) % 12));
+		return this;
 	}
 
-	public void I(){
+	public CpMelody I(){
 		this.getNotesNoRest().forEach(note -> note.setPitchClass((12 - note.getPitchClass()) % 12));
+		return this;
 	}
 
-	public void M(int steps){
+	public CpMelody M(int steps){
 		this.getNotesNoRest().forEach(note -> note.setPitchClass((note.getPitchClass() * steps) % 12));
+		return this;
 	}
 
 	public void setNotes(List<Note> notes){

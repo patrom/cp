@@ -38,6 +38,10 @@ public class CpMelodyTest {
 	private Key F;
 	@Autowired
 	private Key G;
+	@Autowired
+	private Key A;
+	@Autowired
+	private Key Bflat;
 
 	private TimeLine timeLine;
 
@@ -298,6 +302,76 @@ public class CpMelodyTest {
 		assertEquals(2, inverseNotes.get(1).getPitchClass());
 		assertEquals(1, inverseNotes.get(2).getPitchClass());
 		assertEquals(11, inverseNotes.get(3).getPitchClass());
+	}
+
+	@Test
+	public void testInversePitchClasses2() {
+		//A major
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pc(9).voice(0).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(8).voice(0).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(6).voice(0).build());
+		notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).pc(1).voice(0).build());
+		melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE + DurationConstants.QUARTER);
+		//to B flat major
+		List<TimeLineKey> keys = new ArrayList<>();
+		keys.add(new TimeLineKey(A, Scale.MAJOR_SCALE, 0, DurationConstants.WHOLE));
+		keys.add(new TimeLineKey(Bflat, Scale.MAJOR_SCALE, DurationConstants.WHOLE, 2 * DurationConstants.WHOLE));
+		timeLine = new TimeLine();
+		timeLine.addKeysForVoice(keys, 0);
+
+		melody.inversePitchClasses(1, DurationConstants.WHOLE, timeLine);
+		List<Note> inverseNotes = melody.getNotes();
+		assertEquals(10, inverseNotes.get(0).getPitchClass());
+		assertEquals(0, inverseNotes.get(1).getPitchClass());
+		assertEquals(2, inverseNotes.get(2).getPitchClass());
+		assertEquals(7, inverseNotes.get(3).getPitchClass());
+	}
+
+	@Test
+	public void testInverse(){
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pc(0).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(1).build());
+		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(2).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(3).build());
+		melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+		melody.I();
+		melody.getNotes().forEach(n -> System.out.println(n));
+	}
+
+	@Test
+	public void testT(){
+		int[] pitchClasses = Scale.MAJOR_SCALE.getPitchClasses();
+		for (int i = 0; i < pitchClasses.length; i++) {
+			List<Note> notes = new ArrayList<>();
+			notes.add(note().pos(0).pc(0).build());
+			notes.add(note().pos(DurationConstants.QUARTER).pc(1).build());
+			notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(2).build());
+			notes.add(note().pos(DurationConstants.HALF).pc(3).build());
+			melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+			int pitchClass = pitchClasses[i];
+			melody.T(pitchClass);
+			melody.getNotes().forEach(n -> System.out.println(n));
+			System.out.println();
+		}
+	}
+
+	@Test
+	public void testIT(){
+		int[] pitchClasses = Scale.MAJOR_SCALE.getPitchClasses();
+		for (int i = 0; i < pitchClasses.length; i++) {
+			List<Note> notes = new ArrayList<>();
+			notes.add(note().pos(0).pc(0).build());
+			notes.add(note().pos(DurationConstants.QUARTER).pc(1).build());
+			notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(2).build());
+			notes.add(note().pos(DurationConstants.HALF).pc(3).build());
+			melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+			int pitchClass = pitchClasses[i];
+			melody.I().T(pitchClass);
+			melody.getNotes().forEach(n -> System.out.println(n));
+			System.out.println();
+		}
 	}
 	
 }

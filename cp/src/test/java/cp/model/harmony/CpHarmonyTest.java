@@ -18,9 +18,9 @@ public class CpHarmonyTest {
 	@Before
 	public void setUp() throws Exception {
 		List<Note> notes = new ArrayList<>();
-		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).positionWeight(3.0).build());
-		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(76).ocatve(6).positionWeight(1.0).build());
-		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(7).pitch(79).ocatve(6).positionWeight(3.0).build());
+		notes.add(note().pos(0).pc(0).pitch(60).octave(5).positionWeight(3.0).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(76).octave(6).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(7).pitch(79).octave(6).positionWeight(3.0).build());
 		cpHarmony = new CpHarmony(notes, 0);
 	}
 
@@ -40,9 +40,9 @@ public class CpHarmonyTest {
 	@Test
 	public void testRegister() {
 		List<Note> notes = new ArrayList<>();
-		notes.add(note().pos(0).pc(5).pitch(65).ocatve(5).positionWeight(3.0).build());
-		notes.add(note().pos(DurationConstants.QUARTER).pc(11).pitch(59).ocatve(4).positionWeight(1.0).build());
-		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(0).pitch(60).ocatve(5).positionWeight(3.0).build());
+		notes.add(note().pos(0).pc(5).pitch(65).octave(5).positionWeight(3.0).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(11).pitch(59).octave(4).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(0).pitch(60).octave(5).positionWeight(3.0).build());
 		cpHarmony = new CpHarmony(notes, 0);
 		double register = cpHarmony.getRegister(64);
 		assertEquals(1.0, register, 0.0);

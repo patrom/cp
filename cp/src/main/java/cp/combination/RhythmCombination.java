@@ -8,4 +8,5 @@ import java.util.List;
 public interface RhythmCombination {
 
 	List<Note> getNotes(int beat);
+
 }

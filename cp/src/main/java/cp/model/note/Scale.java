@@ -2,6 +2,7 @@ package cp.model.note;
 
 import org.apache.commons.lang.ArrayUtils;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Scale {
@@ -72,7 +73,7 @@ public class Scale {
 				return i;
 			}
 		}
-		throw new IllegalArgumentException("Scale doesn't contain pitchClass: " + pitchClass);
+		throw new IllegalArgumentException("Scale doesn't contain pitchClass: " + pitchClass + ", scale: " + Arrays.toString(scale));
 	}
 	
 	/**

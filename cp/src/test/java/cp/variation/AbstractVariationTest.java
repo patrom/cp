@@ -29,8 +29,8 @@ public abstract class AbstractVariationTest {
 	}
 	
 	protected List<Note> testNotAllowedLength(){
-		Note firstNote = note().pc(4).pitch(64).pos(0).len(3).ocatve(5).build();
-		Note secondNote = note().pc(0).pitch(60).pos(3).len(9).ocatve(5).build();
+		Note firstNote = note().pc(4).pitch(64).pos(0).len(3).octave(5).build();
+		Note secondNote = note().pc(0).pitch(60).pos(3).len(9).octave(5).build();
 		return variation.createVariation(firstNote, secondNote);
 	}
 }

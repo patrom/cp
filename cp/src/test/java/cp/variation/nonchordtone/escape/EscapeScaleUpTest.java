@@ -38,7 +38,7 @@ public class EscapeScaleUpTest extends AbstractVariationTest{
 	
 	@Test
 	public void testCreateVariation() {
-		Note firstNote = note().pc(4).pitch(64).pos(0).len(DurationConstants.QUARTER).ocatve(5).build();
+		Note firstNote = note().pc(4).pitch(64).pos(0).len(DurationConstants.QUARTER).octave(5).build();
 		List<Note> notes = variation.createVariation(firstNote, null);
 		assertEquals(firstNote.getPitch(), notes.get(0).getPitch());
 		assertEquals(firstNote.getPitch() + 1, notes.get(1).getPitch());

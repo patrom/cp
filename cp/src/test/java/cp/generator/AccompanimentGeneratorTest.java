@@ -30,9 +30,9 @@ public class AccompanimentGeneratorTest extends AbstractTest {
 	@Test
 	public void testFourFourSingleNote() {
 		List<Note> chordNotes = new ArrayList<>();
-		chordNotes.add(note().pc(0).pitch(60).ocatve(5).build());
-		chordNotes.add(note().pc(4).pitch(64).ocatve(5).build());
-		chordNotes.add(note().pc(7).pitch(67).ocatve(5).build());
+		chordNotes.add(note().pc(0).pitch(60).octave(5).build());
+		chordNotes.add(note().pc(4).pitch(64).octave(5).build());
+		chordNotes.add(note().pc(7).pitch(67).octave(5).build());
 		Instrument piano = new Piano();
 		List<Note> accompanimentNotes = accompanimentGenerator.fourFourSingleNote(chordNotes, 3, piano,0);
 		accompanimentNotes.forEach(n -> System.out.print(n.getPitch() + ":" + n.getPosition() + ", "));
@@ -44,9 +44,9 @@ public class AccompanimentGeneratorTest extends AbstractTest {
 	public void testFourFourSingleNoteTexture() {
 		List<MelodyInstrument> melodyInstruments = new ArrayList<>();
 		List<Note> chordNotes = new ArrayList<>();
-		chordNotes.add(note().pc(0).pitch(60).ocatve(5).build());
-		chordNotes.add(note().pc(4).pitch(64).ocatve(5).build());
-		chordNotes.add(note().pc(7).pitch(67).ocatve(5).build());
+		chordNotes.add(note().pc(0).pitch(60).octave(5).build());
+		chordNotes.add(note().pc(4).pitch(64).octave(5).build());
+		chordNotes.add(note().pc(7).pitch(67).octave(5).build());
 		Instrument piano = new Piano();
 		List<Note> accompanimentNotes = accompanimentGenerator.fourFourTexture(chordNotes, 6, piano, 1,0);
 		accompanimentNotes.forEach(n -> System.out.print(n.getPitch() + ":" + n.getPosition() + ", "));
@@ -57,9 +57,9 @@ public class AccompanimentGeneratorTest extends AbstractTest {
 		
 		chordNotes = new ArrayList<>();
 		
-		chordNotes.add(note().pc(4).pitch(76).ocatve(6).build());
-		chordNotes.add(note().pc(7).pitch(97).ocatve(6).build());
-		chordNotes.add(note().pc(0).pitch(72).ocatve(6).build());
+		chordNotes.add(note().pc(4).pitch(76).octave(6).build());
+		chordNotes.add(note().pc(7).pitch(97).octave(6).build());
+		chordNotes.add(note().pc(0).pitch(72).octave(6).build());
 		accompanimentNotes = accompanimentGenerator.fourFourTexture(chordNotes, DurationConstants.QUARTER, piano, 1, 0);
 		accompanimentNotes.forEach(n -> System.out.print(n.getPitch() + ":" + n.getPosition() + ", "));
 		melodyInstrument = new MelodyInstrument(accompanimentNotes, 0);
@@ -71,8 +71,8 @@ public class AccompanimentGeneratorTest extends AbstractTest {
 	@Test
 	public void testFourFourSingleNote2() {
 		List<Note> chordNotes = new ArrayList<>();
-		chordNotes.add(note().pc(0).pitch(60).ocatve(5).build());
-		chordNotes.add(note().pc(2).pitch(62).ocatve(5).build());
+		chordNotes.add(note().pc(0).pitch(60).octave(5).build());
+		chordNotes.add(note().pc(2).pitch(62).octave(5).build());
 		Instrument piano = new Piano();
 		//TODO fixed 2 note contour
 		List<Note> accompanimentNotes = accompanimentGenerator.fourFourSingleNote(chordNotes, 6, piano, 0);

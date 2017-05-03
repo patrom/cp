@@ -38,7 +38,7 @@ public class FreeSuspensionScaleDownTest extends AbstractVariationTest{
 
 	@Test
 	public void testCreateVariation() {
-		Note firstNote = note().pc(2).pitch(62).pos(0).len(DurationConstants.QUARTER).ocatve(5).build();
+		Note firstNote = note().pc(2).pitch(62).pos(0).len(DurationConstants.QUARTER).octave(5).build();
 		List<Note> notes = variation.createVariation(firstNote, null);
 		assertEquals(firstNote.getPitch() + 2, notes.get(0).getPitch());
 		assertEquals(firstNote.getPitch(), notes.get(1).getPitch());

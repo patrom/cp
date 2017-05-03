@@ -87,6 +87,7 @@ public class MusicProblem extends Problem {
 		musicSolution.setMeter(meterObjective);
 //		musicSolution.setResolution(objectives.getResolution());
 		musicSolution.setRegister(register);
+
 		// musicSolution.setConstraintLowestInterval(objectives[5]);
 		// musicSolution.setConstraintRhythm(objectives[6]);
 		// musicSolution.setConstraintRepetition(objectives[7]);

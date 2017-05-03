@@ -21,7 +21,7 @@ public class TimeLine {
 	
 	public TimeLineKey getTimeLineKeyAtPosition(int position, int voice){
 		List<TimeLineKey> keys = keysPerVoice.get(voice);
-		Optional<TimeLineKey> optional = keys.stream().filter(k -> k.getStart() <= position && position <= k.getEnd()).findFirst();
+		Optional<TimeLineKey> optional = keys.stream().filter(k -> k.getStart() <= position && position < k.getEnd()).findFirst();
 		if(optional.isPresent()){
 			return optional.get();
 		}

@@ -344,29 +344,23 @@ public class MelodyBlock {
         return filteredNotes;
     }
 
-	public void repeatMelody(int startIndex, int startReplaceIndex, int totalSizeMelodies) {
-		List<CpMelody> melodies = melodyBlocks.subList(startIndex, startIndex  + totalSizeMelodies / 2);
-		List<CpMelody> melodiesToReplace = melodyBlocks.subList(startReplaceIndex, startReplaceIndex  + totalSizeMelodies / 2);
-		int melodiesLength = melodies.stream().mapToInt(m -> m.getBeatGroupLength()).sum();
-		int melodiesToReplaceLength = melodiesToReplace.stream().mapToInt(m -> m.getBeatGroupLength()).sum();
-		if (melodiesLength == melodiesToReplaceLength) {
-			int positionDifference = melodiesToReplace.get(0).getStart() - melodies.get(0).getStart();
-			List<CpMelody> clonedMelodies = melodies.stream().map(m -> m.clone()).collect(Collectors.toList());
-			clonedMelodies.stream()
-					.map(m -> {
-						m.setStart(m.getStart() + positionDifference);
-						m.setEnd(m.getEnd() + positionDifference);
-						return m;
-					})
-					.flatMap(m -> m.getNotes().stream())
-					.forEach(n -> n.setPosition(n.getPosition() + positionDifference));
-			int i = 0;
-			for (CpMelody clonedMelody : clonedMelodies) {
-				int index = melodyBlocks.indexOf(melodiesToReplace.get(i));
-				melodyBlocks.set(index, clonedMelody);
-				i++;
-			}
-		}
+	public void repeatMelody(List<CpMelody> melodies, List<CpMelody> melodiesToReplace, TimeLine timeline) {
+        int positionDifference = melodiesToReplace.get(0).getStart() - melodies.get(0).getStart();
+        melodies.stream()
+                .map(m -> {
+                    m.setStart(m.getStart() + positionDifference);
+                    m.setEnd(m.getEnd() + positionDifference);
+                    m.transposePitchClasses(0, positionDifference, timeline);
+                    return m;
+                })
+                .flatMap(m -> m.getNotes().stream())
+                .forEach(n -> n.setPosition(n.getPosition() + positionDifference));
+        int i = 0;
+        for (CpMelody clonedMelody : melodies) {
+            int index = melodyBlocks.indexOf(melodiesToReplace.get(i));
+            melodyBlocks.set(index, clonedMelody);
+            i++;
+        }
 	}
 
 	public boolean isMutable() {

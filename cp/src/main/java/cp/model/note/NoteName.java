@@ -54,6 +54,6 @@ public class NoteName {
 	
 	private static Note getNote(int octave, int pitchClass){
 		int pitch = octave * 12;
-		return note().pitch(pitch + pitchClass).ocatve(octave).pc(pitchClass).build();
+		return note().pitch(pitch + pitchClass).octave(octave).pc(pitchClass).build();
 	}
 }

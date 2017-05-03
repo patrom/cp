@@ -39,8 +39,8 @@ public class InstrumentConfig {
 
     @PostConstruct
     public void instrumentInit(){
-        Piano piano = new Piano();
-        instruments.put(0,new InstrumentMapping(piano, 3, 0));
+//        Piano piano = new Piano();
+//        instruments.put(0,new InstrumentMapping(piano, 3, 0));
 //        instruments = getSAATBChoir();
 //        instruments.put(0,new InstrumentMapping(new ViolinSolo() , 3, 0));
 //        instruments = getPianoAndStrinqQuartet(pleasantGreen, mellowPurple, richBlue);
@@ -48,7 +48,7 @@ public class InstrumentConfig {
 //        instruments = getFluteClarinetBassoon();
 //        instruments = getBrassTrio();
 //        instruments = getBrassQuartet();
-//        instruments = getStrinqQuartet();
+        instruments = getStrinqQuartet();
 //        orchestra = getOrchestra();
 //        instruments = getWoodWindsDuo();
 //        instruments = getStringTrio();

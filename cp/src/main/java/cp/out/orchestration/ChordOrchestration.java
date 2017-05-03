@@ -26,7 +26,7 @@ public class ChordOrchestration {
 		int[] noteIndices = noteTemplate.getNoteTemplate();
 		Note[] notes = new Note[noteIndices.length];
 		for (int i = 0; i < noteIndices.length; i++) {
-			notes[i] = note().pc(pitchClasses[noteIndices[i]]).ocatve(octave).build();
+			notes[i] = note().pc(pitchClasses[noteIndices[i]]).octave(octave).build();
 		}
 		return notes;
 	}

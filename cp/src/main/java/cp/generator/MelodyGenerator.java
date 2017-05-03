@@ -56,7 +56,7 @@ public class MelodyGenerator {
 		for (int i = 0; i < quarterSize; i++) {
 			int position = i * DurationConstants.QUARTER;
 			Scale scale = timeLine.getTimeLineKeyAtPosition(position, voice).getScale();
-			notes.add(note().pc(scale.pickRandomPitchClass()).ocatve(octave).voice(voice).pos(position).len(DurationConstants.QUARTER).build());
+			notes.add(note().pc(scale.pickRandomPitchClass()).octave(octave).voice(voice).pos(position).len(DurationConstants.QUARTER).build());
 		}
 		CpMelody oneNoteMelody = new CpMelody(notes, voice, composition.getStart(), composition.getEnd());
 		melodyBlock.setMelodyBlocks(Collections.singletonList(oneNoteMelody));

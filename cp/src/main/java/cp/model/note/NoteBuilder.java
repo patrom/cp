@@ -47,7 +47,7 @@ public class NoteBuilder {
 		return this;
 	}
 	
-	public NoteBuilder ocatve(int octave){
+	public NoteBuilder octave(int octave){
 		this.octave = octave;
 		return this;
 	}

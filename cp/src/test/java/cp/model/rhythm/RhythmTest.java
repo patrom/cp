@@ -40,17 +40,17 @@ public class RhythmTest {
 	@Test
 	public void testRhythmPositions() {
 		List<Note> chordNotes = new ArrayList<>();
-		chordNotes.add(note().pc(0).pitch(60).ocatve(5).voice(0).build());
-		chordNotes.add(note().pc(4).pitch(64).ocatve(5).voice(1).build());
-		chordNotes.add(note().pc(7).pitch(67).ocatve(5).voice(2).build());
+		chordNotes.add(note().pc(0).pitch(60).octave(5).voice(0).build());
+		chordNotes.add(note().pc(4).pitch(64).octave(5).voice(1).build());
+		chordNotes.add(note().pc(7).pitch(67).octave(5).voice(2).build());
 		
 		List<HarmonyPosition> harmonyPositions = new ArrayList<>();
 		harmonyPositions.add(createHarmonyInstrument(0, chordNotes));
 		
 		chordNotes = new ArrayList<>();
-		chordNotes.add(note().pc(11).pitch(59).ocatve(4).voice(0).build());
-		chordNotes.add(note().pc(2).pitch(62).ocatve(5).voice(1).build());
-		chordNotes.add(note().pc(7).pitch(67).ocatve(5).voice(2).build());
+		chordNotes.add(note().pc(11).pitch(59).octave(4).voice(0).build());
+		chordNotes.add(note().pc(2).pitch(62).octave(5).voice(1).build());
+		chordNotes.add(note().pc(7).pitch(67).octave(5).voice(2).build());
 		harmonyPositions.add(createHarmonyInstrument(24, chordNotes));
 		harmonyPositions.add(createHarmonyInstrument(48, chordNotes));
 		
@@ -77,17 +77,17 @@ public class RhythmTest {
 	@Test
 	public void testRhythm3() throws Exception {
 		List<Note> chordNotes = new ArrayList<>();
-		chordNotes.add(note().pc(0).pitch(60).ocatve(5).voice(0).build());
-		chordNotes.add(note().pc(4).pitch(64).ocatve(5).voice(1).build());
-		chordNotes.add(note().pc(7).pitch(67).ocatve(5).voice(2).build());
+		chordNotes.add(note().pc(0).pitch(60).octave(5).voice(0).build());
+		chordNotes.add(note().pc(4).pitch(64).octave(5).voice(1).build());
+		chordNotes.add(note().pc(7).pitch(67).octave(5).voice(2).build());
 		
 		List<HarmonyPosition> harmonyPositions = new ArrayList<>();
 		harmonyPositions.add(createHarmonyInstrument(0, chordNotes));
 		
 		chordNotes = new ArrayList<>();
-		chordNotes.add(note().pc(11).pitch(59).ocatve(4).voice(0).build());
-		chordNotes.add(note().pc(2).pitch(62).ocatve(5).voice(1).build());
-		chordNotes.add(note().pc(7).pitch(67).ocatve(5).voice(2).build());
+		chordNotes.add(note().pc(11).pitch(59).octave(4).voice(0).build());
+		chordNotes.add(note().pc(2).pitch(62).octave(5).voice(1).build());
+		chordNotes.add(note().pc(7).pitch(67).octave(5).voice(2).build());
 		harmonyPositions.add(createHarmonyInstrument(24, chordNotes));
 		harmonyPositions.add(createHarmonyInstrument(48, null));
 		
@@ -114,9 +114,9 @@ public class RhythmTest {
 	public void testRhythm2() throws Exception {
 		List<MelodyInstrument> melodyInstruments = new ArrayList<>();
 		List<Note> chordNotes = new ArrayList<>();
-		chordNotes.add(note().pc(0).pitch(60).ocatve(5).voice(0).build());
-		chordNotes.add(note().pc(4).pitch(64).ocatve(5).voice(1).build());
-		chordNotes.add(note().pc(7).pitch(67).ocatve(5).voice(2).build());
+		chordNotes.add(note().pc(0).pitch(60).octave(5).voice(0).build());
+		chordNotes.add(note().pc(4).pitch(64).octave(5).voice(1).build());
+		chordNotes.add(note().pc(7).pitch(67).octave(5).voice(2).build());
 		int[] harmonyLength = {0, 48};
 //		int[] sounds = melodyGenerator.generateMelodyPositions(harmonyLength, 3, 10);
 		Integer[] sounds = {0,6,12,18,24,27,30};
@@ -141,9 +141,9 @@ public class RhythmTest {
 	@Test
 	public void testRhythm() throws Exception {
 		List<Note> chordNotes = new ArrayList<>();
-		chordNotes.add(note().pc(0).pitch(60).ocatve(5).build());
-		chordNotes.add(note().pc(4).pitch(64).ocatve(5).build());
-		chordNotes.add(note().pc(7).pitch(67).ocatve(5).build());
+		chordNotes.add(note().pc(0).pitch(60).octave(5).build());
+		chordNotes.add(note().pc(4).pitch(64).octave(5).build());
+		chordNotes.add(note().pc(7).pitch(67).octave(5).build());
 		Integer[] sounds = {0,6,12,18,24,36,48};
 		List<Note> notes = rhythm.getRhythmRandomContourTexture(chordNotes, sounds, 0, 2);
 		
@@ -162,9 +162,9 @@ public class RhythmTest {
 	@Test
 	public void testTexture() throws Exception {
 		List<Note> chordNotes = new ArrayList<>();
-		chordNotes.add(note().pc(0).pitch(60).ocatve(5).voice(0).build());
-		chordNotes.add(note().pc(4).pitch(64).ocatve(5).voice(1).build());
-		chordNotes.add(note().pc(7).pitch(67).ocatve(5).voice(2).build());
+		chordNotes.add(note().pc(0).pitch(60).octave(5).voice(0).build());
+		chordNotes.add(note().pc(4).pitch(64).octave(5).voice(1).build());
+		chordNotes.add(note().pc(7).pitch(67).octave(5).voice(2).build());
 		List<Note> sounds = new ArrayList<>();
 		sounds.add(note().pos(0).len(DurationConstants.EIGHT).build());
 		sounds.add(note().pos(6).len(DurationConstants.QUARTER).build());
@@ -199,9 +199,9 @@ public class RhythmTest {
 	@Test
 	public void testGetContours(){
 		List<Note> chordNotes = new ArrayList<>();
-		chordNotes.add(note().pc(0).pitch(60).ocatve(5).voice(0).build());
-		chordNotes.add(note().pc(4).pitch(64).ocatve(5).voice(1).build()); 
-		chordNotes.add(note().pc(7).pitch(67).ocatve(5).voice(2).build());
+		chordNotes.add(note().pc(0).pitch(60).octave(5).voice(0).build());
+		chordNotes.add(note().pc(4).pitch(64).octave(5).voice(1).build());
+		chordNotes.add(note().pc(7).pitch(67).octave(5).voice(2).build());
 		List<Note> sounds = new ArrayList<>();
 		sounds.add(note().pos(0).len(DurationConstants.EIGHT).build());
 		sounds.add(note().pos(6).len(DurationConstants.QUARTER).build());
@@ -219,9 +219,9 @@ public class RhythmTest {
 	@Test
 	public void testGetContours2(){
 		List<Note> chordNotes = new ArrayList<>();
-		chordNotes.add(note().pc(4).pitch(64).ocatve(5).voice(0).build());
-		chordNotes.add(note().pc(7).pitch(67).ocatve(5).voice(1).build()); 
-		chordNotes.add(note().pc(0).pitch(72).ocatve(6).voice(2).build());
+		chordNotes.add(note().pc(4).pitch(64).octave(5).voice(0).build());
+		chordNotes.add(note().pc(7).pitch(67).octave(5).voice(1).build());
+		chordNotes.add(note().pc(0).pitch(72).octave(6).voice(2).build());
 		List<Note> sounds = new ArrayList<>();
 		sounds.add(note().pos(0).len(DurationConstants.EIGHT).build());
 		sounds.add(note().pos(6).len(DurationConstants.QUARTER).build());

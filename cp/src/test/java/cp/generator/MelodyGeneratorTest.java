@@ -116,14 +116,14 @@ public class MelodyGeneratorTest extends JFrame{
 	@Test
 	public void testGenerateMelodyNotes() throws InvalidMidiDataException, InterruptedException {
 		List<Note> notes = new ArrayList<>();
-		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(4).pitch(64).ocatve(4).pos(0).art(Articulation.STACCATO).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.HALF).pc(2).pitch(62).ocatve(4).pos(DurationConstants.QUARTER).art(Articulation.STACCATO).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.HALF).pc(4).pitch(64).ocatve(4).pos(DurationConstants.HALF + DurationConstants.QUARTER).art(Articulation.STACCATO).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.EIGHT).pc(5).pitch(65).ocatve(4).pos(DurationConstants.WHOLE + DurationConstants.QUARTER).art(Articulation.STACCATO).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.EIGHT).pc(7).pitch(67).ocatve(4).pos(DurationConstants.WHOLE + DurationConstants.THREE_EIGHTS).art(Articulation.STACCATO).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(9).pitch(69).ocatve(4).pos(DurationConstants.WHOLE + DurationConstants.HALF).art(Articulation.STACCATO).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.HALF).pc(11).pitch(71).ocatve(4).pos(DurationConstants.WHOLE + DurationConstants.SIX_EIGHTS).art(Articulation.STACCATO).build());
-		notes.add(NoteBuilder.note().len(DurationConstants.HALF).pc(0).pitch(60).ocatve(4).pos(2 * DurationConstants.WHOLE + DurationConstants.QUARTER).art(Articulation.STACCATO).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(4).pitch(64).octave(4).pos(0).art(Articulation.STACCATO).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.HALF).pc(2).pitch(62).octave(4).pos(DurationConstants.QUARTER).art(Articulation.STACCATO).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.HALF).pc(4).pitch(64).octave(4).pos(DurationConstants.HALF + DurationConstants.QUARTER).art(Articulation.STACCATO).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.EIGHT).pc(5).pitch(65).octave(4).pos(DurationConstants.WHOLE + DurationConstants.QUARTER).art(Articulation.STACCATO).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.EIGHT).pc(7).pitch(67).octave(4).pos(DurationConstants.WHOLE + DurationConstants.THREE_EIGHTS).art(Articulation.STACCATO).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.QUARTER).pc(9).pitch(69).octave(4).pos(DurationConstants.WHOLE + DurationConstants.HALF).art(Articulation.STACCATO).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.HALF).pc(11).pitch(71).octave(4).pos(DurationConstants.WHOLE + DurationConstants.SIX_EIGHTS).art(Articulation.STACCATO).build());
+		notes.add(NoteBuilder.note().len(DurationConstants.HALF).pc(0).pitch(60).octave(4).pos(2 * DurationConstants.WHOLE + DurationConstants.QUARTER).art(Articulation.STACCATO).build());
 //		notes.forEach(note -> note.setArticulation(Articulation.STACCATO));
 		Score score = scoreUtilities.createMelody(notes);
 		View.notate(score);

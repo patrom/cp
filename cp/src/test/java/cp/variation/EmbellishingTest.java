@@ -62,11 +62,11 @@ public class EmbellishingTest {
 	public void testEmbellishChromaticPassingUp() {
 		setVariation(chromaticPassingUp, new double[][]{{0.5, 0.5}});
 		List<Note> notes = new ArrayList<>();
-		Note note = note().pc(0).pitch(60).pos(0).len(DurationConstants.QUARTER).ocatve(5).voice(3).build();
+		Note note = note().pc(0).pitch(60).pos(0).len(DurationConstants.QUARTER).octave(5).voice(3).build();
 		notes.add(note);
-		note = note().pc(2).pitch(62).pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).ocatve(5).voice(3).build();
+		note = note().pc(2).pitch(62).pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).octave(5).voice(3).build();
 		notes.add(note);
-		note = note().pc(4).pitch(64).pos(DurationConstants.HALF).len(DurationConstants.QUARTER).ocatve(5).voice(3).build();
+		note = note().pc(4).pitch(64).pos(DurationConstants.HALF).len(DurationConstants.QUARTER).octave(5).voice(3).build();
 		notes.add(note);
 		List<Note> embellishedMelody = embellishing.embellish(notes);
 		assertTrue(embellishedMelody.size() == 5);
@@ -87,9 +87,9 @@ public class EmbellishingTest {
 	public void testEmbellishNeigborScaleDown() {
 		setVariation(neighborScaleDown, new double[][]{{0.5, 0.25, 0.25}});
 		List<Note> notes = new ArrayList<>();
-		Note note = note().pc(4).pitch(64).pos(0).len(DurationConstants.QUARTER).ocatve(5).voice(3).build();
+		Note note = note().pc(4).pitch(64).pos(0).len(DurationConstants.QUARTER).octave(5).voice(3).build();
 		notes.add(note);
-		note = note().pc(0).pitch(60).pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).ocatve(5).voice(3).build();
+		note = note().pc(0).pitch(60).pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).octave(5).voice(3).build();
 		notes.add(note);
 		List<Note> embellishedMelody = embellishing.embellish(notes);
 		assertTrue(embellishedMelody.size() == 4);
@@ -108,9 +108,9 @@ public class EmbellishingTest {
 	public void testEmbellishSuspension() {
 		setVariation(suspension, new double[][]{{0.5, 0.5}});
 		List<Note> notes = new ArrayList<>();
-		Note note = note().pc(2).pitch(62).pos(0).len(DurationConstants.QUARTER).ocatve(5).voice(3).build();
+		Note note = note().pc(2).pitch(62).pos(0).len(DurationConstants.QUARTER).octave(5).voice(3).build();
 		notes.add(note);
-		note = note().pc(0).pitch(60).pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).ocatve(5).voice(3).build();
+		note = note().pc(0).pitch(60).pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).octave(5).voice(3).build();
 		notes.add(note);
 		List<Note> embellishedMelody = embellishing.embellish(notes);
 		assertTrue(embellishedMelody.size() == 2);
@@ -125,9 +125,9 @@ public class EmbellishingTest {
 	public void testEmbellishSuspensionNotAllowedLength() {
 		setVariation(suspension, new double[][]{{0.5, 0.5}});
 		List<Note> notes = new ArrayList<>();
-		Note note = note().pc(2).pitch(62).pos(0).len(DurationConstants.SIXTEENTH).ocatve(5).voice(3).build();
+		Note note = note().pc(2).pitch(62).pos(0).len(DurationConstants.SIXTEENTH).octave(5).voice(3).build();
 		notes.add(note);
-		note = note().pc(0).pitch(60).pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).ocatve(5).voice(3).build();
+		note = note().pc(0).pitch(60).pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).octave(5).voice(3).build();
 		notes.add(note);
 		List<Note> embellishedMelody = embellishing.embellish(notes);
 		assertTrue(embellishedMelody.size() == 2);
@@ -142,9 +142,9 @@ public class EmbellishingTest {
 	public void testEmbellishExcludeVoice() {
 		setVariation(neighborScaleDown, new double[][]{{0.5, 0.25, 0.25}});
 		List<Note> notes = new ArrayList<>();
-		Note note = note().pc(4).pitch(64).pos(0).len(DurationConstants.QUARTER).ocatve(5).voice(0).build();
+		Note note = note().pc(4).pitch(64).pos(0).len(DurationConstants.QUARTER).octave(5).voice(0).build();
 		notes.add(note);
-		note = note().pc(0).pitch(60).pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).ocatve(5).voice(0).build();
+		note = note().pc(0).pitch(60).pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).octave(5).voice(0).build();
 		notes.add(note);
 		List<Note> embellishedMelody = embellishing.embellish(notes);
 		assertTrue(embellishedMelody.size() == 2);

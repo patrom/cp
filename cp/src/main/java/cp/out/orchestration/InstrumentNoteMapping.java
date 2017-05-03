@@ -17,7 +17,7 @@ public class InstrumentNoteMapping {
 	public void addNoteForInstrument(int pitch, Instrument instrument) {
 		int octave = (int) Math.ceil(pitch / 12);
 		int pc = pitch % 12;
-		Note note = note().pitch(pitch).pc(pc).len(48).ocatve(octave).build();
+		Note note = note().pitch(pitch).pc(pc).len(48).octave(octave).build();
 		noteForInstrument.compute(instrument, (k, v) -> {
 			if (v == null) {
 				List<Note> list = new ArrayList<>();

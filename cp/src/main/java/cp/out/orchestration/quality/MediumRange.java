@@ -3,9 +3,9 @@ package cp.out.orchestration.quality;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.register.InstrumentRegister;
-import cp.out.instrument.strings.ViolaSolo;
-import cp.out.instrument.strings.ViolinSolo;
+import cp.out.instrument.strings.*;
 import cp.out.instrument.woodwinds.Bassoon;
+import cp.out.instrument.woodwinds.Clarinet;
 import cp.out.orchestration.InstrumentName;
 import org.springframework.stereotype.Component;
 
@@ -24,15 +24,15 @@ public class MediumRange extends OrchestralQuality {
         instruments = Stream.of(
 //                new Flute(new InstrumentRegister(71, 79)),
 //                new ClarinetEFlat(new InstrumentRegister(55, 71)),
-//                new Clarinet(new InstrumentRegister(67, 77)),
+                new Clarinet(new InstrumentRegister(50, 72)),
 //                new BassClarinet(new InstrumentRegister(55, 82)),
                 new Bassoon(range),
 //                new ViolinsI(new InstrumentRegister(69, 81)),
-                new ViolinSolo(range),//TODO Range?
-//                new Viola(new InstrumentRegister(62, 74)),
+                new ViolinSolo(new InstrumentRegister(55, 72)),//TODO Range?
+                new Viola(range),
                 new ViolaSolo(range),
-//                new Cello(new InstrumentRegister(50, 61)),
-//                new CelloSolo(new InstrumentRegister(50, 61)),
+                new Cello(range),
+                new CelloSolo(range),
 //                new DoubleBass(new InstrumentRegister(43, 49)),
 //                new Glockenspiel(new InstrumentRegister(87, 103)),
 //                new Celesta(new InstrumentRegister(72, 84)),

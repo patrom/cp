@@ -28,10 +28,10 @@ public class PlayApplicationTest extends AbstractTest {
     @Test
     public void playMidiFilesOnKontaktFor() throws Exception {
         List<Note> notes = new ArrayList<>();
-        notes.add(note().pos(0).len(DurationConstants.QUARTER).pc(0).pitch(60).ocatve(5).tech(Technical.TREMELO).dyn(Dynamic.F).build());
-        notes.add(note().pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).pc(0).pitch(60).ocatve(5).dyn(Dynamic.F).art(Articulation.MARCATO).build());
-        notes.add(note().pos(DurationConstants.HALF).len(DurationConstants.QUARTER).pc(2).pitch(62).art(Articulation.STACCATISSIMO).dyn(Dynamic.F).ocatve(5).build());
-        notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).len(DurationConstants.QUARTER).pc(5).pitch(65).ocatve(5).dyn(Dynamic.MF).build());
+        notes.add(note().pos(0).len(DurationConstants.QUARTER).pc(0).pitch(60).octave(5).tech(Technical.TREMELO).dyn(Dynamic.F).build());
+        notes.add(note().pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).pc(0).pitch(60).octave(5).dyn(Dynamic.F).art(Articulation.MARCATO).build());
+        notes.add(note().pos(DurationConstants.HALF).len(DurationConstants.QUARTER).pc(2).pitch(62).art(Articulation.STACCATISSIMO).dyn(Dynamic.F).octave(5).build());
+        notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).len(DurationConstants.QUARTER).pc(5).pitch(65).octave(5).dyn(Dynamic.MF).build());
         MelodyInstrument melodyInstrument = new MelodyInstrument();
         melodyInstrument.setNotes(notes);
         melodyInstrument.setInstrumentMapping(new InstrumentMapping(new Viola(), 2, 0));

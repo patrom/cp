@@ -12,7 +12,7 @@ public class NoteTest {
 
 	@Before
 	public void setUp() throws Exception {
-		note = note().pc(11).pitch(59).ocatve(4).build();
+		note = note().pc(11).pitch(59).octave(4).build();
 	}
 
 	@Test

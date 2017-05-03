@@ -95,9 +95,9 @@ public class BeatMapTest {
 	@Test
 	public void testUpdateTies(){
 		List<Note> notes = new ArrayList<>();
-		notes.add(note().len(DurationConstants.QUARTER + DurationConstants.SIXTEENTH).pc(4).pitch(64).ocatve(4).pos(0).build());
-		notes.add(note().len(DurationConstants.SIXTEENTH).pc(2).pitch(62).ocatve(5).pos(DurationConstants.QUARTER + DurationConstants.SIXTEENTH).build());
-		notes.add(note().len(DurationConstants.QUARTER + DurationConstants.EIGHT).pc(11).pitch(59).ocatve(4).pos(DurationConstants.QUARTER + DurationConstants.EIGHT).build());
+		notes.add(note().len(DurationConstants.QUARTER + DurationConstants.SIXTEENTH).pc(4).pitch(64).octave(4).pos(0).build());
+		notes.add(note().len(DurationConstants.SIXTEENTH).pc(2).pitch(62).octave(5).pos(DurationConstants.QUARTER + DurationConstants.SIXTEENTH).build());
+		notes.add(note().len(DurationConstants.QUARTER + DurationConstants.EIGHT).pc(11).pitch(59).octave(4).pos(DurationConstants.QUARTER + DurationConstants.EIGHT).build());
 		beatMap.createBeatMap(notes, DurationConstants.QUARTER);
 		List<Note> ties = beatMap.createTies();
 		assertEquals(5, ties.size());

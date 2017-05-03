@@ -43,7 +43,7 @@ public class NeighborScaleDownTest extends AbstractVariationTest {
 	public void testCreateVariation() {
 		variation = neigborScaleDown;
 		setVariation();
-		Note firstNote = note().pc(2).pitch(62).pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).ocatve(5).build();
+		Note firstNote = note().pc(2).pitch(62).pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).octave(5).build();
 		List<Note> notes = variation.createVariation(firstNote ,null);
 		assertEquals(firstNote.getPitch(), notes.get(0).getPitch());
 		assertEquals(firstNote.getPitch() - 2, notes.get(1).getPitch());
@@ -58,7 +58,7 @@ public class NeighborScaleDownTest extends AbstractVariationTest {
 	public void testGenerateNeigborNote() {
 		variation = neigborScaleDown;
 		setVariation();
-		Note note = note().pc(0).pitch(60).pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).ocatve(5).build();
+		Note note = note().pc(0).pitch(60).pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).octave(5).build();
 		List<Note> notes = neigborScaleDown.generateNeighborNote(note, 11, 59, patt);
 		assertEquals(note.getPitch(), notes.get(0).getPitch());
 		assertEquals(note.getPitch() - 1, notes.get(1).getPitch());
@@ -73,7 +73,7 @@ public class NeighborScaleDownTest extends AbstractVariationTest {
 	public void testCreateVariationUp() {
 		variation = neighborScaleUp;
 		setVariation();
-		Note firstNote = note().pc(2).pitch(62).pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).ocatve(5).build();
+		Note firstNote = note().pc(2).pitch(62).pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).octave(5).build();
 		List<Note> notes = variation.createVariation(firstNote, null);
 		assertEquals(firstNote.getPitch(), notes.get(0).getPitch());
 		assertEquals(firstNote.getPitch() + 2, notes.get(1).getPitch());

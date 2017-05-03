@@ -85,22 +85,22 @@ public class HarmonyOrchestratorTest {
     public void varyRandomHarmonyNote() throws Exception {
         List<CpHarmony> harmonies = new ArrayList<>();
         List<Note> notes = new ArrayList<>();
-        notes.add(note().pos(0).pitch(60).pc(0).ocatve(5).voice(5).build());
-        notes.add(note().pos(0).pitch(64).pc(4).ocatve(5).voice(5).build());
+        notes.add(note().pos(0).pitch(60).pc(0).octave(5).voice(5).build());
+        notes.add(note().pos(0).pitch(64).pc(4).octave(5).voice(5).build());
         CpHarmony harmony = new CpHarmony(notes, 0);
         harmony.setEnd(DurationConstants.QUARTER);
         harmonies.add(harmony);
 
         notes = new ArrayList<>();
-        notes.add(note().pos(DurationConstants.QUARTER).pitch(59).pc(1).ocatve(5).build());
-        notes.add(note().pos(DurationConstants.QUARTER).pitch(53).pc(5).ocatve(4).build());
+        notes.add(note().pos(DurationConstants.QUARTER).pitch(59).pc(1).octave(5).build());
+        notes.add(note().pos(DurationConstants.QUARTER).pitch(53).pc(5).octave(4).build());
         harmony = new CpHarmony(notes, DurationConstants.QUARTER);
         harmony.setEnd(DurationConstants.HALF);
         harmonies.add(harmony);
 
         notes = new ArrayList<>();
-        notes.add(note().pos(DurationConstants.HALF).pitch(62).pc(2).ocatve(5).build());
-        notes.add(note().pos(DurationConstants.HALF).pitch(66).pc(6).ocatve(5).build());
+        notes.add(note().pos(DurationConstants.HALF).pitch(62).pc(2).octave(5).build());
+        notes.add(note().pos(DurationConstants.HALF).pitch(66).pc(6).octave(5).build());
         harmony = new CpHarmony(notes, DurationConstants.HALF);
         harmony.setEnd(DurationConstants.WHOLE);
         harmonies.add(harmony);
@@ -183,22 +183,22 @@ public class HarmonyOrchestratorTest {
     public void testUpdateAccomp() throws Exception {
         List<CpHarmony> harmonies = new ArrayList<>();
         List<Note> notes = new ArrayList<>();
-        notes.add(note().pos(0).pc(0).pitch(60).voice(5).ocatve(5).build());
-        notes.add(note().pos(0).pc(4).pitch(64).voice(5).ocatve(5).build());
+        notes.add(note().pos(0).pc(0).pitch(60).voice(5).octave(5).build());
+        notes.add(note().pos(0).pc(4).pitch(64).voice(5).octave(5).build());
         CpHarmony harmony = new CpHarmony(notes, 0);
         harmony.setEnd(DurationConstants.QUARTER);
         harmonies.add(harmony);
 
         notes = new ArrayList<>();
-        notes.add(note().pos(DurationConstants.QUARTER).pc(1).pitch(61).ocatve(5).build());
-        notes.add(note().pos(DurationConstants.QUARTER).pc(5).pitch(53).ocatve(4).build());
+        notes.add(note().pos(DurationConstants.QUARTER).pc(1).pitch(61).octave(5).build());
+        notes.add(note().pos(DurationConstants.QUARTER).pc(5).pitch(53).octave(4).build());
         harmony = new CpHarmony(notes, DurationConstants.QUARTER);
         harmony.setEnd(DurationConstants.HALF);
         harmonies.add(harmony);
 
         notes = new ArrayList<>();
-        notes.add(note().pos(DurationConstants.HALF).pc(2).pitch(62).ocatve(5).build());
-        notes.add(note().pos(DurationConstants.HALF).pc(6).pitch(66).ocatve(5).build());
+        notes.add(note().pos(DurationConstants.HALF).pc(2).pitch(62).octave(5).build());
+        notes.add(note().pos(DurationConstants.HALF).pc(6).pitch(66).octave(5).build());
         harmony = new CpHarmony(notes, DurationConstants.HALF);
         harmony.setEnd(DurationConstants.WHOLE);
         harmonies.add(harmony);
