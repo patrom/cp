@@ -406,7 +406,7 @@ public class MelodyBlockTest {
 		notes.add(note().pos(DurationConstants.HALF + DurationConstants.EIGHT).pc(11).pitch(71).octave(5).len(DurationConstants.EIGHT).voice(1).build());
 		notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).pc(0).pitch(72).octave(5).len(DurationConstants.QUARTER).voice(1).build());
 		melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
-		melody.setBeatGroup(beatGroupFactory.getBeatGroupUneven(DurationConstants.QUARTER, "fixed"));
+		melody.setBeatGroup(beatGroupFactory.getBeatGroupUneven(DurationConstants.QUARTER));
 		melodyBlock.addMelodyBlock(melody);
 
 		List<TimeLineKey> keys = new ArrayList<>();
@@ -514,7 +514,7 @@ public class MelodyBlockTest {
 		notes.add(note().pos(0).build());
 		notes.add(note().pos(DurationConstants.EIGHT).build());
 		CpMelody melody = new CpMelody(notes, 1, 0 , DurationConstants.QUARTER);
-        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT, null));
+        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT));
 		melodyBlock.addMelodyBlock(melody);
 
 		List<CpMelody> melodies = new ArrayList<>();
@@ -523,7 +523,7 @@ public class MelodyBlockTest {
 		notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.EIGHT).build());
 		notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.EIGHT + DurationConstants.SIXTEENTH).build());
 		melody = new CpMelody(notes, 1, DurationConstants.QUARTER , DurationConstants.HALF);
-        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT, null));
+        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT));
 		melodyBlock.addMelodyBlock(melody);
 		melodies.add(melody);
 
@@ -532,7 +532,7 @@ public class MelodyBlockTest {
 		notes.add(note().pos(DurationConstants.HALF).build());
 		notes.add(note().pos(DurationConstants.HALF + DurationConstants.EIGHT).build());
 		melody = new CpMelody(notes, 1, DurationConstants.HALF , DurationConstants.HALF + DurationConstants.QUARTER);
-        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT, null));
+        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT));
 		melodyBlock.addMelodyBlock(melody);
 		melodiesToReplace.add(melody);
 
@@ -540,7 +540,7 @@ public class MelodyBlockTest {
 		notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).build());
 		notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT).build());
 		melody = new CpMelody(notes, 1, DurationConstants.HALF + DurationConstants.QUARTER , DurationConstants.WHOLE);
-        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT, null));
+        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT));
 		melodyBlock.addMelodyBlock(melody);
 
 		melodyBlock.repeatMelody(melodies, melodiesToReplace, timeLine);
@@ -562,7 +562,7 @@ public class MelodyBlockTest {
         notes.add(note().pos(0).build());
         notes.add(note().pos(DurationConstants.EIGHT).build());
         CpMelody melody = new CpMelody(notes, 1, 0 , DurationConstants.QUARTER);
-        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT, null));
+        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT));
         melodyBlock.addMelodyBlock(melody);
 		melodies.add(melody);
 
@@ -571,7 +571,7 @@ public class MelodyBlockTest {
         notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.EIGHT).build());
         notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.EIGHT + DurationConstants.SIXTEENTH).build());
         melody = new CpMelody(notes, 1, DurationConstants.QUARTER , DurationConstants.HALF);
-        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT, null));
+        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT));
         melodyBlock.addMelodyBlock(melody);
 		melodies.add(melody);
 
@@ -579,7 +579,7 @@ public class MelodyBlockTest {
         notes = new ArrayList<>();
         notes.add(note().pos(DurationConstants.HALF).build());
         melody = new CpMelody(notes, 1, DurationConstants.HALF , DurationConstants.HALF + DurationConstants.QUARTER);
-        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT, null));
+        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT));
         melodyBlock.addMelodyBlock(melody);
         melodiesToReplace.add(melody);
 
@@ -587,7 +587,7 @@ public class MelodyBlockTest {
         notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).build());
         notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT).build());
         melody = new CpMelody(notes, 1, DurationConstants.HALF + DurationConstants.QUARTER , DurationConstants.WHOLE);
-        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT, null));
+        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT));
         melodyBlock.addMelodyBlock(melody);
         melodiesToReplace.add(melody);
 

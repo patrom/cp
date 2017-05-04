@@ -1,6 +1,5 @@
 package cp.composition;
 
-import cp.composition.beat.BeatGroupFactory;
 import cp.composition.timesignature.TimeConfig;
 import cp.composition.voice.Voice;
 import cp.composition.voice.VoiceConfig;
@@ -149,9 +148,7 @@ public abstract class Composition {
 	@Autowired
 	@Qualifier(value="time58")
 	protected TimeConfig time58;
-	
-	@Autowired
-	protected BeatGroupFactory beatGroupFactory;
+
 	@Value("${composition.numerator:4}")
 	protected int numerator;
 	@Value("${composition.denominator:4}")

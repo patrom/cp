@@ -1,6 +1,7 @@
 package cp.composition.accomp;
 
 import cp.composition.beat.BeatGroup;
+import cp.composition.voice.Voice;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
@@ -13,7 +14,7 @@ import java.util.List;
  */
 public class AccompGroup {
 
-    protected BeatGroup beatGroup;
+    protected Voice voice;
 
     protected List<Integer> contour;
 
@@ -21,8 +22,8 @@ public class AccompGroup {
 
     protected List<Note> harmonyNotes;
 
-    public AccompGroup(BeatGroup beatGroup, List<Integer> contour) {
-        this.beatGroup = beatGroup;
+    public AccompGroup(Voice voice, List<Integer> contour) {
+        this.voice = voice;
         this.contour = contour;
     }
 
@@ -61,8 +62,8 @@ public class AccompGroup {
 //        return notes;
 //    }
 
-    public List<Note> getNotes(){
-        List<Note> notes = beatGroup.getNotes();
+    public List<Note> getNotes(BeatGroup beatGroup){
+        List<Note> notes = voice.getNotes(beatGroup);
         notes.forEach(n -> n.setArticulation(Articulation.STACCATO));
         Note firstNote = notes.get(0);
         firstNote.setDynamic(Dynamic.SFZ);
@@ -73,7 +74,7 @@ public class AccompGroup {
         return notes;
     }
 
-    public BeatGroup getBeatGroup() {
-        return beatGroup;
+    public Voice getVoice() {
+        return voice;
     }
 }

@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -18,6 +19,9 @@ import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = DefaultConfig.class)
 public class HarmonicResolutionObjectiveTest {
@@ -25,6 +29,8 @@ public class HarmonicResolutionObjectiveTest {
 	@Autowired
 	@InjectMocks
 	private HarmonicResolutionObjective harmonicResolutionObjective;
+	@Mock
+	private DissonantResolution dissonantResolution;
 	
 	@Before
 	public void setup() {
@@ -33,6 +39,7 @@ public class HarmonicResolutionObjectiveTest {
 
 	@Test
 	public void testNoHarmonieHasResolution() {
+		when(dissonantResolution.isDissonant(any())).thenReturn(Boolean.TRUE);
 		List<CpHarmony> harmonies = new ArrayList<>();
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).positionWeight(4.0).build());
@@ -57,6 +64,7 @@ public class HarmonicResolutionObjectiveTest {
 	
 	@Test
 	public void testAllHarmoniesHaveResolution() {
+		when(dissonantResolution.isDissonant(any())).thenReturn(Boolean.FALSE);
 		List<CpHarmony> harmonies = new ArrayList<>();
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).positionWeight(4.0).build());

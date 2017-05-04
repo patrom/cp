@@ -108,13 +108,13 @@ public class MelodyGenerator {
 		melodyBlock.setOffset(voiceConfig.getTimeConfig().getOffset());
 
 		int i = 0;
-		BeatGroup beatGroup = voiceConfig.getBeatGroup(i);
+		BeatGroup beatGroup = voiceConfig.getTimeConfig().getBeatGroup(i);
 		int end = start + beatGroup.getBeatLength();
 		while (end <= stop) {
 			CpMelody melody = generateMelodyConfig(voice, start, beatGroup, voiceConfig);
 			melodyBlock.addMelodyBlock(melody);
 			i++;
-			beatGroup = voiceConfig.getBeatGroup(i);
+			beatGroup = voiceConfig.getTimeConfig().getBeatGroup(i);
 			start = end;
 			end = start + beatGroup.getBeatLength();
 		}
@@ -127,15 +127,15 @@ public class MelodyGenerator {
 		MelodyBlock melodyBlock = new MelodyBlock(octave, voice);
 
 		int i = 0;
-		BeatGroup beatGroup = accompGroup.getBeatGroup();
+		BeatGroup beatGroup = accompGroup.getVoice().getTimeConfig().getBeatGroup(i);
 		int end = start + beatGroup.getBeatLength();
 		while (end <= stop) {
-			List<Note> melodyNotes = accompGroup.getNotes();
+			List<Note> melodyNotes = accompGroup.getVoice().getNotes(beatGroup);
 			CpMelody melody = generateMelodyConfigWithoutPitchClassGenerator(voice, start, beatGroup, melodyNotes);
 			melody.setContour(accompGroup.getContour());
 			melodyBlock.addMelodyBlock(melody);
 			i++;
-//			beatGroup = accompGroup.getBeatGroup();
+			beatGroup = accompGroup.getVoice().getTimeConfig().getBeatGroup(i);
 			start = end;
 			end = start + beatGroup.getBeatLength();
 		}
@@ -163,26 +163,27 @@ public class MelodyGenerator {
 		});
 		melodyNotes = voiceConfiguration.getRandomPitchClassGenerator(voice).updatePitchClasses(melodyNotes);
 		CpMelody melody = new CpMelody(melodyNotes, voice, start, start + beatGroup.getBeatLength());
+		beatGroup.setSize(melodyNotes.size());
 		melody.setBeatGroup(beatGroup);
 		return melody;
 	}
 
-	public CpMelody generateMelody(int voice, int start, BeatGroup beatGroup) {
-		List<Note> melodyNotes;
-		if (composition.getTimeConfig().randomCombination()) {
-			melodyNotes = beatGroup.getNotesRandom();
-		} else {
-			melodyNotes = beatGroup.getNotes();
-		}
-		melodyNotes.forEach(n -> {
-			n.setVoice(voice);
-			n.setPosition(n.getPosition() + start);
-		});
-		melodyNotes = voiceConfiguration.getRandomPitchClassGenerator(voice).updatePitchClasses(melodyNotes);
-		CpMelody melody = new CpMelody(melodyNotes, voice, start, start + beatGroup.getBeatLength());
-		melody.setBeatGroup(beatGroup);
-		return melody;
-	}
+//	public CpMelody generateMelody(int voice, int start, BeatGroup beatGroup) {
+//		List<Note> melodyNotes;
+//		if (composition.getTimeConfig().randomCombination()) {
+//			melodyNotes = beatGroup.getNotesRandom();
+//		} else {
+//			melodyNotes = beatGroup.getNotes();
+//		}
+//		melodyNotes.forEach(n -> {
+//			n.setVoice(voice);
+//			n.setPosition(n.getPosition() + start);
+//		});
+//		melodyNotes = voiceConfiguration.getRandomPitchClassGenerator(voice).updatePitchClasses(melodyNotes);
+//		CpMelody melody = new CpMelody(melodyNotes, voice, start, start + beatGroup.getBeatLength());
+//		melody.setBeatGroup(beatGroup);
+//		return melody;
+//	}
 	
 	public int[] generateMelodyPositions(int[] harmony, int minimumLength, int maxMelodyNotes){
 		int[] pos;

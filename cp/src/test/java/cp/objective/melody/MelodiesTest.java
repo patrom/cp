@@ -3,7 +3,6 @@ package cp.objective.melody;
 import cp.AbstractTest;
 import cp.DefaultConfig;
 import cp.combination.RhythmCombination;
-import cp.composition.beat.BeatGroupTwo;
 import cp.composition.voice.MelodyVoice;
 import cp.composition.voice.VoiceConfig;
 import cp.evaluation.FitnessEvaluationTemplate;
@@ -19,8 +18,6 @@ import cp.model.note.Note;
 import cp.model.rhythm.RhythmWeight;
 import cp.objective.rhythm.RhythmObjective;
 import cp.out.print.ScoreUtilities;
-import jm.music.data.Part;
-import jm.music.data.Phrase;
 import jm.music.data.Score;
 import jm.util.View;
 import org.junit.Before;
@@ -154,40 +151,5 @@ public class MelodiesTest extends AbstractTest {
 			}
 		}
 	}
-	
-	@Test
-	public void generateMelodies() throws InvalidMidiDataException, IOException {
-		for (int i = 0; i < 10; i++) {
-			CpMelody melody = melodyGenerator.generateMelody(0, 0, new BeatGroupTwo(12, defaultUnEvenCombinations));
-			MelodyBlock melodyBlock = new MelodyBlock(5,0);
-			melodyBlock.addMelodyBlock(melody);
-			List<Note> notes = melody.getNotes();
-			notes.forEach(n -> n.setPitch(n.getPitchClass() + 60));
-			rhythmWeight.setNotes(notes);
-			rhythmWeight.updateRhythmWeight();
-			double value = melodicObjective.evaluateMelody(notes, 1);
-			LOGGER.info("Intervals : " + value);
-			List<Note> filteredNotes = rhythmWeight.filterRhythmWeigths(3.0);
-			double filtered = melodicObjective.evaluateMelody(filteredNotes, 1);
-			LOGGER.info("filtered : " + filtered);
-			double profile = rhythmObjective.getProfileAverage(melodyBlock);//quarter
-			LOGGER.info("profile : " + profile);
-			Phrase phrase = scoreUtilities.createPhrase(notes);
-			Score score = new Score();
-			Part part = new Part();
-			part.add(phrase);
-			score.add(part);
-			View.notate(score);
-			jm.util.Play.midi(score, true);
-			try {
-				Thread.sleep(5000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		
-	}
-	
-	
 
 }

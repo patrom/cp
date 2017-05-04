@@ -6,6 +6,7 @@ import cp.composition.Composition;
 import cp.composition.accomp.AccompGroup;
 import cp.composition.beat.BeatGroup;
 import cp.composition.beat.BeatGroupTwo;
+import cp.composition.voice.MelodyVoice;
 import cp.generator.MelodyGenerator;
 import cp.model.Motive;
 import cp.model.TimeLine;
@@ -29,7 +30,6 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -59,6 +59,8 @@ public class HarmonyOrchestratorTest {
     private TimeLine timeLine;
     @Autowired
     private FourNoteEven fourNoteEven;
+    @Autowired
+    private MelodyVoice melodyVoice;
 
     @Before
     public void setUp() throws Exception {
@@ -241,8 +243,8 @@ public class HarmonyOrchestratorTest {
         Predicate<Note> harmonyFilter = n -> n.getVoice() != 4;
         ArrayList<Integer> accompContour = new ArrayList<>();
         accompContour.add(1);
-        BeatGroup beatGroup = new BeatGroupTwo(DurationConstants.EIGHT, Collections.singletonList(fourNoteEven::pos1234));
-        AccompGroup accompGroup = new AccompGroup(beatGroup, accompContour);
+        BeatGroup beatGroup = new BeatGroupTwo(DurationConstants.EIGHT);
+        AccompGroup accompGroup = new AccompGroup(melodyVoice, accompContour);
         harmonyOrchestrator.updateAccomp(motive, accompGroup,  1, harmonyFilter);
         List<Note> melodyBlockNotes = motive.getMelodyBlock(1).getMelodyBlockNotes();
         melodyBlockNotes.forEach(n -> System.out.println(n));

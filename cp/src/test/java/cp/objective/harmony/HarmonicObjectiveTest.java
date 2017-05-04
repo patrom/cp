@@ -1,11 +1,7 @@
 package cp.objective.harmony;
 
 import cp.DefaultConfig;
-import cp.generator.MusicProperties;
-import cp.model.dissonance.DyadTriadsTetraAndPentaChordal;
-import cp.model.dissonance.IntervalDissonance;
-import cp.model.dissonance.SetClassDissonance;
-import cp.model.dissonance.TorkeDissonance;
+import cp.model.dissonance.Dissonance;
 import cp.model.harmony.CpHarmony;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
@@ -13,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +23,8 @@ import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = DefaultConfig.class)
@@ -36,24 +35,12 @@ public class HarmonicObjectiveTest extends JFrame {
 	@Autowired
 	@InjectMocks
 	private HarmonicObjective harmonicObjective;
-	@Autowired
-	private MusicProperties musicProperties;
-//	@Autowired
-//	private Dissonance dissonance;
-
-	@Autowired
-	protected IntervalDissonance intervalDissonance;
-	@Autowired
-	protected DyadTriadsTetraAndPentaChordal dyadTriadsTetraAndPentaChordal;
-	@Autowired
-	protected TorkeDissonance torkeDissonance;
-	@Autowired
-	protected SetClassDissonance setClassDissonance;
+    @Mock
+	private Dissonance dissonance;
 	
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
-		harmonicObjective.setDissonance(dyadTriadsTetraAndPentaChordal::getDissonance);
 	}
 
 	@Test
@@ -76,6 +63,7 @@ public class HarmonicObjectiveTest extends JFrame {
 
 	@Test
 	public void testHarmonyObjective() {
+		when(dissonance.getDissonance(any())).thenReturn(1.0);
 		List<CpHarmony> harmonies = new ArrayList<>();
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).positionWeight(1.0).build());

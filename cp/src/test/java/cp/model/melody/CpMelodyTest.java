@@ -243,7 +243,7 @@ public class CpMelodyTest {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).voice(0).build());
 		notes.add(note().pos(DurationConstants.QUARTER).pc(4).voice(0).build());
-		notes.add(note().pos(DurationConstants.WHOLE).pc(5).voice(0).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(5).voice(0).build());
 		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pc(7).voice(0).build());
 		melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE + DurationConstants.QUARTER);
 
@@ -254,7 +254,7 @@ public class CpMelodyTest {
 		timeLine.addKeysForVoice(keys, 0);
 		melody.transposePitchClasses(0, DurationConstants.WHOLE, timeLine);
 		List<Note> transposednotes = melody.getNotes();
-		assertEquals(0, transposednotes.get(0).getPitchClass());
+		assertEquals(1, transposednotes.get(0).getPitchClass());
 		assertEquals(4, transposednotes.get(1).getPitchClass());
 		assertEquals(6, transposednotes.get(2).getPitchClass());
 		assertEquals(7, transposednotes.get(3).getPitchClass());
@@ -276,7 +276,7 @@ public class CpMelodyTest {
 		timeLine.addKeysForVoice(keys, 0);
 		melody.transposePitchClasses(3, DurationConstants.WHOLE, timeLine);
 		List<Note> transposednotes = melody.getNotes();
-		assertEquals(5, transposednotes.get(0).getPitchClass());
+		assertEquals(6, transposednotes.get(0).getPitchClass());
 		assertEquals(9, transposednotes.get(1).getPitchClass());
 		assertEquals(11, transposednotes.get(2).getPitchClass());
 		assertEquals(1, transposednotes.get(3).getPitchClass());
@@ -298,7 +298,7 @@ public class CpMelodyTest {
 		timeLine.addKeysForVoice(keys, 0);
 		melody.inversePitchClasses(2, DurationConstants.WHOLE, timeLine);
 		List<Note> inverseNotes = melody.getNotes();
-		assertEquals(4, inverseNotes.get(0).getPitchClass());
+		assertEquals(6, inverseNotes.get(0).getPitchClass());
 		assertEquals(2, inverseNotes.get(1).getPitchClass());
 		assertEquals(1, inverseNotes.get(2).getPitchClass());
 		assertEquals(11, inverseNotes.get(3).getPitchClass());

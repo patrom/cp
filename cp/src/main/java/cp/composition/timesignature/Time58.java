@@ -1,5 +1,6 @@
 package cp.composition.timesignature;
 
+import cp.combination.RhythmCombination;
 import cp.composition.beat.BeatGroup;
 import cp.model.rhythm.DurationConstants;
 import org.springframework.stereotype.Component;
@@ -15,18 +16,26 @@ public class Time58 extends TimeConfig{
 	public boolean randomBeatGroup() {
 		return false;
 	}
+
+	@Override
+	public List<RhythmCombination> getAllBeats() {
+        ArrayList<RhythmCombination> combinations = new ArrayList<>();
+        combinations.addAll(defaultEvenCombinations);
+        combinations.addAll(defaultUnEvenCombinations);
+		return combinations;
+	}
 	
 	@Override
 	public void init() {
 		super.init();
-		BeatGroup defaultGroupUneven = beatGroupFactory.getBeatGroupUneven(DurationConstants.EIGHT, "fixed");
-		BeatGroup defaultGroupEven = beatGroupFactory.getBeatGroupEven(DurationConstants.EIGHT, "fixed");
-		beats.add(defaultGroupEven); // 2 + 3
-		beats.add(defaultGroupUneven);
-		beatsDoubleLength.add(defaultGroupEven);
-		beatsDoubleLength.add(defaultGroupUneven);
-		beatsAll.add(defaultGroupEven);
-		beatsAll.add(defaultGroupUneven);
+		BeatGroup defaultGroupUneven = beatGroupFactory.getBeatGroupUneven(DurationConstants.EIGHT);
+		BeatGroup defaultGroupEven = beatGroupFactory.getBeatGroupEven(DurationConstants.EIGHT);
+		beatGroups.add(defaultGroupEven); // 2 + 3
+		beatGroups.add(defaultGroupUneven);
+//		beatsDoubleLength.add(defaultGroupEven);
+//		beatsDoubleLength.add(defaultGroupUneven);
+//		beatsAll.add(defaultGroupEven);
+//		beatsAll.add(defaultGroupUneven);
 		minimumLength = DurationConstants.EIGHT;
 		distance = new int[]{2,5,7,10,12,15,17,20};
 		offset = 5 * DurationConstants.EIGHT;
@@ -37,21 +46,27 @@ public class Time58 extends TimeConfig{
 		return true;
 	}
 
-	@Override
-	public List<BeatGroup> getFixedBeatGroup() {
-		List<BeatGroup> group = new ArrayList<>();
-		group.add(beatGroupFactory.getBeatGroupEven(DurationConstants.EIGHT, "fixed"));
-		group.add(beatGroupFactory.getBeatGroupUneven(DurationConstants.EIGHT, "fixed"));
-		return group;
-	}
+    @Override
+    public List<RhythmCombination> getFixedBeatGroup() {
+        ArrayList<RhythmCombination> combinations = new ArrayList<>();
+        combinations.addAll(fixedEven);
+        combinations.addAll(fixedUneven);
+        return combinations;
+    }
 
-	@Override
-	public List<BeatGroup> getHomophonicBeatGroup() {
-		List<BeatGroup> group = new ArrayList<>();
-		group.add(beatGroupFactory.getBeatGroupEven(DurationConstants.EIGHT, "homophonic"));
-		group.add(beatGroupFactory.getBeatGroupUneven(DurationConstants.EIGHT, "homophonic"));
-		return group;
-	}
+    @Override
+    public List<RhythmCombination> getHomophonicBeatGroup() {
+        ArrayList<RhythmCombination> combinations = new ArrayList<>();
+        combinations.addAll(homophonicEven);
+        combinations.addAll(homophonicUneven);
+        return combinations;
+    }
+
+    @Override
+    public BeatGroup getBeatGroup(int index) {
+        int size = beatGroups.size();
+        return beatGroups.get(index % size);
+    }
 	
 }
 

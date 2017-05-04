@@ -1,18 +1,35 @@
 package cp.composition.timesignature;
 
+import cp.combination.RhythmCombination;
 import cp.composition.beat.BeatGroup;
 import cp.composition.beat.BeatGroupFactory;
+import cp.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class TimeConfig {
 
-	protected final List<BeatGroup> beats = new ArrayList<>();
-	protected final List<BeatGroup> beatsDoubleLength = new ArrayList<>();
-	protected final List<BeatGroup> beatsAll = new ArrayList<>();
+	@Resource(name = "defaultUnevenCombinations")
+	protected List<RhythmCombination> defaultUnEvenCombinations;
+
+	@Resource(name = "defaultEvenCombinations")
+	protected List<RhythmCombination> defaultEvenCombinations;
+
+	@Resource(name = "homophonicEven")
+	protected List<RhythmCombination> homophonicEven;
+
+	@Resource(name = "homophonicUneven")
+	protected List<RhythmCombination> homophonicUneven;
+
+	@Resource(name = "fixedEven")
+	protected List<RhythmCombination> fixedEven;
+
+	@Resource(name = "fixedUneven")
+	protected List<RhythmCombination> fixedUneven;
 	
 	protected double minimumRhythmFilterLevel = 3.0; //levels pitch, crest/keel, ...
 	protected int minimumLength;
@@ -20,6 +37,8 @@ public abstract class TimeConfig {
 	protected int[] distance;
 
 	protected int offset;
+
+	protected List<BeatGroup> beatGroups = new ArrayList<>();
 	
 	@Autowired
 	protected BeatGroupFactory beatGroupFactory;
@@ -31,18 +50,8 @@ public abstract class TimeConfig {
 	@PostConstruct
 	public void init() {
 	}
-	
-	public List<BeatGroup> getAllBeats() {
-		return beatsAll;
-	}
-	
-	public List<BeatGroup> getBeats() {
-		return beats;
-	}
-	
-	public List<BeatGroup> getBeatsDoubleLength() {
-		return beatsDoubleLength;
-	}
+
+	public abstract List<RhythmCombination> getAllBeats();
 
 	public int getOffset() {
 		return offset;
@@ -56,11 +65,15 @@ public abstract class TimeConfig {
 		return minimumRhythmFilterLevel;
 	}
 
-	public abstract List<BeatGroup> getFixedBeatGroup();
+	public abstract List<RhythmCombination>getFixedBeatGroup();
 	
-	public abstract List<BeatGroup> getHomophonicBeatGroup();
+	public abstract List<RhythmCombination> getHomophonicBeatGroup();
 
 	public int getMinimumLength() {
 		return minimumLength;
+	}
+
+	public BeatGroup getBeatGroup(int index) {
+		return RandomUtil.getRandomFromList(beatGroups);
 	}
 }

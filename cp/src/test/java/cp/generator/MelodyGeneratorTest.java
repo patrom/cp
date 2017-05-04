@@ -51,7 +51,6 @@ import javax.sound.midi.Sequence;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -140,7 +139,7 @@ public class MelodyGeneratorTest extends JFrame{
 		when(composition.getEnd()).thenReturn(DurationConstants.WHOLE);
 		when(composition.getTimeConfig()).thenReturn(time44);
 		List<BeatGroup> beatGroups = new ArrayList<>();
-		beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER, fixedEven));
+		beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER));
 		when(beatGroupStrategy.getBeatGroups()).thenReturn(beatGroups);
 		when(pitchClassGenerator.updatePitchClasses(notes)).thenReturn(notes);
 		when(voiceConfig.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
@@ -164,8 +163,8 @@ public class MelodyGeneratorTest extends JFrame{
 		contour.add(1);
 		contour.add(1);
 		contour.add(-1);
-		BeatGroup beatGroup = new BeatGroupTwo(DurationConstants.QUARTER, Collections.singletonList(fourNoteEven::pos1234));
-		AccompGroup accompGroup = new AccompGroup(beatGroup, contour);
+		BeatGroup beatGroup = new BeatGroupTwo(DurationConstants.QUARTER);
+		AccompGroup accompGroup = new AccompGroup(melodyVoice, contour);
 		MelodyBlock melody = melodyGenerator.generateMelodyBlockWithoutPitchClassGenerator(1, accompGroup,  0);
 		List<Note> melodyBlockNotes = melody.getMelodyBlockNotes();
 		melodyBlockNotes.forEach(n -> System.out.println(n));
@@ -184,7 +183,7 @@ public class MelodyGeneratorTest extends JFrame{
 		when(composition.getEnd()).thenReturn(2 * DurationConstants.WHOLE);
 		when(composition.getTimeConfig()).thenReturn(time44);
 		List<BeatGroup> beatGroups = new ArrayList<>();
-		beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER, fixedEven));
+		beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER));
 		when(beatGroupStrategy.getBeatGroups()).thenReturn(beatGroups);
 		when(pitchClassGenerator.updatePitchClasses(notes)).thenReturn(notes);
 		when(voiceConfig.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);

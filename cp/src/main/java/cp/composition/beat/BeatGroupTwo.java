@@ -1,18 +1,14 @@
 package cp.composition.beat;
 
-import cp.combination.RhythmCombination;
-
-import java.util.List;
-
 public class BeatGroupTwo extends BeatGroup {
 
-	public BeatGroupTwo(int length, List<RhythmCombination> rhythmCombinations) {
-		super(length, rhythmCombinations);
+	public BeatGroupTwo(int length) {
+		super(length);
 	}
 
 	@Override
 	public BeatGroup clone(int length) {
-		return new BeatGroupTwo(length, rhythmCombinations);
+		return new BeatGroupTwo(length);
 	}
 
 	@Override
