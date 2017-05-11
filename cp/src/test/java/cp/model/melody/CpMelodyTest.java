@@ -22,6 +22,8 @@ import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {DefaultConfig.class, VariationConfig.class})
 public class CpMelodyTest {
@@ -372,6 +374,127 @@ public class CpMelodyTest {
 			melody.getNotes().forEach(n -> System.out.println(n));
 			System.out.println();
 		}
+	}
+
+	@Test
+	public void testRT(){
+			List<Note> notes = new ArrayList<>();
+			notes.add(note().pos(0).pc(0).build());
+			notes.add(note().pos(DurationConstants.QUARTER).pc(1).build());
+			notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(2).build());
+			notes.add(note().pos(DurationConstants.HALF).pc(3).build());
+			CpMelody melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+			List<Integer> contour = new ArrayList<>();
+			contour.add(-1);
+			contour.add(-1);
+			contour.add(1);
+			contour.add(-1);
+            melody.setContour(contour);
+			melody.R().T(2);
+			melody.getNotes().forEach(n -> System.out.println(n));
+			melody.getContour().forEach(n -> System.out.println(n));
+			System.out.println();
+
+	}
+
+	@Test
+	public void testR(){
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pc(0).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(1).build());
+		notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.EIGHT).pc(2).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(3).build());
+		CpMelody melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+		melody.getNotes().forEach(n -> System.out.println(n));
+        List<Integer> contour = new ArrayList<>();
+        contour.add(-1);
+        contour.add(-1);
+        contour.add(1);
+        contour.add(-1);
+        melody.setContour(contour);
+		melody.R();
+		melody.getNotes().forEach(n -> System.out.println(n));
+		melody.getContour().forEach(n -> System.out.println(n));
+		System.out.println();
+	}
+
+	@Test
+	public void updateRhythmNotes(){
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(DurationConstants.QUARTER).pc(4).build());
+		notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.EIGHT).pc(11).build());
+		notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.EIGHT + DurationConstants.SIXTEENTH).pc(7).build());
+		melody = new CpMelody(notes, 1, DurationConstants.QUARTER, DurationConstants.WHOLE + DurationConstants.QUARTER);
+
+		List<Note> rhythmNotes = new ArrayList<>();
+		rhythmNotes.add(note().pos(0).rest().build());
+		rhythmNotes.add(note().pos(DurationConstants.SIXTEENTH).pc(1).build());
+		rhythmNotes.add(note().pos(DurationConstants.EIGHT).pc(8).build());
+		rhythmNotes.add(note().pos(DurationConstants.EIGHT + DurationConstants.SIXTEENTH).pc(4).build());
+		melody.updateRhythmNotes(rhythmNotes);
+		List<Note> melodyNotes = melody.getNotes();
+		assertEquals(melody.getStart(),melodyNotes.get(0).getPosition());
+		assertTrue(melodyNotes.get(0).isRest());
+		assertEquals(DurationConstants.QUARTER+ DurationConstants.SIXTEENTH ,melodyNotes.get(1).getPosition());
+		assertEquals(4,melodyNotes.get(1).getPitchClass());
+		assertEquals(DurationConstants.QUARTER + DurationConstants.EIGHT,melodyNotes.get(2).getPosition());
+		assertEquals(DurationConstants.QUARTER + DurationConstants.EIGHT + DurationConstants.SIXTEENTH,melodyNotes.get(3).getPosition());
+	}
+
+	@Test
+	public void testInvert(){
+		timeLine = new TimeLine();
+		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(D, Scale.MAJOR_SCALE, 0, DurationConstants.WHOLE)), 0);
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pc(1).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(2).build());
+		notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.EIGHT).pc(6).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(4).build());
+		CpMelody melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+		melody.getNotes().forEach(n -> System.out.println(n));
+		for (int i = 1; i < 7; i++) {
+			System.out.println("degree: " + i);
+			melody.inversePitchClasses(i, timeLine);
+			melody.getNotes().forEach(n -> System.out.println(n));
+			System.out.println();
+		}
+	}
+
+    @Test
+    public void testTranspose(){
+        timeLine = new TimeLine();
+        timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(D, Scale.MAJOR_SCALE, 0, DurationConstants.WHOLE)), 0);
+        List<Note> notes = new ArrayList<>();
+        notes.add(note().pos(0).pc(1).build());
+        notes.add(note().pos(DurationConstants.QUARTER).pc(2).build());
+        notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.EIGHT).pc(6).build());
+        notes.add(note().pos(DurationConstants.HALF).pc(4).build());
+        CpMelody melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+        melody.getNotes().forEach(n -> System.out.println(n));
+        for (int i = 0; i < 7; i++) {
+            System.out.println("steps: " + i);
+            melody.transposePitchClasses(i, timeLine);
+            melody.getNotes().forEach(n -> System.out.println(n));
+            System.out.println();
+        }
+    }
+
+	@Test
+	public void testConvertToKey(){
+		timeLine = new TimeLine();
+		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(D, Scale.MAJOR_SCALE, 0, DurationConstants.WHOLE)), 0);
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pc(0).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(2).build());
+		notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.EIGHT).pc(5).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(4).build());
+		CpMelody melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+		melody.getNotes().forEach(n -> System.out.println(n));
+
+		melody.convertToKey(C, timeLine);
+		melody.getNotes().forEach(n -> System.out.println(n));
+		System.out.println();
+
 	}
 	
 }

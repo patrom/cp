@@ -3,9 +3,11 @@ package cp.composition.timesignature;
 import cp.combination.RhythmCombination;
 import cp.composition.beat.BeatGroup;
 import cp.model.rhythm.DurationConstants;
+import cp.util.RandomUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component(value="time44")
 //@ConditionalOnProperty(name = "composition.timesignature", havingValue = "4/4")
@@ -17,18 +19,23 @@ public class Time44 extends TimeConfig{
 	}
 
 	@Override
-	public List<RhythmCombination> getAllBeats() {
+	public Map<Integer, List<RhythmCombination>> getAllRhythmCombinations() {
 		return defaultEvenCombinations;
 	}
 
 	@Override
 	public void init() {
 		super.init();
-		BeatGroup defaultGroup6 = beatGroupFactory.getBeatGroupEven(DurationConstants.EIGHT);
-		BeatGroup defaultGroup12 = beatGroupFactory.getBeatGroupEven(DurationConstants.QUARTER);
 
-		beatGroups.add(defaultGroup6);
-		beatGroups.add(defaultGroup12);
+		for (Integer noteSize : defaultEvenCombinations.keySet()) {
+			BeatGroup defaultGroup6 = beatGroupFactory.getBeatGroupEven(DurationConstants.EIGHT, noteSize);
+			BeatGroup defaultGroup12 = beatGroupFactory.getBeatGroupEven(DurationConstants.QUARTER, noteSize);
+
+			beatGroups2.add(defaultGroup6);
+			beatGroups2.add(defaultGroup12);
+		}
+
+
 //		beatsAll.add(defaultGroup6);
 //		beatsAll.add(defaultGroup12);
 		minimumLength = DurationConstants.QUARTER;
@@ -51,4 +58,8 @@ public class Time44 extends TimeConfig{
 		return homophonicEven;
 	}
 
+	@Override
+	public BeatGroup getBeatGroup(int index) {
+		return RandomUtil.getRandomFromList(beatGroups2);
+	}
 }

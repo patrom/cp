@@ -22,7 +22,7 @@ public class FixedVoice extends Voice {
         pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
         pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
 //        pitchClassGenerators.add(restPitchClasses::updatePitchClasses);
-        rhythmCombinations = timeConfig.getFixedBeatGroup();
+//        rhythmCombinations = timeConfig.getFixedBeatGroup();
         randomBeats = false;
         randomRhythmCombinations = false;
     }

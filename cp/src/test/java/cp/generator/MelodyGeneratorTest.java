@@ -139,7 +139,7 @@ public class MelodyGeneratorTest extends JFrame{
 		when(composition.getEnd()).thenReturn(DurationConstants.WHOLE);
 		when(composition.getTimeConfig()).thenReturn(time44);
 		List<BeatGroup> beatGroups = new ArrayList<>();
-		beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER));
+		beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER,2));
 		when(beatGroupStrategy.getBeatGroups()).thenReturn(beatGroups);
 		when(pitchClassGenerator.updatePitchClasses(notes)).thenReturn(notes);
 		when(voiceConfig.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
@@ -163,7 +163,7 @@ public class MelodyGeneratorTest extends JFrame{
 		contour.add(1);
 		contour.add(1);
 		contour.add(-1);
-		BeatGroup beatGroup = new BeatGroupTwo(DurationConstants.QUARTER);
+		BeatGroup beatGroup = new BeatGroupTwo(DurationConstants.QUARTER,2);
 		AccompGroup accompGroup = new AccompGroup(melodyVoice, contour);
 		MelodyBlock melody = melodyGenerator.generateMelodyBlockWithoutPitchClassGenerator(1, accompGroup,  0);
 		List<Note> melodyBlockNotes = melody.getMelodyBlockNotes();
@@ -183,7 +183,7 @@ public class MelodyGeneratorTest extends JFrame{
 		when(composition.getEnd()).thenReturn(2 * DurationConstants.WHOLE);
 		when(composition.getTimeConfig()).thenReturn(time44);
 		List<BeatGroup> beatGroups = new ArrayList<>();
-		beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER));
+		beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER,2));
 		when(beatGroupStrategy.getBeatGroups()).thenReturn(beatGroups);
 		when(pitchClassGenerator.updatePitchClasses(notes)).thenReturn(notes);
 		when(voiceConfig.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);

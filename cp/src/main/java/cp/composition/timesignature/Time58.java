@@ -7,10 +7,13 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Component(value="time58")
 //@ConditionalOnProperty(name = "composition.timesignature", havingValue = "5/8")
 public class Time58 extends TimeConfig{
+
+	private List<BeatGroup> allBeatgroups = new ArrayList<>();
 
 	@Override
 	public boolean randomBeatGroup() {
@@ -18,24 +21,21 @@ public class Time58 extends TimeConfig{
 	}
 
 	@Override
-	public List<RhythmCombination> getAllBeats() {
-        ArrayList<RhythmCombination> combinations = new ArrayList<>();
-        combinations.addAll(defaultEvenCombinations);
-        combinations.addAll(defaultUnEvenCombinations);
-		return combinations;
+	public Map<Integer, List<RhythmCombination>> getAllRhythmCombinations() {
+		return defaultUnEvenCombinations;
 	}
 	
 	@Override
 	public void init() {
 		super.init();
-		BeatGroup defaultGroupUneven = beatGroupFactory.getBeatGroupUneven(DurationConstants.EIGHT);
-		BeatGroup defaultGroupEven = beatGroupFactory.getBeatGroupEven(DurationConstants.EIGHT);
-		beatGroups.add(defaultGroupEven); // 2 + 3
-		beatGroups.add(defaultGroupUneven);
-//		beatsDoubleLength.add(defaultGroupEven);
-//		beatsDoubleLength.add(defaultGroupUneven);
-//		beatsAll.add(defaultGroupEven);
-//		beatsAll.add(defaultGroupUneven);
+        for (Integer noteSize : defaultEvenCombinations.keySet()) {
+            BeatGroup defaultGroup6 = beatGroupFactory.getBeatGroupEven(DurationConstants.EIGHT, noteSize);
+            beatGroups2.add(defaultGroup6);
+        }
+        for (Integer noteSize : defaultUnEvenCombinations.keySet()) {
+            BeatGroup defaultGroup6 = beatGroupFactory.getBeatGroupUneven(DurationConstants.EIGHT, noteSize);
+            beatGroups3.add(defaultGroup6);
+        }
 		minimumLength = DurationConstants.EIGHT;
 		distance = new int[]{2,5,7,10,12,15,17,20};
 		offset = 5 * DurationConstants.EIGHT;
@@ -64,8 +64,8 @@ public class Time58 extends TimeConfig{
 
     @Override
     public BeatGroup getBeatGroup(int index) {
-        int size = beatGroups.size();
-        return beatGroups.get(index % size);
+        int size = allBeatgroups.size();
+        return allBeatgroups.get(index % size);
     }
 	
 }

@@ -24,7 +24,7 @@ public class HomophonicVoice extends Voice {
         pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
         pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
 //        pitchClassGenerators.add(restPitchClasses::updatePitchClasses);
-        rhythmCombinations = timeConfig.getHomophonicBeatGroup();
+//        rhythmCombinations = timeConfig.getHomophonicBeatGroup();
         technical = Technical.PORTATO;
     }
 

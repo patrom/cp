@@ -22,7 +22,9 @@ public class DefaultConfig {
 		probabilityParamters.put("probabilityArticulation", 0.0);
 		probabilityParamters.put("probabilityTechnical", 0.0);
 		probabilityParamters.put("probabilityDynamic", 0.0);
-		probabilityParamters.put("probabilityReplaceMelody", 1.0);
+		probabilityParamters.put("probabilityReplaceMelody", 0.0);
+		probabilityParamters.put("probabilityRhythmMutation", 1.0);
+		probabilityParamters.put("probabilityOperatorMutation", 1.0);
 		probabilityParamters.put("probabilityRepetitionMelody", 0.0);
 		probabilityParamters.put("probabilityReplaceMelodyBlock", 0.0);
 		probabilityParamters.put("probabilityCopyMelody", 0.0);//set to 0 when fixed beatgroup is used

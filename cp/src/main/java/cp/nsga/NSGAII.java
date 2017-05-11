@@ -80,6 +80,8 @@ public class NSGAII extends Algorithm {
 		mutationOperators.add(operators_.get("replaceMelodyBlock"));
 		mutationOperators.add(operators_.get("copyMelody"));
 		mutationOperators.add(operators_.get("repetitionMelody"));
+		mutationOperators.add(operators_.get("rhythmMutation"));
+		mutationOperators.add(operators_.get("operatorMutation"));
 //		mutationOperators.add(operators_.get("addRhythm"));
 //		mutationOperators.add(operators_.get("removeRhythm"));
 		mutationOperators.add(operators_.get("oneNoteMutation"));

@@ -65,6 +65,10 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	@Autowired
 	private RepetitionMelody repetitionMelody;
 	@Autowired
+	private RhythmMutation rhythmMutation;
+	@Autowired
+	private OperatorMutation operatorMutation;
+	@Autowired
 	private CopyMelody copyMelody;
 	@Autowired
 	private ReplaceMelodyBlock replaceMelodyBlock;
@@ -132,7 +136,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 
 	private void compose() throws Exception {
 		List<CompositionGenre> composeInGenres = new ArrayList<>();
-		composeInGenres.add(melodyComposition::melody);
+//		composeInGenres.add(melodyComposition::melody);
+		composeInGenres.add(melodyComposition::melodyProvided);
 
 //		composeInGenres.add(twoVoiceComposition::random);
 //		composeInGenres.add(twoVoiceComposition::beatEven);
@@ -271,6 +276,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	    algorithm.addOperator("technicalMutation", technicalMutation);
 	    algorithm.addOperator("replaceMelody", replaceMelody);
 	    algorithm.addOperator("repetitionMelody", repetitionMelody);
+	    algorithm.addOperator("rhythmMutation", rhythmMutation);
+	    algorithm.addOperator("operatorMutation", operatorMutation);
 		algorithm.addOperator("copyMelody", copyMelody);
 		algorithm.addOperator("replaceMelodyBlock", replaceMelodyBlock);
 	    algorithm.addOperator("selection", SelectionFactory.getSelectionOperator("BinaryTournament2", parameters));

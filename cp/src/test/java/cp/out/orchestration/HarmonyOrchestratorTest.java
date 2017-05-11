@@ -243,7 +243,7 @@ public class HarmonyOrchestratorTest {
         Predicate<Note> harmonyFilter = n -> n.getVoice() != 4;
         ArrayList<Integer> accompContour = new ArrayList<>();
         accompContour.add(1);
-        BeatGroup beatGroup = new BeatGroupTwo(DurationConstants.EIGHT);
+        BeatGroup beatGroup = new BeatGroupTwo(DurationConstants.EIGHT,2);
         AccompGroup accompGroup = new AccompGroup(melodyVoice, accompContour);
         harmonyOrchestrator.updateAccomp(motive, accompGroup,  1, harmonyFilter);
         List<Note> melodyBlockNotes = motive.getMelodyBlock(1).getMelodyBlockNotes();

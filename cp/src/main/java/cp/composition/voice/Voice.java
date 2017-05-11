@@ -21,10 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
@@ -170,7 +168,8 @@ public abstract class Voice {
             randomBeats = true;
             timeConfig = time24;
         }
-        rhythmCombinations = timeConfig.getAllBeats();
+        rhythmCombinationsPerNoteSize = timeConfig.getAllRhythmCombinations();
+        allRhythmCombinations = rhythmCombinationsPerNoteSize.values().stream().flatMap(c -> c.stream()).collect(Collectors.toList());
     }
 
     public TimeConfig getTimeConfig(){
@@ -184,9 +183,9 @@ public abstract class Voice {
     public List<Note> getNotes(BeatGroup beatGroup) {
         List<Note> notes;
         if (randomRhythmCombinations) {
-            notes = getNotesRandom(beatGroup.getBeatLength());
+            notes = getNotesRandom(beatGroup);
         }else{
-            notes = getNotes(beatGroup.getBeatLength());
+            notes = getNotesFixed(beatGroup);
         }
         if(hasDependentHarmony){
             for (Note note : notes) {
@@ -262,10 +261,11 @@ public abstract class Voice {
     }
 
 
-    protected List<RhythmCombination> rhythmCombinations = new ArrayList<>();
+    protected Map<Integer, List<RhythmCombination>> rhythmCombinationsPerNoteSize;
+    protected List<RhythmCombination> allRhythmCombinations;
 
-    public List<Note> getNotes(int length) {
-        return rhythmCombinations.get(0).getNotes(length);
+    private List<Note> getNotesFixed(BeatGroup beatGroup) {
+        return allRhythmCombinations.get(0).getNotes(beatGroup.getBeatLength());
 //		int size = rhythmCombinations.size();
 //		int beatLength = getBeatLength() / size;
 //		RhythmCombination rhythmCombination = rhythmCombinations.get(0);
@@ -281,12 +281,19 @@ public abstract class Voice {
 //		return melodyNotes;
     }
 
-    public List<Note> getNotesRandom(int length) {
+    private List<Note> getNotesRandom(BeatGroup beatGroup) {
+        List<RhythmCombination> rhythmCombinations = this.rhythmCombinationsPerNoteSize.get(beatGroup.getSize());
         RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
-        return rhythmCombination.getNotes(length);
+        return rhythmCombination.getNotes(beatGroup.getBeatLength());
     }
 
-    public void setRhythmCombinations(List<RhythmCombination> rhythmCombinations) {
-        this.rhythmCombinations = rhythmCombinations;
+    public List<Note> getRhythmNotesForBeatgroup(BeatGroup beatGroup){
+        List<RhythmCombination> rhythmCombinations = this.rhythmCombinationsPerNoteSize.get(beatGroup.getSize());
+        RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
+        return rhythmCombination.getNotes(beatGroup.getBeatLength());
     }
+
+//    public void setRhythmCombinations(List<RhythmCombination> rhythmCombinations) {
+//        this.rhythmCombinations = rhythmCombinations;
+//    }
 }

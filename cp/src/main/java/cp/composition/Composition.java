@@ -190,7 +190,7 @@ public abstract class Composition {
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
 		timeLineKeys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0 ,0));
-//		timeLineKeys.add(new TimeLineKey(E, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(E, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(Gflat, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 

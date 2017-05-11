@@ -3,21 +3,21 @@ package cp.composition.timesignature;
 import cp.combination.RhythmCombination;
 import cp.composition.beat.BeatGroup;
 import cp.composition.beat.BeatGroupFactory;
-import cp.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public abstract class TimeConfig {
 
 	@Resource(name = "defaultUnevenCombinations")
-	protected List<RhythmCombination> defaultUnEvenCombinations;
+	protected Map<Integer, List<RhythmCombination>> defaultUnEvenCombinations;
 
 	@Resource(name = "defaultEvenCombinations")
-	protected List<RhythmCombination> defaultEvenCombinations;
+	protected Map<Integer, List<RhythmCombination>> defaultEvenCombinations;
 
 	@Resource(name = "homophonicEven")
 	protected List<RhythmCombination> homophonicEven;
@@ -38,8 +38,9 @@ public abstract class TimeConfig {
 
 	protected int offset;
 
-	protected List<BeatGroup> beatGroups = new ArrayList<>();
-	
+	protected List<BeatGroup> beatGroups2 = new ArrayList<>();
+	protected List<BeatGroup> beatGroups3 = new ArrayList<>();
+
 	@Autowired
 	protected BeatGroupFactory beatGroupFactory;
 	
@@ -51,7 +52,7 @@ public abstract class TimeConfig {
 	public void init() {
 	}
 
-	public abstract List<RhythmCombination> getAllBeats();
+	public abstract Map<Integer, List<RhythmCombination>>  getAllRhythmCombinations();
 
 	public int getOffset() {
 		return offset;
@@ -73,7 +74,5 @@ public abstract class TimeConfig {
 		return minimumLength;
 	}
 
-	public BeatGroup getBeatGroup(int index) {
-		return RandomUtil.getRandomFromList(beatGroups);
-	}
+	public abstract BeatGroup getBeatGroup(int index);
 }

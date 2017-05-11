@@ -46,44 +46,59 @@ public class CombinationConfig {
 	
 
 	@Bean
-	public List<RhythmCombination> defaultEvenCombinations(){
+	public Map<Integer, List<RhythmCombination>> defaultEvenCombinations(){
 		Map<Integer, List<RhythmCombination>> map = new HashMap<>();
 		List<RhythmCombination> rhythmCombinations = new ArrayList<>();
 		rhythmCombinations.add(oneNoteEven::pos1);
 		rhythmCombinations.add(oneNoteEven::pos2);
 		rhythmCombinations.add(oneNoteEven::pos3);
 		rhythmCombinations.add(oneNoteEven::pos4);
+		map.put(1, rhythmCombinations);
 
+        rhythmCombinations = new ArrayList<>();
 		rhythmCombinations.add(twoNoteEven::pos12);
 		rhythmCombinations.add(twoNoteEven::pos13);
 		rhythmCombinations.add(twoNoteEven::pos14);
 		rhythmCombinations.add(twoNoteEven::pos34);
 		rhythmCombinations.add(twoNoteEven::pos23);
 		rhythmCombinations.add(twoNoteEven::pos24);
+		map.put(2, rhythmCombinations);
 
+//        rhythmCombinations = new ArrayList<>();
 //		rhythmCombinations.add(threeNoteEven::pos123);
 //		rhythmCombinations.add(threeNoteEven::pos134);
 //		rhythmCombinations.add(threeNoteEven::pos124);
 //		rhythmCombinations.add(threeNoteEven::pos234);
+//		map.put(new BeatGroupTwo(3), rhythmCombinations);
 
+//        rhythmCombinations = new ArrayList<>();
 //		rhythmCombinations.add(fourNoteEven::pos1234);
+//		map.put(new BeatGroupTwo(4), rhythmCombinations);
 
+        rhythmCombinations = new ArrayList<>();
 		rhythmCombinations.add(threeNoteUneven::pos123);
+		map.put(3, rhythmCombinations);
+
 //		rhythmCombinations.add(twoNoteUneven::pos23);
 //		rhythmCombinations.add(twoNoteUneven::pos12);
 //		rhythmCombinations.add(twoNoteUneven::pos13);
+
 //
+//        rhythmCombinations = new ArrayList<>();
 //		rhythmCombinations.add(fiveNoteQuintuplet::pos12345);
-		return rhythmCombinations;
+//		map.put(new BeatGroupTwo(5), rhythmCombinations);
+		return map;
 	}
 	
 	@Bean
-	public List<RhythmCombination> defaultUnevenCombinations(){
+	public Map<Integer, List<RhythmCombination>> defaultUnevenCombinations(){
+		Map<Integer, List<RhythmCombination>> map = new HashMap<>();
 		List<RhythmCombination> rhythmCombinations = new ArrayList<>();
 		rhythmCombinations.add(oneNoteEven::pos1);
 //		rhythmCombinations.add(oneNoteEven::pos2);
 //		rhythmCombinations.add(oneNoteEven::pos3);
 //		rhythmCombinations.add(oneNoteEven::pos4);
+		map.put(1, rhythmCombinations);
 //		
 //		rhythmCombinations.add(twoNoteEven::pos12);
 //		rhythmCombinations.add(twoNoteEven::pos13);
@@ -107,8 +122,10 @@ public class CombinationConfig {
 		rhythmCombinations.add(twoNoteUneven::pos13);
 		rhythmCombinations.add(twoNoteUneven::pos12);
 		rhythmCombinations.add(twoNoteUneven::pos23);
+		map.put(2, rhythmCombinations);
 
 		rhythmCombinations.add(threeNoteUneven::pos123);
+		map.put(3, rhythmCombinations);
 //
 //		rhythmCombinations.add(threeNoteSexTuplet::pos145);
 //		rhythmCombinations.add(threeNoteSexTuplet::pos136);
@@ -121,7 +138,7 @@ public class CombinationConfig {
 //		rhythmCombinations.add(fiveNoteSexTuplet::pos13456);
 //		
 //		rhythmCombinations.add(sixNoteSexTuplet::pos123456);
-		return rhythmCombinations;
+		return map;
 	}
 	
 //	@Bean
