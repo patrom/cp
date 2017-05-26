@@ -175,7 +175,7 @@ public class NoteParser {
             if(elementTimeModifiction != null){
                 Element actualNotes = elementTimeModifiction.getElements().get(0).getElement();
                 Element normalType = elementTimeModifiction.getElements().get(2).getElement();
-                if(actualNotes.getElementName().equals("normal-type") && actualNotes.getData().equals("3")){
+                if(actualNotes.getElementName().equals("actual-notes") && actualNotes.getData().equals("3")){
                     note.setTriplet(true);
                     note.setTimeModification(normalType.getData());
                     switch (type) {
@@ -204,7 +204,7 @@ public class NoteParser {
                             break;
                     }
                 }
-                if(actualNotes.getElementName().equals("normal-type") && actualNotes.getData().equals("6")){
+                if(actualNotes.getElementName().equals("actual-notes") && actualNotes.getData().equals("6")){
                     note.setSextuplet(true);
                     note.setTimeModification(normalType.getData());
                     switch (type) {

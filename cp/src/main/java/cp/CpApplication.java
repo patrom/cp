@@ -137,9 +137,10 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	private void compose() throws Exception {
 		List<CompositionGenre> composeInGenres = new ArrayList<>();
 //		composeInGenres.add(melodyComposition::melody);
-		composeInGenres.add(melodyComposition::melodyProvided);
+//		composeInGenres.add(melodyComposition::melodyProvided);
 
-//		composeInGenres.add(twoVoiceComposition::random);
+//		composeInGenres.add(twoVoiceComposition::melodyProvided);
+		composeInGenres.add(twoVoiceComposition::random);
 //		composeInGenres.add(twoVoiceComposition::beatEven);
 //		composeInGenres.add(twoVoiceComposition::depending);
 //		composeInGenres.add(twoVoiceComposition::canon);
@@ -260,26 +261,26 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		// Algorithm parameters
 	    int populationSize = 30;
 	    algorithm.setInputParameter("populationSize", populationSize);
-	    algorithm.setInputParameter("maxEvaluations", populationSize * 150);
+	    algorithm.setInputParameter("maxEvaluations", populationSize * 1500);
 	    
 	    // Mutation and Crossover
 	    crossover.setParameter("probabilityCrossover", 1.0); 
 	
 	    // Add the operators to the algorithm
 	    algorithm.addOperator("crossover", crossover);
-	    algorithm.addOperator("oneNoteMutation", oneNoteMutation);
-	    algorithm.addOperator("oneNoteChromaticMutation", oneNoteChromaticMutation);
-//	    algorithm.addOperator("addRhythm", addRhythm);
-//	    algorithm.addOperator("removeRhythm", removeRhythm);
-	    algorithm.addOperator("articulationMutation", articulationMutation);
-	    algorithm.addOperator("dynamicMutation", dynamicMutation);
-	    algorithm.addOperator("technicalMutation", technicalMutation);
-	    algorithm.addOperator("replaceMelody", replaceMelody);
-	    algorithm.addOperator("repetitionMelody", repetitionMelody);
-	    algorithm.addOperator("rhythmMutation", rhythmMutation);
-	    algorithm.addOperator("operatorMutation", operatorMutation);
-		algorithm.addOperator("copyMelody", copyMelody);
-		algorithm.addOperator("replaceMelodyBlock", replaceMelodyBlock);
+//	    algorithm.addOperator("oneNoteMutation", oneNoteMutation);
+//	    algorithm.addOperator("oneNoteChromaticMutation", oneNoteChromaticMutation);
+////	    algorithm.addOperator("addRhythm", addRhythm);
+////	    algorithm.addOperator("removeRhythm", removeRhythm);
+//	    algorithm.addOperator("articulationMutation", articulationMutation);
+//	    algorithm.addOperator("dynamicMutation", dynamicMutation);
+//	    algorithm.addOperator("technicalMutation", technicalMutation);
+//	    algorithm.addOperator("replaceMelody", replaceMelody);
+//	    algorithm.addOperator("repetitionMelody", repetitionMelody);
+//	    algorithm.addOperator("rhythmMutation", rhythmMutation);
+//	    algorithm.addOperator("operatorMutation", operatorMutation);
+//		algorithm.addOperator("copyMelody", copyMelody);
+//		algorithm.addOperator("replaceMelodyBlock", replaceMelodyBlock);
 	    algorithm.addOperator("selection", SelectionFactory.getSelectionOperator("BinaryTournament2", parameters));
 	}
 	

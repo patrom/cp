@@ -1,7 +1,7 @@
 package cp.nsga.operator.mutation.melody;
 
-import cp.composition.voice.Voice;
 import cp.composition.voice.VoiceConfig;
+import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
@@ -17,40 +17,40 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Created by prombouts on 6/05/2017.
+ * Created by prombouts on 21/05/2017.
  */
-@Component(value = "rhythmMutation")
-public class RhythmMutation implements MutationOperator<MelodyBlock> {
+@Component
+public class AllNoteMutation implements MutationOperator<MelodyBlock> {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(RhythmMutation.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(AllNoteMutation.class);
 
-    private double probability;
+    private double probabilityAllNote;
 
     @Autowired
     private VoiceConfig voiceConfig;
 
     @Autowired
-    public RhythmMutation(@Value("${probabilityRhythmProbability}") double probability) {
-        this.probability = probability;
+    public AllNoteMutation(@Value("${probabilityAllNote}") double probabilityAllNote) {
+        this.probabilityAllNote = probabilityAllNote;
     }
 
-    public void doMutation(double probability, MelodyBlock melodyBlock)  {
-        if (PseudoRandom.randDouble() < probability) {
+    public void doMutation(MelodyBlock melodyBlock) {
+        if (PseudoRandom.randDouble() < probabilityAllNote) {
             Optional<CpMelody> optionalMelody = melodyBlock.getRandomMelody(m -> m.isReplaceable());
             if (optionalMelody.isPresent()) {
-                Voice voice = voiceConfig.getVoiceConfiguration(melodyBlock.getVoice());
                 CpMelody melody = optionalMelody.get();
-                List<Note> rhythmNotes = voice.getNotes(melody.getBeatGroup());
-                melody.updateRhythmNotes(rhythmNotes);
+                List<Note> melodyNotes = melody.getNotes();
+                PitchClassGenerator pitchClassGenerator = voiceConfig.getRandomPitchClassGenerator(melody.getVoice());
+                melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes);
+                melody.updateNotes(melodyNotes);
 //				LOGGER.info("Melody replaced: " + melody.getVoice());
             }
         }
     }
 
-
     @Override
     public MelodyBlock execute(MelodyBlock melodyBlock) {
-        doMutation(probability, melodyBlock);
+        doMutation(melodyBlock);
         return melodyBlock;
     }
 }

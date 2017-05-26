@@ -30,8 +30,7 @@ public class Time68 extends TimeConfig{
             BeatGroup defaultGroup6 = beatGroupFactory.getBeatGroupUneven(DurationConstants.EIGHT, noteSize);
 //            BeatGroup defaultGroup12 = beatGroupFactory.getBeatGroupUneven(DurationConstants.QUARTER, noteSize);
 
-            beatGroups3.add(defaultGroup6);
-//            beatGroups3.add(defaultGroup12);
+			allBeatgroups.add(defaultGroup6);
         }
 		minimumLength = DurationConstants.EIGHT;
 		distance = new int[]{3,6,9,12,15,18,20,21,22,24,26,27,28,30,32};
@@ -55,7 +54,7 @@ public class Time68 extends TimeConfig{
 
 	@Override
 	public BeatGroup getBeatGroup(int index) {
-		return RandomUtil.getRandomFromList(beatGroups3);
+		return RandomUtil.getRandomFromList(allBeatgroups);
 	}
 	
 }

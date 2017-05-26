@@ -53,9 +53,6 @@ public class RandomUtil {
 	}
 
 	public static int getRandomNumberInRange(int minInclusive, int maxInclusive) {
-		if (minInclusive >= maxInclusive) {
-			throw new IllegalArgumentException("max must be greater than min");
-		}
 		return random.nextInt((maxInclusive - minInclusive) + 1) + minInclusive;
 	}
 	

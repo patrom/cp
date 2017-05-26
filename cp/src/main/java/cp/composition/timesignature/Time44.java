@@ -31,8 +31,8 @@ public class Time44 extends TimeConfig{
 			BeatGroup defaultGroup6 = beatGroupFactory.getBeatGroupEven(DurationConstants.EIGHT, noteSize);
 			BeatGroup defaultGroup12 = beatGroupFactory.getBeatGroupEven(DurationConstants.QUARTER, noteSize);
 
-			beatGroups2.add(defaultGroup6);
-			beatGroups2.add(defaultGroup12);
+			allBeatgroups.add(defaultGroup6);
+			allBeatgroups.add(defaultGroup12);
 		}
 
 
@@ -60,6 +60,6 @@ public class Time44 extends TimeConfig{
 
 	@Override
 	public BeatGroup getBeatGroup(int index) {
-		return RandomUtil.getRandomFromList(beatGroups2);
+		return RandomUtil.getRandomFromList(allBeatgroups);
 	}
 }

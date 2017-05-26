@@ -13,8 +13,6 @@ import java.util.Map;
 //@ConditionalOnProperty(name = "composition.timesignature", havingValue = "5/8")
 public class Time58 extends TimeConfig{
 
-	private List<BeatGroup> allBeatgroups = new ArrayList<>();
-
 	@Override
 	public boolean randomBeatGroup() {
 		return false;
@@ -30,11 +28,11 @@ public class Time58 extends TimeConfig{
 		super.init();
         for (Integer noteSize : defaultEvenCombinations.keySet()) {
             BeatGroup defaultGroup6 = beatGroupFactory.getBeatGroupEven(DurationConstants.EIGHT, noteSize);
-            beatGroups2.add(defaultGroup6);
+            allBeatgroups.add(defaultGroup6);
         }
         for (Integer noteSize : defaultUnEvenCombinations.keySet()) {
             BeatGroup defaultGroup6 = beatGroupFactory.getBeatGroupUneven(DurationConstants.EIGHT, noteSize);
-            beatGroups3.add(defaultGroup6);
+            allBeatgroups.add(defaultGroup6);
         }
 		minimumLength = DurationConstants.EIGHT;
 		distance = new int[]{2,5,7,10,12,15,17,20};

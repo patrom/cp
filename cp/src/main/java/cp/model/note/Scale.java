@@ -13,7 +13,7 @@ public class Scale {
             HARMONIC_MINOR_SCALE = new Scale(new int[]{0, 2, 3, 5, 7, 8, 11}),
 //            HARMONIC_MINOR_SCALE_VI = new Scale(new int[]{0, 2, 4, 5, 8, 9, 11}),
 //            HARMONIC_MINOR_SCALE_II = new Scale(new int[]{1, 2, 4, 5, 7, 9, 10}),
-            MELODIC_MINOR_SCALE = new Scale(new int[]{0, 2, 3, 5, 7, 8, 9, 10, 11}), // mix of ascend and descend
+            MELODIC_MINOR_SCALE = new Scale(new int[]{0, 2, 3, 5, 7, 9, 11}),
             AEOLIAN_SCALE = new Scale(new int[]{0, 2, 3, 5, 7, 8, 10}),
             DORIAN_SCALE = new Scale(new int[]{0, 2, 3, 5, 7, 9, 10}),	
             LYDIAN_SCALE = new Scale(new int[]{0, 2, 4, 6, 7, 9, 11}),
@@ -70,21 +70,18 @@ public class Scale {
 	public int getIndex(int pitchClass){
 		for (int i = 0; i < scale.length; i++) {
 			if (pitchClass  == scale[i]) {
-				return i;
+				return i + 1;
 			}
 		}
 		throw new IllegalArgumentException("Scale doesn't contain pitchClass: " + pitchClass + ", scale: " + Arrays.toString(scale));
 	}
 	
 	/**
-	 * @param functionalDegreeCenter functional degree (I = 1, II = 2, ..., VII = 7)
+	 * @param functionalDegreeCenter eg:functional degree (I = 1, II = 2, ..., VII = 7)
 	 * @param pitchClass pc to inverse
 	 * @return inverse pc
 	 */
 	public int getInversedPitchClass(int functionalDegreeCenter, int pitchClass){
-		if (functionalDegreeCenter < 1 || functionalDegreeCenter > 7) {
-			throw new IllegalArgumentException("Unknown functional degree: " + functionalDegreeCenter);
-		}
 		int index = getIndex(pitchClass);
 		int inversionIndex = (scale.length + (functionalDegreeCenter - 1) + (functionalDegreeCenter - 1 - index)) % scale.length;
 		return scale[inversionIndex];

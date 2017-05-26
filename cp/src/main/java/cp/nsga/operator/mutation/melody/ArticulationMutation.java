@@ -2,68 +2,55 @@ package cp.nsga.operator.mutation.melody;
 
 import cp.composition.voice.Voice;
 import cp.composition.voice.VoiceConfig;
-import cp.model.Motive;
 import cp.model.melody.MelodyBlock;
-import cp.nsga.MusicVariable;
-import cp.nsga.operator.mutation.AbstractMutation;
+import cp.nsga.operator.mutation.MutationOperator;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.Instrument;
 import cp.out.play.InstrumentConfig;
 import cp.util.RandomUtil;
-import jmetal.core.Solution;
-import jmetal.util.Configuration;
-import jmetal.util.JMException;
 import jmetal.util.PseudoRandom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Component(value="articulationMutation")
-public class ArticulationMutation extends AbstractMutation{
+public class ArticulationMutation implements MutationOperator<MelodyBlock> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ArticulationMutation.class);
 	
-	@Autowired
-	public ArticulationMutation(HashMap<String, Object> parameters) {
-		super(parameters);
-	}
+	private double probabilityArticulation;
+
 	@Autowired
 	private InstrumentConfig instrumentConfig;
 	@Autowired
 	private VoiceConfig voiceConfig;
 
+	@Autowired
+	public ArticulationMutation(@Value("${probabilityArticulation}") double probabilityArticulation) {
+		this.probabilityArticulation = probabilityArticulation;
+	}
 
-	public void doMutation(double probability, Solution solution) throws JMException {
-		if (PseudoRandom.randDouble() < probability) {
-			Motive motive = ((MusicVariable)solution.getDecisionVariables()[0]).getMotive();
-			MelodyBlock mutableMelody = motive.getRandomMutableMelody();
-			Instrument instrument = instrumentConfig.getInstrumentForVoice(mutableMelody.getVoice());
-			Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(mutableMelody.getVoice());
+	public void doMutation(MelodyBlock melodyBlock) {
+		if (PseudoRandom.randDouble() < probabilityArticulation) {
+			Instrument instrument = instrumentConfig.getInstrumentForVoice(melodyBlock.getVoice());
+			Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(melodyBlock.getVoice());
 			List<Articulation> articulations = voiceConfiguration.getArticulations(instrument.getInstrumentGroup());
 			if (articulations.isEmpty()){
 				LOGGER.info("articulations empty");
 			}else{
-				mutableMelody.updateArticulation(RandomUtil.getRandomFromList(articulations));
+				melodyBlock.updateArticulation(RandomUtil.getRandomFromList(articulations));
 			}
 		} 
 	}
 
-	public Object execute(Object object) throws JMException {
-		Solution solution = (Solution) object;
-		Double probability = (Double) getParameter("probabilityArticulation");
-		if (probability == null) {
-			Configuration.logger_.severe("probabilityArticulation: probability not " +
-			"specified");
-			Class cls = java.lang.String.class;
-			String name = cls.getName();
-			throw new JMException("Exception in " + name + ".execute()");
-		}
-		doMutation(probability, solution);
-		return solution;
-	} 
 
+	@Override
+	public MelodyBlock execute(MelodyBlock melodyBlock) {
+		doMutation(melodyBlock);
+		return melodyBlock;
+	}
 }

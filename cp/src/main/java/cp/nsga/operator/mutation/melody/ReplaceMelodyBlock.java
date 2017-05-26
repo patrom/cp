@@ -80,15 +80,6 @@ public class ReplaceMelodyBlock extends AbstractMutation {
 
 
                 melodyBlock.updateMelodyBlock(melodyBlockToInsert,  melody.getStart());
-
-//				LOGGER.info("MelodyBlock replaced: " + melody.getVoice());
-
-                //Rhythm dependant melodies
-//                this.replaceRhythmDependantMelody.setPitchClassGenerator(pitchClassGenerator);
-//                List<MelodyBlock> rhythmDependantMelodies =  motive.getMelodyBlocks().stream()
-//                        .filter(m -> m.isRhythmDependant() && m.getDependingVoice() == melody.getVoice())
-//                        .collect(toList());
-//                replaceRhythmDependantMelody.updateDependantMelodyBlockWithMelody(melody, rhythmDependantMelodies);
             }
         }
     }

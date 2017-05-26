@@ -26,8 +26,5 @@ public class UtilTest {
         for (int pc : scale.getPitchClasses()) {
             System.out.println(Util.convertToKeyOfC(pc, E.getInterval() ));
         }
-
     }
-
-
 }

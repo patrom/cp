@@ -38,8 +38,7 @@ public abstract class TimeConfig {
 
 	protected int offset;
 
-	protected List<BeatGroup> beatGroups2 = new ArrayList<>();
-	protected List<BeatGroup> beatGroups3 = new ArrayList<>();
+	protected List<BeatGroup> allBeatgroups = new ArrayList<>();
 
 	@Autowired
 	protected BeatGroupFactory beatGroupFactory;
@@ -75,4 +74,5 @@ public abstract class TimeConfig {
 	}
 
 	public abstract BeatGroup getBeatGroup(int index);
+
 }

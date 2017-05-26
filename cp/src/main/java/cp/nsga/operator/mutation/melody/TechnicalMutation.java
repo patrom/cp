@@ -2,72 +2,58 @@ package cp.nsga.operator.mutation.melody;
 
 import cp.composition.voice.Voice;
 import cp.composition.voice.VoiceConfig;
-import cp.model.Motive;
 import cp.model.melody.MelodyBlock;
-import cp.nsga.MusicVariable;
-import cp.nsga.operator.mutation.AbstractMutation;
+import cp.nsga.operator.mutation.MutationOperator;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.Technical;
 import cp.out.play.InstrumentConfig;
 import cp.util.RandomUtil;
-import jmetal.core.Solution;
-import jmetal.util.Configuration;
-import jmetal.util.JMException;
 import jmetal.util.PseudoRandom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by prombouts on 6/04/2017.
  */
 @Component(value = "technicalMutation")
-public class TechnicalMutation extends AbstractMutation{
+public class TechnicalMutation implements MutationOperator<MelodyBlock> {
     private static final Logger LOGGER = LoggerFactory.getLogger(TechnicalMutation.class);
 
-    @Autowired
-    public TechnicalMutation(HashMap<String, Object> parameters) {
-        super(parameters);
-    }
+    private double probabilityTechnical;
 
     @Autowired
     private InstrumentConfig instrumentConfig;
     @Autowired
     private VoiceConfig voiceConfig;
 
-    public void doMutation(double probability, Solution solution) throws JMException {
-        if (PseudoRandom.randDouble() < probability) {
-            Motive motive = ((MusicVariable)solution.getDecisionVariables()[0]).getMotive();
-            MelodyBlock mutableMelody = motive.getRandomMutableMelody();
-            Instrument instrument = instrumentConfig.getInstrumentForVoice(mutableMelody.getVoice());
-            Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(mutableMelody.getVoice());
+    @Autowired
+    public TechnicalMutation(@Value("${probabilityTechnical}") double probabilityTechnical) {
+        this.probabilityTechnical = probabilityTechnical;
+    }
+
+    public void doMutation(MelodyBlock melodyBlock)  {
+        if (PseudoRandom.randDouble() < probabilityTechnical) {
+            Instrument instrument = instrumentConfig.getInstrumentForVoice(melodyBlock.getVoice());
+            Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(melodyBlock.getVoice());
             List<Technical> technicals = voiceConfiguration.getTechnicals(instrument.getInstrumentGroup());
             if (technicals.isEmpty()){
                 LOGGER.info("technicals empty");
             }else{
-                mutableMelody.updateTechnical(RandomUtil.getRandomFromList(technicals));
+                melodyBlock.updateTechnical(RandomUtil.getRandomFromList(technicals));
 //                LOGGER.info("technical mutated");
             }
         }
     }
 
-    public Object execute(Object object) throws JMException {
-        Solution solution = (Solution) object;
-        Double probability = (Double) getParameter("probabilityTechnical");
-        if (probability == null) {
-            Configuration.logger_.severe("probabilityTechnical: probability not " +
-                    "specified");
-            Class cls = java.lang.String.class;
-            String name = cls.getName();
-            throw new JMException("Exception in " + name + ".execute()");
-        }
-        doMutation(probability, solution);
-        return solution;
+    @Override
+    public MelodyBlock execute(MelodyBlock melodyBlock) {
+        doMutation(melodyBlock);
+        return melodyBlock;
     }
-
 }
 

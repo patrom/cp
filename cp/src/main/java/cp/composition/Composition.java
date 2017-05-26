@@ -7,6 +7,7 @@ import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
 import cp.generator.dependant.DependantHarmonyGenerator;
 import cp.generator.pitchclass.*;
+import cp.generator.provider.MelodyProvider;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.dissonance.*;
@@ -24,6 +25,7 @@ import cp.objective.meter.MeterObjective;
 import cp.out.instrument.Instrument;
 import cp.out.play.InstrumentConfig;
 import cp.out.play.InstrumentMapping;
+import cp.out.print.Keys;
 import cp.out.print.note.Key;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -52,6 +54,9 @@ public abstract class Composition {
 	protected Instrument instrument4;
 	protected Instrument instrument5;
 
+	@Autowired
+	@Qualifier(value = "melodyManualProvider")//melodyManualProvider - melodyGeneratorProvider
+	protected MelodyProvider melodyProvider;
 
 	@Autowired
 	protected ReplaceMelody replaceMelody;
@@ -101,35 +106,7 @@ public abstract class Composition {
 	private MeterObjective meterObjective;
 
 	@Autowired
-	protected Key C;
-	@Autowired
-	protected Key Csharp;
-	@Autowired
-	protected Key D;
-	@Autowired
-	protected Key Dsharp;
-	@Autowired
-	protected Key Eflat;
-	@Autowired
-	protected Key E;
-	@Autowired
-	protected Key F;
-	@Autowired
-	protected Key Fsharp;
-	@Autowired
-	protected Key G;
-	@Autowired
-	protected Key Gflat;
-	@Autowired
-	protected Key Gsharp;
-	@Autowired
-	protected Key A;
-	@Autowired
-	protected Key Aflat;
-	@Autowired
-	protected Key Bflat;
-	@Autowired
-	protected Key B;
+	protected Keys keys;
 	
 	protected final int start = 0;
 	protected final int end = 4 * DurationConstants.WHOLE;
@@ -171,7 +148,7 @@ public abstract class Composition {
 
 	@PostConstruct
 	public void init(){
-		composeInKey(C);
+		composeInKey(keys.C);
 		inTempo(70);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
@@ -189,8 +166,8 @@ public abstract class Composition {
 		timeLine.setEnd(end);
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
-		timeLineKeys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0 ,0));
-		timeLineKeys.add(new TimeLineKey(E, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.E, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(Gflat, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 

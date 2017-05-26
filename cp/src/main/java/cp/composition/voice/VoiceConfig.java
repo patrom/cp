@@ -26,6 +26,8 @@ public class VoiceConfig {
     private DoubleTimeVoice doubleTimeVoice;
     @Autowired
     private HarmonyVoice harmonyVoice;
+    @Autowired
+    private RowVoice rowVoice;
 
     private Map<Integer, Voice> voiceConfiguration = new TreeMap<>();
 
@@ -39,8 +41,8 @@ public class VoiceConfig {
 
     @PostConstruct
     public void initVoiceConfig(){
-        voiceConfiguration.put(0, homophonicVoice);
-        voiceConfiguration.put(1, homophonicVoice);
+        voiceConfiguration.put(0, melodyVoice);
+        voiceConfiguration.put(1, melodyVoice);
         voiceConfiguration.put(2, homophonicVoice);
         voiceConfiguration.put(3, melodyVoice);
 

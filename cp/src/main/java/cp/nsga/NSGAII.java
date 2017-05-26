@@ -1,13 +1,15 @@
-/**
- * NSGAII.java
- * @author Juan J. Durillo
- * @version 1.0  
- */
 package cp.nsga;
 
+import cp.composition.voice.Voice;
+import cp.composition.voice.VoiceConfig;
+import cp.model.Motive;
+import cp.model.melody.MelodyBlock;
 import cp.nsga.operator.relation.Relation;
 import cp.nsga.operator.relation.RelationConfig;
-import jmetal.core.*;
+import jmetal.core.Algorithm;
+import jmetal.core.Problem;
+import jmetal.core.Solution;
+import jmetal.core.SolutionSet;
 import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.util.Distance;
 import jmetal.util.JMException;
@@ -31,6 +33,8 @@ public class NSGAII extends Algorithm {
 
 	@Autowired
 	private RelationConfig operatorConfig;
+	@Autowired
+	private VoiceConfig voiceConfig;
 
 	/**
 	 * Constructor
@@ -75,22 +79,22 @@ public class NSGAII extends Algorithm {
 		requiredEvaluations = 0;
 
 		// Read the operators
-		List<Operator> mutationOperators = new ArrayList<>();
-		mutationOperators.add(operators_.get("replaceMelody"));
-		mutationOperators.add(operators_.get("replaceMelodyBlock"));
-		mutationOperators.add(operators_.get("copyMelody"));
-		mutationOperators.add(operators_.get("repetitionMelody"));
-		mutationOperators.add(operators_.get("rhythmMutation"));
-		mutationOperators.add(operators_.get("operatorMutation"));
-//		mutationOperators.add(operators_.get("addRhythm"));
-//		mutationOperators.add(operators_.get("removeRhythm"));
-		mutationOperators.add(operators_.get("oneNoteMutation"));
-		mutationOperators.add(operators_.get("oneNoteChromaticMutation"));
-		mutationOperators.add(operators_.get("articulationMutation"));
-		mutationOperators.add(operators_.get("dynamicMutation"));
-		mutationOperators.add(operators_.get("technicalMutation"));
-		Operator crossoverOperator = operators_.get("crossover");
-		Operator selectionOperator = operators_.get("selection");
+//		List<Operator> mutationOperators = new ArrayList<>();
+//		mutationOperators.add(operators_.get("replaceMelody"));
+//		mutationOperators.add(operators_.get("replaceMelodyBlock"));
+//		mutationOperators.add(operators_.get("copyMelody"));
+//		mutationOperators.add(operators_.get("repetitionMelody"));
+//		mutationOperators.add(operators_.get("rhythmMutation"));
+//		mutationOperators.add(operators_.get("operatorMutation"));
+////		mutationOperators.add(operators_.get("addRhythm"));
+////		mutationOperators.add(operators_.get("removeRhythm"));
+//		mutationOperators.add(operators_.get("oneNoteMutation"));
+//		mutationOperators.add(operators_.get("oneNoteChromaticMutation"));
+//		mutationOperators.add(operators_.get("articulationMutation"));
+//		mutationOperators.add(operators_.get("dynamicMutation"));
+//		mutationOperators.add(operators_.get("technicalMutation"));
+		jmetal.core.Operator crossoverOperator = operators_.get("crossover");
+		jmetal.core.Operator selectionOperator = operators_.get("selection");
 
 		// Create the initial solutionSet
 		Solution newSolution;
@@ -122,10 +126,8 @@ public class NSGAII extends Algorithm {
 					parents[0] = (Solution) selectionOperator.execute(population);
 					parents[1] = (Solution) selectionOperator.execute(population);
 					Solution[] offSpring = (Solution[]) crossoverOperator.execute(parents);
-					for (Operator operator : mutationOperators) {
-						operator.execute(offSpring[0]);
-						operator.execute(offSpring[1]);
-					}
+					mutateOffspring(offSpring[0]);
+					mutateOffspring(offSpring[1]);
 					for (Relation relation : operatorConfig.getRelations()) {
 						relation.execute(offSpring[0]);
 						relation.execute(offSpring[1]);
@@ -231,6 +233,19 @@ public class NSGAII extends Algorithm {
 		// Return the first non-dominated front
 		Ranking ranking = new Ranking(population);
 		return ranking.getSubfront(0);
+	}
+
+	private void mutateOffspring(Solution solution) {
+		MelodyBlock melodyBlock = getMelodyBlock(solution);
+		Voice voice = voiceConfig.getVoiceConfiguration(melodyBlock.getVoice());
+		for (Operator operator : voice.getMutationOperators()) {
+            operator.execute(melodyBlock);
+        }
+	}
+
+	private MelodyBlock getMelodyBlock(Solution solution) {
+		Motive motive = ((MusicVariable) solution.getDecisionVariables()[0]).getMotive();
+		return motive.getRandomMutableMelody();
 	}
 
 	private boolean hasPopulationChanged(List<Solution> oldSolutions,

@@ -1,7 +1,6 @@
 package cp.nsga.operator.mutation.melody;
 
 import cp.composition.voice.VoiceConfig;
-import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.Motive;
 import cp.model.TimeLine;
 import cp.model.melody.CpMelody;
@@ -19,9 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 @Component(value="copyMelody")
 public class CopyMelody extends AbstractMutation{
@@ -82,14 +78,6 @@ public class CopyMelody extends AbstractMutation{
 				});
 				melodyToReplace.updateNotes(clonedMelody.getNotes());
 //				LOGGER.info("Melody copy: ");
-
-				//Rhythm dependant melodies
-				PitchClassGenerator pitchClassGenerator = voiceConfig.getRandomPitchClassGenerator(melodyToReplace.getVoice());
-				replaceRhythmDependantMelody.setPitchClassGenerator(pitchClassGenerator);
-				List<MelodyBlock> rhythmDependantMelodies =  motive.getMelodyBlocks().stream()
-						.filter(m -> m.isRhythmDependant() && m.getDependingVoice() == melodyToReplace.getVoice())
-						.collect(toList());
-				replaceRhythmDependantMelody.updateDependantMelodyBlockWithMelody(melodyToReplace, rhythmDependantMelodies);
 			}
 		}
 	}

@@ -11,26 +11,7 @@ import java.util.List;
 
 @SpringBootApplication
 public class DefaultConfig {
-	
-	@Bean
-	public HashMap<String, Object> parameters() {
-		HashMap<String, Object> probabilityParamters = new HashMap<>();
-//		probabilityParamters.put("probabilityAddRhythm", 0.0);
-//		probabilityParamters.put("probabilityRemoveRhythm", 0.0);
-		probabilityParamters.put("probabilityOneNote", 0.0);
-		probabilityParamters.put("probabilityOneNoteChromatic", 0.0);
-		probabilityParamters.put("probabilityArticulation", 0.0);
-		probabilityParamters.put("probabilityTechnical", 0.0);
-		probabilityParamters.put("probabilityDynamic", 0.0);
-		probabilityParamters.put("probabilityReplaceMelody", 0.0);
-		probabilityParamters.put("probabilityRhythmMutation", 1.0);
-		probabilityParamters.put("probabilityOperatorMutation", 1.0);
-		probabilityParamters.put("probabilityRepetitionMelody", 0.0);
-		probabilityParamters.put("probabilityReplaceMelodyBlock", 0.0);
-		probabilityParamters.put("probabilityCopyMelody", 0.0);//set to 0 when fixed beatgroup is used
-		return probabilityParamters;
-	}
-	
+
 	@Bean
 	public HashMap<String, Object> distanceParameters() {
 		HashMap<String, Object> map = new HashMap<>();

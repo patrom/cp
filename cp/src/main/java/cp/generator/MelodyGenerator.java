@@ -8,7 +8,7 @@ import cp.composition.voice.VoiceConfig;
 import cp.model.TimeLine;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
-import cp.model.melody.Structure;
+import cp.model.melody.Tonality;
 import cp.model.note.Note;
 import cp.out.instrument.Instrument;
 import cp.out.play.InstrumentConfig;
@@ -76,6 +76,14 @@ public class MelodyGenerator {
         return generateMelodyBlockConfig(voice, voiceConfig, instrument.pickRandomOctaveFromRange(), start, stop, melodies);
     }
 
+	public MelodyBlock generateMelodyBlockConfigRandom(final int voice, List<CpMelody> melodies){
+		int start = composition.getStart();
+		int stop = composition.getEnd();
+		Instrument instrument = instrumentConfig.getInstrumentForVoice(voice);
+		Voice voiceConfig = voiceConfiguration.getVoiceConfiguration(voice);
+		return generateMelodyBlockConfigRandom(voice, voiceConfig, instrument.pickRandomOctaveFromRange(), start, stop, melodies);
+	}
+
     public MelodyBlock generateMelodyBlockConfig(int voice, Voice voiceConfig, int octave, int start, int stop, List<CpMelody> melodies) {
         MelodyBlock melodyBlock = new MelodyBlock(octave, voice);
         melodyBlock.setOffset(voiceConfig.getTimeConfig().getOffset());
@@ -88,8 +96,8 @@ public class MelodyGenerator {
             CpMelody melody = melodies.get(i % size).clone(voice);
             melody.setStart(start);
             melody.setEnd(end);
-            melody.updateNotes(voice, voiceConfig, start);
-			if (melody.getStructure() == Structure.TONAL && melody.getKey() != null) {
+            melody.updateNotes(voiceConfig, start);
+			if (melody.getTonality() == Tonality.TONAL && melody.getKey() != null) {
 				melody.convertToKey(melody.getKey(), timeLine);
 			}
 			melodyBlock.addMelodyBlock(melody);
@@ -101,7 +109,35 @@ public class MelodyGenerator {
         return melodyBlock;
     }
 
-    public MelodyBlock generateMelodyBlockConfig(final int voice){
+	public MelodyBlock generateMelodyBlockConfigRandom(int voice, Voice voiceConfig, int octave, int start, int stop, List<CpMelody> melodies) {
+		MelodyBlock melodyBlock = new MelodyBlock(octave, voice);
+		melodyBlock.setOffset(voiceConfig.getTimeConfig().getOffset());
+
+		int size = melodies.size();
+		int i = 0;
+		CpMelody melody = RandomUtil.getRandomFromList(melodies);
+		BeatGroup beatGroup = melody.getBeatGroup();
+		int end = start + beatGroup.getBeatLength();
+		while (end <= stop) {
+			CpMelody cloneMelody = melody.clone(voice);
+			cloneMelody.setStart(start);
+			cloneMelody.setEnd(end);
+			cloneMelody.updateNotes(voiceConfig, start);
+			if (cloneMelody.getTonality() == Tonality.TONAL && cloneMelody.getKey() != null) {
+				cloneMelody.convertToKey(cloneMelody.getKey(), timeLine);
+			}
+			melodyBlock.addMelodyBlock(cloneMelody);
+			i++;
+			melody = RandomUtil.getRandomFromList(melodies);
+			beatGroup = melody.getBeatGroup();
+			start = end;
+			end = start + beatGroup.getBeatLength();
+		}
+		return melodyBlock;
+	}
+
+
+	public MelodyBlock generateMelodyBlockConfig(final int voice){
         int start = composition.getStart();
         int stop = composition.getEnd();
         Instrument instrument = instrumentConfig.getInstrumentForVoice(voice);

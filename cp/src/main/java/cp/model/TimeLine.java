@@ -97,4 +97,7 @@ public class TimeLine {
 		this.compositionEnd = compositionEnd;
 	}
 
+	public Map<Integer, List<TimeLineKey>> getKeysPerVoice() {
+		return keysPerVoice;
+	}
 }

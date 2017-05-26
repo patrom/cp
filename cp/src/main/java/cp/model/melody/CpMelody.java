@@ -35,7 +35,7 @@ public class CpMelody implements Comparable<CpMelody>{
 	private int end;
 	private List<Integer> contour = new ArrayList<>();
 	private BeatGroup beatGroup;
-	private Structure structure = Structure.TONAL;
+	private Tonality tonality = Tonality.TONAL;
 	private Key key;
 	
 	public CpMelody(List<Note> notes, int voice, int start, int end) {
@@ -84,7 +84,7 @@ public class CpMelody implements Comparable<CpMelody>{
 		this.replaceable = anotherMelody.isReplaceable();
 		this.beatGroup = anotherMelody.getBeatGroup();
 		this.key = anotherMelody.getKey();
-		this.structure = anotherMelody.getStructure();
+		this.tonality = anotherMelody.getTonality();
 	}
 
 	public CpMelody clone() {
@@ -265,6 +265,8 @@ public class CpMelody implements Comparable<CpMelody>{
 
 	protected int invertPitchClass(int functionalDegreeCenter, int pitchClass, Scale scale, int key){
 		int pitchClassKeyOfC = Util.convertToKeyOfC(pitchClass, key);
+        System.out.println(", pc: " + pitchClass);
+        System.out.println("pitchClassKeyOfC: " + pitchClassKeyOfC + ", key: " + key);
 		int invertedPC = scale.getInversedPitchClass(functionalDegreeCenter, pitchClassKeyOfC);
 		return (invertedPC + key) % 12;
 	}
@@ -336,6 +338,28 @@ public class CpMelody implements Comparable<CpMelody>{
 					n.setPitchClass(invertedPC);
 				});
 	}
+	/**
+	 * Only first note is checked on timeline
+	 */
+	public void inversePitchClasses(TimeLine timeLine) {
+		timeLine.getKeysPerVoice().values().stream().flatMap(t -> t.stream()).forEach(k -> System.out.println(k.getKey().getStep() + ", start: " + k.getStart() + ", end: " + k.getEnd()));
+        List<Note> notesNoRest = getNotesNoRest();
+        if (!notesNoRest.isEmpty()) {
+			Note firstNote = notesNoRest.get(0);
+			TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(firstNote.getPosition(), firstNote.getVoice());
+            int pitchClassKeyOfC = Util.convertToKeyOfC(firstNote.getPitchClass(), timeLineKey.getKey().getInterval());
+            notesNoRest.forEach(n -> System.out.println(n));
+			System.out.println("position: " + firstNote.getPosition() + ", pc: " + firstNote.getPitchClass());
+			System.out.println("pitchClassKeyOfC: " + pitchClassKeyOfC + ", key: " + timeLineKey.getKey().getStep());
+			int functionalIndex = timeLineKey.getScale().getIndex(pitchClassKeyOfC);
+            notesNoRest.stream()
+                    .sorted()
+                    .forEach(n -> {
+                        int invertedPC = this.invertPitchClass(functionalIndex, n.getPitchClass(), timeLineKey.getScale(), timeLineKey.getKey().getInterval());
+                        n.setPitchClass(invertedPC);
+                    });
+		}
+	}
 
 	public void transposePitchClasses(int steps, int offset, TimeLine timeLine){
 		notes.stream().filter(n -> !n.isRest())
@@ -349,7 +373,8 @@ public class CpMelody implements Comparable<CpMelody>{
 	}
 
     public void transposePitchClasses(int steps, TimeLine timeLine){
-        notes.stream().filter(n -> !n.isRest())
+        List<Note> notesNoRest = getNotesNoRest();
+        notesNoRest.stream()
                 .sorted()
                 .forEach(n -> {
                     TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(n.getPosition(), n.getVoice());
@@ -357,6 +382,23 @@ public class CpMelody implements Comparable<CpMelody>{
                     n.setPitchClass(transposedPc);
                 });
     }
+
+	/**
+	 * Only first note is checked on timeline
+	 */
+	public void transposePitchClasses(TimeLine timeLine){
+		if (!notes.isEmpty()) {
+			Note firstNote = notes.get(0);
+			TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(firstNote.getPosition(), firstNote.getVoice());
+			int steps = RandomUtil.getRandomNumberInRange(0,timeLineKey.getScale().getPitchClasses().length);
+			notes.stream().filter(n -> !n.isRest())
+                    .sorted()
+                    .forEach(n -> {
+                        int transposedPc = this.transpose(n.getPitchClass(), timeLineKey.getScale(), steps, timeLineKey.getKey().getInterval());
+                        n.setPitchClass(transposedPc);
+                    });
+		}
+	}
 
 	public CpMelody T(int steps){
 		this.getNotesNoRest().forEach(note -> note.setPitchClass((note.getPitchClass() + steps) % 12));
@@ -461,12 +503,12 @@ public class CpMelody implements Comparable<CpMelody>{
 		this.end = end;
 	}
 
-    public Structure getStructure() {
-        return structure;
+    public Tonality getTonality() {
+        return tonality;
     }
 
-    public void setStructure(Structure structure) {
-        this.structure = structure;
+    public void setTonality(Tonality tonality) {
+        this.tonality = tonality;
     }
 
     public Key getKey() {
@@ -487,9 +529,8 @@ public class CpMelody implements Comparable<CpMelody>{
 		return 0;
 	}
 
-	public void updateNotes(int voice, Voice voiceConfig, int start){
+	public void updateNotes(Voice voiceConfig, int start){
         notes.forEach(n -> {
-            n.setVoice(voice);
             n.setDynamic(voiceConfig.getDynamic());
             n.setDynamicLevel(voiceConfig.getDynamic().getLevel());
             n.setTechnical(voiceConfig.getTechnical());

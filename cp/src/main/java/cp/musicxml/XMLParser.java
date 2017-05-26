@@ -42,38 +42,6 @@ public class XMLParser {
         this.instrumentConfig = instrumentConfig;
     }
 
-    public static void main(String[] args) {
-        XMLParser xmlParser = new XMLParser();
-        try {
-            xmlParser.startParsing("C:\\Users\\prombouts\\git\\cp\\cp\\src\\main\\resources\\xml\\1304_1647_0.xml");
-        } catch (XMLStreamException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        ComplexElement partList = xmlParser.getScore().getPartList();
-        xmlParser.setInstrumentNames(partList);
-        ArrayList<ElementWrapper> body = xmlParser.getScore().getBody();
-        xmlParser.traverse(body);
-        for (Map.Entry<String,List<Note>> entry : xmlParser.getNotesPerInstrument().entrySet()) {
-            System.out.println(entry.getKey());
-            List<Note> notes = entry.getValue();
-            notes.forEach(n -> System.out.println(n));
-        }
-
-
-        
-
-
-//        List<Note> notes = xmlParser.getNotes(1);
-//        for (Note note : notes) {
-//            System.out.println(note);
-//            System.out.println(note.getDynamicLevel());
-//        }
-//        System.out.println(xmlParser.getBpm());
-    }
-
     public void traverse(ArrayList<ElementWrapper> elementWrappers) {
         Dynamic dynamic = null;
         for (ElementWrapper element : elementWrappers) {

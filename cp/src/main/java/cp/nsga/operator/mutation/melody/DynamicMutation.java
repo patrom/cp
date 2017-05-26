@@ -2,32 +2,29 @@ package cp.nsga.operator.mutation.melody;
 
 import cp.composition.voice.Voice;
 import cp.composition.voice.VoiceConfig;
-import cp.model.Motive;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Dynamic;
-import cp.nsga.MusicVariable;
-import cp.nsga.operator.mutation.AbstractMutation;
+import cp.nsga.operator.mutation.MutationOperator;
 import cp.out.play.InstrumentConfig;
 import cp.util.RandomUtil;
-import jmetal.core.Solution;
-import jmetal.util.Configuration;
-import jmetal.util.JMException;
 import jmetal.util.PseudoRandom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by prombouts on 5/01/2017.
  */
 @Component(value = "dynamicMutation")
-public class DynamicMutation extends AbstractMutation {
+public class DynamicMutation implements MutationOperator<MelodyBlock> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ArticulationMutation.class);
+
+    private double probabilityDynamic;
 
     @Autowired
     private VoiceConfig voiceConfig;
@@ -35,35 +32,23 @@ public class DynamicMutation extends AbstractMutation {
     private InstrumentConfig instrumentConfig;
 
     @Autowired
-    public DynamicMutation(HashMap<String, Object> parameters) {
-        super(parameters);
+    public DynamicMutation(@Value("${probabilityDynamic}") double probabilityDynamic) {
+        this.probabilityDynamic = probabilityDynamic;
     }
 
-
-    public void doMutation(double probability, Solution solution) throws JMException {
-        if (PseudoRandom.randDouble() < probability) {
-            Motive motive = ((MusicVariable)solution.getDecisionVariables()[0]).getMotive();
-            MelodyBlock mutableMelody = motive.getRandomMutableMelody();
-            Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(mutableMelody.getVoice());
+    public void doMutation(MelodyBlock melodyBlock) {
+        if (PseudoRandom.randDouble() < probabilityDynamic) {
+            Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(melodyBlock.getVoice());
             List<Dynamic> dynamics = voiceConfiguration.getDynamics();
             Dynamic dynamic = RandomUtil.getRandomFromList(dynamics);
-            mutableMelody.updateDynamic(dynamic);
+            melodyBlock.updateDynamic(dynamic);
 //			LOGGER.info("Dynamic mutated");
         }
     }
 
-    public Object execute(Object object) throws JMException {
-        Solution solution = (Solution) object;
-        Double probability = (Double) getParameter("probabilityDynamic");
-        if (probability == null) {
-            Configuration.logger_.severe("probabilityDynamic: probability not " +
-                    "specified");
-            Class cls = java.lang.String.class;
-            String name = cls.getName();
-            throw new JMException("Exception in " + name + ".execute()");
-        }
-        doMutation(probability, solution);
-        return solution;
+    @Override
+    public MelodyBlock execute(MelodyBlock melodyBlock) {
+        doMutation(melodyBlock);
+        return melodyBlock;
     }
-
 }

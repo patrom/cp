@@ -494,7 +494,51 @@ public class CpMelodyTest {
 		melody.convertToKey(C, timeLine);
 		melody.getNotes().forEach(n -> System.out.println(n));
 		System.out.println();
+	}
 
+	@Test
+	public void testTransposeScales(){
+		Scale scale = Scale.OCTATCONIC_HALF;
+		timeLine = new TimeLine();
+		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(C, scale , 0, DurationConstants.WHOLE)), 0);
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pc(scale.pickRandomPitchClass()).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(scale.pickRandomPitchClass()).build());
+		notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.EIGHT).pc(scale.pickRandomPitchClass()).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(scale.pickRandomPitchClass()).build());
+		CpMelody melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+		melody.getNotes().forEach(n -> System.out.println(n));
+		for (int i = 0; i < scale.getPitchClasses().length; i++) {
+			CpMelody clonedMelody = melody.clone();
+			System.out.println("steps: " + i);
+			clonedMelody.transposePitchClasses(i, timeLine);
+			clonedMelody.getNotes().forEach(n -> System.out.println(n));
+			System.out.println();
+		}
+	}
+
+	@Test
+	public void testInverseScales(){
+		Scale scale = Scale.MAJOR_SCALE;
+		timeLine = new TimeLine();
+		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(C, scale , 0, DurationConstants.WHOLE)), 0);
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pc(scale.pickRandomPitchClass()).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(scale.pickRandomPitchClass()).build());
+		notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.EIGHT).pc(scale.pickRandomPitchClass()).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(scale.pickRandomPitchClass()).build());
+		CpMelody melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+		melody.getNotes().forEach(n -> System.out.println(n));
+		for (int i = 0; i < scale.getPitchClasses().length; i++) {
+//			CpMelody clonedMelody = melody.clone();
+			int pitchClass = melody.getNotes().get(0).getPitchClass();
+			System.out.println("Pc: " + pitchClass);
+			int functionalIndex = scale.getIndex(pitchClass);
+			System.out.println("steps: " + functionalIndex );
+			melody.inversePitchClasses(functionalIndex, timeLine);
+			melody.getNotes().forEach(n -> System.out.println(n));
+			System.out.println();
+		}
 	}
 	
 }

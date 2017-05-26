@@ -28,7 +28,7 @@ public class Time34 extends TimeConfig{
 		super.init();
 		for (Integer noteSize : defaultUnEvenCombinations.keySet()) {
 			BeatGroup defaultGroup6 = beatGroupFactory.getBeatGroupUneven(DurationConstants.EIGHT, noteSize);
-			beatGroups3.add(defaultGroup6);
+			allBeatgroups.add(defaultGroup6);
 		}
 
 		minimumLength = DurationConstants.QUARTER;
@@ -53,7 +53,7 @@ public class Time34 extends TimeConfig{
 
 	@Override
 	public BeatGroup getBeatGroup(int index) {
-		return RandomUtil.getRandomFromList(beatGroups3);
+		return RandomUtil.getRandomFromList(allBeatgroups);
 	}
 
 }

@@ -30,7 +30,7 @@ public class Time24 extends TimeConfig {
         super.init();
         for (Integer noteSize : defaultEvenCombinations.keySet()) {
             BeatGroup defaultGroup6 = beatGroupFactory.getBeatGroupEven(DurationConstants.EIGHT, noteSize);
-            beatGroups2.add(defaultGroup6);
+            allBeatgroups.add(defaultGroup6);
         }
         minimumLength = DurationConstants.QUARTER;
         distance = new int[]{2,4,8,10,12,14,16,18,20,21,22,24,26,27,28,30,32};//minimumRhythmicValue = 12 - 4/4
@@ -54,7 +54,7 @@ public class Time24 extends TimeConfig {
 
     @Override
     public BeatGroup getBeatGroup(int index) {
-        return RandomUtil.getRandomFromList(beatGroups2);
+        return RandomUtil.getRandomFromList(allBeatgroups);
     }
 
 }

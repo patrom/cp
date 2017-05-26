@@ -13,6 +13,8 @@ import cp.model.harmony.ChordType;
 import cp.model.harmony.DependantHarmony;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
+import cp.nsga.Operator;
+import cp.nsga.operator.mutation.melody.Mutators;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.Technical;
@@ -21,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 
+import javax.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -68,6 +71,21 @@ public abstract class Voice {
     protected RestPitchClasses restPitchClasses;
     @Autowired
     protected RepeatingPitchClasses repeatingPitchClasses;
+    @Autowired
+    protected EmptyPitchClasses emptyPitchClasses;
+
+    @Resource(name = "mutationOperators")
+    List<Operator> mutationOperators;
+    @Resource(name = "pitchMutationOperators")
+    List<Operator> pitchMutationOperators;
+    @Resource(name = "rhytmMutationOperators")
+    List<Operator> rhytmMutationOperators;
+    @Resource(name = "timbreMutationOperators")
+    List<Operator> timbreMutationOperators;
+
+    @Autowired
+    protected Mutators mutators;
+
 
     @Autowired
     @Qualifier(value="time44")
@@ -286,14 +304,18 @@ public abstract class Voice {
         RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
         return rhythmCombination.getNotes(beatGroup.getBeatLength());
     }
-
-    public List<Note> getRhythmNotesForBeatgroup(BeatGroup beatGroup){
-        List<RhythmCombination> rhythmCombinations = this.rhythmCombinationsPerNoteSize.get(beatGroup.getSize());
-        RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
-        return rhythmCombination.getNotes(beatGroup.getBeatLength());
-    }
+//
+//    public List<Note> getRhythmNotesForBeatgroup(BeatGroup beatGroup){
+//        List<RhythmCombination> rhythmCombinations = this.rhythmCombinationsPerNoteSize.get(beatGroup.getSize());
+//        RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
+//        return rhythmCombination.getNotes(beatGroup.getBeatLength());
+//    }
 
 //    public void setRhythmCombinations(List<RhythmCombination> rhythmCombinations) {
 //        this.rhythmCombinations = rhythmCombinations;
 //    }
+
+    public List<Operator> getMutationOperators(){
+        return mutationOperators;
+    }
 }
