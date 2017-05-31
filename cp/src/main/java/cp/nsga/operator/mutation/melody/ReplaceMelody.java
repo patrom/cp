@@ -1,5 +1,6 @@
 package cp.nsga.operator.mutation.melody;
 
+import cp.composition.beat.BeatGroup;
 import cp.composition.voice.Voice;
 import cp.composition.voice.VoiceConfig;
 import cp.generator.pitchclass.PitchClassGenerator;
@@ -32,26 +33,29 @@ public class ReplaceMelody implements MutationOperator<MelodyBlock> {
         this.probabilityReplaceMelody = probabilityReplaceMelody;
     }
 
+    //all rhythm combinations and pitches
     public void doMutation(MelodyBlock melodyBlock) {
 		if (PseudoRandom.randDouble() < probabilityReplaceMelody) {
 			Optional<CpMelody> optionalMelody = melodyBlock.getRandomMelody(m -> m.isReplaceable());
 			if (optionalMelody.isPresent()) {
 				CpMelody melody = optionalMelody.get();
-
 				Voice voice = voiceConfig.getVoiceConfiguration(melodyBlock.getVoice());
-
-				List<Note> melodyNotes = voice.getNotes(melody.getBeatGroup());
-				melodyNotes.forEach(n -> {
-					n.setVoice(melody.getVoice());
-					n.setDynamic(voice.getDynamic());
-					n.setDynamicLevel(voice.getDynamic().getLevel());
-					n.setTechnical(voice.getTechnical());
-					n.setPosition(n.getPosition() + melody.getStart());
-				});
-				PitchClassGenerator pitchClassGenerator = voiceConfig.getRandomPitchClassGenerator(melody.getVoice());
-				melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes);
-				melody.updateNotes(melodyNotes);
-//				LOGGER.info("Melody replaced: " + melody.getVoice());
+				BeatGroup beatGroup = voice.getTimeConfig().getBeatGroup(0);
+                if(melody.getBeatGroup().getBeatLength() == beatGroup.getBeatLength()){
+//                    LOGGER.info("Melody replaced: " + melody.getBeatGroup().getSize() + ", " + beatGroup.getSize());
+					List<Note> melodyNotes = voice.getRhythmNotesForBeatgroup(beatGroup);
+					melodyNotes.forEach(n -> {
+						n.setVoice(melody.getVoice());
+						n.setDynamic(voice.getDynamic());
+						n.setDynamicLevel(voice.getDynamic().getLevel());
+						n.setTechnical(voice.getTechnical());
+						n.setPosition(n.getPosition() + melody.getStart());
+					});
+					PitchClassGenerator pitchClassGenerator = voiceConfig.getRandomPitchClassGenerator(melody.getVoice());
+					melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes);
+					melody.updateNotes(melodyNotes);
+					melody.setBeatGroup(beatGroup);
+				}
 			}
 		} 
 	}

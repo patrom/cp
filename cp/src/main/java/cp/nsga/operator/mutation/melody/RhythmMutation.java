@@ -40,7 +40,7 @@ public class RhythmMutation implements MutationOperator<MelodyBlock> {
             if (optionalMelody.isPresent()) {
                 Voice voice = voiceConfig.getVoiceConfiguration(melodyBlock.getVoice());
                 CpMelody melody = optionalMelody.get();
-                List<Note> rhythmNotes = voice.getNotes(melody.getBeatGroup());
+                List<Note> rhythmNotes = voice.getRhythmNotesForBeatgroup(melody.getBeatGroup());
                 melody.updateRhythmNotes(rhythmNotes);
 //				LOGGER.info("Melody replaced: " + melody.getVoice());
             }

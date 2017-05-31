@@ -1,5 +1,6 @@
 package cp.model.note;
 
+import cp.model.harmony.DependantHarmony;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.Technical;
 
@@ -21,6 +22,7 @@ public class NoteBuilder {
 	private TupletType tupletType;
 	private String timeModification;
 	private Technical technical = Note.DEFAULT_TECHNICAL;
+	private DependantHarmony dependantHarmony;
 
 	public static NoteBuilder note(){
 		return new NoteBuilder();
@@ -101,6 +103,11 @@ public class NoteBuilder {
 		this.technical = technical;
 		return this;
 	}
+
+	public NoteBuilder dep(DependantHarmony dependantHarmony) {
+		this.dependantHarmony = dependantHarmony;
+		return this;
+	}
 	
 	public Note build(){
 		Note note = new Note();
@@ -123,6 +130,7 @@ public class NoteBuilder {
 		note.setTupletType(tupletType);
 		note.setTimeModification(timeModification);
 		note.setTechnical(technical);
+		note.setDependantHarmony(dependantHarmony);
 		return note;
 	}
 

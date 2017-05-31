@@ -20,8 +20,4 @@ public abstract class BeatGroup {
 		return size;
 	}
 
-	public void setSize(int size) {
-		this.size = size;
-	}
-
 }

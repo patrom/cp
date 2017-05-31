@@ -34,16 +34,20 @@ public class AllNoteMutation implements MutationOperator<MelodyBlock> {
         this.probabilityAllNote = probabilityAllNote;
     }
 
+    //all pitches
     public void doMutation(MelodyBlock melodyBlock) {
         if (PseudoRandom.randDouble() < probabilityAllNote) {
             Optional<CpMelody> optionalMelody = melodyBlock.getRandomMelody(m -> m.isReplaceable());
             if (optionalMelody.isPresent()) {
                 CpMelody melody = optionalMelody.get();
                 List<Note> melodyNotes = melody.getNotes();
-                PitchClassGenerator pitchClassGenerator = voiceConfig.getRandomPitchClassGenerator(melody.getVoice());
-                melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes);
-                melody.updateNotes(melodyNotes);
-//				LOGGER.info("Melody replaced: " + melody.getVoice());
+
+                if (!melodyNotes.isEmpty()) {
+                    PitchClassGenerator pitchClassGenerator = voiceConfig.getRandomPitchClassGenerator(melody.getVoice());
+                    melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes);
+                    melody.updateNotes(melodyNotes);
+//				LOGGER.info("All notes: " + melody.getVoice());
+                }
             }
         }
     }

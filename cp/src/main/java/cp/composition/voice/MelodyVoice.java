@@ -22,7 +22,6 @@ public class MelodyVoice extends Voice {
         pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
         pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
         pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
-//		pitchClassGenerators.add(restPitchClasses::updatePitchClasses);
 //        rhythmCombinations1 = this::getBeatGroups;
 
         technical = Technical.LEGATO;

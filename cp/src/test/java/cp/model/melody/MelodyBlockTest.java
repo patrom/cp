@@ -317,36 +317,34 @@ public class MelodyBlockTest {
 //	public void testTrelative(){
 //		melodyBlock = new MelodyBlock(5,1);
 //		List<Note> notes = new ArrayList<>();
-//		notes.add(note().pos(0).pc(0).pitch(60).ocatve(5).build());
-//		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(64).ocatve(5).build());
-//		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(11).pitch(71).ocatve(5).build());
-//		notes.add(note().pos(DurationConstants.HALF).pc(7).pitch(67).ocatve(5).build());
+//		notes.add(note().pos(0).pc(0).pitch(60).octave(5).build());
+//		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(64).octave(5).build());
+//		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(11).pitch(71).octave(5).build());
+//		notes.add(note().pos(DurationConstants.HALF).pc(7).pitch(67).octave(5).build());
 //		melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE + DurationConstants.QUARTER);
 //		melodyBlock.addMelodyBlock(melody);
 //
 //		notes = new ArrayList<>();
-//		notes.add(note().pos(DurationConstants.WHOLE).pc(2).pitch(62).ocatve(5).build());
-//		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pc(6).pitch(66).ocatve(5).build());
-//		notes.add(note().pos(72).pc(11).pitch(71).ocatve(5).build());
+//		notes.add(note().pos(DurationConstants.WHOLE).pc(2).pitch(62).octave(5).build());
+//		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pc(6).pitch(66).octave(5).build());
+//		notes.add(note().pos(72).pc(11).pitch(71).octave(5).build());
 //		melody = new CpMelody(notes,0 , 0, DurationConstants.WHOLE + DurationConstants.QUARTER);
 //		melodyBlock.addMelodyBlock(melody);
 //
-//		Instrument cello = new CelloSolo(0, 3);
-//		MelodyBlock melodyBlock2 = new MelodyBlock(4, cello.getVoice());
-//		melodyBlock2.setVoice(cello.getVoice());
+//		Instrument cello = new CelloSolo();
+//		MelodyBlock melodyBlock2 = new MelodyBlock(4, 0);
+//		melodyBlock2.setVoice(0);
 //		melodyBlock2.setOffset(DurationConstants.HALF);
 //		OperatorType operatorType = new OperatorType(cp.model.melody.Operator.T_RELATIVE);
 ////		operatorType.setSteps(1);
 ////		operatorType.setFunctionalDegreeCenter(3);
-//		melodyBlock2.setOperatorType(operatorType);
 //		melodyBlock2.dependsOn(melodyBlock.getVoice());
-//		melodyBlock2.setInstrument(cello);
 //
 //		List<TimeLineKey> keys = new ArrayList<>();
 //		keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, DurationConstants.WHOLE));
 //		keys.add(new TimeLineKey(G, Scale.MAJOR_SCALE,  DurationConstants.WHOLE, DurationConstants.WHOLE * 3));
 //		timeLine.addKeysForVoice(keys, 1);
-//		melodyBlock2.transformDependingOn(melodyBlock, timeLine);
+//		melodyBlock2.T(melodyBlock, timeLine);
 //		melodyBlock2.getMelodyBlockNotes().forEach(n -> System.out.println(n.getPitchClass() + ", " + n.getPosition()));
 ////		assertEquals(4, melody.getNotes().get(0).getPitchClass());
 ////		assertEquals(7, melody.getNotes().get(1).getPitchClass());

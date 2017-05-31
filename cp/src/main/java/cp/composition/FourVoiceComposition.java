@@ -44,7 +44,7 @@ public class FourVoiceComposition extends  Composition {
         melodyBlocks.add(melodyBlock4);
 
         MelodyBlock melodyBlock2 = melodyGenerator.generateEmptyBlock(instrument2, voice1);
-        melodyBlock2.setCalculable(false);
+        melodyBlock2.setMutable(false);
         melodyBlocks.add(melodyBlock2);
 
 
@@ -57,7 +57,7 @@ public class FourVoiceComposition extends  Composition {
         operatorConfig.addOperatorRelations(operatorRelation::execute);
 
         MelodyBlock melodyBlock3 = melodyGenerator.generateEmptyBlock(instrument3, voice2);
-        melodyBlock3.setCalculable(false);
+        melodyBlock3.setMutable(false);
         melodyBlocks.add(melodyBlock3);
 
         operatorRelation = new OperatorRelation(Operator.T_RELATIVE);
@@ -91,7 +91,7 @@ public class FourVoiceComposition extends  Composition {
         melodyBlocks.add(melodyBlock);
 
         MelodyBlock melodyBlock2 = melodyGenerator.generateEmptyBlock(instrument2, voice1);
-        melodyBlock2.setCalculable(false);
+        melodyBlock2.setMutable(false);
         melodyBlocks.add(melodyBlock2);
 
 
@@ -104,7 +104,7 @@ public class FourVoiceComposition extends  Composition {
         operatorConfig.addOperatorRelations(operatorRelation::execute);
 
         MelodyBlock melodyBlock3 = melodyGenerator.generateEmptyBlock(instrument3, voice2);
-        melodyBlock3.setCalculable(false);
+        melodyBlock3.setMutable(false);
         melodyBlocks.add(melodyBlock3);
 
         operatorRelation = new OperatorRelation(Operator.T_RELATIVE);
@@ -142,7 +142,7 @@ public class FourVoiceComposition extends  Composition {
 
 
         MelodyBlock melodyBlock3 = melodyGenerator.generateEmptyBlock(instrument3, voice2);
-        melodyBlock3.setCalculable(false);
+        melodyBlock3.setMutable(false);
         melodyBlocks.add(melodyBlock3);
 
         OperatorRelation operatorRelation = new OperatorRelation(Operator.T);
@@ -154,7 +154,7 @@ public class FourVoiceComposition extends  Composition {
         operatorConfig.addOperatorRelations(operatorRelation::execute);
 
         MelodyBlock melodyBlock4 = melodyGenerator.generateEmptyBlock(instrument4, voice3);
-        melodyBlock4.setCalculable(false);
+        melodyBlock4.setMutable(false);
         melodyBlocks.add(melodyBlock4);
 
         operatorRelation = new OperatorRelation(Operator.T);

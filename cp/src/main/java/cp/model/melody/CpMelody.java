@@ -265,8 +265,6 @@ public class CpMelody implements Comparable<CpMelody>{
 
 	protected int invertPitchClass(int functionalDegreeCenter, int pitchClass, Scale scale, int key){
 		int pitchClassKeyOfC = Util.convertToKeyOfC(pitchClass, key);
-        System.out.println(", pc: " + pitchClass);
-        System.out.println("pitchClassKeyOfC: " + pitchClassKeyOfC + ", key: " + key);
 		int invertedPC = scale.getInversedPitchClass(functionalDegreeCenter, pitchClassKeyOfC);
 		return (invertedPC + key) % 12;
 	}
@@ -342,15 +340,11 @@ public class CpMelody implements Comparable<CpMelody>{
 	 * Only first note is checked on timeline
 	 */
 	public void inversePitchClasses(TimeLine timeLine) {
-		timeLine.getKeysPerVoice().values().stream().flatMap(t -> t.stream()).forEach(k -> System.out.println(k.getKey().getStep() + ", start: " + k.getStart() + ", end: " + k.getEnd()));
         List<Note> notesNoRest = getNotesNoRest();
         if (!notesNoRest.isEmpty()) {
 			Note firstNote = notesNoRest.get(0);
 			TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(firstNote.getPosition(), firstNote.getVoice());
             int pitchClassKeyOfC = Util.convertToKeyOfC(firstNote.getPitchClass(), timeLineKey.getKey().getInterval());
-            notesNoRest.forEach(n -> System.out.println(n));
-			System.out.println("position: " + firstNote.getPosition() + ", pc: " + firstNote.getPitchClass());
-			System.out.println("pitchClassKeyOfC: " + pitchClassKeyOfC + ", key: " + timeLineKey.getKey().getStep());
 			int functionalIndex = timeLineKey.getScale().getIndex(pitchClassKeyOfC);
             notesNoRest.stream()
                     .sorted()

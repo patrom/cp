@@ -147,4 +147,5 @@ public class CpHarmony implements Comparable<CpHarmony>{
 		}
 		return 0;
 	}
+
 }

@@ -3,7 +3,6 @@ package cp.evaluation;
 import cp.composition.Composition;
 import cp.composition.voice.Voice;
 import cp.composition.voice.VoiceConfig;
-import cp.generator.dependant.DependantHarmonyGenerator;
 import cp.model.Motive;
 import cp.model.TimeLine;
 import cp.model.harmony.CpHarmony;
@@ -65,9 +64,9 @@ public class FitnessEvaluationTemplate {
 		List<MelodyBlock> melodiesToCalculate = melodies.stream().filter(m -> m.isCalculable() && !m.getMelodyBlockNotes().isEmpty()).collect(toList());
 		updatePitchesFromContour(melodies);
 		//after update pitches for dependant melodies! (don't have contour)
-		for (DependantHarmonyGenerator dependantGenerator : composition.getDependantHarmonyGenerators()) {
-			dependantGenerator.generateDependantHarmonies(melodies);
-		}
+//		for (DependantHarmonyGenerator dependantGenerator : composition.getDependantHarmonyGenerators()) {
+//			dependantGenerator.generateDependantHarmonies(melodies);
+//		}
 		updateMelodyInRange(melodies);
 		updateRhythmWeight(melodiesToCalculate);
 
@@ -79,7 +78,7 @@ public class FitnessEvaluationTemplate {
 	}
 
 	private void updatePitchesFromContour(List<MelodyBlock> melodies) {
-		List<MelodyBlock> updatebleMelodies = melodies.stream().filter(m -> m.isCalculable() && !m.isRhythmDependant() && !m.getMelodyBlockNotes().isEmpty()).collect(toList());
+		List<MelodyBlock> updatebleMelodies = melodies.stream().filter(m ->  !m.isRhythmDependant() && !m.getMelodyBlockNotes().isEmpty()).collect(toList());
 		for (MelodyBlock updatebleMelody : updatebleMelodies) {
 			Instrument instrument = instrumentConfig.getInstrumentForVoice(updatebleMelody.getVoice());
 //			updatebleMelody.updatePitchesFromInstrument(instrument);

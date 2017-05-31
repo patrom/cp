@@ -5,6 +5,7 @@ import cp.model.melody.MelodyBlock;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.model.note.TupletType;
+import cp.model.texture.Texture;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.Technical;
 import cp.out.instrument.keyboard.Piano;
@@ -42,7 +43,8 @@ public class MusicXMLWriter {
 	private NoteDisplay noteDisplay;
 	@Autowired
 	private InstrumentConfig instrumentConfig;
-
+	@Autowired
+	private Texture texture;
 
 	public void generateMusicXMLForMelodies(List<MelodyBlock> melodies, OutputStream outputStream) throws Exception {
 		Map<InstrumentMapping, List<Note>> melodiesForInstrument = getMelodyNotesForInstrument(melodies);
@@ -307,10 +309,10 @@ public class MusicXMLWriter {
 	private void createNoteElement(Note note, InstrumentMapping instrumentMapping, boolean isChordNote) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("note");
 		xmlStreamWriter.writeCharacters("\n");
-		if (isChordNote) {
-			xmlStreamWriter.writeEmptyElement("chord");
-			xmlStreamWriter.writeCharacters("\n");
-		}
+        if (isChordNote) {
+            xmlStreamWriter.writeEmptyElement("chord");
+            xmlStreamWriter.writeCharacters("\n");
+        }
 		if (note.isRest()) {
 			xmlStreamWriter.writeEmptyElement("rest");
 		} else {
@@ -674,30 +676,19 @@ public class MusicXMLWriter {
 
 	private void updateBeat(InstrumentMapping instrumentMapping, List<Note> notes)
 			throws XMLStreamException {
-		int position = -1;
 		for (Note note : notes) {
-//							if (note.hasDynamic()) {
-//								<direction>
-//								<direction-type>
-//									<dynamics default-x="9" default-y="-118" color="#000000" font-family="Opus Text Std" font-style="normal" font-size="11.9365" font-weight="normal">
-//										<p />
-//									</dynamics>
-//								</direction-type>
-//								<voice>1</voice>
-//								<staff>1</staff>
-//							</direction>
-//							}
-			
-			if (position == note.getPosition()) {
-				createNoteElement(note, instrumentMapping, true);
-			} else {
-			    if(note.isPrintDynamic() || note.isPrintTechnical()){
-			        createNoteDirectionElement(note, instrumentMapping.getInstrument());
-                }
-				createNoteElement(note, instrumentMapping, false);
+			if (note.isPrintDynamic() || note.isPrintTechnical()) {
+				createNoteDirectionElement(note, instrumentMapping.getInstrument());
 			}
-			position = note.getPosition();
-		}
+			createNoteElement(note, instrumentMapping, false);
+            //texture
+            List<Note> textureNotes = texture.getTextureForNote(note);
+            if (!textureNotes.isEmpty()) {
+                for (Note textureNote : textureNotes) {
+                    createNoteElement(textureNote, instrumentMapping, true);
+                }
+            }
+        }
 	}
 
 }

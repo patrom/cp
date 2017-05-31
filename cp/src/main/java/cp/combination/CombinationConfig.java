@@ -5,6 +5,7 @@ import cp.combination.even.OneNoteEven;
 import cp.combination.even.ThreeNoteEven;
 import cp.combination.even.TwoNoteEven;
 import cp.combination.uneven.*;
+import cp.model.note.Note;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static cp.model.note.NoteBuilder.note;
 
 @Configuration
 public class CombinationConfig {
@@ -43,12 +46,22 @@ public class CombinationConfig {
 	
 	@Autowired
 	private FiveNoteQuintuplet fiveNoteQuintuplet;//TODO investigate conversion to float???
-	
+
+	public List<Note> rest(int beat) {
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).rest().len(beat).build());
+		return notes;
+	}
 
 	@Bean
 	public Map<Integer, List<RhythmCombination>> defaultEvenCombinations(){
 		Map<Integer, List<RhythmCombination>> map = new HashMap<>();
+		//rest
 		List<RhythmCombination> rhythmCombinations = new ArrayList<>();
+		rhythmCombinations.add(oneNoteEven::rest);
+		map.put(0, rhythmCombinations);
+
+		rhythmCombinations = new ArrayList<>();
 		rhythmCombinations.add(oneNoteEven::pos1);
 		rhythmCombinations.add(oneNoteEven::pos2);
 		rhythmCombinations.add(oneNoteEven::pos3);

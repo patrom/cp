@@ -42,4 +42,10 @@ public class OneNoteEven{
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 	}
 
+	public List<Note> rest(int beat) {
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).rest().len(beat).build());
+		return notes;
+	}
+
 }

@@ -70,8 +70,6 @@ public abstract class Composition {
 	@Autowired
 	protected PassingPitchClasses passingPitchClasses;
 	@Autowired
-	protected RestPitchClasses restPitchClasses;
-	@Autowired
 	protected RepeatingPitchClasses repeatingPitchClasses;
 	@Autowired
 	private TwelveTonePitchClasses twelveTonePitchClasses;

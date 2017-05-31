@@ -38,9 +38,8 @@ public class ProvidedVoice extends Voice {
         technical = Technical.LEGATO;
     }
 
-
     @Override
-    public List<Note> getNotes(BeatGroup beatGroup) {
+    public List<Note> getRhythmNotesForBeatgroup(BeatGroup beatGroup) {
         Collections.shuffle(melodies);
         return melodies.stream().filter(m -> m.getBeatGroup().getSize() == beatGroup.getSize()).findFirst().get().getNotes();
     }

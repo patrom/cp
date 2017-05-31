@@ -161,6 +161,7 @@ public class MelodyGenerator {
 
 		int i = 0;
 		BeatGroup beatGroup = voiceConfig.getTimeConfig().getBeatGroup(i);
+
 		int end = start + beatGroup.getBeatLength();
 		while (end <= stop) {
 			CpMelody melody = generateMelodyConfig(voice, start, beatGroup, voiceConfig);
@@ -174,7 +175,7 @@ public class MelodyGenerator {
 	}
 
 	public CpMelody generateMelodyConfig(int voice, int start, BeatGroup beatGroup, Voice voiceConfig) {
-		List<Note> melodyNotes = voiceConfig.getNotes(beatGroup);
+		List<Note> melodyNotes = voiceConfig.getRhythmNotesForBeatgroup(beatGroup);
 		melodyNotes.forEach(n -> {
 			n.setVoice(voice);
 			n.setDynamic(voiceConfig.getDynamic());
@@ -182,7 +183,13 @@ public class MelodyGenerator {
 			n.setTechnical(voiceConfig.getTechnical());
 			n.setPosition(n.getPosition() + start);
 		});
+		if(melodyNotes.isEmpty()){
+            System.out.println("");
+        }
 		melodyNotes = voiceConfiguration.getRandomPitchClassGenerator(voice).updatePitchClasses(melodyNotes);
+//		if (melodyNotes.size() == 1 && melodyNotes.get(0).isRest()){
+//			beatGroup.setSize(0);
+//		}
 		CpMelody melody = new CpMelody(melodyNotes, voice, start, start + beatGroup.getBeatLength());
 		melody.setBeatGroup(beatGroup);
 		return melody;
@@ -197,7 +204,7 @@ public class MelodyGenerator {
 		BeatGroup beatGroup = accompGroup.getVoice().getTimeConfig().getBeatGroup(i);
 		int end = start + beatGroup.getBeatLength();
 		while (end <= stop) {
-			List<Note> melodyNotes = accompGroup.getVoice().getNotes(beatGroup);
+			List<Note> melodyNotes = accompGroup.getVoice().getRhythmNotesForBeatgroup(beatGroup);
 			CpMelody melody = generateMelodyConfigWithoutPitchClassGenerator(voice, start, beatGroup, melodyNotes);
 			melody.setContour(accompGroup.getContour());
 			melodyBlock.addMelodyBlock(melody);

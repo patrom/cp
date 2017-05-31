@@ -48,7 +48,6 @@ public class Display {
 		printHarmonies(motive.getHarmonies());
 		viewScore(motive.getMelodyBlocks(), id);
 		generateMusicXml(motive.getMelodyBlocks(), id);
-		// printVextab(sentences);
 	}
 
 	private void printHarmonies(List<CpHarmony> harmonies) {
@@ -71,10 +70,5 @@ public class Display {
 		score.setTitle(id);
 		View.notate(score);
 	}
-
-	// private static void printVextab(List<Harmony> harmonies) {
-	// String vexTab = ScoreUtilities.createVexTab(harmonies, inputProps);
-	// LOGGER.info(vexTab);
-	// }
 
 }

@@ -104,7 +104,7 @@ public class TwoVoiceComposition extends Composition{
 
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), voice1);
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
-		melodyBlock2.setCalculable(false);
+		melodyBlock2.setMutable(false);
 		melodyBlocks.add(melodyBlock2);
 
 		OperatorRelation operatorRelation = new OperatorRelation(Operator.T_RELATIVE);
@@ -127,7 +127,7 @@ public class TwoVoiceComposition extends Composition{
 
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), voice1);
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
-		melodyBlock2.setCalculable(false);
+		melodyBlock2.setMutable(false);
 		melodyBlocks.add(melodyBlock2);
 
 		OperatorRelation operatorRelation = new OperatorRelation(Operator.I_RELATIVE);
@@ -197,7 +197,7 @@ public class TwoVoiceComposition extends Composition{
 
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), voice1);
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
-		melodyBlock2.setCalculable(false);
+		melodyBlock2.setMutable(false);
 		melodyBlocks.add(melodyBlock2);
 
 		OperatorRelation operatorRelation = new OperatorRelation(operator);
@@ -221,7 +221,7 @@ public class TwoVoiceComposition extends Composition{
 
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), voice1);
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
-		melodyBlock2.setCalculable(false);
+		melodyBlock2.setMutable(false);
 		melodyBlocks.add(melodyBlock2);
 
 		OperatorRelation operatorRelation = new OperatorRelation(operator);

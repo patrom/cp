@@ -27,25 +27,27 @@ public class RepeatingPitchClasses {
     public List<Note> updatePitchClasses(List<Note> notes) {
         LOGGER.debug("RepeatingPitchClasses");
         List<Note> melodyNotes = notes.stream().filter(n -> !n.isRest()).collect(toList());
-        Note firstNote = melodyNotes.get(0);
-        TimeLineKey timeLineKeyFirst = timeLine.getTimeLineKeyAtPosition(firstNote.getPosition(), firstNote.getVoice());
-        int firstPitchClass = timeLineKeyFirst.getScale().pickRandomPitchClass();
+        if (!melodyNotes.isEmpty()) {
+            Note firstNote = melodyNotes.get(0);
+            TimeLineKey timeLineKeyFirst = timeLine.getTimeLineKeyAtPosition(firstNote.getPosition(), firstNote.getVoice());
+            int firstPitchClass = timeLineKeyFirst.getScale().pickRandomPitchClass();
 
-        firstNote.setPitchClass((firstPitchClass + timeLineKeyFirst.getKey().getInterval()) % 12);
-        for (int i = 1; i < melodyNotes.size(); i++) {
-            Note nextNote = melodyNotes.get(i);
-            TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(nextNote.getPosition(), nextNote.getVoice());
-            if (timeLineKeyFirst.getKey().getStep().equals(timeLineKey.getKey().getStep())) {
-                nextNote.setPitchClass((firstPitchClass + timeLineKey.getKey().getInterval()) % 12);
-            } else {
-                int pitchClass;
-                if (RandomUtil.toggleSelection()) {
-                    pitchClass = timeLineKey.getScale().pickNextPitchFromScale(firstPitchClass);
+            firstNote.setPitchClass((firstPitchClass + timeLineKeyFirst.getKey().getInterval()) % 12);
+            for (int i = 1; i < melodyNotes.size(); i++) {
+                Note nextNote = melodyNotes.get(i);
+                TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(nextNote.getPosition(), nextNote.getVoice());
+                if (timeLineKeyFirst.getKey().getStep().equals(timeLineKey.getKey().getStep())) {
+                    nextNote.setPitchClass((firstPitchClass + timeLineKey.getKey().getInterval()) % 12);
                 } else {
-                    pitchClass = timeLineKey.getScale().pickPreviousPitchFromScale(firstPitchClass);
+                    int pitchClass;
+                    if (RandomUtil.toggleSelection()) {
+                        pitchClass = timeLineKey.getScale().pickNextPitchFromScale(firstPitchClass);
+                    } else {
+                        pitchClass = timeLineKey.getScale().pickPreviousPitchFromScale(firstPitchClass);
+                    }
+                    firstPitchClass = pitchClass;
+                    nextNote.setPitchClass((pitchClass + timeLineKey.getKey().getInterval()) % 12);
                 }
-                firstPitchClass = pitchClass;
-                nextNote.setPitchClass((pitchClass + timeLineKey.getKey().getInterval()) % 12);
             }
         }
         return notes;

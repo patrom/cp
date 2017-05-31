@@ -51,7 +51,7 @@ public class ThreeVoiceComposition extends Composition{
 
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), voice1);
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
-		melodyBlock2.setCalculable(false);
+		melodyBlock2.setMutable(false);
 		melodyBlocks.add(melodyBlock2);
 
 		OperatorRelation operatorRelation = new OperatorRelation(operator);
@@ -80,7 +80,7 @@ public class ThreeVoiceComposition extends Composition{
 
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), voice1);
 		melodyBlock2.setOffset(getTimeConfig().getOffset());
-		melodyBlock2.setCalculable(false);
+		melodyBlock2.setMutable(false);
 		melodyBlocks.add(melodyBlock2);
 
 		OperatorRelation operatorRelation = new OperatorRelation(operator);
@@ -94,7 +94,7 @@ public class ThreeVoiceComposition extends Composition{
 		MelodyBlock melodyBlock3 = new MelodyBlock(instrument3.pickRandomOctaveFromRange(),voice2);
 		int offsetVoice2 = getTimeConfig().getOffset() * 2;
 		melodyBlock3.setOffset(offsetVoice2);
-		melodyBlock3.setCalculable(false);
+		melodyBlock3.setMutable(false);
 		melodyBlocks.add(melodyBlock3);
 
 		OperatorRelation operatorRelation2 = new OperatorRelation(operator);

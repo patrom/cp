@@ -10,7 +10,6 @@ import cp.composition.beat.BeatGroup;
 import cp.composition.timesignature.TimeConfig;
 import cp.generator.pitchclass.*;
 import cp.model.harmony.ChordType;
-import cp.model.harmony.DependantHarmony;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.nsga.Operator;
@@ -24,10 +23,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -67,8 +70,6 @@ public abstract class Voice {
     protected RandomPitchClasses randomPitchClasses;
     @Autowired
     protected PassingPitchClasses passingPitchClasses;
-    @Autowired
-    protected RestPitchClasses restPitchClasses;
     @Autowired
     protected RepeatingPitchClasses repeatingPitchClasses;
     @Autowired
@@ -198,22 +199,22 @@ public abstract class Voice {
         return RandomUtil.getRandomFromList(pitchClassGenerators);
     }
 
-    public List<Note> getNotes(BeatGroup beatGroup) {
-        List<Note> notes;
-        if (randomRhythmCombinations) {
-            notes = getNotesRandom(beatGroup);
-        }else{
-            notes = getNotesFixed(beatGroup);
-        }
-        if(hasDependentHarmony){
-            for (Note note : notes) {
-                DependantHarmony dependantHarmony = new DependantHarmony();
-                dependantHarmony.setChordType(RandomUtil.getRandomFromList(chordTypes));
-                note.setDependantHarmony(dependantHarmony);
-            }
-        }
-        return notes;
-    }
+//    public List<Note> getNotes(BeatGroup beatGroup) {
+//        List<Note> notes;
+//        if (randomRhythmCombinations) {
+//            notes = getRhythmNotesForBeatgroup(beatGroup);
+//        }else{
+//            notes = getNotesFixed(beatGroup);
+//        }
+////        if(hasDependentHarmony){
+////            for (Note note : notes) {
+////                DependantHarmony dependantHarmony = new DependantHarmony();
+////                dependantHarmony.setChordType(RandomUtil.getRandomFromList(chordTypes));
+////                note.setDependantHarmony(dependantHarmony);
+////            }
+////        }
+//        return notes;
+//    }
 
     public void setRandomRhythmCombinations(boolean randomRhythmCombinations) {
         this.randomRhythmCombinations = randomRhythmCombinations;
@@ -250,7 +251,7 @@ public abstract class Voice {
             case BRASS:
                 return woodwindArticulations;
         }
-        return Collections.emptyList();
+        return emptyList();
     }
 
     public List<Technical> getTechnicals(InstrumentGroup instrumentGroup) {
@@ -261,7 +262,7 @@ public abstract class Voice {
             case BRASS:
                 return woodwindTechnicals;
         }
-        return Collections.emptyList();
+        return emptyList();
     }
 
     public List<Dynamic> getDynamics() {
@@ -275,7 +276,7 @@ public abstract class Voice {
             case BRASS:
                 return Arrays.asList(Dynamic.values());
         }
-        return Collections.emptyList();
+        return emptyList();
     }
 
 
@@ -299,17 +300,20 @@ public abstract class Voice {
 //		return melodyNotes;
     }
 
-    private List<Note> getNotesRandom(BeatGroup beatGroup) {
-        List<RhythmCombination> rhythmCombinations = this.rhythmCombinationsPerNoteSize.get(beatGroup.getSize());
-        RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
+    public List<Note> getNotesRandom(BeatGroup beatGroup) {
+//        List<RhythmCombination> rhythmCombinations = this.rhythmCombinationsPerNoteSize.get(beatGroup.getSize());
+        RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(allRhythmCombinations);
         return rhythmCombination.getNotes(beatGroup.getBeatLength());
     }
-//
-//    public List<Note> getRhythmNotesForBeatgroup(BeatGroup beatGroup){
-//        List<RhythmCombination> rhythmCombinations = this.rhythmCombinationsPerNoteSize.get(beatGroup.getSize());
-//        RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
-//        return rhythmCombination.getNotes(beatGroup.getBeatLength());
-//    }
+
+    public List<Note> getRhythmNotesForBeatgroup(BeatGroup beatGroup){
+        List<RhythmCombination> rhythmCombinations = this.rhythmCombinationsPerNoteSize.getOrDefault(beatGroup.getSize(), emptyList());
+        if (!rhythmCombinations.isEmpty()) {
+            RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
+            return rhythmCombination.getNotes(beatGroup.getBeatLength());
+        }
+        return emptyList();
+    }
 
 //    public void setRhythmCombinations(List<RhythmCombination> rhythmCombinations) {
 //        this.rhythmCombinations = rhythmCombinations;

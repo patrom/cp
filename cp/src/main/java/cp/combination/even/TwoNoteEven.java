@@ -99,7 +99,7 @@ public class TwoNoteEven {
 	
 	public static void main(String[] args) {
 		TwoNoteEven twoNoteEven = new TwoNoteEven();
-		List<Note > notes = twoNoteEven.pos13(DurationConstants.QUARTER);
+		List<Note > notes = twoNoteEven.pos34(DurationConstants.QUARTER);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 	}
 

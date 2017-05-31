@@ -32,7 +32,7 @@ public class MelodyGeneratorProvider implements MelodyProvider{
     protected CpMelody generateMelodyConfig(int voice) {
         Voice voiceConfig = voiceConfiguration.getVoiceConfiguration(voice);
         BeatGroup beatGroup = voiceConfig.getTimeConfig().getBeatGroup(0);
-        List<Note> melodyNotes = voiceConfig.getNotes(beatGroup);
+        List<Note> melodyNotes = voiceConfig.getRhythmNotesForBeatgroup(beatGroup);
         melodyNotes.forEach(n -> {
             n.setVoice(voice);
             n.setDynamic(voiceConfig.getDynamic());

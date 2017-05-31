@@ -1,9 +1,12 @@
 package cp.model.harmony;
 
 import cp.DefaultConfig;
-import cp.model.dissonance.Dissonance;
+import cp.model.TimeLine;
+import cp.model.TimeLineKey;
 import cp.model.note.Note;
+import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
+import cp.out.print.Keys;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +23,9 @@ import java.util.Map;
 
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.when;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = DefaultConfig.class)
 public class HarmonyExtractorTest {
@@ -27,12 +33,18 @@ public class HarmonyExtractorTest {
 	@Autowired
 	@InjectMocks
 	private HarmonyExtractor harmonyExtractor;
+
 	@Mock
-	private Dissonance dissonance;
+	private TimeLine timeLine;
+
+	@Autowired
+	private Keys keys;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp(){
 		MockitoAnnotations.initMocks(this);
+		TimeLineKey timeLineKey = new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0, 0);
+		when(timeLine.getTimeLineKeyAtPosition(anyInt(), anyInt())).thenReturn(timeLineKey);
 	}
 
 	@Test
@@ -153,6 +165,39 @@ public class HarmonyExtractorTest {
 		assertEquals(ChordType.CH2_KLEINE_TERTS, harmonies.get(5).getChord().getChordType());
 		assertEquals(ChordType.CH2_GROTE_SECONDE, harmonies.get(6).getChord().getChordType());
 	}
+
+	@Test
+	public void testExtractDependantHarmony() {
+		List<Note> notes = new ArrayList<>();
+		DependantHarmony dependantHarmony = new DependantHarmony();
+		dependantHarmony.setChordType(ChordType.CH2_GROTE_SIXT);
+		notes.add(note().pos(0).pitch(60).pc(0).voice(0).dep(dependantHarmony).positionWeight(4.0).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pitch(60).pc(0).voice(0).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.HALF).pitch(62).pc(2).voice(0).positionWeight(2.0).build());
+		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pitch(61).pc(1).voice(0).positionWeight(4.0).build());
+		notes.add(note().pos(DurationConstants.WHOLE).pitch(59).pc(11).voice(0).positionWeight(3.0).build());
+		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pitch(60).pc(0).voice(0).positionWeight(1.0).build());
+
+		notes.add(note().pos(0).pitch(64).pc(4).voice(1).positionWeight(3.0).build());
+		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pitch(58).pc(10).voice(1).positionWeight(1.0).build());
+		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pitch(61).pc(1).voice(1).positionWeight(2.0).build());
+        dependantHarmony = new DependantHarmony();
+        dependantHarmony.setChordType(ChordType.MAJOR);
+		notes.add(note().pos(DurationConstants.WHOLE).pitch(59).pc(11).voice(1).dep(dependantHarmony).positionWeight(3.0).build());
+		notes.add(note().pos(DurationConstants.WHOLE * 2).pitch(62).pc(2).voice(1).positionWeight(6.0).build());
+		List<CpHarmony> harmonies = harmonyExtractor.extractHarmony(notes, 2);
+		assertEquals(8, harmonies.size());
+        assertEquals(3, harmonies.get(0).getNotes().size());//+1 dependant
+		assertEquals(2, harmonies.get(1).getNotes().size());
+
+		assertEquals(2, harmonies.get(2).getNotes().size());
+		assertEquals(60, harmonies.get(2).getNotes().get(0).getPitch());
+		assertEquals(58, harmonies.get(2).getNotes().get(1).getPitch());
+		assertEquals(2, harmonies.get(3).getNotes().size());
+		assertEquals(2, harmonies.get(4).getNotes().size());
+		assertEquals(4, harmonies.get(5).getNotes().size());//+2 dependant
+	}
+
 
 //	@Test
 //	public void testExtractHarmonySameVoice() {

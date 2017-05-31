@@ -28,11 +28,13 @@ public class OneNoteMutation implements MutationOperator<MelodyBlock> {
 		this.probabilityOneNote = probabilityOneNote;
 	}
 
+	//one pitch
 	public void doMutation(double probability, MelodyBlock melodyBlock) {
 		if (PseudoRandom.randDouble() < probability) {
 			Optional<CpMelody> optionalMelody = melodyBlock.getRandomMelody(m -> m.isMutable());
 			if (optionalMelody.isPresent()) {
 				optionalMelody.get().updateRandomNote(timeLine);
+//				LOGGER.info("one note");
 			}
 		} 
 	}

@@ -1,12 +1,11 @@
 package cp.model.harmony;
 
 import cp.composition.Composition;
-import cp.model.dissonance.Dissonance;
 import cp.model.note.Note;
+import cp.model.texture.Texture;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -19,12 +18,11 @@ import static java.util.stream.Collectors.toList;
 
 @Component
 public class HarmonyExtractor {
-	
-	@Autowired 
-	@Qualifier(value="TonalDissonance")
-	private Dissonance dissonance;
+
 	@Autowired
 	private Composition composition;
+	@Autowired
+	private Texture texture;
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(HarmonyExtractor.class.getName());
 
@@ -53,13 +51,17 @@ public class HarmonyExtractor {
 						n.setPitchClass(note.getPitchClass());
 						n.setPositionWeight(note.getPositionWeight());
 						n.setOctave(note.getOctave());
+						n.setDependantHarmony(note.getDependantHarmony());
 						});
 			}
 			List<Note> harmonyNotes = tempHarmonyNotes.stream()
 					.filter(n -> n.getPitch() != 0)
 					.map(n -> n.clone())
 					.collect(toList());
-			if (harmonyNotes.size() > 1) {
+			//texture notes
+            List<Note> textureNotes = texture.getTextureNotes(harmonyNotes);
+            harmonyNotes.addAll(textureNotes);
+            if (harmonyNotes.size() > 1) {
 				CpHarmony harmony = new CpHarmony(harmonyNotes, entry.getKey());
 				harmony.toChord();
 				extractedHarmonies.add(harmony);

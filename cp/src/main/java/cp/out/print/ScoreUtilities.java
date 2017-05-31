@@ -4,6 +4,7 @@ import cp.generator.MusicProperties;
 import cp.midi.MelodyInstrument;
 import cp.model.melody.MelodyBlock;
 import cp.model.rhythm.DurationConstants;
+import cp.model.texture.Texture;
 import cp.variation.Embellisher;
 import jm.JMC;
 import jm.music.data.*;
@@ -17,19 +18,18 @@ import java.util.Random;
 
 @Component
 public class ScoreUtilities implements JMC{
-	
+
 	private Logger LOGGER = LoggerFactory.getLogger(ScoreUtilities.class.getName());
 	private final Random random = new Random();
 	@Autowired
 	private Embellisher embellisher;
-	
+
 	@Autowired
 	private MusicProperties musicProperties;
-	
-	/**
-	 * Generates random tempo between 50 - 150 bpm
-	 * @return
-	 */
+	@Autowired
+	private Texture texture;
+
+
 	public float randomTempo() {
 		float r = random.nextFloat();
 		if (r < 0.5) {
@@ -39,7 +39,7 @@ public class ScoreUtilities implements JMC{
 		}
 		return r;
 	}
-	
+
 	public Score createScoreMelodies(List<MelodyBlock> melodies, double tempo){
 		Score score = new Score();
 		Part[] scoreParts = new Part[melodies.size()];
@@ -49,22 +49,22 @@ public class ScoreUtilities implements JMC{
 			List<cp.model.note.Note> notes = melody.getMelodyBlockNotesWithRests();
 //			if (melody.getVoice() == 3) {
 //				List<neo.model.note.Note> embellishedNotes = embellisher.embellish(notes);
-//				phrase = createPhrase(embellishedNotes);	
+//				phrase = createPhrase(embellishedNotes);
 //			}
 //			else{
-				phrase = createPhrase(notes);	
+				phrase = createPhrase(notes);
 //			}
-			
+
 			Part part = new Part(phrase);
 			scoreParts[voice] = part;
-			voice++;	
+			voice++;
 		}
 //		for (CpMelody melody : melodies) {
 //			List<cp.model.note.Note> notes = melody.getHarmonyNotes();
-//			Phrase phrase = createPhrase(notes);	
+//			Phrase phrase = createPhrase(notes);
 //			Part part = new Part(phrase);
 //			scoreParts[voice] = part;
-//			voice++;	
+//			voice++;
 //		}
 		for (int i = scoreParts.length - 1; i > -1; i--) {
 			score.add(scoreParts[i]);
@@ -75,17 +75,17 @@ public class ScoreUtilities implements JMC{
 		score.setKeySignature(musicProperties.getKeySignature());
 		return score;
 	}
-	
+
 	public Score createScoreFromMelodyInstrument(List<MelodyInstrument> melodies, double tempo){
 		Score score = new Score();
 		Part[] scoreParts = new Part[melodies.size()];
 		int voice = 0;
 		for (MelodyInstrument melody : melodies) {
 			List<cp.model.note.Note> notes = melody.getNotes();
-			Phrase phrase = createPhrase(notes);	
+			Phrase phrase = createPhrase(notes);
 			Part part = new Part(phrase);
 			scoreParts[voice] = part;
-			voice++;	
+			voice++;
 		}
 		for (int i = scoreParts.length - 1; i > -1; i--) {
 			score.add(scoreParts[i]);
@@ -108,8 +108,21 @@ public class ScoreUtilities implements JMC{
 				cp.model.note.Note notePos = notes.get(i);
 				note = new Note(notePos.getPitch(),((double)notePos.getDisplayLength()/DurationConstants.QUARTER));
 				note.setDuration(note.getRhythmValue());//note has DEFAULT_DURATION_MULTIPLIER = 0.9
-				phrase.add(note);
-				if ((i + 1) < length) {	
+
+//                List<cp.model.note.Note> textureNotes = texture.getTextureForNote(notePos);
+//                if (!textureNotes.isEmpty()) {
+//                    CPhrase chord = new CPhrase();
+//                    int[] pitches = new int[textureNotes.size() + 1];
+//                    pitches[0] = note.getPitch();
+//                    for (int j = 0; j < textureNotes.size(); j++) {
+//                        pitches[j + 1] = textureNotes.get(0).getPitch();
+//                    }
+//                    phrase.addChord(pitches, note.getDuration());
+//                } else {
+                    phrase.add(note);
+//                }
+
+                if ((i + 1) < length) {
 					cp.model.note.Note nextNotePos = notes.get(i + 1);
 					int gap = (notePos.getPosition() + notePos.getDisplayLength()) - nextNotePos.getPosition();
 					if (gap < 0) {
@@ -117,15 +130,15 @@ public class ScoreUtilities implements JMC{
 						note.setDuration(note.getRhythmValue());//note has DEFAULT_DURATION_MULTIPLIER = 0.9
 						phrase.add(note);
 					}
-				}	
+				}
 			}
 		}
 		return phrase;
 	}
-	
+
 	public Score createMelody(List<cp.model.note.Note> notes){
 		Score score = new Score();
-		Phrase phrase = createPhrase(notes);	
+		Phrase phrase = createPhrase(notes);
 		Part part = new Part(phrase);
 		score.add(part);
 		return score;
