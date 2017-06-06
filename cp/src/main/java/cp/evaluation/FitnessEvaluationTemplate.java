@@ -10,6 +10,7 @@ import cp.model.harmony.HarmonyExtractor;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.rhythm.RhythmWeight;
+import cp.model.texture.Texture;
 import cp.objective.Objective;
 import cp.out.instrument.Instrument;
 import cp.out.play.InstrumentConfig;
@@ -56,6 +57,8 @@ public class FitnessEvaluationTemplate {
 	private Composition composition;
 	@Autowired
 	private TimeLine timeLine;
+    @Autowired
+    private Texture texture;
 
 	public FitnessObjectiveValues evaluate(Motive motive) {
 		List<MelodyBlock> melodies = motive.getMelodyBlocks();
@@ -63,16 +66,12 @@ public class FitnessEvaluationTemplate {
 
 		List<MelodyBlock> melodiesToCalculate = melodies.stream().filter(m -> m.isCalculable() && !m.getMelodyBlockNotes().isEmpty()).collect(toList());
 		updatePitchesFromContour(melodies);
-		//after update pitches for dependant melodies! (don't have contour)
-//		for (DependantHarmonyGenerator dependantGenerator : composition.getDependantHarmonyGenerators()) {
-//			dependantGenerator.generateDependantHarmonies(melodies);
-//		}
 		updateMelodyInRange(melodies);
 		updateRhythmWeight(melodiesToCalculate);
 
 		List<Note> allNotes = melodies.stream().flatMap(m -> m.getMelodyBlockNotes().stream()).collect(toList());
 		List<CpHarmony> harmonies = harmonyExtractor.extractHarmony(allNotes, motive.getMelodyBlocks().size());
-		motive.setHarmonies(harmonies);
+        motive.setHarmonies(harmonies);
 //		melodies.forEach(h ->  LOGGER.debug(h.getMelodyBlockNotes() + ", "));
 		return evaluateObjectives(motive);
 	}
@@ -91,7 +90,18 @@ public class FitnessEvaluationTemplate {
 		for (MelodyBlock updatebleMelody : melodies) {
 			Instrument instrument = instrumentConfig.getInstrumentForVoice(updatebleMelody.getVoice());
 			instrument.updateMelodyInRange(updatebleMelody.getMelodyBlockNotes());
+			removeTextureNotesOutOfRange(updatebleMelody, instrument);
 		}
+	}
+
+	private void removeTextureNotesOutOfRange(MelodyBlock updatebleMelody, Instrument instrument) {
+		List<Note> melodyBlockNotes = updatebleMelody.getMelodyBlockNotes();
+		for (Note note : melodyBlockNotes) {
+            List<Note> textureNotes = texture.getTextureForNote(note);
+            if (!textureNotes.isEmpty() && instrument.hasNotesOutOfRange(textureNotes)) {
+                note.setDependantHarmony(null);
+            }
+        }
 	}
 
 	protected void updateRhythmWeight(List<MelodyBlock> melodies) {

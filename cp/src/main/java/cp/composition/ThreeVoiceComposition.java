@@ -1,8 +1,5 @@
 package cp.composition;
 
-import cp.composition.voice.Voice;
-import cp.generator.dependant.DependantGenerator;
-import cp.model.harmony.ChordType;
 import cp.model.melody.MelodyBlock;
 import cp.model.melody.Operator;
 import cp.model.note.Note;
@@ -129,44 +126,6 @@ public class ThreeVoiceComposition extends Composition{
 		return notes;
 	}
 
-
-	public List<MelodyBlock> depending(){
-//		voiceConfiguration.put(voice0, homophonicVoice);
-//		voiceConfiguration.put(voice1, homophonicVoice);
-//		voiceConfiguration.put(voice2, melodyVoice);
-
-		dependantHarmonyGenerators = new ArrayList<>();
-		DependantGenerator dependantGenerator = new DependantGenerator(timeLine, voice0, voice1);
-		dependantHarmonyGenerators.add(dependantGenerator);
-
-//
-//		//has to be set first, before generation
-		Voice voice = voiceConfig.getVoiceConfiguration(voice0);
-		voice.hasDependentHarmony(true);
-		voice.addChordType(ChordType.CH2_GROTE_TERTS);
-		voice.addChordType(ChordType.CH2_GROTE_TERTS_CHR);
-		voice.addChordType(ChordType.CH2_KLEINE_TERTS_CHR);
-		voice.addChordType(ChordType.CH2_KWART);
-//		voice.addChordType(ChordType.CH2_KWINT);
-//		voice.addChordType(ChordType.ALL);
-		voice.addChordType(ChordType.CH2_GROTE_SIXT);
-		voice.addChordType(ChordType.CH2_GROTE_SIXT_CHR);
-		voice.addChordType(ChordType.CH2_KLEINE_SIXT_CHR);
-//		voice.addChordType(ChordType.MAJOR);
-//		voice.addChordType(ChordType.MAJOR_1);
-//      voice.addChordType(ChordType.MAJOR_2);
-//      voice.addChordType(ChordType.DOM);
-
-		List<MelodyBlock> melodyBlocks = new ArrayList<>();
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
-		melodyBlocks.add(melodyBlock);
-
-		MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlockConfig(voice2, instrument3.pickRandomOctaveFromRange());
-		melodyBlocks.add(melodyBlock3);
-
-		return melodyBlocks;
-	}
-	
 	/**
 	 * Voice 0: 3
 	 * Voice 1: homophonic in 4

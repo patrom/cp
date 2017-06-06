@@ -4,10 +4,14 @@ import cp.composition.beat.BeatGroup;
 import cp.composition.voice.Voice;
 import cp.composition.voice.VoiceConfig;
 import cp.generator.pitchclass.PitchClassGenerator;
+import cp.model.harmony.ChordType;
+import cp.model.harmony.DependantHarmony;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
+import cp.model.texture.TextureConfig;
 import cp.nsga.operator.mutation.MutationOperator;
+import cp.util.RandomUtil;
 import jmetal.util.PseudoRandom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +31,8 @@ public class ReplaceMelody implements MutationOperator<MelodyBlock> {
 
 	@Autowired
 	private VoiceConfig voiceConfig;
+	@Autowired
+	private TextureConfig textureConfig;
 
 	@Autowired
     public ReplaceMelody(@Value("${probabilityReplaceMelody}") double probabilityReplaceMelody) {
@@ -51,6 +57,14 @@ public class ReplaceMelody implements MutationOperator<MelodyBlock> {
 						n.setTechnical(voice.getTechnical());
 						n.setPosition(n.getPosition() + melody.getStart());
 					});
+					if (textureConfig.hasTexture(melodyBlock.getVoice())) {
+						List<ChordType> textureTypes = textureConfig.getTextureFor(melodyBlock.getVoice());
+						for (Note melodyNote : melodyNotes) {
+							DependantHarmony dependantHarmony = new DependantHarmony();
+							dependantHarmony.setChordType(RandomUtil.getRandomFromList(textureTypes));
+							melodyNote.setDependantHarmony(dependantHarmony);
+						}
+					}
 					PitchClassGenerator pitchClassGenerator = voiceConfig.getRandomPitchClassGenerator(melody.getVoice());
 					melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes);
 					melody.updateNotes(melodyNotes);

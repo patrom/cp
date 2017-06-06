@@ -44,6 +44,8 @@ public class Texture {
         DependantHarmony dependantHarmony = note.getDependantHarmony();
         if(dependantHarmony != null) {
             switch (dependantHarmony.getChordType().getSize()) {
+                case 0:
+                    break;
                 case 2:
                     textureNotes.add(singleNoteDependency(note, true));
                     break;
@@ -63,6 +65,8 @@ public class Texture {
         DependantHarmony dependantHarmony = note.getDependantHarmony();
         if(dependantHarmony != null) {
             switch (dependantHarmony.getChordType().getSize()) {
+                case 0:
+                    break;
                 case 2:
                     textureNotes.add(singleNoteDependency(note, false));
                     break;

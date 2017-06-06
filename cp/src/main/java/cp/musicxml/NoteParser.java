@@ -28,6 +28,7 @@ public class NoteParser {
     private ComplexElement elementTimeModification;
     private List<Element> beams = new ArrayList<>();
     private boolean isRest;
+    private boolean chord = false;
 
     public Note parseNote(ArrayList<ElementWrapper> elements) {
         for (ElementWrapper element : elements) {
@@ -100,6 +101,9 @@ public class NoteParser {
                     case "beam":
                         beams.add(element.getElement());
                         break;
+                    case "chord":
+                        chord = true;
+                        break;
                 }
             }
         }
@@ -115,6 +119,7 @@ public class NoteParser {
         note.setLength(duration);
         note.setDisplayLength(duration);
         note.setInstrument(instrumentName);
+        note.setChord(chord);
         setBeanType();
         return note;
     }

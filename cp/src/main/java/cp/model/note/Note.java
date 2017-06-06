@@ -55,6 +55,7 @@ public class Note implements Comparable<Note>{
 	//parsing musicXML
 	private String instrument;
 	private DependantHarmony dependantHarmony;
+	private boolean chord = false;
 	
 	private Articulation articulation;
 	private Dynamic dynamic = DEFAULT_DYNAMIC;
@@ -443,5 +444,13 @@ public class Note implements Comparable<Note>{
 
 	public void setPrintTechnical(boolean printTechnical) {
 		this.printTechnical = printTechnical;
+	}
+
+	public boolean isChord() {
+		return chord;
+	}
+
+	public void setChord(boolean chord) {
+		this.chord = chord;
 	}
 }

@@ -6,10 +6,13 @@ import cp.composition.beat.BeatGroup;
 import cp.composition.voice.Voice;
 import cp.composition.voice.VoiceConfig;
 import cp.model.TimeLine;
+import cp.model.harmony.ChordType;
+import cp.model.harmony.DependantHarmony;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.melody.Tonality;
 import cp.model.note.Note;
+import cp.model.texture.TextureConfig;
 import cp.out.instrument.Instrument;
 import cp.out.play.InstrumentConfig;
 import cp.util.RandomUtil;
@@ -35,6 +38,8 @@ public class MelodyGenerator {
 	private InstrumentConfig instrumentConfig;
     @Autowired
     private TimeLine timeLine;
+	@Autowired
+    private TextureConfig textureConfig;
 
 	public MelodyBlock generateDependantMelodyBlock(final int voice, int octave, MelodyBlock dependingMelodyBlock){
 		int start = composition.getStart();
@@ -126,6 +131,14 @@ public class MelodyGenerator {
 			if (cloneMelody.getTonality() == Tonality.TONAL && cloneMelody.getKey() != null) {
 				cloneMelody.convertToKey(cloneMelody.getKey(), timeLine);
 			}
+			if (textureConfig.hasTexture(voice)) {
+				List<ChordType> textureTypes = textureConfig.getTextureFor(voice);
+				for (Note melodyNote : cloneMelody.getNotesNoRest()) {
+					DependantHarmony dependantHarmony = new DependantHarmony();
+					dependantHarmony.setChordType(RandomUtil.getRandomFromList(textureTypes));
+					melodyNote.setDependantHarmony(dependantHarmony);
+				}
+			}
 			melodyBlock.addMelodyBlock(cloneMelody);
 			i++;
 			melody = RandomUtil.getRandomFromList(melodies);
@@ -183,14 +196,16 @@ public class MelodyGenerator {
 			n.setTechnical(voiceConfig.getTechnical());
 			n.setPosition(n.getPosition() + start);
 		});
-		if(melodyNotes.isEmpty()){
-            System.out.println("");
-        }
 		melodyNotes = voiceConfiguration.getRandomPitchClassGenerator(voice).updatePitchClasses(melodyNotes);
-//		if (melodyNotes.size() == 1 && melodyNotes.get(0).isRest()){
-//			beatGroup.setSize(0);
-//		}
-		CpMelody melody = new CpMelody(melodyNotes, voice, start, start + beatGroup.getBeatLength());
+        if (textureConfig.hasTexture(voice)) {
+            List<ChordType> textureTypes = textureConfig.getTextureFor(voice);
+            for (Note melodyNote : melodyNotes) {
+                DependantHarmony dependantHarmony = new DependantHarmony();
+                dependantHarmony.setChordType(RandomUtil.getRandomFromList(textureTypes));
+                melodyNote.setDependantHarmony(dependantHarmony);
+            }
+        }
+        CpMelody melody = new CpMelody(melodyNotes, voice, start, start + beatGroup.getBeatLength());
 		melody.setBeatGroup(beatGroup);
 		return melody;
 	}

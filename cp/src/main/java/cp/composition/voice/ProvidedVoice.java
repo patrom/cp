@@ -1,17 +1,14 @@
 package cp.composition.voice;
 
-import cp.composition.beat.BeatGroup;
 import cp.generator.provider.MelodyProvider;
 import cp.model.melody.CpMelody;
 import cp.model.note.Dynamic;
-import cp.model.note.Note;
 import cp.out.instrument.Technical;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -35,13 +32,14 @@ public class ProvidedVoice extends Voice {
         setTimeconfig();
         dynamics = Stream.of(Dynamic.MF, Dynamic.F).collect(toList());
         pitchClassGenerators.add(emptyPitchClasses::updatePitchClasses);
+        mutationOperators = rhytmMutationOperators;
         technical = Technical.LEGATO;
     }
 
-    @Override
-    public List<Note> getRhythmNotesForBeatgroup(BeatGroup beatGroup) {
-        Collections.shuffle(melodies);
-        return melodies.stream().filter(m -> m.getBeatGroup().getSize() == beatGroup.getSize()).findFirst().get().getNotes();
-    }
+//    @Override
+//    public List<Note> getRhythmNotesForBeatgroup(BeatGroup beatGroup) {
+//        Collections.shuffle(melodies);
+//        return melodies.stream().filter(m -> m.getBeatGroup().getSize() == beatGroup.getSize()).findFirst().get().getNotes();
+//    }
 
 }

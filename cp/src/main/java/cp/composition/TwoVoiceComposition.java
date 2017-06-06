@@ -1,8 +1,5 @@
 package cp.composition;
 
-import cp.composition.voice.Voice;
-import cp.generator.dependant.DependantGenerator;
-import cp.model.harmony.ChordType;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.melody.Operator;
@@ -34,20 +31,23 @@ public class TwoVoiceComposition extends Composition{
 		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfigRandom(voice0, melodies);
 		melodyBlocks.add(melodyBlock);
 
-        MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfigRandom(voice1, melodies);
-        melodyBlocks.add(melodyBlock2);
+//        MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfigRandom(voice1, melodies);
+//        melodyBlocks.add(melodyBlock2);
 
-        return melodyBlocks;
+		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfig(voice1);
+		melodyBlocks.add(melodyBlock2);
+
+
+		return melodyBlocks;
 	}
 
 	public List<MelodyBlock> random(){
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
-//		cello.setKeySwitch(new KontactStringsKeySwitch());
 
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0);
 		melodyBlocks.add(melodyBlock);
 
-		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfig(voice1, instrument2.pickRandomOctaveFromRange());
+		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfig(voice1);
 		melodyBlocks.add(melodyBlock2);
 
 		return melodyBlocks;
@@ -68,30 +68,6 @@ public class TwoVoiceComposition extends Composition{
 		dependantMelodyBlock.setRhythmDependant(true);
 		melodyBlocks.add(dependantMelodyBlock);
 
-//		dependantMelodyBlock = new MelodyBlock(5, voice3);
-//		dependantMelodyBlock.addMelodyBlock(new CpMelody(new ArrayList<>(),voice3,start,end));
-//		dependantMelodyBlock.setMutable(false);
-//		dependantMelodyBlock.setRhythmDependant(true);
-//		melodyBlocks.add(dependantMelodyBlock);
-
-
-
-//		HarmonyRelation harmonyRelation = new HarmonyRelation();
-//		harmonyRelation.setSource(voice0);
-//		harmonyRelation.setTarget(voice2);
-//		operatorConfig.addOperatorRelations(harmonyRelation::execute);
-
-//		Instrument instrument2 = instruments.get(1);
-//		instrument2.setVoice(1);
-//		instrument2.setChannel(1);
-//		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlock(instrument2.getVoice(), instrument2.pickRandomOctaveFromRange(), getTimeConfig()::getFixedBeatGroup);
-//		melodyBlock2.setInstrument(instrument2);
-		
-//		Instrument instrument2 = instruments.get(1);
-//		instrument2.setVoice(1);
-//		instrument2.setChannel(1);
-//		MelodyBlock melodyBlock2 = melodyGenerator.duplicateRhythmMelodyBlock(melodyBlock, instrument2);
-
 		return melodyBlocks;
 	}
 
@@ -99,7 +75,7 @@ public class TwoVoiceComposition extends Composition{
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
 //		cello.setKeySwitch(new KontactStringsKeySwitch());
 
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
+		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0);
 		melodyBlocks.add(melodyBlock);
 
 		MelodyBlock melodyBlock2 = new MelodyBlock(instrument2.pickRandomOctaveFromRange(), voice1);
@@ -138,29 +114,6 @@ public class TwoVoiceComposition extends Composition{
 		operatorRelation.setOffset(getTimeConfig().getOffset());
 		operatorConfig.addOperatorRelations(operatorRelation::execute);
 		
-		return melodyBlocks;
-	}
-
-	public List<MelodyBlock> depending(){
-		//dependant harmony
-		dependantHarmonyGenerators = new ArrayList<>();
-		DependantGenerator dependantGenerator = new DependantGenerator(timeLine, voice0, voice1);
-		dependantHarmonyGenerators.add(dependantGenerator);
-
-		Voice voice = voiceConfig.getVoiceConfiguration(voice0);
-		//has to be set first, before generation
-		voice.hasDependentHarmony(true);
-		voice.addChordType(ChordType.CH2_GROTE_TERTS);
-		voice.addChordType(ChordType.CH2_GROTE_TERTS_CHR);
-//		voice.addChordType(ChordType.CH2_KWART);
-//		voice.addChordType(ChordType.CH2_KWINT);
-//		voice.addChordType(ChordType.ALL);
-		voice.addChordType(ChordType.CH2_GROTE_SIXT);
-		voice.addChordType(ChordType.CH2_GROTE_SIXT_CHR);
-
-		List<MelodyBlock> melodyBlocks = new ArrayList<>();
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
-		melodyBlocks.add(melodyBlock);
 		return melodyBlocks;
 	}
 	

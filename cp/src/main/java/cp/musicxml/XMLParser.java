@@ -70,7 +70,11 @@ public class XMLParser {
                     if (notes != null && !notes.isEmpty()) {
                         Collections.sort(notes);
                         Note lastNote = notes.get(notes.size() - 1);
-                        note.setPosition(lastNote.getPosition() + lastNote.getLength());
+                        if (note.isChord()) {
+                            note.setPosition(lastNote.getPosition());
+                        } else {
+                            note.setPosition(lastNote.getPosition() + lastNote.getLength());
+                        }
                     } else {
                         note.setPosition(0);
                     }

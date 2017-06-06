@@ -1,6 +1,5 @@
 package cp.nsga.operator.mutation.melody;
 
-import cp.composition.voice.Voice;
 import cp.composition.voice.VoiceConfig;
 import cp.model.harmony.ChordType;
 import cp.model.harmony.DependantHarmony;
@@ -21,12 +20,12 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Created by prombouts on 6/05/2017.
+ * Created by prombouts on 4/06/2017.
  */
-@Component(value = "rhythmMutation")
-public class RhythmMutation implements MutationOperator<MelodyBlock> {
+@Component(value = "textureMutation")
+public class TextureMutation implements MutationOperator<MelodyBlock> {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(RhythmMutation.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(TextureMutation.class);
 
     private double probability;
 
@@ -36,28 +35,25 @@ public class RhythmMutation implements MutationOperator<MelodyBlock> {
     private TextureConfig textureConfig;
 
     @Autowired
-    public RhythmMutation(@Value("${probabilityRhythm}") double probability) {
+    public TextureMutation(@Value("${probabilityTexture}") double probability) {
         this.probability = probability;
     }
 
     public void doMutation(double probability, MelodyBlock melodyBlock)  {
         if (PseudoRandom.randDouble() < probability) {
-            Optional<CpMelody> optionalMelody = melodyBlock.getRandomMelody(m -> m.isReplaceable());
+            Optional<CpMelody> optionalMelody = melodyBlock.getRandomMelody(m -> m.isMutable());
             if (optionalMelody.isPresent()) {
-                int v = melodyBlock.getVoice();
-                Voice voice = voiceConfig.getVoiceConfiguration(v);
                 CpMelody melody = optionalMelody.get();
-                List<Note> rhythmNotes = voice.getRhythmNotesForBeatgroup(melody.getBeatGroup());
-                if (textureConfig.hasTexture(v)) {
-                    List<ChordType> textureTypes = textureConfig.getTextureFor(v);
-                    for (Note melodyNote : rhythmNotes) {
-                        DependantHarmony dependantHarmony = new DependantHarmony();
-                        dependantHarmony.setChordType(RandomUtil.getRandomFromList(textureTypes));
-                        melodyNote.setDependantHarmony(dependantHarmony);
-                    }
+                int voice = melody.getVoice();
+                List<Note> notesNoRest = melody.getNotesNoRest();
+                if (textureConfig.hasTexture(voice) && !notesNoRest.isEmpty()) {
+                    Note note = RandomUtil.getRandomFromList(notesNoRest);
+                    List<ChordType> textureTypes = textureConfig.getTextureFor(voice);
+                    DependantHarmony dependantHarmony = new DependantHarmony();
+                    dependantHarmony.setChordType(RandomUtil.getRandomFromList(textureTypes));
+                    note.setDependantHarmony(dependantHarmony);
+//				    LOGGER.info("Texture replaced: " + melody.getVoice());
                 }
-                melody.updateRhythmNotes(rhythmNotes);
-//				LOGGER.info("Melody replaced: " + melody.getVoice());
             }
         }
     }

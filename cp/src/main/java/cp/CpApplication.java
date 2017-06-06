@@ -9,7 +9,6 @@ import cp.model.melody.MelodyBlock;
 import cp.nsga.MusicSolution;
 import cp.nsga.MusicSolutionType;
 import cp.nsga.MusicVariable;
-import cp.nsga.operator.mutation.melody.*;
 import cp.out.orchestration.HarmonyOrchestrator;
 import cp.out.orchestration.Orchestrator;
 import cp.out.orchestration.quality.BrilliantWhite;
@@ -50,28 +49,6 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	private MusicSolutionType solutionType;
 	@Autowired 
 	private Operator crossover;
-	@Autowired
-	private OneNoteMutation oneNoteMutation;
-	@Autowired
-	private OneNoteChromaticMutation oneNoteChromaticMutation;
-	@Autowired
-	private ArticulationMutation articulationMutation;
-	@Autowired
-	private DynamicMutation dynamicMutation;
-	@Autowired
-	private TechnicalMutation technicalMutation;
-	@Autowired
-	private ReplaceMelody replaceMelody;
-	@Autowired
-	private RepetitionMelody repetitionMelody;
-	@Autowired
-	private RhythmMutation rhythmMutation;
-	@Autowired
-	private OperatorMutation operatorMutation;
-	@Autowired
-	private CopyMelody copyMelody;
-	@Autowired
-	private ReplaceMelodyBlock replaceMelodyBlock;
 	@Autowired
 	private Algorithm algorithm;
 	@Autowired
@@ -139,11 +116,11 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(melodyComposition::melody);
 //		composeInGenres.add(melodyComposition::melodyProvided);
 
+		//TWO VOICES
 //		composeInGenres.add(twoVoiceComposition::melodyProvided);
 //		composeInGenres.add(twoVoiceComposition::random);
 //		composeInGenres.add(twoVoiceComposition::beatEven);
-//		composeInGenres.add(twoVoiceComposition::depending);
-//		composeInGenres.add(twoVoiceComposition::canon);
+		composeInGenres.add(twoVoiceComposition::canon);
 //		composeInGenres.add(twoVoiceComposition::fugueInverse);
 //		composeInGenres.add(twoVoiceComposition::operatorT);
 //		composeInGenres.add(twoVoiceComposition::operatorI);
@@ -156,9 +133,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		twoVoiceComposition.setHarmonizeVoice(1);
 //		composeInGenres.add(twoVoiceComposition::harmonize);
 
-
-//		composeInGenres.add(threeVoiceComposition::depending);//execute depending independently
-
+		//THREE VOICES
 //		composeInGenres.add(threeVoiceComposition::canon2Voice1Acc);
 //		composeInGenres.add(threeVoiceComposition::operatorTplusAcc);
 //		composeInGenres.add(threeVoiceComposition::operatorT);
@@ -169,24 +144,16 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(threeVoiceComposition::accDuplicateRhythm);
 //		composeInGenres.add(threeVoiceComposition::allRandom);
 
-//		composeInGenres.add(fourVoiceComposition::dependingMiddleVoicesRhythm);
-//		composeInGenres.add(fourVoiceComposition::dependingOneVoicesHomophonicRhythm);
-//		composeInGenres.add(fourVoiceComposition::dependingTwoVoicesHomophonicRhythm);
-//		composeInGenres.add(fourVoiceComposition::dependingTwoByTwoVoices);
-
-
-		composeInGenres.add(fourVoiceComposition::canonA3);
-//		composeInGenres.add(fourVoiceComposition::canon);
-//		composeInGenres.add(fourVoiceComposition::accDuplicateRhythm);
+		//FOUR VOICES
+//		composeInGenres.add(fourVoiceComposition::canonA3);
+//		composeInGenres.add(fourVoiceComposition::canonA4);
 //		composeInGenres.add(fourVoiceComposition::doubleCanon);
 //		composeInGenres.add(fourVoiceComposition::allRandom);
-
-//		composeInGenres.add(fourVoiceComposition::dependingFixedRhythm);
 //		fourVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
 //		fourVoiceComposition.setHarmonizeVoice(1);
 //		composeInGenres.add(fourVoiceComposition::harmonize);
 
-//		composeInGenres.add(fiveVoiceComposition::accDuplicateRhythm);
+		//FIVE VOICES
 //		composeInGenres.add(fiveVoiceComposition::homophonicRhythm);
 //		fiveVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
 //		fiveVoiceComposition.setHarmonizeVoice(4);
@@ -268,19 +235,6 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	
 	    // Add the operators to the algorithm
 	    algorithm.addOperator("crossover", crossover);
-//	    algorithm.addOperator("oneNoteMutation", oneNoteMutation);
-//	    algorithm.addOperator("oneNoteChromaticMutation", oneNoteChromaticMutation);
-////	    algorithm.addOperator("addRhythm", addRhythm);
-////	    algorithm.addOperator("removeRhythm", removeRhythm);
-//	    algorithm.addOperator("articulationMutation", articulationMutation);
-//	    algorithm.addOperator("dynamicMutation", dynamicMutation);
-//	    algorithm.addOperator("technicalMutation", technicalMutation);
-//	    algorithm.addOperator("replaceMelody", replaceMelody);
-//	    algorithm.addOperator("repetitionMelody", repetitionMelody);
-//	    algorithm.addOperator("rhythmMutation", rhythmMutation);
-//	    algorithm.addOperator("operatorMutation", operatorMutation);
-//		algorithm.addOperator("copyMelody", copyMelody);
-//		algorithm.addOperator("replaceMelodyBlock", replaceMelodyBlock);
 	    algorithm.addOperator("selection", SelectionFactory.getSelectionOperator("BinaryTournament2", parameters));
 	}
 	

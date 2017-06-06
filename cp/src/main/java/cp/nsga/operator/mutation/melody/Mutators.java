@@ -26,6 +26,8 @@ public class Mutators {
     public AllNoteMutation allNoteMutation;
     @Autowired
     public ReplaceMelody replaceMelody;
+    @Autowired
+    public TextureMutation textureMutation;
 
     @Autowired
     public ArticulationMutation articulationMutation;
@@ -47,6 +49,7 @@ public class Mutators {
         mutationOperators.add(articulationMutation);
         mutationOperators.add(dynamicMutation);
         mutationOperators.add(technicalMutation);
+        mutationOperators.add(textureMutation);
         return mutationOperators;
     }
 
@@ -73,6 +76,13 @@ public class Mutators {
         mutationOperators.add(articulationMutation);
         mutationOperators.add(dynamicMutation);
         mutationOperators.add(technicalMutation);
+        return mutationOperators;
+    }
+
+    @Bean
+    public List<MutationOperator> textureMutationOperators(){
+        ArrayList<MutationOperator> mutationOperators = new ArrayList<>();
+        mutationOperators.add(textureMutation);
         return mutationOperators;
     }
 }

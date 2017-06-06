@@ -28,6 +28,8 @@ public class VoiceConfig {
     private HarmonyVoice harmonyVoice;
     @Autowired
     private RowVoice rowVoice;
+    @Autowired
+    private ProvidedVoice providedVoice;
 
     private Map<Integer, Voice> voiceConfiguration = new TreeMap<>();
 

@@ -1,7 +1,6 @@
 package cp.composition.voice;
 
 import cp.model.note.Dynamic;
-import cp.out.instrument.Technical;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -24,7 +23,7 @@ public class MelodyVoice extends Voice {
         pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
 //        rhythmCombinations1 = this::getBeatGroups;
 
-        technical = Technical.LEGATO;
+//        technical = Technical.LEGATO;
     }
 
 //    private List<BeatGroup> getBeatGroups(){

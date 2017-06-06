@@ -44,6 +44,10 @@ public class Instrument {
 				.filter(n -> !n.isRest() && inRange(n.getPitch()))//TODO map to rest removed note???
 				.collect(toList());
 	}
+
+    public boolean hasNotesOutOfRange(List<Note> notes){
+        return notes.stream().anyMatch(n -> !n.isRest() && !inRange(n.getPitch()));
+    }
 	
 	public List<Note> updateInQualityRange(List<Note> notes){
 		List<Note> rangeNotes = new ArrayList<>();

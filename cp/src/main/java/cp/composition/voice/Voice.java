@@ -307,12 +307,9 @@ public abstract class Voice {
     }
 
     public List<Note> getRhythmNotesForBeatgroup(BeatGroup beatGroup){
-        List<RhythmCombination> rhythmCombinations = this.rhythmCombinationsPerNoteSize.getOrDefault(beatGroup.getSize(), emptyList());
-        if (!rhythmCombinations.isEmpty()) {
-            RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
-            return rhythmCombination.getNotes(beatGroup.getBeatLength());
-        }
-        return emptyList();
+        List<RhythmCombination> rhythmCombinations = this.rhythmCombinationsPerNoteSize.get(beatGroup.getSize());
+        RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
+        return rhythmCombination.getNotes(beatGroup.getBeatLength());
     }
 
 //    public void setRhythmCombinations(List<RhythmCombination> rhythmCombinations) {
