@@ -37,6 +37,7 @@ public class CpMelody implements Comparable<CpMelody>{
 	private BeatGroup beatGroup;
 	private Tonality tonality = Tonality.TONAL;
 	private Key key;
+	private int notesSize;
 	
 	public CpMelody(List<Note> notes, int voice, int start, int end) {
 		this.voice = voice;
@@ -85,9 +86,10 @@ public class CpMelody implements Comparable<CpMelody>{
 		this.beatGroup = anotherMelody.getBeatGroup();
 		this.key = anotherMelody.getKey();
 		this.tonality = anotherMelody.getTonality();
+		this.notesSize = anotherMelody.getNotesSize();
 	}
 
-	public CpMelody clone() {
+    public CpMelody clone() {
 		return new CpMelody(this);
 	}
 
@@ -188,7 +190,7 @@ public class CpMelody implements Comparable<CpMelody>{
 			Note rhythmNote = rhythmNotes.get(i);
             rhythmNote.setPosition(start + rhythmNote.getPosition());
 			if(!rhythmNote.isRest()){
-				Note note = melodyNotes.get(j);
+                Note note = melodyNotes.get(j);
 				rhythmNote.setPitch(note.getPitch());
 				rhythmNote.setPitchClass(note.getPitchClass());
 				rhythmNote.setOctave(note.getOctave());
@@ -552,4 +554,13 @@ public class CpMelody implements Comparable<CpMelody>{
         lastNote.setPosition(start + lastPosition);
 		return this;
 	}
+
+    public int getNotesSize() {
+        return notesSize;
+    }
+
+    public void setNotesSize(int notesSize) {
+        this.notesSize = notesSize;
+    }
+
 }

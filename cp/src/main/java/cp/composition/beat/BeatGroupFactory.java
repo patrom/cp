@@ -5,12 +5,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class BeatGroupFactory {
 
-	public BeatGroup getBeatGroupUneven(int length, int size) {
-        return new BeatGroupThree(length, size);
+	public BeatGroup getBeatGroupUneven(int length) {
+        return new BeatGroupThree(length);
 	}
 
-	public BeatGroup getBeatGroupEven(int length, int size) {
-		return new BeatGroupTwo(length, size);
+	public BeatGroup getBeatGroupEven(int length) {
+		return new BeatGroupTwo(length);
 	}
 
 }

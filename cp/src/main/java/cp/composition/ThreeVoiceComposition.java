@@ -148,29 +148,6 @@ public class ThreeVoiceComposition extends Composition{
 		return melodyBlocks;
 	}
 	
-	/**
-	 * Voice 0: bass halftime
-	 * Voice 1: rhythm bass duplicate
-	 * Voice 2: melody 
-	 * @return melodies
-	 */
-	public List<MelodyBlock> accDuplicateRhythm(){
-//		voiceConfiguration.put(voice0, homophonicVoice);
-//		voiceConfiguration.put(voice1, homophonicVoice);
-//		voiceConfiguration.put(voice2, melodyVoice);
-		List<MelodyBlock> melodyBlocks = new ArrayList<>();
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, instrument1.pickRandomOctaveFromRange());
-		melodyBlocks.add(melodyBlock);
-
-//		MelodyBlock melodyBlock2 = melodyGenerator.duplicateRhythmMelodyBlock(melodyBlock, instrument2, voice1);
-//		melodyBlocks.add(melodyBlock2);
-
-		MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlockConfig(voice2, instrument3.pickRandomOctaveFromRange());
-		melodyBlocks.add(melodyBlock3);
-
-		return melodyBlocks;
-	}
-	
 	public List<MelodyBlock> allRandom(){
 //		voiceConfiguration.put(0, melodyVoice);
 //		voiceConfiguration.put(1, melodyVoice);

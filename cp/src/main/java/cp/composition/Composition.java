@@ -115,6 +115,9 @@ public abstract class Composition {
 	@Qualifier(value="time44")
 	protected TimeConfig time44;
 	@Autowired
+	@Qualifier(value="time24")
+	protected TimeConfig time24;
+	@Autowired
 	@Qualifier(value="time34")
 	protected TimeConfig time34;
 	@Autowired
@@ -259,7 +262,9 @@ public abstract class Composition {
 	protected List<DependantHarmonyGenerator> dependantHarmonyGenerators = new ArrayList<>();
 	
 	private void setTimeconfig(){
-		if (numerator == 4 && denominator == 4) {
+		if (numerator == 2 && denominator == 4) {
+			timeConfig = time24;
+		} else if (numerator == 4 && denominator == 4) {
 			timeConfig = time44;
 		} else if (numerator == 3 && denominator == 4) {
 			timeConfig = time34;

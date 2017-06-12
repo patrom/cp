@@ -16,7 +16,6 @@ public class DoubleTimeVoice extends Voice {
         pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
         pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
         pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
-//        pitchClassGenerators.add(restPitchClasses::updatePitchClasses);
 //        rhythmCombinations1 = timeConfig::getBeatsDoubleLength;
 
     }

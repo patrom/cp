@@ -32,7 +32,7 @@ public class MelodyManualProvider implements MelodyProvider{
 //        notes.add(note().pos(DurationConstants.HALF).pc(5).pitch(89).octave(7).build());
 //        notes.add(note().pos(DurationConstants.WHOLE).pc(7).pitch(55).octave(4).build());
         CpMelody melody = new CpMelody(notes, voice0, 0, DurationConstants.QUARTER);
-        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT, 2));
+        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT));
         melody.setKey(keys.C);
 //        melody.setTonality(Tonality.ATONAL);
 //        melody.setContour();
@@ -44,7 +44,7 @@ public class MelodyManualProvider implements MelodyProvider{
 //        notes.add(note().pos(DurationConstants.HALF).pc(5).pitch(89).octave(7).build());
 //        notes.add(note().pos(DurationConstants.WHOLE).pc(7).pitch(55).octave(4).build());
         melody = new CpMelody(notes, voice0, 0, DurationConstants.QUARTER);
-        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT, 2));
+        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT));
         melody.setKey(keys.C);
 //        melody.setTonality(Tonality.ATONAL);
         melodies.add(melody);

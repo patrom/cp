@@ -1,6 +1,7 @@
 package cp.generator.provider;
 
 import cp.composition.beat.BeatGroup;
+import cp.composition.voice.NoteSizeValueObject;
 import cp.composition.voice.Voice;
 import cp.composition.voice.VoiceConfig;
 import cp.model.melody.CpMelody;
@@ -31,8 +32,9 @@ public class MelodyGeneratorProvider implements MelodyProvider{
 
     protected CpMelody generateMelodyConfig(int voice) {
         Voice voiceConfig = voiceConfiguration.getVoiceConfiguration(voice);
-        BeatGroup beatGroup = voiceConfig.getTimeConfig().getBeatGroup(0);
-        List<Note> melodyNotes = voiceConfig.getRhythmNotesForBeatgroup(beatGroup);
+        BeatGroup beatGroup = voiceConfig.getTimeConfig().getRandomBeatgroup();
+        NoteSizeValueObject valueObject = voiceConfig.getRandomRhythmNotesForBeatgroupType(beatGroup);
+        List<Note> melodyNotes = valueObject.getRhythmCombination().getNotes(beatGroup.getBeatLength());
         melodyNotes.forEach(n -> {
             n.setVoice(voice);
             n.setDynamic(voiceConfig.getDynamic());
@@ -42,6 +44,7 @@ public class MelodyGeneratorProvider implements MelodyProvider{
         melodyNotes = voiceConfiguration.getRandomPitchClassGenerator(voice).updatePitchClasses(melodyNotes);
         CpMelody melody = new CpMelody(melodyNotes, voice, 0,  beatGroup.getBeatLength());
         melody.setBeatGroup(beatGroup);
+        melody.setNotesSize(valueObject.getKey());
         return melody;
     }
 }

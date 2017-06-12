@@ -18,13 +18,14 @@ public class HomophonicVoice extends Voice {
     @PostConstruct
     public void init(){
         setTimeconfig();
+        evenRhythmCombinationsPerNoteSize = homophonicEven;
+        unevenRhythmCombinationsPerNoteSize = homophonicUneven;
+
         dynamic = Dynamic.MF;
         dynamics = Stream.of(Dynamic.MF, Dynamic.MP).collect(toList());
         pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
         pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
         pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
-//        pitchClassGenerators.add(restPitchClasses::updatePitchClasses);
-//        rhythmCombinations = timeConfig.getHomophonicBeatGroup();
         technical = Technical.PORTATO;
     }
 

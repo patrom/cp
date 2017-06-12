@@ -6,7 +6,9 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by prombouts on 25/11/2016.
@@ -18,33 +20,22 @@ public class FixedVoice extends Voice {
     public void init(){
         setTimeconfig();
         dynamic = Dynamic.MF;
+
+        evenRhythmCombinationsPerNoteSize = fixedEven;
+        unevenRhythmCombinationsPerNoteSize = getWaltzBeatGroups();
+
         pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
         pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
         pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
-//        pitchClassGenerators.add(restPitchClasses::updatePitchClasses);
-//        rhythmCombinations = timeConfig.getFixedBeatGroup();
-        randomBeats = false;
-        randomRhythmCombinations = false;
+
     }
 
-    private List<RhythmCombination> getBeatGroups(){
-        List<RhythmCombination> beatGroups = new ArrayList<>();
-        beatGroups.add(twoNoteEven::pos13);
-        beatGroups.add(twoNoteEven::pos14);
-        return beatGroups;
-    }
-
-    private List<RhythmCombination> getUnevenBeatGroups(){
-        List<RhythmCombination> beatGroups = new ArrayList<>();
-//        beatGroups.add(new BeatGroupThree(DurationConstants.QUARTER, Collections.singletonList(fourNoteSexTuplet::pos1456)));
-//        beatGroups.add(new BeatGroupThree(DurationConstants.QUARTER, Collections.singletonList(threeNoteUneven::pos123)));
-        beatGroups.add(twoNoteUneven::pos13);
-        return beatGroups;
-    }
-
-    private List<RhythmCombination> getWaltzBeatGroups(){
+    private Map<Integer, List<RhythmCombination>> getWaltzBeatGroups(){
+        Map<Integer, List<RhythmCombination>> map = new HashMap<>();
         List<RhythmCombination> beatGroups = new ArrayList<>();
         beatGroups.add(twoNoteUneven::pos23);
-        return beatGroups;
+        map.put(2, beatGroups);
+        return map;
     }
+
 }

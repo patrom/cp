@@ -46,10 +46,10 @@ public class ReplaceMelody implements MutationOperator<MelodyBlock> {
 			if (optionalMelody.isPresent()) {
 				CpMelody melody = optionalMelody.get();
 				Voice voice = voiceConfig.getVoiceConfiguration(melodyBlock.getVoice());
-				BeatGroup beatGroup = voice.getTimeConfig().getBeatGroup(0);
+				BeatGroup beatGroup = voice.getTimeConfig().getRandomBeatgroup();
                 if(melody.getBeatGroup().getBeatLength() == beatGroup.getBeatLength()){
 //                    LOGGER.info("Melody replaced: " + melody.getBeatGroup().getSize() + ", " + beatGroup.getSize());
-					List<Note> melodyNotes = voice.getRhythmNotesForBeatgroup(beatGroup);
+					List<Note> melodyNotes = voice.getRhythmNotesForBeatgroupType(beatGroup, melody.getNotesSize());
 					melodyNotes.forEach(n -> {
 						n.setVoice(melody.getVoice());
 						n.setDynamic(voice.getDynamic());
@@ -60,9 +60,11 @@ public class ReplaceMelody implements MutationOperator<MelodyBlock> {
 					if (textureConfig.hasTexture(melodyBlock.getVoice())) {
 						List<ChordType> textureTypes = textureConfig.getTextureFor(melodyBlock.getVoice());
 						for (Note melodyNote : melodyNotes) {
-							DependantHarmony dependantHarmony = new DependantHarmony();
-							dependantHarmony.setChordType(RandomUtil.getRandomFromList(textureTypes));
-							melodyNote.setDependantHarmony(dependantHarmony);
+							if (!melodyNote.isRest()) {
+								DependantHarmony dependantHarmony = new DependantHarmony();
+								dependantHarmony.setChordType(RandomUtil.getRandomFromList(textureTypes));
+								melodyNote.setDependantHarmony(dependantHarmony);
+							}
 						}
 					}
 					PitchClassGenerator pitchClassGenerator = voiceConfig.getRandomPitchClassGenerator(melody.getVoice());

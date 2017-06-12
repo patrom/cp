@@ -1,35 +1,15 @@
 package cp.composition.timesignature;
 
-import cp.combination.RhythmCombination;
 import cp.composition.beat.BeatGroup;
 import cp.composition.beat.BeatGroupFactory;
+import cp.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public abstract class TimeConfig {
-
-	@Resource(name = "defaultUnevenCombinations")
-	protected Map<Integer, List<RhythmCombination>> defaultUnEvenCombinations;
-
-	@Resource(name = "defaultEvenCombinations")
-	protected Map<Integer, List<RhythmCombination>> defaultEvenCombinations;
-
-	@Resource(name = "homophonicEven")
-	protected List<RhythmCombination> homophonicEven;
-
-	@Resource(name = "homophonicUneven")
-	protected List<RhythmCombination> homophonicUneven;
-
-	@Resource(name = "fixedEven")
-	protected List<RhythmCombination> fixedEven;
-
-	@Resource(name = "fixedUneven")
-	protected List<RhythmCombination> fixedUneven;
 	
 	protected double minimumRhythmFilterLevel = 3.0; //levels pitch, crest/keel, ...
 	protected int minimumLength;
@@ -42,16 +22,10 @@ public abstract class TimeConfig {
 
 	@Autowired
 	protected BeatGroupFactory beatGroupFactory;
-	
-	public abstract boolean randomBeatGroup();//composite time signatures
-	
-	public abstract boolean randomCombination();//fixed rhythm patterns
-	
+
 	@PostConstruct
 	public void init() {
 	}
-
-	public abstract Map<Integer, List<RhythmCombination>>  getAllRhythmCombinations();
 
 	public int getOffset() {
 		return offset;
@@ -65,14 +39,18 @@ public abstract class TimeConfig {
 		return minimumRhythmFilterLevel;
 	}
 
-	public abstract List<RhythmCombination>getFixedBeatGroup();
-	
-	public abstract List<RhythmCombination> getHomophonicBeatGroup();
-
 	public int getMinimumLength() {
 		return minimumLength;
 	}
 
-	public abstract BeatGroup getBeatGroup(int index);
+	public BeatGroup getRandomBeatgroup(){
+		if(allBeatgroups.size() > 1){
+			return RandomUtil.getRandomFromList(allBeatgroups);
+		}
+		return allBeatgroups.get(0);
+	}
 
+	public List<BeatGroup> getBeatGroups() {
+		return allBeatgroups;
+	}
 }

@@ -35,7 +35,7 @@ public class AccompGroupTest extends AbstractTest{
         contour.add(1);
         contour.add(1);
         contour.add(-1);
-        BeatGroup beatGroup = new BeatGroupTwo(DurationConstants.QUARTER,2);
+        BeatGroup beatGroup = new BeatGroupTwo(DurationConstants.QUARTER);
         accompGroup = new AccompGroup(melodyVoice, contour);
         accompGroup.getNotes(beatGroup).forEach(n -> System.out.println(n));
 

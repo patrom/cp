@@ -1,9 +1,14 @@
 package cp.composition.voice;
 
+import cp.combination.RhythmCombination;
 import cp.model.note.Dynamic;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by prombouts on 20/03/2017.
@@ -15,23 +20,24 @@ public class TimeVoice extends Voice {
     public void init(){
         setTimeconfig();
         dynamic = Dynamic.MF;
+        timeConfig = time34;
+
+//        evenRhythmCombinationsPerNoteSize = fixedEven;
+        unevenRhythmCombinationsPerNoteSize = getWaltzBeatGroups();
+
         pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
         pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
         pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
-//		pitchClassGenerators.add(restPitchClasses::updatePitchClasses);
-        timeConfig = time24;
+
+
     }
 
-//    private List<BeatGroup> getBeatGroups(){
-//        List<BeatGroup> beatGroups = new ArrayList<>();
-////        beatGroups.add(new BeatGroupTwo(DurationConstants.HALF, Collections.singletonList(twoNoteEven::pos13)));
-//        beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER, Collections.singletonList(twoNoteEven::pos14)));
-//        beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER, Collections.singletonList(twoNoteEven::pos12)));
-//        beatGroups.add(new BeatGroupTwo(DurationConstants.EIGHT, Collections.singletonList(twoNoteEven::pos14)));
-//        beatGroups.add(new BeatGroupTwo(DurationConstants.EIGHT, Collections.singletonList(threeNoteEven::pos134)));
-//        beatGroups.add(new BeatGroupTwo(DurationConstants.EIGHT, Collections.singletonList(threeNoteUneven::pos123)));
-//        beatGroups.add(new BeatGroupTwo(DurationConstants.EIGHT, Collections.singletonList(twoNoteUneven::pos13)));
-////        beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER, Collections.singletonList(threeNoteEven::pos124)));
-//        return beatGroups;
-//    }
+    private Map<Integer, List<RhythmCombination>> getWaltzBeatGroups(){
+        Map<Integer, List<RhythmCombination>> map = new HashMap<>();
+        List<RhythmCombination> beatGroups = new ArrayList<>();
+        beatGroups.add(twoNoteUneven::pos23);
+        map.put(2, beatGroups);
+        return map;
+    }
+
 }

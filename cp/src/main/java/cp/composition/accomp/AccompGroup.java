@@ -1,6 +1,7 @@
 package cp.composition.accomp;
 
 import cp.composition.beat.BeatGroup;
+import cp.composition.voice.NoteSizeValueObject;
 import cp.composition.voice.Voice;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
@@ -63,7 +64,8 @@ public class AccompGroup {
 //    }
 
     public List<Note> getNotes(BeatGroup beatGroup){
-        List<Note> notes = voice.getRhythmNotesForBeatgroup(beatGroup);
+        NoteSizeValueObject valueObject = voice.getRandomRhythmNotesForBeatgroupType(beatGroup);
+        List<Note> notes = valueObject.getRhythmCombination().getNotes(beatGroup.getBeatLength());
         notes.forEach(n -> n.setArticulation(Articulation.STACCATO));
         Note firstNote = notes.get(0);
         firstNote.setDynamic(Dynamic.SFZ);

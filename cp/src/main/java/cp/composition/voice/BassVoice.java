@@ -18,6 +18,10 @@ public class BassVoice extends Voice {
     @PostConstruct
     public void init(){
         setTimeconfig();
+
+        evenRhythmCombinationsPerNoteSize = homophonicEven;
+        unevenRhythmCombinationsPerNoteSize = homophonicUneven;
+
         dynamic = Dynamic.MP;
         dynamics = Stream.of(Dynamic.MF, Dynamic.MP).collect(toList());
         pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);

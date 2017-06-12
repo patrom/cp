@@ -23,11 +23,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static java.util.Collections.emptyList;
@@ -38,6 +34,24 @@ import static java.util.stream.Collectors.toList;
  */
 
 public abstract class Voice {
+
+    @Resource(name = "defaultUnevenCombinations")
+    protected Map<Integer, List<RhythmCombination>> defaultUnEvenCombinations;
+
+    @Resource(name = "defaultEvenCombinations")
+    protected Map<Integer, List<RhythmCombination>> defaultEvenCombinations;
+
+    @Resource(name = "homophonicEven")
+    protected  Map<Integer, List<RhythmCombination>> homophonicEven;
+
+    @Resource(name = "homophonicUneven")
+    protected Map<Integer, List<RhythmCombination>> homophonicUneven;
+
+    @Resource(name = "fixedEven")
+    protected Map<Integer, List<RhythmCombination>> fixedEven;
+
+    @Resource(name = "fixedUneven")
+    protected Map<Integer, List<RhythmCombination>> fixedUneven;
 
     @Autowired
     protected OneNoteEven oneNoteEven;
@@ -113,16 +127,15 @@ public abstract class Voice {
 
     protected TimeConfig timeConfig;
 
-    protected List<RhythmCombination> rhythmCombinations1;
-
-    protected boolean randomBeats;
-    protected boolean randomRhythmCombinations = true;
     protected Dynamic dynamic = Dynamic.MF;
     protected Technical technical = Technical.PORTATO;
 
     protected boolean hasDependentHarmony;
     protected List<ChordType> chordTypes = new ArrayList<>();
 
+
+    protected Map<Integer, List<RhythmCombination>> evenRhythmCombinationsPerNoteSize;
+    protected Map<Integer, List<RhythmCombination>> unevenRhythmCombinationsPerNoteSize;
 
     public Voice() {
         stringArticulations = Stream.of(
@@ -172,23 +185,20 @@ public abstract class Voice {
 
     protected void setTimeconfig(){
         if (numerator == 4 && denominator == 4) {
-            randomBeats = true;
             timeConfig = time44;
         } else if (numerator == 3 && denominator == 4) {
-            randomBeats = true;
             timeConfig = time34;
         } else if (numerator == 6 && denominator == 8) {
-            randomBeats = true;
             timeConfig = time68;
         } else if (numerator == 5 && denominator == 8) {
-            randomBeats = false;
             timeConfig = time58;
         } else if (numerator == 2 && denominator == 4) {
-            randomBeats = true;
             timeConfig = time24;
         }
-        rhythmCombinationsPerNoteSize = timeConfig.getAllRhythmCombinations();
-        allRhythmCombinations = rhythmCombinationsPerNoteSize.values().stream().flatMap(c -> c.stream()).collect(Collectors.toList());
+
+        evenRhythmCombinationsPerNoteSize = defaultEvenCombinations;
+        unevenRhythmCombinationsPerNoteSize = defaultUnEvenCombinations;
+
     }
 
     public TimeConfig getTimeConfig(){
@@ -197,27 +207,6 @@ public abstract class Voice {
 
     public PitchClassGenerator getRandomPitchClassGenerator() {
         return RandomUtil.getRandomFromList(pitchClassGenerators);
-    }
-
-//    public List<Note> getNotes(BeatGroup beatGroup) {
-//        List<Note> notes;
-//        if (randomRhythmCombinations) {
-//            notes = getRhythmNotesForBeatgroup(beatGroup);
-//        }else{
-//            notes = getNotesFixed(beatGroup);
-//        }
-////        if(hasDependentHarmony){
-////            for (Note note : notes) {
-////                DependantHarmony dependantHarmony = new DependantHarmony();
-////                dependantHarmony.setChordType(RandomUtil.getRandomFromList(chordTypes));
-////                note.setDependantHarmony(dependantHarmony);
-////            }
-////        }
-//        return notes;
-//    }
-
-    public void setRandomRhythmCombinations(boolean randomRhythmCombinations) {
-        this.randomRhythmCombinations = randomRhythmCombinations;
     }
 
     public Dynamic getDynamic(){
@@ -279,44 +268,46 @@ public abstract class Voice {
         return emptyList();
     }
 
-
-    protected Map<Integer, List<RhythmCombination>> rhythmCombinationsPerNoteSize;
-    protected List<RhythmCombination> allRhythmCombinations;
-
-    private List<Note> getNotesFixed(BeatGroup beatGroup) {
-        return allRhythmCombinations.get(0).getNotes(beatGroup.getBeatLength());
-//		int size = rhythmCombinations.size();
-//		int beatLength = getBeatLength() / size;
-//		RhythmCombination rhythmCombination = rhythmCombinations.get(0);
-//		List<Note> notes = rhythmCombination.getNotes(beatLength);
-//		List<Note> melodyNotes = new ArrayList<>(notes);
-//		for (int i = 1; i < size; i++) {
-//			rhythmCombination = rhythmCombinations.get(i);
-//			int beatPosition = i * beatLength;
-//			notes = rhythmCombination.getNotes(beatLength);
-//			notes.forEach(n -> {n.setPosition(n.getPosition() + beatPosition);});
-//			melodyNotes.addAll(notes);
-//		}
-//		return melodyNotes;
+    public List<Note> getRhythmNotesForBeatgroupType(BeatGroup beatGroup, int size){
+        if (beatGroup.getType() == 2) {
+            List<RhythmCombination> rhythmCombinations = this.evenRhythmCombinationsPerNoteSize.get(size);
+            return getNotes(beatGroup, rhythmCombinations);
+        }
+        if (beatGroup.getType() == 3) {
+            List<RhythmCombination> rhythmCombinations = this.unevenRhythmCombinationsPerNoteSize.get(size);
+            return getNotes(beatGroup, rhythmCombinations);
+        }
+        return emptyList();
     }
 
-    public List<Note> getNotesRandom(BeatGroup beatGroup) {
-//        List<RhythmCombination> rhythmCombinations = this.rhythmCombinationsPerNoteSize.get(beatGroup.getSize());
-        RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(allRhythmCombinations);
-        return rhythmCombination.getNotes(beatGroup.getBeatLength());
+    public NoteSizeValueObject getRandomRhythmNotesForBeatgroupType(BeatGroup beatGroup){
+        if (beatGroup.getType() == 2) {
+            Object[] keys = evenRhythmCombinationsPerNoteSize.keySet().toArray();
+            Integer key = (Integer) keys[new Random().nextInt(keys.length)];
+            List<RhythmCombination> rhythmCombinations = evenRhythmCombinationsPerNoteSize.get(key);
+            RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
+            return new NoteSizeValueObject(key, rhythmCombination);
+        }
+        if (beatGroup.getType() == 3) {
+            Object[] keys = unevenRhythmCombinationsPerNoteSize.keySet().toArray();
+            Integer key = (Integer) keys[new Random().nextInt(keys.length)];
+            List<RhythmCombination> rhythmCombinations = unevenRhythmCombinationsPerNoteSize.get(key);
+            RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
+            return new NoteSizeValueObject(key, rhythmCombination);
+        }
+        throw new IllegalStateException("No beatgroup found");
     }
 
-    public List<Note> getRhythmNotesForBeatgroup(BeatGroup beatGroup){
-        List<RhythmCombination> rhythmCombinations = this.rhythmCombinationsPerNoteSize.get(beatGroup.getSize());
+    private List<Note> getNotes(BeatGroup beatGroup, List<RhythmCombination> rhythmCombinations) {
         RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
         return rhythmCombination.getNotes(beatGroup.getBeatLength());
     }
 
-//    public void setRhythmCombinations(List<RhythmCombination> rhythmCombinations) {
-//        this.rhythmCombinations = rhythmCombinations;
-//    }
-
     public List<Operator> getMutationOperators(){
         return mutationOperators;
+    }
+
+    public int getNumerator() {
+        return numerator;
     }
 }

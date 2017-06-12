@@ -30,6 +30,8 @@ public class VoiceConfig {
     private RowVoice rowVoice;
     @Autowired
     private ProvidedVoice providedVoice;
+    @Autowired
+    private TimeVoice timeVoice;
 
     private Map<Integer, Voice> voiceConfiguration = new TreeMap<>();
 
@@ -43,9 +45,9 @@ public class VoiceConfig {
 
     @PostConstruct
     public void initVoiceConfig(){
-        voiceConfiguration.put(0, melodyVoice);
-        voiceConfiguration.put(1, melodyVoice);
-        voiceConfiguration.put(2, homophonicVoice);
+        voiceConfiguration.put(0, homophonicVoice);
+        voiceConfiguration.put(1, timeVoice);
+        voiceConfiguration.put(2, melodyVoice);
         voiceConfiguration.put(3, melodyVoice);
 
     }

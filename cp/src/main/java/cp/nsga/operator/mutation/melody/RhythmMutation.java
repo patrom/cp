@@ -47,17 +47,20 @@ public class RhythmMutation implements MutationOperator<MelodyBlock> {
                 int v = melodyBlock.getVoice();
                 Voice voice = voiceConfig.getVoiceConfiguration(v);
                 CpMelody melody = optionalMelody.get();
-                List<Note> rhythmNotes = voice.getRhythmNotesForBeatgroup(melody.getBeatGroup());
+                List<Note> rhythmNotes = voice.getRhythmNotesForBeatgroupType(melody.getBeatGroup(), melody.getNotesSize());
+                rhythmNotes.forEach(n -> n.setVoice(melody.getVoice()));
                 if (textureConfig.hasTexture(v)) {
                     List<ChordType> textureTypes = textureConfig.getTextureFor(v);
                     for (Note melodyNote : rhythmNotes) {
-                        DependantHarmony dependantHarmony = new DependantHarmony();
-                        dependantHarmony.setChordType(RandomUtil.getRandomFromList(textureTypes));
-                        melodyNote.setDependantHarmony(dependantHarmony);
+                        if (!melodyNote.isRest()) {
+                            DependantHarmony dependantHarmony = new DependantHarmony();
+                            dependantHarmony.setChordType(RandomUtil.getRandomFromList(textureTypes));
+                            melodyNote.setDependantHarmony(dependantHarmony);
+                        }
                     }
                 }
                 melody.updateRhythmNotes(rhythmNotes);
-//				LOGGER.info("Melody replaced: " + melody.getVoice());
+//				LOGGER.info("RhythmMutation: " + melody.getVoice());
             }
         }
     }

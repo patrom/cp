@@ -52,7 +52,7 @@ public class RepetitionMelody extends AbstractMutation {
         notes.add(note().pos(DurationConstants.EIGHT).pitch(61).octave(5).pc(1).len(DurationConstants.SIXTEENTH).lev(Dynamic.MF.getLevel()).voice(1).build());
         notes.add(note().pos(DurationConstants.EIGHT + DurationConstants.SIXTEENTH).pitch(62).octave(5).pc(2).len(DurationConstants.SIXTEENTH).lev(Dynamic.MF.getLevel()).voice(1).build());
         CpMelody melody = new CpMelody(notes, 1, 0 , DurationConstants.QUARTER);
-        BeatGroupTwo beatGroupTwo = new BeatGroupTwo(DurationConstants.QUARTER, notes.size());
+        BeatGroupTwo beatGroupTwo = new BeatGroupTwo(DurationConstants.QUARTER);
         melodies.add(melody);
     }
 

@@ -38,13 +38,13 @@ public class TextureConfig {
 //        types.add(ChordType.CH2_GROTE_SIXT);
 //        types.add(ChordType.CH2_GROTE_SIXT_CHR);
 //        types.add(ChordType.CH2_KLEINE_SIXT_CHR);
-		types.add(ChordType.MAJOR);
-		types.add(ChordType.MAJOR_1);
-      types.add(ChordType.MAJOR_2);
-      types.add(ChordType.DOM);
+//		types.add(ChordType.MAJOR);
+//		types.add(ChordType.MAJOR_1);
+//      types.add(ChordType.MAJOR_2);
+//      types.add(ChordType.DOM);
 
 //        textureTypes.put(0, types);
-        textureTypes.put(0, types);
+//        textureTypes.put(1, types);
     }
 
     public List<ChordType> getTextureFor(int voice){

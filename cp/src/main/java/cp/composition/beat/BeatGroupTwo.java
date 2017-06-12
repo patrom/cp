@@ -2,8 +2,8 @@ package cp.composition.beat;
 
 public class BeatGroupTwo extends BeatGroup {
 
-	public BeatGroupTwo(int length, int size) {
-		super(length, size);
+	public BeatGroupTwo(int length) {
+		super(length);
 	}
 
 	@Override
