@@ -92,7 +92,7 @@ public class Orchestrator {
 //		}
 //		Map<InstrumentMapping, List<Note>> melodiesForInstrument = new TreeMap<>();
 //		for (Map.Entry<Integer,InstrumentMapping> entry : instrumentConfig.getInstruments().entrySet()) {
-//			MelodyBlock melodyBlock = melodyBlocks.get(entry.getKey());
+//			MelodyBlock melodyBlock = melodyBlocks.get(entry.getTimeLineKey());
 //			InstrumentMapping instrumentMapping = entry.getValue();
 //			melodiesForInstrument.put(instrumentMapping, melodyBlock.getMelodyBlockNotesWithRests());
 //			for (InstrumentMapping dependantInstrumentMapping : instrumentMapping.getDependantInstruments()) {

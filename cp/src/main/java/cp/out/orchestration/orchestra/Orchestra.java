@@ -427,7 +427,7 @@ public class Orchestra {
 //			Optional<Note> noteFound = entry.getValue().stream().filter(n -> n.getPosition() == position).findAny();
 //			if (!noteFound.isPresent()) {
 //				Note rest = note().rest().pc(position).len(length).build();
-//				map.compute(entry.getKey(), (k, v) -> {
+//				map.compute(entry.getTimeLineKey(), (k, v) -> {
 //					if (v == null) {
 //						List<Note> list = new ArrayList<>();
 //						list.addAll(Collections.singletonList(rest));

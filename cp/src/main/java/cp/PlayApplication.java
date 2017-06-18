@@ -112,7 +112,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 			//random orcherstration
 //            List<Instrument> instrumentsConfigured = instrumentConfig.getOrchestraInstuments();
 //			for (Map.Entry<String,List<Note>> entry : notesPerInstrument.entrySet()) {
-//				int order = Character.getNumericValue(entry.getKey().charAt(1));
+//				int order = Character.getNumericValue(entry.getTimeLineKey().charAt(1));
 //				OrchestralQuality ochestralQuality = orchestralQualityConfig.getOchestralQualityForVoice(order);
 //                List<Instrument> basicInstruments = ochestralQuality.getBasicInstruments();
 //                Collection<Instrument> instruments = CollectionUtils.intersection(instrumentsConfigured, basicInstruments);

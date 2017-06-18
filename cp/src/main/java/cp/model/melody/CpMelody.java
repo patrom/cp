@@ -9,7 +9,6 @@ import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.Technical;
-import cp.out.print.note.Key;
 import cp.util.RandomUtil;
 import cp.util.Util;
 import org.slf4j.Logger;
@@ -36,7 +35,7 @@ public class CpMelody implements Comparable<CpMelody>{
 	private List<Integer> contour = new ArrayList<>();
 	private BeatGroup beatGroup;
 	private Tonality tonality = Tonality.TONAL;
-	private Key key;
+	private TimeLineKey timeLineKey;
 	private int notesSize;
 	
 	public CpMelody(List<Note> notes, int voice, int start, int end) {
@@ -84,7 +83,7 @@ public class CpMelody implements Comparable<CpMelody>{
 		this.contour = new ArrayList<>(anotherMelody.getContour());
 		this.replaceable = anotherMelody.isReplaceable();
 		this.beatGroup = anotherMelody.getBeatGroup();
-		this.key = anotherMelody.getKey();
+		this.timeLineKey = anotherMelody.getTimeLineKey();
 		this.tonality = anotherMelody.getTonality();
 		this.notesSize = anotherMelody.getNotesSize();
 	}
@@ -307,15 +306,26 @@ public class CpMelody implements Comparable<CpMelody>{
         return (transposedPC + key) % 12;
     }
 
-    public void convertToKey(Key key, TimeLine timeLine) {
-        notes.stream().filter(n -> !n.isRest())
-                .sorted()
-                .forEach(note -> {
-                    TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(note.getPosition(), note.getVoice());
-                    int pitchClassKeyOfC = Util.convertToKeyOfC(note.getPitchClass(), key.getInterval());
-                    int pitchClass = (pitchClassKeyOfC + timeLineKey.getKey().getInterval()) % 12;
-                    note.setPitchClass(pitchClass);
-                });
+    /**
+     * convert to timeLineKey of timeline of first note in melody!
+     * @param timeLine the timeline
+     */
+    public void convertToTimelineKey(TimeLine timeLine) {
+        List<Note> notesNoRest = getNotesNoRest();
+        if (!notesNoRest.isEmpty()) {
+            Note firstNote = notesNoRest.get(0);
+            TimeLineKey timeLineKeyForPosition = timeLine.getTimeLineKeyAtPosition(firstNote.getPosition(), firstNote.getVoice());
+            notes.stream()
+                    .sorted()
+                    .forEach(note -> {
+                        int pitchClassKeyOfC = Util.convertToKeyOfC(note.getPitchClass(), this.timeLineKey.getKey().getInterval());
+                        int indexInC = timeLineKey.getScale().getIndex(pitchClassKeyOfC);
+                        int pitchClassTimelineKey = timeLineKeyForPosition.getScale().getPitchClasses()[indexInC];
+                        int pitchClass = (pitchClassTimelineKey + timeLineKeyForPosition.getKey().getInterval()) % 12;
+                        note.setPitchClass(pitchClass);
+                    });
+            this.setTimeLineKey(new TimeLineKey(timeLineKeyForPosition.getKey(), timeLineKeyForPosition.getScale()));
+        }
     }
 
 	public void inversePitchClasses(int functionalDegreeCenter, int offset, TimeLine timeLine) {
@@ -338,6 +348,16 @@ public class CpMelody implements Comparable<CpMelody>{
 					n.setPitchClass(invertedPC);
 				});
 	}
+
+	public void inverseRandom(Scale oldScale, Scale newScale){
+		int functionalDegreeCenter = RandomUtil.getRandomNumberInRange(1, newScale.getPitchClasses().length);
+		notes.stream().filter(n -> !n.isRest())
+				.sorted()
+				.forEach(n -> {
+					int inversePc = newScale.inverse(oldScale , n.getPitchClass(),  functionalDegreeCenter);
+					n.setPitchClass(inversePc);
+				});
+	}
 	/**
 	 * Only first note is checked on timeline
 	 */
@@ -345,14 +365,18 @@ public class CpMelody implements Comparable<CpMelody>{
         List<Note> notesNoRest = getNotesNoRest();
         if (!notesNoRest.isEmpty()) {
 			Note firstNote = notesNoRest.get(0);
-			TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(firstNote.getPosition(), firstNote.getVoice());
-            int pitchClassKeyOfC = Util.convertToKeyOfC(firstNote.getPitchClass(), timeLineKey.getKey().getInterval());
-			int functionalIndex = timeLineKey.getScale().getIndex(pitchClassKeyOfC);
+			TimeLineKey timeLineKeyForPosition = timeLine.getTimeLineKeyAtPosition(firstNote.getPosition(), firstNote.getVoice());
+            Scale timeLineScale = timeLineKeyForPosition.getScale();
+            int functionalDegreeCenter = RandomUtil.getRandomNumberInRange(1, timeLineScale.getPitchClasses().length);
             notesNoRest.stream()
                     .sorted()
                     .forEach(n -> {
-                        int invertedPC = this.invertPitchClass(functionalIndex, n.getPitchClass(), timeLineKey.getScale(), timeLineKey.getKey().getInterval());
-                        n.setPitchClass(invertedPC);
+						int pitchClassKeyOfC = Util.convertToKeyOfC(n.getPitchClass(), this.timeLineKey.getKey().getInterval());
+						int indexInC = timeLineKey.getScale().getIndex(pitchClassKeyOfC);
+						int pcInTimelineScale = timeLineScale.getPitchClasses()[indexInC];
+						int inversePcInTimelineScale = timeLineKeyForPosition.getScale().getInversedPitchClassIndex(functionalDegreeCenter, indexInC);
+						int pitchClassInTimeline = (inversePcInTimelineScale + timeLineKeyForPosition.getKey().getInterval()) % 12;
+                        n.setPitchClass(pitchClassInTimeline);
                     });
 		}
 	}
@@ -415,8 +439,8 @@ public class CpMelody implements Comparable<CpMelody>{
 		this.notes = notes;
 	}
 	
-//	private int convertToKeyOfC(int pitchClass, int key) {
-//		return (12 + pitchClass - key) % 12;
+//	private int convertToKeyOfC(int pitchClass, int timeLineKey) {
+//		return (12 + pitchClass - timeLineKey) % 12;
 //	}
 	
 	public boolean isRhythmMutable() {
@@ -507,12 +531,12 @@ public class CpMelody implements Comparable<CpMelody>{
         this.tonality = tonality;
     }
 
-    public Key getKey() {
-        return key;
+    public TimeLineKey getTimeLineKey() {
+        return timeLineKey;
     }
 
-    public void setKey(Key key) {
-        this.key = key;
+    public void setTimeLineKey(TimeLineKey timeLineKey) {
+        this.timeLineKey = timeLineKey;
     }
 
     @Override

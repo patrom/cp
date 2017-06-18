@@ -103,8 +103,9 @@ public class MelodyGenerator {
             melody.setStart(start);
             melody.setEnd(end);
             melody.updateNotes(voiceConfig, start);
-			if (melody.getTonality() == Tonality.TONAL && melody.getKey() != null) {
-				melody.convertToKey(melody.getKey(), timeLine);
+            //after positions set!
+			if (melody.getTonality() == Tonality.TONAL && melody.getTimeLineKey() != null) {
+				melody.convertToTimelineKey(timeLine);
 			}
 			melodyBlock.addMelodyBlock(melody);
             i++;
@@ -129,8 +130,8 @@ public class MelodyGenerator {
 			cloneMelody.setStart(start);
 			cloneMelody.setEnd(end);
 			cloneMelody.updateNotes(voiceConfig, start);
-			if (cloneMelody.getTonality() == Tonality.TONAL && cloneMelody.getKey() != null) {
-				cloneMelody.convertToKey(cloneMelody.getKey(), timeLine);
+			if (cloneMelody.getTonality() == Tonality.TONAL && cloneMelody.getTimeLineKey() != null) {
+				cloneMelody.convertToTimelineKey(timeLine);
 			}
 			if (textureConfig.hasTexture(voice)) {
 				List<ChordType> textureTypes = textureConfig.getTextureFor(voice);

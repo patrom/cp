@@ -363,6 +363,12 @@ public class MelodyBlock {
         }
 	}
 
+	public void replaceMelody(CpMelody oldMelody, CpMelody newMelody){
+        final int index = melodyBlocks.indexOf(oldMelody);
+        melodyBlocks.remove(oldMelody);
+		melodyBlocks.add(index, newMelody);
+	}
+
 	public boolean isMutable() {
 		return mutable;
 	}

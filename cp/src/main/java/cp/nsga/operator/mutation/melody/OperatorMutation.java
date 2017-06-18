@@ -36,24 +36,25 @@ public class OperatorMutation implements MutationOperator<MelodyBlock> {
         this.probabilityOperatorMutation = probabilityOperatorMutation;
     }
 
-    public void doMutation(double probability, MelodyBlock melodyBlock) {
-        if (PseudoRandom.randDouble() < probability) {
+    public void doMutation(MelodyBlock melodyBlock) {
+        if (PseudoRandom.randDouble() < probabilityOperatorMutation) {
             Optional<CpMelody> optionalMelody = melodyBlock.getRandomMelody(m -> m.isReplaceable());
             if (optionalMelody.isPresent()) {
 
                 CpMelody melody = optionalMelody.get();
+//                LOGGER.info("melody :" + melody.getVoice());
                 if (melody.getTonality() == Tonality.TONAL) {
                     int random = RandomUtil.getRandomNumberInRange(0, 1);
                     int steps;
                     int degree;
                     switch (random) {
                         case 0:
-//                            melody.transposePitchClasses(timeLine);
-//                            LOGGER.info("transpose tonal");
+                            melody.transposePitchClasses(timeLine);
+                            LOGGER.info("transpose tonal");
                             break;
                         case 1:
-                            melody.inversePitchClasses(timeLine);
-                            LOGGER.info("inverse tonal");
+//                            melody.inversePitchClasses(timeLine);
+//                            LOGGER.info("inverse tonal");
                             break;
                         //                    case 5:
 //                        steps = RandomUtil.getRandomNumberInRange(0, 7);
@@ -75,16 +76,16 @@ public class OperatorMutation implements MutationOperator<MelodyBlock> {
                             break;
                     }
                 } else if (melody.getTonality() == Tonality.ATONAL) {
-                    int random = RandomUtil.getRandomNumberInRange(0, 2);
+                    int random = RandomUtil.getRandomNumberInRange(0, 1);
                     int steps = RandomUtil.getRandomNumberInRange(0, 11);
                     switch (random) {
                         case 0:
                             melody.T(steps);
-//                            LOGGER.info("T:" + steps);
+                            LOGGER.info("T:" + steps);
                             break;
                         case 1:
                             melody.I().T(steps);
-//                            LOGGER.info("IT:" + steps);
+                            LOGGER.info("IT:" + steps);
                             break;
 //                        case 2:
 //                            melody.R().T(steps);
@@ -103,7 +104,7 @@ public class OperatorMutation implements MutationOperator<MelodyBlock> {
 
     @Override
     public MelodyBlock execute(MelodyBlock melodyBlock) {
-        doMutation(probabilityOperatorMutation, melodyBlock);
+        doMutation(melodyBlock);
         return melodyBlock;
     }
 }

@@ -31,8 +31,11 @@ public class ProvidedVoice extends Voice {
 //        melodies = melodyProvider.getMelodies();
         setTimeconfig();
         dynamics = Stream.of(Dynamic.MF, Dynamic.F).collect(toList());
-        pitchClassGenerators.add(emptyPitchClasses::updatePitchClasses);
-        mutationOperators = rhytmMutationOperators;
+        pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
+        pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
+        pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
+//        mutationOperators = rhytmMutationOperators;
+//        mutationOperators.add(mutators.operatorMutation);
         technical = Technical.LEGATO;
     }
 

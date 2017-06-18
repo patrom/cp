@@ -2,6 +2,8 @@ package cp.out.orchestration.quality;
 
 import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.register.InstrumentRegister;
+import cp.out.instrument.strings.Cello;
+import cp.out.instrument.strings.CelloSolo;
 import cp.out.instrument.woodwinds.Bassoon;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +28,8 @@ public class LowRange extends  OrchestralQuality {
 //                new ViolinsI(new InstrumentRegister(69, 81)),
 //                new Viola(new InstrumentRegister(62, 74)),
 //                new Cello(new InstrumentRegister(50, 61)),
-//                new CelloSolo(new InstrumentRegister(50, 61)),
+                new CelloSolo(range),
+                new Cello(range),
 //                new DoubleBass(new InstrumentRegister(43, 49)),
 //                new Glockenspiel(new InstrumentRegister(87, 103)),
 //                new Celesta(new InstrumentRegister(72, 84)),

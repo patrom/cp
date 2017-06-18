@@ -31,11 +31,11 @@ public class TwoVoiceComposition extends Composition{
 		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfigRandom(voice0, melodies);
 		melodyBlocks.add(melodyBlock);
 
-//        MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfigRandom(voice1, melodies);
-//        melodyBlocks.add(melodyBlock2);
+        MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfigRandom(voice1, melodies);
+        melodyBlocks.add(melodyBlock2);
 
-		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfig(voice1);
-		melodyBlocks.add(melodyBlock2);
+//		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfig(voice1);
+//		melodyBlocks.add(melodyBlock2);
 
 
 		return melodyBlocks;

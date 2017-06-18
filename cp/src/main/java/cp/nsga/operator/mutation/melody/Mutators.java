@@ -17,8 +17,6 @@ public class Mutators {
     @Autowired
     public RhythmMutation rhythmMutation;
     @Autowired
-    public OperatorMutation operatorMutation;
-    @Autowired
     public OneNoteMutation oneNoteMutation;
     @Autowired
     public OneNoteChromaticMutation oneNoteChromaticMutation;
@@ -36,12 +34,17 @@ public class Mutators {
     @Autowired
     public TechnicalMutation technicalMutation;
 
+    @Autowired
+    public OperatorMutation operatorMutation;
+    @Autowired
+    public ProvidedMutation providedMutation;
+
 
     @Bean
     public List<MutationOperator> mutationOperators(){
         ArrayList<MutationOperator> mutationOperators = new ArrayList<>();
         mutationOperators.add(rhythmMutation);
-        mutationOperators.add(operatorMutation);
+//        mutationOperators.add(operatorMutation);
         mutationOperators.add(replaceMelody);
         mutationOperators.add(oneNoteMutation);
 //        mutationOperators.add(oneNoteChromaticMutation);//no timeline
@@ -50,6 +53,7 @@ public class Mutators {
         mutationOperators.add(dynamicMutation);
         mutationOperators.add(technicalMutation);
         mutationOperators.add(textureMutation);
+        mutationOperators.add(providedMutation);
         return mutationOperators;
     }
 

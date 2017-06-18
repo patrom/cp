@@ -168,7 +168,11 @@ public abstract class Composition {
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
 		timeLineKeys.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
-		timeLineKeys.add(new TimeLineKey(keys.E, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.E, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.D, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.A, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.F, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.G, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(Gflat, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 
@@ -177,7 +181,10 @@ public abstract class Composition {
 		durations.add(DurationConstants.WHOLE);
 		durations.add(DurationConstants.HALF);
 //		timeLine.randomKeysAndDurations(timeLineKeys, durations);
-		timeLine.randomKeys(timeLineKeys, DurationConstants.WHOLE, DurationConstants.WHOLE, 4 * DurationConstants.WHOLE);
+		timeLine.randomKeys(timeLineKeys, DurationConstants.HALF, DurationConstants.HALF,
+				DurationConstants.HALF, DurationConstants.HALF,
+				DurationConstants.HALF, DurationConstants.HALF,
+				DurationConstants.HALF, DurationConstants.HALF, 4 * DurationConstants.WHOLE);
 
 //		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(C, Scale.MAJOR_SCALE, 0 ,end)),0);
 //		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(C, Scale.MAJOR_SCALE, 0 ,end)),1);

@@ -1,5 +1,6 @@
 package cp.model.note;
 
+import cp.util.RandomUtil;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -102,6 +103,18 @@ public class ScaleTest {
 
 		higher = scale.pickHigerStepFromScale(4, 2);
 		assertEquals(7, higher);
+	}
+
+	@Test
+	public void testInverse() {
+		Scale minorScale = Scale.HARMONIC_MINOR_SCALE;
+		int functionalDegreeCenter = RandomUtil.getRandomNumberInRange(1,scale.getPitchClasses().length);
+		System.out.println("functionalDegreeCenter : " + functionalDegreeCenter);
+		for (int pc : scale.getPitchClasses()) {
+			System.out.println("pc: " + pc);
+			int inversePc = minorScale.inverse(scale , pc,  functionalDegreeCenter);//key of E
+			System.out.println("inverse " + inversePc);
+		}
 	}
 
 }

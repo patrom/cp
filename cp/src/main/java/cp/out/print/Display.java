@@ -3,6 +3,8 @@ package cp.out.print;
 import cp.generator.MusicProperties;
 import cp.midi.MidiDevicesUtil;
 import cp.model.Motive;
+import cp.model.TimeLine;
+import cp.model.TimeLineKey;
 import cp.model.harmony.CpHarmony;
 import cp.model.melody.MelodyBlock;
 import cp.model.rhythm.DurationConstants;
@@ -21,6 +23,7 @@ import javax.sound.midi.Sequence;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class Display {
@@ -37,6 +40,8 @@ public class Display {
 	private MusicProperties musicProperties;
 	@javax.annotation.Resource(name="fileResource")
 	private Resource resource;
+	@Autowired
+	private TimeLine timeLine;
 
 	public void view(Motive motive, String id) throws Exception {
         motive.getMelodyBlocks().stream().flatMap(m -> m.getMelodyBlockNotes().stream()).forEach(n -> {
@@ -48,6 +53,20 @@ public class Display {
 		printHarmonies(motive.getHarmonies());
 		viewScore(motive.getMelodyBlocks(), id);
 		generateMusicXml(motive.getMelodyBlocks(), id);
+		printTimeLine();
+	}
+
+	private void printTimeLine() {
+		Map<Integer, List<TimeLineKey>> keysPerVoice = timeLine.getKeysPerVoice();
+		List<TimeLineKey> timeLineKeys = keysPerVoice.get(0);
+		StringBuilder stringBuilder = new StringBuilder();
+		for (TimeLineKey timeLineKey : timeLineKeys) {
+			stringBuilder.append("Key: ");
+			stringBuilder.append(timeLineKey.getKey().getStep());
+			stringBuilder.append(", Start: ");
+			stringBuilder.append(timeLineKey.getStart());
+		}
+		LOGGER.info(stringBuilder.toString());
 	}
 
 	private void printHarmonies(List<CpHarmony> harmonies) {

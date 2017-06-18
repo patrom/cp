@@ -70,7 +70,7 @@ public class Scale {
 	public int getIndex(int pitchClass){
 		for (int i = 0; i < scale.length; i++) {
 			if (pitchClass  == scale[i]) {
-				return i + 1;
+				return i;
 			}
 		}
 		throw new IllegalArgumentException("Scale doesn't contain pitchClass: " + pitchClass + ", scale: " + Arrays.toString(scale));
@@ -85,6 +85,16 @@ public class Scale {
 		int index = getIndex(pitchClass);
 		int inversionIndex = (scale.length + (functionalDegreeCenter - 1) + (functionalDegreeCenter - 1 - index)) % scale.length;
 		return scale[inversionIndex];
+	}
+
+	public int getInversedPitchClassIndex(int functionalDegreeCenter, int index){
+		int inversionIndex = (scale.length + (functionalDegreeCenter - 1) + (functionalDegreeCenter - 1 - index)) % scale.length;
+		return scale[inversionIndex];
+	}
+
+	public int inverse(Scale oldScale, int pcOldScale, int functionalDegreeCenter){
+		int indexPitchClass = oldScale.getIndex(pcOldScale);
+		return this.getInversedPitchClassIndex(functionalDegreeCenter, indexPitchClass);
 	}
 	
 	public int transposePitchClass(int pitchClass, int steps){
