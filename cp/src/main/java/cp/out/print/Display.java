@@ -61,8 +61,9 @@ public class Display {
 		List<TimeLineKey> timeLineKeys = keysPerVoice.get(0);
 		StringBuilder stringBuilder = new StringBuilder();
 		for (TimeLineKey timeLineKey : timeLineKeys) {
-			stringBuilder.append("Key: ");
+			stringBuilder.append(", Key: ");
 			stringBuilder.append(timeLineKey.getKey().getStep());
+			stringBuilder.append(timeLineKey.getScale());
 			stringBuilder.append(", Start: ");
 			stringBuilder.append(timeLineKey.getStart());
 		}
