@@ -3,7 +3,8 @@ package cp.out.orchestration.quality;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.brass.FrenchHorn;
 import cp.out.instrument.keyboard.Piano;
-import cp.out.instrument.percussion.Harp;
+import cp.out.instrument.percussion.Vibraphone;
+import cp.out.instrument.plucked.Harp;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.*;
 import cp.out.orchestration.InstrumentName;
@@ -29,7 +30,8 @@ public class MellowPurple extends OrchestralQuality{
 				new CelloSolo(new InstrumentRegister(36, 49)),
 				new DoubleBass(new InstrumentRegister(24, 50)),
 				new Harp(new InstrumentRegister(23, 41)),
-				new Piano(new InstrumentRegister(28, 55))
+				new Piano(new InstrumentRegister(28, 55)),
+				new Vibraphone(new InstrumentRegister(53, 72))
 				).collect(toList());
 	}
 	

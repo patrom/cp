@@ -5,6 +5,7 @@ import cp.out.instrument.keyboard.Celesta;
 import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.percussion.Glockenspiel;
 import cp.out.instrument.percussion.Timpani;
+import cp.out.instrument.percussion.Vibraphone;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.*;
 import cp.out.instrument.woodwinds.BassClarinet;
@@ -41,6 +42,7 @@ public class RichBlue extends OrchestralQuality{
 				new Piano(new InstrumentRegister(55, 72)),
 				new Glockenspiel(new InstrumentRegister(77, 87)),
 				new Celesta(new InstrumentRegister(60, 72)),
+				new Vibraphone(new InstrumentRegister(72, 89)),
 				new Timpani(new InstrumentRegister(41, 53))
 				).collect(Collectors.toList());
 		

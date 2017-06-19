@@ -1,5 +1,6 @@
-package cp.out.instrument.percussion;
+package cp.out.instrument.plucked;
 
+import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
@@ -12,11 +13,11 @@ public class Harp extends Instrument {
 	}
 
 	private void init() {
-		instrumentGroup = InstrumentGroup.PERCUSSION;
+		instrumentGroup = InstrumentGroup.PLUCKED;
 		order = 0;
 		setLowest(23);
 		setHighest(103);
-//		setGeneralMidi(GeneralMidi.CELLO);
+		setGeneralMidi(GeneralMidi.HARP);
 		
 		setInstrumentName(InstrumentName.HARP.getName());
 		setInstrumentSound("pluck.harp");

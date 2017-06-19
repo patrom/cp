@@ -1,5 +1,6 @@
 package cp.out.instrument.keyboard;
 
+import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
@@ -16,7 +17,7 @@ public class Celesta extends Instrument {
 		order = 0;
 		setLowest(60);
 		setHighest(108);
-//		setGeneralMidi(GeneralMidi.CELLO);
+		setGeneralMidi(GeneralMidi.CELESTA);
 		
 		setInstrumentName(InstrumentName.CELESTA.getName());
 		setInstrumentSound("keyboard.celesta");

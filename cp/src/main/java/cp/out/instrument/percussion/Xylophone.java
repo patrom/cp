@@ -1,5 +1,6 @@
 package cp.out.instrument.percussion;
 
+import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
@@ -16,7 +17,7 @@ public class Xylophone  extends Instrument {
 		order = 0;
 		setLowest(65);
 		setHighest(108);
-//		setGeneralMidi(GeneralMidi.CELLO);
+		setGeneralMidi(GeneralMidi.XYLOPHONE);
 		
 		setInstrumentName(InstrumentName.XYLOPHONE.getName());
 		setInstrumentSound("pitched-percussion.xylophone");
