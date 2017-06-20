@@ -63,8 +63,7 @@ public class Display {
 		for (TimeLineKey timeLineKey : timeLineKeys) {
 			stringBuilder.append(", Key: ");
 			stringBuilder.append(timeLineKey.getKey().getStep());
-			stringBuilder.append(timeLineKey.getScale());
-			stringBuilder.append(", Start: ");
+			stringBuilder.append(", ");
 			stringBuilder.append(timeLineKey.getStart());
 		}
 		LOGGER.info(stringBuilder.toString());

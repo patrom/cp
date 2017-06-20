@@ -1,7 +1,7 @@
 package cp.nsga.operator.mutation.melody;
 
+import cp.composition.Composition;
 import cp.composition.voice.VoiceConfig;
-import cp.generator.provider.MelodyProvider;
 import cp.model.TimeLine;
 import cp.model.harmony.ChordType;
 import cp.model.harmony.DependantHarmony;
@@ -16,7 +16,6 @@ import jmetal.util.PseudoRandom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -40,8 +39,7 @@ public class ProvidedMutation implements MutationOperator<MelodyBlock> {
     @Autowired
     private TextureConfig textureConfig;
     @Autowired
-    @Qualifier(value = "melodyManualProvider")//melodyManualProvider - melodyGeneratorProvider
-    private MelodyProvider melodyProvider;
+    private Composition composition;
     @Autowired
     private MelodyTransformer melodyTransformer;
     @Autowired
@@ -57,7 +55,7 @@ public class ProvidedMutation implements MutationOperator<MelodyBlock> {
             Optional<CpMelody> optionalMelody = melodyBlock.getRandomMelody(m -> m.isReplaceable());
             if (optionalMelody.isPresent()) {
                 CpMelody melody = optionalMelody.get();
-                List<CpMelody> provideMelodies = melodyProvider.getMelodies().stream().filter(m -> m.getBeatGroupLength() == melody.getBeatGroupLength()).collect(toList());
+                List<CpMelody> provideMelodies = composition.melodyProvider.getMelodies().stream().filter(m -> m.getBeatGroupLength() == melody.getBeatGroupLength()).collect(toList());
                 if (!provideMelodies.isEmpty()) {
 //                    final Voice voice = voiceConfig.getVoiceConfiguration(melody.getVoice());
                     CpMelody providedMelody = RandomUtil.getRandomFromList(provideMelodies).clone(melody.getVoice());

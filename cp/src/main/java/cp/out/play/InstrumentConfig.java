@@ -4,7 +4,9 @@ import cp.out.instrument.Instrument;
 import cp.out.instrument.brass.FrenchHorn;
 import cp.out.instrument.brass.Trombone;
 import cp.out.instrument.brass.Trumpet;
+import cp.out.instrument.keyboard.Celesta;
 import cp.out.instrument.keyboard.Piano;
+import cp.out.instrument.percussion.Marimba;
 import cp.out.instrument.plucked.Guitar;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.*;
@@ -108,6 +110,14 @@ public class InstrumentConfig {
         instruments.put(2, new InstrumentMapping(new ViolinSolo(), 3, 1));
         instruments.put(1, new InstrumentMapping(new ViolaSolo(), 2, 2));
         instruments.put(0, new InstrumentMapping(new CelloSolo(), 1, 3));
+        return instruments;
+    }
+
+    public Map<Integer, InstrumentMapping> getPercussion() {
+//        instruments.put(3, new InstrumentMapping(new ViolinSolo(), 4, 0));
+        instruments.put(2, new InstrumentMapping(new Celesta(), 3, 1));
+        instruments.put(1, new InstrumentMapping(new Marimba(), 2, 2));
+        instruments.put(0, new InstrumentMapping(new Marimba(), 1, 3));
         return instruments;
     }
 

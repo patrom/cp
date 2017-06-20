@@ -4,8 +4,11 @@ import cp.composition.beat.BeatGroup;
 import cp.composition.voice.NoteSizeValueObject;
 import cp.composition.voice.Voice;
 import cp.composition.voice.VoiceConfig;
+import cp.model.TimeLineKey;
 import cp.model.melody.CpMelody;
 import cp.model.note.Note;
+import cp.model.note.Scale;
+import cp.out.print.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +23,8 @@ public class MelodyGeneratorProvider implements MelodyProvider{
 
     @Autowired
     private VoiceConfig voiceConfiguration;
+    @Autowired
+    private Keys keys;
 
     public List<CpMelody> getMelodies(){
         int voice = 0;
@@ -41,9 +46,10 @@ public class MelodyGeneratorProvider implements MelodyProvider{
             n.setDynamicLevel(voiceConfig.getDynamic().getLevel());
             n.setTechnical(voiceConfig.getTechnical());
         });
-        melodyNotes = voiceConfiguration.getRandomPitchClassGenerator(voice).updatePitchClasses(melodyNotes);
+//        melodyNotes = voiceConfiguration.getRandomPitchClassGenerator(voice).updatePitchClasses(melodyNotes);
         CpMelody melody = new CpMelody(melodyNotes, voice, 0,  beatGroup.getBeatLength());
         melody.setBeatGroup(beatGroup);
+        melody.setTimeLineKey(new TimeLineKey(keys.C, Scale.MAJOR_SCALE));
         melody.setNotesSize(valueObject.getKey());
         return melody;
     }

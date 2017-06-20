@@ -1,11 +1,8 @@
 package cp.composition.voice;
 
-import cp.generator.provider.MelodyProvider;
 import cp.model.melody.CpMelody;
 import cp.model.note.Dynamic;
 import cp.out.instrument.Technical;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -20,15 +17,10 @@ import static java.util.stream.Collectors.toList;
 @Component
 public class ProvidedVoice extends Voice {
 
-    @Autowired
-    @Qualifier(value = "melodyGeneratorProvider")
-    private MelodyProvider melodyProvider;
-
     private List<CpMelody> melodies;
 
     @PostConstruct
     public void init(){
-//        melodies = melodyProvider.getMelodies();
         setTimeconfig();
         dynamics = Stream.of(Dynamic.MF, Dynamic.F).collect(toList());
         pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);

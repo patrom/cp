@@ -56,7 +56,7 @@ public abstract class Composition {
 
 	@Autowired
 	@Qualifier(value = "melodyManualProvider")//melodyManualProvider - melodyGeneratorProvider
-	protected MelodyProvider melodyProvider;
+	public MelodyProvider melodyProvider;
 
 	@Autowired
 	protected ReplaceMelody replaceMelody;
