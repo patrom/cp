@@ -55,7 +55,7 @@ public abstract class Composition {
 	protected Instrument instrument5;
 
 	@Autowired
-	@Qualifier(value = "melodyManualProvider")//melodyManualProvider - melodyGeneratorProvider
+	@Qualifier(value = "melodyGeneratorProvider")//melodyManualProvider - melodyGeneratorProvider
 	public MelodyProvider melodyProvider;
 
 	@Autowired
