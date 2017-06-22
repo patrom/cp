@@ -88,15 +88,14 @@ public class CombinationConfig {
 //		fourCombinations.add(fourNoteEven::pos1234);
 //		map.put(4, fourCombinations);
 
-       List<RhythmCombination> threeTripletCombinations = new ArrayList<>();
-		threeTripletCombinations.add(threeNoteUneven::pos123);
-		map.put(3, threeTripletCombinations);
 
-//		List<RhythmCombination> twoTripletCombinations = new ArrayList<>();
-//		twoTripletCombinations.add(twoNoteUneven::pos23);
-//		twoTripletCombinations.add(twoNoteUneven::pos12);
-//		twoTripletCombinations.add(twoNoteUneven::pos13);
-		//		map.put(2, twoTripletCombinations);
+		threeCombinations.add(threeNoteUneven::pos123);
+		map.put(3, threeCombinations);
+
+//		twoCombinations.add(twoNoteUneven::pos23);
+//		twoCombinations.add(twoNoteUneven::pos12);
+//		twoCombinations.add(twoNoteUneven::pos13);
+		//		map.put(2, twoCombinations);
 
 //        List<RhythmCombination> fiveCombinations = new ArrayList<>();
 //		fiveCombinations.add(fiveNoteQuintuplet::pos12345);
