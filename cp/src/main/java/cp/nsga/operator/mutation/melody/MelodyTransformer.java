@@ -30,11 +30,11 @@ public class MelodyTransformer {
             switch (random) {
                 case 0:
                     melody.transposePitchClasses(timeLine);
-//                    LOGGER.info("transform transpose tonal");
+                    LOGGER.debug("transform transpose tonal");
                     break;
                 case 1:
                     melody.inversePitchClasses(timeLine);
-//                    LOGGER.info("transform inverse tonal");
+                    LOGGER.debug("transform inverse tonal");
                     break;
                 //                    case 5:
 //                        steps = RandomUtil.getRandomNumberInRange(0, 7);
@@ -61,11 +61,11 @@ public class MelodyTransformer {
             switch (random) {
                 case 0:
                     melody.T(steps);
-                    LOGGER.info("transform T:" + steps);
+                    LOGGER.debug("transform T:" + steps);
                     break;
                 case 1:
                     melody.I().T(steps);
-                    LOGGER.info("transform IT:" + steps);
+                    LOGGER.debug("transform IT:" + steps);
                     break;
 //                        case 2:
 //                            melody.R().T(steps);

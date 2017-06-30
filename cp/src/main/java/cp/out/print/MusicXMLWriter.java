@@ -1,5 +1,6 @@
 package cp.out.print;
 
+import cp.composition.voice.Voice;
 import cp.generator.MusicProperties;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Dynamic;
@@ -318,7 +319,7 @@ public class MusicXMLWriter {
 		} else {
 			createPitchElement(note);
 		}
-		int length =  note.getDisplayLength() * DIVISIONS / Note.DEFAULT_LENGTH;
+		int length =  note.getDisplayLength() * DIVISIONS / Voice.DEFAULT_LENGTH;
 		createElementWithValue("duration", String.valueOf(length));
 		createElementWithAttributeValue("instrument", "id", "P" + instrumentMapping.getScoreOrder() + "-I" + instrumentMapping.getScoreOrder());
 		if (note.getVoice() > -1) {
@@ -665,11 +666,11 @@ public class MusicXMLWriter {
 		int numerator = musicProperties.getNumerator();
 		switch (musicProperties.getDenominator()) {
 		case 4:
-			return numerator * Note.DEFAULT_LENGTH;
+			return numerator * Voice.DEFAULT_LENGTH;
 		case 8:
-			return numerator * (Note.DEFAULT_LENGTH / 2);
+			return numerator * (Voice.DEFAULT_LENGTH / 2);
 		case 2:
-			return numerator * (Note.DEFAULT_LENGTH * 2);
+			return numerator * (Voice.DEFAULT_LENGTH * 2);
 		}
 		throw new IllegalStateException("Denominator unknown; " + musicProperties.getDenominator());
 	}

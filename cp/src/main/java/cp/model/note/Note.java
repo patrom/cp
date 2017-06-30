@@ -1,7 +1,7 @@
 package cp.model.note;
 
+import cp.composition.voice.Voice;
 import cp.model.harmony.DependantHarmony;
-import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.Technical;
 
@@ -11,13 +11,9 @@ public class Note implements Comparable<Note>{
 	/** The pitch value which indicates a rest. */
 	public static final int REST = Integer.MIN_VALUE;
 	   /** default dynamic*/
-    public static final int DEFAULT_DYNAMIC_LEVEL = Dynamic.MF.getLevel();
-    public static final Technical DEFAULT_TECHNICAL = Technical.PORTATO;
-    public static final Dynamic DEFAULT_DYNAMIC = Dynamic.MF;
-    public static final int DEFAULT_LENGTH = DurationConstants.QUARTER;
 
 	private int pitch;
-	private int dynamicLevel = DEFAULT_DYNAMIC_LEVEL;
+	private int dynamicLevel = Voice.DEFAULT_DYNAMIC_LEVEL;
 	private double rhythmValue;
 //	private double duration;
 
@@ -58,7 +54,7 @@ public class Note implements Comparable<Note>{
 	private boolean chord = false;
 	
 	private Articulation articulation;
-	private Dynamic dynamic = DEFAULT_DYNAMIC;
+	private Dynamic dynamic = Voice.DEFAULT_DYNAMIC;
 
 	public Note() {
 	}
@@ -279,7 +275,7 @@ public class Note implements Comparable<Note>{
 	}
 	
 	public boolean hasDynamic(){
-		return dynamicLevel != DEFAULT_DYNAMIC_LEVEL;
+		return dynamicLevel != Voice.DEFAULT_DYNAMIC_LEVEL;
 	}
 
 	public Dynamic getDynamic() {

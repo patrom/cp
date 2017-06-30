@@ -1,6 +1,5 @@
 package cp.composition;
 
-import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -27,8 +26,7 @@ public class MelodyComposition extends Composition {
     public List<MelodyBlock> melodyProvided(){
         List<MelodyBlock> melodyBlocks = new ArrayList<>();
 
-        List<CpMelody> melodies = melodyProvider.getMelodies();
-        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0, melodies);
+        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0);
         melodyBlocks.add(melodyBlock);
 
         return melodyBlocks;

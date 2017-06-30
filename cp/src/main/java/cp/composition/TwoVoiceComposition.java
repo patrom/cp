@@ -24,22 +24,6 @@ public class TwoVoiceComposition extends Composition{
 
 	}
 
-	public List<MelodyBlock> melodyProvided(){
-		List<MelodyBlock> melodyBlocks = new ArrayList<>();
-
-		List<CpMelody> melodies = melodyProvider.getMelodies();
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfigRandom(voice0, melodies);
-		melodyBlocks.add(melodyBlock);
-
-        MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfigRandom(voice1, melodies);
-        melodyBlocks.add(melodyBlock2);
-
-//		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfig(voice1);
-//		melodyBlocks.add(melodyBlock2);
-
-
-		return melodyBlocks;
-	}
 
 	public List<MelodyBlock> random(){
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();

@@ -1,6 +1,7 @@
 package cp.nsga.operator.mutation.melody;
 
 import cp.composition.Composition;
+import cp.composition.voice.Voice;
 import cp.composition.voice.VoiceConfig;
 import cp.model.TimeLine;
 import cp.model.harmony.ChordType;
@@ -55,9 +56,11 @@ public class ProvidedMutation implements MutationOperator<MelodyBlock> {
             Optional<CpMelody> optionalMelody = melodyBlock.getRandomMelody(m -> m.isReplaceable());
             if (optionalMelody.isPresent()) {
                 CpMelody melody = optionalMelody.get();
-                List<CpMelody> provideMelodies = composition.melodyProvider.getMelodies().stream().filter(m -> m.getBeatGroupLength() == melody.getBeatGroupLength()).collect(toList());
+                Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(melody.getVoice());
+                List<CpMelody> provideMelodies = voiceConfiguration.getMelodyProvider().getMelodies().stream().filter(m -> m.getBeatGroupLength() == melody.getBeatGroupLength()).collect(toList());
                 if (!provideMelodies.isEmpty()) {
-//                    final Voice voice = voiceConfig.getVoiceConfiguration(melody.getVoice());
+                    final Voice voice = voiceConfig.getVoiceConfiguration(melody.getVoice());
+
                     CpMelody providedMelody = RandomUtil.getRandomFromList(provideMelodies).clone(melody.getVoice());
 
                     List<Note> melodyNotes = providedMelody.getNotes();
@@ -65,7 +68,7 @@ public class ProvidedMutation implements MutationOperator<MelodyBlock> {
 //                        n.setVoice(melody.getVoice());
 //                        n.setDynamic(voice.getDynamic());
 //                        n.setDynamicLevel(voice.getDynamic().getLevel());
-//                        n.setTechnical(voice.getTechnical());
+                        n.setTechnical(voice.getTechnical() != null?voice.getTechnical():n.getTechnical());
                         n.setPosition(n.getPosition() + melody.getStart());
                     });
                     if (textureConfig.hasTexture(melodyBlock.getVoice())) {

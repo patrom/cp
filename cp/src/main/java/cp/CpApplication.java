@@ -114,10 +114,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	private void compose() throws Exception {
 		List<CompositionGenre> composeInGenres = new ArrayList<>();
 //		composeInGenres.add(melodyComposition::melody);
-//		composeInGenres.add(melodyComposition::melodyProvided);
 
 		//TWO VOICES
-//		composeInGenres.add(twoVoiceComposition::melodyProvided);
 //		composeInGenres.add(twoVoiceComposition::random);
 //		composeInGenres.add(twoVoiceComposition::beatEven);
 //		composeInGenres.add(twoVoiceComposition::canon);
@@ -142,13 +140,12 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(threeVoiceComposition::harmonize);
 //		composeInGenres.add(threeVoiceComposition::threeOverXX);
 //		composeInGenres.add(threeVoiceComposition::allRandom);
-		composeInGenres.add(threeVoiceComposition::melodyProvided);
 
 		//FOUR VOICES
 //		composeInGenres.add(fourVoiceComposition::canonA3);
 //		composeInGenres.add(fourVoiceComposition::canonA4);
 //		composeInGenres.add(fourVoiceComposition::doubleCanon);
-//		composeInGenres.add(fourVoiceComposition::allRandom);
+		composeInGenres.add(fourVoiceComposition::allRandom);
 //		fourVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
 //		fourVoiceComposition.setHarmonizeVoice(1);
 //		composeInGenres.add(fourVoiceComposition::harmonize);

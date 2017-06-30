@@ -7,8 +7,6 @@ import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.harmony.CpHarmony;
 import cp.model.melody.MelodyBlock;
-import cp.model.rhythm.DurationConstants;
-import cp.out.instrument.Articulation;
 import jm.music.data.Score;
 import jm.util.View;
 import org.slf4j.Logger;
@@ -44,11 +42,11 @@ public class Display {
 	private TimeLine timeLine;
 
 	public void view(Motive motive, String id) throws Exception {
-        motive.getMelodyBlocks().stream().flatMap(m -> m.getMelodyBlockNotes().stream()).forEach(n -> {
-            if (n.getLength() <= DurationConstants.SIXTEENTH) {
-                n.setArticulation(Articulation.STACCATO);
-            }
-        });
+//        motive.getMelodyBlocks().stream().flatMap(m -> m.getMelodyBlockNotes().stream()).forEach(n -> {
+//            if (n.getLength() <= DurationConstants.SIXTEENTH) {
+//                n.setArticulation(Articulation.STACCATO);
+//            }
+//        });
 
 		printHarmonies(motive.getHarmonies());
 		viewScore(motive.getMelodyBlocks(), id);

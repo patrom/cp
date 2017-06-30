@@ -1,5 +1,6 @@
 package cp.model.rhythm;
 
+import cp.composition.voice.Voice;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.out.instrument.Articulation;
@@ -32,7 +33,7 @@ public class RhythmWeight {
 	protected void updateNotesLength(){
 		Note lastNote = notes.get(notes.size() - 1);
 		if (lastNote.getLength() == 0) {
-			lastNote.setLength(Note.DEFAULT_LENGTH);
+			lastNote.setLength(Voice.DEFAULT_LENGTH);
 		}
 		int size = notes.size() - 1;
 		for (int i = 0; i < size; i++) {

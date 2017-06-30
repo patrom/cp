@@ -48,7 +48,7 @@ public class ReplaceMelody implements MutationOperator<MelodyBlock> {
 				Voice voice = voiceConfig.getVoiceConfiguration(melodyBlock.getVoice());
 				BeatGroup beatGroup = voice.getTimeConfig().getRandomBeatgroup();
                 if(melody.getBeatGroup().getBeatLength() == beatGroup.getBeatLength()){
-//                    LOGGER.info("Melody replaced: " + melody.getBeatGroup().getSize() + ", " + beatGroup.getSize());
+//                    LOGGER.info("Melody replaced: " + melody.getVoice() + ", " + beatGroup.getBeatLength());
 					List<Note> melodyNotes = voice.getRhythmNotesForBeatgroupType(beatGroup, melody.getNotesSize());
 					melodyNotes.forEach(n -> {
 						n.setVoice(melody.getVoice());

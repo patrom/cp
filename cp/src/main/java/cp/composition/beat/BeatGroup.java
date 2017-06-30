@@ -14,4 +14,5 @@ public abstract class BeatGroup {
 		return getType() * length;
 	}
 
+    public abstract BeatGroup clone(double times);
 }

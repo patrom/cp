@@ -1,5 +1,6 @@
 package cp.model.note;
 
+import cp.composition.voice.Voice;
 import cp.model.harmony.DependantHarmony;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.Technical;
@@ -21,7 +22,7 @@ public class NoteBuilder {
 	private BeamType beamType;
 	private TupletType tupletType;
 	private String timeModification;
-	private Technical technical = Note.DEFAULT_TECHNICAL;
+	private Technical technical = Voice.DEFAULT_TECHNICAL;
 	private DependantHarmony dependantHarmony;
 
 	public static NoteBuilder note(){
@@ -121,7 +122,7 @@ public class NoteBuilder {
 		if (dynamicLevel == 0 && dynamic != null) {
 			note.setDynamicLevel(dynamic.getLevel());
 		} else {
-			note.setDynamicLevel(Note.DEFAULT_DYNAMIC_LEVEL);
+			note.setDynamicLevel(Voice.DEFAULT_DYNAMIC_LEVEL);
 		}
 		note.setArticulation(articulation);
 		note.setDynamic(dynamic);

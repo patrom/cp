@@ -20,12 +20,18 @@ public class TextureConfig {
     @PostConstruct
     public void ini(){
         ArrayList<ChordType> types = new ArrayList<>();
-        types.add(ChordType.CH2_KWART);
-		types.add(ChordType.CH2_KWINT);
-        types.add(ChordType.CH2_GROTE_SIXT);
-        types.add(ChordType.NO_INTERVALS);
+//        types.add(ChordType.CH2_KWART);
+//		types.add(ChordType.CH2_KWINT);
+//        types.add(ChordType.CH2_GROTE_SIXT);
 //        types.add(ChordType.NO_INTERVALS);
-        types.add(ChordType.CH2_GROTE_TERTS);
+        types.add(ChordType.NO_INTERVALS);
+//        types.add(ChordType.CH2_GROTE_TERTS);
+        types.add(ChordType.CH2_GROTE_SIXT_CHR);//if no timeline available for voice (provided)
+        types.add(ChordType.CH2_GROTE_TERTS_CHR);
+        types.add(ChordType.CH2_KLEINE_TERTS_CHR);
+        types.add(ChordType.CH2_KLEINE_SIXT_CHR);
+//        types.add(ChordType.CH2_KWART_CHR);
+//        types.add(ChordType.CH2_KWINT_CHR);
 //        types.add(ChordType.MAJOR);
 
 
@@ -43,8 +49,17 @@ public class TextureConfig {
 //      types.add(ChordType.MAJOR_2);
 //      types.add(ChordType.DOM);
 
+        ArrayList<ChordType> types2 = new ArrayList<>();
+        types2.add(ChordType.CH2_KWART);
+        types2.add(ChordType.CH2_KWINT);
+        types2.add(ChordType.CH2_GROTE_SIXT);
+//        types2.add(ChordType.NO_INTERVALS);
+//        types2.add(ChordType.NO_INTERVALS);
+        types2.add(ChordType.CH2_GROTE_TERTS);
+//        types.add(ChordType.MAJOR);
+
 //        textureTypes.put(0, types);
-        textureTypes.put(1, types);
+//        textureTypes.put(1, types);
     }
 
     public List<ChordType> getTextureFor(int voice){

@@ -10,4 +10,9 @@ public class BeatGroupTwo extends BeatGroup {
 	public int getType() {
 		return 2;
 	}
+
+	@Override
+	public BeatGroupTwo clone(double times) {
+		return new BeatGroupTwo((int) (length * times));
+	}
 }

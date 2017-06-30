@@ -7,7 +7,6 @@ import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
 import cp.generator.dependant.DependantHarmonyGenerator;
 import cp.generator.pitchclass.*;
-import cp.generator.provider.MelodyProvider;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.dissonance.*;
@@ -53,10 +52,6 @@ public abstract class Composition {
 	protected Instrument instrument3;
 	protected Instrument instrument4;
 	protected Instrument instrument5;
-
-	@Autowired
-	@Qualifier(value = "melodyGeneratorProvider")//melodyManualProvider - melodyGeneratorProvider
-	public MelodyProvider melodyProvider;
 
 	@Autowired
 	protected ReplaceMelody replaceMelody;
@@ -167,12 +162,12 @@ public abstract class Composition {
 		timeLine.setEnd(end);
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
-		timeLineKeys.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
-		timeLineKeys.add(new TimeLineKey(keys.E, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
-		timeLineKeys.add(new TimeLineKey(keys.D, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
-		timeLineKeys.add(new TimeLineKey(keys.A, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
-		timeLineKeys.add(new TimeLineKey(keys.F, Scale.MAJOR_SCALE, 0 ,0));
-		timeLineKeys.add(new TimeLineKey(keys.G, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.C, Scale.WHOLE_TONE_SCALE, 0 ,0));
+//		timeLineKeys.add(new TimeLineKey(keys.E, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
+//		timeLineKeys.add(new TimeLineKey(keys.D, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
+//		timeLineKeys.add(new TimeLineKey(keys.A, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
+//		timeLineKeys.add(new TimeLineKey(keys.F, Scale.MAJOR_SCALE, 0 ,0));
+//		timeLineKeys.add(new TimeLineKey(keys.G, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(Gflat, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 
@@ -181,10 +176,7 @@ public abstract class Composition {
 		durations.add(DurationConstants.WHOLE);
 		durations.add(DurationConstants.HALF);
 //		timeLine.randomKeysAndDurations(timeLineKeys, durations);
-		timeLine.randomKeys(timeLineKeys, DurationConstants.HALF, DurationConstants.HALF,
-				DurationConstants.HALF, DurationConstants.HALF,
-				DurationConstants.HALF, DurationConstants.HALF,
-				DurationConstants.HALF, DurationConstants.HALF, 4 * DurationConstants.WHOLE);
+		timeLine.randomKeys(timeLineKeys, 6 * DurationConstants.WHOLE);
 
 //		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(C, Scale.MAJOR_SCALE, 0 ,end)),0);
 //		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(C, Scale.MAJOR_SCALE, 0 ,end)),1);

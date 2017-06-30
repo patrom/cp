@@ -53,7 +53,7 @@ public class Mutators {
         mutationOperators.add(dynamicMutation);
         mutationOperators.add(technicalMutation);
         mutationOperators.add(textureMutation);
-        mutationOperators.add(providedMutation);
+        mutationOperators.add(providedMutation); //-> check if provided melody sizes are part of combinations!!
         return mutationOperators;
     }
 
@@ -87,6 +87,17 @@ public class Mutators {
     public List<MutationOperator> textureMutationOperators(){
         ArrayList<MutationOperator> mutationOperators = new ArrayList<>();
         mutationOperators.add(textureMutation);
+        return mutationOperators;
+    }
+
+    @Bean
+    public List<MutationOperator> providedMutationOperators(){
+        ArrayList<MutationOperator> mutationOperators = new ArrayList<>();
+        mutationOperators.add(articulationMutation);
+        mutationOperators.add(dynamicMutation);
+        mutationOperators.add(technicalMutation);
+        mutationOperators.add(textureMutation);
+        mutationOperators.add(providedMutation);
         return mutationOperators;
     }
 }

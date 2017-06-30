@@ -1,6 +1,5 @@
 package cp.composition;
 
-import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.melody.Operator;
 import cp.model.note.Note;
@@ -30,22 +29,6 @@ public class ThreeVoiceComposition extends Composition{
 		instrument2 = instrumentConfig.getInstrumentForVoice(voice1);
 		instrument3 = instrumentConfig.getInstrumentForVoice(voice2);
 
-	}
-
-	public List<MelodyBlock> melodyProvided(){
-		List<MelodyBlock> melodyBlocks = new ArrayList<>();
-
-		List<CpMelody> melodies = melodyProvider.getMelodies();
-		MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfigRandom(voice0, melodies);
-		melodyBlocks.add(melodyBlock);
-
-		MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfigRandom(voice1, melodies);
-		melodyBlocks.add(melodyBlock2);
-
-		MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlockConfigRandom(voice2, melodies);
-		melodyBlocks.add(melodyBlock3);
-
-		return melodyBlocks;
 	}
 
 	public List<MelodyBlock> canon2Voice1Acc(){

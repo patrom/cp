@@ -34,7 +34,7 @@ public class OneNoteMutation implements MutationOperator<MelodyBlock> {
 			Optional<CpMelody> optionalMelody = melodyBlock.getRandomMelody(m -> m.isMutable());
 			if (optionalMelody.isPresent()) {
 				optionalMelody.get().updateRandomNote(timeLine);
-//				LOGGER.info("one note");
+//				LOGGER.info("one note" + optionalMelody.get().getVoice());
 			}
 		} 
 	}

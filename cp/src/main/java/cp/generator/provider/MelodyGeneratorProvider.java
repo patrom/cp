@@ -39,17 +39,23 @@ public class MelodyGeneratorProvider implements MelodyProvider{
 
     private List<PitchClassProvidedGenerator> pitchClassProvidedGenerators;
 
+    private List<CpMelody> melodies = new ArrayList<>();
+
     public List<CpMelody> getMelodies(){
-        pitchClassProvidedGenerators = new ArrayList<>();
-        pitchClassProvidedGenerators.add(randomPitchClassesProvidedGenerator::randomPitchClasses);
-        pitchClassProvidedGenerators.add(passingPitchClassesProvidedGenerator::updatePitchClasses);
-        pitchClassProvidedGenerators.add(repeatingPitchClassesProvidedGenerator::updatePitchClasses);
-        int voice = 0;
-        ArrayList<CpMelody> melodies = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            melodies.add(generateMelodyConfig(voice));
+        if (melodies.isEmpty()) {
+            pitchClassProvidedGenerators = new ArrayList<>();
+            pitchClassProvidedGenerators.add(randomPitchClassesProvidedGenerator::randomPitchClasses);
+            pitchClassProvidedGenerators.add(passingPitchClassesProvidedGenerator::updatePitchClasses);
+            pitchClassProvidedGenerators.add(repeatingPitchClassesProvidedGenerator::updatePitchClasses);
+            int voice = 0;
+
+            for (int i = 0; i < 3; i++) {
+                melodies.add(generateMelodyConfig(voice));
+            }
+            return melodies;
+        } else {
+            return melodies;
         }
-        return melodies;
     }
 
     protected CpMelody generateMelodyConfig(int voice) {
@@ -63,12 +69,13 @@ public class MelodyGeneratorProvider implements MelodyProvider{
             n.setDynamicLevel(voiceConfig.getDynamic().getLevel());
             n.setTechnical(voiceConfig.getTechnical());
         });
-        TimeLineKey timeLineKey = new TimeLineKey(keys.C, Scale.MAJOR_SCALE);
+        TimeLineKey timeLineKey = new TimeLineKey(keys.C, Scale.WHOLE_TONE_SCALE);//same config as composition scale/key?
         PitchClassProvidedGenerator pitchClassProvidedGenerator = RandomUtil.getRandomFromList(pitchClassProvidedGenerators);
         melodyNotes = pitchClassProvidedGenerator.updatePitchClasses(melodyNotes, timeLineKey);
         CpMelody melody = new CpMelody(melodyNotes, voice, 0,  beatGroup.getBeatLength());
         melody.setBeatGroup(beatGroup);
         melody.setTimeLineKey(timeLineKey);
+//        melody.setTonality();
         melody.setNotesSize(valueObject.getKey());
         return melody;
     }

@@ -12,9 +12,11 @@ import cp.generator.pitchclass.PassingPitchClasses;
 import cp.generator.pitchclass.PitchClassGenerator;
 import cp.generator.pitchclass.RandomPitchClasses;
 import cp.generator.pitchclass.RepeatingPitchClasses;
+import cp.generator.provider.MelodyProvider;
 import cp.model.harmony.ChordType;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
 import cp.nsga.Operator;
 import cp.nsga.operator.mutation.melody.Mutators;
 import cp.out.instrument.Articulation;
@@ -37,6 +39,11 @@ import static java.util.stream.Collectors.toList;
  */
 
 public abstract class Voice {
+
+    public static final int DEFAULT_DYNAMIC_LEVEL = Dynamic.MF.getLevel();
+    public static final Technical DEFAULT_TECHNICAL = Technical.LEGATO;
+    public static final Dynamic DEFAULT_DYNAMIC = Dynamic.MF;
+    public static final int DEFAULT_LENGTH = DurationConstants.QUARTER;
 
     @Resource(name = "defaultUnevenCombinations")
     protected Map<Integer, List<RhythmCombination>> defaultUnEvenCombinations;
@@ -98,10 +105,15 @@ public abstract class Voice {
     List<Operator> rhytmMutationOperators;
     @Resource(name = "timbreMutationOperators")
     List<Operator> timbreMutationOperators;
+    @Resource(name = "providedMutationOperators")
+    List<Operator> providedMutationOperators;
 
     @Autowired
     protected Mutators mutators;
 
+    @Autowired
+    @Qualifier(value = "melodyManualProvider")//melodyManualProvider - melodyGeneratorProvider
+    protected MelodyProvider melodyProvider;
 
     @Autowired
     @Qualifier(value="time44")
@@ -127,6 +139,8 @@ public abstract class Voice {
     protected List<PitchClassGenerator> pitchClassGenerators = new ArrayList<>();
 
     protected TimeConfig timeConfig;
+
+    protected boolean melodiesProvided = false;
 
     protected Dynamic dynamic = Dynamic.MF;
     protected Technical technical = Technical.PORTATO;
@@ -272,6 +286,9 @@ public abstract class Voice {
     public List<Note> getRhythmNotesForBeatgroupType(BeatGroup beatGroup, int size){
         if (beatGroup.getType() == 2) {
             List<RhythmCombination> rhythmCombinations = this.evenRhythmCombinationsPerNoteSize.get(size);
+            if(rhythmCombinations == null){
+                System.out.println(size);
+            }
             return getNotes(beatGroup, rhythmCombinations);
         }
         if (beatGroup.getType() == 3) {
@@ -310,5 +327,13 @@ public abstract class Voice {
 
     public int getNumerator() {
         return numerator;
+    }
+
+    public MelodyProvider getMelodyProvider() {
+        return melodyProvider;
+    }
+
+    public boolean isMelodiesProvided(){
+        return melodiesProvided;
     }
 }
