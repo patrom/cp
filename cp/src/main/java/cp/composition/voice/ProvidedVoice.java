@@ -27,7 +27,7 @@ public class ProvidedVoice extends Voice {
 
         mutationOperators = providedMutationOperators;
 
-        technical = Technical.PIZZ;
+        technical = Technical.LEGATO;
     }
 
 }

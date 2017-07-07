@@ -89,7 +89,7 @@ public class FitnessEvaluationTemplate {
 		for (MelodyBlock updatebleMelody : melodies) {
 			Instrument instrument = instrumentConfig.getInstrumentForVoice(updatebleMelody.getVoice());
 			instrument.updateMelodyInRange(updatebleMelody.getMelodyBlockNotes());
-			removeTextureNotesOutOfRange(updatebleMelody, instrument);
+//			removeTextureNotesOutOfRange(updatebleMelody, instrument);
 		}
 	}
 
@@ -111,10 +111,6 @@ public class FitnessEvaluationTemplate {
 			rhythmWeight.updateRhythmWeightMinimum(voice.getTimeConfig().getMinimumLength());
 
 		}
-	}
-
-	protected MelodyBlock findMelodyForVoice(List<MelodyBlock> melodies, int voice) {
-		return melodies.stream().filter(m -> m.getVoice() == voice).findFirst().get();
 	}
 
 	private FitnessObjectiveValues evaluateObjectives(Motive motive) {

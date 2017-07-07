@@ -51,6 +51,14 @@ public class Chord {
 			return getPcSetUnorderedProperties().getForteName();
 		}
 	}
+
+	public String getForteDescription() {
+		if (getPitchClassSet().size() < 2) {
+			return "";
+		} else {
+			return getPcSetUnorderedProperties().getForteDescription();
+		}
+	}
 	
 	public String[] getSetClassProperties() {
 		return getPcSetUnorderedProperties().getSetClassProperties();
@@ -343,7 +351,7 @@ public class Chord {
 		builder.append("Type: ");
 		builder.append(getChordType());
 		builder.append(", Set: ");
-		builder.append(getForteName());
+		builder.append(getForteDescription());
 		builder.append(", bassNote: ");
 		builder.append(getbassNote());
 		return builder.toString();

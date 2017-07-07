@@ -20,6 +20,7 @@ public class RhythmWeight {
 	private static final double TECHNICAL_WEIGHT = 1.0;
 	private static final double DYNAMIC_WEIGHT = 1.0;
 	private static final double DIASTEMATY_WEIGHT = 1.0;
+	private static final double TEXTURE_WEIGHT = 1.0;
 
 	protected double getMinimumNoteValue() {
 		updateNotesLength();
@@ -139,6 +140,14 @@ public class RhythmWeight {
 			prevTechnical = technical;
 		}
 	}
+
+	protected void updateTexture() {
+		for (Note note : notes) {
+			if (note.getDependantHarmony() != null ){
+				note.setPositionWeight(note.getPositionWeight() + TECHNICAL_WEIGHT);
+			}
+		}
+	}
 	
 	public void updateRhythmWeightMinimum(double min){
 		clearPositionWeights();
@@ -149,6 +158,7 @@ public class RhythmWeight {
 		updateRhythmWeightDynamics();
 		updateRhythmWeightArticulation();
 		updateRhythmWeightTechnical();
+		updateTexture();
 	}
 	
 	public void updateRhythmWeight(){

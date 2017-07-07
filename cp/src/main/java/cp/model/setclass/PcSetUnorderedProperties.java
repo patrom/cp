@@ -18,6 +18,10 @@ public class PcSetUnorderedProperties {
 	}
 
 	public String getForteName() {
+		return setClass.getPrimeByTnTnI().name;
+	}
+
+	public String getForteDescription() {
 		return setClass.getPrimeByTnTnI().description;
 	}
 

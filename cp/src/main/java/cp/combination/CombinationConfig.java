@@ -106,16 +106,16 @@ public class CombinationConfig {
 	@Bean
 	public Map<Integer, List<RhythmCombination>> defaultUnevenCombinations(){
 		Map<Integer, List<RhythmCombination>> map = new HashMap<>();
-//		List<RhythmCombination> zeroCombinations = new ArrayList<>();
-//		zeroCombinations.add(oneNoteEven::rest);
-//		map.put(0, zeroCombinations);
+		List<RhythmCombination> zeroCombinations = new ArrayList<>();
+		zeroCombinations.add(oneNoteEven::rest);
+		map.put(0, zeroCombinations);
 
-        List<RhythmCombination> oneCombinations = new ArrayList<>();
-        oneCombinations.add(oneNoteEven::pos1);
-//		oneCombinations.add(oneNoteEven::pos2);
-//		oneCombinations.add(oneNoteEven::pos3);
-//		oneCombinations.add(oneNoteEven::pos4);
-		map.put(1, oneCombinations);
+//        List<RhythmCombination> oneCombinations = new ArrayList<>();
+//        oneCombinations.add(oneNoteEven::pos1);
+////		oneCombinations.add(oneNoteEven::pos2);
+////		oneCombinations.add(oneNoteEven::pos3);
+////		oneCombinations.add(oneNoteEven::pos4);
+//		map.put(1, oneCombinations);
 //
 //        List<RhythmCombination> twoCombinations = new ArrayList<>();
 //		twoCombinations.add(twoNoteEven::pos12);
@@ -145,9 +145,9 @@ public class CombinationConfig {
 //        map.put(1, oneUnevenCombinations);
 
         List<RhythmCombination> twoUnevenombinations = new ArrayList<>();
-//		twoUnevenombinations.add(twoNoteUneven::pos13);
+		twoUnevenombinations.add(twoNoteUneven::pos13);
         twoUnevenombinations.add(twoNoteUneven::pos12);
-//		twoUnevenombinations.add(twoNoteUneven::pos23);
+		twoUnevenombinations.add(twoNoteUneven::pos23);
 		map.put(2, twoUnevenombinations);
 
         List<RhythmCombination> threeUnevenCombinations = new ArrayList<>();

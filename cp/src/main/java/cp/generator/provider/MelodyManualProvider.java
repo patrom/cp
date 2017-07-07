@@ -23,7 +23,7 @@ public class MelodyManualProvider extends AbstractProvidder implements MelodyPro
             getAtonalMelodies();
             melodies.add(getRest(0, DurationConstants.EIGHT));
             melodies.add(getRest(0, DurationConstants.QUARTER));
-            melodies.addAll(melodyProvider.getMelodies());
+//            melodies.addAll(melodyProvider.getMelodies());
         }
         return melodies;
     }

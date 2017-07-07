@@ -24,7 +24,7 @@ public class MelodyVoice extends Voice {
         pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
         pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
 
-        technical = Technical.PORTATO;
+        technical = Technical.LEGATO;
     }
 
 }

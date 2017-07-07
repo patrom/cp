@@ -61,37 +61,37 @@ public class TonalSetClassDissonance implements Dissonance {
     private double dyadic(Chord chord) {
         switch (chord.getForteName()) {
             case "2-1":
-                return 0.9;
+                return 0.55;
             case "2-2":
-                return 0.9;
+                return 0.55;
             case "2-3":
-                return 0.95;
+                return 0.65;
             case "2-4":
-                return 0.95;
+                return 0.6;
             case "2-5":
-                return 0.95;
+                return 0.6;
             case "2-6":
-                return 0.94;
+                return 0.6;
         }
         return 0;
     }
 
     private double trichordal(Chord chord) {
         switch (chord.getForteName()) {
-//            case "3-1":
-//                return 0.90;
-//            case "3-2":
-//                return 0.98;
-//            case "3-3":
-//                return 0.98;
-//            case "3-4":
-//                return 0.99;
-//            case "3-5":
-//                return 0.98;
-//            case "3-6":
-//                return 0.99;
-//            case "3-7":
-//                return 0.99;
+            case "3-1":
+                return 0.80;
+            case "3-2":
+                return 0.88;
+            case "3-3":
+                return 0.98;
+            case "3-4":
+                return 0.99;
+            case "3-5":
+                return 0.88;
+            case "3-6":
+                return 0.99;
+            case "3-7":
+                return 0.99;
             case "3-8":
                 return 0.99;
             case "3-9":
