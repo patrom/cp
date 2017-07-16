@@ -32,6 +32,8 @@ public class OrchestralQualityConfig {
 
 
     @Autowired
+    private High high;
+    @Autowired
     private MediumRange mediumRange;
     @Autowired
     private LowRange lowRange;

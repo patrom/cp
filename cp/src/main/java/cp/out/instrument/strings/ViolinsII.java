@@ -9,7 +9,7 @@ import cp.out.orchestration.InstrumentName;
 public class ViolinsII extends Instrument {
 
 	private void init() {
-		instrumentGroup = InstrumentGroup.STRINGS;
+		instrumentGroup = InstrumentGroup.ORCHESTRAL_STRINGS;
 		order = 0;
 		setLowest(55);
 		setHighest(84);

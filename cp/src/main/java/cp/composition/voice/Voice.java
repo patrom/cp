@@ -112,12 +112,15 @@ public abstract class Voice {
     protected Mutators mutators;
 
     @Autowired
-    @Qualifier(value = "melodyManualProvider")//melodyManualProvider - melodyGeneratorProvider
+    @Qualifier(value = "melodyGeneratorProvider")//melodyManualProvider - melodyGeneratorProvider
     protected MelodyProvider melodyProvider;
 
     @Autowired
     @Qualifier(value="time44")
     protected TimeConfig time44;
+    @Autowired
+    @Qualifier(value="timeDouble44")
+    protected TimeConfig timeDouble44;
     @Autowired
     @Qualifier(value="time34")
     protected TimeConfig time34;
@@ -250,6 +253,7 @@ public abstract class Voice {
     public List<Articulation> getArticulations(InstrumentGroup instrumentGroup) {
         switch (instrumentGroup){
             case STRINGS:
+            case ORCHESTRAL_STRINGS:
                 return stringArticulations;
             case WOODWINDS:
             case BRASS:
@@ -261,6 +265,7 @@ public abstract class Voice {
     public List<Technical> getTechnicals(InstrumentGroup instrumentGroup) {
         switch (instrumentGroup){
             case STRINGS:
+            case ORCHESTRAL_STRINGS:
                 return stringTechnicals;
             case WOODWINDS:
             case BRASS:
@@ -276,6 +281,7 @@ public abstract class Voice {
     public List<Dynamic> getDynamics(InstrumentGroup instrumentGroup) {
         switch (instrumentGroup){
             case STRINGS:
+            case ORCHESTRAL_STRINGS:
             case WOODWINDS:
             case BRASS:
                 return Arrays.asList(Dynamic.values());

@@ -144,8 +144,8 @@ public abstract class Composition {
 
 	@PostConstruct
 	public void init(){
-		composeInKey(keys.C);
-		inTempo(70);
+		composeInKey(keys.Bflat);
+		inTempo(77);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
 		meterObjective.setComposition(this);
@@ -162,7 +162,7 @@ public abstract class Composition {
 		timeLine.setEnd(end);
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
-		timeLineKeys.add(new TimeLineKey(keys.C, Scale.WHOLE_TONE_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.Bflat, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.E, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.D, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.A, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
@@ -253,7 +253,7 @@ public abstract class Composition {
 //		pitchClassGenerators.add(restPitchClasses::updatePitchClasses);
 //		pitchClassGenerators.add(twelveTonePitchClasses::updatePitchClasses);
 
-		harmonicObjective.setDissonance(tonalSetClassDissonance::getDissonance);
+		harmonicObjective.setDissonance(tonalDissonance::getDissonance);
 		harmonicResolutionObjective.setDissonantResolution(dissonantResolutionImpl::isDissonant);
 
 	}

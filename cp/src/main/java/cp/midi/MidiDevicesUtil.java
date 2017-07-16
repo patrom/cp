@@ -280,7 +280,11 @@ public class MidiDevicesUtil {
     }
 
 	public static void main(String[] args) throws IOException, InvalidMidiDataException {
-		writeMidi();
+		MidiDevice.Info[] infos = MidiSystem.getMidiDeviceInfo();
+		for (MidiDevice.Info info : infos) {
+			System.out.println(info);
+		}
+//		writeMidi();
 	}
 
 	public static void writeMidi() throws IOException, InvalidMidiDataException {
@@ -352,5 +356,7 @@ public class MidiDevicesUtil {
 		File f = new File("midifile.mid");
 		MidiSystem.write(s, 1, f);
 	}
+
+
 
 }

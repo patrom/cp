@@ -13,7 +13,7 @@ public class Viola extends Instrument {
 	}
 
 	private void init() {
-		instrumentGroup = InstrumentGroup.STRINGS;
+		instrumentGroup = InstrumentGroup.ORCHESTRAL_STRINGS;
 		order = 1;
 		setLowest(48);
 		setHighest(72);

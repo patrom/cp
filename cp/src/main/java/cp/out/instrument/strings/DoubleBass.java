@@ -9,7 +9,7 @@ import cp.out.orchestration.InstrumentName;
 public class DoubleBass extends Instrument {
 
 	private void init() {
-		instrumentGroup = InstrumentGroup.STRINGS;
+		instrumentGroup = InstrumentGroup.ORCHESTRAL_STRINGS;
 		order = 3;
 		setLowest(38);
 		setHighest(67);

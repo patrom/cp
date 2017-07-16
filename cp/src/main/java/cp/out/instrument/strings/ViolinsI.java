@@ -13,7 +13,7 @@ public class ViolinsI extends Instrument {
 	}
 	
 	public void init() {
-		instrumentGroup = InstrumentGroup.STRINGS;
+		instrumentGroup = InstrumentGroup.ORCHESTRAL_STRINGS;
 		order = 0;
 		setLowest(55);
 		setHighest(84);

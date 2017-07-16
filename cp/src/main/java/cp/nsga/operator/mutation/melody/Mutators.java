@@ -53,7 +53,7 @@ public class Mutators {
         mutationOperators.add(dynamicMutation);
         mutationOperators.add(technicalMutation);
         mutationOperators.add(textureMutation);
-        mutationOperators.add(providedMutation); //-> check if provided melody sizes are part of combinations!!
+//        mutationOperators.add(providedMutation); //-> check if provided melody sizes are part of combinations!!
         return mutationOperators;
     }
 

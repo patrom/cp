@@ -10,6 +10,7 @@ import cp.generator.pitchclass.RandomPitchClassesProvidedGenerator;
 import cp.generator.pitchclass.RepeatingPitchClassesProvidedGenerator;
 import cp.model.TimeLineKey;
 import cp.model.melody.CpMelody;
+import cp.model.melody.Tonality;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.out.print.Keys;
@@ -47,7 +48,7 @@ public class MelodyGeneratorProvider implements MelodyProvider{
             pitchClassProvidedGenerators.add(randomPitchClassesProvidedGenerator::randomPitchClasses);
             pitchClassProvidedGenerators.add(passingPitchClassesProvidedGenerator::updatePitchClasses);
             pitchClassProvidedGenerators.add(repeatingPitchClassesProvidedGenerator::updatePitchClasses);
-            int voice = 0;
+            int voice = 2;
 
             for (int i = 0; i < 3; i++) {
                 melodies.add(generateMelodyConfig(voice));
@@ -69,13 +70,13 @@ public class MelodyGeneratorProvider implements MelodyProvider{
             n.setDynamicLevel(voiceConfig.getDynamic().getLevel());
             n.setTechnical(voiceConfig.getTechnical());
         });
-        TimeLineKey timeLineKey = new TimeLineKey(keys.C, Scale.WHOLE_TONE_SCALE);//same config as composition scale/key?
+        TimeLineKey timeLineKey = new TimeLineKey(keys.C, Scale.MAJOR_SCALE);//same config as composition scale/key?
         PitchClassProvidedGenerator pitchClassProvidedGenerator = RandomUtil.getRandomFromList(pitchClassProvidedGenerators);
         melodyNotes = pitchClassProvidedGenerator.updatePitchClasses(melodyNotes, timeLineKey);
         CpMelody melody = new CpMelody(melodyNotes, voice, 0,  beatGroup.getBeatLength());
         melody.setBeatGroup(beatGroup);
         melody.setTimeLineKey(timeLineKey);
-//        melody.setTonality();
+        melody.setTonality(Tonality.TONAL);
         melody.setNotesSize(valueObject.getKey());
         return melody;
     }

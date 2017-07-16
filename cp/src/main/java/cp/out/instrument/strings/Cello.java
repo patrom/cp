@@ -13,7 +13,7 @@ public class Cello extends Instrument {
 	}
 
 	private void init() {
-		instrumentGroup = InstrumentGroup.STRINGS;
+		instrumentGroup = InstrumentGroup.ORCHESTRAL_STRINGS;
 		order = 2;
 		setLowest(36);
 		setHighest(70);
