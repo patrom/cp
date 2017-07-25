@@ -1,6 +1,8 @@
 package cp.out.orchestration.quality;
 
 import cp.out.instrument.Instrument;
+import cp.out.instrument.brass.FrenchHorn;
+import cp.out.instrument.brass.Trombone;
 import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.percussion.Marimba;
 import cp.out.instrument.register.InstrumentRegister;
@@ -39,7 +41,9 @@ public class MediumRange extends OrchestralQuality {
 //                new Glockenspiel(new InstrumentRegister(87, 103)),
 //                new Celesta(new InstrumentRegister(72, 84)),
 //                new Harp(new InstrumentRegister(84, 95)),
-                new Piano(range)
+                new Piano(range),
+                new Trombone(range),
+                new FrenchHorn(range)
         ).collect(toList());
 
     }

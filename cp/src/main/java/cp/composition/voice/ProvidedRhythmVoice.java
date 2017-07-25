@@ -11,28 +11,28 @@ import javax.annotation.PostConstruct;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
-
-/**
- * Created by prombouts on 26/06/2017.
- */
 @Component
-public class ProvidedDoubleVoice extends Voice {
+public class ProvidedRhythmVoice extends Voice {
 
     @Autowired
-    @Qualifier(value = "melodyDoubleProvider")//melodyManualProvider - melodyGeneratorProvider
-    protected MelodyProvider melodyDoubleProvider;
+    @Qualifier(value = "melodyRhythmProvider")//melodyManualProvider - melodyGeneratorProvider
+    protected MelodyProvider melodyRhythmProvider;
 
     @PostConstruct
     public void init(){
         melodiesProvided = true;
         setTimeconfig();
+        dynamic = Dynamic.P;
         dynamics = Stream.of(Dynamic.MF, Dynamic.F).collect(toList());
 
-        melodyProvider = melodyDoubleProvider;
+        melodyProvider = melodyRhythmProvider;
 
-        mutationOperators = providedMutationOperators;
+        //        pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
+        pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
+        pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
+
+        mutationOperators = providedRhythmOperators;
 
         technical = Technical.LEGATO;
     }
-
 }

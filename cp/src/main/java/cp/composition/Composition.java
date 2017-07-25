@@ -145,7 +145,7 @@ public abstract class Composition {
 	@PostConstruct
 	public void init(){
 		composeInKey(keys.Bflat);
-		inTempo(77);
+		inTempo(50);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
 		meterObjective.setComposition(this);
@@ -163,20 +163,20 @@ public abstract class Composition {
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
 		timeLineKeys.add(new TimeLineKey(keys.Bflat, Scale.MAJOR_SCALE, 0 ,0));
-//		timeLineKeys.add(new TimeLineKey(keys.E, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.G, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.D, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.A, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.F, Scale.MAJOR_SCALE, 0 ,0));
-//		timeLineKeys.add(new TimeLineKey(keys.G, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.F, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(Gflat, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 
 		List<Integer> durations = new ArrayList<>();
-		durations.add(DurationConstants.QUARTER);
+//		durations.add(DurationConstants.QUARTER);
 		durations.add(DurationConstants.WHOLE);
 		durations.add(DurationConstants.HALF);
-//		timeLine.randomKeysAndDurations(timeLineKeys, durations);
-		timeLine.randomKeys(timeLineKeys, 6 * DurationConstants.WHOLE);
+		timeLine.randomKeysAndDurations(timeLineKeys, durations);
+//		timeLine.randomKeys(timeLineKeys, 6 * DurationConstants.WHOLE);
 
 //		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(C, Scale.MAJOR_SCALE, 0 ,end)),0);
 //		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(C, Scale.MAJOR_SCALE, 0 ,end)),1);
@@ -253,7 +253,7 @@ public abstract class Composition {
 //		pitchClassGenerators.add(restPitchClasses::updatePitchClasses);
 //		pitchClassGenerators.add(twelveTonePitchClasses::updatePitchClasses);
 
-		harmonicObjective.setDissonance(tonalDissonance::getDissonance);
+		harmonicObjective.setDissonance(tonalSetClassDissonance::getDissonance);
 		harmonicResolutionObjective.setDissonantResolution(dissonantResolutionImpl::isDissonant);
 
 	}

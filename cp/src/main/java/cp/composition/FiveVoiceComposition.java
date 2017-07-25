@@ -131,5 +131,25 @@ public class FiveVoiceComposition extends Composition {
         return melodyBlocks;
     }
 
+    public List<MelodyBlock> allRandom(){
+        List<MelodyBlock> melodyBlocks = new ArrayList<>();
+        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0);
+        melodyBlocks.add(melodyBlock);
+
+        MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfig(voice1);
+        melodyBlocks.add(melodyBlock2);
+
+        MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlockConfig(voice2);
+        melodyBlocks.add(melodyBlock3);
+
+        MelodyBlock melodyBlock4 = melodyGenerator.generateMelodyBlockConfig(voice3);
+        melodyBlocks.add(melodyBlock4);
+
+        MelodyBlock melodyBlock5 = melodyGenerator.generateMelodyBlockConfig(voice4);
+        melodyBlocks.add(melodyBlock5);
+
+        return melodyBlocks;
+    }
+
 }
 

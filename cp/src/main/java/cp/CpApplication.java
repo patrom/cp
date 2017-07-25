@@ -139,18 +139,19 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		threeVoiceComposition.setHarmonizeVoice(2);
 //		composeInGenres.add(threeVoiceComposition::harmonize);
 //		composeInGenres.add(threeVoiceComposition::threeOverXX);
-//		composeInGenres.add(threeVoiceComposition::allRandom);
+		composeInGenres.add(threeVoiceComposition::allRandom);
 
 		//FOUR VOICES
 //		composeInGenres.add(fourVoiceComposition::canonA3);
 //		composeInGenres.add(fourVoiceComposition::canonA4);
 //		composeInGenres.add(fourVoiceComposition::doubleCanon);
-		composeInGenres.add(fourVoiceComposition::allRandom);
+//		composeInGenres.add(fourVoiceComposition::allRandom);
 //		fourVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
 //		fourVoiceComposition.setHarmonizeVoice(1);
 //		composeInGenres.add(fourVoiceComposition::harmonize);
 
 		//FIVE VOICES
+//		composeInGenres.add(fiveVoiceComposition::allRandom);
 //		composeInGenres.add(fiveVoiceComposition::homophonicRhythm);
 //		fiveVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
 //		fiveVoiceComposition.setHarmonizeVoice(4);
@@ -173,11 +174,11 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 			    
 //			    population.sort(Comparator.comparing(MusicSolution::getMelody).thenComparing(MusicSolution::getHarmony));
 			    population.sort(Comparator
-						.comparing(MusicSolution::getHarmony)
-						.thenComparing(MusicSolution::getRegister)
+						.comparing(MusicSolution::getResolution)
 						.thenComparing(MusicSolution::getMelody)
-			    		.thenComparing(MusicSolution::getVoiceLeading)
-			    		.thenComparing(MusicSolution::getResolution));
+						.thenComparing(MusicSolution::getHarmony)
+						.thenComparing(MusicSolution::getRegister)
+			    		.thenComparing(MusicSolution::getVoiceLeading));
 
 			    
 			    Iterator<Solution> solutionIterator = population.iterator();

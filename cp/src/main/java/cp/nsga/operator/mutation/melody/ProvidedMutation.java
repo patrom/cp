@@ -65,9 +65,9 @@ public class ProvidedMutation implements MutationOperator<MelodyBlock> {
 
                     List<Note> melodyNotes = providedMelody.getNotes();
                     melodyNotes.forEach(n -> {
-//                        n.setVoice(melody.getVoice());
-//                        n.setDynamic(voice.getDynamic());
-//                        n.setDynamicLevel(voice.getDynamic().getLevel());
+                        n.setVoice(melody.getVoice());
+                        n.setDynamic(voice.getDynamic());
+                        n.setDynamicLevel(voice.getDynamic().getLevel());
                         n.setTechnical(voice.getTechnical() != null?voice.getTechnical():n.getTechnical());
                         n.setPosition(n.getPosition() + melody.getStart());
                     });

@@ -18,6 +18,7 @@ import cp.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,14 +43,17 @@ public class MelodyGeneratorProvider implements MelodyProvider{
 
     private List<CpMelody> melodies = new ArrayList<>();
 
+    @PostConstruct
+    public void init(){
+        pitchClassProvidedGenerators = new ArrayList<>();
+        pitchClassProvidedGenerators.add(randomPitchClassesProvidedGenerator::randomPitchClasses);
+        pitchClassProvidedGenerators.add(passingPitchClassesProvidedGenerator::updatePitchClasses);
+        pitchClassProvidedGenerators.add(repeatingPitchClassesProvidedGenerator::updatePitchClasses);
+    }
+
     public List<CpMelody> getMelodies(){
         if (melodies.isEmpty()) {
-            pitchClassProvidedGenerators = new ArrayList<>();
-            pitchClassProvidedGenerators.add(randomPitchClassesProvidedGenerator::randomPitchClasses);
-            pitchClassProvidedGenerators.add(passingPitchClassesProvidedGenerator::updatePitchClasses);
-            pitchClassProvidedGenerators.add(repeatingPitchClassesProvidedGenerator::updatePitchClasses);
             int voice = 2;
-
             for (int i = 0; i < 3; i++) {
                 melodies.add(generateMelodyConfig(voice));
             }
@@ -59,16 +63,21 @@ public class MelodyGeneratorProvider implements MelodyProvider{
         }
     }
 
-    protected CpMelody generateMelodyConfig(int voice) {
+    public CpMelody generateMelodyConfig(int voice) {
         Voice voiceConfig = voiceConfiguration.getVoiceConfiguration(voice);
         BeatGroup beatGroup = voiceConfig.getTimeConfig().getRandomBeatgroup();
+        return generateMelodyConfig(voice, beatGroup);
+    }
+
+    public CpMelody generateMelodyConfig(int voice, BeatGroup beatGroup) {
+        Voice voiceConfig = voiceConfiguration.getVoiceConfiguration(voice);
         NoteSizeValueObject valueObject = voiceConfig.getRandomRhythmNotesForBeatgroupType(beatGroup);
         List<Note> melodyNotes = valueObject.getRhythmCombination().getNotes(beatGroup.getBeatLength());
         melodyNotes.forEach(n -> {
             n.setVoice(voice);
-            n.setDynamic(voiceConfig.getDynamic());
-            n.setDynamicLevel(voiceConfig.getDynamic().getLevel());
-            n.setTechnical(voiceConfig.getTechnical());
+//            n.setDynamic(voiceConfig.getDynamic());
+//            n.setDynamicLevel(voiceConfig.getDynamic().getLevel());
+//            n.setTechnical(voiceConfig.getTechnical());
         });
         TimeLineKey timeLineKey = new TimeLineKey(keys.C, Scale.MAJOR_SCALE);//same config as composition scale/key?
         PitchClassProvidedGenerator pitchClassProvidedGenerator = RandomUtil.getRandomFromList(pitchClassProvidedGenerators);

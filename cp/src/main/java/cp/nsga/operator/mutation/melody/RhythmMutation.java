@@ -48,7 +48,12 @@ public class RhythmMutation implements MutationOperator<MelodyBlock> {
                 Voice voice = voiceConfig.getVoiceConfiguration(v);
                 CpMelody melody = optionalMelody.get();
                 List<Note> rhythmNotes = voice.getRhythmNotesForBeatgroupType(melody.getBeatGroup(), melody.getNotesSize());
-                rhythmNotes.forEach(n -> n.setVoice(melody.getVoice()));
+                rhythmNotes.forEach(n -> {
+                    n.setVoice(melody.getVoice());
+                    n.setDynamic(voice.getDynamic());
+                    n.setDynamicLevel(voice.getDynamic().getLevel());
+                    n.setTechnical(voice.getTechnical());
+                });
                 if (textureConfig.hasTexture(v)) {
                     List<ChordType> textureTypes = textureConfig.getTextureFor(v);
                     for (Note melodyNote : rhythmNotes) {

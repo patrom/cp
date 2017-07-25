@@ -19,9 +19,9 @@ public class HarmonicResolutionObjective extends Objective {
 	@Override
 	public double evaluate(Motive motive) {
 		List<CpHarmony> harmonies = motive.getHarmonies();
-		if (harmonies.size() <= 1) {
-			return 0.0;
-		}
+//		if (harmonies.size() <= 1) {
+//			return 1.0;
+//		}
 		return getResolutionValue(harmonies);
 	}
 
@@ -31,7 +31,8 @@ public class HarmonicResolutionObjective extends Objective {
 		for (int i = 0; i < size; i++) {
 			CpHarmony harmony = harmonies.get(i);
 			CpHarmony nextHarmony = harmonies.get(i + 1);
-			if (dissonantResolution.isDissonant(harmony.getChord()) && dissonantResolution.isDissonant(nextHarmony.getChord())) {
+			if ((dissonantResolution.isDissonant(harmony.getChord()) && dissonantResolution.isDissonant(nextHarmony.getChord()))
+					|| (!dissonantResolution.isDissonant(harmony.getChord()) && !dissonantResolution.isDissonant(nextHarmony.getChord()))) {
 				total = total + 1;
 			}
 		}

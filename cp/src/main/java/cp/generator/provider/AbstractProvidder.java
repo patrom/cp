@@ -23,7 +23,7 @@ import static cp.model.note.NoteBuilder.note;
 public abstract class AbstractProvidder {
 
     @Autowired
-    private Keys keys;
+    protected Keys keys;
 
     protected List<CpMelody> melodies = new ArrayList<>();
 

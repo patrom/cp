@@ -44,9 +44,10 @@ public class OrchestralQualityConfig {
     public void init() {
         //voice!!!
         orchestralQualities.put(0, mellowPurple);
-        orchestralQualities.put(1, richBlue);
-        orchestralQualities.put(2, pleasantGreen);
-        orchestralQualities.put(3, pleasantGreen);
+        orchestralQualities.put(1, glowingRed);
+        orchestralQualities.put(2, warmBrown);
+        orchestralQualities.put(3, warmBrown);
+        orchestralQualities.put(4, warmBrown);
     }
 
     public OrchestralQuality getOchestralQualityForVoice(int voice){

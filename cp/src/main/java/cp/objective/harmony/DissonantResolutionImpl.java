@@ -6,19 +6,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class DissonantResolutionImpl {
 
+
 	public boolean isDissonant(Chord chord){
 		int size = chord.getPitchClassSet().size();
 		switch (size) {
+			case 1:
 			case 2:
 //				return isIntervalDissonant(chord);
 				return true;
 			case 3:
-//				return isTriadDissonant(chord);
+				return isTriadDissonant(chord);
 //				return isSetClassDissonant(chord);
-				return true;
+//				return true;
 			case 4:
-				return isSetClassDissonant(chord);
-//				return isTetraDissonant(chord);
+//				return isSetClassDissonant(chord);
+				return isTetraDissonant(chord);
 			default:
 				break;
 		}

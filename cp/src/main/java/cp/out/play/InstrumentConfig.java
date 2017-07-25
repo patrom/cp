@@ -4,6 +4,7 @@ import cp.out.instrument.Instrument;
 import cp.out.instrument.brass.FrenchHorn;
 import cp.out.instrument.brass.Trombone;
 import cp.out.instrument.brass.Trumpet;
+import cp.out.instrument.brass.Tuba;
 import cp.out.instrument.keyboard.Celesta;
 import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.percussion.Marimba;
@@ -50,7 +51,8 @@ public class InstrumentConfig {
 //        instruments = getFluteClarinetBassoon();
 //        instruments = getBrassTrio();
 //        instruments = getBrassQuartet();
-        instruments = getStrinqQuartet();
+//        instruments = getStrinqQuartet();
+        instruments = getBrassQuintet();
 //        orchestra = getOrchestra();
 //        instruments = getWoodWindsDuo();
 //        instruments = getStringTrio();
@@ -102,6 +104,15 @@ public class InstrumentConfig {
         instruments.put(2,new InstrumentMapping(new Trombone(), 2, 1));
         instruments.put(1,new InstrumentMapping(new FrenchHorn(), 3, 2));
         instruments.put(0,new InstrumentMapping(new FrenchHorn(), 4, 3));
+        return instruments;
+    }
+
+    private Map<Integer, InstrumentMapping> getBrassQuintet(){
+        instruments.put(4,new InstrumentMapping(new FrenchHorn(), 5, 0));
+        instruments.put(3,new InstrumentMapping(new FrenchHorn(), 4, 1));
+        instruments.put(2,new InstrumentMapping(new FrenchHorn(), 3, 2));
+        instruments.put(1,new InstrumentMapping(new Trombone(), 2, 3));
+        instruments.put(0,new InstrumentMapping(new Tuba(), 1, 4));
         return instruments;
     }
 

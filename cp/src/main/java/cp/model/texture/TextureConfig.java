@@ -68,7 +68,7 @@ public class TextureConfig {
 //        types.add(ChordType.MAJOR);
 
 //        textureTypes.put(0, types2);
-        textureTypes.put(1, types);
+//        textureTypes.put(1, types);
     }
 
     public List<ChordType> getTextureFor(int voice){

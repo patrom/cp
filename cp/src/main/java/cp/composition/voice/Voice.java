@@ -107,6 +107,8 @@ public abstract class Voice {
     List<Operator> timbreMutationOperators;
     @Resource(name = "providedMutationOperators")
     List<Operator> providedMutationOperators;
+    @Resource(name = "providedRhythmOperators")
+    List<Operator> providedRhythmOperators;
 
     @Autowired
     protected Mutators mutators;

@@ -100,4 +100,20 @@ public class Mutators {
         mutationOperators.add(providedMutation);
         return mutationOperators;
     }
+
+    @Bean
+    public List<MutationOperator> providedRhythmOperators(){
+        ArrayList<MutationOperator> mutationOperators = new ArrayList<>();
+        mutationOperators.add(articulationMutation);
+        mutationOperators.add(dynamicMutation);
+        mutationOperators.add(technicalMutation);
+        mutationOperators.add(textureMutation);
+        mutationOperators.add(providedMutation);
+
+        mutationOperators.add(oneNoteMutation);
+//        mutationOperators.add(oneNoteChromaticMutation);//no timeline
+        mutationOperators.add(allNoteMutation);
+//        mutationOperators.add(replaceMelody);
+        return mutationOperators;
+    }
 }

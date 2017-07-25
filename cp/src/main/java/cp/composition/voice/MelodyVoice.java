@@ -18,13 +18,14 @@ public class MelodyVoice extends Voice {
     @PostConstruct
     public void init(){
         setTimeconfig();
+        timeConfig = timeDouble44;
 
         dynamics = Stream.of(Dynamic.MF, Dynamic.F).collect(toList());
 //        pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
         pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
         pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
 
-        technical = Technical.PORTATO;
+        technical = Technical.LEGATO;
     }
 
 }

@@ -137,7 +137,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
             playOnKontakt(melodyInstruments, sequence, xmlParser.getBpm());
             Resource outResource = new FileSystemResource("");
             midiDevicesUtil.write(sequence, outResource.getFile().getPath()+ "cp/src/main/resources/orch/" + midiFile.getName() + ".mid");
-			Thread.sleep(17000);
+			Thread.sleep(23000);
 		}
 	}
 	

@@ -30,7 +30,7 @@ public class MusicProblem extends Problem {
 	@Autowired
 	public MusicProblem(MusicProperties properties) throws ClassNotFoundException {
 		numberOfVariables_ = 1;
-		numberOfObjectives_ = 5;
+		numberOfObjectives_ = 7;
 		numberOfConstraints_ = 0;
 		problemName_ = "MusicProblem";
 
@@ -53,23 +53,30 @@ public class MusicProblem extends Problem {
 		double harmonyObjective = 1 - harmonyMembershipFunction.membership(1 - objectives.getHarmony());
 //		double harmonyObjective = 1 - objectives.getHarmony();
 		solution.setObjective(0, harmonyObjective);// harmony
-		if (objectives.getVoiceleading() < 4) {
-			solution.setObjective(1, 0);
-		} else {
-		solution.setObjective(1, objectives.getVoiceleading());
-		}
+
 		double melodyObjective = 1 - melodyMembershipFunction.membership(1 - objectives.getMelody());
 //		double melodyObjective = 1 - objectives.getMelody();
 		solution.setObjective(1, melodyObjective);// melody
+
 		double rhythmObjective = 1 - objectives.getRhythm();
 		solution.setObjective(2, rhythmObjective);
+
 		double meterObjective = 1 - objectives.getMeter();
 		solution.setObjective(3, meterObjective);
+
 //		double tonality = 1 - objectives.getTonality();
 //		solution.setObjective(6, tonality);
-//		solution.setObjective(5, objectives.getResolution());
+
+		solution.setObjective(4, objectives.getResolution());
+
 		double register = objectives.getRegister();
-		solution.setObjective(4, register);
+
+		solution.setObjective(5, register);
+		if (objectives.getVoiceleading() > 1 && objectives.getVoiceleading() < 4) {
+			solution.setObjective(1, 0);
+		} else {
+			solution.setObjective(6, objectives.getVoiceleading());
+		}
 		
 		// //constraints
 		// objectives[5] = lowestIntervalRegisterValue;
@@ -80,13 +87,13 @@ public class MusicProblem extends Problem {
 
 		MusicSolution musicSolution = (MusicSolution) solution;
 		musicSolution.setHarmony(harmonyObjective);
-		musicSolution.setVoiceLeading(objectives.getVoiceleading());
 		musicSolution.setMelody(melodyObjective);
 //		musicSolution.setTonality(tonality);
 		musicSolution.setRhythm(rhythmObjective);
 		musicSolution.setMeter(meterObjective);
-//		musicSolution.setResolution(objectives.getResolution());
+		musicSolution.setResolution(objectives.getResolution());
 		musicSolution.setRegister(register);
+		musicSolution.setVoiceLeading(objectives.getVoiceleading());
 
 		// musicSolution.setConstraintLowestInterval(objectives[5]);
 		// musicSolution.setConstraintRhythm(objectives[6]);
