@@ -18,7 +18,7 @@ public class HomophonicVoice extends Voice {
     @PostConstruct
     public void init(){
         setTimeconfig();
-        timeConfig = timeDouble44;
+//        timeConfig = timeDouble44;
         evenRhythmCombinationsPerNoteSize = homophonicEven;
         unevenRhythmCombinationsPerNoteSize = homophonicUneven;
 

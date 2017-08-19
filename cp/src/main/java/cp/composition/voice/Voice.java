@@ -114,7 +114,7 @@ public abstract class Voice {
     protected Mutators mutators;
 
     @Autowired
-    @Qualifier(value = "melodyGeneratorProvider")//melodyManualProvider - melodyGeneratorProvider
+    @Qualifier(value = "melodyGeneratorProvider")//melodyManualProvider - melodyGeneratorProvider - melodyParserProvider
     protected MelodyProvider melodyProvider;
 
     @Autowired

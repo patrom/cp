@@ -48,7 +48,10 @@ public class Scale {
 			MINOR_CHORD = new Scale(new int[]{0, 3 , 7}),
 			HALF_DIMINISHED_CHORD = new Scale(new int[]{0, 3 , 6, 10}),
 			CHORD = new Scale(new int[]{0, 1 , 5}),
-			PEDAL = new Scale(new int[]{0});
+			PEDAL = new Scale(new int[]{0}),
+
+			DORIAN = new Scale(new int[]{9,11,0,2}),
+					DORIAN_TRITIONE = new Scale(new int[]{3,5,6,8});
 
 			
 	private final Random random = new Random(System.currentTimeMillis());

@@ -10,27 +10,13 @@ public class Interval  {
 	public static double MELODIC_OCTAVE_VALUE = 0.3;
 	
 	public static final Map<Integer,Interval> intervalMap = new HashMap<Integer,Interval>() {{
-//	    put(0, new Interval(0, 1.0, 0.0, 0.0, 0)); 
-//	    put(1, new Interval(1, 0.9, -0.3, 0.2, 2)); 
-//	    put(2, new Interval(2, 1.0, 0.15, 0.4 , 4));
-//	    put(3, new Interval(3, 0.8, 0.8, 0.6, 6)); 
-//	    put(4, new Interval(4, 0.7, 1.0, 0.7, 8)); 
-//	    put(5, new Interval(5, 0.5, 0.85, 0.9, 9)); 
-//	    put(6, new Interval(6, 0.0, 0.4, 0.0, 0)); 
-//	    put(7, new Interval(7, 0.6, 0.9, 1.0, 10)); 
-//	    put(8, new Interval(8, 0.4, 0.95, 0.5, 5)); 
-//	    put(9, new Interval(9, 0.3, 0.75, 0.8, 7)); 
-//	    put(10, new Interval(10, 0.2, 0.3, 0.3, 3)); 
-//	    put(11, new Interval(11, 0.1, 0.2, 0.1, 1)); 
-//	    put(12, new Interval(12, 0.0, 0.0, 0.0 , 0)); 
-	    
 	    //cope
 	    put(0, new Interval(0, 0.5, 0.2, 0.0, 0)); //octaaf
 	    put(1, new Interval(1, 0.9, 0.05, 0.2, 2)); //harmonic value for geometric mean!!!!
 	    put(2, new Interval(2, 1.0, 0.2, 0.4 , 4));
 	    put(3, new Interval(3, 0.8, 0.775, 0.6, 6)); 
-	    put(4, new Interval(4, 0.7, 0.8, 0.7, 8)); 
-	    put(5, new Interval(5, 0.5, 0.45, 0.9, 9)); 
+	    put(4, new Interval(4, 0.7, 0.8, 0.7, 8));
+	    put(5, new Interval(5, 0.5, 0.45, 0.9, 9));
 	    put(6, new Interval(6, 0.1, 0.35, 0.0, 0)); 
 	    put(7, new Interval(7, 0.6, 0.9, 1.0, 10)); 
 	    put(8, new Interval(8, 0.4, 0.725, 0.5, 5)); 
@@ -40,19 +26,6 @@ public class Interval  {
 //	    put(12, new Interval(12, 0.8, 0.2, 0.0 , 0)); //verminder melodisch gebruik 
 //	    put(13, new Interval(13, 0.0, 0.0, 0.0 , 0)); // vermijd melodisch - harmonisch
 	    //Roughness - worst interval is highest value!
-//	    put(0, new Interval(0, 1.0, 0.0, 0.0, 0)); 
-//	    put(1, new Interval(1, 0.9, 1 - 0.4779, 0.2, 2)); 
-//	    put(2, new Interval(2, 1.0,1 -  0.2185, 0.4 , 4));
-//	    put(3, new Interval(3, 0.8,1 -  0.0923, 0.6, 6)); 
-//	    put(4, new Interval(4, 0.7,1 -  0.0670, 0.7, 8)); 
-//	    put(5, new Interval(5, 0.5,1 -  0.0516, 0.9, 9)); 
-//	    put(6, new Interval(6, 0.0,1 -  0.1373, 0.0, 0)); 
-//	    put(7, new Interval(7, 0.6,1 -  0.0219, 1.0, 10)); 
-//	    put(8, new Interval(8, 0.4,1 -  0.1342, 0.5, 5)); 
-//	    put(9, new Interval(9, 0.3,1 -  0.0685, 0.8, 7)); 
-//	    put(10, new Interval(10, 0.2,1 -  0.1201, 0.3, 3)); 
-//	    put(11, new Interval(11, 0.1,1 -  0.2791, 0.1, 1)); 
-//	    put(12, new Interval(12, 0.0, 0.0, 0.0 , 0)); 
 	    
 	}};
 	
@@ -131,9 +104,6 @@ public class Interval  {
 	}
 	
 	public static Interval getEnumInterval(int difference) {
-//		if (Math.abs(difference) > 12) {
-//			difference = 13;
-//		}
 		return intervalMap.get(Math.abs(difference % 12));
 	}
 

@@ -26,10 +26,10 @@ public class TextureConfig {
         types.add(ChordType.NO_INTERVALS);
         types.add(ChordType.NO_INTERVALS);
         types.add(ChordType.CH2_GROTE_TERTS);
-//        types.add(ChordType.CH2_GROTE_SIXT_CHR);//if no timeline available for voice (provided)
-//        types.add(ChordType.CH2_GROTE_TERTS_CHR);
-//        types.add(ChordType.CH2_KLEINE_TERTS_CHR);
-//        types.add(ChordType.CH2_KLEINE_SIXT_CHR);
+        types.add(ChordType.CH2_GROTE_SIXT_CHR);//if no timeline available for voice (provided)
+        types.add(ChordType.CH2_GROTE_TERTS_CHR);
+        types.add(ChordType.CH2_KLEINE_TERTS_CHR);
+        types.add(ChordType.CH2_KLEINE_SIXT_CHR);
 //        types.add(ChordType.CH2_KWART_CHR);
 //        types.add(ChordType.CH2_KWINT_CHR);
 //        types.add(ChordType.MAJOR);
@@ -44,15 +44,16 @@ public class TextureConfig {
 //        types.add(ChordType.CH2_GROTE_SIXT);
 //        types.add(ChordType.CH2_GROTE_SIXT_CHR);
 //        types.add(ChordType.CH2_KLEINE_SIXT_CHR);
-		types.add(ChordType.MAJOR);//major and minor
-		types.add(ChordType.MAJOR_CHR);
-		types.add(ChordType.MAJOR_1);//major and minor
-		types.add(ChordType.MAJOR_1_CHR);
-        types.add(ChordType.MAJOR_2);//major and minor
-        types.add(ChordType.MAJOR_2_CHR);
-        types.add(ChordType.MINOR_CHR);
-        types.add(ChordType.MINOR_1_CHR);
-        types.add(ChordType.MINOR_2_CHR);
+
+//		types.add(ChordType.MAJOR);//major and minor
+//		types.add(ChordType.MAJOR_CHR);
+//		types.add(ChordType.MAJOR_1);//major and minor
+//		types.add(ChordType.MAJOR_1_CHR);
+//        types.add(ChordType.MAJOR_2);//major and minor
+//        types.add(ChordType.MAJOR_2_CHR);
+//        types.add(ChordType.MINOR_CHR);
+//        types.add(ChordType.MINOR_1_CHR);
+//        types.add(ChordType.MINOR_2_CHR);
 
 //        types.add(ChordType.DOM);
 

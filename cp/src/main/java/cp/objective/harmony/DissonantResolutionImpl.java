@@ -1,11 +1,15 @@
 package cp.objective.harmony;
 
+import cp.model.dissonance.Pentatonic;
 import cp.model.harmony.Chord;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DissonantResolutionImpl {
 
+	@Autowired
+	private Pentatonic pentatonic;
 
 	public boolean isDissonant(Chord chord){
 		int size = chord.getPitchClassSet().size();
@@ -15,29 +19,42 @@ public class DissonantResolutionImpl {
 //				return isIntervalDissonant(chord);
 				return true;
 			case 3:
-				return isTriadDissonant(chord);
+				return pentatonic.getDissonance(chord) == 0;
+//				return isTriadDissonant(chord);
 //				return isSetClassDissonant(chord);
 //				return true;
 			case 4:
 //				return isSetClassDissonant(chord);
 				return isTetraDissonant(chord);
+			case 5:
+				return isPentaDissonant(chord);
 			default:
 				break;
 		}
-
 		return false;
+	}
+
+	private boolean isPentaDissonant(Chord chord) {
+        switch (chord.getForteName()) {
+            case "5-27":
+            case "5-31":
+            case "5-34":
+            case "5-35":
+                return false;
+        }
+		return true;
 	}
 
 	private boolean isTetraDissonant(Chord chord) {
 		switch (chord.getChordType()) {
 			case MAJOR7:
 			case MAJOR7_1:
-			case MAJOR7_2:
-			case MAJOR7_3:
+//			case MAJOR7_2:
+//			case MAJOR7_3:
 			case MINOR7:
 			case MINOR7_1:
-			case MINOR7_2:
-			case MINOR7_3:
+//			case MINOR7_2:
+//			case MINOR7_3:
 			case DOM7:
 			case HALFDIM7:
 			case DIM7:

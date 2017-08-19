@@ -94,6 +94,31 @@ public class ThreeNoteSexTuplet {
 				return pos(length4, noteLength, noteLength);
 		}
 	}
+
+	public List<Note> pos123(int beat) {
+		List<Note> notes;
+		int noteLength = beat / 6;
+		int length4 = noteLength * 4;
+		switch (beat) {
+			case DurationConstants.QUARTER:
+				notes = posWithBeam(noteLength, noteLength,length4);
+				notes.forEach(n -> n.setSextuplet(true));
+				return notes;
+			case DurationConstants.HALF:
+				notes = posWithBeam(noteLength, noteLength, length4);
+				notes.forEach(n -> {
+					n.setSextuplet(true);
+					n.setTimeModification("eighth");
+				});
+				return notes;
+			case DurationConstants.THREE_EIGHTS:
+				return posWithBeam(noteLength, noteLength,length4);
+			case DurationConstants.THREE_QUARTERS:
+				return posWithBeam(noteLength, noteLength,length4);
+			default:
+				return posWithBeam(noteLength, noteLength,length4);
+		}
+	}
 	
 	private List<Note> posWithBeam(int first, int second, int third){
 		List<Note> notes = new ArrayList<>();

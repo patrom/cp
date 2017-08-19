@@ -13,8 +13,8 @@ public class TonalSetClassDissonance implements Dissonance {
         int size = chord.getPitchClassSet().size();
         switch (size){
             case 2:
-//                return dyadic(chord);
-                return 0;
+                return dyadic(chord);
+//                return 0;
             case 3:
                 return trichordal(chord);
             case 4:

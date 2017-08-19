@@ -3,7 +3,10 @@ package cp.composition;
 import cp.composition.voice.Voice;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
+import cp.model.melody.Operator;
 import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
+import cp.nsga.operator.relation.OperatorRelation;
 import cp.out.play.InstrumentMapping;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -150,6 +153,48 @@ public class FiveVoiceComposition extends Composition {
 
         return melodyBlocks;
     }
+
+    public List<MelodyBlock> doubleCanon(){
+        List<MelodyBlock> melodyBlocks = new ArrayList<>();
+
+        MelodyBlock melodyBlock5 = melodyGenerator.generateMelodyBlockConfig(voice0);
+        melodyBlocks.add(melodyBlock5);
+
+
+        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice1, instrument2.pickRandomOctaveFromRange());
+        melodyBlocks.add(melodyBlock);
+
+        MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfig(voice2, instrument3.pickRandomOctaveFromRange());
+        melodyBlocks.add(melodyBlock2);
+
+
+        MelodyBlock melodyBlock3 = melodyGenerator.generateEmptyBlock(instrument4, voice3);
+        melodyBlock3.setMutable(false);
+        melodyBlocks.add(melodyBlock3);
+
+        OperatorRelation operatorRelation = new OperatorRelation(Operator.T_RELATIVE);
+        operatorRelation.setSource(voice1);
+        operatorRelation.setTarget(voice3);
+        operatorRelation.setSteps(4);
+        operatorRelation.setTimeLine(timeLine);
+        operatorRelation.setOffset(DurationConstants.WHOLE);
+        operatorConfig.addOperatorRelations(operatorRelation::execute);
+
+        MelodyBlock melodyBlock4 = melodyGenerator.generateEmptyBlock(instrument5, voice4);
+        melodyBlock4.setMutable(false);
+        melodyBlocks.add(melodyBlock4);
+
+        operatorRelation = new OperatorRelation(Operator.T_RELATIVE);
+        operatorRelation.setSource(voice2);
+        operatorRelation.setTarget(voice4);
+        operatorRelation.setSteps(4);
+        operatorRelation.setTimeLine(timeLine);
+        operatorRelation.setOffset(DurationConstants.WHOLE);
+        operatorConfig.addOperatorRelations(operatorRelation::execute);
+
+        return melodyBlocks;
+    }
+
 
 }
 

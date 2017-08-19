@@ -13,8 +13,8 @@ public class TimeDouble44 extends TimeConfig{
     @Override
     public void init() {
         super.init();
-        BeatGroup defaultGroup6 = beatGroupFactory.getBeatGroupEven(DurationConstants.QUARTER);
-        BeatGroup defaultGroup12 = beatGroupFactory.getBeatGroupEven(DurationConstants.HALF);
+        BeatGroup defaultGroup6 = beatGroupFactory.getBeatGroupEven(DurationConstants.EIGHT + DurationConstants.SIXTEENTH);
+        BeatGroup defaultGroup12 = beatGroupFactory.getBeatGroupEven(DurationConstants.QUARTER + DurationConstants.EIGHT);
         allBeatgroups.add(defaultGroup6);
         allBeatgroups.add(defaultGroup12);
         minimumLength = DurationConstants.QUARTER;

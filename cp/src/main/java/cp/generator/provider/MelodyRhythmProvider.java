@@ -24,12 +24,12 @@ public class MelodyRhythmProvider extends AbstractProvidder implements MelodyPro
 
     public List<CpMelody> getMelodies(){
         if(melodies.isEmpty()){
-            getRhythmMelodies();
+//            getRhythmMelodies();
 //            melodies.add(getRest(0, DurationConstants.EIGHT));
-            melodies.add(getRest(0, DurationConstants.QUARTER));
-//            final BeatGroupTwo beatGroupTwo = new BeatGroupTwo(DurationConstants.QUARTER);
-//            CpMelody cpMelody = melodyGeneratorProvider.generateMelodyConfig(0, beatGroupTwo);
-//            melodies.add(cpMelody);
+//            melodies.add(getRest(0, DurationConstants.QUARTER));
+            final BeatGroupTwo beatGroupTwo = new BeatGroupTwo(DurationConstants.QUARTER);
+            CpMelody cpMelody = melodyGeneratorProvider.generateMelodyConfig(0, beatGroupTwo);
+            melodies.add(cpMelody);
         }
         return melodies;
     }

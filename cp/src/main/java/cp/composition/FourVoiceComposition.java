@@ -82,7 +82,7 @@ public class FourVoiceComposition extends  Composition {
         OperatorRelation operatorRelation = new OperatorRelation(Operator.T_RELATIVE);
         operatorRelation.setSource(voice0);
         operatorRelation.setTarget(voice1);
-        operatorRelation.setSteps(0);
+        operatorRelation.setSteps(1);
         operatorRelation.setTimeLine(timeLine);
         operatorRelation.setOffset(DurationConstants.HALF);
         operatorConfig.addOperatorRelations(operatorRelation::execute);
@@ -94,7 +94,7 @@ public class FourVoiceComposition extends  Composition {
         operatorRelation = new OperatorRelation(Operator.T_RELATIVE);
         operatorRelation.setSource(voice0);
         operatorRelation.setTarget(voice2);
-        operatorRelation.setSteps(0);
+        operatorRelation.setSteps(2);
         operatorRelation.setTimeLine(timeLine);
         operatorRelation.setOffset(DurationConstants.HALF + DurationConstants.QUARTER);
         operatorConfig.addOperatorRelations(operatorRelation::execute);
@@ -106,7 +106,7 @@ public class FourVoiceComposition extends  Composition {
         operatorRelation = new OperatorRelation(Operator.T_RELATIVE);
         operatorRelation.setSource(voice0);
         operatorRelation.setTarget(voice3);
-        operatorRelation.setSteps(0);
+        operatorRelation.setSteps(3);
         operatorRelation.setTimeLine(timeLine);
         operatorRelation.setOffset(DurationConstants.WHOLE);
         operatorConfig.addOperatorRelations(operatorRelation::execute);
@@ -128,24 +128,24 @@ public class FourVoiceComposition extends  Composition {
         melodyBlock3.setMutable(false);
         melodyBlocks.add(melodyBlock3);
 
-        OperatorRelation operatorRelation = new OperatorRelation(Operator.T);
+        OperatorRelation operatorRelation = new OperatorRelation(Operator.T_RELATIVE);
         operatorRelation.setSource(voice0);
         operatorRelation.setTarget(voice2);
-        operatorRelation.setSteps(2);
+        operatorRelation.setSteps(4);
         operatorRelation.setTimeLine(timeLine);
-        operatorRelation.setOffset(DurationConstants.HALF + DurationConstants.QUARTER);
+        operatorRelation.setOffset(DurationConstants.HALF);
         operatorConfig.addOperatorRelations(operatorRelation::execute);
 
         MelodyBlock melodyBlock4 = melodyGenerator.generateEmptyBlock(instrument4, voice3);
         melodyBlock4.setMutable(false);
         melodyBlocks.add(melodyBlock4);
 
-        operatorRelation = new OperatorRelation(Operator.T);
+        operatorRelation = new OperatorRelation(Operator.T_RELATIVE);
         operatorRelation.setSource(voice1);
         operatorRelation.setTarget(voice3);
-        operatorRelation.setSteps(2);
+        operatorRelation.setSteps(4);
         operatorRelation.setTimeLine(timeLine);
-        operatorRelation.setOffset(DurationConstants.HALF + DurationConstants.QUARTER);
+        operatorRelation.setOffset(DurationConstants.HALF);
         operatorConfig.addOperatorRelations(operatorRelation::execute);
 
         return melodyBlocks;

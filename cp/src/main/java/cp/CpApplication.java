@@ -156,6 +156,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		fiveVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
 //		fiveVoiceComposition.setHarmonizeVoice(4);
 //		composeInGenres.add(fiveVoiceComposition::harmonize);
+//		composeInGenres.add(fiveVoiceComposition::doubleCanon);
 
 		for (CompositionGenre compositionGenre : composeInGenres) {
 			composeInGenre.setCompositionGenre(compositionGenre);

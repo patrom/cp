@@ -88,10 +88,10 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 
 		final Resource resource = new FileSystemResource("cp/src/main/resources/xml");
 		File dir = resource.getFile();
-		for (File midiFile : dir.listFiles()) {
+		for (File xmlFile : dir.listFiles()) {
 			XMLParser xmlParser = new XMLParser();
 			xmlParser.setInstrumentConfig(instrumentConfig);
-			xmlParser.startParsing(midiFile.getPath());
+			xmlParser.startParsing(xmlFile.getPath());
 			ComplexElement partList = xmlParser.getScore().getPartList();
 			xmlParser.setInstrumentNames(partList);
 			ArrayList<ElementWrapper> body = xmlParser.getScore().getBody();
@@ -130,14 +130,14 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 //			}
 
 			Score score = scoreUtilities.createScoreFromMelodyInstrument(melodyInstruments, xmlParser.getBpm());
-            score.setTitle(midiFile.getName());
+            score.setTitle(xmlFile.getName());
             View.notate(score);
 
             Sequence sequence = midiDevicesUtil.createSequenceGeneralMidi(melodyInstruments, xmlParser.getBpm(), false);
             playOnKontakt(melodyInstruments, sequence, xmlParser.getBpm());
             Resource outResource = new FileSystemResource("");
-            midiDevicesUtil.write(sequence, outResource.getFile().getPath()+ "cp/src/main/resources/orch/" + midiFile.getName() + ".mid");
-			Thread.sleep(23000);
+            midiDevicesUtil.write(sequence, outResource.getFile().getPath()+ "cp/src/main/resources/orch/" + xmlFile.getName() + ".mid");
+			Thread.sleep(13000);
 		}
 	}
 	

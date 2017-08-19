@@ -110,10 +110,10 @@ public class NoteParser {
         if (isRest) {
            note.setPitch(Note.REST);
         }else{
-            int pitchClass = pc + alter;
-            note.setPitchClass(pitchClass);
+            int pitchClass = (pc + alter + 12) % 12;
+            note.setPitchClass(pitchClass );
             note.setOctave(octave);
-            note.setPitch(pitchClass + 12 * octave);
+            note.setPitch(pc + alter + 12 * octave);
         }
         int duration = getDuration(type, dot, elementTimeModification);
         note.setLength(duration);

@@ -16,11 +16,11 @@ public class Pentatonic implements Dissonance{
 		case "3-9":// sus9/11
 			return 1.0;
 		case "3-10"://dim
-			return 0.99;
+			return 0.9;
 		case "3-11"://min/maj
-			return 0.995;
+			return 0.9;
 		case "3-12"://aug
-			return 0.99;
+			return 0.9;
 	}
 	return 0;
 	}

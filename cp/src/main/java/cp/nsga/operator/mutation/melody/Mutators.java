@@ -97,7 +97,7 @@ public class Mutators {
         mutationOperators.add(dynamicMutation);
         mutationOperators.add(technicalMutation);
         mutationOperators.add(textureMutation);
-        mutationOperators.add(providedMutation);
+//        mutationOperators.add(providedMutation);
         return mutationOperators;
     }
 

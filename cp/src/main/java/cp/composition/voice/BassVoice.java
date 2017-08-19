@@ -45,20 +45,20 @@ public class BassVoice extends Voice {
 //        map.put(0, zeroCombinations);
 
         List<RhythmCombination> oneCombinations = new ArrayList<>();
-        oneCombinations.add(oneNoteEven::pos1);
+//        oneCombinations.add(oneNoteEven::pos1);
 //		oneCombinations.add(oneNoteEven::pos2);
 //        oneCombinations.add(oneNoteEven::pos3);
 //		oneCombinations.add(oneNoteEven::pos4);
         map.put(1, oneCombinations);
 
         List<RhythmCombination> twoCombinations = new ArrayList<>();
-////		twoCombinations.add(twoNoteEven::pos12);
-        twoCombinations.add(twoNoteEven::pos13);
-        twoCombinations.add(twoNoteEven::pos14);
-////		twoCombinations.add(twoNoteEven::pos34);
-//        //twoCombinations.add(twoNoteEven::pos23);
-//        //twoCombinations.add(twoNoteEven::pos24);
-        map.put(2, twoCombinations);
+//////		twoCombinations.add(twoNoteEven::pos12);
+//        twoCombinations.add(twoNoteEven::pos13);
+//        twoCombinations.add(twoNoteEven::pos14);
+//////		twoCombinations.add(twoNoteEven::pos34);
+////        //twoCombinations.add(twoNoteEven::pos23);
+////        //twoCombinations.add(twoNoteEven::pos24);
+//        map.put(2, twoCombinations);
 //
 //        List<RhythmCombination> threeCombinations = new ArrayList<>();
 //        threeCombinations.add(threeNoteEven::pos123);
@@ -71,14 +71,15 @@ public class BassVoice extends Voice {
 //        fourCombinations.add(fourNoteEven::pos1234);
 //        map.put(4, fourCombinations);
 
+        oneCombinations.add(oneNoteUneven::pos1);
 
 //		threeCombinations.add(threeNoteUneven::pos123);
 ////		map.put(3, threeCombinations);
 //
 //		twoCombinations.add(twoNoteUneven::pos23);
 //		twoCombinations.add(twoNoteUneven::pos12);
-//		twoCombinations.add(twoNoteUneven::pos13);
-        //		map.put(2, twoCombinations);
+		twoCombinations.add(twoNoteUneven::pos13);
+//        		map.put(2, twoCombinations);
 
 //        List<RhythmCombination> fiveCombinations = new ArrayList<>();
 //		fiveCombinations.add(fiveNoteQuintuplet::pos12345);

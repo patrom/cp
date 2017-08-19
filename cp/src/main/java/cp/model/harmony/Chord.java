@@ -96,7 +96,7 @@ public class Chord {
 		case 5:
 			return ChordType.CH5;
 		case 6:
-			return ChordType.CH5;
+			return ChordType.CH6;
 		default:
 			throw new IllegalArgumentException("chord type doesn't exist?");
 		}

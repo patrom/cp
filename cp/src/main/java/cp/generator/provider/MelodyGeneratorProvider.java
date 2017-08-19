@@ -54,7 +54,7 @@ public class MelodyGeneratorProvider implements MelodyProvider{
     public List<CpMelody> getMelodies(){
         if (melodies.isEmpty()) {
             int voice = 2;
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 5; i++) {
                 melodies.add(generateMelodyConfig(voice));
             }
             return melodies;
@@ -79,7 +79,7 @@ public class MelodyGeneratorProvider implements MelodyProvider{
 //            n.setDynamicLevel(voiceConfig.getDynamic().getLevel());
 //            n.setTechnical(voiceConfig.getTechnical());
         });
-        TimeLineKey timeLineKey = new TimeLineKey(keys.C, Scale.MAJOR_SCALE);//same config as composition scale/key?
+        TimeLineKey timeLineKey = new TimeLineKey(keys.C, Scale.DORIAN);//same config as composition scale/key?
         PitchClassProvidedGenerator pitchClassProvidedGenerator = RandomUtil.getRandomFromList(pitchClassProvidedGenerators);
         melodyNotes = pitchClassProvidedGenerator.updatePitchClasses(melodyNotes, timeLineKey);
         CpMelody melody = new CpMelody(melodyNotes, voice, 0,  beatGroup.getBeatLength());

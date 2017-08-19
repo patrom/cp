@@ -94,6 +94,15 @@ public abstract class AbstractProvidder {
         return melody;
     }
 
+    protected CpMelody getNote(int voice, int duration){
+        List<Note> notes = new ArrayList<>();
+        notes.add(note().pos(0).pc(0).len(duration).build());
+        CpMelody melody = new CpMelody(notes, voice, 0, duration);
+        melody.setBeatGroup(new BeatGroupTwo(duration/2));
+        melody.setNotesSize(1);
+        return melody;
+    }
+
     protected CpMelody augmentationOrDiminuation(CpMelody melody, double times){
         CpMelody clone = melody.clone();
         clone.getNotes().forEach(n -> {

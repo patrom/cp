@@ -52,10 +52,10 @@ public class InstrumentConfig {
 //        instruments = getBrassTrio();
 //        instruments = getBrassQuartet();
 //        instruments = getStrinqQuartet();
-        instruments = getBrassQuintet();
+//        instruments = getBrassQuintet();
 //        orchestra = getOrchestra();
 //        instruments = getWoodWindsDuo();
-//        instruments = getStringTrio();
+        instruments = getStringTrio();
 //        instruments = getInstrument(5, new Clarinet());
 //        instruments.put(0,new InstrumentMapping(new ViolinSolo() , 3, 0));
 //        for (InstrumentMapping instrumentMapping : instruments.values()) {
@@ -108,8 +108,8 @@ public class InstrumentConfig {
     }
 
     private Map<Integer, InstrumentMapping> getBrassQuintet(){
-        instruments.put(4,new InstrumentMapping(new FrenchHorn(), 5, 0));
-        instruments.put(3,new InstrumentMapping(new FrenchHorn(), 4, 1));
+        instruments.put(4,new InstrumentMapping(new Trumpet(), 5, 0));
+        instruments.put(3,new InstrumentMapping(new Trumpet(), 4, 1));
         instruments.put(2,new InstrumentMapping(new FrenchHorn(), 3, 2));
         instruments.put(1,new InstrumentMapping(new Trombone(), 2, 3));
         instruments.put(0,new InstrumentMapping(new Tuba(), 1, 4));
