@@ -146,7 +146,7 @@ public abstract class Composition {
 
 	@PostConstruct
 	public void init(){
-		composeInKey(keys.Aflat);
+		composeInKey(keys.C);
 		inTempo(88);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
@@ -165,7 +165,7 @@ public abstract class Composition {
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
 //		timeLineKeys.add(new TimeLineKey(keys.Bflat, Scale.MAJOR_SCALE, 0 ,0));
-		timeLineKeys.add(new TimeLineKey(keys.Aflat, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.G, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.A, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.Gflat, Scale.MAJOR_SCALE, 0 ,0));

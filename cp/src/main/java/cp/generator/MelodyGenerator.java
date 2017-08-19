@@ -7,7 +7,6 @@ import cp.composition.voice.NoteSizeValueObject;
 import cp.composition.voice.Voice;
 import cp.composition.voice.VoiceConfig;
 import cp.model.TimeLine;
-import cp.model.harmony.ChordType;
 import cp.model.harmony.DependantHarmony;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
@@ -92,11 +91,10 @@ public class MelodyGenerator {
 				cloneMelody.convertToTimelineKey(timeLine);
 			}
 			if (textureConfig.hasTexture(voice)) {
-				List<ChordType> textureTypes = textureConfig.getTextureFor(voice);
+				List<DependantHarmony> textureTypes = textureConfig.getTextureFor(voice);
 				for (Note melodyNote : cloneMelody.getNotesNoRest()) {
 					if (!melodyNote.isRest()) {
-						DependantHarmony dependantHarmony = new DependantHarmony();
-						dependantHarmony.setChordType(RandomUtil.getRandomFromList(textureTypes));
+						DependantHarmony dependantHarmony = RandomUtil.getRandomFromList(textureTypes);
 						melodyNote.setDependantHarmony(dependantHarmony);
 					}
 				}
@@ -192,11 +190,10 @@ public class MelodyGenerator {
 		});
 		melodyNotes = voiceConfiguration.getRandomPitchClassGenerator(voice).updatePitchClasses(melodyNotes);
         if (textureConfig.hasTexture(voice)) {
-            List<ChordType> textureTypes = textureConfig.getTextureFor(voice);
+            List<DependantHarmony> textureTypes = textureConfig.getTextureFor(voice);
             for (Note melodyNote : melodyNotes) {
 				if (!melodyNote.isRest()) {
-					DependantHarmony dependantHarmony = new DependantHarmony();
-					dependantHarmony.setChordType(RandomUtil.getRandomFromList(textureTypes));
+					DependantHarmony dependantHarmony = RandomUtil.getRandomFromList(textureTypes);
 					melodyNote.setDependantHarmony(dependantHarmony);
 				}
 			}

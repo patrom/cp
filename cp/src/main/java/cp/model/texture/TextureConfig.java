@@ -1,6 +1,7 @@
 package cp.model.texture;
 
 import cp.model.harmony.ChordType;
+import cp.model.harmony.DependantHarmony;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -15,21 +16,21 @@ import java.util.Map;
 @Component
 public class TextureConfig {
 
-    private Map<Integer, List<ChordType>> textureTypes = new HashMap<>();
+    private Map<Integer, List<DependantHarmony>> textureTypes = new HashMap<>();
 
     @PostConstruct
     public void ini(){
-        ArrayList<ChordType> types = new ArrayList<>();
-        types.add(ChordType.CH2_KWART);
-		types.add(ChordType.CH2_KWINT);
-        types.add(ChordType.CH2_GROTE_SIXT);
-        types.add(ChordType.NO_INTERVALS);
-        types.add(ChordType.NO_INTERVALS);
-        types.add(ChordType.CH2_GROTE_TERTS);
-        types.add(ChordType.CH2_GROTE_SIXT_CHR);//if no timeline available for voice (provided)
-        types.add(ChordType.CH2_GROTE_TERTS_CHR);
-        types.add(ChordType.CH2_KLEINE_TERTS_CHR);
-        types.add(ChordType.CH2_KLEINE_SIXT_CHR);
+        List<DependantHarmony> types = new ArrayList<>();
+        types.add(createDependantHarmony(ChordType.CH2_KWART));
+		types.add(createDependantHarmony(ChordType.CH2_KWINT));
+        types.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT));
+        types.add(createDependantHarmony(ChordType.NO_INTERVALS));
+        types.add(createDependantHarmony(ChordType.NO_INTERVALS));
+        types.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS));
+        types.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT_CHR));//if no timeline available for voice (provided)
+        types.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS_CHR));
+        types.add(createDependantHarmony(ChordType.CH2_KLEINE_TERTS_CHR));
+        types.add(createDependantHarmony(ChordType.CH2_KLEINE_SIXT_CHR));
 //        types.add(ChordType.CH2_KWART_CHR);
 //        types.add(ChordType.CH2_KWINT_CHR);
 //        types.add(ChordType.MAJOR);
@@ -57,22 +58,39 @@ public class TextureConfig {
 
 //        types.add(ChordType.DOM);
 
-        ArrayList<ChordType> types2 = new ArrayList<>();
-        types2.add(ChordType.CH2_KWART);
-        types2.add(ChordType.CH2_KWINT);
-        types2.add(ChordType.CH2_GROTE_SIXT);
-        types2.add(ChordType.CH2_GROTE_SIXT_CHR);
-        types2.add(ChordType.NO_INTERVALS);
-        types2.add(ChordType.NO_INTERVALS);
-        types2.add(ChordType.CH2_GROTE_TERTS);
-        types2.add(ChordType.CH2_GROTE_TERTS_CHR);
+        List<DependantHarmony> types2 = new ArrayList<>();
+        types2.add(createDependantHarmony(ChordType.CH2_KWART));
+        types2.add(createDependantHarmony(ChordType.CH2_KWINT));
+        types2.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT));
+        types2.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT_CHR));
+        types2.add(createDependantHarmony(ChordType.NO_INTERVALS));
+        types2.add(createDependantHarmony(ChordType.NO_INTERVALS));
+        types2.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS));
+        types2.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS_CHR));
 //        types.add(ChordType.MAJOR);
 
 //        textureTypes.put(0, types2);
 //        textureTypes.put(1, types);
+
+        List<DependantHarmony> symmetryChords = new ArrayList<>();
+        int axisHigh = 0;
+        int axisLow = 0;
+        symmetryChords.add(createDependantHarmony(ChordType.SYMMEETRY, axisHigh,axisLow));
+//        symmetryChords.add(createDependantHarmony(ChordType.NO_INTERVALS));
+        textureTypes.put(1, symmetryChords);
     }
 
-    public List<ChordType> getTextureFor(int voice){
+    private DependantHarmony createDependantHarmony(ChordType chordType){
+        DependantHarmony dependantHarmony = new DependantHarmony();
+        dependantHarmony.setChordType(chordType);
+        return  dependantHarmony;
+    }
+
+    private DependantHarmony createDependantHarmony(ChordType chordType, int axisPitchClassHigh, int axisPitchClassLow){
+        return new DependantHarmony(chordType, axisPitchClassHigh, axisPitchClassLow);
+    }
+
+    public List<DependantHarmony> getTextureFor(int voice){
         return textureTypes.get(voice);
     }
 

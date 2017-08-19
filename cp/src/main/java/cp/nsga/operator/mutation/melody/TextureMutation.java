@@ -1,7 +1,6 @@
 package cp.nsga.operator.mutation.melody;
 
 import cp.composition.voice.VoiceConfig;
-import cp.model.harmony.ChordType;
 import cp.model.harmony.DependantHarmony;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
@@ -48,9 +47,8 @@ public class TextureMutation implements MutationOperator<MelodyBlock> {
                 List<Note> notesNoRest = melody.getNotesNoRest();
                 if (textureConfig.hasTexture(voice) && !notesNoRest.isEmpty()) {
                     Note note = RandomUtil.getRandomFromList(notesNoRest);
-                    List<ChordType> textureTypes = textureConfig.getTextureFor(voice);
-                    DependantHarmony dependantHarmony = new DependantHarmony();
-                    dependantHarmony.setChordType(RandomUtil.getRandomFromList(textureTypes));
+                    List<DependantHarmony> textureTypes = textureConfig.getTextureFor(voice);
+                    DependantHarmony dependantHarmony = RandomUtil.getRandomFromList(textureTypes);
                     note.setDependantHarmony(dependantHarmony);
 //				    LOGGER.info("Texture replaced: " + melody.getVoice());
                 }

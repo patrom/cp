@@ -4,7 +4,6 @@ import cp.composition.beat.BeatGroup;
 import cp.composition.voice.Voice;
 import cp.composition.voice.VoiceConfig;
 import cp.generator.pitchclass.PitchClassGenerator;
-import cp.model.harmony.ChordType;
 import cp.model.harmony.DependantHarmony;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
@@ -58,11 +57,10 @@ public class ReplaceMelody implements MutationOperator<MelodyBlock> {
 						n.setPosition(n.getPosition() + melody.getStart());
 					});
 					if (textureConfig.hasTexture(melodyBlock.getVoice())) {
-						List<ChordType> textureTypes = textureConfig.getTextureFor(melodyBlock.getVoice());
+						List<DependantHarmony> textureTypes = textureConfig.getTextureFor(melodyBlock.getVoice());
 						for (Note melodyNote : melodyNotes) {
 							if (!melodyNote.isRest()) {
-								DependantHarmony dependantHarmony = new DependantHarmony();
-								dependantHarmony.setChordType(RandomUtil.getRandomFromList(textureTypes));
+								DependantHarmony dependantHarmony = RandomUtil.getRandomFromList(textureTypes);
 								melodyNote.setDependantHarmony(dependantHarmony);
 							}
 						}

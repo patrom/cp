@@ -2,6 +2,8 @@ package cp.model.harmony;
 
 public enum ChordType {
 
+	SYMMEETRY(-1),
+
 	ALL_INTERVALS(2),
 	NO_INTERVALS(0),
 

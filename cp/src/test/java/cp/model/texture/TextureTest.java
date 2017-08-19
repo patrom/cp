@@ -129,4 +129,46 @@ public class TextureTest {
         assertEquals(3, dependantPitchClass);
     }
 
+    @Test
+    public void symmetryNoteDependencyBelow() throws Exception {
+        DependantHarmony dependantHarmony = new DependantHarmony(ChordType.SYMMEETRY, 0,0);
+        Note note = NoteBuilder.note().pc(1).pitch(61).octave(5).dep(dependantHarmony).build();
+        Note dependantNote = texture.symmetryNoteDependencyBelow(note);
+        assertEquals(11, dependantNote.getPitchClass());
+        assertEquals(59, dependantNote.getPitch());
+        assertEquals(4, dependantNote.getOctave());
+    }
+
+    @Test
+    public void symmetryNoteDependencyAbove() throws Exception {
+        DependantHarmony dependantHarmony = new DependantHarmony(ChordType.SYMMEETRY, 0,0);
+        Note note = NoteBuilder.note().pc(11).pitch(71).octave(5).dep(dependantHarmony).build();
+        Note dependantNote = texture.symmetryNoteDependencyAbove(note);
+        assertEquals(1, dependantNote.getPitchClass());
+        assertEquals(73, dependantNote.getPitch());
+        assertEquals(6, dependantNote.getOctave());
+    }
+
+    @Test
+    public void symmetryNoteDependencyAboveTwoNoteAxis() throws Exception {
+        DependantHarmony dependantHarmony = new DependantHarmony(ChordType.SYMMEETRY, 0,11);
+        Note note = NoteBuilder.note().pc(11).pitch(71).octave(5).dep(dependantHarmony).build();
+        Note dependantNote = texture.symmetryNoteDependencyAbove(note);
+        assertEquals(0, dependantNote.getPitchClass());
+        assertEquals(72, dependantNote.getPitch());
+        assertEquals(6, dependantNote.getOctave());
+    }
+
+    @Test
+    public void symmetryNoteDependencyAboveTwoNoteAxis2() throws Exception {
+        DependantHarmony dependantHarmony = new DependantHarmony(ChordType.SYMMEETRY, 0,11);
+        Note note = NoteBuilder.note().pc(1).pitch(61).octave(5).dep(dependantHarmony).build();
+        Note dependantNote = texture.symmetryNoteDependencyAbove(note);
+        assertEquals(10, dependantNote.getPitchClass());
+        assertEquals(70, dependantNote.getPitch());
+        assertEquals(5, dependantNote.getOctave());
+    }
+
+
+
 }

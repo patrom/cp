@@ -44,6 +44,9 @@ public class Texture {
         DependantHarmony dependantHarmony = note.getDependantHarmony();
         if(dependantHarmony != null) {
             switch (dependantHarmony.getChordType().getSize()) {
+                case -1:
+                    textureNotes.add(symmetryNoteDependencyBelow(note));
+                    break;
                 case 0:
                     break;
                 case 2:
@@ -65,6 +68,9 @@ public class Texture {
         DependantHarmony dependantHarmony = note.getDependantHarmony();
         if(dependantHarmony != null) {
             switch (dependantHarmony.getChordType().getSize()) {
+                case -1:
+                    textureNotes.add(symmetryNoteDependencyAbove(note));
+                    break;
                 case 0:
                     break;
                 case 2:
@@ -175,7 +181,6 @@ public class Texture {
     }
 
     public Note singleNoteDependency(Note note, boolean octave) {
-        List<Note> notes = new ArrayList<>();
         Note clone = note.clone();
         int pitchClass = -1;
         int interval = 0;
@@ -224,7 +229,6 @@ public class Texture {
                 clone.setPitch(note.getPitch() + interval);
             }
             clone.setOctave((clone.getPitch() / 12) );
-            notes.add(clone);
         }
         return clone;
     }
@@ -240,4 +244,57 @@ public class Texture {
         pitchClass = (pitchClass + timeLineKeyAtPosition.getKey().getInterval()) % 12;
         return pitchClass;
     }
+
+    public Note symmetryNoteDependencyBelow(Note note) {
+        Note clone = note.clone();
+        int pitchClass = -1;
+        if (!note.isRest()) {
+            DependantHarmony dependantHarmony = note.getDependantHarmony();
+            switch (dependantHarmony.getChordType()){
+                case SYMMEETRY:
+                    int interval = note.getPitchClass() - dependantHarmony.getAxisPitchClassHigh();
+                    pitchClass = (dependantHarmony.getAxisPitchClassLow() - interval + 12) % 12;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Dependant harmony not set for note: " + note);
+            }
+            clone.setPitchClass(pitchClass);
+            int pitchSymmetryNote = pitchClass + note.getOctave() * 12;
+            if (pitchSymmetryNote > note.getPitch()) {
+                clone.setPitch(pitchSymmetryNote - 12);
+                clone.setOctave(note.getOctave() - 1);
+            }else{
+                clone.setPitch(pitchSymmetryNote);
+                clone.setOctave(note.getOctave());
+            }
+        }
+        return clone;
+    }
+
+    public Note symmetryNoteDependencyAbove(Note note) {
+        Note clone = note.clone();
+        int pitchClass = -1;
+        if (!note.isRest()) {
+            DependantHarmony dependantHarmony = note.getDependantHarmony();
+            switch (dependantHarmony.getChordType()){
+                case SYMMEETRY:
+                    int interval = note.getPitchClass() - dependantHarmony.getAxisPitchClassHigh();
+                    pitchClass = (dependantHarmony.getAxisPitchClassLow() - interval + 12) % 12;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Dependant harmony not set for note: " + note);
+            }
+            clone.setPitchClass(pitchClass);
+            int pitchSymmetryNote = pitchClass + note.getOctave() * 12;
+            if (pitchSymmetryNote < note.getPitch()) {
+                clone.setPitch(pitchSymmetryNote + 12);
+                clone.setOctave(note.getOctave() + 1);
+            }else{
+                clone.setPitch(pitchSymmetryNote);
+                clone.setOctave(note.getOctave());
+            }
+        }
+        return clone;
+    }
+
 }

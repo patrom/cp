@@ -6,6 +6,8 @@ package cp.model.harmony;
 public class DependantHarmony{
 
     private ChordType chordType;
+    private int axisPitchClassHigh;
+    private int axisPitchClassLow;
 
     public ChordType getChordType() {
         return chordType;
@@ -22,7 +24,21 @@ public class DependantHarmony{
         this.chordType = dependantHarmony.getChordType();
     }
 
+    public DependantHarmony(ChordType chordType, int axisPitchClassHigh, int axisPitchClassLow) {
+        this.chordType = chordType;
+        this.axisPitchClassHigh = axisPitchClassHigh;
+        this.axisPitchClassLow = axisPitchClassLow;
+    }
+
     public DependantHarmony clone() {
         return new DependantHarmony(this);
+    }
+
+    public int getAxisPitchClassHigh() {
+        return axisPitchClassHigh;
+    }
+
+    public int getAxisPitchClassLow() {
+        return axisPitchClassLow;
     }
 }
