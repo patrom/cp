@@ -1,11 +1,11 @@
 package cp.composition;
 
+import cp.config.InstrumentConfig;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 import cp.musicxml.XMLParser;
 import cp.musicxml.parsed.ComplexElement;
 import cp.musicxml.parsed.ElementWrapper;
-import cp.out.play.InstrumentConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

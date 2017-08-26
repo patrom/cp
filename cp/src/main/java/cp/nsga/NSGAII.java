@@ -1,7 +1,7 @@
 package cp.nsga;
 
 import cp.composition.voice.Voice;
-import cp.composition.voice.VoiceConfig;
+import cp.config.VoiceConfig;
 import cp.model.Motive;
 import cp.model.melody.MelodyBlock;
 import cp.nsga.operator.relation.Relation;

@@ -1,10 +1,10 @@
 package cp.objective.melody;
 
+import cp.config.MelodyConfig;
 import cp.model.Motive;
 import cp.model.dissonance.Dissonance;
 import cp.model.harmony.Chord;
 import cp.model.melody.MelodyBlock;
-import cp.model.note.Interval;
 import cp.model.note.Note;
 import cp.objective.Objective;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +23,8 @@ public class MelodicObjective extends Objective {
 	@Autowired
 	@Qualifier(value="TonalDissonance")
 	private Dissonance dissonance;
-
-//	@Autowired
-//	protected Composition composition;
+	@Autowired
+	private MelodyConfig melodyConfig;
 	
 	@Override
 	public double evaluate(Motive motive) {
@@ -39,12 +38,14 @@ public class MelodicObjective extends Objective {
 //			if(notes.size() < minNotes){
 //				return 0;
 //			}
-			double melodyValue = evaluateMelody(notes, 2);
+            MelodyDissonance melodyDissonance = melodyConfig.getMelodyDissonanceForVoice(melody.getVoice());
+
+            double melodyValue = evaluateMelody(notes, 2, melodyDissonance);
 //			notes = extractNotesOnLevel(notes, 1);
 			for (double level : musicProperties.getFilterLevels()) {
 				List<Note> filteredNotes = filterNotesWithWeightEqualToOrGreaterThan(notes, level);
 				if ((filteredNotes.size() > 1) && filteredNotes.size() != notes.size()) {
-					double value = evaluateMelody(filteredNotes, 1);
+					double value = evaluateMelody(filteredNotes, 1, melodyDissonance);
 					totalMelodySum = totalMelodySum + value;
 					melodyCount++;
 				}
@@ -89,7 +90,7 @@ public class MelodicObjective extends Objective {
 		return (harmonicValue == 0)? 0:harmonicValue/(notePositions.length - 2);
 	}
 
-	private double getIntervalMelodicValue(Note note, Note nextNote) {
+	private double getIntervalMelodicValue(Note note, Note nextNote, MelodyDissonance melodyDissonance) {
 		int difference = 0;
 		if (note.getPitch() != 0 && nextNote.getPitch() != 0) {
 			difference = nextNote.getPitch() - note.getPitch();
@@ -97,10 +98,10 @@ public class MelodicObjective extends Objective {
 //		else{
 //			difference = note.getPitchClass() - nextNote.getPitchClass();
 //		}	
-		return Interval.getEnumInterval(difference).getMelodicValue();
+		return melodyDissonance.getMelodicValue(difference);
 	}
 	
-	public double evaluateMelody(List<Note> notes, int maxDistance) {
+	public double evaluateMelody(List<Note> notes, int maxDistance, MelodyDissonance melodyDissonance) {
 		if (notes.size() <= 1) {
 			return Double.MIN_VALUE;
 		}
@@ -116,7 +117,7 @@ public class MelodicObjective extends Objective {
 				Note note = notePositions[j];
 				Note nextNote = notePositions[j + distance];
 				double intervalPositionWeight = (note.getPositionWeight() + nextNote.getPositionWeight())/totalPositionWeight;
-				double intervalMelodicValue = getIntervalMelodicValue(note, nextNote);
+				double intervalMelodicValue = getIntervalMelodicValue(note, nextNote, melodyDissonance);
 				double intervalValue = intervalMelodicValue * intervalPositionWeight;
 				melodyIntervalValueSum = melodyIntervalValueSum + intervalValue;
 			}

@@ -3,7 +3,7 @@ package cp.objective.rhythm;
 import cp.DefaultConfig;
 import cp.composition.timesignature.TimeConfig;
 import cp.composition.voice.MelodyVoice;
-import cp.composition.voice.VoiceConfig;
+import cp.config.VoiceConfig;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
 import cp.model.melody.CpMelody;

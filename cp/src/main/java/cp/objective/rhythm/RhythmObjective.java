@@ -1,7 +1,7 @@
 package cp.objective.rhythm;
 
 import cp.composition.voice.Voice;
-import cp.composition.voice.VoiceConfig;
+import cp.config.VoiceConfig;
 import cp.model.Motive;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;

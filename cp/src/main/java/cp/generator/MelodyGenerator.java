@@ -5,16 +5,18 @@ import cp.composition.accomp.AccompGroup;
 import cp.composition.beat.BeatGroup;
 import cp.composition.voice.NoteSizeValueObject;
 import cp.composition.voice.Voice;
-import cp.composition.voice.VoiceConfig;
+import cp.config.InstrumentConfig;
+import cp.config.MelodyProviderConfig;
+import cp.config.TextureConfig;
+import cp.config.VoiceConfig;
+import cp.generator.provider.MelodyProvider;
 import cp.model.TimeLine;
 import cp.model.harmony.DependantHarmony;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.melody.Tonality;
 import cp.model.note.Note;
-import cp.model.texture.TextureConfig;
 import cp.out.instrument.Instrument;
-import cp.out.play.InstrumentConfig;
 import cp.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -40,6 +42,8 @@ public class MelodyGenerator {
     private TimeLine timeLine;
 	@Autowired
     private TextureConfig textureConfig;
+	@Autowired
+	private MelodyProviderConfig melodyProviderConfig;
 
 	public MelodyBlock generateDependantMelodyBlock(final int voice, int octave, MelodyBlock dependingMelodyBlock){
 		int start = composition.getStart();
@@ -76,7 +80,8 @@ public class MelodyGenerator {
 	public MelodyBlock generateProvidedMelodyBlockConfigRandom(int voice, Voice voiceConfig, int octave, int start, int stop) {
 		MelodyBlock melodyBlock = new MelodyBlock(octave, voice);
 		melodyBlock.setOffset(voiceConfig.getTimeConfig().getOffset());
-		final List<CpMelody> melodies = voiceConfig.getMelodyProvider().getMelodies();
+		MelodyProvider melodyProviderForVoice = melodyProviderConfig.getMelodyProviderForVoice(voice);
+		final List<CpMelody> melodies = melodyProviderForVoice.getMelodies();
 		int size = melodies.size();
 		int i = 0;
 		CpMelody melody = RandomUtil.getRandomFromList(melodies);

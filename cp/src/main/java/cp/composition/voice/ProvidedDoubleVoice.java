@@ -28,8 +28,6 @@ public class ProvidedDoubleVoice extends Voice {
         setTimeconfig();
         dynamics = Stream.of(Dynamic.MF, Dynamic.F).collect(toList());
 
-        melodyProvider = melodyDoubleProvider;
-
         mutationOperators = providedMutationOperators;
 
         technical = Technical.LEGATO;

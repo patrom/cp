@@ -12,7 +12,7 @@ import cp.composition.beat.BeatGroupTwo;
 import cp.composition.timesignature.TimeConfig;
 import cp.composition.voice.FixedVoice;
 import cp.composition.voice.MelodyVoice;
-import cp.composition.voice.VoiceConfig;
+import cp.config.VoiceConfig;
 import cp.generator.pitchclass.PitchClassGenerator;
 import cp.generator.pitchclass.RandomPitchClasses;
 import cp.midi.MidiDevicePlayer;

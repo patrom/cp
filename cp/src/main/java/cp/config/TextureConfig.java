@@ -1,4 +1,4 @@
-package cp.model.texture;
+package cp.config;
 
 import cp.model.harmony.ChordType;
 import cp.model.harmony.DependantHarmony;
@@ -76,8 +76,13 @@ public class TextureConfig {
         int axisHigh = 0;
         int axisLow = 0;
         symmetryChords.add(createDependantHarmony(ChordType.SYMMEETRY, axisHigh,axisLow));
-//        symmetryChords.add(createDependantHarmony(ChordType.NO_INTERVALS));
-        textureTypes.put(1, symmetryChords);
+        symmetryChords.add(createDependantHarmony(ChordType.NO_INTERVALS));
+//        textureTypes.put(0, symmetryChords);
+
+        List<DependantHarmony> symmetryChords2 = new ArrayList<>();
+        symmetryChords2.add(createDependantHarmony(ChordType.SYMMEETRY, 0,0));
+        symmetryChords2.add(createDependantHarmony(ChordType.NO_INTERVALS));
+//        textureTypes.put(0, symmetryChords2);
     }
 
     private DependantHarmony createDependantHarmony(ChordType chordType){

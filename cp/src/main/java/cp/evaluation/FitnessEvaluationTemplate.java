@@ -2,7 +2,8 @@ package cp.evaluation;
 
 import cp.composition.Composition;
 import cp.composition.voice.Voice;
-import cp.composition.voice.VoiceConfig;
+import cp.config.InstrumentConfig;
+import cp.config.VoiceConfig;
 import cp.model.Motive;
 import cp.model.TimeLine;
 import cp.model.harmony.CpHarmony;
@@ -13,7 +14,6 @@ import cp.model.rhythm.RhythmWeight;
 import cp.model.texture.Texture;
 import cp.objective.Objective;
 import cp.out.instrument.Instrument;
-import cp.out.play.InstrumentConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

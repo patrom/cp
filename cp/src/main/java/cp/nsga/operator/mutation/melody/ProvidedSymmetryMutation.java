@@ -10,7 +10,6 @@ import cp.model.TimeLine;
 import cp.model.harmony.DependantHarmony;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
-import cp.model.melody.Tonality;
 import cp.model.note.Note;
 import cp.nsga.operator.mutation.MutationOperator;
 import cp.util.RandomUtil;
@@ -26,15 +25,12 @@ import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
-/**
- * Created by prombouts on 13/06/2017.
- */
-@Component(value = "providedMutation")
-public class ProvidedMutation implements MutationOperator<MelodyBlock> {
+@Component(value = "providedSymmetryMutation")
+public class ProvidedSymmetryMutation implements MutationOperator<MelodyBlock> {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(ProvidedMutation.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(ProvidedSymmetryMutation.class);
 
-    private double probabilityProvided;
+    private double probabilitySymmetryProvided;
 
     @Autowired
     private VoiceConfig voiceConfig;
@@ -42,20 +38,20 @@ public class ProvidedMutation implements MutationOperator<MelodyBlock> {
     private TextureConfig textureConfig;
     @Autowired
     private Composition composition;
-    @Autowired
-    private MelodyTransformer melodyTransformer;
+//    @Autowired
+//    private MelodyTransformer melodyTransformer;
     @Autowired
     private TimeLine timeLine;
     @Autowired
     private MelodyProviderConfig melodyProviderConfig;
 
     @Autowired
-    public ProvidedMutation(@Value("${probabilityProvided}") double probabilityProvided) {
-        this.probabilityProvided = probabilityProvided;
+    public ProvidedSymmetryMutation(@Value("${probabilitySymmetryProvided}") double probabilitySymmetryProvided) {
+        this.probabilitySymmetryProvided = probabilitySymmetryProvided;
     }
 
     public void doMutation(MelodyBlock melodyBlock) {
-        if (PseudoRandom.randDouble() < probabilityProvided) {
+        if (PseudoRandom.randDouble() < probabilitySymmetryProvided) {
             Optional<CpMelody> optionalMelody = melodyBlock.getRandomMelody(m -> m.isReplaceable());
             if (optionalMelody.isPresent()) {
                 CpMelody melody = optionalMelody.get();
@@ -90,11 +86,12 @@ public class ProvidedMutation implements MutationOperator<MelodyBlock> {
                     melodyBlock.replaceMelody(melody, providedMelody);
 
                     //after new positions are set!!
-                    if (providedMelody.getTonality() == Tonality.TONAL && providedMelody.getTimeLineKey() != null) {
-                        providedMelody.convertToTimelineKey(timeLine);
-                    }
-                    melodyTransformer.transform(providedMelody);
-//                    LOGGER.info("Provided melody:" + melody.getVoice());
+//                    if (providedMelody.getTonality() == Tonality.TONAL && providedMelody.getTimeLineKey() != null) {
+//                        providedMelody.convertToTimelineKey(timeLine);
+//                    }
+                    providedMelody.symmetricalInverse(0,0);//TODO set axis???
+//                    melodyTransformer.transform(providedMelody);
+//                    LOGGER.info("Provided symmetry melody:" + melody.getVoice());
                 }
             }
         }
@@ -106,3 +103,4 @@ public class ProvidedMutation implements MutationOperator<MelodyBlock> {
         return melodyBlock;
     }
 }
+

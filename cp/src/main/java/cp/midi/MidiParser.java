@@ -1,8 +1,8 @@
 package cp.midi;
 
+import cp.config.InstrumentConfig;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
-import cp.out.play.InstrumentConfig;
 import cp.out.play.InstrumentMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

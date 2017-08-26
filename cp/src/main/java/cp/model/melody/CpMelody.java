@@ -482,10 +482,6 @@ public class CpMelody implements Comparable<CpMelody>{
 	public List<Note> getNotes() {
 		return notes;
 	}
-
-	public List<Note> getNotesWithoutRests() {
-		return notes.stream().filter(n -> !n.isRest()).collect(toList());
-	}
 	
 	public List<Note> getNotesNoRest() {
 		return notes.stream().filter(n -> !n.isRest()).sorted().collect(toList());
@@ -586,5 +582,17 @@ public class CpMelody implements Comparable<CpMelody>{
     public void setNotesSize(int notesSize) {
         this.notesSize = notesSize;
     }
+
+    public void symmetricalInverse(int axisHigh, int axisLow){
+		List<Note> notesNoRest = getNotesNoRest();
+		for (Note note : notesNoRest) {
+			int interval = note.getPitchClass() - axisHigh;
+			int pitchClass = (axisLow - interval + 12) % 12;
+            note.setPitchClass(pitchClass);
+            int pitch = pitchClass + (note.getOctave() * 12);
+            note.setPitch(pitch);
+            note.setOctave(note.getPitch()/12);
+		}
+	}
 
 }

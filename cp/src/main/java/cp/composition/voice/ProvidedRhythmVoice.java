@@ -25,8 +25,6 @@ public class ProvidedRhythmVoice extends Voice {
         dynamic = Dynamic.P;
         dynamics = Stream.of(Dynamic.MF, Dynamic.F).collect(toList());
 
-        melodyProvider = melodyRhythmProvider;
-
         //        pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
         pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
         pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);

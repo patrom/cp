@@ -1,12 +1,12 @@
 package cp.nsga.operator.mutation.melody;
 
 import cp.composition.voice.Voice;
-import cp.composition.voice.VoiceConfig;
+import cp.config.TextureConfig;
+import cp.config.VoiceConfig;
 import cp.model.harmony.DependantHarmony;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
-import cp.model.texture.TextureConfig;
 import cp.nsga.operator.mutation.MutationOperator;
 import cp.util.RandomUtil;
 import jmetal.util.PseudoRandom;

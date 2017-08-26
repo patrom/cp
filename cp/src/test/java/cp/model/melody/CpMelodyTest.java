@@ -648,5 +648,26 @@ public class CpMelodyTest {
 		clonedMelody.getNotes().forEach(n -> System.out.println(n));
 		System.out.println();
 	}
+
+	@Test
+	public void testSymmetricalInverse(){
+		Scale scale = Scale.MAJOR_SCALE;
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pc(0).pitch(60).octave(5).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(2).pitch(74).octave(6).build());
+		notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.EIGHT).pc(7).pitch(67).octave(5).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(11).pitch(59).octave(4).build());
+		CpMelody melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+		melody.symmetricalInverse(0,0);
+		List<Note> notes1 = melody.getNotes();
+		for (Note note : notes1) {
+			System.out.println(note.getPitch());
+			System.out.println(note.getOctave());
+			System.out.println(note.getPitchClass());
+			System.out.println();
+		}
+
+
+	}
 	
 }

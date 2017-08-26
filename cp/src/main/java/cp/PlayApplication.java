@@ -1,5 +1,7 @@
 package cp;
 
+import cp.config.InstrumentConfig;
+import cp.config.OrchestralQualityConfig;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
 import cp.midi.*;
@@ -11,8 +13,6 @@ import cp.musicxml.parsed.ElementWrapper;
 import cp.out.arrangement.Arrangement;
 import cp.out.arrangement.Pattern;
 import cp.out.orchestration.orchestra.ClassicalOrchestra;
-import cp.out.orchestration.quality.OrchestralQualityConfig;
-import cp.out.play.InstrumentConfig;
 import cp.out.play.InstrumentMapping;
 import cp.out.print.MusicXMLWriter;
 import cp.out.print.ScoreUtilities;
@@ -137,7 +137,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
             playOnKontakt(melodyInstruments, sequence, xmlParser.getBpm());
             Resource outResource = new FileSystemResource("");
             midiDevicesUtil.write(sequence, outResource.getFile().getPath()+ "cp/src/main/resources/orch/" + xmlFile.getName() + ".mid");
-			Thread.sleep(13000);
+			Thread.sleep(15000);
 		}
 	}
 	
@@ -188,7 +188,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 
 //			write(parsedMelodies , "resources/transform/" + midiFile.getName(), midiInfo.getTempo());
 //			generateMusicXml(parsedMelodies, midiFile.getName());
-			Thread.sleep(17000);
+			Thread.sleep(40000);
 		}
 	}
 

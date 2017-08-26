@@ -38,6 +38,8 @@ public class Mutators {
     public OperatorMutation operatorMutation;
     @Autowired
     public ProvidedMutation providedMutation;
+    @Autowired
+    private ProvidedSymmetryMutation providedSymmetryMutation;
 
 
     @Bean
@@ -97,7 +99,18 @@ public class Mutators {
         mutationOperators.add(dynamicMutation);
         mutationOperators.add(technicalMutation);
         mutationOperators.add(textureMutation);
-//        mutationOperators.add(providedMutation);
+        mutationOperators.add(providedMutation);
+        return mutationOperators;
+    }
+
+    @Bean
+    public List<MutationOperator> providedSymmetryOperators(){
+        ArrayList<MutationOperator> mutationOperators = new ArrayList<>();
+        mutationOperators.add(articulationMutation);
+        mutationOperators.add(dynamicMutation);
+        mutationOperators.add(technicalMutation);
+        mutationOperators.add(textureMutation);
+        mutationOperators.add(providedSymmetryMutation);
         return mutationOperators;
     }
 

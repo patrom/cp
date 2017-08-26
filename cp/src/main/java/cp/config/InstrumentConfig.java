@@ -1,4 +1,4 @@
-package cp.out.play;
+package cp.config;
 
 import cp.out.instrument.Instrument;
 import cp.out.instrument.brass.FrenchHorn;
@@ -20,7 +20,7 @@ import cp.out.instrument.woodwinds.Clarinet;
 import cp.out.instrument.woodwinds.Flute;
 import cp.out.instrument.woodwinds.Oboe;
 import cp.out.orchestration.quality.OrchestralQuality;
-import cp.out.orchestration.quality.OrchestralQualityConfig;
+import cp.out.play.InstrumentMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -43,7 +43,8 @@ public class InstrumentConfig {
     @PostConstruct
     public void instrumentInit(){
 //        Piano piano = new Piano();
-//        instruments.put(0,new InstrumentMapping(piano, 3, 0));
+//        instruments.put(0,new InstrumentMapping(piano, 2, 0));
+//        instruments.put(1,new InstrumentMapping(piano, 3, 1));
 //        instruments = getSAATBChoir();
 //        instruments.put(0,new InstrumentMapping(new ViolinSolo() , 3, 0));
 //        instruments = getPianoAndStrinqQuartet(pleasantGreen, mellowPurple, richBlue);
@@ -55,7 +56,8 @@ public class InstrumentConfig {
 //        instruments = getBrassQuintet();
 //        orchestra = getOrchestra();
 //        instruments = getWoodWindsDuo();
-        instruments = getStringTrio();
+//        instruments = getStringTrio();
+        instruments = getStringDuo();
 //        instruments = getInstrument(5, new Clarinet());
 //        instruments.put(0,new InstrumentMapping(new ViolinSolo() , 3, 0));
 //        for (InstrumentMapping instrumentMapping : instruments.values()) {
@@ -73,12 +75,6 @@ public class InstrumentConfig {
         return instrumentList;
     }
 
-    private Map<Integer, InstrumentMapping> getStringDuo(){
-        instruments.put(1,new InstrumentMapping(new ViolinSolo(), 3, 0));
-        instruments.put(0,new InstrumentMapping(new CelloSolo(), 1, 1));
-        return instruments;
-    }
-
     private Map<Integer, InstrumentMapping> getWoodWindsDuo(){
         instruments.put(1,new InstrumentMapping(new Flute(), 1, 0));
         instruments.put(0,new InstrumentMapping(new Clarinet(), 3, 1));
@@ -88,6 +84,12 @@ public class InstrumentConfig {
     private Map<Integer, InstrumentMapping> getStringTrio(){
         instruments.put(2,new InstrumentMapping(new ViolinSolo(), 3, 0));
         instruments.put(1,new InstrumentMapping(new ViolaSolo(), 2, 1));
+        instruments.put(0,new InstrumentMapping(new CelloSolo(), 1, 2));
+        return instruments;
+    }
+
+    private Map<Integer, InstrumentMapping> getStringDuo(){
+        instruments.put(1,new InstrumentMapping(new ViolinSolo(), 2, 1));
         instruments.put(0,new InstrumentMapping(new CelloSolo(), 1, 2));
         return instruments;
     }

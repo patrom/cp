@@ -1,7 +1,7 @@
 package cp.nsga.operator.mutation.melody;
 
 import cp.DefaultConfig;
-import cp.composition.voice.VoiceConfig;
+import cp.config.VoiceConfig;
 import cp.generator.pitchclass.PassingPitchClasses;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;

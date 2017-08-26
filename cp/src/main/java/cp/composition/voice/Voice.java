@@ -12,7 +12,6 @@ import cp.generator.pitchclass.PassingPitchClasses;
 import cp.generator.pitchclass.PitchClassGenerator;
 import cp.generator.pitchclass.RandomPitchClasses;
 import cp.generator.pitchclass.RepeatingPitchClasses;
-import cp.generator.provider.MelodyProvider;
 import cp.model.harmony.ChordType;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
@@ -109,13 +108,11 @@ public abstract class Voice {
     List<Operator> providedMutationOperators;
     @Resource(name = "providedRhythmOperators")
     List<Operator> providedRhythmOperators;
+    @Resource(name = "providedSymmetryOperators")
+    List<Operator> providedSymmetryOperators;
 
     @Autowired
     protected Mutators mutators;
-
-    @Autowired
-    @Qualifier(value = "melodyGeneratorProvider")//melodyManualProvider - melodyGeneratorProvider - melodyParserProvider
-    protected MelodyProvider melodyProvider;
 
     @Autowired
     @Qualifier(value="time44")
@@ -335,10 +332,6 @@ public abstract class Voice {
 
     public int getNumerator() {
         return numerator;
-    }
-
-    public MelodyProvider getMelodyProvider() {
-        return melodyProvider;
     }
 
     public boolean isMelodiesProvided(){

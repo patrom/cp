@@ -4,7 +4,7 @@ import cp.AbstractTest;
 import cp.DefaultConfig;
 import cp.combination.RhythmCombination;
 import cp.composition.voice.MelodyVoice;
-import cp.composition.voice.VoiceConfig;
+import cp.config.VoiceConfig;
 import cp.evaluation.FitnessEvaluationTemplate;
 import cp.generator.MelodyGenerator;
 import cp.midi.MelodyInstrument;
@@ -73,6 +73,8 @@ public class MelodiesTest extends AbstractTest {
 	private VoiceConfig voiceConfig;
 	@Autowired
 	private MelodyVoice melodyVoice;
+	@Autowired
+	private MelodyDefaultDissonance melodyDefaultDissonance;
 
 	@Before
 	public void setUp() throws Exception {
@@ -90,12 +92,12 @@ public class MelodiesTest extends AbstractTest {
 			MidiConverter.updatePositionNotes(melodies, midiInfo.getTimeSignature());
 			for (MelodyInstrument melodyInstrument : melodies) {
 				List<Note> notes = melodyInstrument.getNotes();
-				double value = melodicObjective.evaluateMelody(notes, 1);
+				double value = melodicObjective.evaluateMelody(notes, 1, melodyDefaultDissonance);
 				LOGGER.info("Intervals : " + value);
 				value = melodicObjective.evaluateTriadicValueMelody(notes);
 				LOGGER.info("Triadic value: " + value);
 				List<Note> filteredNotes = melodicObjective.filterNotesWithWeightEqualToOrGreaterThan(notes, 0.5);
-				double filteredValue = melodicObjective.evaluateMelody(filteredNotes, 1);
+				double filteredValue = melodicObjective.evaluateMelody(filteredNotes, 1, melodyDefaultDissonance);
 				LOGGER.info("filteredValue : " + filteredValue);
 				List<Note> notesLevel2 = melodicObjective.extractNotesOnLevel(notes, 2);
 				LOGGER.info("notesLevel2 : " + notesLevel2);
@@ -116,21 +118,21 @@ public class MelodiesTest extends AbstractTest {
 			List<Note> notes = melodies.get(0).getNotes();
 			rhythmWeight.setNotes(notes);
 			rhythmWeight.updateRhythmWeight();
-			double value = melodicObjective.evaluateMelody(notes, 1);
+			double value = melodicObjective.evaluateMelody(notes, 1, melodyDefaultDissonance);
 			LOGGER.info("Intervals : " + value);
-			double value2 = melodicObjective.evaluateMelody(notes, 2);
+			double value2 = melodicObjective.evaluateMelody(notes, 2, melodyDefaultDissonance);
 			LOGGER.info("Intervals 2: " + value2);
 			
 			List<Note> crestNotes = melodicObjective.filterCrestNotes(notes);
-			double crestValue = melodicObjective.evaluateMelody(crestNotes, 1);
+			double crestValue = melodicObjective.evaluateMelody(crestNotes, 1, melodyDefaultDissonance);
 			LOGGER.info("crestValue : " + crestValue);
 			
 			List<Note> keelNotes = melodicObjective.filterKeelNotes(notes);
-			double keelValue = melodicObjective.evaluateMelody(keelNotes, 1);
+			double keelValue = melodicObjective.evaluateMelody(keelNotes, 1, melodyDefaultDissonance);
 			LOGGER.info("keelValue : " + keelValue);
 			
 			List<Note> filteredNotes = rhythmWeight.filterRhythmWeigths(3.0);
-			double filtered = melodicObjective.evaluateMelody(filteredNotes, 1);
+			double filtered = melodicObjective.evaluateMelody(filteredNotes, 1, melodyDefaultDissonance);
 			LOGGER.info("filtered : " + filtered);
 			CpMelody melody = new CpMelody(notes, 0, 0, 200);
 			MelodyBlock melodyBlock = new MelodyBlock(5,0);

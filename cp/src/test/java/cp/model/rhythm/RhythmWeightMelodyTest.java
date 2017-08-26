@@ -3,7 +3,7 @@ package cp.model.rhythm;
 import cp.DefaultConfig;
 import cp.composition.timesignature.TimeConfig;
 import cp.composition.voice.MelodyVoice;
-import cp.composition.voice.VoiceConfig;
+import cp.config.VoiceConfig;
 import cp.midi.MidiInfo;
 import cp.midi.MidiParser;
 import cp.model.melody.CpMelody;

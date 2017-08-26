@@ -2,7 +2,8 @@ package cp.nsga.operator.mutation.melody;
 
 import cp.DefaultConfig;
 import cp.composition.beat.BeatGroupTwo;
-import cp.composition.voice.VoiceConfig;
+import cp.config.TextureConfig;
+import cp.config.VoiceConfig;
 import cp.generator.provider.MelodyProvider;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
@@ -12,7 +13,6 @@ import cp.model.melody.Tonality;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
-import cp.model.texture.TextureConfig;
 import cp.out.print.Keys;
 import org.junit.Before;
 import org.junit.Test;

@@ -269,10 +269,10 @@ public class CombinationConfig {
         List<RhythmCombination> twoUnevenombinations = new ArrayList<>();
 		twoUnevenombinations.add(twoNoteUneven::pos13);
 //        twoUnevenombinations.add(twoNoteUneven::pos12);
-		twoUnevenombinations.add(twoNoteUneven::pos23);
+//		twoUnevenombinations.add(twoNoteUneven::pos23);
         map.put(2, twoUnevenombinations);
 
-//        List<RhythmCombination> threeUnevenCombinations = new ArrayList<>();
+        List<RhythmCombination> threeUnevenCombinations = new ArrayList<>();
 //		threeUnevenCombinations.add(threeNoteUneven::pos123);
 
 //		threeUnevenCombinations.add(threeNoteSexTuplet::pos145);

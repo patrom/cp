@@ -22,6 +22,10 @@ public class HarmonicObjective extends Objective {
 		this.dissonance = dissonance;
 	}
 
+	public Dissonance getDissonance() {
+		return dissonance;
+	}
+
 	@Override
 	public double evaluate(Motive motive) {
 		List<CpHarmony> harmonies = motive.getHarmonies();

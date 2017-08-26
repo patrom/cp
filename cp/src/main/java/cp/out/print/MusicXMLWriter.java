@@ -1,6 +1,7 @@
 package cp.out.print;
 
 import cp.composition.voice.Voice;
+import cp.config.InstrumentConfig;
 import cp.generator.MusicProperties;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Dynamic;
@@ -10,7 +11,6 @@ import cp.model.texture.Texture;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.Technical;
 import cp.out.instrument.keyboard.Piano;
-import cp.out.play.InstrumentConfig;
 import cp.out.play.InstrumentMapping;
 import cp.out.print.note.Key;
 import cp.out.print.note.NoteDisplay;

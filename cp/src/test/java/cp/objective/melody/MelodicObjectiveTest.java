@@ -34,6 +34,8 @@ public class MelodicObjectiveTest extends AbstractTest {
 	private Dissonance dissonance;
 	private double totalWeight;
 	private List<Note> melodyNotes;
+	@Autowired
+	private MelodyDefaultDissonance melodyDefaultDissonance;
 	
 	private final Random random = new Random();
 	
@@ -60,7 +62,7 @@ public class MelodicObjectiveTest extends AbstractTest {
 	@Test
 	public void testMelody(){
 		melodyNotes = generateRandomMelody();
-		double melodicValue = melodicObjective.evaluateMelody(melodyNotes, 1);
+		double melodicValue = melodicObjective.evaluateMelody(melodyNotes, 1, melodyDefaultDissonance);
 		LOGGER.info("test melody :" + melodicValue);
 	}
 	
@@ -68,7 +70,7 @@ public class MelodicObjectiveTest extends AbstractTest {
 	public void test_E_C() {
 		melodyNotes.add(note().pitch(64).positionWeight(3.0).build());
 		melodyNotes.add(note().pitch(60).positionWeight(3.0).build());
-		double melodicValue = melodicObjective.evaluateMelody(melodyNotes, 1);
+		double melodicValue = melodicObjective.evaluateMelody(melodyNotes, 1, melodyDefaultDissonance);
 		LOGGER.info("test_E_C :" + melodicValue);
 		double expected = Interval.GROTE_TERTS.getMelodicValue();
 		assertEquals(expected, melodicValue, 0.001);
@@ -80,7 +82,7 @@ public class MelodicObjectiveTest extends AbstractTest {
 		melodyNotes.add(note().pitch(62).positionWeight(1.5).build());
 		melodyNotes.add(note().pitch(60).positionWeight(3.0).build());
 		totalWeight = 7.5;
-		double melodicValue = melodicObjective.evaluateMelody(melodyNotes, 1);
+		double melodicValue = melodicObjective.evaluateMelody(melodyNotes, 1, melodyDefaultDissonance);
 		LOGGER.info("test_E_D_C :" + melodicValue);
 		double expected = (Interval.GROTE_SECONDE.getMelodicValue() * (1.5 + 1.5) 
 				+ (Interval.GROTE_SECONDE.getMelodicValue() * (1.5 + 3)))/totalWeight;
@@ -93,7 +95,7 @@ public class MelodicObjectiveTest extends AbstractTest {
 		melodyNotes.add(note().pitch(62).positionWeight(0.5).build());
 		melodyNotes.add(note().pitch(60).positionWeight(3.0).build());
 		totalWeight = 6.5;
-		double melodicValue = melodicObjective.evaluateMelody(melodyNotes, 1);
+		double melodicValue = melodicObjective.evaluateMelody(melodyNotes, 1, melodyDefaultDissonance);
 		LOGGER.info("test_E__D_C :" + melodicValue);
 		double expected = (Interval.GROTE_SECONDE.getMelodicValue() * (2.5 + 0.5) + Interval.GROTE_SECONDE.getMelodicValue() * (0.5 + 3))/totalWeight;
 		assertEquals(expected, melodicValue, 0);
@@ -107,7 +109,7 @@ public class MelodicObjectiveTest extends AbstractTest {
 		melodyNotes.add(note().pitch(60).positionWeight(1.5).build());
 		melodyNotes.add(note().pitch(62).positionWeight(1.5).build());
 		totalWeight = 9.0;
-		double melodicValue = melodicObjective.evaluateMelody(melodyNotes, 1);
+		double melodicValue = melodicObjective.evaluateMelody(melodyNotes, 1, melodyDefaultDissonance);
 		LOGGER.info("test_E_D_C_D :" + melodicValue);
 		double expected = 3 * (Interval.GROTE_SECONDE.getMelodicValue() * (1.5 + 1.5))/totalWeight;
 		assertEquals(expected, melodicValue, 0);
@@ -120,7 +122,7 @@ public class MelodicObjectiveTest extends AbstractTest {
 		melodyNotes.add(note().pitch(64).positionWeight(1.5).build());
 		melodyNotes.add(note().pitch(65).positionWeight(1.5).build());
 		totalWeight = 9.0;
-		double melodicValue = melodicObjective.evaluateMelody(melodyNotes, 1);
+		double melodicValue = melodicObjective.evaluateMelody(melodyNotes, 1, melodyDefaultDissonance);
 		LOGGER.info("test_C_D_E_F :" + melodicValue);
 		double expected = ((2 * (Interval.GROTE_SECONDE.getMelodicValue() * (1.5 + 1.5))) + (Interval.KLEINE_SECONDE.getMelodicValue() * (1.5 + 1.5)))/totalWeight;
 		assertEquals(expected, melodicValue, 0.001);
@@ -159,7 +161,7 @@ public class MelodicObjectiveTest extends AbstractTest {
 		notes.add(note().pitch(60).pc(0).pos(0).len(DurationConstants.EIGHT).positionWeight(2.0).build());
 		notes.add(note().pitch(62).pc(2).pos(6).len(DurationConstants.EIGHT).positionWeight(2.0).build());
 		notes.add(note().pitch(64).pc(4).pos(DurationConstants.QUARTER).len(DurationConstants.EIGHT).positionWeight(1.0).build());
-		double value = melodicObjective.evaluateMelody(notes, 1);
+		double value = melodicObjective.evaluateMelody(notes, 1, melodyDefaultDissonance);
 		LOGGER.info("Melody value: " + value);
 		assertEquals(1.0, value, 0);
 	}
@@ -171,7 +173,7 @@ public class MelodicObjectiveTest extends AbstractTest {
 		notes.add(note().pitch(60).pc(2).pos(6).len(DurationConstants.EIGHT).positionWeight(1.0).build());
 		notes.add(note().pitch(64).pc(4).pos(DurationConstants.QUARTER).len(DurationConstants.EIGHT).positionWeight(1.0).build());
 		notes.add(note().pitch(64).pc(4).pos(DurationConstants.THREE_EIGHTS).len(DurationConstants.EIGHT).positionWeight(1.0).build());
-		double value = melodicObjective.evaluateMelody(notes, 1);
+		double value = melodicObjective.evaluateMelody(notes, 1, melodyDefaultDissonance);
 		LOGGER.info("Melody value: " + value);
 		assertEquals(0.7, value, 0);
 	}

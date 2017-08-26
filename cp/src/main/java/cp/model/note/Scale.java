@@ -22,7 +22,8 @@ public class Scale {
             BLUES_SCALE = new Scale(new int[]{0, 2, 3, 4, 5, 7, 9, 10, 11}),
             TURKISH_SCALE = new Scale(new int[]{0, 1, 3, 5, 7, 10, 11}),
             INDIAN_SCALE = new Scale(new int[]{0, 1, 1, 4, 5, 8, 10}),
-            WHOLE_TONE_SCALE = new Scale(new int[]{0, 2, 4, 6, 8, 10}),
+            WHOLE_TONE_SCALE_0 = new Scale(new int[]{0, 2, 4, 6, 8, 10}),
+            WHOLE_TONE_SCALE_1 = new Scale(new int[]{1, 3, 5, 7, 9, 11}),
 			PITCH_SET_0134 = new Scale(new int[]{0, 1, 3, 4}),
 			PITCH_SET_FOURTH = new Scale(new int[]{0, 5, 7, 10}),
 			MODULATION_DOM = new Scale(new int[]{0, 2, 4, 5, 6, 7, 9, 11}),
@@ -50,8 +51,9 @@ public class Scale {
 			CHORD = new Scale(new int[]{0, 1 , 5}),
 			PEDAL = new Scale(new int[]{0}),
 
-			DORIAN = new Scale(new int[]{9,11,0,2}),
-					DORIAN_TRITIONE = new Scale(new int[]{3,5,6,8});
+			DORIAN = new Scale(new int[]{0,2,3,5}),
+					DORIAN_TRITIONE = new Scale(new int[]{3,5,6,8}),
+			Z = new Scale(new int[]{10,3,4,9});
 
 			
 	private final Random random = new Random(System.currentTimeMillis());

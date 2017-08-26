@@ -1,11 +1,11 @@
 package cp.nsga.operator.mutation.melody;
 
 import cp.composition.voice.Voice;
-import cp.composition.voice.VoiceConfig;
+import cp.config.InstrumentConfig;
+import cp.config.VoiceConfig;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Dynamic;
 import cp.nsga.operator.mutation.MutationOperator;
-import cp.out.play.InstrumentConfig;
 import cp.util.RandomUtil;
 import jmetal.util.PseudoRandom;
 import org.slf4j.Logger;

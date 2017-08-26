@@ -1,7 +1,7 @@
 package cp.model;
 
+import cp.config.InstrumentConfig;
 import cp.model.contour.Contour;
-import cp.out.play.InstrumentConfig;
 import cp.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -1,6 +1,6 @@
 package cp.nsga.operator.mutation.melody;
 
-import cp.composition.voice.VoiceConfig;
+import cp.config.VoiceConfig;
 import cp.model.Motive;
 import cp.model.TimeLine;
 import cp.model.melody.CpMelody;

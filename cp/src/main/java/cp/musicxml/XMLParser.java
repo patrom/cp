@@ -5,13 +5,13 @@
 
 package cp.musicxml;
 
+import cp.config.InstrumentConfig;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.musicxml.parsed.ComplexElement;
 import cp.musicxml.parsed.ElementWrapper;
 import cp.musicxml.parsed.Score;
 import cp.out.instrument.Technical;
-import cp.out.play.InstrumentConfig;
 import org.codehaus.stax2.XMLInputFactory2;
 import org.codehaus.stax2.XMLStreamReader2;
 import org.springframework.core.io.FileSystemResource;

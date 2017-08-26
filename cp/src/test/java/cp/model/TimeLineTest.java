@@ -2,9 +2,9 @@ package cp.model;
 
 import cp.DefaultConfig;
 import cp.composition.Composition;
+import cp.config.InstrumentConfig;
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
-import cp.out.play.InstrumentConfig;
 import cp.out.print.note.Key;
 import org.junit.Before;
 import org.junit.Test;

@@ -3,7 +3,7 @@ package cp.generator.provider;
 import cp.composition.beat.BeatGroup;
 import cp.composition.voice.NoteSizeValueObject;
 import cp.composition.voice.Voice;
-import cp.composition.voice.VoiceConfig;
+import cp.config.VoiceConfig;
 import cp.generator.pitchclass.PassingPitchClassesProvidedGenerator;
 import cp.generator.pitchclass.PitchClassProvidedGenerator;
 import cp.generator.pitchclass.RandomPitchClassesProvidedGenerator;
@@ -48,13 +48,13 @@ public class MelodyGeneratorProvider implements MelodyProvider{
         pitchClassProvidedGenerators = new ArrayList<>();
         pitchClassProvidedGenerators.add(randomPitchClassesProvidedGenerator::randomPitchClasses);
         pitchClassProvidedGenerators.add(passingPitchClassesProvidedGenerator::updatePitchClasses);
-        pitchClassProvidedGenerators.add(repeatingPitchClassesProvidedGenerator::updatePitchClasses);
+//        pitchClassProvidedGenerators.add(repeatingPitchClassesProvidedGenerator::updatePitchClasses);
     }
 
     public List<CpMelody> getMelodies(){
         if (melodies.isEmpty()) {
             int voice = 2;
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 3; i++) {
                 melodies.add(generateMelodyConfig(voice));
             }
             return melodies;
