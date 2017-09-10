@@ -2,10 +2,9 @@ package cp.generator.provider;
 
 import cp.composition.beat.BeatGroupTwo;
 import cp.config.InstrumentConfig;
-import cp.model.TimeLineKey;
 import cp.model.melody.CpMelody;
+import cp.model.melody.Tonality;
 import cp.model.note.Note;
-import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
 import cp.musicxml.XMLParser;
 import cp.musicxml.parsed.ComplexElement;
@@ -33,15 +32,18 @@ public class MelodyParserProvider extends AbstractProvidder implements MelodyPro
         if(melodies.isEmpty()){
             try {
                 parse();
+                melodies.add(getNote(0, DurationConstants.EIGHT));
+                melodies.add(getNote(0, DurationConstants.QUARTER));
                 melodies.add(getRest(0, DurationConstants.EIGHT));
                 melodies.add(getRest(0, DurationConstants.QUARTER));
-//                melodies.add(getNote(0, DurationConstants.EIGHT));
+//                melodies.add(getNote(0, DurationConstants.THREE_EIGHTS));
 //                melodies.add(getNote(0, DurationConstants.QUARTER));
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (XMLStreamException e) {
                 e.printStackTrace();
             }
+            melodies.forEach(m -> m.setTonality(Tonality.ATONAL));
         }
         return melodies;
     }
@@ -64,7 +66,7 @@ public class MelodyParserProvider extends AbstractProvidder implements MelodyPro
                 CpMelody melody = new CpMelody(notes, 0, 0, duration);
                 melody.setBeatGroup(new BeatGroupTwo(duration/2));
                 melody.setNotesSize((int) notes.stream().filter(n -> !n.isRest()).count());
-                melody.setTimeLineKey(new TimeLineKey(keys.C, Scale.MAJOR_SCALE));
+//                melody.setTimeLineKey(new TimeLineKey(keys.C, Scale.MAJOR_SCALE));
                 melodies.add(melody);
             }
         }

@@ -13,6 +13,7 @@ import cp.model.melody.CpMelody;
 import cp.model.melody.Tonality;
 import cp.model.note.Note;
 import cp.model.note.Scale;
+import cp.model.rhythm.DurationConstants;
 import cp.out.print.Keys;
 import cp.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ import java.util.List;
  * Created by prombouts on 12/05/2017.
  */
 @Component(value = "melodyGeneratorProvider")
-public class MelodyGeneratorProvider implements MelodyProvider{
+public class MelodyGeneratorProvider extends AbstractProvidder implements MelodyProvider{
 
     @Autowired
     private VoiceConfig voiceConfiguration;
@@ -57,6 +58,9 @@ public class MelodyGeneratorProvider implements MelodyProvider{
             for (int i = 0; i < 3; i++) {
                 melodies.add(generateMelodyConfig(voice));
             }
+            melodies.add(getRest(0, DurationConstants.EIGHT));
+            melodies.add(getRest(0, DurationConstants.QUARTER));
+            melodies.add(getRest(0, DurationConstants.THREE_EIGHTS));
             return melodies;
         } else {
             return melodies;

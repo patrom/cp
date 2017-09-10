@@ -89,7 +89,7 @@ public class ProvidedSymmetryMutation implements MutationOperator<MelodyBlock> {
 //                    if (providedMelody.getTonality() == Tonality.TONAL && providedMelody.getTimeLineKey() != null) {
 //                        providedMelody.convertToTimelineKey(timeLine);
 //                    }
-                    providedMelody.symmetricalInverse(0,0);//TODO set axis???
+                    providedMelody.symmetricalInverse(composition.axisHigh,composition.axisLow);
 //                    melodyTransformer.transform(providedMelody);
 //                    LOGGER.info("Provided symmetry melody:" + melody.getVoice());
                 }

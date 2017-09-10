@@ -127,6 +127,9 @@ public abstract class Voice {
     @Qualifier(value="time24")
     protected TimeConfig time24;
     @Autowired
+    @Qualifier(value="time98")
+    protected TimeConfig time98;
+    @Autowired
     @Qualifier(value="time68")
     protected TimeConfig time68;
     @Autowired
@@ -207,6 +210,8 @@ public abstract class Voice {
             timeConfig = time34;
         } else if (numerator == 6 && denominator == 8) {
             timeConfig = time68;
+        } else if (numerator == 9 && denominator == 8) {
+            timeConfig = time98;
         } else if (numerator == 5 && denominator == 8) {
             timeConfig = time58;
         } else if (numerator == 2 && denominator == 4) {

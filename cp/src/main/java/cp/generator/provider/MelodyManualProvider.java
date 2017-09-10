@@ -21,7 +21,7 @@ public class MelodyManualProvider extends AbstractProvidder implements MelodyPro
     public List<CpMelody> getMelodies(){
         if(melodies.isEmpty()){
             getTonalMelodies();
-            melodies.add(getRest(0, DurationConstants.THREE_EIGHTS));
+            melodies.add(getRest(0, DurationConstants.EIGHT));
 //            melodies.add(getRest(0, DurationConstants.QUARTER));
 //            melodies.addAll(melodyProvider.getMelodies());
         }

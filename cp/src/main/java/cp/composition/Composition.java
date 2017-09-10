@@ -32,12 +32,16 @@ import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import static java.util.stream.Collectors.toList;
 
 public abstract class Composition {
+
+	public int axisHigh = 4;
+	public int axisLow = 3;
 
 	protected int voice0 = 0;
 	protected int voice1 = 1;
@@ -106,7 +110,7 @@ public abstract class Composition {
 	protected Keys keys;
 	
 	protected final int start = 0;
-	protected final int end = 4 * DurationConstants.SIX_EIGHTS;
+	protected int end;
 	
 	private TimeConfig timeConfig;
 	
@@ -122,6 +126,9 @@ public abstract class Composition {
 	@Autowired
 	@Qualifier(value="time68")
 	protected TimeConfig time68;
+	@Autowired
+	@Qualifier(value="time98")
+	protected TimeConfig time98;
 	@Autowired
 	@Qualifier(value="time58")
 	protected TimeConfig time58;
@@ -148,7 +155,7 @@ public abstract class Composition {
 
 	@PostConstruct
 	public void init(){
-		composeInKey(keys.Eflat);
+		composeInKey(keys.C);
 		inTempo(88);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
@@ -163,11 +170,12 @@ public abstract class Composition {
 //		instruments = ensemble.getStringQuartet();
 
 		setTimeconfig();
+		end = 4 * getTimeConfig().getMeasureDuration();
 		timeLine.setEnd(end);
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
 //		timeLineKeys.add(new TimeLineKey(keys.Bflat, Scale.MAJOR_SCALE, 0 ,0));
-		timeLineKeys.add(new TimeLineKey(keys.C, Scale.DORIAN, 0 ,0));
+//		timeLineKeys.add(new TimeLineKey(keys.D, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.G, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.A, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.Gflat, Scale.MAJOR_SCALE, 0 ,0));
@@ -179,14 +187,14 @@ public abstract class Composition {
 
 		List<Integer> durations = new ArrayList<>();
 //		durations.add(DurationConstants.QUARTER);
-		durations.add(DurationConstants.WHOLE);
-		durations.add(DurationConstants.HALF);
+		durations.add(DurationConstants.SIX_EIGHTS);
+//		durations.add(DurationConstants.HALF);
 //		timeLine.randomKeysAndDurations(timeLineKeys, durations);
-		timeLine.randomKeys(timeLineKeys, 6 * DurationConstants.WHOLE);
+//		timeLine.randomKeys(timeLineKeys, 4 * DurationConstants.SIX_EIGHTS);
 
-//		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(C, Scale.MAJOR_SCALE, 0 ,end)),0);
-//		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(C, Scale.MAJOR_SCALE, 0 ,end)),1);
-//		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(C, Scale.MAJOR_SCALE, 0 ,end)),2);
+		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.OCTATCONIC_WHOLE, 0 ,end)),0);
+		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,end)),1);
+//		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.OCTATCONIC_WHOLE, 0 ,end)),2);
 //		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(C, Scale.MAJOR_SCALE, 0 ,end)),3);
 //		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(Eflat, Scale.MELODIC_MINOR_SCALE, 0 ,end)),4);
 //		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(C, Scale.HALF_DIMINISHED_CHORD, 0 ,end)),5);
@@ -293,6 +301,8 @@ public abstract class Composition {
 			timeConfig = time34;
 		} else if (numerator == 6 && denominator == 8) {
 			timeConfig = time68;
+		} else if (numerator == 9 && denominator == 8) {
+			timeConfig = time98;
 		} else if (numerator == 5 && denominator == 8) {
 			timeConfig = time58;
 		}

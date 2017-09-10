@@ -18,6 +18,8 @@ public abstract class TimeConfig {
 
 	protected int offset;
 
+	protected int measureDuration;
+
 	protected List<BeatGroup> allBeatgroups = new ArrayList<>();
 
 	@Autowired
@@ -52,5 +54,9 @@ public abstract class TimeConfig {
 
 	public List<BeatGroup> getBeatGroups() {
 		return allBeatgroups;
+	}
+
+	public int getMeasureDuration(){
+		return measureDuration;
 	}
 }

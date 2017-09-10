@@ -18,6 +18,8 @@ public class Time58 extends TimeConfig{
 		minimumLength = DurationConstants.EIGHT;
 		distance = new int[]{2,5,7,10,12,15,17,20};
 		offset = 5 * DurationConstants.EIGHT;
+
+		measureDuration =  5 * DurationConstants.EIGHT;
 	}
 	
 }
