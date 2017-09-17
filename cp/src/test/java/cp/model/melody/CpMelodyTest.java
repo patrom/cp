@@ -666,8 +666,25 @@ public class CpMelodyTest {
 			System.out.println(note.getPitchClass());
 			System.out.println();
 		}
+	}
 
-
+	@Test
+	public void testTransposePitchClassesSmallScale(){
+		Scale scale = Scale.SYMMETRY_1;
+		timeLine = new TimeLine();
+		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(C, scale , 0, DurationConstants.WHOLE)), 0);
+		List<Note> notes = new ArrayList<>();
+		notes.add(note().pos(0).pc(scale.pickRandomPitchClass()).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pc(scale.pickRandomPitchClass()).build());
+		notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.EIGHT).pc(scale.pickRandomPitchClass()).build());
+		notes.add(note().pos(DurationConstants.HALF).pc(scale.pickRandomPitchClass()).build());
+		CpMelody melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+		melody.getNotes().forEach(n -> System.out.println(n));
+		System.out.println();
+		CpMelody clonedMelody = melody.clone();
+		clonedMelody.transposePitchClasses(timeLine);
+		clonedMelody.getNotes().forEach(n -> System.out.println(n));
+		System.out.println();
 	}
 	
 }

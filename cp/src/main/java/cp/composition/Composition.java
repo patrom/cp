@@ -40,8 +40,8 @@ import static java.util.stream.Collectors.toList;
 
 public abstract class Composition {
 
-	public int axisHigh = 4;
-	public int axisLow = 3;
+	public int axisHigh = 2;
+	public int axisLow = 2;
 
 	protected int voice0 = 0;
 	protected int voice1 = 1;
@@ -192,8 +192,8 @@ public abstract class Composition {
 //		timeLine.randomKeysAndDurations(timeLineKeys, durations);
 //		timeLine.randomKeys(timeLineKeys, 4 * DurationConstants.SIX_EIGHTS);
 
-		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.OCTATCONIC_WHOLE, 0 ,end)),0);
-		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,end)),1);
+		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.CHROMATIC_SCALE, 0 ,end)),0);
+		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.CHROMATIC_SCALE, 0 ,end)),1);
 //		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.OCTATCONIC_WHOLE, 0 ,end)),2);
 //		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(C, Scale.MAJOR_SCALE, 0 ,end)),3);
 //		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(Eflat, Scale.MELODIC_MINOR_SCALE, 0 ,end)),4);

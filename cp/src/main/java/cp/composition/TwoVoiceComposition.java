@@ -49,7 +49,6 @@ public class TwoVoiceComposition extends Composition{
 		MelodyBlock dependantMelodyBlock = new MelodyBlock(5, voice2);
 		dependantMelodyBlock.addMelodyBlock(new CpMelody(new ArrayList<>(),voice2,start,end));
 		dependantMelodyBlock.setMutable(false);
-		dependantMelodyBlock.setRhythmDependant(true);
 		melodyBlocks.add(dependantMelodyBlock);
 
 		return melodyBlocks;

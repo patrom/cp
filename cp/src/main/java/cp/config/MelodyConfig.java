@@ -23,8 +23,8 @@ public class MelodyConfig {
     @PostConstruct
     public void init() {
         //voice!!!
-        meldodyConfigs.put(0, melodyDefaultDissonance);
-        meldodyConfigs.put(1, melodyDefaultDissonance);
+        meldodyConfigs.put(0, pentatonicMelodyDissonance);
+        meldodyConfigs.put(1, pentatonicMelodyDissonance);
         meldodyConfigs.put(2, pentatonicMelodyDissonance);
         meldodyConfigs.put(3, melodyDefaultDissonance);
         meldodyConfigs.put(4, melodyDefaultDissonance);

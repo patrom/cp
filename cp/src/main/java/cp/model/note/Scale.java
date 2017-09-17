@@ -54,7 +54,8 @@ public class Scale {
 
 			DORIAN = new Scale(new int[]{0,2,3,5}),
 					DORIAN_TRITIONE = new Scale(new int[]{3,5,6,8}),
-			SYMMETRY =  new Scale(new int[]{4,6,8,9}),
+			SYMMETRY_1 =  new Scale(new int[]{4,5,7,9}),
+					SYMMETRY_2 =  new Scale(new int[]{10,0,2,3}),
 			Z = new Scale(new int[]{10,3,4,9});
 
 			

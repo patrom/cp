@@ -5,7 +5,6 @@ import cp.config.InstrumentConfig;
 import cp.model.melody.CpMelody;
 import cp.model.melody.Tonality;
 import cp.model.note.Note;
-import cp.model.rhythm.DurationConstants;
 import cp.musicxml.XMLParser;
 import cp.musicxml.parsed.ComplexElement;
 import cp.musicxml.parsed.ElementWrapper;
@@ -32,10 +31,10 @@ public class MelodyParserProvider extends AbstractProvidder implements MelodyPro
         if(melodies.isEmpty()){
             try {
                 parse();
-                melodies.add(getNote(0, DurationConstants.EIGHT));
-                melodies.add(getNote(0, DurationConstants.QUARTER));
-                melodies.add(getRest(0, DurationConstants.EIGHT));
-                melodies.add(getRest(0, DurationConstants.QUARTER));
+//                melodies.add(getNote(0, DurationConstants.EIGHT));
+//                melodies.add(getNote(0, DurationConstants.QUARTER));
+//                melodies.add(getRest(0, DurationConstants.EIGHT));
+//                melodies.add(getRest(0, DurationConstants.QUARTER));
 //                melodies.add(getNote(0, DurationConstants.THREE_EIGHTS));
 //                melodies.add(getNote(0, DurationConstants.QUARTER));
             } catch (IOException e) {

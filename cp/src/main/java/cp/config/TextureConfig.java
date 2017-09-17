@@ -47,8 +47,8 @@ public class TextureConfig {
 //		types.add(ChordType.CH2_KWINT);
 //		types.add(ChordType.ALL);
 //        types.add(ChordType.CH2_GROTE_SIXT);
-//        types.add(ChordType.CH2_GROTE_SIXT_CHR);
-//        types.add(ChordType.CH2_KLEINE_SIXT_CHR);
+        types.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT_CHR));
+        types.add(createDependantHarmony(ChordType.CH2_KLEINE_SIXT_CHR));
 
 //		types.add(ChordType.MAJOR);//major and minor
 //		types.add(createDependantHarmony(ChordType.MAJOR_CHR));
@@ -56,9 +56,11 @@ public class TextureConfig {
 //		types.add(createDependantHarmony(ChordType.MAJOR_1_CHR));
 //        types.add(ChordType.MAJOR_2);//major and minor
 //        types.add(ChordType.MAJOR_2_CHR);
-        types.add(createDependantHarmony(ChordType.MINOR_CHR));
-        types.add(createDependantHarmony(ChordType.MINOR_1_CHR));
-        types.add(createDependantHarmony(ChordType.MINOR_2_CHR));
+//        types.add(createDependantHarmony(ChordType.MINOR_CHR));
+//        types.add(createDependantHarmony(ChordType.MINOR_1_CHR));
+//        types.add(createDependantHarmony(ChordType.MINOR_2_CHR));
+        types.add(createDependantHarmony(ChordType.NO_INTERVALS));
+        types.add(createDependantHarmony(ChordType.CH2_TRITONE_CHR));
 
 //        types.add(ChordType.DOM);
 
@@ -74,12 +76,13 @@ public class TextureConfig {
 //        types.add(ChordType.MAJOR);
 
 //        textureTypes.put(0, types2);
-//        textureTypes.put(1, types);
+//        textureTypes.put(0, types);
 
         List<DependantHarmony> symmetryChords = new ArrayList<>();
         symmetryChords.add(createDependantHarmony(ChordType.SYMMEETRY, composition.axisHigh,composition.axisLow));
         symmetryChords.add(createDependantHarmony(ChordType.NO_INTERVALS));
 //        textureTypes.put(0, symmetryChords);
+        textureTypes.put(1, symmetryChords);
 //
         List<DependantHarmony> symmetryChords2 = new ArrayList<>();
         symmetryChords2.add(createDependantHarmony(ChordType.SYMMEETRY, composition.axisHigh,composition.axisLow));

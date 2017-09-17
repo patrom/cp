@@ -27,7 +27,6 @@ public class CpMelody implements Comparable<CpMelody>{
 	
 	private int voice;
 	private boolean mutable = true;
-	private boolean rhythmMutable = true;
 	private boolean replaceable = true;
 	private List<Note> notes;
 	private int start;
@@ -76,7 +75,6 @@ public class CpMelody implements Comparable<CpMelody>{
 
 	private void clone(CpMelody anotherMelody) {
 		this.mutable = anotherMelody.isMutable();
-		this.rhythmMutable = anotherMelody.isRhythmMutable();
 		this.voice = anotherMelody.getVoice();
 		this.start = anotherMelody.getStart();
 		this.end = anotherMelody.getEnd();
@@ -437,18 +435,6 @@ public class CpMelody implements Comparable<CpMelody>{
 
 	public void setNotes(List<Note> notes){
 		this.notes = notes;
-	}
-	
-//	private int convertToKeyOfC(int pitchClass, int timeLineKey) {
-//		return (12 + pitchClass - timeLineKey) % 12;
-//	}
-	
-	public boolean isRhythmMutable() {
-		return rhythmMutable;
-	}
-
-	public void setRhythmMutable(boolean rhythmMutable) {
-		this.rhythmMutable = rhythmMutable;
 	}
 	
 	public int getStart() {

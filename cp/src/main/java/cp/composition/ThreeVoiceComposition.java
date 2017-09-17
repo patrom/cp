@@ -66,7 +66,7 @@ public class ThreeVoiceComposition extends Composition{
 	}
 	
 	public List<MelodyBlock> operatorT(){
-		return operator3voices(Operator.T_RELATIVE, 3);
+		return operator3voices(Operator.T, 3);
 	}
 	
 	private List<MelodyBlock> operator3voices(Operator operator, int steps) {

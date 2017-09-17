@@ -125,8 +125,8 @@ public abstract class AbstractProvidder {
         notes.add(note().pos(DurationConstants.QUARTER).pc(7).len(DurationConstants.EIGHT).build());
         notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(9).len(DurationConstants.THREE_EIGHTS).build());
         CpMelody melody = new CpMelody(notes, voice0, 0, DurationConstants.SIX_EIGHTS);
-        melody.setBeatGroup(new BeatGroupThree(DurationConstants.EIGHT));
-        melody.setTimeLineKey(new TimeLineKey(keys.C, Scale.SYMMETRY));//TODO same scale as timeline composition!!!
+        melody.setBeatGroup(new BeatGroupThree(DurationConstants.QUARTER));//check length is same as melody length!!
+        melody.setTimeLineKey(new TimeLineKey(keys.C, Scale.SYMMETRY_1));//TODO same scale as timeline composition!!!
         melody.setNotesSize(4);
 //        melody.setTonality(Tonality.ATONAL);
 //        melody.setContour();

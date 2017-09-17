@@ -209,6 +209,7 @@ public class Texture {
                     pitchClass = getDependantPitchClass(note, 4);
                     interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
                     break;
+                case CH2_TRITONE_CHR:
                 case CH2_GROTE_TERTS_CHR:
                 case CH2_KLEINE_TERTS_CHR:
                 case CH2_GROTE_SIXT_CHR:

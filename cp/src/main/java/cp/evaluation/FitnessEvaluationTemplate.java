@@ -76,7 +76,7 @@ public class FitnessEvaluationTemplate {
 	}
 
 	private void updatePitchesFromContour(List<MelodyBlock> melodies) {
-		List<MelodyBlock> updatebleMelodies = melodies.stream().filter(m ->  !m.isRhythmDependant() && !m.getMelodyBlockNotes().isEmpty()).collect(toList());
+		List<MelodyBlock> updatebleMelodies = melodies.stream().filter(m -> !m.getMelodyBlockNotes().isEmpty()).collect(toList());
 		for (MelodyBlock updatebleMelody : updatebleMelodies) {
 			Instrument instrument = instrumentConfig.getInstrumentForVoice(updatebleMelody.getVoice());
 //			updatebleMelody.updatePitchesFromInstrument(instrument);
@@ -85,7 +85,7 @@ public class FitnessEvaluationTemplate {
 	}
 
 	private void updateMelodyInRange(List<MelodyBlock> melodies) {
-//		List<MelodyBlock> updatebleMelodies = melodies.stream().filter(m -> m.isCalculable() && !m.isRhythmDependant() && !m.getMelodyBlockNotes().isEmpty()).collect(toList());
+//		List<MelodyBlock> updatebleMelodies = melodies.stream().filter(m -> m.isCalculable() && !m.getMelodyBlockNotes().isEmpty()).collect(toList());
 		for (MelodyBlock updatebleMelody : melodies) {
 			Instrument instrument = instrumentConfig.getInstrumentForVoice(updatebleMelody.getVoice());
 			instrument.updateMelodyInRange(updatebleMelody.getMelodyBlockNotes());

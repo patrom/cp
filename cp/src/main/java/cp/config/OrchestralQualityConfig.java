@@ -44,8 +44,8 @@ public class OrchestralQualityConfig {
     @PostConstruct
     public void init() {
         //voice!!!
-        orchestralQualities.put(0, mellowPurple);
-        orchestralQualities.put(1, mediumRange);
+        orchestralQualities.put(0, richBlue);
+        orchestralQualities.put(1, pleasantGreen);
         orchestralQualities.put(2, pleasantGreen);
         orchestralQualities.put(3, pleasantGreen);
         orchestralQualities.put(4, mediumRange);

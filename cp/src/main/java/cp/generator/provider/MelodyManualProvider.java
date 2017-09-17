@@ -1,7 +1,6 @@
 package cp.generator.provider;
 
 import cp.model.melody.CpMelody;
-import cp.model.rhythm.DurationConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -21,7 +20,7 @@ public class MelodyManualProvider extends AbstractProvidder implements MelodyPro
     public List<CpMelody> getMelodies(){
         if(melodies.isEmpty()){
             getTonalMelodies();
-            melodies.add(getRest(0, DurationConstants.EIGHT));
+//            melodies.add(getRest(0, DurationConstants.EIGHT));
 //            melodies.add(getRest(0, DurationConstants.QUARTER));
 //            melodies.addAll(melodyProvider.getMelodies());
         }

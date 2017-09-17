@@ -13,7 +13,6 @@ import cp.model.melody.CpMelody;
 import cp.model.melody.Tonality;
 import cp.model.note.Note;
 import cp.model.note.Scale;
-import cp.model.rhythm.DurationConstants;
 import cp.out.print.Keys;
 import cp.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,13 +53,15 @@ public class MelodyGeneratorProvider extends AbstractProvidder implements Melody
 
     public List<CpMelody> getMelodies(){
         if (melodies.isEmpty()) {
-            int voice = 2;
-            for (int i = 0; i < 3; i++) {
+            int voice = 1;
+            for (int i = 0; i < 4; i++) {
                 melodies.add(generateMelodyConfig(voice));
             }
-            melodies.add(getRest(0, DurationConstants.EIGHT));
-            melodies.add(getRest(0, DurationConstants.QUARTER));
-            melodies.add(getRest(0, DurationConstants.THREE_EIGHTS));
+//            melodies.add(getRest(0, DurationConstants.EIGHT));
+//            melodies.add(getNote(0, DurationConstants.EIGHT));
+//            melodies.add(getRest(0, DurationConstants.QUARTER));
+//            melodies.add(getRest(0, DurationConstants.THREE_EIGHTS));
+//            melodies.add(getNote(0, DurationConstants.THREE_EIGHTS));
             return melodies;
         } else {
             return melodies;
@@ -83,13 +84,13 @@ public class MelodyGeneratorProvider extends AbstractProvidder implements Melody
 //            n.setDynamicLevel(voiceConfig.getDynamic().getLevel());
 //            n.setTechnical(voiceConfig.getTechnical());
         });
-        TimeLineKey timeLineKey = new TimeLineKey(keys.C, Scale.DORIAN);//same config as composition scale/key?
+        TimeLineKey timeLineKey = new TimeLineKey(keys.C, Scale.CHROMATIC_SCALE);//same config as composition scale/key?
         PitchClassProvidedGenerator pitchClassProvidedGenerator = RandomUtil.getRandomFromList(pitchClassProvidedGenerators);
         melodyNotes = pitchClassProvidedGenerator.updatePitchClasses(melodyNotes, timeLineKey);
         CpMelody melody = new CpMelody(melodyNotes, voice, 0,  beatGroup.getBeatLength());
         melody.setBeatGroup(beatGroup);
         melody.setTimeLineKey(timeLineKey);
-        melody.setTonality(Tonality.TONAL);
+        melody.setTonality(Tonality.ATONAL);
         melody.setNotesSize(valueObject.getKey());
         return melody;
     }

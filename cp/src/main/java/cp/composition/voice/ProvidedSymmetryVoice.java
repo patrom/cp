@@ -20,6 +20,10 @@ public class ProvidedSymmetryVoice extends Voice {
     public void init(){
         melodiesProvided = true;
         setTimeconfig();
+
+//        evenRhythmCombinationsPerNoteSize = homophonicEven;
+//        unevenRhythmCombinationsPerNoteSize = homophonicUneven;
+
         dynamics = Stream.of(Dynamic.MF, Dynamic.F).collect(toList());
 
         mutationOperators = providedSymmetryOperators;
