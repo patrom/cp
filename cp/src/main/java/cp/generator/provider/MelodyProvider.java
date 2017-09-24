@@ -10,5 +10,5 @@ import java.util.List;
 @FunctionalInterface
 public interface MelodyProvider {
 
-    List<CpMelody> getMelodies();
+    List<CpMelody> getMelodies(int voice);
 }

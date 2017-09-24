@@ -30,7 +30,6 @@ public class MelodyBlock {
 	private int voice = -1;
 	private int offset;
 	private boolean mutable = true;
-	private boolean rhythmMutable = true;
 	private boolean calculable = true;
 	
 	public MelodyBlock(int startOctave, int voice) {
@@ -59,7 +58,6 @@ public class MelodyBlock {
 	private void clone(MelodyBlock anotherBlock) {
 		this.startOctave = anotherBlock.getStartOctave();
 		this.mutable = anotherBlock.isMutable();
-		this.rhythmMutable = anotherBlock.isRhythmMutable();
 		this.dependingVoice = anotherBlock.getDependingVoice();
 		this.voice = anotherBlock.getVoice();
 		this.offset = anotherBlock.getOffset();
@@ -373,14 +371,6 @@ public class MelodyBlock {
 	
 	public void setMutable(boolean mutable) {
 		this.mutable = mutable;
-	}
-	
-	public boolean isRhythmMutable() {
-		return rhythmMutable;
-	}
-	
-	public void setRhythmMutable(boolean rhythmMutable) {
-		this.rhythmMutable = rhythmMutable;
 	}
 
 	public void setVoice(int voice) {

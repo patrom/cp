@@ -3,7 +3,7 @@ package cp.nsga.operator.mutation.melody;
 import cp.composition.voice.Voice;
 import cp.config.InstrumentConfig;
 import cp.config.VoiceConfig;
-import cp.model.melody.MelodyBlock;
+import cp.model.melody.CpMelody;
 import cp.nsga.operator.mutation.MutationOperator;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.Instrument;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component(value="articulationMutation")
-public class ArticulationMutation implements MutationOperator<MelodyBlock> {
+public class ArticulationMutation implements MutationOperator<CpMelody> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ArticulationMutation.class);
 	
@@ -34,23 +34,23 @@ public class ArticulationMutation implements MutationOperator<MelodyBlock> {
 		this.probabilityArticulation = probabilityArticulation;
 	}
 
-	public void doMutation(MelodyBlock melodyBlock) {
+	public void doMutation(CpMelody melody) {
 		if (PseudoRandom.randDouble() < probabilityArticulation) {
-			Instrument instrument = instrumentConfig.getInstrumentForVoice(melodyBlock.getVoice());
-			Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(melodyBlock.getVoice());
+			Instrument instrument = instrumentConfig.getInstrumentForVoice(melody.getVoice());
+			Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(melody.getVoice());
 			List<Articulation> articulations = voiceConfiguration.getArticulations(instrument.getInstrumentGroup());
 			if (articulations.isEmpty()){
 				LOGGER.info("articulations empty");
 			}else{
-				melodyBlock.updateArticulation(RandomUtil.getRandomFromList(articulations));
+				melody.updateArticulation(RandomUtil.getRandomFromList(articulations));
 			}
 		} 
 	}
 
 
 	@Override
-	public MelodyBlock execute(MelodyBlock melodyBlock) {
-		doMutation(melodyBlock);
-		return melodyBlock;
+	public CpMelody execute(CpMelody melody) {
+		doMutation(melody);
+		return melody;
 	}
 }

@@ -5,7 +5,6 @@ import cp.config.TextureConfig;
 import cp.config.VoiceConfig;
 import cp.model.harmony.DependantHarmony;
 import cp.model.melody.CpMelody;
-import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.nsga.operator.mutation.MutationOperator;
 import cp.util.RandomUtil;
@@ -17,13 +16,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by prombouts on 6/05/2017.
  */
 @Component(value = "rhythmMutation")
-public class RhythmMutation implements MutationOperator<MelodyBlock> {
+public class RhythmMutation implements MutationOperator<CpMelody> {
 
     private static Logger LOGGER = LoggerFactory.getLogger(RhythmMutation.class);
 
@@ -39,14 +37,13 @@ public class RhythmMutation implements MutationOperator<MelodyBlock> {
         this.probability = probability;
     }
 
-    public void doMutation(double probability, MelodyBlock melodyBlock)  {
+    public void doMutation(double probability, CpMelody melody)  {
         if (PseudoRandom.randDouble() < probability) {
-            Optional<CpMelody> optionalMelody = melodyBlock.getRandomMelody(m -> m.isReplaceable());
-            if (optionalMelody.isPresent()) {
-                int v = melodyBlock.getVoice();
-                Voice voice = voiceConfig.getVoiceConfiguration(v);
-                CpMelody melody = optionalMelody.get();
-                List<Note> rhythmNotes = voice.getRhythmNotesForBeatgroupType(melody.getBeatGroup(), melody.getNotesSize());
+            int v = melody.getVoice();
+            Voice voice = voiceConfig.getVoiceConfiguration(v);
+
+            List<Note> rhythmNotes = voice.getRhythmNotesForBeatgroupType(melody.getBeatGroup(), melody.getNotesSize());
+            if (!rhythmNotes.isEmpty()) {
                 rhythmNotes.forEach(n -> {
                     n.setVoice(melody.getVoice());
                     n.setDynamic(voice.getDynamic());
@@ -63,15 +60,14 @@ public class RhythmMutation implements MutationOperator<MelodyBlock> {
                     }
                 }
                 melody.updateRhythmNotes(rhythmNotes);
-//				LOGGER.info("RhythmMutation: " + melody.getVoice());
+//			LOGGER.info("RhythmMutation: " + melody.getVoice());
             }
         }
     }
 
-
     @Override
-    public MelodyBlock execute(MelodyBlock melodyBlock) {
-        doMutation(probability, melodyBlock);
-        return melodyBlock;
+    public CpMelody execute(CpMelody melody) {
+        doMutation(probability, melody);
+        return melody;
     }
 }

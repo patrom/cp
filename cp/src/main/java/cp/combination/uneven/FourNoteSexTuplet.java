@@ -34,7 +34,7 @@ public class FourNoteSexTuplet {
 		}
 	}
 	
-	public List<Note> pos1346(int beat) {
+	public List<Note> pos1345(int beat) {
 		List<Note> notes;
 		int noteLength = beat/6;
 		int length2 = noteLength * 2;
@@ -51,6 +51,26 @@ public class FourNoteSexTuplet {
 			return posWithBeam(length2, noteLength, noteLength, length2);
 		default:
 			return  pos(length2, noteLength, noteLength, length2);
+		}
+	}
+
+	public List<Note> pos1346(int beat) {
+		List<Note> notes;
+		int noteLength = beat/6;
+		int length2 = noteLength * 2;
+		switch (beat) {
+			case DurationConstants.QUARTER:
+				notes =  posWithBeam(length2, noteLength, length2, noteLength);
+				notes.forEach(n -> n.setSextuplet(true));
+				return notes;
+//		case 24:
+//			notes =  pos(beat/3);
+//			notes.forEach(n -> n.setTriplet(true));
+//			return notes;
+			case DurationConstants.THREE_EIGHTS:
+				return posWithBeam(length2, noteLength, length2, noteLength);
+			default:
+				return  pos(length2, noteLength, length2, noteLength);
 		}
 	}
 	
@@ -111,10 +131,10 @@ public class FourNoteSexTuplet {
 	
 	public static void main(String[] args) {
 		FourNoteSexTuplet fourNoteSexTuplet = new FourNoteSexTuplet();
-		List<Note > notes = fourNoteSexTuplet.pos1456(DurationConstants.THREE_EIGHTS);
-		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
-		
-		notes = fourNoteSexTuplet.pos1346(DurationConstants.SIX_EIGHTS);
+//		List<Note > notes = fourNoteSexTuplet.pos1456(DurationConstants.THREE_EIGHTS);
+//		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
+//
+		List<Note> notes = fourNoteSexTuplet.pos1346(DurationConstants.SIX_EIGHTS);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 		
 		notes = fourNoteSexTuplet.pos1356(DurationConstants.SIX_EIGHTS);

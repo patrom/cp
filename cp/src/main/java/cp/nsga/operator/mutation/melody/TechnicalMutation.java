@@ -3,7 +3,7 @@ package cp.nsga.operator.mutation.melody;
 import cp.composition.voice.Voice;
 import cp.config.InstrumentConfig;
 import cp.config.VoiceConfig;
-import cp.model.melody.MelodyBlock;
+import cp.model.melody.CpMelody;
 import cp.nsga.operator.mutation.MutationOperator;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.Technical;
@@ -21,7 +21,7 @@ import java.util.List;
  * Created by prombouts on 6/04/2017.
  */
 @Component(value = "technicalMutation")
-public class TechnicalMutation implements MutationOperator<MelodyBlock> {
+public class TechnicalMutation implements MutationOperator<CpMelody> {
     private static final Logger LOGGER = LoggerFactory.getLogger(TechnicalMutation.class);
 
     private double probabilityTechnical;
@@ -36,24 +36,24 @@ public class TechnicalMutation implements MutationOperator<MelodyBlock> {
         this.probabilityTechnical = probabilityTechnical;
     }
 
-    public void doMutation(MelodyBlock melodyBlock)  {
+    public void doMutation(CpMelody melody)  {
         if (PseudoRandom.randDouble() < probabilityTechnical) {
-            Instrument instrument = instrumentConfig.getInstrumentForVoice(melodyBlock.getVoice());
-            Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(melodyBlock.getVoice());
+            Instrument instrument = instrumentConfig.getInstrumentForVoice(melody.getVoice());
+            Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(melody.getVoice());
             List<Technical> technicals = voiceConfiguration.getTechnicals(instrument.getInstrumentGroup());
             if (technicals.isEmpty()){
                 LOGGER.info("technicals empty");
             }else{
-                melodyBlock.updateTechnical(RandomUtil.getRandomFromList(technicals));
+                melody.updateTechnical(RandomUtil.getRandomFromList(technicals));
 //                LOGGER.info("technical mutated");
             }
         }
     }
 
     @Override
-    public MelodyBlock execute(MelodyBlock melodyBlock) {
-        doMutation(melodyBlock);
-        return melodyBlock;
+    public CpMelody execute(CpMelody melody) {
+        doMutation(melody);
+        return melody;
     }
 }
 

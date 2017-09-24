@@ -82,7 +82,7 @@ public class TextureConfig {
         symmetryChords.add(createDependantHarmony(ChordType.SYMMEETRY, composition.axisHigh,composition.axisLow));
         symmetryChords.add(createDependantHarmony(ChordType.NO_INTERVALS));
 //        textureTypes.put(0, symmetryChords);
-        textureTypes.put(1, symmetryChords);
+//        textureTypes.put(0, symmetryChords);
 //
         List<DependantHarmony> symmetryChords2 = new ArrayList<>();
         symmetryChords2.add(createDependantHarmony(ChordType.SYMMEETRY, composition.axisHigh,composition.axisLow));

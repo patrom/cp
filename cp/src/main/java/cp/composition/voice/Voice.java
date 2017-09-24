@@ -16,12 +16,13 @@ import cp.model.harmony.ChordType;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
-import cp.nsga.Operator;
-import cp.nsga.operator.mutation.melody.Mutators;
+import cp.nsga.operator.mutation.MutationType;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.Technical;
 import cp.util.RandomUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +39,8 @@ import static java.util.stream.Collectors.toList;
  */
 
 public abstract class Voice {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Voice.class);
 
     public static final int DEFAULT_DYNAMIC_LEVEL = Dynamic.MF.getLevel();
     public static final Technical DEFAULT_TECHNICAL = Technical.LEGATO;
@@ -96,24 +99,6 @@ public abstract class Voice {
     @Autowired
     protected RepeatingPitchClasses repeatingPitchClasses;
 
-    @Resource(name = "mutationOperators")
-    List<Operator> mutationOperators;
-    @Resource(name = "pitchMutationOperators")
-    List<Operator> pitchMutationOperators;
-    @Resource(name = "rhytmMutationOperators")
-    List<Operator> rhytmMutationOperators;
-    @Resource(name = "timbreMutationOperators")
-    List<Operator> timbreMutationOperators;
-    @Resource(name = "providedMutationOperators")
-    List<Operator> providedMutationOperators;
-    @Resource(name = "providedRhythmOperators")
-    List<Operator> providedRhythmOperators;
-    @Resource(name = "providedSymmetryOperators")
-    List<Operator> providedSymmetryOperators;
-
-    @Autowired
-    protected Mutators mutators;
-
     @Autowired
     @Qualifier(value="time44")
     protected TimeConfig time44;
@@ -142,6 +127,8 @@ public abstract class Voice {
     protected int denominator;
 
     protected List<PitchClassGenerator> pitchClassGenerators = new ArrayList<>();
+
+    protected List<MutationType> mutationTypes = new ArrayList<>();
 
     protected TimeConfig timeConfig;
 
@@ -221,6 +208,8 @@ public abstract class Voice {
         evenRhythmCombinationsPerNoteSize = defaultEvenCombinations;
         unevenRhythmCombinationsPerNoteSize = defaultUnEvenCombinations;
 
+        mutationTypes = Collections.singletonList(MutationType.ALL);
+
     }
 
     public TimeConfig getTimeConfig(){
@@ -294,18 +283,23 @@ public abstract class Voice {
     }
 
     public List<Note> getRhythmNotesForBeatgroupType(BeatGroup beatGroup, int size){
+        List<RhythmCombination> rhythmCombinations = new ArrayList<>();
         if (beatGroup.getType() == 2) {
-            List<RhythmCombination> rhythmCombinations = this.evenRhythmCombinationsPerNoteSize.get(size);
+            rhythmCombinations = this.evenRhythmCombinationsPerNoteSize.get(size);
             if(rhythmCombinations == null){
-                System.out.println(size);
+                LOGGER.info("No (provided) combination found for size: " + size);
+                return emptyList();
             }
-            return getNotes(beatGroup, rhythmCombinations);
+
         }
         if (beatGroup.getType() == 3) {
-            List<RhythmCombination> rhythmCombinations = this.unevenRhythmCombinationsPerNoteSize.get(size);
-            return getNotes(beatGroup, rhythmCombinations);
+            rhythmCombinations = this.unevenRhythmCombinationsPerNoteSize.get(size);
+            if(rhythmCombinations == null){
+                LOGGER.info("No (provided) combination found for size: " + size);
+                return emptyList();
+            }
         }
-        return emptyList();
+        return getNotes(beatGroup, rhythmCombinations);
     }
 
     public NoteSizeValueObject getRandomRhythmNotesForBeatgroupType(BeatGroup beatGroup){
@@ -331,15 +325,15 @@ public abstract class Voice {
         return rhythmCombination.getNotes(beatGroup.getBeatLength());
     }
 
-    public List<Operator> getMutationOperators(){
-        return mutationOperators;
-    }
-
     public int getNumerator() {
         return numerator;
     }
 
     public boolean isMelodiesProvided(){
         return melodiesProvided;
+    }
+
+    public List<MutationType> getMutationTypes() {
+        return mutationTypes;
     }
 }

@@ -3,7 +3,7 @@ package cp.nsga.operator.mutation.melody;
 import cp.composition.voice.Voice;
 import cp.config.InstrumentConfig;
 import cp.config.VoiceConfig;
-import cp.model.melody.MelodyBlock;
+import cp.model.melody.CpMelody;
 import cp.model.note.Dynamic;
 import cp.nsga.operator.mutation.MutationOperator;
 import cp.util.RandomUtil;
@@ -20,7 +20,7 @@ import java.util.List;
  * Created by prombouts on 5/01/2017.
  */
 @Component(value = "dynamicMutation")
-public class DynamicMutation implements MutationOperator<MelodyBlock> {
+public class DynamicMutation implements MutationOperator<CpMelody> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ArticulationMutation.class);
 
@@ -36,19 +36,19 @@ public class DynamicMutation implements MutationOperator<MelodyBlock> {
         this.probabilityDynamic = probabilityDynamic;
     }
 
-    public void doMutation(MelodyBlock melodyBlock) {
+    public void doMutation(CpMelody melody) {
         if (PseudoRandom.randDouble() < probabilityDynamic) {
-            Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(melodyBlock.getVoice());
+            Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(melody.getVoice());
             List<Dynamic> dynamics = voiceConfiguration.getDynamics();
             Dynamic dynamic = RandomUtil.getRandomFromList(dynamics);
-            melodyBlock.updateDynamic(dynamic);
+            melody.updateDynamic(dynamic);
 //			LOGGER.info("Dynamic mutated");
         }
     }
 
     @Override
-    public MelodyBlock execute(MelodyBlock melodyBlock) {
-        doMutation(melodyBlock);
-        return melodyBlock;
+    public CpMelody execute(CpMelody melody) {
+        doMutation(melody);
+        return melody;
     }
 }

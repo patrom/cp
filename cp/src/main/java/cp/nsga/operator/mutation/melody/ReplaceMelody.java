@@ -7,7 +7,6 @@ import cp.config.VoiceConfig;
 import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.harmony.DependantHarmony;
 import cp.model.melody.CpMelody;
-import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.nsga.operator.mutation.MutationOperator;
 import cp.util.RandomUtil;
@@ -19,10 +18,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component(value="replaceMelody")
-public class ReplaceMelody implements MutationOperator<MelodyBlock> {
+public class ReplaceMelody implements MutationOperator<CpMelody> {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(ReplaceMelody.class);
 
@@ -39,44 +37,42 @@ public class ReplaceMelody implements MutationOperator<MelodyBlock> {
     }
 
     //all rhythm combinations and pitches
-    public void doMutation(MelodyBlock melodyBlock) {
+    public void doMutation(CpMelody melody) {
 		if (PseudoRandom.randDouble() < probabilityReplaceMelody) {
-			Optional<CpMelody> optionalMelody = melodyBlock.getRandomMelody(m -> m.isReplaceable());
-			if (optionalMelody.isPresent()) {
-				CpMelody melody = optionalMelody.get();
-				Voice voice = voiceConfig.getVoiceConfiguration(melodyBlock.getVoice());
-				BeatGroup beatGroup = voice.getTimeConfig().getRandomBeatgroup();
-                if(melody.getBeatGroup().getBeatLength() == beatGroup.getBeatLength()){
+			Voice voice = voiceConfig.getVoiceConfiguration(melody.getVoice());
+			BeatGroup beatGroup = voice.getTimeConfig().getRandomBeatgroup();
+			if(melody.getBeatGroup().getBeatLength() == beatGroup.getBeatLength()){
 //                    LOGGER.info("Melody replaced: " + melody.getVoice() + ", " + beatGroup.getBeatLength());
-					List<Note> melodyNotes = voice.getRhythmNotesForBeatgroupType(beatGroup, melody.getNotesSize());
+				List<Note> melodyNotes = voice.getRhythmNotesForBeatgroupType(beatGroup, melody.getNotesSize());
+				if (!melodyNotes.isEmpty()) {
 					melodyNotes.forEach(n -> {
-						n.setVoice(melody.getVoice());
-						n.setDynamic(voice.getDynamic());
-						n.setDynamicLevel(voice.getDynamic().getLevel());
-						n.setTechnical(voice.getTechnical());
-						n.setPosition(n.getPosition() + melody.getStart());
-					});
-					if (textureConfig.hasTexture(melodyBlock.getVoice())) {
-						List<DependantHarmony> textureTypes = textureConfig.getTextureFor(melodyBlock.getVoice());
-						for (Note melodyNote : melodyNotes) {
-							if (!melodyNote.isRest()) {
-								DependantHarmony dependantHarmony = RandomUtil.getRandomFromList(textureTypes);
-								melodyNote.setDependantHarmony(dependantHarmony);
-							}
-						}
-					}
+                        n.setVoice(melody.getVoice());
+                        n.setDynamic(voice.getDynamic());
+                        n.setDynamicLevel(voice.getDynamic().getLevel());
+                        n.setTechnical(voice.getTechnical());
+                        n.setPosition(n.getPosition() + melody.getStart());
+                    });
+					if (textureConfig.hasTexture(melody.getVoice())) {
+                        List<DependantHarmony> textureTypes = textureConfig.getTextureFor(melody.getVoice());
+                        for (Note melodyNote : melodyNotes) {
+                            if (!melodyNote.isRest()) {
+                                DependantHarmony dependantHarmony = RandomUtil.getRandomFromList(textureTypes);
+                                melodyNote.setDependantHarmony(dependantHarmony);
+                            }
+                        }
+                    }
 					PitchClassGenerator pitchClassGenerator = voiceConfig.getRandomPitchClassGenerator(melody.getVoice());
 					melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes);
 					melody.updateNotes(melodyNotes);
 					melody.setBeatGroup(beatGroup);
 				}
 			}
-		} 
+		}
 	}
 
 	@Override
-	public MelodyBlock execute(MelodyBlock melodyBlock) {
-		doMutation(melodyBlock);
-		return melodyBlock;
+	public CpMelody execute(CpMelody melody) {
+		doMutation(melody);
+		return melody;
 	}
 }

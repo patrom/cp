@@ -1,6 +1,6 @@
 package cp.generator.provider;
 
-import cp.composition.beat.BeatGroupTwo;
+import cp.composition.beat.BeatGroupThree;
 import cp.config.InstrumentConfig;
 import cp.model.melody.CpMelody;
 import cp.model.melody.Tonality;
@@ -8,7 +8,9 @@ import cp.model.note.Note;
 import cp.musicxml.XMLParser;
 import cp.musicxml.parsed.ComplexElement;
 import cp.musicxml.parsed.ElementWrapper;
+import cp.nsga.operator.mutation.MutationType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -26,8 +28,12 @@ public class MelodyParserProvider extends AbstractProvidder implements MelodyPro
     @Autowired
     private InstrumentConfig instrumentConfig;
 
+    @Autowired
+    @Qualifier(value = "melodyGeneratorProvider")
+    protected MelodyProvider melodyGeneratorProvider;
+
     @Override
-    public List<CpMelody> getMelodies() {
+    public List<CpMelody> getMelodies(int voice) {
         if(melodies.isEmpty()){
             try {
                 parse();
@@ -37,6 +43,7 @@ public class MelodyParserProvider extends AbstractProvidder implements MelodyPro
 //                melodies.add(getRest(0, DurationConstants.QUARTER));
 //                melodies.add(getNote(0, DurationConstants.THREE_EIGHTS));
 //                melodies.add(getNote(0, DurationConstants.QUARTER));
+//                melodies.addAll(melodyGeneratorProvider.getMelodies(voice));
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (XMLStreamException e) {
@@ -63,8 +70,9 @@ public class MelodyParserProvider extends AbstractProvidder implements MelodyPro
                 Note lastNote = notes.get(notes.size() - 1);
                 int duration = lastNote.getPosition() + lastNote.getLength();
                 CpMelody melody = new CpMelody(notes, 0, 0, duration);
-                melody.setBeatGroup(new BeatGroupTwo(duration/2));
+                melody.setBeatGroup(new BeatGroupThree(duration/3));//beatgroup 2 or 3 -> time!!
                 melody.setNotesSize((int) notes.stream().filter(n -> !n.isRest()).count());
+                melody.setMutationType(MutationType.RHYTHM);
 //                melody.setTimeLineKey(new TimeLineKey(keys.C, Scale.MAJOR_SCALE));
                 melodies.add(melody);
             }

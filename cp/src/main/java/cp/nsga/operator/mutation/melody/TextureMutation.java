@@ -4,7 +4,6 @@ import cp.config.TextureConfig;
 import cp.config.VoiceConfig;
 import cp.model.harmony.DependantHarmony;
 import cp.model.melody.CpMelody;
-import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.nsga.operator.mutation.MutationOperator;
 import cp.util.RandomUtil;
@@ -16,13 +15,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by prombouts on 4/06/2017.
  */
 @Component(value = "textureMutation")
-public class TextureMutation implements MutationOperator<MelodyBlock> {
+public class TextureMutation implements MutationOperator<CpMelody> {
 
     private static Logger LOGGER = LoggerFactory.getLogger(TextureMutation.class);
 
@@ -38,27 +36,22 @@ public class TextureMutation implements MutationOperator<MelodyBlock> {
         this.probability = probability;
     }
 
-    public void doMutation(double probability, MelodyBlock melodyBlock)  {
+    public void doMutation(double probability, CpMelody melody)  {
         if (PseudoRandom.randDouble() < probability) {
-            Optional<CpMelody> optionalMelody = melodyBlock.getRandomMelody(m -> m.isMutable());
-            if (optionalMelody.isPresent()) {
-                CpMelody melody = optionalMelody.get();
-                int voice = melody.getVoice();
-                List<Note> notesNoRest = melody.getNotesNoRest();
-                if (textureConfig.hasTexture(voice) && !notesNoRest.isEmpty()) {
-                    Note note = RandomUtil.getRandomFromList(notesNoRest);
-                    List<DependantHarmony> textureTypes = textureConfig.getTextureFor(voice);
-                    DependantHarmony dependantHarmony = RandomUtil.getRandomFromList(textureTypes);
-                    note.setDependantHarmony(dependantHarmony);
+            int voice = melody.getVoice();
+            List<Note> notesNoRest = melody.getNotesNoRest();
+            if (textureConfig.hasTexture(voice) && !notesNoRest.isEmpty()) {
+                Note note = RandomUtil.getRandomFromList(notesNoRest);
+                List<DependantHarmony> textureTypes = textureConfig.getTextureFor(voice);
+                DependantHarmony dependantHarmony = RandomUtil.getRandomFromList(textureTypes);
+                note.setDependantHarmony(dependantHarmony);
 //				    LOGGER.info("Texture replaced: " + melody.getVoice());
-                }
             }
         }
     }
 
-
     @Override
-    public MelodyBlock execute(MelodyBlock melodyBlock) {
+    public CpMelody execute(CpMelody melodyBlock) {
         doMutation(probability, melodyBlock);
         return melodyBlock;
     }

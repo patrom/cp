@@ -1,13 +1,10 @@
 package cp.composition.voice;
 
 import cp.model.note.Dynamic;
-import cp.nsga.Operator;
 import cp.out.instrument.Technical;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
@@ -23,13 +20,6 @@ public class RowVoice extends Voice {
         setTimeconfig();
         dynamics = Stream.of(Dynamic.MF, Dynamic.F).collect(toList());
         technical = Technical.LEGATO;
-
     }
 
-    @Override
-    public List<Operator> getMutationOperators() {
-        List<Operator> mutationOperators= new ArrayList<>();
-        mutationOperators.add(mutators.rhythmMutation);
-        return mutationOperators;
-    }
 }

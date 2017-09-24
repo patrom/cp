@@ -2,7 +2,6 @@ package cp.nsga.operator.mutation.melody;
 
 import cp.model.TimeLine;
 import cp.model.melody.CpMelody;
-import cp.model.melody.MelodyBlock;
 import cp.nsga.operator.mutation.MutationOperator;
 import jmetal.util.PseudoRandom;
 import org.slf4j.Logger;
@@ -11,10 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 @Component(value="oneNoteMutation")
-public class OneNoteMutation implements MutationOperator<MelodyBlock> {
+public class OneNoteMutation implements MutationOperator<CpMelody> {
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(OneNoteMutation.class.getName());
 
@@ -29,18 +26,15 @@ public class OneNoteMutation implements MutationOperator<MelodyBlock> {
 	}
 
 	//one pitch
-	public void doMutation(double probability, MelodyBlock melodyBlock) {
+	public void doMutation(double probability, CpMelody melody) {
 		if (PseudoRandom.randDouble() < probability) {
-			Optional<CpMelody> optionalMelody = melodyBlock.getRandomMelody(m -> m.isMutable());
-			if (optionalMelody.isPresent()) {
-				optionalMelody.get().updateRandomNote(timeLine);
-//				LOGGER.info("one note" + optionalMelody.get().getVoice());
-			}
-		} 
+			melody.updateRandomNote(timeLine);
+//			LOGGER.info("one note" + melody.getVoice());
+		}
 	}
 
 	@Override
-	public MelodyBlock execute(MelodyBlock melodyBlock) {
+	public CpMelody execute(CpMelody melodyBlock) {
 		doMutation(probabilityOneNote, melodyBlock);
 		return melodyBlock;
 	}

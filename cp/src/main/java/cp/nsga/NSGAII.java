@@ -1,11 +1,12 @@
 package cp.nsga;
 
-import cp.composition.voice.Voice;
-import cp.config.VoiceConfig;
 import cp.model.Motive;
-import cp.model.melody.MelodyBlock;
+import cp.model.melody.CpMelody;
+import cp.nsga.operator.mutation.MutationOperator;
+import cp.nsga.operator.mutation.melody.Mutators;
 import cp.nsga.operator.relation.Relation;
 import cp.nsga.operator.relation.RelationConfig;
+import cp.util.RandomUtil;
 import jmetal.core.Algorithm;
 import jmetal.core.Problem;
 import jmetal.core.Solution;
@@ -34,7 +35,7 @@ public class NSGAII extends Algorithm {
 	@Autowired
 	private RelationConfig operatorConfig;
 	@Autowired
-	private VoiceConfig voiceConfig;
+	private Mutators mutators;
 
 	/**
 	 * Constructor
@@ -236,14 +237,13 @@ public class NSGAII extends Algorithm {
 	}
 
 	private void mutateOffspring(Solution solution) {
-		MelodyBlock melodyBlock = getMelodyBlock(solution);
-		Voice voice = voiceConfig.getVoiceConfiguration(melodyBlock.getVoice());
-		for (Operator operator : voice.getMutationOperators()) {
-            operator.execute(melodyBlock);
-        }
+		CpMelody melodyBlock = getMelodyBlock(solution);
+		List<MutationOperator> mutationOperators = mutators.getMutationOperators(melodyBlock.getMutationType());
+		MutationOperator operator = RandomUtil.getRandomFromList(mutationOperators);
+		operator.execute(melodyBlock);
 	}
 
-	private MelodyBlock getMelodyBlock(Solution solution) {
+	private CpMelody getMelodyBlock(Solution solution) {
 		Motive motive = ((MusicVariable) solution.getDecisionVariables()[0]).getMotive();
 		return motive.getRandomMutableMelody();
 	}

@@ -3,7 +3,6 @@ package cp.nsga.operator.mutation.melody;
 import cp.config.VoiceConfig;
 import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.melody.CpMelody;
-import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.nsga.operator.mutation.MutationOperator;
 import jmetal.util.PseudoRandom;
@@ -14,13 +13,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by prombouts on 21/05/2017.
  */
 @Component
-public class AllNoteMutation implements MutationOperator<MelodyBlock> {
+public class AllNoteMutation implements MutationOperator<CpMelody> {
 
     private static Logger LOGGER = LoggerFactory.getLogger(AllNoteMutation.class);
 
@@ -35,26 +33,21 @@ public class AllNoteMutation implements MutationOperator<MelodyBlock> {
     }
 
     //all pitches
-    public void doMutation(MelodyBlock melodyBlock) {
+    public void doMutation(CpMelody melody) {
         if (PseudoRandom.randDouble() < probabilityAllNote) {
-            Optional<CpMelody> optionalMelody = melodyBlock.getRandomMelody(m -> m.isReplaceable());
-            if (optionalMelody.isPresent()) {
-                CpMelody melody = optionalMelody.get();
-                List<Note> melodyNotes = melody.getNotes();
-
-                if (!melodyNotes.isEmpty()) {
-                    PitchClassGenerator pitchClassGenerator = voiceConfig.getRandomPitchClassGenerator(melody.getVoice());
-                    melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes);
-                    melody.updateNotes(melodyNotes);
+            List<Note> melodyNotes = melody.getNotes();
+            if (!melodyNotes.isEmpty()) {
+                PitchClassGenerator pitchClassGenerator = voiceConfig.getRandomPitchClassGenerator(melody.getVoice());
+                melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes);
+                melody.updateNotes(melodyNotes);
 //				LOGGER.info("All notes: " + melody.getVoice());
-                }
             }
         }
     }
 
     @Override
-    public MelodyBlock execute(MelodyBlock melodyBlock) {
-        doMutation(melodyBlock);
-        return melodyBlock;
+    public CpMelody execute(CpMelody melody) {
+        doMutation(melody);
+        return melody;
     }
 }

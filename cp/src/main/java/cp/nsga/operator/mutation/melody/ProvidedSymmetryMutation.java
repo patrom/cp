@@ -9,7 +9,6 @@ import cp.generator.provider.MelodyProvider;
 import cp.model.TimeLine;
 import cp.model.harmony.DependantHarmony;
 import cp.model.melody.CpMelody;
-import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.nsga.operator.mutation.MutationOperator;
 import cp.util.RandomUtil;
@@ -21,12 +20,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
 @Component(value = "providedSymmetryMutation")
-public class ProvidedSymmetryMutation implements MutationOperator<MelodyBlock> {
+public class ProvidedSymmetryMutation implements MutationOperator<CpMelody> {
 
     private static Logger LOGGER = LoggerFactory.getLogger(ProvidedSymmetryMutation.class);
 
@@ -38,8 +36,6 @@ public class ProvidedSymmetryMutation implements MutationOperator<MelodyBlock> {
     private TextureConfig textureConfig;
     @Autowired
     private Composition composition;
-//    @Autowired
-//    private MelodyTransformer melodyTransformer;
     @Autowired
     private TimeLine timeLine;
     @Autowired
@@ -50,57 +46,48 @@ public class ProvidedSymmetryMutation implements MutationOperator<MelodyBlock> {
         this.probabilitySymmetryProvided = probabilitySymmetryProvided;
     }
 
-    public void doMutation(MelodyBlock melodyBlock) {
+    public void doMutation(CpMelody melody) {
         if (PseudoRandom.randDouble() < probabilitySymmetryProvided) {
-            Optional<CpMelody> optionalMelody = melodyBlock.getRandomMelody(m -> m.isReplaceable());
-            if (optionalMelody.isPresent()) {
-                CpMelody melody = optionalMelody.get();
-                Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(melody.getVoice());
-                MelodyProvider melodyProviderForVoice = melodyProviderConfig.getMelodyProviderForVoice(melody.getVoice());
-                List<CpMelody> provideMelodies = melodyProviderForVoice.getMelodies().stream().filter(m -> m.getBeatGroupLength() == melody.getBeatGroupLength()).collect(toList());
-                if (!provideMelodies.isEmpty()) {
-                    final Voice voice = voiceConfig.getVoiceConfiguration(melody.getVoice());
+            int voice = melody.getVoice();
+            Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(voice);
+            MelodyProvider melodyProviderForVoice = melodyProviderConfig.getMelodyProviderForVoice(voice);
+            List<CpMelody> provideMelodies = melodyProviderForVoice.getMelodies(voice).stream().filter(m -> m.getBeatGroupLength() == melody.getBeatGroupLength()).collect(toList());
+            if (!provideMelodies.isEmpty()) {
+                CpMelody providedMelody = RandomUtil.getRandomFromList(provideMelodies).clone(voice);
 
-                    CpMelody providedMelody = RandomUtil.getRandomFromList(provideMelodies).clone(melody.getVoice());
-
-                    List<Note> melodyNotes = providedMelody.getNotes();
-                    melodyNotes.forEach(n -> {
-                        n.setVoice(melody.getVoice());
-                        n.setDynamic(voice.getDynamic());
-                        n.setDynamicLevel(voice.getDynamic().getLevel());
-                        n.setTechnical(voice.getTechnical() != null?voice.getTechnical():n.getTechnical());
-                        n.setPosition(n.getPosition() + melody.getStart());
-                    });
-                    if (textureConfig.hasTexture(melodyBlock.getVoice())) {
-                        List<DependantHarmony> textureTypes = textureConfig.getTextureFor(melodyBlock.getVoice());
-                        for (Note melodyNote : melodyNotes) {
-                            if (!melodyNote.isRest()) {
-                                DependantHarmony dependantHarmony = RandomUtil.getRandomFromList(textureTypes);
-                                melodyNote.setDependantHarmony(dependantHarmony);
-                            }
+                List<Note> melodyNotes = providedMelody.getNotes();
+                melodyNotes.forEach(n -> {
+                    n.setVoice(voice);
+                    n.setDynamic(voiceConfiguration.getDynamic());
+                    n.setDynamicLevel(voiceConfiguration.getDynamic().getLevel());
+                    n.setTechnical(voiceConfiguration.getTechnical() != null?voiceConfiguration.getTechnical():n.getTechnical());
+                    n.setPosition(n.getPosition() + melody.getStart());
+                });
+                if (textureConfig.hasTexture(voice)) {
+                    List<DependantHarmony> textureTypes = textureConfig.getTextureFor(voice);
+                    for (Note melodyNote : melodyNotes) {
+                        if (!melodyNote.isRest()) {
+                            DependantHarmony dependantHarmony = RandomUtil.getRandomFromList(textureTypes);
+                            melodyNote.setDependantHarmony(dependantHarmony);
                         }
                     }
-//                    providedMelody.setVoice(melody.getVoice());
-                    providedMelody.setStart(melody.getStart());
-                    providedMelody.setEnd(melody.getEnd());
-                    melodyBlock.replaceMelody(melody, providedMelody);
-
-                    //after new positions are set!!
+                }
+                //after new positions are set!!
 //                    if (providedMelody.getTonality() == Tonality.TONAL && providedMelody.getTimeLineKey() != null) {
 //                        providedMelody.convertToTimelineKey(timeLine);
 //                    }
-                    providedMelody.symmetricalInverse(composition.axisHigh,composition.axisLow);
+                providedMelody.symmetricalInverse(composition.axisHigh,composition.axisLow);
 //                    melodyTransformer.transform(providedMelody);
 //                    LOGGER.info("Provided symmetry melody:" + melody.getVoice());
-                }
+                melody.updateNotes(providedMelody.getNotes());
             }
         }
     }
 
     @Override
-    public MelodyBlock execute(MelodyBlock melodyBlock) {
-        doMutation(melodyBlock);
-        return melodyBlock;
+    public CpMelody execute(CpMelody melody) {
+        doMutation(melody);
+        return melody;
     }
 }
 

@@ -6,6 +6,7 @@ import cp.model.melody.CpMelody;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
+import cp.nsga.operator.mutation.MutationType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -22,13 +23,13 @@ public class MelodyRhythmProvider extends AbstractProvidder implements MelodyPro
     @Qualifier(value = "melodyGeneratorProvider")
     public MelodyGeneratorProvider melodyGeneratorProvider;
 
-    public List<CpMelody> getMelodies(){
+    public List<CpMelody> getMelodies(int voice){
         if(melodies.isEmpty()){
 //            getRhythmMelodies();
 //            melodies.add(getRest(0, DurationConstants.EIGHT));
 //            melodies.add(getRest(0, DurationConstants.QUARTER));
             final BeatGroupTwo beatGroupTwo = new BeatGroupTwo(DurationConstants.QUARTER);
-            CpMelody cpMelody = melodyGeneratorProvider.generateMelodyConfig(0, beatGroupTwo);
+            CpMelody cpMelody = melodyGeneratorProvider.generateMelodyConfig(0);
             melodies.add(cpMelody);
         }
         return melodies;
@@ -43,6 +44,7 @@ public class MelodyRhythmProvider extends AbstractProvidder implements MelodyPro
         CpMelody melody = new CpMelody(notes, voice0, 0, DurationConstants.HALF);
         melody.setBeatGroup(new BeatGroupTwo(DurationConstants.QUARTER));
         melody.setNotesSize(2);
+        melody.setMutationType(MutationType.PITCH);
 //        melody.setTonality(Tonality.ATONAL);
         melody.setTimeLineKey(timeLineKey);
         melodies.add(melody);
@@ -54,6 +56,7 @@ public class MelodyRhythmProvider extends AbstractProvidder implements MelodyPro
         melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT ));
         melody.setNotesSize(1);
         melody.setTimeLineKey(timeLineKey);
+        melody.setMutationType(MutationType.PITCH);
 //        melody.setTonality(Tonality.ATONAL);
         melodies.add(melody);
 
@@ -63,6 +66,7 @@ public class MelodyRhythmProvider extends AbstractProvidder implements MelodyPro
         melody = new CpMelody(notes, voice0, 0, DurationConstants.HALF);
         melody.setBeatGroup(new BeatGroupTwo(DurationConstants.QUARTER));
         melody.setNotesSize(2);
+        melody.setMutationType(MutationType.PITCH);
         melody.setTimeLineKey(timeLineKey);
 //        melody.setTonality(Tonality.ATONAL);
         melodies.add(melody);
@@ -73,6 +77,7 @@ public class MelodyRhythmProvider extends AbstractProvidder implements MelodyPro
         melody = new CpMelody(notes, voice0, 0, DurationConstants.HALF);
         melody.setBeatGroup(new BeatGroupTwo(DurationConstants.QUARTER));
         melody.setNotesSize(2);
+        melody.setMutationType(MutationType.PITCH);
         melody.setTimeLineKey(timeLineKey);
 //        melody.setTonality(Tonality.ATONAL);
         melodies.add(melody);

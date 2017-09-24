@@ -16,6 +16,7 @@ import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.melody.Tonality;
 import cp.model.note.Note;
+import cp.nsga.operator.mutation.MutationType;
 import cp.out.instrument.Instrument;
 import cp.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +82,7 @@ public class MelodyGenerator {
 		MelodyBlock melodyBlock = new MelodyBlock(octave, voice);
 		melodyBlock.setOffset(voiceConfig.getTimeConfig().getOffset());
 		MelodyProvider melodyProviderForVoice = melodyProviderConfig.getMelodyProviderForVoice(voice);
-		final List<CpMelody> melodies = melodyProviderForVoice.getMelodies();
+		final List<CpMelody> melodies = melodyProviderForVoice.getMelodies(voice);
 		int size = melodies.size();
 		int i = 0;
 		CpMelody melody = RandomUtil.getRandomFromList(melodies);
@@ -206,6 +207,7 @@ public class MelodyGenerator {
         CpMelody melody = new CpMelody(melodyNotes, voice, start, start + beatGroup.getBeatLength());
 		melody.setBeatGroup(beatGroup);
 		melody.setNotesSize(valueObject.getKey());
+		melody.setMutationType(RandomUtil.getRandomFromList(voiceConfig.getMutationTypes()));
 		return melody;
 	}
 
@@ -220,7 +222,7 @@ public class MelodyGenerator {
 		while (end <= stop) {
 			NoteSizeValueObject valueObject = accompGroup.getVoice().getRandomRhythmNotesForBeatgroupType(beatGroup);
 			List<Note> melodyNotes = valueObject.getRhythmCombination().getNotes(beatGroup.getBeatLength());
-			CpMelody melody = generateMelodyConfigWithoutPitchClassGenerator(voice, start, beatGroup, melodyNotes);
+			CpMelody melody = generateMelodyConfigWithoutPitchClassGenerator(voice, start, beatGroup, melodyNotes, accompGroup.getVoice().getMutationTypes());
 			melody.setNotesSize(valueObject.getKey());
 			melody.setContour(accompGroup.getContour());
 			melodyBlock.addMelodyBlock(melody);
@@ -232,13 +234,14 @@ public class MelodyGenerator {
 		return melodyBlock;
 	}
 
-	public CpMelody generateMelodyConfigWithoutPitchClassGenerator(int voice, int start, BeatGroup beatGroup, List<Note> melodyNotes) {
+	public CpMelody generateMelodyConfigWithoutPitchClassGenerator(int voice, int start, BeatGroup beatGroup, List<Note> melodyNotes, List<MutationType> mutationTypes) {
 		melodyNotes.forEach(n -> {
 			n.setVoice(voice);
 			n.setPosition(n.getPosition() + start);
 		});
 		CpMelody melody = new CpMelody(melodyNotes, voice, start, start + beatGroup.getBeatLength());
 		melody.setBeatGroup(beatGroup);
+		melody.setMutationType(RandomUtil.getRandomFromList(mutationTypes));
 		return melody;
 	}
 	

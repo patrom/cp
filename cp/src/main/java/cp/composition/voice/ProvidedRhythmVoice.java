@@ -29,8 +29,6 @@ public class ProvidedRhythmVoice extends Voice {
         pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
         pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
 
-        mutationOperators = providedRhythmOperators;
-
         technical = Technical.LEGATO;
     }
 }

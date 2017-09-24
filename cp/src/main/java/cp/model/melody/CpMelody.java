@@ -7,6 +7,7 @@ import cp.model.TimeLineKey;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.model.note.Scale;
+import cp.nsga.operator.mutation.MutationType;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.Technical;
 import cp.util.RandomUtil;
@@ -36,6 +37,7 @@ public class CpMelody implements Comparable<CpMelody>{
 	private Tonality tonality = Tonality.TONAL;
 	private TimeLineKey timeLineKey;
 	private int notesSize;
+	private MutationType mutationType;
 	
 	public CpMelody(List<Note> notes, int voice, int start, int end) {
 		this.voice = voice;
@@ -84,6 +86,8 @@ public class CpMelody implements Comparable<CpMelody>{
 		this.timeLineKey = anotherMelody.getTimeLineKey();
 		this.tonality = anotherMelody.getTonality();
 		this.notesSize = anotherMelody.getNotesSize();
+		this.mutationType = anotherMelody.getMutationType();
+
 	}
 
     public CpMelody clone() {
@@ -519,6 +523,14 @@ public class CpMelody implements Comparable<CpMelody>{
 
     public void setTimeLineKey(TimeLineKey timeLineKey) {
         this.timeLineKey = timeLineKey;
+    }
+
+    public MutationType getMutationType() {
+        return mutationType;
+    }
+
+    public void setMutationType(MutationType mutationType) {
+        this.mutationType = mutationType;
     }
 
     @Override

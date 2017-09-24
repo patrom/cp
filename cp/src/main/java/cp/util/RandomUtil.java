@@ -16,6 +16,9 @@ public class RandomUtil {
 	private static final Random random = new Random();
 	
 	public static <T> T getRandomFromList(List<T> list) {
+		if(list.size() == 1){
+			return list.get(0);
+		}
 		return list.get(randomInt(0, list.size()));
 	}
 

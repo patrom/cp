@@ -25,7 +25,7 @@ public class MelodyDoubleProvider extends AbstractProvidder implements MelodyPro
 
     private List<CpMelody> doubleMelodies = new ArrayList<>();
 
-    public List<CpMelody> getMelodies(){
+    public List<CpMelody> getMelodies(int voice){
         if(doubleMelodies.isEmpty()){
             final List<CpMelody> atonalMelodies = getAtonalMelodies();
             for (CpMelody melody : atonalMelodies) {

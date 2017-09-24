@@ -15,14 +15,14 @@ public class MelodyManualProvider extends AbstractProvidder implements MelodyPro
 
     @Autowired
     @Qualifier(value = "melodyGeneratorProvider")
-    public MelodyProvider melodyProvider;
+    protected MelodyProvider melodyGeneratorProvider;
 
-    public List<CpMelody> getMelodies(){
+    public List<CpMelody> getMelodies(int voice){
         if(melodies.isEmpty()){
             getTonalMelodies();
-//            melodies.add(getRest(0, DurationConstants.EIGHT));
+//            melodies.add(getNote(0, DurationConstants.THREE_EIGHTS));
 //            melodies.add(getRest(0, DurationConstants.QUARTER));
-//            melodies.addAll(melodyProvider.getMelodies());
+            melodies.addAll(melodyGeneratorProvider.getMelodies(voice));
         }
         return melodies;
     }

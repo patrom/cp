@@ -1,8 +1,8 @@
 package cp.nsga.operator.mutation.melody;
 
 import cp.nsga.operator.mutation.MutationOperator;
+import cp.nsga.operator.mutation.MutationType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
@@ -41,9 +41,27 @@ public class Mutators {
     @Autowired
     private ProvidedSymmetryMutation providedSymmetryMutation;
 
+    public List<MutationOperator> getMutationOperators(MutationType mutationType){
+        switch (mutationType){
+            case PITCH:
+                return pitchMutationOperators();
+            case RHYTHM:
+                return rhytmMutationOperators();
+            case ALL:
+                return mutationOperators();
+            case TIMBRE:
+                return timbreMutationOperators();
+            case TEXTURE:
+                return textureMutationOperators();
+            case SYMMETRY:
+                return providedSymmetryOperators();
+            case OPERATOR:
+                return providedMutationOperators();
+        }
+        throw new IllegalArgumentException("Mutation type unknown: " + mutationType);
+    }
 
-    @Bean
-    public List<MutationOperator> mutationOperators(){
+    private List<MutationOperator> mutationOperators(){
         ArrayList<MutationOperator> mutationOperators = new ArrayList<>();
         mutationOperators.add(rhythmMutation);
 //        mutationOperators.add(operatorMutation);
@@ -59,8 +77,7 @@ public class Mutators {
         return mutationOperators;
     }
 
-    @Bean
-    public List<MutationOperator> pitchMutationOperators(){
+    private List<MutationOperator> pitchMutationOperators(){
         ArrayList<MutationOperator> mutationOperators = new ArrayList<>();
         mutationOperators.add(oneNoteMutation);
 //        mutationOperators.add(oneNoteChromaticMutation);
@@ -69,15 +86,14 @@ public class Mutators {
         return mutationOperators;
     }
 
-    @Bean
-    public List<MutationOperator> rhytmMutationOperators(){
+    private List<MutationOperator> rhytmMutationOperators(){
         ArrayList<MutationOperator> mutationOperators = new ArrayList<>();
         mutationOperators.add(rhythmMutation);
+        mutationOperators.add(providedMutation);
         return mutationOperators;
     }
 
-    @Bean
-    public List<MutationOperator> timbreMutationOperators(){
+    private List<MutationOperator> timbreMutationOperators(){
         ArrayList<MutationOperator> mutationOperators = new ArrayList<>();
         mutationOperators.add(articulationMutation);
         mutationOperators.add(dynamicMutation);
@@ -85,15 +101,13 @@ public class Mutators {
         return mutationOperators;
     }
 
-    @Bean
-    public List<MutationOperator> textureMutationOperators(){
+    private List<MutationOperator> textureMutationOperators(){
         ArrayList<MutationOperator> mutationOperators = new ArrayList<>();
         mutationOperators.add(textureMutation);
         return mutationOperators;
     }
 
-    @Bean
-    public List<MutationOperator> providedMutationOperators(){
+    private List<MutationOperator> providedMutationOperators(){
         ArrayList<MutationOperator> mutationOperators = new ArrayList<>();
         mutationOperators.add(articulationMutation);
         mutationOperators.add(dynamicMutation);
@@ -103,8 +117,7 @@ public class Mutators {
         return mutationOperators;
     }
 
-    @Bean
-    public List<MutationOperator> providedSymmetryOperators(){
+    private List<MutationOperator> providedSymmetryOperators(){
         ArrayList<MutationOperator> mutationOperators = new ArrayList<>();
         mutationOperators.add(articulationMutation);
         mutationOperators.add(dynamicMutation);
@@ -114,8 +127,7 @@ public class Mutators {
         return mutationOperators;
     }
 
-    @Bean
-    public List<MutationOperator> providedRhythmOperators(){
+    private List<MutationOperator> providedRhythmOperators(){
         ArrayList<MutationOperator> mutationOperators = new ArrayList<>();
         mutationOperators.add(articulationMutation);
         mutationOperators.add(dynamicMutation);

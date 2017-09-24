@@ -32,8 +32,6 @@ public class VoiceConfig {
     @Autowired
     private ProvidedVoice providedVoice;
     @Autowired
-    private ProvidedSymmetryVoice providedSymmetryVoice;
-    @Autowired
     private ProvidedDoubleVoice providedDoubleVoice;
     @Autowired
     private TimeVoice timeVoice;
@@ -52,9 +50,9 @@ public class VoiceConfig {
 
     @PostConstruct
     public void initVoiceConfig(){
-        voiceConfiguration.put(0, providedSymmetryVoice);
-        voiceConfiguration.put(1, providedSymmetryVoice);
-        voiceConfiguration.put(2, providedSymmetryVoice);
+        voiceConfiguration.put(0, providedVoice);
+        voiceConfiguration.put(1, providedVoice);
+        voiceConfiguration.put(2, melodyVoice);
         voiceConfiguration.put(3, melodyVoice);
         voiceConfiguration.put(4, providedVoice);
 
