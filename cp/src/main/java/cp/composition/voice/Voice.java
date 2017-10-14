@@ -118,8 +118,14 @@ public abstract class Voice {
     @Qualifier(value="time68")
     protected TimeConfig time68;
     @Autowired
+    @Qualifier(value="time128")
+    protected TimeConfig time128;
+    @Autowired
     @Qualifier(value="time58")
     protected TimeConfig time58;
+    @Autowired
+    @Qualifier(value="timeRandom")
+    protected TimeConfig timeRandom;
 
     @Value("${composition.numerator:4}")
     protected int numerator;
@@ -199,6 +205,8 @@ public abstract class Voice {
             timeConfig = time68;
         } else if (numerator == 9 && denominator == 8) {
             timeConfig = time98;
+        }else if (numerator == 12 && denominator == 8) {
+            timeConfig = time128;
         } else if (numerator == 5 && denominator == 8) {
             timeConfig = time58;
         } else if (numerator == 2 && denominator == 4) {

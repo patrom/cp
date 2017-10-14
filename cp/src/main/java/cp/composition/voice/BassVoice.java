@@ -26,7 +26,7 @@ public class BassVoice extends Voice {
         timeConfig = timeDouble44;
 
         evenRhythmCombinationsPerNoteSize = getBassVoice();
-        unevenRhythmCombinationsPerNoteSize = homophonicUneven;
+        unevenRhythmCombinationsPerNoteSize = getBassVoice();
 
         dynamic = Dynamic.P;
         dynamics = Stream.of(Dynamic.MF, Dynamic.MP).collect(toList());
@@ -45,7 +45,7 @@ public class BassVoice extends Voice {
 //        map.put(0, zeroCombinations);
 
         List<RhythmCombination> oneCombinations = new ArrayList<>();
-//        oneCombinations.add(oneNoteEven::pos1);
+        oneCombinations.add(oneNoteEven::pos1);
 //		oneCombinations.add(oneNoteEven::pos2);
 //        oneCombinations.add(oneNoteEven::pos3);
 //		oneCombinations.add(oneNoteEven::pos4);
@@ -71,14 +71,14 @@ public class BassVoice extends Voice {
 //        fourCombinations.add(fourNoteEven::pos1234);
 //        map.put(4, fourCombinations);
 
-        oneCombinations.add(oneNoteUneven::pos1);
+//        oneCombinations.add(oneNoteUneven::pos1);
 
 //		threeCombinations.add(threeNoteUneven::pos123);
 ////		map.put(3, threeCombinations);
 //
 //		twoCombinations.add(twoNoteUneven::pos23);
 //		twoCombinations.add(twoNoteUneven::pos12);
-		twoCombinations.add(twoNoteUneven::pos13);
+//		twoCombinations.add(twoNoteUneven::pos13);
 //        		map.put(2, twoCombinations);
 
 //        List<RhythmCombination> fiveCombinations = new ArrayList<>();

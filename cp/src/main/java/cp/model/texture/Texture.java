@@ -155,6 +155,18 @@ public class Texture {
                     pitchClassSecond = (note.getPitchClass() + 8) % 12;
                     intervalSecond = getIntervalClockWise(note.getPitchClass(), pitchClassSecond);
                     break;
+                case DOM_CHR_1:
+                    pitchClass = (note.getPitchClass() + 3) % 12;
+                    interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
+                    pitchClassSecond = (note.getPitchClass() + 9) % 12;
+                    intervalSecond = getIntervalClockWise(note.getPitchClass(), pitchClassSecond);
+                    break;
+                case DOM_CHR_2:
+                    pitchClass = (note.getPitchClass() + 6) % 12;
+                    interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
+                    pitchClassSecond = (note.getPitchClass() + 9) % 12;
+                    intervalSecond = getIntervalClockWise(note.getPitchClass(), pitchClassSecond);
+                    break;
                 default:
                     throw new IllegalArgumentException("Dependant harmony not set for note: " + note);
             }

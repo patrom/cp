@@ -20,10 +20,10 @@ public class TimeVoice extends Voice {
     public void init(){
         setTimeconfig();
         dynamic = Dynamic.MF;
-        timeConfig = time34;
+        timeConfig = timeRandom;
 
 //        evenRhythmCombinationsPerNoteSize = fixedEven;
-        unevenRhythmCombinationsPerNoteSize = getWaltzBeatGroups();
+//        unevenRhythmCombinationsPerNoteSize = getWaltzBeatGroups();
 
         pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
         pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);

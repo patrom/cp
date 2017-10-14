@@ -32,7 +32,6 @@ import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -130,8 +129,14 @@ public abstract class Composition {
 	@Qualifier(value="time98")
 	protected TimeConfig time98;
 	@Autowired
+	@Qualifier(value="time128")
+	protected TimeConfig time128;
+	@Autowired
 	@Qualifier(value="time58")
 	protected TimeConfig time58;
+	@Autowired
+	@Qualifier(value="timeRandom")
+	protected TimeConfig timeRandom;
 
 	@Value("${composition.numerator:4}")
 	protected int numerator;
@@ -155,8 +160,8 @@ public abstract class Composition {
 
 	@PostConstruct
 	public void init(){
-		composeInKey(keys.C);
-		inTempo(88);
+		composeInKey(keys.Eflat);
+		inTempo(115);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
 		meterObjective.setComposition(this);
@@ -170,16 +175,16 @@ public abstract class Composition {
 //		instruments = ensemble.getStringQuartet();
 
 		setTimeconfig();
-		end = 4 * getTimeConfig().getMeasureDuration();
+		end = 8 * getTimeConfig().getMeasureDuration();
 		timeLine.setEnd(end);
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
-//		timeLineKeys.add(new TimeLineKey(keys.Bflat, Scale.MAJOR_SCALE, 0 ,0));
-//		timeLineKeys.add(new TimeLineKey(keys.D, Scale.MAJOR_SCALE, 0 ,0));
-//		timeLineKeys.add(new TimeLineKey(keys.G, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
-//		timeLineKeys.add(new TimeLineKey(keys.A, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
-//		timeLineKeys.add(new TimeLineKey(keys.Gflat, Scale.MAJOR_SCALE, 0 ,0));
-//		timeLineKeys.add(new TimeLineKey(keys.Eflat, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.Eflat, Scale.MAJOR_SCALE, 0 ,0));
+//		timeLineKeys.add(new TimeLineKey(keys.B, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.G, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.C, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
+//		timeLineKeys.add(new TimeLineKey(keys.D, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
+//		timeLineKeys.add(new TimeLineKey(keys.Fsharp, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.A, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(Gflat, Scale.MAJOR_SCALE, 0 ,0));
@@ -187,14 +192,15 @@ public abstract class Composition {
 
 		List<Integer> durations = new ArrayList<>();
 //		durations.add(DurationConstants.QUARTER);
-		durations.add(DurationConstants.SIX_EIGHTS);
+//		durations.add(DurationConstants.SIX_EIGHTS);
 //		durations.add(DurationConstants.HALF);
-//		timeLine.randomKeysAndDurations(timeLineKeys, durations);
+		durations.add(DurationConstants.THREE_QUARTERS);
+		timeLine.randomKeysAndDurations(timeLineKeys, durations);
 //		timeLine.randomKeys(timeLineKeys, 4 * DurationConstants.SIX_EIGHTS);
 
-		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,end)),0);
-		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,end)),1);
-//		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.OCTATCONIC_WHOLE, 0 ,end)),2);
+//		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.Eflat, Scale.MAJOR_SCALE, 0 ,end)),0);
+//		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.Eflat, Scale.MAJOR_SCALE, 0 ,end)),1);
+//		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.Eflat, Scale.MAJOR_SCALE, 0 ,end)),2);
 //		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(C, Scale.MAJOR_SCALE, 0 ,end)),3);
 //		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(Eflat, Scale.MELODIC_MINOR_SCALE, 0 ,end)),4);
 //		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(C, Scale.HALF_DIMINISHED_CHORD, 0 ,end)),5);
@@ -303,6 +309,8 @@ public abstract class Composition {
 			timeConfig = time68;
 		} else if (numerator == 9 && denominator == 8) {
 			timeConfig = time98;
+		}else if (numerator == 12 && denominator == 8) {
+			timeConfig = time128;
 		} else if (numerator == 5 && denominator == 8) {
 			timeConfig = time58;
 		}

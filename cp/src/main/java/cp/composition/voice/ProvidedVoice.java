@@ -23,12 +23,13 @@ public class ProvidedVoice extends Voice {
     public void init(){
         melodiesProvided = true;
         setTimeconfig();
+//        timeConfig = timeRandom;
         dynamics = Stream.of(Dynamic.MF, Dynamic.F).collect(toList());
 
 //        evenRhythmCombinationsPerNoteSize = homophonicEven;
 //        unevenRhythmCombinationsPerNoteSize = homophonicUneven;
 
-        pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
+//        pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
         pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
         pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
         technical = Technical.LEGATO;

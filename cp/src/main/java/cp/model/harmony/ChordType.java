@@ -73,7 +73,9 @@ public enum ChordType {
 	MAJOR_2_CHR(3),
 	MINOR_CHR(3),
 	MINOR_1_CHR(3),
-	MINOR_2_CHR(3);
+	MINOR_2_CHR(3),
+	DOM_CHR_1(3),
+	DOM_CHR_2(3);
 
 	public enum Inversion {
 		ROOT, INVERSION1, INVERSION2, OTHER

@@ -24,7 +24,7 @@ public class HomophonicVoice extends Voice {
 
         dynamic = Dynamic.P;
         dynamics = Stream.of(Dynamic.MF, Dynamic.MP).collect(toList());
-        pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
+//        pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
         pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
         pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
         technical = Technical.LEGATO;

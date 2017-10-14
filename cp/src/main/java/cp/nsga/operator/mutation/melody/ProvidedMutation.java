@@ -53,12 +53,12 @@ public class ProvidedMutation implements MutationOperator<CpMelody> {
         if (PseudoRandom.randDouble() < probabilityProvided) {
             final int voice = melody.getVoice();
             MelodyProvider melodyProviderForVoice = melodyProviderConfig.getMelodyProviderForVoice(voice);
-            List<CpMelody> provideMelodies = melodyProviderForVoice.getMelodies(voice).stream().filter(m -> m.getBeatGroupLength() == melody.getBeatGroupLength()).collect(toList());
+            List<CpMelody> provideMelodies = melodyProviderForVoice.getMelodies(voice).stream()
+                    .filter(m -> m.getBeatGroupLength() == melody.getBeatGroupLength() && m.getMutationType() == melody.getMutationType())
+                    .collect(toList());
             if (!provideMelodies.isEmpty()) {
-                final Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(voice);
-
                 CpMelody providedMelody = RandomUtil.getRandomFromList(provideMelodies).clone(voice);
-
+                final Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(voice);
                 List<Note> melodyNotes = providedMelody.getNotes();
                 melodyNotes.forEach(n -> {
                     n.setVoice(voice);

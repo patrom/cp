@@ -317,7 +317,7 @@ public class CpMelody implements Comparable<CpMelody>{
         if (!notesNoRest.isEmpty()) {
             Note firstNote = notesNoRest.get(0);
             TimeLineKey timeLineKeyForPosition = timeLine.getTimeLineKeyAtPosition(firstNote.getPosition(), firstNote.getVoice());
-            notes.stream()
+			notesNoRest.stream()
                     .sorted()
                     .forEach(note -> {
                         int pitchClassKeyOfC = Util.convertToKeyOfC(note.getPitchClass(), this.timeLineKey.getKey().getInterval());

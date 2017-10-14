@@ -27,10 +27,10 @@ public class MelodyProviderConfig {
     @PostConstruct
     public void init() {
         //voice!!!
-        melodyProviderConfigs.put(0, melodyParserProvider);
-        melodyProviderConfigs.put(1, melodyParserProvider);
-        melodyProviderConfigs.put(2, melodyGeneratorProvider);
-        melodyProviderConfigs.put(3, melodyGeneratorProvider);
+        melodyProviderConfigs.put(0, melodyRhythmProvider);
+        melodyProviderConfigs.put(1, melodyRhythmProvider);
+        melodyProviderConfigs.put(2, melodyRhythmProvider);
+        melodyProviderConfigs.put(3, melodyParserProvider);
         melodyProviderConfigs.put(4, melodyGeneratorProvider);
     }
 

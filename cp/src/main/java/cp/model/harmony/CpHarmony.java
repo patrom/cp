@@ -3,7 +3,9 @@ package cp.model.harmony;
 import cp.model.note.Interval;
 import cp.model.note.Note;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -13,6 +15,7 @@ public class CpHarmony implements Comparable<CpHarmony>{
 	private Chord chord;
 	private final int position;
 	private int end;
+	private Chord lowestChord;
 
 	public CpHarmony(List<Note> notes, int position) {
 		this.notes = notes;
@@ -32,7 +35,7 @@ public class CpHarmony implements Comparable<CpHarmony>{
 		toChord();
 	}
 	
-	private int getBassNote(){
+	protected int getBassNote(){
 		int minimumPitch = notes.stream()
 					.mapToInt(n -> n.getPitch())
 					.min()
@@ -42,6 +45,18 @@ public class CpHarmony implements Comparable<CpHarmony>{
 				.findFirst()
 				.get()
 				.getPitchClass();
+	}
+
+	public void toChord(int size){
+		List<Integer> lowestNotes = notes.stream()
+				.mapToInt(n -> n.getPitch())
+				.sorted()
+				.limit(size)
+				.boxed()
+				.sorted()
+				.collect(Collectors.toList());
+		List<Note> lowestChordNotes = notes.stream().filter(note -> lowestNotes.contains(note.getPitch())).sorted(Comparator.comparing(note -> note.getPitch())).collect(Collectors.toList());
+		lowestChord = new Chord(lowestChordNotes.get(0).getPitchClass(), lowestChordNotes);
 	}
 	
 	public int beat(int beat){
@@ -54,6 +69,10 @@ public class CpHarmony implements Comparable<CpHarmony>{
 	
 	public Chord getChord() {
 		return chord;
+	}
+
+	public Chord getLowestChord() {
+		return lowestChord;
 	}
 
 	public int getPosition() {
