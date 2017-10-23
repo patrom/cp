@@ -1,10 +1,10 @@
 package cp.nsga.operator.mutation.melody;
 
-import cp.composition.voice.Voice;
 import cp.config.InstrumentConfig;
-import cp.config.VoiceConfig;
+import cp.config.TimbreConfig;
 import cp.model.melody.CpMelody;
 import cp.model.note.Dynamic;
+import cp.model.timbre.Timbre;
 import cp.nsga.operator.mutation.MutationOperator;
 import cp.util.RandomUtil;
 import jmetal.util.PseudoRandom;
@@ -27,7 +27,7 @@ public class DynamicMutation implements MutationOperator<CpMelody> {
     private double probabilityDynamic;
 
     @Autowired
-    private VoiceConfig voiceConfig;
+    private TimbreConfig timbreConfig;
     @Autowired
     private InstrumentConfig instrumentConfig;
 
@@ -38,8 +38,8 @@ public class DynamicMutation implements MutationOperator<CpMelody> {
 
     public void doMutation(CpMelody melody) {
         if (PseudoRandom.randDouble() < probabilityDynamic) {
-            Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(melody.getVoice());
-            List<Dynamic> dynamics = voiceConfiguration.getDynamics();
+            Timbre timbre = timbreConfig.getTimbreConfigForVoice(melody.getVoice());
+            List<Dynamic> dynamics = timbre.getDynamics();
             Dynamic dynamic = RandomUtil.getRandomFromList(dynamics);
             melody.updateDynamic(dynamic);
 //			LOGGER.info("Dynamic mutated");

@@ -1,12 +1,12 @@
 package cp.model.melody;
 
 import cp.composition.beat.BeatGroup;
-import cp.composition.voice.Voice;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.model.note.Scale;
+import cp.model.timbre.Timbre;
 import cp.nsga.operator.mutation.MutationType;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.Technical;
@@ -48,7 +48,7 @@ public class CpMelody implements Comparable<CpMelody>{
 	}
 
 	private CpMelody(CpMelody anotherMelody) {
-		this.notes = anotherMelody.getNotes().stream().map(note -> note.clone()).collect(toList());
+		this.notes = anotherMelody.getNotes().stream().map(Note::clone).collect(toList());
 		clone(anotherMelody);
 	}
 
@@ -543,11 +543,11 @@ public class CpMelody implements Comparable<CpMelody>{
 		return 0;
 	}
 
-	public void updateNotes(Voice voiceConfig, int start){
+	public void updateNotes(Timbre timbre, int start){
         notes.forEach(n -> {
-            n.setDynamic(voiceConfig.getDynamic());
-            n.setDynamicLevel(voiceConfig.getDynamic().getLevel());
-            n.setTechnical(voiceConfig.getTechnical());
+            n.setDynamic(timbre.getDynamic());
+            n.setDynamicLevel(timbre.getDynamic().getLevel());
+            n.setTechnical(timbre.getTechnical());
             n.setPosition(n.getPosition() + start);
         });
     }
@@ -558,7 +558,7 @@ public class CpMelody implements Comparable<CpMelody>{
         int lastPosition = start + lastNote.getPosition();
 		List<Note> reversed = notes.stream().sorted(reverseOrder()).collect(toList());
 		Collections.reverse(contour);
-        List<Integer> reversedPositions = notes.stream().sorted(reverseOrder()).map(n -> n.getPosition()).collect(toList());
+        List<Integer> reversedPositions = notes.stream().sorted(reverseOrder()).map(Note::getPosition).collect(toList());
 		this.notes = reversed;
         Note firstNote = notes.get(0);
         Integer firstPosition = firstNote.getPosition();

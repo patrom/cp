@@ -1,9 +1,9 @@
 package cp.nsga.operator.mutation.melody;
 
-import cp.composition.voice.Voice;
 import cp.config.InstrumentConfig;
-import cp.config.VoiceConfig;
+import cp.config.TimbreConfig;
 import cp.model.melody.CpMelody;
+import cp.model.timbre.Timbre;
 import cp.nsga.operator.mutation.MutationOperator;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.Technical;
@@ -28,8 +28,9 @@ public class TechnicalMutation implements MutationOperator<CpMelody> {
 
     @Autowired
     private InstrumentConfig instrumentConfig;
+
     @Autowired
-    private VoiceConfig voiceConfig;
+    private TimbreConfig timbreConfig;
 
     @Autowired
     public TechnicalMutation(@Value("${probabilityTechnical}") double probabilityTechnical) {
@@ -39,8 +40,8 @@ public class TechnicalMutation implements MutationOperator<CpMelody> {
     public void doMutation(CpMelody melody)  {
         if (PseudoRandom.randDouble() < probabilityTechnical) {
             Instrument instrument = instrumentConfig.getInstrumentForVoice(melody.getVoice());
-            Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(melody.getVoice());
-            List<Technical> technicals = voiceConfiguration.getTechnicals(instrument.getInstrumentGroup());
+            Timbre timbre = timbreConfig.getTimbreConfigForVoice(melody.getVoice());
+            List<Technical> technicals = timbre.getTechnicals(instrument.getInstrumentGroup());
             if (technicals.isEmpty()){
                 LOGGER.info("technicals empty");
             }else{

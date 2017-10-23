@@ -1,13 +1,15 @@
 package cp.composition;
 
-import cp.composition.voice.Voice;
+import cp.config.TimbreConfig;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.melody.Operator;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
+import cp.model.timbre.Timbre;
 import cp.nsga.operator.relation.OperatorRelation;
 import cp.out.play.InstrumentMapping;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +26,9 @@ import static java.util.stream.Collectors.toList;
 @Component(value="fiveVoiceComposition")
 @ConditionalOnProperty(name = "composition.voices", havingValue = "5")
 public class FiveVoiceComposition extends Composition {
+
+    @Autowired
+    private TimbreConfig timbreConfig;
 
     @PostConstruct
     public void initInstruments(){
@@ -56,15 +61,15 @@ public class FiveVoiceComposition extends Composition {
         //melody
         //harmonization
         Map<String, List<Note>> notesPerInstrument = harmonizeMelody.getNotesToHarmonize();
-        Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(harmonizeVoice);
+        Timbre timbreConfig = this.timbreConfig.getTimbreConfigForVoice(harmonizeVoice);
         notesPerInstrument.entrySet().stream().flatMap(entry -> entry.getValue().stream()).forEach(n -> {
             n.setVoice(harmonizeVoice);
             if(n.getDynamic() == null){
-                n.setDynamic(voiceConfiguration.getDynamic());
-                n.setDynamicLevel(voiceConfiguration.getDynamic().getLevel());
+                n.setDynamic(timbreConfig.getDynamic());
+                n.setDynamicLevel(timbreConfig.getDynamic().getLevel());
             }
             if(n.getTechnical() == null){
-                n.setTechnical(voiceConfiguration.getTechnical());
+                n.setTechnical(timbreConfig.getTechnical());
             }
         });
         List<Note> notes = notesPerInstrument.entrySet().stream()

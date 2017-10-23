@@ -3,6 +3,7 @@ package cp.nsga.operator.mutation.melody;
 import cp.composition.voice.Voice;
 import cp.config.MelodyProviderConfig;
 import cp.config.TextureConfig;
+import cp.config.TimbreConfig;
 import cp.config.VoiceConfig;
 import cp.generator.provider.MelodyProvider;
 import cp.model.TimeLine;
@@ -10,6 +11,7 @@ import cp.model.harmony.DependantHarmony;
 import cp.model.melody.CpMelody;
 import cp.model.melody.Tonality;
 import cp.model.note.Note;
+import cp.model.timbre.Timbre;
 import cp.nsga.operator.mutation.MutationOperator;
 import cp.util.RandomUtil;
 import jmetal.util.PseudoRandom;
@@ -42,6 +44,8 @@ public class ProvidedMutation implements MutationOperator<CpMelody> {
     @Autowired
     private TimeLine timeLine;
     @Autowired
+    private TimbreConfig timbreConfig;
+    @Autowired
     private MelodyProviderConfig melodyProviderConfig;
 
     @Autowired
@@ -59,12 +63,13 @@ public class ProvidedMutation implements MutationOperator<CpMelody> {
             if (!provideMelodies.isEmpty()) {
                 CpMelody providedMelody = RandomUtil.getRandomFromList(provideMelodies).clone(voice);
                 final Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(voice);
+                Timbre timbreConfigForVoice = timbreConfig.getTimbreConfigForVoice(voice);
                 List<Note> melodyNotes = providedMelody.getNotes();
                 melodyNotes.forEach(n -> {
                     n.setVoice(voice);
-                    n.setDynamic(voiceConfiguration.getDynamic());
-                    n.setDynamicLevel(voiceConfiguration.getDynamic().getLevel());
-                    n.setTechnical(voiceConfiguration.getTechnical() != null?voiceConfiguration.getTechnical():n.getTechnical());
+                    n.setDynamic(timbreConfigForVoice.getDynamic());
+                    n.setDynamicLevel(timbreConfigForVoice.getDynamic().getLevel());
+                    n.setTechnical(timbreConfigForVoice.getTechnical() != null?timbreConfigForVoice.getTechnical():n.getTechnical());
                     n.setPosition(n.getPosition() + melody.getStart());
                 });
                 if (textureConfig.hasTexture(voice)) {

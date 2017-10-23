@@ -1,8 +1,8 @@
 package cp.composition;
 
 import cp.composition.timesignature.TimeConfig;
-import cp.composition.voice.Voice;
 import cp.config.InstrumentConfig;
+import cp.config.TimbreConfig;
 import cp.config.VoiceConfig;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
@@ -16,6 +16,7 @@ import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
+import cp.model.timbre.Timbre;
 import cp.nsga.operator.mutation.melody.ReplaceMelody;
 import cp.nsga.operator.relation.RelationConfig;
 import cp.objective.harmony.DissonantResolutionImpl;
@@ -104,6 +105,8 @@ public abstract class Composition {
 	protected TimeLine timeLine;
 	@Autowired
 	private MeterObjective meterObjective;
+	@Autowired
+	private TimbreConfig timbreConfig;
 
 	@Autowired
 	protected Keys keys;
@@ -365,15 +368,15 @@ public abstract class Composition {
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
 		//harmonization
         Map<String, List<Note>> notesPerInstrument = harmonizeMelody.getNotesToHarmonize();
-        Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(harmonizeVoice);
+		Timbre timbreConfig = this.timbreConfig.getTimbreConfigForVoice(harmonizeVoice);
         notesPerInstrument.entrySet().stream().flatMap(entry -> entry.getValue().stream()).forEach(n -> {
             n.setVoice(harmonizeVoice);
             if(n.getDynamic() == null){
-                n.setDynamic(voiceConfiguration.getDynamic());
-                n.setDynamicLevel(voiceConfiguration.getDynamic().getLevel());
+                n.setDynamic(timbreConfig.getDynamic());
+                n.setDynamicLevel(timbreConfig.getDynamic().getLevel());
             }
             if(n.getTechnical() == null){
-                n.setTechnical(voiceConfiguration.getTechnical());
+                n.setTechnical(timbreConfig.getTechnical());
             }
         });
         List<Note> notes = notesPerInstrument.entrySet().stream()

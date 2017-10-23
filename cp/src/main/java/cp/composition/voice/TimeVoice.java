@@ -1,7 +1,6 @@
 package cp.composition.voice;
 
 import cp.combination.RhythmCombination;
-import cp.model.note.Dynamic;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -19,7 +18,6 @@ public class TimeVoice extends Voice {
     @PostConstruct
     public void init(){
         setTimeconfig();
-        dynamic = Dynamic.MF;
         timeConfig = timeRandom;
 
 //        evenRhythmCombinationsPerNoteSize = fixedEven;

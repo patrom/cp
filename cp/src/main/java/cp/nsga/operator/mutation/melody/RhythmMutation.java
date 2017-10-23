@@ -2,10 +2,12 @@ package cp.nsga.operator.mutation.melody;
 
 import cp.composition.voice.Voice;
 import cp.config.TextureConfig;
+import cp.config.TimbreConfig;
 import cp.config.VoiceConfig;
 import cp.model.harmony.DependantHarmony;
 import cp.model.melody.CpMelody;
 import cp.model.note.Note;
+import cp.model.timbre.Timbre;
 import cp.nsga.operator.mutation.MutationOperator;
 import cp.util.RandomUtil;
 import jmetal.util.PseudoRandom;
@@ -31,6 +33,8 @@ public class RhythmMutation implements MutationOperator<CpMelody> {
     private VoiceConfig voiceConfig;
     @Autowired
     private TextureConfig textureConfig;
+    @Autowired
+    private TimbreConfig timbreConfig;
 
     @Autowired
     public RhythmMutation(@Value("${probabilityRhythm}") double probability) {
@@ -41,14 +45,15 @@ public class RhythmMutation implements MutationOperator<CpMelody> {
         if (PseudoRandom.randDouble() < probability) {
             int v = melody.getVoice();
             Voice voice = voiceConfig.getVoiceConfiguration(v);
+            Timbre timbreConfigForVoice = timbreConfig.getTimbreConfigForVoice(v);
 
             List<Note> rhythmNotes = voice.getRhythmNotesForBeatgroupType(melody.getBeatGroup(), melody.getNotesSize());
             if (!rhythmNotes.isEmpty()) {
                 rhythmNotes.forEach(n -> {
                     n.setVoice(melody.getVoice());
-                    n.setDynamic(voice.getDynamic());
-                    n.setDynamicLevel(voice.getDynamic().getLevel());
-                    n.setTechnical(voice.getTechnical());
+                    n.setDynamic(timbreConfigForVoice.getDynamic());
+                    n.setDynamicLevel(timbreConfigForVoice.getDynamic().getLevel());
+                    n.setTechnical(timbreConfigForVoice.getTechnical());
                 });
                 if (textureConfig.hasTexture(v)) {
                     List<DependantHarmony> textureTypes = textureConfig.getTextureFor(v);

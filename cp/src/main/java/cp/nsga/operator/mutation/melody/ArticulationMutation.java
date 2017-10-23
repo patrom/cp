@@ -1,9 +1,10 @@
 package cp.nsga.operator.mutation.melody;
 
-import cp.composition.voice.Voice;
 import cp.config.InstrumentConfig;
+import cp.config.TimbreConfig;
 import cp.config.VoiceConfig;
 import cp.model.melody.CpMelody;
+import cp.model.timbre.Timbre;
 import cp.nsga.operator.mutation.MutationOperator;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.Instrument;
@@ -28,6 +29,8 @@ public class ArticulationMutation implements MutationOperator<CpMelody> {
 	private InstrumentConfig instrumentConfig;
 	@Autowired
 	private VoiceConfig voiceConfig;
+	@Autowired
+	private TimbreConfig timbreConfig;
 
 	@Autowired
 	public ArticulationMutation(@Value("${probabilityArticulation}") double probabilityArticulation) {
@@ -37,8 +40,8 @@ public class ArticulationMutation implements MutationOperator<CpMelody> {
 	public void doMutation(CpMelody melody) {
 		if (PseudoRandom.randDouble() < probabilityArticulation) {
 			Instrument instrument = instrumentConfig.getInstrumentForVoice(melody.getVoice());
-			Voice voiceConfiguration = voiceConfig.getVoiceConfiguration(melody.getVoice());
-			List<Articulation> articulations = voiceConfiguration.getArticulations(instrument.getInstrumentGroup());
+            Timbre timbre = timbreConfig.getTimbreConfigForVoice(melody.getVoice());
+			List<Articulation> articulations = timbre.getArticulations(instrument.getInstrumentGroup());
 			if (articulations.isEmpty()){
 				LOGGER.info("articulations empty");
 			}else{

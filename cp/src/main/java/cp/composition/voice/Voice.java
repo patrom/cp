@@ -17,8 +17,6 @@ import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 import cp.nsga.operator.mutation.MutationType;
-import cp.out.instrument.Articulation;
-import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.Technical;
 import cp.util.RandomUtil;
 import org.slf4j.Logger;
@@ -29,10 +27,8 @@ import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.Resource;
 import java.util.*;
-import java.util.stream.Stream;
 
 import static java.util.Collections.emptyList;
-import static java.util.stream.Collectors.toList;
 
 /**
  * Created by prombouts on 22/11/2016.
@@ -140,61 +136,12 @@ public abstract class Voice {
 
     protected boolean melodiesProvided = false;
 
-    protected Dynamic dynamic = Dynamic.MF;
-    protected Technical technical = Technical.PORTATO;
-
     protected boolean hasDependentHarmony;
     protected List<ChordType> chordTypes = new ArrayList<>();
 
 
     protected Map<Integer, List<RhythmCombination>> evenRhythmCombinationsPerNoteSize;
     protected Map<Integer, List<RhythmCombination>> unevenRhythmCombinationsPerNoteSize;
-
-    public Voice() {
-        stringArticulations = Stream.of(
-                Articulation.MARCATO,
-                Articulation.STRONG_ACCENT,
-                Articulation.STACCATO,
-                Articulation.TENUTO,
-                Articulation.DETACHED_LEGATO,//a tenuto line and staccato dot
-                Articulation.STACCATISSIMO,
-                Articulation.SPICCATO
-        ).collect(toList());
-        woodwindArticulations = Stream.of(
-                Articulation.MARCATO,
-                Articulation.STRONG_ACCENT,
-                Articulation.STACCATO,
-                Articulation.TENUTO,
-                Articulation.DETACHED_LEGATO,//a tenuto line and staccato dot
-                Articulation.STACCATISSIMO
-        ).collect(toList());
-
-        stringTechnicals = Stream.of(
-                Technical.LEGATO,
-                Technical.PIZZ,
-                Technical.VIBRATO,
-                Technical.PORTATO,
-                Technical.SENZA_VIBRATO,
-                Technical.STACCATO
-//                Technical.SUL_PONTICELLO
-        ).collect(toList());
-
-        woodwindTechnicals = Stream.of(
-                Technical.LEGATO,
-                Technical.VIBRATO,
-                Technical.PORTATO,
-                Technical.SENZA_VIBRATO,
-                Technical.STACCATO
-//                Technical.FLUTTER_TONGUE
-        ).collect(toList());
-
-        dynamics = Stream.of(
-                Dynamic.F,
-                Dynamic.MF,
-                Dynamic.MP,
-                Dynamic.P
-        ).collect(toList());
-    }
 
     protected void setTimeconfig(){
         if (numerator == 4 && denominator == 4) {
@@ -228,66 +175,12 @@ public abstract class Voice {
         return RandomUtil.getRandomFromList(pitchClassGenerators);
     }
 
-    public Dynamic getDynamic(){
-        return dynamic;
-    }
-
-    public Technical getTechnical(){
-        return technical;
-    }
-
     public void hasDependentHarmony(boolean hasDependentHarmony) {
         this.hasDependentHarmony = hasDependentHarmony;
     }
 
     public void addChordType(ChordType chordType){
         chordTypes.add(chordType);
-    }
-
-    protected List<Articulation> stringArticulations = new ArrayList<>();
-    protected List<Articulation> woodwindArticulations = new ArrayList<>();
-    protected List<Dynamic> dynamics = new ArrayList<>();
-
-    protected List<Technical> woodwindTechnicals = new ArrayList<>();
-    protected List<Technical> stringTechnicals = new ArrayList<>();
-
-    public List<Articulation> getArticulations(InstrumentGroup instrumentGroup) {
-        switch (instrumentGroup){
-            case STRINGS:
-            case ORCHESTRAL_STRINGS:
-                return stringArticulations;
-            case WOODWINDS:
-            case BRASS:
-                return woodwindArticulations;
-        }
-        return emptyList();
-    }
-
-    public List<Technical> getTechnicals(InstrumentGroup instrumentGroup) {
-        switch (instrumentGroup){
-            case STRINGS:
-            case ORCHESTRAL_STRINGS:
-                return stringTechnicals;
-            case WOODWINDS:
-            case BRASS:
-                return woodwindTechnicals;
-        }
-        return emptyList();
-    }
-
-    public List<Dynamic> getDynamics() {
-        return dynamics;
-    }
-
-    public List<Dynamic> getDynamics(InstrumentGroup instrumentGroup) {
-        switch (instrumentGroup){
-            case STRINGS:
-            case ORCHESTRAL_STRINGS:
-            case WOODWINDS:
-            case BRASS:
-                return Arrays.asList(Dynamic.values());
-        }
-        return emptyList();
     }
 
     public List<Note> getRhythmNotesForBeatgroupType(BeatGroup beatGroup, int size){
