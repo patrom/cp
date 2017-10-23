@@ -1,6 +1,6 @@
 package cp.model.dissonance;
 
-import cp.model.harmony.Chord;
+import cp.model.harmony.CpHarmony;
 import org.springframework.stereotype.Component;
 
 @Component(value = "SetClassDissonance")
@@ -24,8 +24,8 @@ public class SetClassDissonance implements Dissonance {
 	// }
 
 	@Override
-	public double getDissonance(Chord chord) {
-		switch (chord.getForteName()) {
+	public double getDissonance(CpHarmony harmony) {
+		switch (harmony.getChord().getForteName()) {
 			
 //			case "2-1":
 //				return 0.99;

@@ -24,70 +24,45 @@ public class TextureConfig {
 
     @PostConstruct
     public void ini(){
-        List<DependantHarmony> types = new ArrayList<>();
-        types.add(createDependantHarmony(ChordType.CH2_KWART));
-//		types.add(createDependantHarmony(ChordType.CH2_KWINT));
-        types.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT));
-        types.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS));
-        types.add(createDependantHarmony(ChordType.NO_INTERVALS));
-        types.add(createDependantHarmony(ChordType.NO_INTERVALS));
-        types.add(createDependantHarmony(ChordType.NO_INTERVALS));
-//        types.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS));
-//        types.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT_CHR));//if no timeline available for voice (provided)
-//        types.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS_CHR));
-//        types.add(createDependantHarmony(ChordType.CH2_KLEINE_TERTS_CHR));
-//        types.add(createDependantHarmony(ChordType.CH2_KLEINE_SIXT_CHR));
-//        types.add(ChordType.CH2_KWART_CHR);
-//        types.add(ChordType.CH2_KWINT_CHR);
-//        types.add(ChordType.MAJOR);
+        //chords
+        List<DependantHarmony> chordTypes = new ArrayList<>();
+		chordTypes.add(createDependantHarmony(ChordType.MAJOR));//major and minor
+		chordTypes.add(createDependantHarmony(ChordType.MAJOR_CHR));
+		chordTypes.add(createDependantHarmony(ChordType.MAJOR_1));//major and minor
+		chordTypes.add(createDependantHarmony(ChordType.MAJOR_1_CHR));
+        chordTypes.add(createDependantHarmony(ChordType.MAJOR_2));//major and minor
+        chordTypes.add(createDependantHarmony(ChordType.MAJOR_2_CHR));
+        chordTypes.add(createDependantHarmony(ChordType.MINOR_CHR));
+        chordTypes.add(createDependantHarmony(ChordType.MINOR_1_CHR));
+        chordTypes.add(createDependantHarmony(ChordType.MINOR_2_CHR));
+
+        chordTypes.add(createDependantHarmony(ChordType.DOM));
+        chordTypes.add(createDependantHarmony(ChordType.DOM_CHR_1));
+        chordTypes.add(createDependantHarmony(ChordType.DOM_CHR_2));
+
+        chordTypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
+        chordTypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
+        chordTypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
 
 
+        List<DependantHarmony> intervaltypes = new ArrayList<>();
+        intervaltypes.add(createDependantHarmony(ChordType.CH2_KWART));
+        intervaltypes.add(createDependantHarmony(ChordType.CH2_KWINT));
+//        intervaltypes.add(createDependantHarmony(ChordType.CH2_TRITONE)); == kwart diatonic
+//        intervaltypes.add(createDependantHarmony(ChordType.CH2_TRITONE_CHR));
+        intervaltypes.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT));
+        intervaltypes.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT_CHR));
+        intervaltypes.add(createDependantHarmony(ChordType.CH2_KLEINE_SIXT_CHR));
+        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
+        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
+        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
+//        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
+        intervaltypes.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS));
+        intervaltypes.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS_CHR));
+        intervaltypes.add(createDependantHarmony(ChordType.CH2_KLEINE_TERTS_CHR));
 
-//        types.add(ChordType.CH2_GROTE_TERTS_CHR);
-//        types.add(ChordType.CH2_KLEINE_TERTS_CHR);
-//        types.add(ChordType.CH2_KWART);
-//		types.add(ChordType.CH2_KWINT);
-//		types.add(ChordType.ALL);
-//        types.add(ChordType.CH2_GROTE_SIXT);
-//        types.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT_CHR));
-//        types.add(createDependantHarmony(ChordType.CH2_KLEINE_SIXT_CHR));
-
-//		types.add(createDependantHarmony(ChordType.MAJOR));//major and minor
-//		types.add(createDependantHarmony(ChordType.MAJOR_CHR));
-//		types.add(createDependantHarmony(ChordType.MAJOR_1));//major and minor
-//		types.add(createDependantHarmony(ChordType.MAJOR_1_CHR));
-//        types.add(ChordType.MAJOR_2);//major and minor
-//        types.add(ChordType.MAJOR_2_CHR);
-//        types.add(createDependantHarmony(ChordType.MINOR_CHR));
-//        types.add(createDependantHarmony(ChordType.MINOR_1_CHR));
-        //        types.add(createDependantHarmony(ChordType.MINOR_2_CHR));
-
-//        types.add(createDependantHarmony(ChordType.DOM));
-//        types.add(createDependantHarmony(ChordType.DOM_CHR_1));
-//        types.add(createDependantHarmony(ChordType.DOM_CHR_2));
-
-//        types.add(createDependantHarmony(ChordType.NO_INTERVALS));
-//        types.add(createDependantHarmony(ChordType.CH2_TRITONE_CHR));
-
-//        types.add(ChordType.DOM);
-
-        List<DependantHarmony> types2 = new ArrayList<>();
-        types2.add(createDependantHarmony(ChordType.CH2_KWART));
-        types2.add(createDependantHarmony(ChordType.CH2_KWINT));
-//        types2.add(createDependantHarmony(ChordType.CH2_TRITONE)); == kwart diatonic
-//        types2.add(createDependantHarmony(ChordType.CH2_TRITONE_CHR));
-        types2.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT));
-//        types2.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT_CHR));
-        types2.add(createDependantHarmony(ChordType.NO_INTERVALS));
-        types2.add(createDependantHarmony(ChordType.NO_INTERVALS));
-        types2.add(createDependantHarmony(ChordType.NO_INTERVALS));
-//        types2.add(createDependantHarmony(ChordType.NO_INTERVALS));
-        types2.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS));
-//        types2.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS_CHR));
-//        types.add(ChordType.MAJOR);
-
-//        textureTypes.put(2, types2);
-        textureTypes.put(1, types2);
+        textureTypes.put(2, intervaltypes);
+        textureTypes.put(1, intervaltypes);
 
         List<DependantHarmony> symmetryChords = new ArrayList<>();
         symmetryChords.add(createDependantHarmony(ChordType.SYMMEETRY, composition.axisHigh,composition.axisLow));

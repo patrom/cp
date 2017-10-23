@@ -43,14 +43,16 @@ public class MelodyRhythmProvider extends AbstractProvidder implements MelodyPro
 
     public List<CpMelody> getMelodies(int voice){
         if(melodies.isEmpty()){
-            try {
-                parse(voice);
-                melodies.addAll(melodyGeneratorProvider.getMelodies(voice));
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (XMLStreamException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                parse(voice);
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            } catch (XMLStreamException e) {
+//                e.printStackTrace();
+//            }
+            melodies.addAll(melodyGeneratorProvider.getMelodies(voice));
+            melodies.forEach(melody -> melody.setMutationType(MutationType.PITCH));
 //            getRhythmMelodies();
 //            melodies.add(getRest(0, DurationConstants.EIGHT));
 //            melodies.add(getRest(0, DurationConstants.QUARTER));

@@ -1,9 +1,9 @@
 package cp.objective.harmony;
 
-import cp.model.harmony.Chord;
+import cp.model.harmony.CpHarmony;
 
 @FunctionalInterface
 public interface DissonantResolution {
 
-	boolean isDissonant(Chord chord);
+	boolean isDissonant(CpHarmony harmony);
 }

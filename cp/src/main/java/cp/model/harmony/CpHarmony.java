@@ -72,6 +72,7 @@ public class CpHarmony implements Comparable<CpHarmony>{
 	}
 
 	public Chord getLowestChord() {
+		toChord(3);
 		return lowestChord;
 	}
 

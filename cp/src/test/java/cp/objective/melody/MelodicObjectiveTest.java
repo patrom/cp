@@ -144,16 +144,16 @@ public class MelodicObjectiveTest extends AbstractTest {
 		assertEquals(0, notes.get(0).getPitchClass());
 	}
 	
-	@Test
-	public void testEvaluateTriadicValueMelody() {
-		List<Note> notes = new ArrayList<>();
-		notes.add(note().pc(0).pos(0).len(DurationConstants.EIGHT).positionWeight(1.0).build());
-		notes.add(note().pc(4).pos(6).len(DurationConstants.EIGHT).positionWeight(0.5).build());
-		notes.add(note().pc(7).pos(DurationConstants.QUARTER).len(DurationConstants.EIGHT).positionWeight(1.0).build());
-		notes.add(note().pc(0).pos(DurationConstants.THREE_EIGHTS).len(DurationConstants.EIGHT).positionWeight(0.5).build());
-		double value = melodicObjective.evaluateTriadicValueMelody(notes);
-		assertEquals(0.99, value, 0);
-	}
+//	@Test
+//	public void testEvaluateTriadicValueMelody() {
+//		List<Note> notes = new ArrayList<>();
+//		notes.add(note().pc(0).pos(0).len(DurationConstants.EIGHT).positionWeight(1.0).build());
+//		notes.add(note().pc(4).pos(6).len(DurationConstants.EIGHT).positionWeight(0.5).build());
+//		notes.add(note().pc(7).pos(DurationConstants.QUARTER).len(DurationConstants.EIGHT).positionWeight(1.0).build());
+//		notes.add(note().pc(0).pos(DurationConstants.THREE_EIGHTS).len(DurationConstants.EIGHT).positionWeight(0.5).build());
+//		double value = melodicObjective.evaluateTriadicValueMelody(notes);
+//		assertEquals(0.99, value, 0);
+//	}
 	
 	@Test
 	public void testEvaluateMelody() {

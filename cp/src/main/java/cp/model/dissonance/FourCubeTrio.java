@@ -1,14 +1,14 @@
 package cp.model.dissonance;
 
-import cp.model.harmony.Chord;
+import cp.model.harmony.CpHarmony;
 import org.springframework.stereotype.Component;
 
 @Component(value="FourCubeTrio")
 public class FourCubeTrio implements Dissonance {
 
 	@Override
-	public double getDissonance(Chord chord) {
-		switch (chord.getForteName()) {
+	public double getDissonance(CpHarmony harmony) {
+		switch (harmony.getChord().getForteName()) {
 			case "4-25"://dom7b5
 				return 1.0;
 			case "4-26"://m7

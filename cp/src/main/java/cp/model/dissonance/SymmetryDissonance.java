@@ -1,21 +1,22 @@
 package cp.model.dissonance;
 
 import cp.model.harmony.Chord;
+import cp.model.harmony.CpHarmony;
 import org.springframework.stereotype.Component;
 
 @Component(value = "symmetryDissonance")
 public class SymmetryDissonance implements Dissonance{
 
     @Override
-    public double getDissonance(Chord chord) {
-        int size = chord.getPitchClassSet().size();
+    public double getDissonance(CpHarmony harmony) {
+        int size = harmony.getChord().getPitchClassSet().size();
         switch (size){
             case 2:
                 return 0;
             case 3:
-                return trichordal(chord);
+                return trichordal(harmony.getChord());
             case 4:
-                return tetrachordal(chord);
+                return tetrachordal(harmony.getChord());
 //            case 5:
 //                return pentaChordal(chord);
         }

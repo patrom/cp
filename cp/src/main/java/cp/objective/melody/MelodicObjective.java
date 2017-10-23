@@ -3,7 +3,6 @@ package cp.objective.melody;
 import cp.config.MelodyConfig;
 import cp.model.Motive;
 import cp.model.dissonance.Dissonance;
-import cp.model.harmony.Chord;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.objective.Objective;
@@ -72,23 +71,23 @@ public class MelodicObjective extends Objective {
 		return notePosition;
 	}
 	
-	protected double evaluateTriadicValueMelody(Collection<Note> notes) {
-		Note[] notePositions = notes.toArray(new Note[notes.size()]);
-		double harmonicValue = 0;
-		for (int i = 0; i < notePositions.length - 2; i++) {
-				Note firstNote = notePositions[i];
-				Note secondNote = notePositions[i + 1];
-				Note thirdNote = notePositions[i + 2];
-				Chord chord = new Chord(firstNote.getPitchClass());
-				chord.addPitchClass(firstNote.getPitchClass());
-				chord.addPitchClass(secondNote.getPitchClass());
-				chord.addPitchClass(thirdNote.getPitchClass());
-				if ("3-11".equals(chord.getForteName())) {
-					harmonicValue = harmonicValue + dissonance.getDissonance(chord);
-				}
-		}
-		return (harmonicValue == 0)? 0:harmonicValue/(notePositions.length - 2);
-	}
+//	protected double evaluateTriadicValueMelody(Collection<Note> notes) {
+//		Note[] notePositions = notes.toArray(new Note[notes.size()]);
+//		double harmonicValue = 0;
+//		for (int i = 0; i < notePositions.length - 2; i++) {
+//				Note firstNote = notePositions[i];
+//				Note secondNote = notePositions[i + 1];
+//				Note thirdNote = notePositions[i + 2];
+//				Chord chord = new Chord(firstNote.getPitchClass());
+//				chord.addPitchClass(firstNote.getPitchClass());
+//				chord.addPitchClass(secondNote.getPitchClass());
+//				chord.addPitchClass(thirdNote.getPitchClass());
+//				if ("3-11".equals(chord.getForteName())) {
+//					harmonicValue = harmonicValue + dissonance.getDissonance(chord);
+//				}
+//		}
+//		return (harmonicValue == 0)? 0:harmonicValue/(notePositions.length - 2);
+//	}
 
 	private double getIntervalMelodicValue(Note note, Note nextNote, MelodyDissonance melodyDissonance) {
 		int difference = 0;

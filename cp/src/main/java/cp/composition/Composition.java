@@ -180,10 +180,10 @@ public abstract class Composition {
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
 		timeLineKeys.add(new TimeLineKey(keys.Eflat, Scale.MAJOR_SCALE, 0 ,0));
-//		timeLineKeys.add(new TimeLineKey(keys.B, Scale.MAJOR_SCALE, 0 ,0));
-		timeLineKeys.add(new TimeLineKey(keys.G, Scale.MAJOR_SCALE, 0 ,0));
+//		timeLineKeys.add(new TimeLineKey(keys.Bflat, Scale.MAJOR_SCALE, 0 ,0));
+//		timeLineKeys.add(new TimeLineKey(keys.G, Scale.MAJOR_SCALE, 0 ,0));
 		timeLineKeys.add(new TimeLineKey(keys.C, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
-//		timeLineKeys.add(new TimeLineKey(keys.D, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
+//		timeLineKeys.add(new TimeLineKey(keys.G, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.Fsharp, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.A, Scale.MAJOR_SCALE, 0 ,0));
@@ -291,7 +291,7 @@ public abstract class Composition {
 //		pitchClassGenerators.add(restPitchClasses::updatePitchClasses);
 //		pitchClassGenerators.add(twelveTonePitchClasses::updatePitchClasses);
 
-		harmonicObjective.setDissonance(tonalSetClassDissonance::getDissonance);
+		harmonicObjective.setDissonance(tonalDissonance::getDissonance);
 		harmonicResolutionObjective.setDissonantResolution(dissonantResolutionImpl::isDissonant);
 
 	}

@@ -1,6 +1,7 @@
 package cp.model.dissonance;
 
 import cp.model.harmony.Chord;
+import cp.model.harmony.CpHarmony;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -14,18 +15,18 @@ public class TonalSetClassDissonance implements Dissonance {
     private static final Logger LOGGER = LoggerFactory.getLogger(TonalSetClassDissonance.class.getName());
 
     @Override
-    public double getDissonance(Chord chord) {
-        int size = chord.getPitchClassSet().size();
+    public double getDissonance(CpHarmony harmony) {
+        int size = harmony.getChord().getPitchClassSet().size();
         switch (size){
             case 2:
-                return dyadic(chord);
+                return dyadic(harmony.getChord());
 //                return 0;
             case 3:
-                return trichordal(chord);
+                return trichordal(harmony.getChord());
             case 4:
-                return tetrachordal(chord);
+                return tetrachordal(harmony.getChord());
             case 5:
-                return pentaChordal(chord);
+                return pentaChordal(harmony.getChord());
             case 6:
 //                LOGGER.info("6 chord");
                 return 0;

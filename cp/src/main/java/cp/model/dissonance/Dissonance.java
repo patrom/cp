@@ -1,10 +1,10 @@
 package cp.model.dissonance;
 
-import cp.model.harmony.Chord;
+import cp.model.harmony.CpHarmony;
 
 @FunctionalInterface
 public interface Dissonance {
 
-	double getDissonance(Chord chord);
+	double getDissonance(CpHarmony harmony);
 	
 }

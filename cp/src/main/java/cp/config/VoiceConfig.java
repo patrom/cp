@@ -52,7 +52,7 @@ public class VoiceConfig {
     public void initVoiceConfig(){
         voiceConfiguration.put(0, homophonicVoice);
         voiceConfiguration.put(1, homophonicVoice);
-        voiceConfiguration.put(2, providedVoice);
+        voiceConfiguration.put(2, homophonicVoice);
         voiceConfiguration.put(3, providedVoice);
         voiceConfiguration.put(4, providedVoice);
 

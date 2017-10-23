@@ -1,6 +1,7 @@
 package cp.objective.harmony;
 
 import cp.model.harmony.Chord;
+import cp.model.harmony.CpHarmony;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -10,24 +11,24 @@ public class DissonantResolutionImpl {
 	@Autowired
 	private HarmonicObjective harmonicObjective;
 
-	public boolean isDissonant(Chord chord){
-		int size = chord.getPitchClassSet().size();
+	public boolean isDissonant(CpHarmony harmony){
+		int size = harmony.getChord().getPitchClassSet().size();
 		switch (size) {
 			case 1:
 			case 2:
 //				return isIntervalDissonant(chord);
 				return true;
 			case 3:
-				return harmonicObjective.getDissonance().getDissonance(chord) == 0;
+				return harmonicObjective.getDissonance().getDissonance(harmony) == 0;
 //				return isTriadDissonant(chord);
 //				return isSetClassDissonant(chord);
 //				return true;
 			case 4:
-                return harmonicObjective.getDissonance().getDissonance(chord) == 0;
+                return harmonicObjective.getDissonance().getDissonance(harmony) == 0;
 //				return isSetClassDissonant(chord);
 //				return isTetraDissonant(chord);
 			case 5:
-				return isPentaDissonant(chord);
+				return harmonicObjective.getDissonance().getDissonance(harmony) == 0;
 			default:
 				break;
 		}

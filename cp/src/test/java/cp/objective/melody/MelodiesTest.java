@@ -8,7 +8,6 @@ import cp.config.VoiceConfig;
 import cp.evaluation.FitnessEvaluationTemplate;
 import cp.generator.MelodyGenerator;
 import cp.midi.MelodyInstrument;
-import cp.midi.MidiConverter;
 import cp.midi.MidiInfo;
 import cp.midi.MidiParser;
 import cp.model.dissonance.Dissonance;
@@ -82,31 +81,31 @@ public class MelodiesTest extends AbstractTest {
 		Mockito.when(voiceConfig.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
 	}
 
-	@Test
-	public void testMelodies() throws InvalidMidiDataException, IOException {
-		midiFiles = Files.list(new File(MelodiesTest.class.getResource("/melodies").getPath()).toPath()).map(p -> p.toFile()).collect(Collectors.toList());
-		for (File file : midiFiles) {
-			MidiInfo midiInfo = midiParser.readMidi(file);
-			LOGGER.debug(file.getName());
-			List<MelodyInstrument> melodies = midiInfo.getMelodies();
-			MidiConverter.updatePositionNotes(melodies, midiInfo.getTimeSignature());
-			for (MelodyInstrument melodyInstrument : melodies) {
-				List<Note> notes = melodyInstrument.getNotes();
-				double value = melodicObjective.evaluateMelody(notes, 1, melodyDefaultDissonance);
-				LOGGER.info("Intervals : " + value);
-				value = melodicObjective.evaluateTriadicValueMelody(notes);
-				LOGGER.info("Triadic value: " + value);
-				List<Note> filteredNotes = melodicObjective.filterNotesWithWeightEqualToOrGreaterThan(notes, 0.5);
-				double filteredValue = melodicObjective.evaluateMelody(filteredNotes, 1, melodyDefaultDissonance);
-				LOGGER.info("filteredValue : " + filteredValue);
-				List<Note> notesLevel2 = melodicObjective.extractNotesOnLevel(notes, 2);
-				LOGGER.info("notesLevel2 : " + notesLevel2);
-//				Score score = scoreUtilities.createScoreFromMelodyInstrument(melodies, (double) midiInfo.getTempo());
-//				View.notate(score);
-//				jm.util.Play.midi(score, false);
-			}
-		}
-	}
+//	@Test
+//	public void testMelodies() throws InvalidMidiDataException, IOException {
+//		midiFiles = Files.list(new File(MelodiesTest.class.getResource("/melodies").getPath()).toPath()).map(p -> p.toFile()).collect(Collectors.toList());
+//		for (File file : midiFiles) {
+//			MidiInfo midiInfo = midiParser.readMidi(file);
+//			LOGGER.debug(file.getName());
+//			List<MelodyInstrument> melodies = midiInfo.getMelodies();
+//			MidiConverter.updatePositionNotes(melodies, midiInfo.getTimeSignature());
+//			for (MelodyInstrument melodyInstrument : melodies) {
+//				List<Note> notes = melodyInstrument.getNotes();
+//				double value = melodicObjective.evaluateMelody(notes, 1, melodyDefaultDissonance);
+//				LOGGER.info("Intervals : " + value);
+//				value = melodicObjective.evaluateTriadicValueMelody(notes);
+//				LOGGER.info("Triadic value: " + value);
+//				List<Note> filteredNotes = melodicObjective.filterNotesWithWeightEqualToOrGreaterThan(notes, 0.5);
+//				double filteredValue = melodicObjective.evaluateMelody(filteredNotes, 1, melodyDefaultDissonance);
+//				LOGGER.info("filteredValue : " + filteredValue);
+//				List<Note> notesLevel2 = melodicObjective.extractNotesOnLevel(notes, 2);
+//				LOGGER.info("notesLevel2 : " + notesLevel2);
+////				Score score = scoreUtilities.createScoreFromMelodyInstrument(melodies, (double) midiInfo.getTempo());
+////				View.notate(score);
+////				jm.util.Play.midi(score, false);
+//			}
+//		}
+//	}
 	
 	@Test
 	public void readMelodies() throws InvalidMidiDataException, IOException {

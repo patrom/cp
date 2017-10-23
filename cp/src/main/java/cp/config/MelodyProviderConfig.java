@@ -30,7 +30,7 @@ public class MelodyProviderConfig {
         melodyProviderConfigs.put(0, melodyRhythmProvider);
         melodyProviderConfigs.put(1, melodyRhythmProvider);
         melodyProviderConfigs.put(2, melodyRhythmProvider);
-        melodyProviderConfigs.put(3, melodyParserProvider);
+        melodyProviderConfigs.put(3, melodyRhythmProvider);
         melodyProviderConfigs.put(4, melodyGeneratorProvider);
     }
 

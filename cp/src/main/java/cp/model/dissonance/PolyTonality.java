@@ -1,6 +1,7 @@
 package cp.model.dissonance;
 
 import cp.model.harmony.Chord;
+import cp.model.harmony.CpHarmony;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,19 +12,19 @@ public class PolyTonality implements Dissonance {
 
     /**
      * Polytonal for combination of C and E major
-     * @param chord
-     * @return
+     *
+     * @param harmony@return
      */
-    public double getDissonance(Chord chord) {
-        int size = chord.getPitchClassSet().size();
+    public double getDissonance(CpHarmony harmony) {
+        int size = harmony.getChord().getPitchClassSet().size();
         switch (size){
             case 2:
 //				return intervals(chord);
                 return 0;
             case 3:
-                return triads(chord);
+                return triads(harmony.getChord());
             case 4:
-                return tetra(chord);
+                return tetra(harmony.getChord());
 //            case 5:
 //                return penta(chord);
         }

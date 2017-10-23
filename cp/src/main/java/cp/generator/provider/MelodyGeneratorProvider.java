@@ -48,7 +48,7 @@ public class MelodyGeneratorProvider extends AbstractProvidder implements Melody
 
     public List<CpMelody> getMelodies(int voice){
         if (melodies.isEmpty()) {
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < 2; i++) {
                 melodies.add(generateMelodyConfig(voice));
             }
 //            melodies.add(getRest(0, DurationConstants.EIGHT));

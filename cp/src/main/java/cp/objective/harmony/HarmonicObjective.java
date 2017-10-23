@@ -43,7 +43,7 @@ public class HarmonicObjective extends Objective {
 					LOGGER.debug("harmonyWeight: " + harmonyWeight);
 					Chord chord = h.getChord();
 					LOGGER.debug("chord: " + chord);
-					double dissonanceChord = dissonance.getDissonance(chord);
+					double dissonanceChord = dissonance.getDissonance(h);
 					return dissonanceChord * (harmonyWeight / totalHarmonyWeight);
 				})
 				.peek(w -> LOGGER.debug("Weight: " + w))

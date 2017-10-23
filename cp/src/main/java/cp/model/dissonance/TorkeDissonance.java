@@ -1,6 +1,6 @@
 package cp.model.dissonance;
 
-import cp.model.harmony.Chord;
+import cp.model.harmony.CpHarmony;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 public class TorkeDissonance implements Dissonance {
 
     @Override
-    public double getDissonance(Chord chord) {
-        switch (chord.getForteName()) {
+    public double getDissonance(CpHarmony harmony) {
+        switch (harmony.getChord().getForteName()) {
             case "4-11":
                 return 1.0;
             case "4-14":
