@@ -9,10 +9,11 @@ import cp.combination.uneven.*;
 import cp.config.InstrumentConfig;
 import cp.generator.MusicProperties;
 import cp.midi.MidiDevicesUtil;
-import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
+import cp.out.instrument.Articulation;
 import cp.out.orchestration.notetemplate.TwoNoteTemplate;
-import cp.out.orchestration.orchestra.ClassicalOrchestra;
+import cp.out.orchestration.orchestra.Orchestra;
+import cp.out.orchestration.orchestra.StringOrchestra;
 import cp.out.orchestration.quality.BrilliantWhite;
 import cp.out.orchestration.quality.PleasantGreen;
 import cp.out.play.InstrumentMapping;
@@ -29,6 +30,7 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +38,8 @@ import java.util.Map;
 public class Orchestrator {
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(Orchestrator.class);
+
+
 	
 	@Autowired
 	private ScoreUtilities scoreUtilities;
@@ -80,9 +84,31 @@ public class Orchestrator {
 	@Autowired
 	private BrilliantWhite brilliantWhite;
 
-	public void orchestrate(List<MelodyBlock> melodyBlocks, String id) throws Exception {
+	public void orchestrate(String id) throws Exception {
 		id = id + "_orch";
-		ClassicalOrchestra orchestra = new ClassicalOrchestra();
+
+		//get voices and notes
+		Map<Integer, List<Note>> notesPerVoice = new HashMap<>();
+		//configuration instruments
+		StringOrchestra orchestra = new StringOrchestra();
+		orchestra.setNotesPerVoice(notesPerVoice);
+		orchestra.setViolin(new MelodyOrchestrationBuilder()
+				.setVoice(0)
+				.setArticulation(Articulation.STACCATO)
+				.setTechnical(null)
+				.setDynamic(null)
+				.setOrchestralQuality(pleasantGreen)
+				.setOrchestralTechnique(null));
+
+		//execute cofiguration
+		orchestra.execute();
+
+		//play vsl
+		writeMidi(id, orchestra);
+		//generate xml
+		generateMusicXml(id, orchestra.getOrchestra());
+
+
 //		for (int i = 0; i < 5; i++) {
 //			Instrument instrumentToUpdate = orchestra.getRandomEmptyInstrument();
 //			if(brilliantWhite.hasInstrument(instrumentToUpdate)){
@@ -134,8 +160,8 @@ public class Orchestrator {
 		musicXMLWriter.createXML(new FileOutputStream(path  + id + ".xml"), orchestra);
 	}
 
-	private void writeMidi(String id, Map<InstrumentMapping, List<Note>> orchestra) throws InvalidMidiDataException, IOException {
-			Sequence sequence = midiDevicesUtil.createSequence(orchestra, musicProperties.getTempo());
+	private void writeMidi(String id, Orchestra orchestra) throws InvalidMidiDataException, IOException {
+			Sequence sequence = midiDevicesUtil.createSequence(orchestra.getOrchestra(), musicProperties.getTempo());
 			Resource resource = new FileSystemResource("");
 			midiDevicesUtil.write(sequence, resource.getFile().getPath()+ "cp/src/main/resources/orch/" + id + ".mid");
 	}

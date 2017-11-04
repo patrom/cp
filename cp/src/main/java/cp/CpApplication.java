@@ -113,7 +113,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 
 	private void compose() throws Exception {
 		List<CompositionGenre> composeInGenres = new ArrayList<>();
-//		composeInGenres.add(melodyComposition::melody);
+		composeInGenres.add(melodyComposition::melody);
 
 		//TWO VOICES
 //		composeInGenres.add(twoVoiceComposition::random);
@@ -145,7 +145,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(fourVoiceComposition::canonA3);
 //		composeInGenres.add(fourVoiceComposition::canonA4);
 //		composeInGenres.add(fourVoiceComposition::doubleCanon);
-		composeInGenres.add(fourVoiceComposition::allRandom);
+//		composeInGenres.add(fourVoiceComposition::allRandom);
 //		fourVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
 //		fourVoiceComposition.setHarmonizeVoice(1);
 //		composeInGenres.add(fourVoiceComposition::harmonize);
@@ -227,7 +227,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		// Algorithm parameters
 	    int populationSize = 30;
 	    algorithm.setInputParameter("populationSize", populationSize);
-	    algorithm.setInputParameter("maxEvaluations", populationSize * 1500);
+	    algorithm.setInputParameter("maxEvaluations", populationSize * 150);
 	    
 	    // Mutation and Crossover
 	    crossover.setParameter("probabilityCrossover", 1.0); 

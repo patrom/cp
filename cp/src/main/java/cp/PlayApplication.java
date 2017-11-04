@@ -1,7 +1,7 @@
 package cp;
 
+import cp.config.ColorQualityConfig;
 import cp.config.InstrumentConfig;
-import cp.config.OrchestralQualityConfig;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
 import cp.midi.*;
@@ -65,7 +65,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 	@Autowired
 	private InstrumentConfig instrumentConfig;
 	@Autowired
-	private OrchestralQualityConfig orchestralQualityConfig;
+	private ColorQualityConfig colorQualityConfig;
 
 	private final ClassicalOrchestra classicalOrchestra = new ClassicalOrchestra();
 	
@@ -113,7 +113,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 //            List<Instrument> instrumentsConfigured = instrumentConfig.getOrchestraInstuments();
 //			for (Map.Entry<String,List<Note>> entry : notesPerInstrument.entrySet()) {
 //				int order = Character.getNumericValue(entry.getTimeLineKey().charAt(1));
-//				OrchestralQuality ochestralQuality = orchestralQualityConfig.getOchestralQualityForVoice(order);
+//				OrchestralQuality ochestralQuality = colorQualityConfig.getOchestralQualityForVoice(order);
 //                List<Instrument> basicInstruments = ochestralQuality.getBasicInstruments();
 //                Collection<Instrument> instruments = CollectionUtils.intersection(instrumentsConfigured, basicInstruments);
 //                Instrument instrument = RandomUtil.getRandomFromList(new ArrayList<>(instruments));

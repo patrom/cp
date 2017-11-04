@@ -317,6 +317,12 @@ public class Note implements Comparable<Note>{
 		this.pitch = pitch - 12;
 		this.octave = octave - 1;
 	}
+
+	public void transposeOctave(int octaveDiff){
+		this.pitch = pitch + (octaveDiff * 12);
+		this.octave = octave + octaveDiff;
+	}
+
 	
 	public double getBeat(int divider) {
 		return Math.floor(position / divider);

@@ -12,7 +12,7 @@ import java.util.TreeMap;
  * Created by prombouts on 24/03/2017.
  */
 @Component
-public class OrchestralQualityConfig {
+public class ColorQualityConfig {
 
     @Autowired
     private BrilliantWhite brilliantWhite;
@@ -44,7 +44,7 @@ public class OrchestralQualityConfig {
     @PostConstruct
     public void init() {
         //voice!!!
-        orchestralQualities.put(0, lowRange);
+        orchestralQualities.put(0, richBlue);
         orchestralQualities.put(1, high);
         orchestralQualities.put(2, high);
         orchestralQualities.put(3, pleasantGreen);

@@ -3,6 +3,7 @@ package cp.out.orchestration.orchestra;
 import cp.model.note.Note;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentUpdate;
+import cp.out.orchestration.MelodyOrchestration;
 import cp.out.play.InstrumentMapping;
 import cp.util.RandomUtil;
 
@@ -12,6 +13,9 @@ import static java.util.stream.Collectors.toList;
 
 
 public class Orchestra {
+
+	protected Map<Integer, List<Note>> notesPerVoice = new HashMap<>();
+	protected List<MelodyOrchestration> melodyOrchestrations = new ArrayList<>();
 
 	protected final Map<InstrumentMapping, List<Note>> map = new TreeMap<>();//TODO create score order (voice) layout
 	protected InstrumentMapping piccolo;
@@ -395,7 +399,7 @@ public class Orchestra {
 	
 	public List<Note> duplicate(InstrumentMapping instrumentToDuplicate) {
 		return getNotes(instrumentToDuplicate).stream()
-				.map(n -> n.clone())
+				.map(Note::clone)
 				.collect(toList());
 	}
 	
@@ -444,9 +448,12 @@ public class Orchestra {
 	public InstrumentMapping getRandomEmptyInstrument(){
 		List<InstrumentMapping> instrumentsToUpdate = map.entrySet().stream()
 				.filter(entry -> entry.getValue().isEmpty())
-				.map(e -> e.getKey())
+				.map(Map.Entry::getKey)
 				.collect(toList());
 		return RandomUtil.getRandomFromList(instrumentsToUpdate);
 	}
-	
+
+	public void setNotesPerVoice(Map<Integer, List<Note>> notesPerVoice) {
+		this.notesPerVoice = notesPerVoice;
+	}
 }

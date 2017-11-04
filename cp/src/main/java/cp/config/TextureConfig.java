@@ -53,16 +53,16 @@ public class TextureConfig {
         intervaltypes.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT));
         intervaltypes.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT_CHR));
         intervaltypes.add(createDependantHarmony(ChordType.CH2_KLEINE_SIXT_CHR));
-        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
-        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
-        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
+//        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
+//        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
+//        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
 //        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
         intervaltypes.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS));
         intervaltypes.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS_CHR));
         intervaltypes.add(createDependantHarmony(ChordType.CH2_KLEINE_TERTS_CHR));
 
-        textureTypes.put(2, intervaltypes);
-        textureTypes.put(1, intervaltypes);
+//        textureTypes.put(2, intervaltypes);
+        textureTypes.put(0, intervaltypes);
 
         List<DependantHarmony> symmetryChords = new ArrayList<>();
         symmetryChords.add(createDependantHarmony(ChordType.SYMMEETRY, composition.axisHigh,composition.axisLow));

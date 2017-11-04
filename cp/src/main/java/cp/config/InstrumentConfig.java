@@ -34,7 +34,7 @@ import java.util.*;
 public class InstrumentConfig {
 
     @Autowired
-    private OrchestralQualityConfig orchestralQualityConfig;
+    private ColorQualityConfig colorQualityConfig;
 
     private Map<Integer, InstrumentMapping> instruments = new TreeMap<>();
     private List<InstrumentMapping> orchestra = new ArrayList<>();
@@ -121,8 +121,8 @@ public class InstrumentConfig {
 
     public Map<Integer, InstrumentMapping> getStrinqQuartet() {
         instruments.put(3, new InstrumentMapping(new ViolinSolo(), 4, 0));
-        instruments.put(2, new InstrumentMapping(new ViolinSolo(), 3, 1));
-        instruments.put(1, new InstrumentMapping(new ViolaSolo(), 2, 2));
+        instruments.put(2, new InstrumentMapping(new ViolinSolo(), 4, 1));
+        instruments.put(1, new InstrumentMapping(new ViolaSolo(), 1, 2));
         instruments.put(0, new InstrumentMapping(new CelloSolo(), 1, 3));
         return instruments;
     }
@@ -277,7 +277,7 @@ public class InstrumentConfig {
         if (instrumentMapping == null){
             throw new IllegalStateException("InstrumentConfig not available for voice: " + voice);
         }
-        OrchestralQuality orchestralQuality = orchestralQualityConfig.getOchestralQualityForVoice(voice);
+        OrchestralQuality orchestralQuality = colorQualityConfig.getOchestralQualityForVoice(voice);
         if(orchestralQuality != null){
             return orchestralQuality.getBasicInstrument(instrumentMapping.getInstrument().getInstrumentName());
         }

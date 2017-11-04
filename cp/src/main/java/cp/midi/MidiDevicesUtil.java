@@ -148,14 +148,6 @@ public class MidiDevicesUtil {
 		return sequence;
 	}
 
-	public Sequence createSequence2(List<Note> notes)
-			throws InvalidMidiDataException {
-		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
-			InstrumentMapping instrumentMapping = instrumentConfig.getInstrumentMappingForVoice(0);
-			createTrackGeneralMidi(sequence, notes, instrumentMapping.getInstrument(), 60, instrumentMapping.getChannel(), false);
-
-		return sequence;
-	}
 
 	private List<MidiEvent> createTrack(List<Note> notes, int channel)
 			throws InvalidMidiDataException {
@@ -171,26 +163,33 @@ public class MidiDevicesUtil {
 
 	private void createTrackGeneralMidi(Sequence sequence, List<Note> notes, Instrument instrument, int tempo, int channel, boolean isKontakt)
 			throws InvalidMidiDataException {
-		Track track = sequence.createTrack();
-
 		MidiTempo midiTempo = new MidiTempo();
 		MidiEvent midiTempoEvent = midiTempo.getTempoMidiEvent(tempo);
-		track.add(midiTempoEvent);
 
-		MidiEvent event = createGeneralMidiEvent(instrument, channel);
-		track.add(event);
+		Track trackNotes = sequence.createTrack();
+		trackNotes.add(midiTempoEvent);
+		for (Note note : notes) {
+			MidiEvent eventOn = createNoteMidiEvent(ShortMessage.NOTE_ON, note, note.getPosition(), channel);
+			trackNotes.add(eventOn);
+			MidiEvent eventOff = createNoteMidiEvent(ShortMessage.NOTE_OFF, note, note.getPosition() + note.getLength(), channel);
+			trackNotes.add(eventOff);
+		}
 
+//		MidiEvent event = createGeneralMidiEvent(instrument, channel);
+//		track.add(event);
+
+		Track trackMetadata = sequence.createTrack();
 		Dynamic prevDynamic = null;
 		Technical prevTechinal = null;
 		Articulation prevArticulation = null;
 		for (Note note : notes) {
 			if (!note.isRest() && !isKontakt) {
 				Technical technical = note.getTechnical();
-				List<MidiEvent> technicalEvents = null;
-				if(prevArticulation != null || prevDynamic != null || technical != prevTechinal){
+				List<MidiEvent> technicalEvents;
+				if(prevArticulation != note.getArticulation() || prevDynamic != note.getDynamic() || technical != prevTechinal){
 					technicalEvents = midiEventConverter.convertTechnical(channel,note, instrument);
 					for (MidiEvent midiEvent : technicalEvents) {
-						track.add(midiEvent);
+						trackMetadata.add(midiEvent);
 					}
 					prevTechinal = technical;
 				}
@@ -198,7 +197,7 @@ public class MidiDevicesUtil {
 				if (articulation != null) {
 					List<MidiEvent> articulationEvents = midiEventConverter.convertArticulation(channel,note, instrument);
 					for (MidiEvent midiEvent : articulationEvents) {
-                        track.add(midiEvent);
+						trackMetadata.add(midiEvent);
                     }
 					prevArticulation = articulation;
 				}
@@ -207,16 +206,11 @@ public class MidiDevicesUtil {
 				if(dynamic != prevDynamic){
 					List<MidiEvent> dynamicEvents = midiEventConverter.convertDynamic(channel,note, instrument);
 					for (MidiEvent midiEvent : dynamicEvents) {
-						track.add(midiEvent);
+						trackMetadata.add(midiEvent);
 					}
 					prevDynamic = dynamic;
 				}
-
 			}
-			MidiEvent eventOn = createNoteMidiEvent(ShortMessage.NOTE_ON, note, note.getPosition(), channel);
-			track.add(eventOn);
-			MidiEvent eventOff = createNoteMidiEvent(ShortMessage.NOTE_OFF, note, note.getPosition() + note.getLength(), channel);
-			track.add(eventOff);
 		}
 	}
 
@@ -227,13 +221,6 @@ public class MidiDevicesUtil {
 			change.setMessage(ShortMessage.PROGRAM_CHANGE, channel, instrument.getGeneralMidi().getEvent(), 0);
 		}
 		return new MidiEvent(change, 0);
-	}
-
-	private Note createKeySwitch(int articulation) {
-		Note keySwitch = new Note();
-		keySwitch.setPitch(articulation);
-		keySwitch.setDynamicLevel(80);
-		return keySwitch;
 	}
 
 	private MidiEvent createNoteMidiEvent(int cmd, Note notePos, int position, int channel)
@@ -249,35 +236,9 @@ public class MidiDevicesUtil {
 		return new MidiEvent(note, position);
 	}
 
-	private MidiEvent createControllerChangeMidiEvent(int channel, int value, int position)
-			throws InvalidMidiDataException {
-		ShortMessage change = new ShortMessage();
-		change.setMessage(ShortMessage.CONTROL_CHANGE, channel, 1, value);
-		return new MidiEvent(change, position);
-	}
-
-	private MidiEvent createProgramChangeMidiEvent(int channel, int pc, int position)
-			throws InvalidMidiDataException {
-		ShortMessage change = new ShortMessage();
-		change.setMessage(ShortMessage.PROGRAM_CHANGE, channel, pc, 0);
-		return new MidiEvent(change, position);
-	}
-
 	public void write(Sequence in, String ouputPath) throws IOException{
 		MidiSystem.write(in, 1, new File(ouputPath));//1 = multi-track
 	}
-
-	// write a meta event to current track at certain tick
-    private void writeMetaEvent(int id, byte[] val, int b3, int tick, Track currentTrack) {
-        MetaMessage mt = new MetaMessage();
-        try {
-            mt.setMessage(id, val, b3);
-        } catch (InvalidMidiDataException e) {
-            System.out.println(e.toString());
-        }
-        MidiEvent me = new MidiEvent(mt, (long) tick);
-        currentTrack.add(me);
-    }
 
 	public static void main(String[] args) throws IOException, InvalidMidiDataException {
 		MidiDevice.Info[] infos = MidiSystem.getMidiDeviceInfo();
