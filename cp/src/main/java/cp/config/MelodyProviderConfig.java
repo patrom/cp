@@ -32,6 +32,7 @@ public class MelodyProviderConfig {
         melodyProviderConfigs.put(2, melodyRhythmProvider);
         melodyProviderConfigs.put(3, melodyRhythmProvider);
         melodyProviderConfigs.put(4, melodyGeneratorProvider);
+        melodyProviderConfigs.put(5, melodyGeneratorProvider);
     }
 
     public MelodyProvider getMelodyProviderForVoice(int voice){

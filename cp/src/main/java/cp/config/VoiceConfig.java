@@ -53,8 +53,9 @@ public class VoiceConfig {
         voiceConfiguration.put(0, homophonicVoice);
         voiceConfiguration.put(1, homophonicVoice);
         voiceConfiguration.put(2, homophonicVoice);
-        voiceConfiguration.put(3, providedVoice);
-        voiceConfiguration.put(4, providedVoice);
+        voiceConfiguration.put(3, homophonicVoice);
+        voiceConfiguration.put(4, homophonicVoice);
+        voiceConfiguration.put(5, melodyVoice);
 
     }
 

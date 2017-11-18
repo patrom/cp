@@ -28,6 +28,7 @@ public class MelodyConfig {
         meldodyConfigs.put(2, melodyDefaultDissonance);
         meldodyConfigs.put(3, melodyDefaultDissonance);
         meldodyConfigs.put(4, melodyDefaultDissonance);
+        meldodyConfigs.put(5, melodyDefaultDissonance);
     }
 
     public MelodyDissonance getMelodyDissonanceForVoice(int voice){

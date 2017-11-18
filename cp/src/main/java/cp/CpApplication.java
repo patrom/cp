@@ -75,6 +75,9 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	@Autowired @Lazy
 	@Qualifier(value="fiveVoiceComposition")
 	private FiveVoiceComposition fiveVoiceComposition;
+	@Autowired @Lazy
+	@Qualifier(value="sixVoiceComposition")
+	private SixVoiceComposition sixVoiceComposition;
 	@Autowired
 	private Orchestrator orchestrator;
 	@Autowired
@@ -113,7 +116,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 
 	private void compose() throws Exception {
 		List<CompositionGenre> composeInGenres = new ArrayList<>();
-		composeInGenres.add(melodyComposition::melody);
+//		composeInGenres.add(melodyComposition::melody);
 
 		//TWO VOICES
 //		composeInGenres.add(twoVoiceComposition::random);
@@ -158,6 +161,9 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(fiveVoiceComposition::harmonize);
 //		composeInGenres.add(fiveVoiceComposition::doubleCanon);
 
+		//SIX VOICE
+		composeInGenres.add(sixVoiceComposition::allRandom);
+
 		for (CompositionGenre compositionGenre : composeInGenres) {
 			composeInGenre.setCompositionGenre(compositionGenre);
 			List<MelodyBlock> melodyBlocks = composeInGenre.composeInGenre();
@@ -176,10 +182,10 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //			    population.sort(Comparator.comparing(MusicSolution::getMelody).thenComparing(MusicSolution::getHarmony));
 			    population.sort(Comparator
 						.comparing(MusicSolution::getHarmony)
-						.thenComparing(MusicSolution::getResolution)
+//						.thenComparing(MusicSolution::getVoiceLeading)
+						.thenComparing(MusicSolution::getRegister)
 						.thenComparing(MusicSolution::getMelody)
-						.thenComparing(MusicSolution::getVoiceLeading)
-			    		.thenComparing(MusicSolution::getRegister));
+			    		.thenComparing(MusicSolution::getResolution));
 
 			    
 			    Iterator<Solution> solutionIterator = population.iterator();
@@ -227,7 +233,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		// Algorithm parameters
 	    int populationSize = 30;
 	    algorithm.setInputParameter("populationSize", populationSize);
-	    algorithm.setInputParameter("maxEvaluations", populationSize * 150);
+	    algorithm.setInputParameter("maxEvaluations", populationSize * 2000);
 	    
 	    // Mutation and Crossover
 	    crossover.setParameter("probabilityCrossover", 1.0); 

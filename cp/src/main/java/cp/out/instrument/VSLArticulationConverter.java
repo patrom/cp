@@ -5,6 +5,7 @@ import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.out.orchestration.template.OrchestralTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -21,6 +22,7 @@ import static cp.out.instrument.InstrumentGroup.WOODWINDS;
 public class VSLArticulationConverter extends MidiEventConverter{
 
     @Autowired
+    @Qualifier(value = "stringQuartetTemplate")
     private OrchestralTemplate orchestralTemplate;
 
     @Override
@@ -39,7 +41,7 @@ public class VSLArticulationConverter extends MidiEventConverter{
                     switch (note.getArticulation()) {
                         case STACCATO:
                         case STACCATISSIMO:
-                            return createMidiEvents(channel, note, 2, 20);
+                            return orchestralTemplate.staccatoSoloStrings(note, channel);
                         case MARCATO:
                         case STRONG_ACCENT:
                             note.setDynamicLevel(Dynamic.PP.getLevel());//reduction level
@@ -55,6 +57,17 @@ public class VSLArticulationConverter extends MidiEventConverter{
 //                    case STRONG_ACCENT:
 //                        note.setDynamicLevel(Dynamic.PP.getLevel());//reduction level
 //                        return createMidiEvents(channel, note, 1, 65);
+                    }
+                    if (note.getTechnical() == Technical.SUL_PONTICELLO){
+                        switch (note.getArticulation()) {
+                            case STACCATO:
+                            case STACCATISSIMO:
+                                return orchestralTemplate.staccatoSulPonticelloOrchestralStrings(note, channel);
+//                    case MARCATO:
+//                    case STRONG_ACCENT:
+//                        note.setDynamicLevel(Dynamic.PP.getLevel());//reduction level
+//                        return createMidiEvents(channel, note, 1, 65);
+                        }
                     }
                     break;
             }
@@ -77,15 +90,15 @@ public class VSLArticulationConverter extends MidiEventConverter{
         if (instrument.getInstrumentGroup() == InstrumentGroup.STRINGS){
             switch (note.getDynamic()) {
                 case FP:
-                    return createMidiEvents(channel, note, 0, 25);
+                    return orchestralTemplate.fortePianoSoloStrings(note, channel);
                 case SFZ:
-                    return createMidiEvents(channel, note, 2, 85);
+                    return orchestralTemplate.sforzandoSoloStrings(note, channel);
             }
         }
         if (instrument.getInstrumentGroup() == InstrumentGroup.ORCHESTRAL_STRINGS){
             switch (note.getDynamic()) {
                 case FP:
-                    return createMidiEvents(channel, note, 0, 25);
+                    return orchestralTemplate.sforzandoOrchestralStrings(note, channel);
             }
         }
         return Collections.emptyList();
@@ -116,12 +129,12 @@ public class VSLArticulationConverter extends MidiEventConverter{
         if (instrument.getInstrumentGroup() == InstrumentGroup.STRINGS){
             switch (note.getTechnical()) {
                 case VIBRATO:
-                    return createMidiEvents(channel, note, 2, 5);
+                    return orchestralTemplate.vibratoSoloStrings(note, channel);
 //                case "molto vibrato":
                 case DETACHE_SHORT:
-                    return createMidiEvents(channel, note, 2, 35);
+                    return orchestralTemplate.detacheSoloStrings(note, channel);
                 case PIZZ:
-                    return createMidiEvents(channel, note, 0, 65);
+                    return orchestralTemplate.pizzicatoSoloStrings(note, channel);
 //                case "con sordino":
 //                case "arco":
 //                case "col legno":
@@ -131,20 +144,20 @@ public class VSLArticulationConverter extends MidiEventConverter{
 //                case "sus":
 //                    return createMidiEvents(channel, note, 0, 5);
                 case TREMELO:
-                    return createMidiEvents(channel, note, 2, 115);
+                    return orchestralTemplate.tremeloSoloStrings(note, channel);
 //                case "sul tasto":
 //                case "con sordino":
 //                case "arco":
 //                case "col legno":
 //                case "slap"://flute/saxophones
                 case STACCATO:
-                    return createMidiEvents(channel, note, 2, 5);
+                    return orchestralTemplate.staccatoSoloStrings(note, channel);
 //                case "staccatissimo":
 //                    return createMidiEvents(channel, note, 0, 5);
                 case LEGATO:
-                    return createMidiEvents(channel, note, 2, 50);
+                    return orchestralTemplate.legatoSoloStrings(note, channel);
                 case PORTATO:
-                    return createMidiEvents(channel, note, 2, 35);
+                    return orchestralTemplate.portatoSoloStrings(note, channel);
             }
         }
         if (instrument.getInstrumentGroup() == InstrumentGroup.ORCHESTRAL_STRINGS){

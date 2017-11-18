@@ -133,7 +133,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
             score.setTitle(xmlFile.getName());
             View.notate(score);
 
-            Sequence sequence = midiDevicesUtil.createSequenceGeneralMidi(melodyInstruments, xmlParser.getBpm(), false);
+            Sequence sequence = midiDevicesUtil.createSequenceGeneralMidi(melodyInstruments, xmlParser.getBpm(), true);
             playOnKontakt(melodyInstruments, sequence, xmlParser.getBpm());
             Resource outResource = new FileSystemResource("");
             midiDevicesUtil.write(sequence, outResource.getFile().getPath()+ "cp/src/main/resources/orch/" + xmlFile.getName() + ".mid");

@@ -178,39 +178,41 @@ public class MidiDevicesUtil {
 //		MidiEvent event = createGeneralMidiEvent(instrument, channel);
 //		track.add(event);
 
-		Track trackMetadata = sequence.createTrack();
-		Dynamic prevDynamic = null;
-		Technical prevTechinal = null;
-		Articulation prevArticulation = null;
-		for (Note note : notes) {
-			if (!note.isRest() && !isKontakt) {
-				Technical technical = note.getTechnical();
-				List<MidiEvent> technicalEvents;
-				if(prevArticulation != note.getArticulation() || prevDynamic != note.getDynamic() || technical != prevTechinal){
-					technicalEvents = midiEventConverter.convertTechnical(channel,note, instrument);
-					for (MidiEvent midiEvent : technicalEvents) {
-						trackMetadata.add(midiEvent);
-					}
-					prevTechinal = technical;
-				}
-				Articulation articulation = note.getArticulation();
-				if (articulation != null) {
-					List<MidiEvent> articulationEvents = midiEventConverter.convertArticulation(channel,note, instrument);
-					for (MidiEvent midiEvent : articulationEvents) {
-						trackMetadata.add(midiEvent);
+		if (!isKontakt) {
+			Track trackMetadata = sequence.createTrack();
+			Dynamic prevDynamic = null;
+			Technical prevTechinal = null;
+			Articulation prevArticulation = null;
+			for (Note note : notes) {
+                if (!note.isRest()) {
+                    Technical technical = note.getTechnical();
+                    List<MidiEvent> technicalEvents;
+                    if(prevArticulation != note.getArticulation() || prevDynamic != note.getDynamic() || technical != prevTechinal){
+                        technicalEvents = midiEventConverter.convertTechnical(channel,note, instrument);
+                        for (MidiEvent midiEvent : technicalEvents) {
+                            trackMetadata.add(midiEvent);
+                        }
+                        prevTechinal = technical;
                     }
-					prevArticulation = articulation;
-				}
+                    Articulation articulation = note.getArticulation();
+                    if (articulation != null) {
+                        List<MidiEvent> articulationEvents = midiEventConverter.convertArticulation(channel,note, instrument);
+                        for (MidiEvent midiEvent : articulationEvents) {
+                            trackMetadata.add(midiEvent);
+                        }
+                        prevArticulation = articulation;
+                    }
 
-				Dynamic dynamic = note.getDynamic();
-				if(dynamic != prevDynamic){
-					List<MidiEvent> dynamicEvents = midiEventConverter.convertDynamic(channel,note, instrument);
-					for (MidiEvent midiEvent : dynamicEvents) {
-						trackMetadata.add(midiEvent);
-					}
-					prevDynamic = dynamic;
-				}
-			}
+                    Dynamic dynamic = note.getDynamic();
+                    if(dynamic != prevDynamic){
+                        List<MidiEvent> dynamicEvents = midiEventConverter.convertDynamic(channel,note, instrument);
+                        for (MidiEvent midiEvent : dynamicEvents) {
+                            trackMetadata.add(midiEvent);
+                        }
+                        prevDynamic = dynamic;
+                    }
+                }
+            }
 		}
 	}
 

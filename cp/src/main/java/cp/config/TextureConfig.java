@@ -62,7 +62,7 @@ public class TextureConfig {
         intervaltypes.add(createDependantHarmony(ChordType.CH2_KLEINE_TERTS_CHR));
 
 //        textureTypes.put(2, intervaltypes);
-        textureTypes.put(0, intervaltypes);
+//        textureTypes.put(0, intervaltypes);
 
         List<DependantHarmony> symmetryChords = new ArrayList<>();
         symmetryChords.add(createDependantHarmony(ChordType.SYMMEETRY, composition.axisHigh,composition.axisLow));

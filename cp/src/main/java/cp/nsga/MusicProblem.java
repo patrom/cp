@@ -56,7 +56,7 @@ public class MusicProblem extends Problem {
 
 		double melodyObjective = 1 - melodyMembershipFunction.membership(1 - objectives.getMelody());
 //		double melodyObjective = 1 - objectives.getMelody();
-		solution.setObjective(1, melodyObjective);// melody
+//		solution.setObjective(1, melodyObjective);// melody
 
 		double rhythmObjective = 1 - objectives.getRhythm();
 		solution.setObjective(2, rhythmObjective);
@@ -72,11 +72,11 @@ public class MusicProblem extends Problem {
 		double register = objectives.getRegister();
 
 		solution.setObjective(5, register);
-		if (objectives.getVoiceleading() > 1 && objectives.getVoiceleading() < 4) {
-			solution.setObjective(1, 0);
-		} else {
-			solution.setObjective(6, objectives.getVoiceleading());
-		}
+//		if (objectives.getVoiceleading() > 1 && objectives.getVoiceleading() < 4) {
+//			solution.setObjective(1, 0);
+//		} else {
+//			solution.setObjective(6, objectives.getVoiceleading());
+//		}
 		
 		// //constraints
 		// objectives[5] = lowestIntervalRegisterValue;

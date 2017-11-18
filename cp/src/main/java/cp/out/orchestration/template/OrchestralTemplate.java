@@ -1,6 +1,7 @@
 package cp.out.orchestration.template;
 
 import cp.model.note.Note;
+import org.springframework.stereotype.Component;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiEvent;
@@ -8,13 +9,19 @@ import javax.sound.midi.ShortMessage;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class OrchestralTemplate {
+@Component(value = "orchestralTemplate")
+public class OrchestralTemplate {
 
+    //Orchestral strings
     public List<MidiEvent> legatoOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
         return null;
     }
 
     public List<MidiEvent> staccatoOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
+        return null;
+    }
+
+    public List<MidiEvent> staccatoSulPonticelloOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
         return null;
     }
 
@@ -42,6 +49,52 @@ public abstract class OrchestralTemplate {
         return null;
     }
 
+    public List<MidiEvent> sforzandoOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
+        return null;
+    }
+
+   //Solo Strings
+    public List<MidiEvent> legatoSoloStrings(Note note, int channel) throws InvalidMidiDataException{
+        return null;
+    }
+
+    public List<MidiEvent> staccatoSoloStrings(Note note, int channel) throws InvalidMidiDataException{
+        return null;
+    }
+
+    public List<MidiEvent> vibratoSoloStrings(Note note, int channel) throws InvalidMidiDataException{
+        return null;
+    }
+
+    public List<MidiEvent> detacheSoloStrings(Note note, int channel) throws InvalidMidiDataException{
+        return null;
+    }
+
+    public List<MidiEvent> sulPonticelloSoloStrings(Note note, int channel) throws InvalidMidiDataException{
+        return null;
+    }
+
+    public List<MidiEvent> tremeloSoloStrings(Note note, int channel) throws InvalidMidiDataException{
+        return null;
+    }
+
+    public List<MidiEvent> pizzicatoSoloStrings(Note note, int channel) throws InvalidMidiDataException{
+        return null;
+    }
+
+    public List<MidiEvent> portatoSoloStrings(Note note, int channel) throws InvalidMidiDataException{
+        return null;
+    }
+
+    public List<MidiEvent> fortePianoSoloStrings(Note note, int channel) throws InvalidMidiDataException{
+        return null;
+    }
+
+    public List<MidiEvent> sforzandoSoloStrings(Note note, int channel) throws InvalidMidiDataException{
+        return null;
+    }
+
+
     public List<MidiEvent> createNote(int pitch, int position, int length, int channel) throws InvalidMidiDataException {
         List<MidiEvent> midiEvents = new ArrayList<>();
         MidiEvent eventOn = createNoteMidiEvent(ShortMessage.NOTE_ON, pitch, position, channel);
@@ -58,10 +111,17 @@ public abstract class OrchestralTemplate {
         return new MidiEvent(shortMessage, position);
     }
 
-    protected List<MidiEvent> getMidiEvents(int program, int keyswitch, Note note, int channel) throws InvalidMidiDataException {
+    protected List<MidiEvent> getKeyswitches(int program, int keyswitch, Note note, int channel) throws InvalidMidiDataException {
         List<MidiEvent> programEvents = createNote(program, note.getPosition(), note.getLength(), channel);
         List<MidiEvent> keyswitchEvents = createNote(keyswitch, note.getPosition(), note.getLength(), channel);
         programEvents.addAll(programEvents.size(), keyswitchEvents);
+        return  programEvents;
+    }
+
+    protected List<MidiEvent> getControllers(int program, int controllerValue, Note note, int channel) throws InvalidMidiDataException {
+        List<MidiEvent> programEvents = createNote(program, note.getPosition(), note.getLength(), channel);
+        MidiEvent controllerEvent = createModulationWheelControllerChangeMidiEvent(channel,controllerValue, note.getPosition());
+        programEvents.add(controllerEvent);
         return  programEvents;
     }
 

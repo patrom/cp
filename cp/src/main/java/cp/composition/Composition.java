@@ -56,6 +56,7 @@ public abstract class Composition {
 	protected Instrument instrument3;
 	protected Instrument instrument4;
 	protected Instrument instrument5;
+	protected Instrument instrument6;
 
 	@Autowired
 	protected ReplaceMelody replaceMelody;
@@ -163,8 +164,8 @@ public abstract class Composition {
 
 	@PostConstruct
 	public void init(){
-		composeInKey(keys.Eflat);
-		inTempo(115);
+		composeInKey(keys.B);
+		inTempo(70);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
 		meterObjective.setComposition(this);
@@ -178,14 +179,14 @@ public abstract class Composition {
 //		instruments = ensemble.getStringQuartet();
 
 		setTimeconfig();
-		end = 8 * getTimeConfig().getMeasureDuration();
+		end = 4 * getTimeConfig().getMeasureDuration();
 		timeLine.setEnd(end);
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
-		timeLineKeys.add(new TimeLineKey(keys.Eflat, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.B, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.Bflat, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.G, Scale.MAJOR_SCALE, 0 ,0));
-		timeLineKeys.add(new TimeLineKey(keys.C, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
+//		timeLineKeys.add(new TimeLineKey(keys.C, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.G, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.Fsharp, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
@@ -197,7 +198,7 @@ public abstract class Composition {
 //		durations.add(DurationConstants.QUARTER);
 //		durations.add(DurationConstants.SIX_EIGHTS);
 //		durations.add(DurationConstants.HALF);
-		durations.add(DurationConstants.THREE_QUARTERS);
+		durations.add(DurationConstants.WHOLE);
 		timeLine.randomKeysAndDurations(timeLineKeys, durations);
 //		timeLine.randomKeys(timeLineKeys, 4 * DurationConstants.SIX_EIGHTS);
 

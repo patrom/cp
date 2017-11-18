@@ -30,6 +30,7 @@ public class TimbreConfig {
         timbreConfig.put(2, new Timbre(Articulation.DETACHED_LEGATO, Technical.PORTATO, Dynamic.F));
         timbreConfig.put(3, new Timbre(Articulation.DETACHED_LEGATO, Technical.PIZZ, Dynamic.MF));
         timbreConfig.put(4, new Timbre(Articulation.DETACHED_LEGATO, Technical.LEGATO, Dynamic.MF));
+        timbreConfig.put(5, new Timbre(Articulation.DETACHED_LEGATO, Technical.LEGATO, Dynamic.MF));
     }
 
     public Timbre getTimbreConfigForVoice(int voice){
