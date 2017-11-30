@@ -95,7 +95,7 @@ public class OrchestralTemplate {
     }
 
 
-    public List<MidiEvent> createNote(int pitch, int position, int length, int channel) throws InvalidMidiDataException {
+    public List<MidiEvent> createKeySwitch(int pitch, int position, int length, int channel) throws InvalidMidiDataException {
         List<MidiEvent> midiEvents = new ArrayList<>();
         MidiEvent eventOn = createNoteMidiEvent(ShortMessage.NOTE_ON, pitch, position, channel);
         midiEvents.add(eventOn);
@@ -111,30 +111,30 @@ public class OrchestralTemplate {
         return new MidiEvent(shortMessage, position);
     }
 
-    protected List<MidiEvent> getKeyswitches(int program, int keyswitch, Note note, int channel) throws InvalidMidiDataException {
-        List<MidiEvent> programEvents = createNote(program, note.getPosition(), note.getLength(), channel);
-        List<MidiEvent> keyswitchEvents = createNote(keyswitch, note.getPosition(), note.getLength(), channel);
-        programEvents.addAll(programEvents.size(), keyswitchEvents);
-        return  programEvents;
-    }
+//    protected List<MidiEvent> getKeyswitches(int program, int keyswitch, Note note, int channel) throws InvalidMidiDataException {
+//        List<MidiEvent> programEvents = createKeySwitch(program, note.getBeforeMidiPosition(), note.getMidiLength(), channel);
+//        List<MidiEvent> keyswitchEvents = createKeySwitch(keyswitch, note.getBeforeMidiPosition(), note.getMidiLength(), channel);
+//        programEvents.addAll(programEvents.size(), keyswitchEvents);
+//        return  programEvents;
+//    }
 
-    protected List<MidiEvent> getControllers(int program, int controllerValue, Note note, int channel) throws InvalidMidiDataException {
-        List<MidiEvent> programEvents = createNote(program, note.getPosition(), note.getLength(), channel);
-        MidiEvent controllerEvent = createModulationWheelControllerChangeMidiEvent(channel,controllerValue, note.getPosition());
+    protected List<MidiEvent> getMidiEvents(int program, int controllerValue, Note note, int channel) throws InvalidMidiDataException {
+        List<MidiEvent> programEvents = createKeySwitch(program, note.getBeforeMidiPosition(), note.getMidiControllerLength(), channel);
+        MidiEvent controllerEvent = createControllerChangeMidiEvent(channel,controllerValue, note.getBeforeMidiPosition());
         programEvents.add(controllerEvent);
         return  programEvents;
     }
 
-    protected List<MidiEvent> createMidiEvents(int channel, Note note, int programChange, int controllerValue) throws InvalidMidiDataException {
-        List<MidiEvent> midiEvents = new ArrayList<>();
-        MidiEvent programEvent = createProgramChangeMidiEvent(channel,programChange, note.getPosition());
-        midiEvents.add(programEvent);
-        MidiEvent controllerEvent = createModulationWheelControllerChangeMidiEvent(channel,controllerValue, note.getPosition());
-        midiEvents.add(controllerEvent);
-        return midiEvents;
-    }
+//    protected List<MidiEvent> createMidiEvents(int channel, Note note, int programChange, int controllerValue) throws InvalidMidiDataException {
+//        List<MidiEvent> midiEvents = new ArrayList<>();
+//        MidiEvent programEvent = createProgramChangeMidiEvent(channel,programChange, note.getBeforeMidiPosition());
+//        midiEvents.add(programEvent);
+//        MidiEvent controllerEvent = createModulationWheelControllerChangeMidiEvent(channel,controllerValue, note.getBeforeMidiPosition());
+//        midiEvents.add(controllerEvent);
+//        return midiEvents;
+//    }
 
-    protected MidiEvent createModulationWheelControllerChangeMidiEvent(int channel, int value, int position)
+    protected MidiEvent createControllerChangeMidiEvent(int channel, int value, int position)
             throws InvalidMidiDataException {
         ShortMessage change = new ShortMessage();
         change.setMessage(ShortMessage.CONTROL_CHANGE, channel, 1, value);

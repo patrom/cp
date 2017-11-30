@@ -6,7 +6,6 @@ import cp.nsga.operator.mutation.MutationOperator;
 import cp.nsga.operator.mutation.melody.Mutators;
 import cp.nsga.operator.relation.Relation;
 import cp.nsga.operator.relation.RelationConfig;
-import cp.util.RandomUtil;
 import jmetal.core.Algorithm;
 import jmetal.core.Problem;
 import jmetal.core.Solution;
@@ -239,8 +238,9 @@ public class NSGAII extends Algorithm {
 	private void mutateOffspring(Solution solution) {
 		CpMelody melodyBlock = getMelodyBlock(solution);
 		List<MutationOperator> mutationOperators = mutators.getMutationOperators(melodyBlock.getMutationType());
-		MutationOperator operator = RandomUtil.getRandomFromList(mutationOperators);
-		operator.execute(melodyBlock);
+		mutationOperators.forEach(mutationOperator -> mutationOperator.execute(melodyBlock));
+//		MutationOperator operator = RandomUtil.getRandomFromList(mutationOperators);
+//		operator.execute(melodyBlock);
 	}
 
 	private CpMelody getMelodyBlock(Solution solution) {

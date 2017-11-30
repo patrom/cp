@@ -1,6 +1,5 @@
 package cp.nsga.operator.mutation.melody;
 
-import cp.config.InstrumentConfig;
 import cp.config.TimbreConfig;
 import cp.model.melody.CpMelody;
 import cp.model.note.Dynamic;
@@ -28,8 +27,6 @@ public class DynamicMutation implements MutationOperator<CpMelody> {
 
     @Autowired
     private TimbreConfig timbreConfig;
-    @Autowired
-    private InstrumentConfig instrumentConfig;
 
     @Autowired
     public DynamicMutation(@Value("${probabilityDynamic}") double probabilityDynamic) {

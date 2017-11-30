@@ -2,7 +2,7 @@ package cp.model.note;
 
 public enum Dynamic {
  
-	 PP(20), P(40), MP(60), MF(80), F(98), FF(113), SFZ(40), FP(40);
+	 PP(20), P(40), MP(60), MF(80), F(98), FF(112), SFZ(40), FP(40);
 	
 	private final int level;
 	

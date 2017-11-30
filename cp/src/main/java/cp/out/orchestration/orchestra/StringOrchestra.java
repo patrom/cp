@@ -1,5 +1,6 @@
 package cp.out.orchestration.orchestra;
 
+import cp.model.humanize.Humanize;
 import cp.model.note.Note;
 import cp.out.instrument.strings.*;
 import cp.out.orchestration.MelodyOrchestration;
@@ -10,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StringOrchestra extends Orchestra {
+
+    private Humanize humanize;
 
     public StringOrchestra() {
         violin1 = new InstrumentMapping(new ViolinsI(), 0, 1);
@@ -64,6 +67,12 @@ public class StringOrchestra extends Orchestra {
                 }
             });
             notesPerVoice.get(melodyOrchestration.getVoice()).addAll(notes);
+
+            humanize.humanize(notes, melodyOrchestration.getInstrument());
         }
+    }
+
+    public void setHumanize(Humanize humanize) {
+        this.humanize = humanize;
     }
 }

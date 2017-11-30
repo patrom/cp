@@ -1,5 +1,6 @@
 package cp.config;
 
+import cp.objective.melody.ChromaticeMelodyDissonance;
 import cp.objective.melody.MelodyDefaultDissonance;
 import cp.objective.melody.MelodyDissonance;
 import cp.objective.melody.PentatonicMelodyDissonance;
@@ -19,12 +20,14 @@ public class MelodyConfig {
     private MelodyDefaultDissonance melodyDefaultDissonance;
     @Autowired
     private PentatonicMelodyDissonance pentatonicMelodyDissonance;
+    @Autowired
+    private ChromaticeMelodyDissonance chromaticeMelodyDissonance;
 
     @PostConstruct
     public void init() {
         //voice!!!
-        meldodyConfigs.put(0, pentatonicMelodyDissonance);
-        meldodyConfigs.put(1, melodyDefaultDissonance);
+        meldodyConfigs.put(0, melodyDefaultDissonance);
+        meldodyConfigs.put(1, chromaticeMelodyDissonance);
         meldodyConfigs.put(2, melodyDefaultDissonance);
         meldodyConfigs.put(3, melodyDefaultDissonance);
         meldodyConfigs.put(4, melodyDefaultDissonance);

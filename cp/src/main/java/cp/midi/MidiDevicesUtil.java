@@ -1,10 +1,14 @@
 package cp.midi;
 
 import cp.config.InstrumentConfig;
+import cp.config.TextureConfig;
+import cp.model.humanize.Humanize;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
+import cp.model.texture.Texture;
+import cp.model.texture.TextureValue;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.Technical;
@@ -30,6 +34,14 @@ public class MidiDevicesUtil {
     private InstrumentConfig instrumentConfig;
     @Autowired
     private MidiEventConverter midiEventConverter;
+	@Autowired
+    private TextureConfig textureConfig;
+	@Autowired
+	private Texture texture;
+    @Autowired
+	private Humanize humanize;
+	@Autowired
+	private MidiEventGenerator midiEventGenerator;
 
 	public void playOnDevice(Sequence sequence, int tempo, MidiDevicePlayer kontakt) {
 		LOGGER.info("tempo:" + tempo);
@@ -69,7 +81,9 @@ public class MidiDevicesUtil {
 					Receiver receiver = device.getReceiver();
 					Transmitter seqTransmitter = sequencer.getTransmitter();
 					seqTransmitter.setReceiver(receiver);
-					sequencer.setTempoInBPM(tempo);
+					if (tempo > 0) {
+						sequencer.setTempoInBPM(tempo);
+					}
 					sequencer.start();
 					break;
 				}
@@ -87,15 +101,6 @@ public class MidiDevicesUtil {
 		for (Entry<InstrumentMapping, List<Note>> entry: map.entrySet()) {
 			InstrumentMapping instrumentMapping = entry.getKey();
 			createTrackGeneralMidi(sequence, entry.getValue(), instrumentMapping.getInstrument(), tempo, instrumentMapping.getChannel(), false);
-		}
-		return sequence;
-	}
-
-	public Sequence createSequenceNotes(List<Note> notes, Instrument instrument, int channel)
-			throws InvalidMidiDataException {
-		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
-		if (!notes.isEmpty()) {
-//			createTrack(sequence, notes, instrument, channel);
 		}
 		return sequence;
 	}
@@ -148,14 +153,13 @@ public class MidiDevicesUtil {
 		return sequence;
 	}
 
-
 	private List<MidiEvent> createTrack(List<Note> notes, int channel)
 			throws InvalidMidiDataException {
         List<MidiEvent> events = new ArrayList<>();
 		for (Note notePos : notes) {
-			MidiEvent eventOn = createNoteMidiEvent(ShortMessage.NOTE_ON, notePos, notePos.getPosition(), channel);
+			MidiEvent eventOn = midiEventGenerator.createNoteMidiEvent(ShortMessage.NOTE_ON, notePos, notePos.getPosition(), channel);
             events.add(eventOn);
-			MidiEvent eventOff = createNoteMidiEvent(ShortMessage.NOTE_OFF, notePos, notePos.getPosition() + notePos.getLength(), channel);
+			MidiEvent eventOff = midiEventGenerator.createNoteMidiEvent(ShortMessage.NOTE_OFF, notePos, notePos.getPosition() + notePos.getLength(), channel);
             events.add(eventOff);
 		}
 		return events;
@@ -166,20 +170,43 @@ public class MidiDevicesUtil {
 		MidiTempo midiTempo = new MidiTempo();
 		MidiEvent midiTempoEvent = midiTempo.getTempoMidiEvent(tempo);
 
+		//Hunmanise notes
+        humanize.humanize(notes, instrument);
+
 		Track trackNotes = sequence.createTrack();
+        Track trackMetadata = sequence.createTrack();
+		TextureValue textureValue = new TextureValue();
 		trackNotes.add(midiTempoEvent);
 		for (Note note : notes) {
-			MidiEvent eventOn = createNoteMidiEvent(ShortMessage.NOTE_ON, note, note.getPosition(), channel);
-			trackNotes.add(eventOn);
-			MidiEvent eventOff = createNoteMidiEvent(ShortMessage.NOTE_OFF, note, note.getPosition() + note.getLength(), channel);
-			trackNotes.add(eventOff);
+            createControllerEvents(channel, trackMetadata, note);
+            createVelocityCrossfadeMidiEvents(channel, trackMetadata, note);
+			createMidiEventsNotes(channel, trackNotes, note);
+
+            if(note.hasTexture()){
+                List<Note> textureNotes = texture.getTextureForNote(note);
+                if (!textureNotes.isEmpty()) {
+					for (int i = 0; i < textureNotes.size(); i++) {
+						textureValue.addTextureNotes(i, textureNotes.get(i));
+					}
+                }
+            }
+		}
+
+		if(!textureValue.getTextureNotesPerLine().isEmpty()){
+			for (Entry<Integer,List<Note>> entry : textureValue.getTextureNotesPerLine().entrySet()) {
+				Track trackTexture = sequence.createTrack();
+				List<Note> textureNotes = entry.getValue();
+                humanize.humanize(textureNotes, instrument);
+				for (Note textureNote : textureNotes) {
+					createMidiEventsNotes(channel, trackTexture, textureNote);
+				}
+			}
 		}
 
 //		MidiEvent event = createGeneralMidiEvent(instrument, channel);
 //		track.add(event);
 
 		if (!isKontakt) {
-			Track trackMetadata = sequence.createTrack();
 			Dynamic prevDynamic = null;
 			Technical prevTechinal = null;
 			Articulation prevArticulation = null;
@@ -188,7 +215,7 @@ public class MidiDevicesUtil {
                     Technical technical = note.getTechnical();
                     List<MidiEvent> technicalEvents;
                     if(prevArticulation != note.getArticulation() || prevDynamic != note.getDynamic() || technical != prevTechinal){
-                        technicalEvents = midiEventConverter.convertTechnical(channel,note, instrument);
+                        technicalEvents = midiEventConverter.convertTechnical(channel, note, instrument);
                         for (MidiEvent midiEvent : technicalEvents) {
                             trackMetadata.add(midiEvent);
                         }
@@ -196,7 +223,7 @@ public class MidiDevicesUtil {
                     }
                     Articulation articulation = note.getArticulation();
                     if (articulation != null) {
-                        List<MidiEvent> articulationEvents = midiEventConverter.convertArticulation(channel,note, instrument);
+                        List<MidiEvent> articulationEvents = midiEventConverter.convertArticulation(channel, note, instrument);
                         for (MidiEvent midiEvent : articulationEvents) {
                             trackMetadata.add(midiEvent);
                         }
@@ -205,7 +232,7 @@ public class MidiDevicesUtil {
 
                     Dynamic dynamic = note.getDynamic();
                     if(dynamic != prevDynamic){
-                        List<MidiEvent> dynamicEvents = midiEventConverter.convertDynamic(channel,note, instrument);
+                        List<MidiEvent> dynamicEvents = midiEventConverter.convertDynamic(channel, note, instrument);
                         for (MidiEvent midiEvent : dynamicEvents) {
                             trackMetadata.add(midiEvent);
                         }
@@ -216,26 +243,37 @@ public class MidiDevicesUtil {
 		}
 	}
 
-	private MidiEvent createGeneralMidiEvent(Instrument instrument, int channel)
-			throws InvalidMidiDataException {
-		ShortMessage change = new ShortMessage();
-		if (instrument.getGeneralMidi() != null) {
-			change.setMessage(ShortMessage.PROGRAM_CHANGE, channel, instrument.getGeneralMidi().getEvent(), 0);
-		}
-		return new MidiEvent(change, 0);
-	}
+    private void createVelocityCrossfadeMidiEvents(int channel, Track track, Note note) throws InvalidMidiDataException {
+        MidiEvent velocityXF = setVelocityXF_On_Off(channel, note);
+        track.add(velocityXF);
+        MidiEvent midiEventVelodityXF = midiEventGenerator.createControllerChangeMidiEvent(channel, 11, note.getMidiVelocity(), note.getBeforeMidiPosition());
+        track.add(midiEventVelodityXF);
+    }
 
-	private MidiEvent createNoteMidiEvent(int cmd, Note notePos, int position, int channel)
-			throws InvalidMidiDataException {
-		ShortMessage note = new ShortMessage();
-		if (notePos.isRest()) {
-			note.setMessage(cmd, channel, 0, 0);
-		} else {
-			note.setMessage(cmd, channel,
-					notePos.getPitch(), notePos.getDynamicLevel());
-		}
+    private MidiEvent setVelocityXF_On_Off(int channel, Note note) throws InvalidMidiDataException {
+        if(note.getHumanization().isLongNote()){//velXF on/off
+            return midiEventGenerator.createControllerChangeMidiEvent(channel, 28, 127, note.getBeforeMidiPosition());
+        } else {
+            return midiEventGenerator.createControllerChangeMidiEvent(channel, 28, 0, note.getBeforeMidiPosition());
+        }
 
-		return new MidiEvent(note, position);
+        //long notes -> create velocity crossfade curve??
+    }
+
+    private void createControllerEvents(int channel, Track track, Note note) throws InvalidMidiDataException {
+        //create atteck
+        MidiEvent midiEventAttack = midiEventGenerator.createControllerChangeMidiEvent(channel, 22, note.getMidiAttack(), note.getBeforeMidiPosition());
+        track.add(midiEventAttack);
+        //create intonation
+        MidiEvent midiEventIntonation = midiEventGenerator.createPitchBendMidiEvent(channel,  note.getMidiIntonation(),  note.getBeforeMidiPosition());
+        track.add(midiEventIntonation);
+    }
+
+    private void createMidiEventsNotes(int channel, Track trackNotes, Note note) throws InvalidMidiDataException {
+		MidiEvent eventOn = midiEventGenerator.createNoteMidiEvent(ShortMessage.NOTE_ON, note, note.getMidiPosition(), channel);
+		trackNotes.add(eventOn);
+		MidiEvent eventOff = midiEventGenerator.createNoteMidiEvent(ShortMessage.NOTE_OFF, note, note.getMidiPosition() + note.getMidiLength(), channel);
+		trackNotes.add(eventOff);
 	}
 
 	public void write(Sequence in, String ouputPath) throws IOException{

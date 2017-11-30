@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Collections.emptyList;
+
 /**
  * Created by prombouts on 26/05/2017.
  */
@@ -40,9 +42,9 @@ public class Texture {
     }
 
     public List<Note> getTextureForNoteBelow(Note note) {
-        List<Note> textureNotes = new ArrayList<>();
         DependantHarmony dependantHarmony = note.getDependantHarmony();
         if(dependantHarmony != null) {
+            List<Note> textureNotes = new ArrayList<>();
             switch (dependantHarmony.getChordType().getSize()) {
                 case -1:
                     textureNotes.add(symmetryNoteDependencyBelow(note));
@@ -59,14 +61,15 @@ public class Texture {
                     throw new IllegalArgumentException("Dependant harmony not set for type: " + dependantHarmony.getChordType());
 
             }
+            return textureNotes;
         }
-        return textureNotes;
+        return emptyList();
     }
 
     public List<Note> getTextureForNoteAbove(Note note) {
-        List<Note> textureNotes = new ArrayList<>();
         DependantHarmony dependantHarmony = note.getDependantHarmony();
         if(dependantHarmony != null) {
+            List<Note> textureNotes = new ArrayList<>();
             switch (dependantHarmony.getChordType().getSize()) {
                 case -1:
                     textureNotes.add(symmetryNoteDependencyAbove(note));
@@ -83,8 +86,9 @@ public class Texture {
                     throw new IllegalArgumentException("Dependant harmony not set for type: " + dependantHarmony.getChordType());
 
             }
+            return textureNotes;
         }
-        return textureNotes;
+        return emptyList();
     }
 
     public List<Note> multiNoteDependency(Note note, boolean octave) {
@@ -168,7 +172,7 @@ public class Texture {
                     intervalSecond = getIntervalClockWise(note.getPitchClass(), pitchClassSecond);
                     break;
                 default:
-                    throw new IllegalArgumentException("Dependant harmony not set for note: " + note);
+                    throw new IllegalArgumentException("Dependant harmony not set for note: " + note.getDependantHarmony().getChordType());
             }
             Note clone = note.clone();
             clone.setPitchClass(pitchClass);
@@ -233,7 +237,7 @@ public class Texture {
 //                    clone.setPitch(Note.REST);
 //                    break;
                 default:
-                    throw new IllegalArgumentException("Dependant harmony not set for note: " + note);
+                    throw new IllegalArgumentException("Dependant harmony not set for note: " + note.getDependantHarmony().getChordType());
             }
             clone.setPitchClass(pitchClass);
             if (octave) {

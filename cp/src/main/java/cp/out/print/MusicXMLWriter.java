@@ -22,7 +22,6 @@ import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-import java.io.FileNotFoundException;
 import java.io.OutputStream;
 import java.util.*;
 import java.util.Map.Entry;
@@ -53,7 +52,7 @@ public class MusicXMLWriter {
 	}
 
 
-	public void createXML(OutputStream outputStream , Map<InstrumentMapping, List<Note>> melodiesForInstrument) throws FactoryConfigurationError, XMLStreamException, FileNotFoundException {
+	public void createXML(OutputStream outputStream , Map<InstrumentMapping, List<Note>> melodiesForInstrument) throws FactoryConfigurationError, XMLStreamException {
 		XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newInstance();
 		xmlStreamWriter = xmlOutputFactory.createXMLStreamWriter(outputStream, "UTF-8");
 
@@ -125,9 +124,7 @@ public class MusicXMLWriter {
 			InstrumentMapping instrumentMapping = instrumentConfig.getInstrumentMappingForVoice(melody.getVoice());
 			melodiesForInstrument.compute(instrumentMapping, (k, v) -> {
 					if (v == null) {
-						List<Note> list = new ArrayList<>();
-						list.addAll(notes);
-						return list;
+						return new ArrayList<>(notes);
 					}else {
 						v.addAll(notes);
 						return v;

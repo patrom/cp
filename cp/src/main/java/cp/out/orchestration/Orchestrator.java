@@ -9,6 +9,7 @@ import cp.combination.uneven.*;
 import cp.config.InstrumentConfig;
 import cp.generator.MusicProperties;
 import cp.midi.MidiDevicesUtil;
+import cp.model.humanize.Humanize;
 import cp.model.note.Note;
 import cp.out.instrument.Articulation;
 import cp.out.orchestration.notetemplate.TwoNoteTemplate;
@@ -83,6 +84,8 @@ public class Orchestrator {
 	private PleasantGreen pleasantGreen;
 	@Autowired
 	private BrilliantWhite brilliantWhite;
+	@Autowired
+	private Humanize humanize;
 
 	public void orchestrate(String id) throws Exception {
 		id = id + "_orch";
@@ -91,6 +94,7 @@ public class Orchestrator {
 		Map<Integer, List<Note>> notesPerVoice = new HashMap<>();
 		//configuration instruments
 		StringOrchestra orchestra = new StringOrchestra();
+		orchestra.setHumanize(humanize);
 		orchestra.setNotesPerVoice(notesPerVoice);
 		orchestra.setViolin(new MelodyOrchestrationBuilder()
 				.setVoice(0)

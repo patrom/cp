@@ -2,17 +2,19 @@ package cp.midi;
 
 import cp.model.note.Note;
 import cp.out.instrument.Instrument;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiEvent;
-import javax.sound.midi.ShortMessage;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by prombouts on 1/04/2017.
  */
 public abstract class MidiEventConverter {
+
+    @Autowired
+    private MidiEventGenerator midiEventGenerator;
 
     public abstract List<MidiEvent> convertArticulation(int channel, Note note, Instrument instrument) throws InvalidMidiDataException;
 
@@ -21,26 +23,7 @@ public abstract class MidiEventConverter {
     public abstract List<MidiEvent> convertTechnical(int channel, Note note, Instrument instrument) throws InvalidMidiDataException;
 
     protected List<MidiEvent> createMidiEvents(int channel, Note note, int programChange, int controllerValue) throws InvalidMidiDataException {
-        List<MidiEvent> midiEvents = new ArrayList<>();
-        MidiEvent programEvent = createProgramChangeMidiEvent(channel,programChange, note.getPosition());
-        midiEvents.add(programEvent);
-        MidiEvent controllerEvent = createModulationWheelControllerChangeMidiEvent(channel,controllerValue, note.getPosition());
-        midiEvents.add(controllerEvent);
-        return midiEvents;
-    }
-
-    protected MidiEvent createModulationWheelControllerChangeMidiEvent(int channel, int value, int position)
-            throws InvalidMidiDataException {
-        ShortMessage change = new ShortMessage();
-        change.setMessage(ShortMessage.CONTROL_CHANGE, channel, 1, value);
-        return new MidiEvent(change, position);
-    }
-
-    protected MidiEvent createProgramChangeMidiEvent(int channel, int program, int position)
-            throws InvalidMidiDataException {
-        ShortMessage change = new ShortMessage();
-        change.setMessage(ShortMessage.PROGRAM_CHANGE, channel, program, 0);
-        return new MidiEvent(change, position);
+        return midiEventGenerator.createMidiEvents(channel, note.getMidiPosition(), programChange, controllerValue);
     }
 
     public List<MidiEvent> defaultConverter(String defaultPlaying, int channel, Note note, Instrument instrument) throws InvalidMidiDataException {

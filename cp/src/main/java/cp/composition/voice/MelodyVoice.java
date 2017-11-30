@@ -13,7 +13,7 @@ public class MelodyVoice extends Voice {
     @PostConstruct
     public void init(){
         setTimeconfig();
-        timeConfig = timeDouble44;
+//        timeConfig = timeDouble44;
 
 //        pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
         pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);

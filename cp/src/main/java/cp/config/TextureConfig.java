@@ -40,9 +40,9 @@ public class TextureConfig {
         chordTypes.add(createDependantHarmony(ChordType.DOM_CHR_1));
         chordTypes.add(createDependantHarmony(ChordType.DOM_CHR_2));
 
-        chordTypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
-        chordTypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
-        chordTypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
+//        chordTypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
+//        chordTypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
+//        chordTypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
 
 
         List<DependantHarmony> intervaltypes = new ArrayList<>();
@@ -62,7 +62,7 @@ public class TextureConfig {
         intervaltypes.add(createDependantHarmony(ChordType.CH2_KLEINE_TERTS_CHR));
 
 //        textureTypes.put(2, intervaltypes);
-//        textureTypes.put(0, intervaltypes);
+//        textureTypes.put(0, chordTypes);
 
         List<DependantHarmony> symmetryChords = new ArrayList<>();
         symmetryChords.add(createDependantHarmony(ChordType.SYMMEETRY, composition.axisHigh,composition.axisLow));

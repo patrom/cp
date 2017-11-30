@@ -20,5 +20,8 @@ public interface DurationConstants {
 	
 	int SIXTEENTH_QUINTUPLET = 24;
 	int EIGHT_QUINTUPLET = 48;
-	
+
+	int TIMING = 3;
+	int DURATION = 4;
+
 }

@@ -13,47 +13,47 @@ public class StringOrchestralTemplate extends OrchestralTemplate{
 
     @Override
     public List<MidiEvent> legatoOrchestralStrings(Note note, int channel) throws InvalidMidiDataException {
-        return getKeyswitches(Pitch.C0, Pitch.C1, note, channel);
+        return getMidiEvents(Pitch.C0, Pitch.C1, note, channel);
     }
 
     @Override
     public List<MidiEvent> staccatoOrchestralStrings(Note note, int channel) throws InvalidMidiDataException {
-        return getKeyswitches(39,27, note, channel);
+        return getMidiEvents(39,27, note, channel);
     }
 
     @Override
     public List<MidiEvent> vibratoOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
-        return getKeyswitches(39,27, note, channel);
+        return getMidiEvents(39,27, note, channel);
     }
 
     @Override
     public List<MidiEvent> detacheOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
-        return getKeyswitches(39,27, note, channel);
+        return getMidiEvents(39,27, note, channel);
     }
 
     @Override
     public List<MidiEvent> sulPonticelloOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
-        return getKeyswitches(39,27, note, channel);
+        return getMidiEvents(39,27, note, channel);
     }
 
     @Override
     public List<MidiEvent> tremeloOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
-        return getKeyswitches(39,27, note, channel);
+        return getMidiEvents(39,27, note, channel);
     }
 
     @Override
     public List<MidiEvent> pizzicatoOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
-        return getKeyswitches(39,27, note, channel);
+        return getMidiEvents(39,27, note, channel);
     }
 
     @Override
     public List<MidiEvent> portatoOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
-        return getKeyswitches(39,27, note, channel);
+        return getMidiEvents(39,27, note, channel);
     }
 
     @Override
     public List<MidiEvent> sforzandoOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
-        return getKeyswitches(39,27, note, channel);
+        return getMidiEvents(39,27, note, channel);
     }
 
     @Override

@@ -55,11 +55,11 @@ public class InstrumentConfig {
 //        instruments = getBrassQuartet();
 //        instruments = getStrinqQuartet();
 //        instruments = getBrassQuintet();
-        instruments = getStrinqSextet();
+//        instruments = getStrinqSextet();
 //        orchestra = getOrchestra();
 //        instruments = getWoodWindsDuo();
 //        instruments = getStringTrio();
-//        instruments = getStringDuo();
+        instruments = getStringDuo();
 //        instruments = getInstrument(5, new Clarinet());
 //        instruments.put(0,new InstrumentMapping(new ViolinSolo() , 3, 0));
 //        for (InstrumentMapping instrumentMapping : instruments.values()) {

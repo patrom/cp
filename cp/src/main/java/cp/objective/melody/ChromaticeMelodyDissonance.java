@@ -8,23 +8,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class PentatonicMelodyDissonance implements MelodyDissonance{
+public class ChromaticeMelodyDissonance implements MelodyDissonance{
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PentatonicMelodyDissonance.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChromaticeMelodyDissonance.class);
 
     public static final Map<Integer,Double> intervalMap = new HashMap<Integer,Double>() {{
         put(0, 0.5); //octaaf
-        put(1, 0.5);
-        put(2, 0.5);
-        put(3, 0.8);
-        put(4, 0.8);
-        put(5, 1.0);
+        put(1, 1.0);
+        put(2, 0.7);
+        put(3, 0.5);
+        put(4, 0.5);
+        put(5, 0.2);
         put(6, 0.2);
-        put(7, 1.0);
-        put(8, 0.5);
-        put(9, 0.5);
-        put(10, 0.2);
-        put(11, 0.2);
+        put(7, 0.2);
+        put(8, 0.1);
+        put(9, 0.1);
+        put(10, 0.1);
+        put(11, 0.1);
 //	    put(12, ); //verminder melodisch gebruik
 //	    put(13, ); // vermijd melodisch - harmonisch
     }};

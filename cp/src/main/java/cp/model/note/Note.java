@@ -2,6 +2,7 @@ package cp.model.note;
 
 import cp.composition.voice.Voice;
 import cp.model.harmony.DependantHarmony;
+import cp.model.humanize.Humanization;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.Technical;
 
@@ -10,7 +11,8 @@ public class Note implements Comparable<Note>{
 
 	/** The pitch value which indicates a rest. */
 	public static final int REST = Integer.MIN_VALUE;
-	   /** default dynamic*/
+	public static final int DEFAULT_INTONATION = 64;
+	/** default dynamic*/
 
 	private int pitch;
 	private int dynamicLevel = Voice.DEFAULT_DYNAMIC_LEVEL;
@@ -55,6 +57,8 @@ public class Note implements Comparable<Note>{
 	
 	private Articulation articulation;
 	private Dynamic dynamic = Voice.DEFAULT_DYNAMIC;
+
+	private Humanization humanization;
 
 	public Note() {
 	}
@@ -110,6 +114,42 @@ public class Note implements Comparable<Note>{
 
 	public int getPosition() {
 		return position;
+	}
+
+	public int getMidiPosition(){
+		int midiPosition = position + humanization.getTiming();
+		if(midiPosition < 0){
+			return position;
+		}
+		return midiPosition;
+    }
+
+	public int getBeforeMidiPosition(){
+		int midiPosition = position + humanization.getTiming() - 1;
+		if(midiPosition < 0){
+			return position;
+		}
+		return midiPosition;
+	}
+
+    public int getMidiLength(){
+		return humanization.getDuration();
+	}
+
+	public int getMidiControllerLength(){
+		return length / 2;
+	}
+
+	public int getMidiAttack(){
+		return humanization.getAttack();
+	}
+
+	public int getMidiVelocity(){
+		return dynamicLevel + humanization.getVelocity();
+	}
+
+	public int getMidiIntonation(){
+		return DEFAULT_INTONATION + humanization.getIntonation();
 	}
 
 	public void setPosition(int position) {
@@ -208,13 +248,14 @@ public class Note implements Comparable<Note>{
 	}
 
 	public int compareTo(Note note) {
-		if (getPosition() < note.getPosition()) {
-			return -1;
-		} if (getPosition() > note.getPosition()) {
-			return 1;
-		} else {
-			return 0;
-		}
+		return Integer.compare(position, note.getPosition());
+//		if (getPosition() < note.getPosition()) {
+//			return -1;
+//		} if (getPosition() > note.getPosition()) {
+//			return 1;
+//		} else {
+//			return 0;
+//		}
 	}
 	
 	@Override
@@ -454,5 +495,17 @@ public class Note implements Comparable<Note>{
 
 	public void setChord(boolean chord) {
 		this.chord = chord;
+	}
+
+	public void setHumanization(Humanization humanization) {
+		this.humanization = humanization;
+	}
+
+	public Humanization getHumanization() {
+		return humanization;
+	}
+
+	public boolean hasTexture(){
+		return dependantHarmony != null;
 	}
 }

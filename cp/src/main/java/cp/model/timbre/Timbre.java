@@ -4,31 +4,33 @@ import cp.model.note.Dynamic;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.Technical;
-import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
-@Component
 public class Timbre {
 
     private Articulation articulation;
-    private Dynamic dynamic = Dynamic.MF;
-    private Technical technical = Technical.LEGATO;
+    private Dynamic dynamic;
+    private Technical technical;
+
+
+    protected List<Articulation> stringArticulations;
+    protected List<Articulation> woodwindArticulations;
+    protected List<Dynamic> dynamics;
+
+    protected List<Technical> woodwindTechnicals;
+    protected List<Technical> stringTechnicals;
 
     public Timbre(Articulation articulation, Technical technical, Dynamic dynamic) {
         this.articulation = articulation;
         this.technical = technical;
         this.dynamic = dynamic;
-    }
 
-    public Timbre() {
-        dynamics = Stream.of(Dynamic.MF, Dynamic.F).collect(toList());
+        dynamics = Stream.of(Dynamic.FF, Dynamic.F).collect(toList());
 
         stringArticulations = Stream.of(
                 Articulation.MARCATO,
@@ -67,20 +69,7 @@ public class Timbre {
 //                Technical.FLUTTER_TONGUE
         ).collect(toList());
 
-        dynamics = Stream.of(
-                Dynamic.F,
-                Dynamic.MF,
-                Dynamic.MP,
-                Dynamic.P
-        ).collect(toList());
     }
-
-    protected List<Articulation> stringArticulations = new ArrayList<>();
-    protected List<Articulation> woodwindArticulations = new ArrayList<>();
-    protected List<Dynamic> dynamics;
-
-    protected List<Technical> woodwindTechnicals = new ArrayList<>();
-    protected List<Technical> stringTechnicals = new ArrayList<>();
 
     public List<Articulation> getArticulations(InstrumentGroup instrumentGroup) {
         switch (instrumentGroup){
@@ -110,16 +99,16 @@ public class Timbre {
         return dynamics;
     }
 
-    public List<Dynamic> getDynamics(InstrumentGroup instrumentGroup) {
-        switch (instrumentGroup){
-            case STRINGS:
-            case ORCHESTRAL_STRINGS:
-            case WOODWINDS:
-            case BRASS:
-                return Arrays.asList(Dynamic.values());
-        }
-        return emptyList();
-    }
+//    public List<Dynamic> getDynamics(InstrumentGroup instrumentGroup) {
+//        switch (instrumentGroup){
+//            case STRINGS:
+//            case ORCHESTRAL_STRINGS:
+//            case WOODWINDS:
+//            case BRASS:
+//                return Arrays.asList(Dynamic.values());
+//        }
+//        return emptyList();
+//    }
 
     public Articulation getArticulation() {
         return articulation;
