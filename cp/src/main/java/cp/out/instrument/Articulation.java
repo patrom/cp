@@ -2,7 +2,10 @@ package cp.out.instrument;
 
 public enum Articulation {
 
+	//VSL
+	PORTAMENTO(""),
 
+	//On note markings
 	//musicXml articulations:
 	MARCATO("accent"),
 	STRONG_ACCENT("strong-accent"),

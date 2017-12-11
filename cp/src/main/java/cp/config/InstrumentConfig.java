@@ -91,8 +91,8 @@ public class InstrumentConfig {
     }
 
     private Map<Integer, InstrumentMapping> getStringDuo(){
-        instruments.put(1,new InstrumentMapping(new ViolinSolo(), 2, 1));
-        instruments.put(0,new InstrumentMapping(new CelloSolo(), 1, 2));
+        instruments.put(1,new InstrumentMapping(new ViolinsI(), 5, 1));
+        instruments.put(0,new InstrumentMapping(new Cello(), 2, 2));
         return instruments;
     }
 

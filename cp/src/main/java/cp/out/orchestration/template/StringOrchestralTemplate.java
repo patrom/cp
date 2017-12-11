@@ -12,52 +12,24 @@ import java.util.List;
 public class StringOrchestralTemplate extends OrchestralTemplate{
 
     @Override
-    public List<MidiEvent> legatoOrchestralStrings(Note note, int channel) throws InvalidMidiDataException {
+    public List<MidiEvent> legato(Note note, int channel) throws InvalidMidiDataException {
         return getMidiEvents(Pitch.C0, Pitch.C1, note, channel);
     }
 
     @Override
-    public List<MidiEvent> staccatoOrchestralStrings(Note note, int channel) throws InvalidMidiDataException {
-        return getMidiEvents(39,27, note, channel);
+    public List<MidiEvent> vibrato(Note note, int channel) throws InvalidMidiDataException{
+        return staccato(note, channel);
     }
 
     @Override
-    public List<MidiEvent> vibratoOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
-        return getMidiEvents(39,27, note, channel);
-    }
-
-    @Override
-    public List<MidiEvent> detacheOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
-        return getMidiEvents(39,27, note, channel);
-    }
-
-    @Override
-    public List<MidiEvent> sulPonticelloOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
-        return getMidiEvents(39,27, note, channel);
-    }
-
-    @Override
-    public List<MidiEvent> tremeloOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
-        return getMidiEvents(39,27, note, channel);
-    }
-
-    @Override
-    public List<MidiEvent> pizzicatoOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
-        return getMidiEvents(39,27, note, channel);
+    public List<MidiEvent> pizzicato(Note note, int channel) throws InvalidMidiDataException{
+        return staccato(note, channel);
     }
 
     @Override
     public List<MidiEvent> portatoOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
-        return getMidiEvents(39,27, note, channel);
+        return staccato(note, channel);
     }
 
-    @Override
-    public List<MidiEvent> sforzandoOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
-        return getMidiEvents(39,27, note, channel);
-    }
 
-    @Override
-    public List<MidiEvent> staccatoSulPonticelloOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
-        return null;
-    }
 }

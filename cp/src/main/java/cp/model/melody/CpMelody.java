@@ -207,6 +207,11 @@ public class CpMelody implements Comparable<CpMelody>{
 			//		notes.forEach(note -> note.setArticulation(Note.DEFAULT_ARTICULATION));//reset?
 			Note note = RandomUtil.getRandomFromList(notesNoRest);
 			note.setArticulation(articulation);
+			switch (note.getDynamic()){
+				case SFZ:
+				case FP:
+					note.setDynamic(null);
+			}
 
 //			Note removeArticulation = RandomUtil.getRandomFromList(notesNoRest);
 //			removeArticulation.setArticulation(null);
@@ -224,6 +229,11 @@ public class CpMelody implements Comparable<CpMelody>{
             for (Note note : sublist) {
                 note.setDynamic(dynamic);
 			    note.setDynamicLevel(dynamic.getLevel());
+			    switch (dynamic){
+					case SFZ:
+					case FP:
+						note.setArticulation(null);
+				}
             }
 
 //            Note removeArticulation = RandomUtil.getRandomFromList(notesNoRest);

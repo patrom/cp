@@ -96,4 +96,31 @@ public class MidiDevicesUtilTest {
         //        midiDevicesUtil.playOnDevice(sequence, 60 , MidiDevicePlayer.KONTAKT );
     }
 
+
+    @Test
+    public void createVelocityCurve(){
+        int notePosition = 0;
+        int noteLength = DurationConstants.QUARTER;
+//        int split = RandomUtil.getRandomNumberInRange(5, noteLength - 10);
+        int split = 110;
+        System.out.println(split);
+        int peakLevel = 10;
+        int positionPerLevelUp =  split / peakLevel;
+        System.out.println(positionPerLevelUp);
+        int positionPerLevelDown = (noteLength - split) / peakLevel;
+        System.out.println(positionPerLevelDown);
+        for (int i = 1; i < peakLevel + 1; i++) {
+            notePosition = notePosition + positionPerLevelUp;
+            System.out.print("level " + i + ", pos :");
+            System.out.println(notePosition);
+        }
+        for (int i = peakLevel - 1; i >= 0; i--) {
+            notePosition = notePosition + positionPerLevelDown;
+            System.out.print("level " + i  + ", pos :");
+            System.out.println(notePosition);
+        }
+    }
+
+
+
 }

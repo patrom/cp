@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiEvent;
-import java.util.Collections;
 import java.util.List;
 
 import static cp.out.instrument.InstrumentGroup.WOODWINDS;
+import static java.util.Collections.emptyList;
 
 /**
  * Created by prombouts on 9/12/2016.
@@ -21,9 +21,290 @@ import static cp.out.instrument.InstrumentGroup.WOODWINDS;
 @Component(value = "vslMidiEventConverter")
 public class VSLArticulationConverter extends MidiEventConverter{
 
+    public static final int PONTICELLO_CC = 50;
+    public static final int CON_SORDINO_CC = 100;
     @Autowired
-    @Qualifier(value = "stringQuartetTemplate")
+    @Qualifier(value = "orchestralTemplate")
     private OrchestralTemplate orchestralTemplate;
+
+    public List<MidiEvent> convertNote(int channel, Note note, Instrument instrument) throws InvalidMidiDataException {
+        if (instrument.getInstrumentGroup() == InstrumentGroup.ORCHESTRAL_STRINGS){
+            switch (note.getTechnical()) {
+                case SENZA_VIBRATO:
+                case ARCO:
+                    if(note.getDynamic() != null){
+                        switch (note.getDynamic()) {
+                            case FP:
+                                return orchestralTemplate.fortePiano(note, channel, 10);
+                            case SFZ:
+                                return orchestralTemplate.sforzando(note, channel,10);
+                        }
+                    }
+                    if(note.getArticulation() != null){
+                        switch (note.getArticulation()) {
+                            case STACCATO:
+                            case STACCATISSIMO:
+                            case SPICCATO:
+                                return orchestralTemplate.staccato(note, channel, 10);
+                            case MARCATO:
+                            case STRONG_ACCENT:
+                                return orchestralTemplate.marcato(note, channel, 10);
+                            case TENUTO:
+                            case DETACHED_LEGATO:
+                                return orchestralTemplate.detache(note, channel, 10);
+                            case PORTAMENTO:
+                                return orchestralTemplate.portamento(note, channel, 10);
+                        }
+                    }
+                    return orchestralTemplate.senzaVibrato(note, channel);
+                case VIBRATO:
+                    if(note.getDynamic() != null){
+                        switch (note.getDynamic()) {
+                            case FP:
+                                return orchestralTemplate.fortePiano(note, channel, 20);
+                            case SFZ:
+                                return orchestralTemplate.sforzando(note, channel,20);
+                        }
+                    }
+                    if(note.getArticulation() != null){
+                        switch (note.getArticulation()) {
+                            case STACCATO:
+                            case STACCATISSIMO:
+                            case SPICCATO:
+                                return orchestralTemplate.staccato(note, channel, 10);
+                            case MARCATO:
+                            case STRONG_ACCENT:
+                                return orchestralTemplate.marcato(note, channel, 10);
+                            case TENUTO:
+                            case DETACHED_LEGATO:
+                                return orchestralTemplate.detache(note, channel, 10);
+                            case PORTAMENTO:
+                                return orchestralTemplate.portamento(note, channel, 10);
+                        }
+                    }
+                    return orchestralTemplate.vibrato(note, channel);
+                case DETACHE_SHORT:
+                    if(note.getDynamic() != null){
+                        switch (note.getDynamic()) {
+                            case FP:
+                                return orchestralTemplate.fortePiano(note, channel, 10);
+                            case SFZ:
+                                return orchestralTemplate.sforzando(note, channel,10);
+                        }
+                    }
+                    if(note.getArticulation() != null){
+                        switch (note.getArticulation()) {
+                            case STACCATO:
+                            case STACCATISSIMO:
+                            case SPICCATO:
+                                return orchestralTemplate.staccato(note, channel, 10);
+                            case MARCATO:
+                            case STRONG_ACCENT:
+                                return orchestralTemplate.marcato(note, channel, 10);
+                            case TENUTO:
+                            case DETACHED_LEGATO:
+                                return orchestralTemplate.detache(note, channel, 10);
+                            case PORTAMENTO:
+                                return orchestralTemplate.portamento(note, channel, 10);
+                        }
+                    }
+                    return orchestralTemplate.detache(note, channel, 10);
+                case LEGATO:
+                    if(note.getDynamic() != null){
+                        switch (note.getDynamic()) {
+                            case FP:
+                                return orchestralTemplate.fortePiano(note, channel, 10);
+                            case SFZ:
+                                return orchestralTemplate.sforzando(note, channel,10);
+                        }
+                    }
+                    if(note.getArticulation() != null){
+                        switch (note.getArticulation()) {
+                            case STACCATO:
+                            case STACCATISSIMO:
+                            case SPICCATO:
+                                return orchestralTemplate.staccato(note, channel, 10);
+                            case MARCATO:
+                            case STRONG_ACCENT:
+                                return orchestralTemplate.marcato(note, channel, 10);
+                            case TENUTO:
+                            case DETACHED_LEGATO:
+                                return orchestralTemplate.detache(note, channel, 10);
+                            case PORTAMENTO:
+                                return orchestralTemplate.portamento(note, channel, 10);
+                        }
+                    }
+                    return orchestralTemplate.legato(note, channel);
+                case TREMELO:
+                    if(note.getDynamic() != null){
+                        switch (note.getDynamic()) {
+                            case FP:
+                                return orchestralTemplate.fortePiano(note, channel, 10);
+                            case SFZ:
+                                return orchestralTemplate.sforzando(note, channel,10);
+                        }
+                    }
+                    if(note.getArticulation() != null){
+                        switch (note.getArticulation()) {
+                            case STACCATO:
+                            case STACCATISSIMO:
+                            case SPICCATO:
+                                return orchestralTemplate.staccato(note, channel, 10);
+                            case MARCATO:
+                            case STRONG_ACCENT:
+                                return orchestralTemplate.marcato(note, channel, 10);
+                            case TENUTO:
+                            case DETACHED_LEGATO:
+                                return orchestralTemplate.detache(note, channel, 10);
+                            case PORTAMENTO:
+                                return orchestralTemplate.portamento(note, channel, 10);
+                        }
+                    }
+                    return orchestralTemplate.tremelo(note, channel, 10);
+                case PIZZ:
+                    if(note.getDynamic() != null){
+                        switch (note.getDynamic()) {
+                            case FP:
+                                return orchestralTemplate.fortePiano(note, channel, 10);
+                            case SFZ:
+                                return orchestralTemplate.sforzando(note, channel,10);
+                        }
+                    }
+                    if(note.getArticulation() != null){
+                        switch (note.getArticulation()) {
+                            case STACCATO:
+                            case STACCATISSIMO:
+                            case SPICCATO:
+                                return orchestralTemplate.staccato(note, channel, 10);
+                            case MARCATO:
+                            case STRONG_ACCENT:
+                                return orchestralTemplate.marcato(note, channel, 10);
+                            case TENUTO:
+                            case DETACHED_LEGATO:
+                                return orchestralTemplate.detache(note, channel, 10);
+                            case PORTAMENTO:
+                                return orchestralTemplate.portamento(note, channel, 10);
+                        }
+                    }
+                    return orchestralTemplate.pizzicato(note, channel);
+                case CON_SORDINO:
+                    if(note.getDynamic() != null){
+                        switch (note.getDynamic()) {
+                            case FP:
+                                return orchestralTemplate.fortePiano(note, channel, CON_SORDINO_CC);
+                            case SFZ:
+                                return orchestralTemplate.sforzando(note, channel,CON_SORDINO_CC);
+                        }
+                    }
+                    if(note.getArticulation() != null){
+                        switch (note.getArticulation()) {
+                            case STACCATO:
+                            case STACCATISSIMO:
+                            case SPICCATO:
+                                return orchestralTemplate.staccato(note, channel, CON_SORDINO_CC);
+                            case MARCATO:
+                            case STRONG_ACCENT:
+                                return orchestralTemplate.marcato(note, channel, CON_SORDINO_CC);
+                            case TENUTO:
+                            case DETACHED_LEGATO:
+                                return orchestralTemplate.detache(note, channel, CON_SORDINO_CC);
+                            case PORTAMENTO:
+                                return orchestralTemplate.portamento(note, channel, CON_SORDINO_CC);
+                        }
+                    }
+                    return orchestralTemplate.conSordino(note, channel, CON_SORDINO_CC);
+//                case "arco":
+//                case "col legno":
+                case SUL_PONTICELLO:
+                    if(note.getDynamic() != null){
+                        switch (note.getDynamic()) {
+                            case FP:
+                                return orchestralTemplate.fortePiano(note, channel, PONTICELLO_CC);
+                            case SFZ:
+                                return orchestralTemplate.sforzando(note, channel, PONTICELLO_CC);
+                        }
+                    }
+                    if(note.getArticulation() != null){
+                        switch (note.getArticulation()) {
+                            case STACCATO:
+                            case STACCATISSIMO:
+                            case SPICCATO:
+                                return orchestralTemplate.staccato(note, channel, PONTICELLO_CC);
+                            case MARCATO:
+                            case STRONG_ACCENT:
+                                return orchestralTemplate.marcato(note, channel, PONTICELLO_CC);
+                            case TENUTO:
+                            case DETACHED_LEGATO:
+                                return orchestralTemplate.detache(note, channel, PONTICELLO_CC);
+                            case PORTAMENTO:
+                                return orchestralTemplate.portamento(note, channel, PONTICELLO_CC);
+                        }
+                    }
+                    return orchestralTemplate.sulPonticello(note, channel, PONTICELLO_CC);
+//                case "progressive vibrato":
+//                case "sus":
+//                    return createMidiEvents(channel, note, 0, 5);
+
+//                case "sul tasto":
+                case COL_LEGNO:
+                    return orchestralTemplate.colLegno(note, channel);
+                case STACCATO:
+                    if(note.getDynamic() != null){
+                        switch (note.getDynamic()) {
+                            case FP:
+                                return orchestralTemplate.fortePiano(note, channel, 10);
+                            case SFZ:
+                                return orchestralTemplate.sforzando(note, channel,10);
+                        }
+                    }
+                    if(note.getArticulation() != null){
+                        switch (note.getArticulation()) {
+                            case STACCATO:
+                            case STACCATISSIMO:
+                            case SPICCATO:
+                                return orchestralTemplate.staccato(note, channel, 10);
+                            case MARCATO:
+                            case STRONG_ACCENT:
+                                return orchestralTemplate.marcato(note, channel, 10);
+                            case TENUTO:
+                            case DETACHED_LEGATO:
+                                return orchestralTemplate.detache(note, channel, 10);
+                            case PORTAMENTO:
+                                return orchestralTemplate.portamento(note, channel, 10);
+                        }
+                    }
+                    return orchestralTemplate.staccato(note, channel ,10);
+                case PORTATO:
+                    if(note.getDynamic() != null){
+                        switch (note.getDynamic()) {
+                            case FP:
+                                return orchestralTemplate.fortePiano(note, channel, 10);
+                            case SFZ:
+                                return orchestralTemplate.sforzando(note, channel,10);
+                        }
+                    }
+                    if(note.getArticulation() != null){
+                        switch (note.getArticulation()) {
+                            case STACCATO:
+                            case STACCATISSIMO:
+                            case SPICCATO:
+                                return orchestralTemplate.staccato(note, channel, 10);
+                            case MARCATO:
+                            case STRONG_ACCENT:
+                                return orchestralTemplate.marcato(note, channel, 10);
+                            case TENUTO:
+                            case DETACHED_LEGATO:
+                                return orchestralTemplate.detache(note, channel, 10);
+                            case PORTAMENTO:
+                                return orchestralTemplate.portamento(note, channel, 10);
+                        }
+                    }
+                    return orchestralTemplate.detache(note, channel, 10);
+            }
+        }
+        return emptyList();
+    }
+
 
     @Override
     public List<MidiEvent> convertArticulation(int channel, Note note, Instrument instrument) throws InvalidMidiDataException {
@@ -52,7 +333,7 @@ public class VSLArticulationConverter extends MidiEventConverter{
                     switch (note.getArticulation()) {
                         case STACCATO:
                         case STACCATISSIMO:
-                            return orchestralTemplate.staccatoOrchestralStrings(note, channel);
+                            return orchestralTemplate.staccato(note, channel,10);
 //                    case MARCATO:
 //                    case STRONG_ACCENT:
 //                        note.setDynamicLevel(Dynamic.PP.getLevel());//reduction level
@@ -62,7 +343,6 @@ public class VSLArticulationConverter extends MidiEventConverter{
                         switch (note.getArticulation()) {
                             case STACCATO:
                             case STACCATISSIMO:
-                                return orchestralTemplate.staccatoSulPonticelloOrchestralStrings(note, channel);
 //                    case MARCATO:
 //                    case STRONG_ACCENT:
 //                        note.setDynamicLevel(Dynamic.PP.getLevel());//reduction level
@@ -72,7 +352,7 @@ public class VSLArticulationConverter extends MidiEventConverter{
                     break;
             }
         }
-        return Collections.emptyList();
+        return emptyList();
     }
 
     @Override
@@ -98,10 +378,10 @@ public class VSLArticulationConverter extends MidiEventConverter{
         if (instrument.getInstrumentGroup() == InstrumentGroup.ORCHESTRAL_STRINGS){
             switch (note.getDynamic()) {
                 case FP:
-                    return orchestralTemplate.sforzandoOrchestralStrings(note, channel);
+//                    return orchestralTemplate.fortePiano(note, channel);
             }
         }
-        return Collections.emptyList();
+        return emptyList();
     }
 
     @Override
@@ -162,39 +442,41 @@ public class VSLArticulationConverter extends MidiEventConverter{
         }
         if (instrument.getInstrumentGroup() == InstrumentGroup.ORCHESTRAL_STRINGS){
             switch (note.getTechnical()) {
+                case SENZA_VIBRATO:
+                    return orchestralTemplate.senzaVibrato(note, channel);
                 case VIBRATO:
-                    return orchestralTemplate.vibratoOrchestralStrings(note, channel);
+                    return orchestralTemplate.vibrato(note, channel);
 //                case "molto vibrato":
                 case DETACHE_SHORT:
-                    return orchestralTemplate.detacheOrchestralStrings(note, channel);
+                    return orchestralTemplate.detache(note, channel, 10);
                 case PIZZ:
-                    return orchestralTemplate.pizzicatoOrchestralStrings(note, channel);
+                    return orchestralTemplate.pizzicato(note, channel);
 //                case "con sordino":
 //                case "arco":
 //                case "col legno":
                 case SUL_PONTICELLO:
-                    return orchestralTemplate.sulPonticelloOrchestralStrings(note, channel);
+                    return orchestralTemplate.sulPonticello(note, channel, PONTICELLO_CC);
 //                case "progressive vibrato":
 //                case "sus":
 //                    return createMidiEvents(channel, note, 0, 5);
                 case TREMELO:
-                    return orchestralTemplate.tremeloOrchestralStrings(note, channel);
+                    return orchestralTemplate.tremelo(note, channel, 10);
 //                case "sul tasto":
 //                case "con sordino":
 //                case "arco":
 //                case "col legno":
 //                case "slap"://flute/saxophones
                 case STACCATO:
-                    return orchestralTemplate.staccatoOrchestralStrings(note, channel);
+                    return orchestralTemplate.staccato(note, channel);
 //                case "staccatissimo":
 //                    return createMidiEvents(channel, note, 0, 5);
                 case LEGATO:
-                    return orchestralTemplate.legatoOrchestralStrings(note, channel);
+                    return orchestralTemplate.legato(note, channel);
                 case PORTATO:
                     return orchestralTemplate.portatoOrchestralStrings(note, channel);
             }
         }
-        return Collections.emptyList();
+        return emptyList();
     }
 
 }

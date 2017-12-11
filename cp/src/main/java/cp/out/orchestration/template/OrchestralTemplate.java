@@ -1,6 +1,9 @@
 package cp.out.orchestration.template;
 
+import cp.midi.MidiEventGenerator;
 import cp.model.note.Note;
+import cp.out.print.note.Pitch;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -12,45 +15,72 @@ import java.util.List;
 @Component(value = "orchestralTemplate")
 public class OrchestralTemplate {
 
+    @Autowired
+    private MidiEventGenerator midiEventGenerator;
+
     //Orchestral strings
-    public List<MidiEvent> legatoOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
-        return null;
+    public List<MidiEvent> legato(Note note, int channel) throws InvalidMidiDataException{
+        return getMidiEvents(Pitch.ds1, 20, note, channel);
     }
 
-    public List<MidiEvent> staccatoOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
-        return null;
+    public List<MidiEvent> staccato(Note note, int channel, int controllerValue) throws InvalidMidiDataException{
+        return getMidiEvents(Pitch.cs1, controllerValue, note, channel);
     }
 
-    public List<MidiEvent> staccatoSulPonticelloOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
-        return null;
+    public List<MidiEvent> marcato(Note note, int channel, int controllerValue) throws InvalidMidiDataException{
+        return getMidiEvents(Pitch.gs1, controllerValue, note, channel);
     }
 
-    public List<MidiEvent> vibratoOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
-        return null;
+    public List<MidiEvent> staccato(Note note, int channel) throws InvalidMidiDataException {
+        return getMidiEvents(39,27, note, channel);
     }
 
-    public List<MidiEvent> detacheOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
-        return null;
+    public List<MidiEvent> vibrato(Note note, int channel) throws InvalidMidiDataException{
+        return getMidiEvents(Pitch.c1, 20, note, channel);
     }
 
-    public List<MidiEvent> sulPonticelloOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
-        return null;
+    public List<MidiEvent> senzaVibrato(Note note, int channel) throws InvalidMidiDataException{
+        return getMidiEvents(Pitch.c1, 10, note, channel);
     }
 
-    public List<MidiEvent> tremeloOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
-        return null;
+    public List<MidiEvent> detache(Note note, int channel, int controllerValue) throws InvalidMidiDataException{
+        return getMidiEvents(Pitch.d1, controllerValue, note, channel);
     }
 
-    public List<MidiEvent> pizzicatoOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
-        return null;
+    public List<MidiEvent> sulPonticello(Note note, int channel, int controllerValue) throws InvalidMidiDataException{
+        return getMidiEvents(Pitch.c1, controllerValue, note, channel);
+    }
+
+    public List<MidiEvent> tremelo(Note note, int channel, int controllerValue) throws InvalidMidiDataException{
+        return getMidiEvents(Pitch.fs1, controllerValue, note, channel);
+    }
+
+    public List<MidiEvent> pizzicato(Note note, int channel) throws InvalidMidiDataException{
+        return getMidiEvents(Pitch.g1, 20, note, channel);
+    }
+
+    public List<MidiEvent> conSordino(Note note, int channel, int controllerValue) throws InvalidMidiDataException{
+        return getMidiEvents(Pitch.a1, controllerValue, note, channel);
+    }
+
+    public List<MidiEvent> colLegno(Note note, int channel) throws InvalidMidiDataException{
+        return getMidiEvents(Pitch.c1, 10 , note, channel);
+    }
+
+    public List<MidiEvent> portamento(Note note, int channel, int controllerValue) throws InvalidMidiDataException{
+        return getMidiEvents(Pitch.as1, controllerValue , note, channel);
     }
 
     public List<MidiEvent> portatoOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
         return null;
     }
 
-    public List<MidiEvent> sforzandoOrchestralStrings(Note note, int channel) throws InvalidMidiDataException{
-        return null;
+    public List<MidiEvent> sforzando(Note note, int channel, int controllerValue) throws InvalidMidiDataException{
+        return getMidiEvents(Pitch.f1, controllerValue, note, channel);
+    }
+
+    public List<MidiEvent> fortePiano(Note note, int channel, int controllerValue) throws InvalidMidiDataException{
+        return getMidiEvents(Pitch.e1, controllerValue, note, channel);
     }
 
    //Solo Strings
@@ -111,30 +141,33 @@ public class OrchestralTemplate {
         return new MidiEvent(shortMessage, position);
     }
 
-//    protected List<MidiEvent> getKeyswitches(int program, int keyswitch, Note note, int channel) throws InvalidMidiDataException {
-//        List<MidiEvent> programEvents = createKeySwitch(program, note.getBeforeMidiPosition(), note.getMidiLength(), channel);
-//        List<MidiEvent> keyswitchEvents = createKeySwitch(keyswitch, note.getBeforeMidiPosition(), note.getMidiLength(), channel);
-//        programEvents.addAll(programEvents.size(), keyswitchEvents);
-//        return  programEvents;
-//    }
-
-    protected List<MidiEvent> getMidiEvents(int program, int controllerValue, Note note, int channel) throws InvalidMidiDataException {
-        List<MidiEvent> programEvents = createKeySwitch(program, note.getBeforeMidiPosition(), note.getMidiControllerLength(), channel);
-        MidiEvent controllerEvent = createControllerChangeMidiEvent(channel,controllerValue, note.getBeforeMidiPosition());
-        programEvents.add(controllerEvent);
-        return  programEvents;
+    protected List<MidiEvent> getProgramSwitches(int program, int controllerValue, Note note, int channel) throws InvalidMidiDataException {
+        ArrayList<MidiEvent> midiEvents = new ArrayList<>();
+        //not working with VEP!!!!
+        MidiEvent programEvent = midiEventGenerator.createProgramChangeMidiEvent(channel, program, note.getBeforeMidiPosition());
+        MidiEvent controllerChangeMidiEvent = midiEventGenerator.createControllerChangeMidiEvent(channel, 1, controllerValue, note.getBeforeMidiPosition());
+        midiEvents.add(programEvent);
+        midiEvents.add(controllerChangeMidiEvent);
+        return  midiEvents;
     }
 
-//    protected List<MidiEvent> createMidiEvents(int channel, Note note, int programChange, int controllerValue) throws InvalidMidiDataException {
-//        List<MidiEvent> midiEvents = new ArrayList<>();
-//        MidiEvent programEvent = createProgramChangeMidiEvent(channel,programChange, note.getBeforeMidiPosition());
-//        midiEvents.add(programEvent);
-//        MidiEvent controllerEvent = createModulationWheelControllerChangeMidiEvent(channel,controllerValue, note.getBeforeMidiPosition());
-//        midiEvents.add(controllerEvent);
-//        return midiEvents;
-//    }
+    protected List<MidiEvent> getMidiEvents(int matrixKeySwitch, int controllerValue, Note note, int channel) throws InvalidMidiDataException {
+        List<MidiEvent> matrixEvents = createKeySwitch(matrixKeySwitch, note.getBeforeMidiPosition(), note.getMidiControllerLength(), channel);
+        MidiEvent controllerEvent = createModulationWheelControllerChangeMidiEvent(channel,controllerValue, note.getBeforeMidiPosition());
+        matrixEvents.add(controllerEvent);
+        return  matrixEvents;
+    }
 
-    protected MidiEvent createControllerChangeMidiEvent(int channel, int value, int position)
+    protected List<MidiEvent> getMidiEvents(int matrixKeySwitch, int keySwitch, int controllerValue, Note note, int channel) throws InvalidMidiDataException {
+        List<MidiEvent> matrixEvents = createKeySwitch(matrixKeySwitch, note.getBeforeMidiPosition(), note.getMidiControllerLength(), channel);
+        List<MidiEvent> programEvents = createKeySwitch(keySwitch, note.getBeforeMidiPosition(), note.getMidiControllerLength(), channel);
+        matrixEvents.addAll(programEvents);
+        MidiEvent controllerEvent = createModulationWheelControllerChangeMidiEvent(channel,controllerValue, note.getBeforeMidiPosition());
+        matrixEvents.add(controllerEvent);
+        return  matrixEvents;
+    }
+
+    protected MidiEvent createModulationWheelControllerChangeMidiEvent(int channel, int value, int position)
             throws InvalidMidiDataException {
         ShortMessage change = new ShortMessage();
         change.setMessage(ShortMessage.CONTROL_CHANGE, channel, 1, value);

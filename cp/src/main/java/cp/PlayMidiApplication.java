@@ -64,7 +64,7 @@ public class PlayMidiApplication extends JFrame implements CommandLineRunner {
     private final ClassicalOrchestra classicalOrchestra = new ClassicalOrchestra();
 
     public static void main(final String[] args) {
-        SpringApplication app = new SpringApplication(PlayApplication.class);
+        SpringApplication app = new SpringApplication(PlayMidiApplication.class);
         app.setBannerMode(Banner.Mode.OFF);
         app.run(args);
     }
@@ -82,7 +82,7 @@ public class PlayMidiApplication extends JFrame implements CommandLineRunner {
             LOGGER.info(midiFile.getName());
             Sequence sequence = MidiSystem.getSequence(midiFile);
             midiDevicesUtil.playOnDevice(sequence, 0, MidiDevicePlayer.KONTAKT);
-            Thread.sleep(50000);
+            Thread.sleep(20000);
 //            MidiInfo midiInfo = midiParser.readMidi(midiFile);
 //            List<MelodyInstrument> parsedMelodies = midiInfo.getMelodies();
 //			musicProperties.setInstruments(Ensemble.getStringQuartet());
