@@ -33,6 +33,7 @@ public class RichBlue extends OrchestralQuality{
 				new Clarinet(new InstrumentRegister(50, 65)),
 				new BassClarinet(new InstrumentRegister(34, 53)),
 				new ViolinsI(new InstrumentRegister(62, 74)),
+				new ViolinsII(new InstrumentRegister(62, 74)),
 				new ViolinSolo(new InstrumentRegister(62, 74)),
 				new Viola(new InstrumentRegister(55, 67)),
 				new ViolaSolo(new InstrumentRegister(55, 67)),

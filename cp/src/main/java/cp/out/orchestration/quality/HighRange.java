@@ -4,6 +4,8 @@ import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.ViolaSolo;
 import cp.out.instrument.strings.ViolinSolo;
+import cp.out.instrument.strings.ViolinsI;
+import cp.out.instrument.strings.ViolinsII;
 import cp.out.instrument.woodwinds.Clarinet;
 import cp.out.instrument.woodwinds.ClarinetEFlat;
 import cp.out.instrument.woodwinds.Flute;
@@ -25,7 +27,8 @@ public class HighRange extends OrchestralQuality {
                 new Flute(range),
                 new ClarinetEFlat(range),
                 new Clarinet(range),
-//                new ViolinsI(new InstrumentRegister(69, 81)),
+                new ViolinsI(range),
+                new ViolinsII(range),
                 new ViolinSolo(range),//TODO Range?
 //                new Viola(new InstrumentRegister(62, 74)),
                 new ViolaSolo(range),

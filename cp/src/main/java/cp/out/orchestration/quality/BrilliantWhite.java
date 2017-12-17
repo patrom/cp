@@ -33,6 +33,7 @@ public class BrilliantWhite extends OrchestralQuality{
 				new Trumpet(new InstrumentRegister(82, 92)),
 //				new Piano(new InstrumentRegister(96, 108)),
 				new ViolinsI(new InstrumentRegister(89, 100)),
+				new ViolinsII(new InstrumentRegister(89, 100)),
 				new ViolinSolo(new InstrumentRegister(89, 100)),
 				new Viola(new InstrumentRegister(81, 93)),
 				new ViolaSolo(new InstrumentRegister(81, 93)),

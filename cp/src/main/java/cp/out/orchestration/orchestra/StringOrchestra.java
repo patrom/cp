@@ -68,7 +68,9 @@ public class StringOrchestra extends Orchestra {
             });
             notesPerVoice.get(melodyOrchestration.getVoice()).addAll(notes);
 
-            humanize.humanize(notes, melodyOrchestration.getInstrument());
+            if (humanize != null) {
+                humanize.humanize(notes, melodyOrchestration.getInstrument());
+            }
         }
     }
 

@@ -7,8 +7,6 @@ import cp.combination.even.ThreeNoteEven;
 import cp.combination.even.TwoNoteEven;
 import cp.combination.uneven.*;
 import cp.config.InstrumentConfig;
-import cp.generator.MusicProperties;
-import cp.midi.MidiDevicesUtil;
 import cp.model.humanize.Humanize;
 import cp.model.note.Note;
 import cp.out.instrument.Articulation;
@@ -17,21 +15,11 @@ import cp.out.orchestration.orchestra.Orchestra;
 import cp.out.orchestration.orchestra.StringOrchestra;
 import cp.out.orchestration.quality.BrilliantWhite;
 import cp.out.orchestration.quality.PleasantGreen;
-import cp.out.play.InstrumentMapping;
-import cp.out.print.MusicXMLWriter;
-import cp.out.print.ScoreUtilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.Sequence;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,16 +28,6 @@ public class Orchestrator {
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(Orchestrator.class);
 
-
-	
-	@Autowired
-	private ScoreUtilities scoreUtilities;
-	@Autowired
-	private MusicXMLWriter musicXMLWriter;
-	@Autowired
-	private MidiDevicesUtil midiDevicesUtil;
-	@Autowired
-	private MusicProperties musicProperties;
 	
 	@Autowired
 	private OneNoteEven oneNoteEven;
@@ -87,11 +65,7 @@ public class Orchestrator {
 	@Autowired
 	private Humanize humanize;
 
-	public void orchestrate(String id) throws Exception {
-		id = id + "_orch";
-
-		//get voices and notes
-		Map<Integer, List<Note>> notesPerVoice = new HashMap<>();
+	public Orchestra orchestrate( Map<Integer, List<Note>> notesPerVoice) throws Exception {
 		//configuration instruments
 		StringOrchestra orchestra = new StringOrchestra();
 		orchestra.setHumanize(humanize);
@@ -106,11 +80,9 @@ public class Orchestrator {
 
 		//execute cofiguration
 		orchestra.execute();
+		return orchestra;
 
-		//play vsl
-		writeMidi(id, orchestra);
-		//generate xml
-		generateMusicXml(id, orchestra.getOrchestra());
+
 
 
 //		for (int i = 0; i < 5; i++) {
@@ -158,16 +130,5 @@ public class Orchestrator {
 //		writeMidi(id, melodiesForInstrument);
 	}
 	
-	private void generateMusicXml(String id, Map<InstrumentMapping, List<Note>> orchestra) throws Exception{
-		Resource resource = new FileSystemResource("");
-		String path = resource.getFile().getPath() + "cp/src/main/resources/xml/";
-		musicXMLWriter.createXML(new FileOutputStream(path  + id + ".xml"), orchestra);
-	}
 
-	private void writeMidi(String id, Orchestra orchestra) throws InvalidMidiDataException, IOException {
-			Sequence sequence = midiDevicesUtil.createSequence(orchestra.getOrchestra(), musicProperties.getTempo());
-			Resource resource = new FileSystemResource("");
-			midiDevicesUtil.write(sequence, resource.getFile().getPath()+ "cp/src/main/resources/orch/" + id + ".mid");
-	}
-	
 }

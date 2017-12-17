@@ -18,7 +18,8 @@ public class Scale {
             DORIAN_SCALE = new Scale(new int[]{0, 2, 3, 5, 7, 9, 10}),	
             LYDIAN_SCALE = new Scale(new int[]{0, 2, 4, 6, 7, 9, 11}),
             MIXOLYDIAN_SCALE = new Scale(new int[]{0, 2, 4, 5, 7, 9, 10}),
-            PENTATONIC_SCALE = new Scale(new int[]{0, 2, 4, 7, 9}),
+            PENTATONIC_SCALE_MAJOR = new Scale(new int[]{0, 2, 4, 7, 9}),
+            PENTATONIC_SCALE_MINOR = new Scale(new int[]{0, 3, 5, 7, 10}),
             BLUES_SCALE = new Scale(new int[]{0, 2, 3, 4, 5, 7, 9, 10, 11}),
             TURKISH_SCALE = new Scale(new int[]{0, 1, 3, 5, 7, 10, 11}),
             INDIAN_SCALE = new Scale(new int[]{0, 1, 1, 4, 5, 8, 10}),
@@ -56,7 +57,9 @@ public class Scale {
 					DORIAN_TRITIONE = new Scale(new int[]{3,5,6,8}),
 			SYMMETRY_1 =  new Scale(new int[]{4,5,7,9}),
 					SYMMETRY_2 =  new Scale(new int[]{10,0,2,3}),
-			Z = new Scale(new int[]{10,3,4,9});
+			Z = new Scale(new int[]{10,3,4,9}),
+
+			MINOR_PART =  new Scale(new int[]{0,2,3,5,7});
 
 			
 	private final Random random = new Random(System.currentTimeMillis());

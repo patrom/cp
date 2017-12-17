@@ -24,6 +24,7 @@ public class MellowPurple extends OrchestralQuality{
 		instruments = Stream.of(
 				new FrenchHorn(new InstrumentRegister(41, 55)),
 				new ViolinsI(new InstrumentRegister(55, 67)),
+				new ViolinsII(new InstrumentRegister(55, 67)),
 				new ViolinSolo(new InstrumentRegister(55, 67)),
 				new Viola(new InstrumentRegister(48, 60)),
 				new ViolaSolo(new InstrumentRegister(48, 60)),

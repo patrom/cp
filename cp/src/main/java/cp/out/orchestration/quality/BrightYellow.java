@@ -36,6 +36,7 @@ public class BrightYellow extends OrchestralQuality{
 				new Clarinet(new InstrumentRegister(77, 82)),
 				new Trumpet(new InstrumentRegister(78, 83)),
 				new ViolinsI(new InstrumentRegister(76, 89)),
+				new ViolinsII(new InstrumentRegister(76, 89)),
 				new ViolinSolo(new InstrumentRegister(76, 89)),
 				new Viola(new InstrumentRegister(69, 81)),
 				new ViolaSolo(new InstrumentRegister(69, 81)),

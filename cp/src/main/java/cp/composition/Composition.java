@@ -166,7 +166,7 @@ public abstract class Composition {
 	@PostConstruct
 	public void init(){
 		composeInKey(keys.C);
-		inTempo(60);
+		inTempo(100);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
 		meterObjective.setComposition(this);
@@ -203,8 +203,10 @@ public abstract class Composition {
 //		timeLine.randomKeysAndDurations(timeLineKeys, durations);
 //		timeLine.randomKeys(timeLineKeys, 4 * DurationConstants.SIX_EIGHTS);
 
-		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,end)),0);
-		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.CHROMATIC_SCALE, 0 ,end)),1);
+		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.E, Scale.PENTATONIC_SCALE_MINOR, 0 ,end)),0);
+		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.A, Scale.MINOR_PART, 0 ,end)),1);
+		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.B, Scale.MINOR_PART, 0 ,end)),2);
+		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.E, Scale.MINOR_PART, 0 ,end)),3);
 //		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.Eflat, Scale.MAJOR_SCALE, 0 ,end)),2);
 //		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(C, Scale.MAJOR_SCALE, 0 ,end)),3);
 //		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(Eflat, Scale.MELODIC_MINOR_SCALE, 0 ,end)),4);

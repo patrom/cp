@@ -56,7 +56,7 @@ public class MidiDevicesUtil {
 //
 //				2- LoopBe Internal MIDI
 				if (info.getName().equals(kontakt.getName())) {
-					LOGGER.info(info.getName());
+//					LOGGER.info(info.getName());
 					final MidiDevice device = MidiSystem.getMidiDevice(info);
 					device.open();
 
@@ -71,13 +71,13 @@ public class MidiDevicesUtil {
 					 */
 					sequencer.addMetaEventListener(new MetaEventListener() {
 						public void meta(MetaMessage event) {//sequencer will close in case of looping files
-							if (event.getType() == 47) {
-								sequencer.close();
-								if (device != null) {
-									device.close();
-								}
-								System.exit(0);
-							}
+//							if (event.getType() == 47) {
+//								sequencer.close();
+//								if (device != null) {
+//									device.close();
+//								}
+//								System.exit(0);
+//							}
 						}
 					});
 					sequencer.open();

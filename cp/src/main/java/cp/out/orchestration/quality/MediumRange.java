@@ -32,7 +32,8 @@ public class MediumRange extends OrchestralQuality {
                 new Clarinet(new InstrumentRegister(50, 72)),
 //                new BassClarinet(new InstrumentRegister(55, 82)),
                 new Bassoon(range),
-//                new ViolinsI(new InstrumentRegister(69, 81)),
+                new ViolinsI(new InstrumentRegister(55, 72)),
+                new ViolinsII(new InstrumentRegister(55, 72)),
                 new ViolinSolo(new InstrumentRegister(55, 72)),//TODO Range?
                 new Viola(range),
                 new ViolaSolo(range),

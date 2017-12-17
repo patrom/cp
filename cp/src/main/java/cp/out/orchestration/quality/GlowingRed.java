@@ -8,6 +8,7 @@ import cp.out.instrument.brass.Trumpet;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.ViolinSolo;
 import cp.out.instrument.strings.ViolinsI;
+import cp.out.instrument.strings.ViolinsII;
 import cp.out.instrument.woodwinds.AltoFlute;
 import cp.out.instrument.woodwinds.CorAnglais;
 import cp.out.instrument.woodwinds.Oboe;
@@ -37,6 +38,7 @@ public class GlowingRed extends OrchestralQuality{
 				new Trombone(new InstrumentRegister(53, 64)),
 				new BassTrombone(new InstrumentRegister(41, 55)),
 				new ViolinsI(new InstrumentRegister(67, 74)),
+				new ViolinsII(new InstrumentRegister(67, 74)),
 				new ViolinSolo(new InstrumentRegister(67, 74))
 				).collect(Collectors.toList());
 	}

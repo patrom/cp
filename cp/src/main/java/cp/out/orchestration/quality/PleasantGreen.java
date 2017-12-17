@@ -34,6 +34,7 @@ public class PleasantGreen extends OrchestralQuality{
 				new BassClarinet(new InstrumentRegister(55, 82)),
 				new Bassoon(new InstrumentRegister(34, 72)),
 				new ViolinsI(new InstrumentRegister(69, 81)),
+				new ViolinsII(new InstrumentRegister(69, 81)),
 				new ViolinSolo(new InstrumentRegister(69, 81)),
 				new Viola(new InstrumentRegister(62, 74)),
 				new ViolaSolo(new InstrumentRegister(62, 74)),

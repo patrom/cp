@@ -37,13 +37,13 @@ public class XMLParser {
     private ParseXMLHeader parseHeaderObj;
     private ParseXMLBody   parseBodyObj;
     private InstrumentConfig instrumentConfig;
+    Dynamic dynamic = null;
 
     public void setInstrumentConfig(InstrumentConfig instrumentConfig) {
         this.instrumentConfig = instrumentConfig;
     }
 
     public void traverse(ArrayList<ElementWrapper> elementWrappers) {
-        Dynamic dynamic = null;
         for (ElementWrapper element : elementWrappers) {
             if (element.getIsComplex()){
                 ArrayList<ElementWrapper> elements = element.getComplexElement().getElements();
@@ -85,7 +85,7 @@ public class XMLParser {
                     if (words != null){
                         note.setTechnical(words);
                     }
-                    dynamic = null;
+//                    dynamic = null;
                     notesPerInstrument.compute(note.getInstrument(), (k, v) -> {
                                 if (v == null) {
                                     List<Note> m = new ArrayList<>();
@@ -138,6 +138,15 @@ public class XMLParser {
 
     public Map<String,List<Note>> getNotesPerInstrument() {
         return notesPerInstrument;
+    }
+
+    public Map<Integer,List<Note>> getNotesPerVoice() {
+        Map<Integer, List<Note>> notesPerVoice = new HashMap<>();
+        for (Map.Entry<String,List<Note>> entry : notesPerInstrument.entrySet()) {
+            int order = Character.getNumericValue(entry.getKey().charAt(1));
+            notesPerVoice.put(order, entry.getValue());
+        }
+        return notesPerVoice;
     }
 
     public int getBpm() {

@@ -55,7 +55,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 	@Autowired
 	private ScoreUtilities scoreUtilities;
 	@Autowired
-	private  Embellisher embellisher;
+	private Embellisher embellisher;
 	@Autowired
 	private Rhythm rhythm;
 	@Autowired
@@ -136,8 +136,18 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
             Sequence sequence = midiDevicesUtil.createSequenceGeneralMidi(melodyInstruments, xmlParser.getBpm(), true);
             playOnKontakt(melodyInstruments, sequence, xmlParser.getBpm());
             Resource outResource = new FileSystemResource("");
-            midiDevicesUtil.write(sequence, outResource.getFile().getPath()+ "cp/src/main/resources/orch/" + xmlFile.getName() + ".mid");
+
+            midiDevicesUtil.write(sequence, outResource.getFile().getPath()+ "cp/src/main/resources/orch/" + removeExtension(xmlFile.getName()) + "orch.mid");
 			Thread.sleep(17000);
+		}
+	}
+
+	private String removeExtension(String filename) {
+		int extensionPos = filename.lastIndexOf('.');
+		if (extensionPos == -1) {
+			return filename;
+		} else {
+			return filename.substring(0, extensionPos);
 		}
 	}
 	

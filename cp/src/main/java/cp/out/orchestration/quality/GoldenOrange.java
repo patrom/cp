@@ -10,6 +10,7 @@ import cp.out.instrument.plucked.Harp;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.ViolinSolo;
 import cp.out.instrument.strings.ViolinsI;
+import cp.out.instrument.strings.ViolinsII;
 import cp.out.instrument.woodwinds.AltoFlute;
 import cp.out.instrument.woodwinds.CorAnglais;
 import cp.out.instrument.woodwinds.Oboe;
@@ -39,6 +40,7 @@ public class GoldenOrange extends OrchestralQuality{
 				new Trombone(new InstrumentRegister(64, 77)),
 				new BassTrombone(new InstrumentRegister(55, 69)),
 				new ViolinsI(new InstrumentRegister(74, 84)),
+				new ViolinsII(new InstrumentRegister(74, 84)),
 				new ViolinSolo(new InstrumentRegister(74, 84)),
 				new Xylophone(new InstrumentRegister(65, 108)),
 				new Harp(new InstrumentRegister(60, 84))

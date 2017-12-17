@@ -35,6 +35,8 @@ public class ColorQualityConfig {
     @Autowired
     private High high;
     @Autowired
+    private HighRange highRange;
+    @Autowired
     private MediumRange mediumRange;
     @Autowired
     private LowRange lowRange;
@@ -44,10 +46,10 @@ public class ColorQualityConfig {
     @PostConstruct
     public void init() {
         //voice!!!
-        orchestralQualities.put(0, pleasantGreen);
-        orchestralQualities.put(1, pleasantGreen);
+        orchestralQualities.put(0, mellowPurple);
+        orchestralQualities.put(1, richBlue);
         orchestralQualities.put(2, richBlue);
-        orchestralQualities.put(3, richBlue);
+        orchestralQualities.put(3, highRange);
         orchestralQualities.put(4, richBlue);
         orchestralQualities.put(5, pleasantGreen);
     }

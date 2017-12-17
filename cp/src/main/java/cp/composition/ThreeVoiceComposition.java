@@ -97,7 +97,7 @@ public class ThreeVoiceComposition extends Composition{
 		OperatorRelation operatorRelation2 = new OperatorRelation(operator);
 		operatorRelation2.setSource(voice0);
 		operatorRelation2.setTarget(voice2);
-		operatorRelation2.setSteps(steps);
+		operatorRelation2.setSteps(steps + steps);
 		operatorRelation2.setTimeLine(timeLine);
 		operatorRelation2.setOffset(offsetVoice2);
 		operatorConfig.addOperatorRelations(operatorRelation2::execute);

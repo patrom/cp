@@ -32,15 +32,25 @@ public class Timbre {
 
         dynamics = Stream.of(Dynamic.FF, Dynamic.F).collect(toList());
 
+//        stringArticulations = Stream.of(
+//                Articulation.MARCATO,
+//                Articulation.STRONG_ACCENT,
+//                Articulation.STACCATO,
+//                Articulation.TENUTO,
+//                Articulation.DETACHED_LEGATO,//a tenuto line and staccato dot
+//                Articulation.STACCATISSIMO,
+//                Articulation.SPICCATO,
+//                Articulation.PORTAMENTO
+//        ).collect(toList());
+        //long notes
         stringArticulations = Stream.of(
                 Articulation.MARCATO,
                 Articulation.STRONG_ACCENT,
-                Articulation.STACCATO,
                 Articulation.TENUTO,
                 Articulation.DETACHED_LEGATO,//a tenuto line and staccato dot
-                Articulation.STACCATISSIMO,
-                Articulation.SPICCATO
+                Articulation.PORTAMENTO
         ).collect(toList());
+
         woodwindArticulations = Stream.of(
                 Articulation.MARCATO,
                 Articulation.STRONG_ACCENT,
@@ -55,8 +65,8 @@ public class Timbre {
                 Technical.PIZZ,
                 Technical.VIBRATO,
                 Technical.PORTATO,
-                Technical.SENZA_VIBRATO,
-                Technical.STACCATO
+                Technical.SENZA_VIBRATO
+//                Technical.STACCATO
 //                Technical.SUL_PONTICELLO
         ).collect(toList());
 
