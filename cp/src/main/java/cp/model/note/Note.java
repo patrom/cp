@@ -350,18 +350,24 @@ public class Note implements Comparable<Note>{
 	}
 
 	public void transposeOctaveUp(){
-		this.pitch = pitch + 12;
-		this.octave = octave + 1;
+		if(this.pitch != REST){
+			this.pitch = pitch + 12;
+			this.octave = octave + 1;
+		}
 	}
 
 	public void transposeOctaveDown(){
-		this.pitch = pitch - 12;
-		this.octave = octave - 1;
+		if(this.pitch != REST){
+			this.pitch = pitch - 12;
+			this.octave = octave - 1;
+		}
 	}
 
 	public void transposeOctave(int octaveDiff){
-		this.pitch = pitch + (octaveDiff * 12);
-		this.octave = octave + octaveDiff;
+		if(this.pitch != REST){
+			this.pitch = pitch + (octaveDiff * 12);
+			this.octave = octave + octaveDiff;
+		}
 	}
 
 	

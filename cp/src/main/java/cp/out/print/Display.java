@@ -75,7 +75,11 @@ public class Display {
 	}
 
 	private void printHarmonies(List<CpHarmony> harmonies) {
-		harmonies.forEach(h -> LOGGER.info(h.getChord() + ", " + h.getHarmonyWeight() + ", pos: " + h.getPosition() + ", register: " + h.getRegister(60)));
+		harmonies.forEach(h -> LOGGER.info(h.getChord()
+				+ ", additive: " + h.getAdditiveChord()
+				+ ", weight: " + h.getHarmonyWeight()
+				+ ", pos: " + h.getPosition()
+				+ ", register: " + h.getRegister(60)));
 		// harmonies.forEach(h -> LOGGER.info(h.getNotes() + ", "));
 	}
 

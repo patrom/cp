@@ -8,6 +8,7 @@ import cp.out.play.InstrumentMapping;
 import cp.util.RandomUtil;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -113,7 +114,7 @@ public class Orchestra {
 	}
 
 	public Map<InstrumentMapping, List<Note>> getOrchestra() {
-		return map;
+		return map.entrySet().stream().filter(p -> !p.getValue().isEmpty()).collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
 	}
 
 	public List<Note> getNotes(InstrumentMapping instrumentMapping) {
@@ -413,9 +414,7 @@ public class Orchestra {
 		if (optionalInstrument.isPresent()) {
 			map.compute(optionalInstrument.get(), (k, v) -> {
 				if (v == null) {
-					List<Note> list = new ArrayList<>();
-					list.addAll(notes);
-					return list;
+					return new ArrayList<>(notes);
 				} else {
 					v.addAll(notes);
 					return v;
@@ -455,5 +454,9 @@ public class Orchestra {
 
 	public void setNotesPerVoice(Map<Integer, List<Note>> notesPerVoice) {
 		this.notesPerVoice = notesPerVoice;
+	}
+
+	public Map<Integer, List<Note>> getNotesPerVoice() {
+		return notesPerVoice;
 	}
 }

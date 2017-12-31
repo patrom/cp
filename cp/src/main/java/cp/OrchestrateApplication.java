@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Import({DefaultConfig.class, VariationConfig.class})
 public class OrchestrateApplication extends JFrame implements CommandLineRunner {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OrchestrateApplication.class.getName());
@@ -58,7 +60,6 @@ public class OrchestrateApplication extends JFrame implements CommandLineRunner 
 
     @Override
     public void run(String... arg0) throws Exception {
-
         final Resource resource = new FileSystemResource("cp/src/main/resources/xml");
         File dir = resource.getFile();
         for (File xmlFile : dir.listFiles()) {
@@ -73,10 +74,10 @@ public class OrchestrateApplication extends JFrame implements CommandLineRunner 
 
             Orchestra orchestra = orchestrator.orchestrate(notesPerInstrument);
 
-            String id = removeExtension(xmlFile.getName()) + "orchestrated.mid";
+            String id = removeExtension(xmlFile.getName()) + "_orchestrated";
             //XML
             Resource resourceOrch = new FileSystemResource("");
-            String path = resource.getFile().getPath() + "cp/src/main/resources/orch/";
+            String path = resourceOrch.getFile().getPath() + "cp/src/main/resources/orch/";
             musicXMLWriter.createXML(new FileOutputStream(path  + id + ".xml"), orchestra.getOrchestra());
             //midi
             Sequence sequence = midiDevicesUtil.createSequence(orchestra.getOrchestra(), xmlParser.getBpm());
@@ -87,6 +88,7 @@ public class OrchestrateApplication extends JFrame implements CommandLineRunner 
             //            Score score = scoreUtilities.createScoreFromMelodyInstrument(melodyInstruments, xmlParser.getBpm());
 //            score.setTitle(xmlFile.getName());
 //            View.notate(score);
+            Thread.sleep(17000);
         }
     }
 

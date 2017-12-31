@@ -11,8 +11,8 @@ public class Time44 extends TimeConfig{
 	@Override
 	public void init() {
 		super.init();
-		BeatGroup defaultGroup6 = beatGroupFactory.getBeatGroupEven(DurationConstants.EIGHT);
-		BeatGroup defaultGroup12 = beatGroupFactory.getBeatGroupEven(DurationConstants.QUARTER);
+		BeatGroup defaultGroup6 = beatGroupFactory.getBeatGroupEven(DurationConstants.EIGHT);// X 2
+		BeatGroup defaultGroup12 = beatGroupFactory.getBeatGroupEven(DurationConstants.QUARTER);// X 2
 		allBeatgroups.add(defaultGroup6);
 		allBeatgroups.add(defaultGroup12);
 		minimumLength = DurationConstants.QUARTER;

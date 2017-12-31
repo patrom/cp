@@ -171,6 +171,39 @@ public class Texture {
                     pitchClassSecond = (note.getPitchClass() + 9) % 12;
                     intervalSecond = getIntervalClockWise(note.getPitchClass(), pitchClassSecond);
                     break;
+
+
+
+                //Interval between octave
+                case CH2_GROTE_TERTS_OCTAVE:
+                    pitchClass = getDependantPitchClass(note, 2);
+                    interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
+                case CH2_GROTE_SIXT_OCTAVE:
+                    pitchClass = getDependantPitchClass(note, 5);
+                    interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
+                case CH2_KWART_OCTAVE:
+                    pitchClass = getDependantPitchClass(note, 3);
+                    interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
+                case CH2_KWINT_OCTAVE:
+                    pitchClass = getDependantPitchClass(note, 4);
+                    interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
+//                case CH2_TRITONE_CHR:
+//                case CH2_GROTE_TERTS_CHR:
+//                case CH2_KLEINE_TERTS_CHR:
+//                case CH2_GROTE_SIXT_CHR:
+//                case CH2_KLEINE_SIXT_CHR:
+//                    interval = note.getDependantHarmony().getChordType().getInterval();
+//                    pitchClass = (note.getPitchClass() + interval) % 12;
+
+                    //octave
+                    if (octave) {
+                        intervalSecond = 0;
+                    }else{
+                        intervalSecond = 12;
+                    }
+                    pitchClassSecond = note.getPitchClass();
+                    break;
+
                 default:
                     throw new IllegalArgumentException("Dependant harmony not set for note: " + note.getDependantHarmony().getChordType());
             }
@@ -212,7 +245,6 @@ public class Texture {
                     pitchClass = getDependantPitchClass(note, 2);
                     interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
                     break;
-
                 case CH2_GROTE_SIXT:
                     pitchClass = getDependantPitchClass(note, 5);
                     interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
@@ -232,6 +264,14 @@ public class Texture {
                 case CH2_KLEINE_SIXT_CHR:
                     interval = note.getDependantHarmony().getChordType().getInterval();
                     pitchClass = (note.getPitchClass() + interval) % 12;
+                    break;
+                case CH2_OCTAVE:
+                    if (octave) {
+                        interval = 0;
+                    }else{
+                        interval = 12;
+                    }
+                    pitchClass = note.getPitchClass();
                     break;
 //                case NO_INTERVALS:
 //                    clone.setPitch(Note.REST);

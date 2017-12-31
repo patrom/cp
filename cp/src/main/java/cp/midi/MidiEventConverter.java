@@ -16,12 +16,6 @@ public abstract class MidiEventConverter {
     @Autowired
     private MidiEventGenerator midiEventGenerator;
 
-    public abstract List<MidiEvent> convertArticulation(int channel, Note note, Instrument instrument) throws InvalidMidiDataException;
-
-    public abstract List<MidiEvent> convertDynamic(int channel, Note note, Instrument instrument) throws InvalidMidiDataException;
-
-    public abstract List<MidiEvent> convertTechnical(int channel, Note note, Instrument instrument) throws InvalidMidiDataException;
-
     protected List<MidiEvent> createMidiEvents(int channel, Note note, int programChange, int controllerValue) throws InvalidMidiDataException {
         return midiEventGenerator.createMidiEvents(channel, note.getMidiPosition(), programChange, controllerValue);
     }

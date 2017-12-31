@@ -8,8 +8,9 @@ import cp.combination.even.TwoNoteEven;
 import cp.combination.uneven.*;
 import cp.config.InstrumentConfig;
 import cp.model.humanize.Humanize;
+import cp.model.note.Dynamic;
 import cp.model.note.Note;
-import cp.out.instrument.Articulation;
+import cp.out.instrument.Technical;
 import cp.out.orchestration.notetemplate.TwoNoteTemplate;
 import cp.out.orchestration.orchestra.Orchestra;
 import cp.out.orchestration.orchestra.StringOrchestra;
@@ -65,17 +66,50 @@ public class Orchestrator {
 	@Autowired
 	private Humanize humanize;
 
-	public Orchestra orchestrate( Map<Integer, List<Note>> notesPerVoice) throws Exception {
+	public Orchestra orchestrate( Map<Integer, List<Note>> notesPerVoice) {
 		//configuration instruments
 		StringOrchestra orchestra = new StringOrchestra();
-		orchestra.setHumanize(humanize);
+//		orchestra.setHumanize(humanize);
 		orchestra.setNotesPerVoice(notesPerVoice);
-		orchestra.setViolin(new MelodyOrchestrationBuilder()
-				.setVoice(0)
-				.setArticulation(Articulation.STACCATO)
-				.setTechnical(null)
+		Technical technical = Technical.PIZZ   ;
+		orchestra.setViolinsI(new MelodyOrchestrationBuilder()
+				.setVoice(0)//order in score!!!
+//				.setArticulation(Articulation.MARCATO  )
+				.setTechnical(Technical.PIZZ  )
+				.setDynamic(Dynamic.F)
+//				.setOrchestralQuality(pleasantGreen)
+				.setOrchestralTechnique(null));
+
+		orchestra.setViolinsII(new MelodyOrchestrationBuilder()
+				.setVoice(1)
+//				.setArticulation(Articulation.DETACHED_LEGATO   )
+				.setTechnical(technical  )
+//				.setDynamic(Dynamic.F)
+//				.setOrchestralQuality(pleasantGreen)
+				.setOrchestralTechnique(null));
+
+		orchestra.setViolas(new MelodyOrchestrationBuilder()
+				.setVoice(2)
+//				.setArticulation(Articulation.STACCATO)
+				.setTechnical(Technical.PIZZ)
 				.setDynamic(null)
-				.setOrchestralQuality(pleasantGreen)
+//				.setOrchestralQuality(pleasantGreen)
+				.setOrchestralTechnique(null));
+
+		orchestra.setCellos(new MelodyOrchestrationBuilder()
+				.setVoice(3)
+//				.setArticulation(Articulation.MARCATO)
+				.setTechnical(technical)
+//				.setDynamic(Dynamic.F)
+//				.setOrchestralQuality(pleasantGreen)
+				.setOrchestralTechnique(null));
+
+		orchestra.setBasses(new MelodyOrchestrationBuilder()
+				.setVoice(4)
+//				.setArticulation(Articulation.STACCATO)
+				.setTechnical(Technical.PIZZ  )
+				.setDynamic(null)
+//				.setOrchestralQuality(pleasantGreen)
 				.setOrchestralTechnique(null));
 
 		//execute cofiguration

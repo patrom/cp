@@ -59,7 +59,8 @@ public class Scale {
 					SYMMETRY_2 =  new Scale(new int[]{10,0,2,3}),
 			Z = new Scale(new int[]{10,3,4,9}),
 
-			MINOR_PART =  new Scale(new int[]{0,2,3,5,7});
+			MINOR_PART =  new Scale(new int[]{0,2,3,5,7}),
+			BARTOK_CONCERTO =  new Scale(new int[]{0,3,4,7,8,11});
 
 			
 	private final Random random = new Random(System.currentTimeMillis());

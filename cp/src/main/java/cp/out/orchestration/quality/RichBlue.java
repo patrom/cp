@@ -40,6 +40,7 @@ public class RichBlue extends OrchestralQuality{
 				new Cello(new InstrumentRegister(43, 55)),
 				new CelloSolo(new InstrumentRegister(43, 55)),
 				new DoubleBass(new InstrumentRegister(38, 55)),
+				new DoublebassSolo(new InstrumentRegister(38, 55)),
 				new Piano(new InstrumentRegister(55, 72)),
 				new Glockenspiel(new InstrumentRegister(77, 87)),
 				new Celesta(new InstrumentRegister(60, 72)),

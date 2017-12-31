@@ -1,6 +1,5 @@
 package cp.out.orchestration.orchestra;
 
-import cp.model.humanize.Humanize;
 import cp.model.note.Note;
 import cp.out.instrument.strings.*;
 import cp.out.orchestration.MelodyOrchestration;
@@ -12,23 +11,17 @@ import java.util.List;
 
 public class StringOrchestra extends Orchestra {
 
-    private Humanize humanize;
-
     public StringOrchestra() {
-        violin1 = new InstrumentMapping(new ViolinsI(), 0, 1);
-        violin2 = new InstrumentMapping(new ViolinsII(), 1, 2);
-        viola = new InstrumentMapping(new Viola(), 2, 3);
-        cello = new InstrumentMapping(new Cello(), 3, 4);
-        bass = new InstrumentMapping(new DoubleBass(), 4, 5);
+        violin1 = new InstrumentMapping(new ViolinsI(), 5, 0);
+        violin2 = new InstrumentMapping(new ViolinsII(), 4, 1);
+        viola = new InstrumentMapping(new Viola(), 3, 2);
+        cello = new InstrumentMapping(new Cello(), 2, 3);
+        bass = new InstrumentMapping(new DoubleBass(), 1, 4);
         map.put(violin1, new ArrayList<>());
         map.put(violin2, new ArrayList<>());
         map.put(viola, new ArrayList<>());
         map.put(cello, new ArrayList<>());
         map.put(bass, new ArrayList<>());
-    }
-
-    public void setViolin(MelodyOrchestrationBuilder melodyOrchestrationBuilder){
-        melodyOrchestrations.add(melodyOrchestrationBuilder.setInstrument(violin1.getInstrument()).createMelodyOrchestration());
     }
 
     public void execute(){
@@ -66,15 +59,30 @@ public class StringOrchestra extends Orchestra {
                     note.setDynamic(melodyOrchestration.getDynamic());
                 }
             });
-            notesPerVoice.get(melodyOrchestration.getVoice()).addAll(notes);
-
-            if (humanize != null) {
-                humanize.humanize(notes, melodyOrchestration.getInstrument());
-            }
+            InstrumentMapping mapping = map.keySet().stream().filter(instrumentMapping -> instrumentMapping.getInstrument().equals(melodyOrchestration.getInstrument()))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException("No instrument found in map"));
+            map.get(mapping).addAll(notes);
         }
     }
 
-    public void setHumanize(Humanize humanize) {
-        this.humanize = humanize;
+    public void setViolinsI(MelodyOrchestrationBuilder melodyOrchestrationBuilder){
+        melodyOrchestrations.add(melodyOrchestrationBuilder.setInstrument(violin1.getInstrument()).createMelodyOrchestration());
+    }
+
+    public void setViolinsII(MelodyOrchestrationBuilder melodyOrchestrationBuilder){
+        melodyOrchestrations.add(melodyOrchestrationBuilder.setInstrument(violin2.getInstrument()).createMelodyOrchestration());
+    }
+
+    public void setViolas(MelodyOrchestrationBuilder melodyOrchestrationBuilder){
+        melodyOrchestrations.add(melodyOrchestrationBuilder.setInstrument(viola.getInstrument()).createMelodyOrchestration());
+    }
+
+    public void setCellos(MelodyOrchestrationBuilder melodyOrchestrationBuilder){
+        melodyOrchestrations.add(melodyOrchestrationBuilder.setInstrument(cello.getInstrument()).createMelodyOrchestration());
+    }
+
+    public void setBasses(MelodyOrchestrationBuilder melodyOrchestrationBuilder){
+        melodyOrchestrations.add(melodyOrchestrationBuilder.setInstrument(bass.getInstrument()).createMelodyOrchestration());
     }
 }

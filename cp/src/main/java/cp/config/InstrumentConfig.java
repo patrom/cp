@@ -42,10 +42,11 @@ public class InstrumentConfig {
 
     @PostConstruct
     public void instrumentInit(){
-//        Piano piano = new Piano();
-//        instruments.put(0,new InstrumentMapping(piano, 2, 0));
-//        instruments.put(1,new InstrumentMapping(piano, 3, 1));
-//        instruments.put(2,new InstrumentMapping(piano, 4, 2));
+        Piano piano = new Piano();
+        instruments.put(0,new InstrumentMapping(piano, 1, 0));
+        instruments.put(1,new InstrumentMapping(piano, 1, 1));
+        instruments.put(2,new InstrumentMapping(piano, 1, 2));
+        instruments.put(3,new InstrumentMapping(piano, 1, 3));
 //        instruments = getSAATBChoir();
 //        instruments.put(0,new InstrumentMapping(new ViolinSolo() , 3, 0));
 //        instruments = getPianoAndStrinqQuartet(pleasantGreen, mellowPurple, richBlue);
@@ -54,7 +55,8 @@ public class InstrumentConfig {
 //        instruments = getBrassTrio();
 //        instruments = getBrassQuartet();
 //        instruments = getStrinqQuartet();
-        instruments = getStrinqQuartetOrchestral();
+//        instruments = getStrinqQuartetOrchestral();
+//        instruments = getStrinqQuintetOrchestral();
 //        instruments = getBrassQuintet();
 //        instruments = getStrinqSextet();
 //        orchestra = getOrchestra();
@@ -134,6 +136,15 @@ public class InstrumentConfig {
         instruments.put(2, new InstrumentMapping(new ViolinsII(), 4, 1));
         instruments.put(1, new InstrumentMapping(new Viola(), 3, 2));
         instruments.put(0, new InstrumentMapping(new Cello(), 2, 3));
+        return instruments;
+    }
+
+    public Map<Integer, InstrumentMapping> getStrinqQuintetOrchestral() {
+        instruments.put(4, new InstrumentMapping(new ViolinsI(), 5, 0));
+        instruments.put(3, new InstrumentMapping(new ViolinsII(), 4, 1));
+        instruments.put(2, new InstrumentMapping(new Viola(), 3, 2));
+        instruments.put(1, new InstrumentMapping(new Cello(), 2, 3));
+        instruments.put(0, new InstrumentMapping(new DoubleBass(), 1, 4));
         return instruments;
     }
 

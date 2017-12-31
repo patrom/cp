@@ -18,7 +18,7 @@ public class TimeVoice extends Voice {
     @PostConstruct
     public void init(){
         setTimeconfig();
-        timeConfig = timeRandom;
+        timeConfig = time24;
 
 //        evenRhythmCombinationsPerNoteSize = fixedEven;
 //        unevenRhythmCombinationsPerNoteSize = getWaltzBeatGroups();

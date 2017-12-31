@@ -5,6 +5,8 @@ import cp.out.instrument.percussion.Marimba;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.Cello;
 import cp.out.instrument.strings.CelloSolo;
+import cp.out.instrument.strings.DoubleBass;
+import cp.out.instrument.strings.DoublebassSolo;
 import cp.out.instrument.woodwinds.Bassoon;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +33,8 @@ public class LowRange extends  OrchestralQuality {
 //                new Cello(new InstrumentRegister(50, 61)),
                 new CelloSolo(range),
                 new Cello(range),
+                new DoubleBass(range),
+                new DoublebassSolo(range),
                 new Marimba(range),
 //                new DoubleBass(new InstrumentRegister(43, 49)),
 //                new Glockenspiel(new InstrumentRegister(87, 103)),

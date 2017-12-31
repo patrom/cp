@@ -18,7 +18,7 @@ public class BassVoice extends Voice {
     @PostConstruct
     public void init(){
         setTimeconfig();
-//        timeConfig = timeDouble44;
+        timeConfig = timeDouble44;
 
         evenRhythmCombinationsPerNoteSize = getBassVoice();
         unevenRhythmCombinationsPerNoteSize = getBassVoice();

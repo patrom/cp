@@ -16,8 +16,8 @@ public class TonalDissonance implements Dissonance {
 		int size = harmony.getChord().getPitchClassSet().size();
 		switch (size){
 			case 2:
-//				return dyadic(harmony.getChord());
-                return 0;
+				return dyadic(harmony.getChord());
+//                return 0;
 			case 3:
 				return trichordal(harmony.getChord());
 //                return 0;
@@ -25,7 +25,8 @@ public class TonalDissonance implements Dissonance {
 				return tetrachordal(harmony.getChord());
 //                return 0;
 			case 5:
-				return pentaChordal(harmony);
+//				return pentaChordal(harmony);
+                return 0;
 			case 6:
 //                LOGGER.info("6 chord");
 				return 0;
@@ -76,22 +77,22 @@ public class TonalDissonance implements Dissonance {
 
 	private double tetrachordal(Chord chord) {
 		switch (chord.getChordType()) {
-			case MAJOR7:
-				return 0.99;
-			case MAJOR7_1:
-				return 0.98;
-			case MAJOR7_2:
-				return 0.97;
-			case MAJOR7_3:
-				return 0.95;
+//			case MAJOR7:
+//				return 0.99;
+//			case MAJOR7_1:
+//				return 0.98;
+//			case MAJOR7_2:
+//				return 0.97;
+//			case MAJOR7_3:
+//				return 0.95;
 			case MINOR7:
 				return 0.99;
-			case MINOR7_1:
-				return 0.98;
-			case MINOR7_2:
-				return 0.97;
-			case MINOR7_3:
-				return 0.97;
+//			case MINOR7_1:
+//				return 0.98;
+//			case MINOR7_2:
+//				return 0.97;
+//			case MINOR7_3:
+//				return 0.97;
 			case DOM7:
 				return 1.0;
 			case HALFDIM7:
@@ -128,13 +129,13 @@ public class TonalDissonance implements Dissonance {
 			case MAJOR_1:
 				return 0.9;
 			case MAJOR_2:
-				return 0.9;
+				return 0.5;
 			case MINOR:
 				return 0.9;
 			case MINOR_1:
 				return 0.9;
 			case MINOR_2:
-				return 0.9;
+				return 0.5;
 			case DIM:
 				return 0.9;
 			case AUGM:

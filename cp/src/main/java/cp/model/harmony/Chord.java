@@ -40,6 +40,11 @@ public class Chord {
 		return pitchClassMultiSet.elementSet();
 	}
 
+	public int getSize() {
+		return pitchClassMultiSet.elementSet().size();
+	}
+
+
 	public void addPitchClass(Integer pitchClass){
 		pitchClassMultiSet.add(pitchClass);
 	}

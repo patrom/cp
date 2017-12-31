@@ -8,6 +8,7 @@ import cp.out.instrument.brass.Trumpet;
 import cp.out.instrument.plucked.Harp;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.DoubleBass;
+import cp.out.instrument.strings.DoublebassSolo;
 import cp.out.instrument.woodwinds.AltoFlute;
 import cp.out.instrument.woodwinds.ContraBassoon;
 import cp.out.orchestration.InstrumentName;
@@ -34,6 +35,7 @@ public class WarmBrown extends OrchestralQuality{
 				new Trombone(new InstrumentRegister(48, 53)),
 				new BassTrombone(new InstrumentRegister(34, 51)),
 				new DoubleBass(new InstrumentRegister(39, 45)),
+				new DoublebassSolo(new InstrumentRegister(39, 45)),
 				new ContraBassoon(new InstrumentRegister(22, 54)),
 				new Harp(new InstrumentRegister(41, 60))
 				).collect(Collectors.toList());

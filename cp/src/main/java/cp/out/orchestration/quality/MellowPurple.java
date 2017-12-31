@@ -31,6 +31,7 @@ public class MellowPurple extends OrchestralQuality{
 				new Cello(new InstrumentRegister(36, 49)),
 				new CelloSolo(new InstrumentRegister(36, 49)),
 				new DoubleBass(new InstrumentRegister(24, 50)),
+				new DoublebassSolo(new InstrumentRegister(24, 50)),
 				new Harp(new InstrumentRegister(23, 41)),
 				new Piano(new InstrumentRegister(28, 55)),
 				new Vibraphone(new InstrumentRegister(53, 72)),

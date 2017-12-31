@@ -41,6 +41,7 @@ public class PleasantGreen extends OrchestralQuality{
 				new Cello(new InstrumentRegister(50, 61)),
 				new CelloSolo(new InstrumentRegister(50, 61)),
 				new DoubleBass(new InstrumentRegister(43, 49)),
+				new DoublebassSolo(new InstrumentRegister(43, 49)),
 				new Glockenspiel(new InstrumentRegister(87, 103)),
 				new Celesta(new InstrumentRegister(72, 84)),
 				new Harp(new InstrumentRegister(84, 95)),

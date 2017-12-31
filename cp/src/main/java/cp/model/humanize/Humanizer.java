@@ -161,7 +161,7 @@ public class Humanizer implements Humanize {
                 }
             }
         }
-        return 0;
+        return noteLength;
     }
 
     // Note is considerd long when quarter note is equal or longer than one second.

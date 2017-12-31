@@ -60,12 +60,12 @@ public class CombinationConfig {
 		//rest
 		List<RhythmCombination> zeroCombinations = new ArrayList<>();
 		zeroCombinations.add(oneNoteEven::rest);
-//		map.put(0, zeroCombinations);
+		map.put(0, zeroCombinations);
 
 		List<RhythmCombination> oneCombinations = new ArrayList<>();
 		oneCombinations.add(oneNoteEven::pos1);
 //		oneCombinations.add(oneNoteEven::pos2);
-//		oneCombinations.add(oneNoteEven::pos3);
+		oneCombinations.add(oneNoteEven::pos3);
 //		oneCombinations.add(oneNoteEven::pos4);
 		map.put(1, oneCombinations);
 
@@ -81,7 +81,7 @@ public class CombinationConfig {
         List<RhythmCombination> threeCombinations = new ArrayList<>();
 		threeCombinations.add(threeNoteEven::pos123);
 		threeCombinations.add(threeNoteEven::pos134);
-		threeCombinations.add(threeNoteEven::pos124);
+//		threeCombinations.add(threeNoteEven::pos124);
 		threeCombinations.add(threeNoteEven::pos234);
 		map.put(3, threeCombinations);
 
@@ -93,7 +93,7 @@ public class CombinationConfig {
 		threeCombinations.add(threeNoteUneven::pos123);
 //		map.put(3, threeCombinations);
 //
-//		twoCombinations.add(twoNoteUneven::pos23);
+		twoCombinations.add(twoNoteUneven::pos23);
 //		twoCombinations.add(twoNoteUneven::pos12);
 //		twoCombinations.add(twoNoteUneven::pos13);
 		//		map.put(2, twoCombinations);
@@ -146,7 +146,7 @@ public class CombinationConfig {
         map.put(1, oneUnevenCombinations);
 
         List<RhythmCombination> twoUnevenombinations = new ArrayList<>();
-//		twoUnevenombinations.add(twoNoteUneven::pos13);
+		twoUnevenombinations.add(twoNoteUneven::pos13);
         twoUnevenombinations.add(twoNoteUneven::pos12);
 		twoUnevenombinations.add(twoNoteUneven::pos23);
 		map.put(2, twoUnevenombinations);
@@ -155,8 +155,8 @@ public class CombinationConfig {
 		threeUnevenCombinations.add(threeNoteUneven::pos123);
 
 		threeUnevenCombinations.add(threeNoteSexTuplet::pos145);
-//		threeUnevenCombinations.add(threeNoteSexTuplet::pos136);
-//		threeUnevenCombinations.add(threeNoteSexTuplet::pos156);
+		threeUnevenCombinations.add(threeNoteSexTuplet::pos136);
+		threeUnevenCombinations.add(threeNoteSexTuplet::pos156);
 		threeUnevenCombinations.add(threeNoteSexTuplet::pos123);
         map.put(3, threeUnevenCombinations);
 
@@ -270,8 +270,8 @@ public class CombinationConfig {
 
         List<RhythmCombination> twoUnevenombinations = new ArrayList<>();
 		twoUnevenombinations.add(twoNoteUneven::pos13);
-//        twoUnevenombinations.add(twoNoteUneven::pos12);
-		twoUnevenombinations.add(twoNoteUneven::pos23);
+        twoUnevenombinations.add(twoNoteUneven::pos12);
+//		twoUnevenombinations.add(twoNoteUneven::pos23);
         map.put(2, twoUnevenombinations);
 
         List<RhythmCombination> threeUnevenCombinations = new ArrayList<>();

@@ -183,9 +183,9 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 			    population.sort(Comparator
 						.comparing(MusicSolution::getMelody)
 						.thenComparing(MusicSolution::getHarmony)
-						.thenComparing(MusicSolution::getVoiceLeading)
 						.thenComparing(MusicSolution::getRegister)
-			    		.thenComparing(MusicSolution::getResolution));
+						.thenComparing(MusicSolution::getResolution)
+			    		.thenComparing(MusicSolution::getVoiceLeading));
 
 			    
 			    Iterator<Solution> solutionIterator = population.iterator();

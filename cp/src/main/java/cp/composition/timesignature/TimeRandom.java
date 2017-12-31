@@ -10,11 +10,11 @@ public class TimeRandom extends TimeConfig {
     @Override
     public void init() {
         super.init();
-        BeatGroup defaultGroup6 = beatGroupFactory.getBeatGroupEven(DurationConstants.EIGHT);
+        BeatGroup defaultGroup6 = beatGroupFactory.getBeatGroupEven(DurationConstants.EIGHT); // X 2
         allBeatgroups.add(defaultGroup6);
-        BeatGroup defaultGroup12 = beatGroupFactory.getBeatGroupEven(DurationConstants.QUARTER);
+        BeatGroup defaultGroup12 = beatGroupFactory.getBeatGroupEven(DurationConstants.QUARTER); // X 2
         allBeatgroups.add(defaultGroup12);
-        BeatGroup defaultGroupUneven = beatGroupFactory.getBeatGroupUneven(DurationConstants.EIGHT);
+        BeatGroup defaultGroupUneven = beatGroupFactory.getBeatGroupUneven(DurationConstants.EIGHT); // X 3
         allBeatgroups.add(defaultGroupUneven);
         minimumLength = DurationConstants.QUARTER;
         distance = new int[]{2,4,8,10,12,14,16,18,20,21,22,24,26,27,28,30,32};//minimumRhythmicValue = 12 - 4/4

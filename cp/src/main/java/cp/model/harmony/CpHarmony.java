@@ -2,9 +2,11 @@ package cp.model.harmony;
 
 import cp.model.note.Interval;
 import cp.model.note.Note;
+import org.apache.commons.collections4.map.HashedMap;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
@@ -139,10 +141,148 @@ public class CpHarmony implements Comparable<CpHarmony>{
 //		return Collections.min(values);
 //	}
 
-	public double getRegister(int cutOffPitch){
+    public ChordType getAdditiveChord(){
+		Map<Integer, Integer> uniquePitches = new HashedMap<>();
+		for (Note note : notes) {
+			if(!uniquePitches.containsKey(note.getPitchClass())){
+				uniquePitches.put(note.getPitchClass(), note.getPitch());
+			}
+		}
+		List<Integer> pitches = uniquePitches.values().stream().sorted().collect(Collectors.toList());
+	    if(uniquePitches.size() > 2 && !containsMinorSecond(pitches) && !containsConsecutiveSeconds(pitches)){
+            List<Integer> lowerPitches = pitches.stream()
+                    .limit(4)
+                    .collect(Collectors.toList());
+            int lowestPitch = lowerPitches.get(0);
+            int size = lowerPitches.size();
+            for (int i = 1; i < size; i++) {
+                int nextPitch = lowerPitches.get(i);
+                Interval interval = Interval.getEnumInterval(nextPitch - lowestPitch);
+                switch (interval.getInterval()){
+                    case 7:
+                        return ChordType.ANCHOR_7;
+                    case 10:
+                        return ChordType.ANCHOR_10;
+                    case 11:
+                        return ChordType.ANCHOR_11;
+                }
+            }
+
+            if(uniquePitches.size() >= 4){
+				Integer firstLowestPitch = pitches.get(0);
+				Integer secondLowestPitch = pitches.get(1);
+				Integer thirdLowestPitch = pitches.get(2);
+				Interval firstInterval = Interval.getEnumInterval(firstLowestPitch - secondLowestPitch);
+				Interval secondInterval = Interval.getEnumInterval(firstLowestPitch - thirdLowestPitch);
+				if((firstInterval.getInterval() == 3 && secondInterval.getInterval() == 8)
+						|| (firstInterval.getInterval() == 8 && secondInterval.getInterval() == 3)){
+					return ChordType.ANCHOR_38_MAJ;
+				} else if((firstInterval.getInterval() == 5 && secondInterval.getInterval() == 9)
+						|| (firstInterval.getInterval() == 9 && secondInterval.getInterval() == 5)){
+					return ChordType.ANCHOR_59_MAJ;
+				} else if((firstInterval.getInterval() == 4 && secondInterval.getInterval() == 9)
+						|| (firstInterval.getInterval() == 9 && secondInterval.getInterval() == 4)){
+					return ChordType.ANCHOR_49_MIN;
+				} else if((firstInterval.getInterval() == 5 && secondInterval.getInterval() == 8)
+						|| (firstInterval.getInterval() == 8 && secondInterval.getInterval() == 5)){
+					return ChordType.ANCHOR_58_MIN;
+				} else if((firstInterval.getInterval() == 6 && secondInterval.getInterval() == 8)
+						|| (firstInterval.getInterval() == 8 && secondInterval.getInterval() == 6)){
+					return ChordType.ANCHOR_68_DOM;
+				} else if((firstInterval.getInterval() == 3 && secondInterval.getInterval() == 5)
+						|| (firstInterval.getInterval() == 5 && secondInterval.getInterval() == 3)){
+					return ChordType.ANCHOR_35_DOM;
+				} else if((firstInterval.getInterval() == 2 && secondInterval.getInterval() == 6)
+						|| (firstInterval.getInterval() == 6 && secondInterval.getInterval() == 2)){
+					return ChordType.ANCHOR_26_DOM;
+				} else if((firstInterval.getInterval() == 2 && secondInterval.getInterval() == 9)
+						|| (firstInterval.getInterval() == 9 && secondInterval.getInterval() == 2)){
+					return ChordType.ANCHOR_29_DOM;
+				} else if((firstInterval.getInterval() == 4 && secondInterval.getInterval() == 6)
+						|| (firstInterval.getInterval() == 6 && secondInterval.getInterval() == 4)){
+					return ChordType.ANCHOR_46;
+				} else if((firstInterval.getInterval() == 2 && secondInterval.getInterval() == 5)
+						|| (firstInterval.getInterval() == 5 && secondInterval.getInterval() == 2)){
+					return ChordType.ANCHOR_25;
+				} else if((firstInterval.getInterval() == 2 && secondInterval.getInterval() == 8)
+						|| (firstInterval.getInterval() == 8 && secondInterval.getInterval() == 2)){
+					return ChordType.ANCHOR_28;
+				} else if((firstInterval.getInterval() == 8 && secondInterval.getInterval() == 7)){
+					return ChordType.ANCHOR_87_MAJ7;
+				} else if((firstInterval.getInterval() == 5 && secondInterval.getInterval() == 4)){
+					return ChordType.ANCHOR_54_MAJ7;
+				} else if((firstInterval.getInterval() == 3 && secondInterval.getInterval() == 6)
+						|| (firstInterval.getInterval() == 6 && secondInterval.getInterval() == 3)){
+					return ChordType.ANCHOR_36_DIM;
+				} else if((firstInterval.getInterval() == 3 && secondInterval.getInterval() == 9)
+						|| (firstInterval.getInterval() == 9 && secondInterval.getInterval() == 3)){
+					return ChordType.ANCHOR_39_DIM;
+				} else if((firstInterval.getInterval() == 6 && secondInterval.getInterval() == 9)
+						|| (firstInterval.getInterval() == 9 && secondInterval.getInterval() == 6)){
+					return ChordType.ANCHOR_69_DIM;
+				}
+			}
+        }
+        return null;
+    }
+
+	protected boolean contains2NoteAnchor(){
 		List<Integer> pitches = notes.stream()
-				.sorted()
 				.map(n -> n.getPitch())
+				.limit(4)
+				.sorted()
+				.collect(Collectors.toList());
+		int lowestPitch = pitches.get(0);
+		int size = pitches.size();
+		for (int i = 1; i < size; i++) {
+			int nextPitch = pitches.get(i);
+			Interval interval = Interval.getEnumInterval(nextPitch - lowestPitch);
+			switch (interval.getInterval()){
+				case 7:
+				case 10:
+				case 11:
+					return true;
+			}
+		}
+		return false;
+	}
+
+	protected boolean containsMinorSecond(List<Integer> pitches){
+		int size = pitches.size() - 1;
+		for (int i = 0; i < size; i++) {
+			int pitch = pitches.get(i);
+			int nextPitch = pitches.get(i + 1);
+			int interval = nextPitch - pitch;
+			if(interval == 1){
+				return true;
+			}
+		}
+		return false;
+	}
+
+    protected boolean containsConsecutiveSeconds(List<Integer> pitches){
+        int size = pitches.size() - 1;
+        boolean containsOne = false;
+        for (int i = 0; i < size; i++) {
+            int pitch = pitches.get(i);
+            int nextPitch = pitches.get(i + 1);
+            int interval = nextPitch - pitch;
+            if(interval == 2){
+                if (!containsOne){
+                    containsOne = true;
+                } else {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    public double getRegister(int cutOffPitch){
+		List<Integer> pitches = notes.stream()
+				.map(n -> n.getPitch())
+				.sorted()
 				.filter(n -> n <= cutOffPitch)
 				.collect(toList());
 		int size = pitches.size();
