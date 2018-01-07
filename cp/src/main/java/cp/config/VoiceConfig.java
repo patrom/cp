@@ -51,8 +51,8 @@ public class VoiceConfig {
     @PostConstruct
     public void initVoiceConfig(){
         voiceConfiguration.put(0, bassVoice);
-        voiceConfiguration.put(1, bassVoice);
-        voiceConfiguration.put(2, homophonicVoice);
+        voiceConfiguration.put(1, homophonicVoice);
+        voiceConfiguration.put(2, melodyVoice);
         voiceConfiguration.put(3, melodyVoice);
         voiceConfiguration.put(4, homophonicVoice);
         voiceConfiguration.put(5, melodyVoice);

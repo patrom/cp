@@ -51,11 +51,11 @@ public class AdditiveDissonance implements Dissonance {
         if (additiveChord != null) {
             switch (additiveChord) {
                 case ANCHOR_7:
-                    return 0.9;
+                    return 0.8;
                 case ANCHOR_10:
-                    return 1.0;
-                case ANCHOR_11:
                     return 0.9;
+                case ANCHOR_11:
+                    return 0.8;
                 case ANCHOR_38_MAJ:
                 case ANCHOR_59_MAJ:
                 case ANCHOR_49_MIN:

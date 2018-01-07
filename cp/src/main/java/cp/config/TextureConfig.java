@@ -36,9 +36,14 @@ public class TextureConfig {
         chordTypes.add(createDependantHarmony(ChordType.MINOR_1_CHR));
         chordTypes.add(createDependantHarmony(ChordType.MINOR_2_CHR));
 
-        chordTypes.add(createDependantHarmony(ChordType.DOM));
-        chordTypes.add(createDependantHarmony(ChordType.DOM_CHR_1));
-        chordTypes.add(createDependantHarmony(ChordType.DOM_CHR_2));
+        chordTypes.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS_OCTAVE));
+        chordTypes.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT_OCTAVE));
+        chordTypes.add(createDependantHarmony(ChordType.CH2_KWART_OCTAVE));
+        chordTypes.add(createDependantHarmony(ChordType.CH2_KWINT_OCTAVE));
+
+//        chordTypes.add(createDependantHarmony(ChordType.DOM));
+//        chordTypes.add(createDependantHarmony(ChordType.DOM_CHR_1));
+//        chordTypes.add(createDependantHarmony(ChordType.DOM_CHR_2));
 
 //        chordTypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
 //        chordTypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
@@ -46,7 +51,7 @@ public class TextureConfig {
 
 
         List<DependantHarmony> intervaltypes = new ArrayList<>();
-        intervaltypes.add(createDependantHarmony(ChordType.CH2_KWART));
+//        intervaltypes.add(createDependantHarmony(ChordType.CH2_KWART));
         intervaltypes.add(createDependantHarmony(ChordType.CH2_KWINT));
 //        intervaltypes.add(createDependantHarmony(ChordType.CH2_TRITONE)); == kwart diatonic
 //        intervaltypes.add(createDependantHarmony(ChordType.CH2_TRITONE_CHR));
@@ -57,9 +62,10 @@ public class TextureConfig {
 //        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
 //        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
 //        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
-        intervaltypes.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS));
-        intervaltypes.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS_CHR));
-        intervaltypes.add(createDependantHarmony(ChordType.CH2_KLEINE_TERTS_CHR));
+//        intervaltypes.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS));
+//        intervaltypes.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS_CHR));
+//        intervaltypes.add(createDependantHarmony(ChordType.CH2_KLEINE_TERTS_CHR));
+        intervaltypes.add(createDependantHarmony(ChordType.CH2_OCTAVE));
 
         List<DependantHarmony> intervalOctavetypes = new ArrayList<>();
         intervalOctavetypes.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS_OCTAVE));
@@ -67,14 +73,14 @@ public class TextureConfig {
         intervalOctavetypes.add(createDependantHarmony(ChordType.CH2_KWART_OCTAVE));
         intervalOctavetypes.add(createDependantHarmony(ChordType.CH2_KWINT_OCTAVE));
 
-//        textureTypes.put(3, intervaltypes);
+        textureTypes.put(0, intervaltypes);
 //        textureTypes.put(3, intervalOctavetypes);
-//        textureTypes.put(2, chordTypes);
+        textureTypes.put(1, chordTypes);
 
         List<DependantHarmony> octaveDoubling = new ArrayList<>();
         octaveDoubling.add(createDependantHarmony(ChordType.CH2_OCTAVE));
-        textureTypes.put(0, octaveDoubling);//
-        textureTypes.put(3, octaveDoubling);//
+//        textureTypes.put(0, octaveDoubling);
+//        textureTypes.put(3, octaveDoubling);
 
         List<DependantHarmony> symmetryChords = new ArrayList<>();
         symmetryChords.add(createDependantHarmony(ChordType.SYMMEETRY, composition.axisHigh,composition.axisLow));

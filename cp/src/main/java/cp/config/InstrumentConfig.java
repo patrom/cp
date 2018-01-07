@@ -46,7 +46,7 @@ public class InstrumentConfig {
         instruments.put(0,new InstrumentMapping(piano, 1, 0));
         instruments.put(1,new InstrumentMapping(piano, 1, 1));
         instruments.put(2,new InstrumentMapping(piano, 1, 2));
-        instruments.put(3,new InstrumentMapping(piano, 1, 3));
+//        instruments.put(3,new InstrumentMapping(piano, 1, 3));
 //        instruments = getSAATBChoir();
 //        instruments.put(0,new InstrumentMapping(new ViolinSolo() , 3, 0));
 //        instruments = getPianoAndStrinqQuartet(pleasantGreen, mellowPurple, richBlue);

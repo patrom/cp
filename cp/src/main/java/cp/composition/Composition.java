@@ -7,7 +7,10 @@ import cp.config.VoiceConfig;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
 import cp.generator.dependant.DependantHarmonyGenerator;
-import cp.generator.pitchclass.*;
+import cp.generator.pitchclass.PassingPitchClasses;
+import cp.generator.pitchclass.RandomPitchClasses;
+import cp.generator.pitchclass.RepeatingPitchClasses;
+import cp.generator.pitchclass.TwelveTonePitchClasses;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.dissonance.*;
@@ -33,7 +36,6 @@ import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -74,8 +76,6 @@ public abstract class Composition {
 	protected RepeatingPitchClasses repeatingPitchClasses;
 	@Autowired
 	private TwelveTonePitchClasses twelveTonePitchClasses;
-
-	private List<PitchClassGenerator> pitchClassGenerators = new ArrayList<>();
 
     @Autowired
 	private HarmonicResolutionObjective harmonicResolutionObjective;
@@ -168,7 +168,7 @@ public abstract class Composition {
 
 	@PostConstruct
 	public void init(){
-		composeInKey(keys.C);
+		composeInKey(keys.D);
 		inTempo(80);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
@@ -187,8 +187,8 @@ public abstract class Composition {
 		timeLine.setEnd(end);
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
-		timeLineKeys.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
-//		timeLineKeys.add(new TimeLineKey(keys.Bflat, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.D, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.B, Scale.MELODIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.G, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.C, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.G, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
@@ -203,12 +203,12 @@ public abstract class Composition {
 //		durations.add(DurationConstants.SIX_EIGHTS);
 //		durations.add(DurationConstants.HALF);
 		durations.add(DurationConstants.WHOLE);
-//		timeLine.randomKeysAndDurations(timeLineKeys, durations);
+		timeLine.randomKeysAndDurations(timeLineKeys, durations);
 
-		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.WHOLE_TONE_SCALE_0, 0 ,end)),0);
-		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.WHOLE_TONE_SCALE_0, 0 ,end)),1);
-		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.WHOLE_TONE_SCALE_0, 0 ,end)),2);
-		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.WHOLE_TONE_SCALE_0, 0 ,end)),3);
+//		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.WHOLE_TONE_SCALE_0, 0 ,end)),0);
+//		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.WHOLE_TONE_SCALE_0, 0 ,end)),1);
+//		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.WHOLE_TONE_SCALE_0, 0 ,end)),2);
+//		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.WHOLE_TONE_SCALE_0, 0 ,end)),3);
 //		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.D, Scale.MINOR_PART, 0 ,end)),4);
 //		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.Eflat, Scale.MAJOR_SCALE, 0 ,end)),2);
 //		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(C, Scale.MAJOR_SCALE, 0 ,end)),3);
@@ -295,11 +295,6 @@ public abstract class Composition {
 //		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT, end));
 ////		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, 2 * DurationConstants.WHOLE, end));
 //		timeLine.addKeysForVoice(webern3, 2);
-		pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
-		pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
-		pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
-//		pitchClassGenerators.add(restPitchClasses::updatePitchClasses);
-//		pitchClassGenerators.add(twelveTonePitchClasses::updatePitchClasses);
 
 		harmonicObjective.setDissonance(additiveDissonance::getDissonance);
 		harmonicResolutionObjective.setDissonantResolution(dissonantResolutionImpl::isDissonant);
