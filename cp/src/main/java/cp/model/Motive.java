@@ -4,11 +4,13 @@ import cp.model.harmony.CpHarmony;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
+import cp.nsga.operator.mutation.MutationType;
 import cp.util.RandomUtil;
 
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.*;
 
@@ -56,9 +58,34 @@ public class Motive implements Cloneable {
 		return RandomUtil.getRandomFromList(randomMelodyBlock.getMelodyBlocks());
 	}
 
+	public CpMelody getRandomMutableMelodyWithMininalNotesSize(int size){
+		List<CpMelody> melodies = melodyBlocks.stream()
+				.filter(m -> m.isMutable())
+				.flatMap(m -> m.getMelodyBlocks().stream())
+				.filter(mel -> mel.getNotesSize() >= size)
+				.collect(toList());
+		return RandomUtil.getRandomFromList(melodies);
+	}
+
+	public CpMelody getRandomMutableMelody(Stream<MutationType> mutationTypes){
+		List<CpMelody> melodies = melodyBlocks.stream()
+				.filter(m -> m.isMutable())
+				.flatMap(melodyBlock -> melodyBlock.getMelodyBlocks().stream())
+				.filter(melody -> mutationTypes.anyMatch(mutationType -> mutationType == melody.getMutationType()))
+				.collect(toList());
+		return RandomUtil.getRandomFromList(melodies);
+	}
+
 	public MelodyBlock getRandomMutableMelodyBlockExcludingVoice(int voice){
 		List<MelodyBlock> mutableMelodies = melodyBlocks.stream()
 				.filter(m -> m.isMutable() && m.getVoice() != voice)
+				.collect(toList());
+		return RandomUtil.getRandomFromList(mutableMelodies);
+	}
+
+	public MelodyBlock getRandomMutableMelodyBlockForVoice(int voice){
+		List<MelodyBlock> mutableMelodies = melodyBlocks.stream()
+				.filter(m -> m.isMutable() && m.getVoice() == voice)
 				.collect(toList());
 		return RandomUtil.getRandomFromList(mutableMelodies);
 	}

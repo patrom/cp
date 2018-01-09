@@ -116,6 +116,10 @@ public class Note implements Comparable<Note>{
 		return position;
 	}
 
+	public int getEndPostion(){
+		return position + displayLength;
+	}
+
 	public int getMidiPosition(){
 		int midiPosition = position + humanization.getTiming();
 		if(midiPosition < 0){

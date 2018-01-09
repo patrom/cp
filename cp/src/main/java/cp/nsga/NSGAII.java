@@ -1,9 +1,7 @@
 package cp.nsga;
 
 import cp.model.Motive;
-import cp.model.melody.CpMelody;
 import cp.nsga.operator.mutation.MutationOperator;
-import cp.nsga.operator.mutation.MutationType;
 import cp.nsga.operator.mutation.melody.Mutators;
 import cp.nsga.operator.relation.Relation;
 import cp.nsga.operator.relation.RelationConfig;
@@ -237,21 +235,9 @@ public class NSGAII extends Algorithm {
 	}
 
 	private void mutateOffspring(Solution solution) {
-		CpMelody melody = getMelodyBlock(solution);
-		if (melody.getMutationType() == MutationType.HARMONY) {
-			Motive motive = ((MusicVariable) solution.getDecisionVariables()[0]).getMotive();
-			List<MutationOperator> mutationOperators = mutators.getMutationOperators(melody.getMutationType());
-			mutationOperators.forEach(mutationOperator -> mutationOperator.execute(motive));
-		}
-		List<MutationOperator> mutationOperators = mutators.getMutationOperators(melody.getMutationType());
-		mutationOperators.forEach(mutationOperator -> mutationOperator.execute(melody));
-//		MutationOperator operator = RandomUtil.getRandomFromList(mutationOperators);
-//		operator.execute(melodyBlock);
-	}
-
-	private CpMelody getMelodyBlock(Solution solution) {
+		List<MutationOperator> mutationOperators = mutators.mutationOperators();
 		Motive motive = ((MusicVariable) solution.getDecisionVariables()[0]).getMotive();
-		return motive.getRandomMutableMelody();
+		mutationOperators.forEach(mutationOperator -> mutationOperator.execute(motive));
 	}
 
 	private boolean hasPopulationChanged(List<Solution> oldSolutions,

@@ -7,6 +7,7 @@ import cp.config.TextureConfig;
 import cp.config.TimbreConfig;
 import cp.config.VoiceConfig;
 import cp.generator.provider.MelodyProvider;
+import cp.model.Motive;
 import cp.model.TimeLine;
 import cp.model.harmony.DependantHarmony;
 import cp.model.melody.CpMelody;
@@ -26,7 +27,7 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @Component(value = "providedSymmetryMutation")
-public class ProvidedSymmetryMutation implements MutationOperator<CpMelody> {
+public class ProvidedSymmetryMutation implements MutationOperator<Motive> {
 
     private static Logger LOGGER = LoggerFactory.getLogger(ProvidedSymmetryMutation.class);
 
@@ -83,16 +84,16 @@ public class ProvidedSymmetryMutation implements MutationOperator<CpMelody> {
 //                    }
                 providedMelody.symmetricalInverse(composition.axisHigh,composition.axisLow);
 //                    melodyTransformer.transform(providedMelody);
-//                    LOGGER.info("Provided symmetry melody:" + melody.getVoice());
+                    LOGGER.debug("Provided symmetry melody:" + melody.getVoice());
                 melody.updateNotes(providedMelody.getNotes());
             }
         }
     }
 
     @Override
-    public CpMelody execute(CpMelody melody) {
-        doMutation(melody);
-        return melody;
+    public Motive execute(Motive motive) {
+        doMutation(motive.getRandomMutableMelody());
+        return motive;
     }
 }
 

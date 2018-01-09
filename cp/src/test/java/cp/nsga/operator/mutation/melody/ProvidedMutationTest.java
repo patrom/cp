@@ -5,9 +5,11 @@ import cp.composition.beat.BeatGroupTwo;
 import cp.config.TextureConfig;
 import cp.config.VoiceConfig;
 import cp.generator.provider.MelodyProvider;
+import cp.model.Motive;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.melody.CpMelody;
+import cp.model.melody.MelodyBlock;
 import cp.model.melody.Tonality;
 import cp.model.note.Note;
 import cp.model.note.Scale;
@@ -27,6 +29,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
@@ -79,12 +82,15 @@ public class ProvidedMutationTest {
     }
 
     @Test
-    public void execute() throws Exception {
+    public void execute() {
         BeatGroupTwo beatGroupTwo = new BeatGroupTwo(DurationConstants.QUARTER);
         int start = 0;
         CpMelody melody = new CpMelody(new ArrayList<>(), 0, start, start + DurationConstants.QUARTER);
         melody.setBeatGroup(beatGroupTwo);
-        providedMutation.execute(melody);
+        MelodyBlock melodyBlock = new MelodyBlock(5,0);
+        melodyBlock.addMelodyBlock(melody);
+        Motive motive = new Motive(Collections.singletonList(melodyBlock));
+        providedMutation.execute(motive);
         melody.getNotes().forEach(n -> {
             System.out.println(n.getLength());
             System.out.println(n.getVoice());

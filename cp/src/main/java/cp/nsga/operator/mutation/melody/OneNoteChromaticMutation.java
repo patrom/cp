@@ -1,8 +1,10 @@
 package cp.nsga.operator.mutation.melody;
 
+import cp.model.Motive;
 import cp.model.melody.CpMelody;
 import cp.model.note.Scale;
 import cp.nsga.operator.mutation.MutationOperator;
+import cp.nsga.operator.mutation.MutationType;
 import jmetal.util.PseudoRandom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +16,7 @@ import org.springframework.stereotype.Component;
  * Created by prombouts on 11/02/2017.
  */
 @Component(value = "oneNoteChromaticMutation")
-public class OneNoteChromaticMutation implements MutationOperator<CpMelody> {
+public class OneNoteChromaticMutation implements MutationOperator<Motive> {
 
     private static Logger LOGGER = LoggerFactory.getLogger(OneNoteChromaticMutation.class.getName());
 
@@ -25,16 +27,16 @@ public class OneNoteChromaticMutation implements MutationOperator<CpMelody> {
         this.probabilityOneNoteChromatic = probabilityOneNoteChromatic;
     }
 
-    public void doMutation(double probability, CpMelody melody)  {
-        if (PseudoRandom.randDouble() < probability) {
+    public void doMutation(CpMelody melody)  {
+        if ((melody.getMutationType() == MutationType.ALL || melody.getMutationType() == MutationType.PITCH) &&PseudoRandom.randDouble() < probabilityOneNoteChromatic) {
             melody.updateRandomNote(Scale.CHROMATIC_SCALE.pickRandomPitchClass());
-//          LOGGER.info("OneNoteChromaticMutation");
+//          LOGGER.debug("OneNoteChromaticMutation");
         }
     }
 
     @Override
-    public CpMelody execute(CpMelody melody) {
-        doMutation(probabilityOneNoteChromatic, melody);
-        return melody;
+    public Motive execute(Motive motive) {
+        doMutation(motive.getRandomMutableMelody());
+        return motive;
     }
 }

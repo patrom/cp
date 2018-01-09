@@ -72,6 +72,34 @@ public class HarmonyExtractor {
 		return extractedHarmonies;
 	}
 
+	public List<CpHarmony> extractHarmony(List<Note> melodyNotes){
+        List<CpHarmony>  extractedHarmonies = new ArrayList<>();
+        List<Integer> positions = melodyNotes.stream()
+                .map(note -> note.getPosition())
+                .sorted()
+                .distinct()
+                .collect(Collectors.toList());
+
+        for (Integer position : positions) {
+            List<Note> harmonyNotes = melodyNotes.stream()
+					.filter(note -> !note.isRest())
+                    .filter(note -> note.getPosition() <= position && note.getEndPostion() > position)
+                    .map(n -> n.clone())
+                    .collect(Collectors.toList());
+            //texture notes
+            List<Note> textureNotes = texture.getTextureNotes(harmonyNotes);
+            harmonyNotes.addAll(textureNotes);
+            if (harmonyNotes.size() > 1) {
+                CpHarmony harmony = new CpHarmony(harmonyNotes, position);
+                harmony.toChord();
+                extractedHarmonies.add(harmony);
+            }
+        }
+        LOGGER.debug(extractedHarmonies.toString());
+        updateHarmonyEnd(extractedHarmonies);
+		return extractedHarmonies;
+	}
+
 	private void updateHarmonyEnd(List<CpHarmony> extractedHarmonies) {
 		if (!extractedHarmonies.isEmpty()) {
 			Collections.sort(extractedHarmonies);

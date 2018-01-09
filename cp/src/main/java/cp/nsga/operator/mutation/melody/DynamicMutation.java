@@ -1,10 +1,12 @@
 package cp.nsga.operator.mutation.melody;
 
 import cp.config.TimbreConfig;
+import cp.model.Motive;
 import cp.model.melody.CpMelody;
 import cp.model.note.Dynamic;
 import cp.model.timbre.Timbre;
 import cp.nsga.operator.mutation.MutationOperator;
+import cp.nsga.operator.mutation.MutationType;
 import cp.util.RandomUtil;
 import jmetal.util.PseudoRandom;
 import org.slf4j.Logger;
@@ -19,7 +21,7 @@ import java.util.List;
  * Created by prombouts on 5/01/2017.
  */
 @Component(value = "dynamicMutation")
-public class DynamicMutation implements MutationOperator<CpMelody> {
+public class DynamicMutation implements MutationOperator<Motive> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ArticulationMutation.class);
 
@@ -34,18 +36,20 @@ public class DynamicMutation implements MutationOperator<CpMelody> {
     }
 
     public void doMutation(CpMelody melody) {
-        if (PseudoRandom.randDouble() < probabilityDynamic) {
+        if ((melody.getMutationType() == MutationType.ALL
+                || melody.getMutationType() == MutationType.TIMBRE)
+				&& PseudoRandom.randDouble() < probabilityDynamic) {
             Timbre timbre = timbreConfig.getTimbreConfigForVoice(melody.getVoice());
             List<Dynamic> dynamics = timbre.getDynamics();
             Dynamic dynamic = RandomUtil.getRandomFromList(dynamics);
             melody.updateDynamic(dynamic);
-//			LOGGER.info("Dynamic mutated");
+//			LOGGER.debug("Dynamic mutated");
         }
     }
 
     @Override
-    public CpMelody execute(CpMelody melody) {
-        doMutation(melody);
-        return melody;
+    public Motive execute(Motive motive) {
+        doMutation(motive.getRandomMutableMelody());
+        return motive;
     }
 }

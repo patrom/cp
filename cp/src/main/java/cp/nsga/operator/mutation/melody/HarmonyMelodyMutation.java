@@ -3,8 +3,8 @@ package cp.nsga.operator.mutation.melody;
 import cp.config.TimbreConfig;
 import cp.model.Motive;
 import cp.model.melody.CpMelody;
-import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
+import cp.model.texture.Texture;
 import cp.nsga.operator.mutation.MutationOperator;
 import cp.util.RandomUtil;
 import jmetal.util.PseudoRandom;
@@ -15,8 +15,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Component(value = "harmonyMelodyMutation")
 public class HarmonyMelodyMutation implements MutationOperator<Motive> {
@@ -26,6 +26,8 @@ public class HarmonyMelodyMutation implements MutationOperator<Motive> {
 
     @Autowired
     private TimbreConfig timbreConfig;
+    @Autowired
+    private Texture texture;
 
     @Autowired
     public HarmonyMelodyMutation(@Value("${probabilityHarmonic}") double probabilityHarmonic) {
@@ -34,24 +36,25 @@ public class HarmonyMelodyMutation implements MutationOperator<Motive> {
 
     public void doMutation(Motive motive) {
         if (PseudoRandom.randDouble() < probabilityHarmonic) {
-//            CpMelody melody = motive.getRandomMutableMelody();
-            MelodyBlock melodyBlock = motive.getRandomMutableMelodyBlockExcludingVoice(4);
-            CpMelody melody = RandomUtil.getRandomFromList(melodyBlock.getMelodyBlocks());
+            CpMelody melody = motive.getRandomMutableMelodyWithMininalNotesSize(2);
             List<Note> notes = melody.getNotes();
-            if(notes.size() > 1){
-                final Map<Integer, List<Note>> harmonyNotesByPosition = motive.getHarmonies().stream()
-                        .filter(harmony -> harmony.getPosition() >= melody.getStart() && melody.getEnd() < harmony.getEnd())
-                        .flatMap(harmony -> harmony.getNotes().stream())
-                        .filter(note -> note.getVoice() != melody.getVoice())
-                        .collect(Collectors.groupingBy(Note::getPosition));
-                for (Note note : notes) {
-                    List<Note> harmonyNotes = harmonyNotesByPosition.get(note.getPosition());
-                    Note harmonyNote = RandomUtil.getRandomFromList(harmonyNotes);
-                    note.setPitchClass(harmonyNote.getPitchClass());
-                }
+            List<Note> allHarmonyNotes = motive.getMelodyBlocks().stream()
+                    .filter(melodyBlock1 -> melodyBlock1.getVoice() != melody.getVoice())
+                    .flatMap(melodyBlock1 -> melodyBlock1.getMelodyBlockNotes().stream())
+                    .collect(toList());
+            for (Note note : notes) {
+                List<Note> harmonyNotes = allHarmonyNotes.stream()
+                        .filter(harmonyNote -> !harmonyNote.isRest())
+                        .filter(harmonyNote -> harmonyNote.getPosition() <= note.getPosition() && harmonyNote.getEndPostion() > note.getPosition())
+                        .map(n -> n.clone())
+                        .collect(toList());
+                //texture notes
+                List<Note> textureNotes = texture.getTextureNotes(harmonyNotes);
+                harmonyNotes.addAll(textureNotes);
+                Note harmonyNote = RandomUtil.getRandomFromList(harmonyNotes);
+                note.setPitchClass(harmonyNote.getPitchClass());
+//                    LOGGER.info("melody harmony mutated: " + melody.getVoice());
             }
-
-			LOGGER.info("melody harmony mutated");
         }
     }
 

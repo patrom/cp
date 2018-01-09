@@ -2,9 +2,11 @@ package cp.nsga.operator.mutation.melody;
 
 import cp.config.InstrumentConfig;
 import cp.config.TimbreConfig;
+import cp.model.Motive;
 import cp.model.melody.CpMelody;
 import cp.model.timbre.Timbre;
 import cp.nsga.operator.mutation.MutationOperator;
+import cp.nsga.operator.mutation.MutationType;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.Technical;
 import cp.util.RandomUtil;
@@ -21,7 +23,7 @@ import java.util.List;
  * Created by prombouts on 6/04/2017.
  */
 @Component(value = "technicalMutation")
-public class TechnicalMutation implements MutationOperator<CpMelody> {
+public class TechnicalMutation implements MutationOperator<Motive> {
     private static final Logger LOGGER = LoggerFactory.getLogger(TechnicalMutation.class);
 
     private double probabilityTechnical;
@@ -38,7 +40,9 @@ public class TechnicalMutation implements MutationOperator<CpMelody> {
     }
 
     public void doMutation(CpMelody melody)  {
-        if (PseudoRandom.randDouble() < probabilityTechnical) {
+        if ((melody.getMutationType() == MutationType.ALL
+                || melody.getMutationType() == MutationType.TIMBRE)
+                && PseudoRandom.randDouble() < probabilityTechnical) {
             Instrument instrument = instrumentConfig.getInstrumentForVoice(melody.getVoice());
             Timbre timbre = timbreConfig.getTimbreConfigForVoice(melody.getVoice());
             List<Technical> technicals = timbre.getTechnicals(instrument.getInstrumentGroup());
@@ -46,15 +50,15 @@ public class TechnicalMutation implements MutationOperator<CpMelody> {
                 LOGGER.info("technicals empty");
             }else{
                 melody.updateTechnical(RandomUtil.getRandomFromList(technicals));
-//                LOGGER.info("technical mutated");
+                LOGGER.debug("technical mutated");
             }
         }
     }
 
     @Override
-    public CpMelody execute(CpMelody melody) {
-        doMutation(melody);
-        return melody;
+    public Motive execute(Motive motive) {
+        doMutation(motive.getRandomMutableMelody());
+        return motive;
     }
 }
 

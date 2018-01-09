@@ -8,10 +8,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static cp.model.note.NoteBuilder.note;
+import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -126,35 +126,56 @@ public class CpHarmonyTest {
 
 	@Test
 	public void containsMinorSecond() {
-        List<Integer> pitches = Stream.of(60,64,65).collect(Collectors.toList());
+        List<Integer> pitches = Stream.of(60,64,65).collect(toList());
 		boolean contains2NoteAnchor = cpHarmony.containsMinorSecond(pitches);
 		assertTrue(contains2NoteAnchor);
 	}
 
 	@Test
 	public void containsNoMinorSecond() {
-	    List<Integer> pitches = Stream.of(60,64,66).collect(Collectors.toList());
+	    List<Integer> pitches = Stream.of(60,64,66).collect(toList());
+		boolean contains2NoteAnchor = cpHarmony.containsMinorSecond(pitches);
+		assertFalse(contains2NoteAnchor);
+	}
+
+	@Test
+	public void containsNoMinorSecondFlatNinth() {
+		List<Integer> pitches = Stream.of(60,64,73).collect(toList());
 		boolean contains2NoteAnchor = cpHarmony.containsMinorSecond(pitches);
 		assertFalse(contains2NoteAnchor);
 	}
 
 	@Test
 	public void containsMinorSecond2() {
-        List<Integer> pitches = Stream.of(60,63,64,62,69).sorted().collect(Collectors.toList());
+        List<Integer> pitches = Stream.of(60,63,64,62,69).sorted().collect(toList());
+		boolean contains2NoteAnchor = cpHarmony.containsMinorSecond(pitches);
+		assertTrue(contains2NoteAnchor);
+	}
+
+	@Test
+	public void containsMinorSecondOctave() {
+		List<Integer> pitches = Stream.of(60,64,77).collect(toList());
+		boolean contains2NoteAnchor = cpHarmony.containsMinorSecond(pitches);
+		assertTrue(contains2NoteAnchor);
+	}
+
+	@Test
+	public void containsMinorSecondRoot() {
+		List<Integer> pitches = Stream.of(60,61,77).collect(toList());
 		boolean contains2NoteAnchor = cpHarmony.containsMinorSecond(pitches);
 		assertTrue(contains2NoteAnchor);
 	}
 
 	@Test
 	public void containsConsecutiveSeconds() {
-        List<Integer> pitches = Stream.of(60,63,64,66,68).sorted().collect(Collectors.toList());
+        List<Integer> pitches = Stream.of(60,63,64,66,68).sorted().collect(toList());
 		boolean contains2NoteAnchor = cpHarmony.containsConsecutiveSeconds(pitches);
 		assertTrue(contains2NoteAnchor);
 	}
 
 	@Test
 	public void containsNoConsecutiveSeconds() {
-        List<Integer> pitches = Stream.of(60,63,64,66,69).sorted().collect(Collectors.toList());
+        List<Integer> pitches = Stream.of(60,63,64,66,69).sorted().collect(toList());
 		boolean contains2NoteAnchor = cpHarmony.containsConsecutiveSeconds(pitches);
 		assertFalse(contains2NoteAnchor);
 	}
