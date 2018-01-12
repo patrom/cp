@@ -6,10 +6,10 @@ import cp.config.TextureConfig;
 import cp.config.TimbreConfig;
 import cp.config.VoiceConfig;
 import cp.generator.provider.MelodyProvider;
-import cp.model.Motive;
 import cp.model.TimeLine;
 import cp.model.harmony.DependantHarmony;
 import cp.model.melody.CpMelody;
+import cp.model.melody.MusicElement;
 import cp.model.melody.Tonality;
 import cp.model.note.Note;
 import cp.model.timbre.Timbre;
@@ -30,7 +30,7 @@ import static java.util.stream.Collectors.toList;
  * Created by prombouts on 13/06/2017.
  */
 @Component(value = "providedMutation")
-public class ProvidedMutation implements MutationOperator<Motive> {
+public class ProvidedMutation implements MutationOperator<MusicElement> {
 
     private static Logger LOGGER = LoggerFactory.getLogger(ProvidedMutation.class);
 
@@ -96,8 +96,8 @@ public class ProvidedMutation implements MutationOperator<Motive> {
     }
 
     @Override
-    public Motive execute(Motive motive) {
-        doMutation(motive.getRandomMutableMelody());
-        return motive;
+    public MusicElement execute(MusicElement melody) {
+        doMutation((CpMelody)melody);
+        return melody;
     }
 }

@@ -181,11 +181,11 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 			    
 //			    population.sort(Comparator.comparing(MusicSolution::getMelody).thenComparing(MusicSolution::getHarmony));
 			    population.sort(Comparator
-						.comparing(MusicSolution::getHarmony)
-						.thenComparing(MusicSolution::getMelody)
+						.comparing(MusicSolution::getMelody)
 						.thenComparing(MusicSolution::getRegister)
 						.thenComparing(MusicSolution::getResolution)
-			    		.thenComparing(MusicSolution::getVoiceLeading));
+						.thenComparing(MusicSolution::getVoiceLeading)
+			    		.thenComparing(MusicSolution::getHarmony));
 
 			    
 			    Iterator<Solution> solutionIterator = population.iterator();
@@ -233,7 +233,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		// Algorithm parameters
 	    int populationSize = 30;
 	    algorithm.setInputParameter("populationSize", populationSize);
-	    algorithm.setInputParameter("maxEvaluations", populationSize * 2000);
+	    algorithm.setInputParameter("maxEvaluations", populationSize * 1000);
 	    
 	    // Mutation and Crossover
 	    crossover.setParameter("probabilityCrossover", 1.0); 

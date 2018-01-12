@@ -235,10 +235,23 @@ public class NSGAII extends Algorithm {
 	}
 
 	private void mutateOffspring(Solution solution) {
-		List<MutationOperator> mutationOperators = mutators.mutationOperators();
 		Motive motive = ((MusicVariable) solution.getDecisionVariables()[0]).getMotive();
-		mutationOperators.forEach(mutationOperator -> mutationOperator.execute(motive));
+		List<MutationOperator> harmonyMutator = mutators.harmonyMutationOperators();
+		harmonyMutator.forEach(mutationOperator -> mutationOperator.execute(motive));
+//		CpMelody melody = motive.getRandomMutableMelody();
+//		List<MutationOperator> mutationOperators = mutators.getMutationOperators(melody.getMutationType());
+//		MutationOperator operator = RandomUtil.getRandomFromList(mutationOperators);
+//        if (operator instanceof AllNoteHarmonyMutation
+//                || operator instanceof OneNoteHarmonyMutation) {
+//			CpMelodyHarmonic cpMelodyHarmonic = new CpMelodyHarmonic();
+//			cpMelodyHarmonic.setMelodyBlocks(motive.getMelodyBlocks());
+//			cpMelodyHarmonic.setCpMelody(melody);
+//			operator.execute(cpMelodyHarmonic);
+//		} else {
+//			operator.execute(melody);
+//		}
 	}
+
 
 	private boolean hasPopulationChanged(List<Solution> oldSolutions,
 			List<Solution> frontSolutions) {

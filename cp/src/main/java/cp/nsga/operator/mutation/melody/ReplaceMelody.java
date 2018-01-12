@@ -8,13 +8,12 @@ import cp.config.TimbreConfig;
 import cp.config.VoiceConfig;
 import cp.generator.pitchclass.PitchClassGenerator;
 import cp.generator.provider.MelodyProvider;
-import cp.model.Motive;
 import cp.model.harmony.DependantHarmony;
 import cp.model.melody.CpMelody;
+import cp.model.melody.MusicElement;
 import cp.model.note.Note;
 import cp.model.timbre.Timbre;
 import cp.nsga.operator.mutation.MutationOperator;
-import cp.nsga.operator.mutation.MutationType;
 import cp.util.RandomUtil;
 import jmetal.util.PseudoRandom;
 import org.slf4j.Logger;
@@ -29,7 +28,7 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @Component(value="replaceMelody")
-public class ReplaceMelody implements MutationOperator<Motive> {
+public class ReplaceMelody implements MutationOperator<MusicElement> {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(ReplaceMelody.class);
 
@@ -52,9 +51,7 @@ public class ReplaceMelody implements MutationOperator<Motive> {
 
     //all rhythm combinations and pitches
     public void doMutation(CpMelody melody) {
-		if ((melody.getMutationType() == MutationType.ALL
-				|| melody.getMutationType() == MutationType.PITCH)
-				&& PseudoRandom.randDouble() < probabilityReplaceMelody) {
+		if (PseudoRandom.randDouble() < probabilityReplaceMelody) {
 			Voice voice = voiceConfig.getVoiceConfiguration(melody.getVoice());
 			Timbre timbreConfigForVoice = timbreConfig.getTimbreConfigForVoice(melody.getVoice());
 
@@ -96,15 +93,14 @@ public class ReplaceMelody implements MutationOperator<Motive> {
 					melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes);
 					melody.updateNotes(melodyNotes);
 					melody.setBeatGroup(beatGroup);
-                    LOGGER.debug("replace melody mutation");
 				}
 			}
 		}
 	}
 
 	@Override
-	public Motive execute(Motive motive) {
-		doMutation(motive.getRandomMutableMelody());
-		return motive;
+	public MusicElement execute(MusicElement melody) {
+		doMutation((CpMelody)melody);
+		return melody;
 	}
 }

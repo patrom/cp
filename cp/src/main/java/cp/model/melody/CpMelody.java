@@ -22,7 +22,7 @@ import java.util.List;
 import static java.util.Comparator.reverseOrder;
 import static java.util.stream.Collectors.toList;
 
-public class CpMelody implements Comparable<CpMelody>{
+public class CpMelody implements Comparable<CpMelody>, MusicElement{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CpMelody.class);
 	

@@ -4,13 +4,12 @@ import cp.composition.voice.Voice;
 import cp.config.TextureConfig;
 import cp.config.TimbreConfig;
 import cp.config.VoiceConfig;
-import cp.model.Motive;
 import cp.model.harmony.DependantHarmony;
 import cp.model.melody.CpMelody;
+import cp.model.melody.MusicElement;
 import cp.model.note.Note;
 import cp.model.timbre.Timbre;
 import cp.nsga.operator.mutation.MutationOperator;
-import cp.nsga.operator.mutation.MutationType;
 import cp.util.RandomUtil;
 import jmetal.util.PseudoRandom;
 import org.slf4j.Logger;
@@ -25,7 +24,7 @@ import java.util.List;
  * Created by prombouts on 6/05/2017.
  */
 @Component(value = "rhythmMutation")
-public class RhythmMutation implements MutationOperator<Motive> {
+public class RhythmMutation implements MutationOperator<MusicElement> {
 
     private static Logger LOGGER = LoggerFactory.getLogger(RhythmMutation.class);
 
@@ -43,8 +42,8 @@ public class RhythmMutation implements MutationOperator<Motive> {
         this.probability = probability;
     }
 
-    public void doMutation(CpMelody melody)  {
-        if ((melody.getMutationType() == MutationType.ALL || melody.getMutationType() == MutationType.RHYTHM) && PseudoRandom.randDouble() < probability) {
+    public void doMutation( CpMelody melody)  {
+        if (PseudoRandom.randDouble() < probability) {
             int v = melody.getVoice();
             Voice voice = voiceConfig.getVoiceConfiguration(v);
             Timbre timbreConfigForVoice = timbreConfig.getTimbreConfigForVoice(v);
@@ -67,14 +66,14 @@ public class RhythmMutation implements MutationOperator<Motive> {
                     }
                 }
                 melody.updateRhythmNotes(rhythmNotes);
-			LOGGER.debug("RhythmMutation: " + melody.getVoice());
+//			LOGGER.info("RhythmMutation: " + melody.getVoice());
             }
         }
     }
 
     @Override
-    public Motive execute(Motive motive) {
-        doMutation(motive.getRandomMutableMelody());
-        return motive;
+    public MusicElement execute(MusicElement melody) {
+        doMutation((CpMelody)melody);
+        return melody;
     }
 }

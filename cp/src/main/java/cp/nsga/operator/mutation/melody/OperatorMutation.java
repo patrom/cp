@@ -1,9 +1,9 @@
 package cp.nsga.operator.mutation.melody;
 
 import cp.config.VoiceConfig;
-import cp.model.Motive;
 import cp.model.TimeLine;
 import cp.model.melody.CpMelody;
+import cp.model.melody.MusicElement;
 import cp.model.melody.Tonality;
 import cp.nsga.operator.mutation.MutationOperator;
 import cp.util.RandomUtil;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
  * Created by prombouts on 9/05/2017.
  */
 @Component(value = "operatorMutation")
-public class OperatorMutation implements MutationOperator<Motive> {
+public class OperatorMutation implements MutationOperator<MusicElement> {
 
     private static Logger LOGGER = LoggerFactory.getLogger(OperatorMutation.class);
 
@@ -96,9 +96,9 @@ public class OperatorMutation implements MutationOperator<Motive> {
     }
 
     @Override
-    public Motive execute(Motive motive) {
-        doMutation(motive.getRandomMutableMelody());
-        return motive;
+    public MusicElement execute(MusicElement melody) {
+        doMutation((CpMelody)melody);
+        return melody;
     }
 }
 

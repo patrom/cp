@@ -9,6 +9,7 @@ import cp.util.RandomUtil;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -62,16 +63,16 @@ public class Motive implements Cloneable {
 		List<CpMelody> melodies = melodyBlocks.stream()
 				.filter(m -> m.isMutable())
 				.flatMap(m -> m.getMelodyBlocks().stream())
-				.filter(mel -> mel.getNotesSize() >= size)
+				.filter(melody -> melody.getNotesSize() >= size)
 				.collect(toList());
 		return RandomUtil.getRandomFromList(melodies);
 	}
 
-	public CpMelody getRandomMutableMelody(Stream<MutationType> mutationTypes){
+	public CpMelody getRandomMutableMelody(Supplier<Stream<MutationType>> mutationTypes){
 		List<CpMelody> melodies = melodyBlocks.stream()
 				.filter(m -> m.isMutable())
 				.flatMap(melodyBlock -> melodyBlock.getMelodyBlocks().stream())
-				.filter(melody -> mutationTypes.anyMatch(mutationType -> mutationType == melody.getMutationType()))
+				.filter(melody -> mutationTypes.get().anyMatch(mutationType -> mutationType == melody.getMutationType()))
 				.collect(toList());
 		return RandomUtil.getRandomFromList(melodies);
 	}

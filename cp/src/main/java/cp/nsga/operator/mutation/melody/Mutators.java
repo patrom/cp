@@ -21,8 +21,6 @@ public class Mutators {
     private double probabilityOneNote;
     @Value("${probabilityOneNoteChromatic}")
     private double probabilityOneNoteChromatic;
-    @Value("${probabilityHarmonic}")
-    private double probabilityHarmonic;
     @Value("${probabilityRhythm}")
     private double probabilityRhythm;
     @Value("${probabilityReplaceMelody}")
@@ -41,6 +39,10 @@ public class Mutators {
     private double probabilityProvided;
     @Value("${probabilitySymmetryProvided}")
     private double probabilitySymmetryProvided;
+    @Value("${probabilityOneNoteHarmony}")
+    private double probabilityOneNoteHarmony;
+    @Value("${probabilityAllNoteHarmony}")
+    private double probabilityAllNoteHarmony;
 
     @Autowired
     public RhythmMutation rhythmMutation;
@@ -67,7 +69,9 @@ public class Mutators {
     @Autowired
     public ProvidedMutation providedMutation;
     @Autowired
-    public HarmonyMelodyMutation harmonyMelodyMutation;
+    public AllNoteHarmonyMutation allNoteHarmonyMutation;
+    @Autowired
+    public OneNoteHarmonyMutation oneNoteHarmonyMutation;
     @Autowired
     private ProvidedSymmetryMutation providedSymmetryMutation;
 
@@ -95,35 +99,35 @@ public class Mutators {
 
     public List<MutationOperator> mutationOperators(){
         ArrayList<MutationOperator> mutationOperators = new ArrayList<>();
-//        if (probabilityRhythm > 0.0) {
-//            mutationOperators.add(rhythmMutation);
-//        }
-////        mutationOperators.add(operatorMutation);
-//        if (probabilityReplaceMelody > 0.0) {
-//            mutationOperators.add(replaceMelody);
-//        }
-//        if (probabilityOneNote > 0.0) {
-//            mutationOperators.add(oneNoteMutation);
-//        }
-////        mutationOperators.add(oneNoteChromaticMutation);//no timeline
-//        if (probabilityAllNote > 0.0) {
-//            mutationOperators.add(allNoteMutation);
-//        }
-//        if (probabilityArticulation > 0.0) {
-//            mutationOperators.add(articulationMutation);
-//        }
-//        if (probabilityDynamic > 0.0) {
-//            mutationOperators.add(dynamicMutation);
-//        }
-//        if (probabilityTechnical> 0.0) {
-//            mutationOperators.add(technicalMutation);
-//        }
-//        if (probabilityTexture > 0.0) {
-//            mutationOperators.add(textureMutation);
-//        }
-        if (probabilityHarmonic > 0.0) {
-            mutationOperators.add(harmonyMelodyMutation);
+        if (probabilityRhythm > 0.0) {
+            mutationOperators.add(rhythmMutation);
         }
+//        mutationOperators.add(operatorMutation);
+        if (probabilityReplaceMelody > 0.0) {
+            mutationOperators.add(replaceMelody);
+        }
+        if (probabilityOneNote > 0.0) {
+            mutationOperators.add(oneNoteMutation);
+        }
+//        mutationOperators.add(oneNoteChromaticMutation);//no timeline
+        if (probabilityAllNote > 0.0) {
+            mutationOperators.add(allNoteMutation);
+        }
+        if (probabilityArticulation > 0.0) {
+            mutationOperators.add(articulationMutation);
+        }
+        if (probabilityDynamic > 0.0) {
+            mutationOperators.add(dynamicMutation);
+        }
+        if (probabilityTechnical> 0.0) {
+            mutationOperators.add(technicalMutation);
+        }
+        if (probabilityTexture > 0.0) {
+            mutationOperators.add(textureMutation);
+        }
+
+//            mutationOperators.addAll(harmonyMutationOperators());
+
 //        mutationOperators.add(providedMutation); //-> check if provided melody sizes are part of combinations!!
         return mutationOperators;
     }
@@ -188,11 +192,14 @@ public class Mutators {
         return mutationOperators;
     }
 
-    private List<MutationOperator> harmonyMutationOperators(){
+    public List<MutationOperator> harmonyMutationOperators(){
         ArrayList<MutationOperator> mutationOperators = new ArrayList<>();
-        if (probabilityHarmonic > 0.0) {
-            mutationOperators.add(harmonyMelodyMutation);
+        if (probabilityAllNoteHarmony > 0.0) {
+            mutationOperators.add(allNoteHarmonyMutation);
         }
+//        if (probabilityOneNoteHarmony > 0.0) {
+//            mutationOperators.add(oneNoteHarmonyMutation);
+//        }
         return mutationOperators;
     }
 

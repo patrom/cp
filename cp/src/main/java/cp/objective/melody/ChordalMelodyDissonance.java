@@ -13,9 +13,9 @@ public class ChordalMelodyDissonance implements MelodyDissonance{
     private static final Logger LOGGER = LoggerFactory.getLogger(ChordalMelodyDissonance.class);
 
     public static final Map<Integer,Double> intervalMap = new HashMap<Integer,Double>() {{
-        put(0, 1.0); //octaaf
-        put(1, 0.2);
-        put(2, 0.2);
+        put(0, 0.0); //octaaf
+        put(1, 0.0);
+        put(2, 0.0);
         put(3, 1.0);
         put(4, 1.0);
         put(5, 1.0);

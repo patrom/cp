@@ -3,11 +3,10 @@ package cp.nsga.operator.mutation.melody;
 import cp.config.InstrumentConfig;
 import cp.config.TimbreConfig;
 import cp.config.VoiceConfig;
-import cp.model.Motive;
 import cp.model.melody.CpMelody;
+import cp.model.melody.MusicElement;
 import cp.model.timbre.Timbre;
 import cp.nsga.operator.mutation.MutationOperator;
-import cp.nsga.operator.mutation.MutationType;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.Instrument;
 import cp.util.RandomUtil;
@@ -21,7 +20,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component(value="articulationMutation")
-public class ArticulationMutation implements MutationOperator<Motive> {
+public class ArticulationMutation implements MutationOperator<MusicElement> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ArticulationMutation.class);
 	
@@ -40,9 +39,7 @@ public class ArticulationMutation implements MutationOperator<Motive> {
 	}
 
 	public void doMutation(CpMelody melody) {
-		if ((melody.getMutationType() == MutationType.ALL
-				|| melody.getMutationType() == MutationType.TIMBRE)
-				&& PseudoRandom.randDouble() < probabilityArticulation) {
+		if (PseudoRandom.randDouble() < probabilityArticulation) {
 			Instrument instrument = instrumentConfig.getInstrumentForVoice(melody.getVoice());
             Timbre timbre = timbreConfig.getTimbreConfigForVoice(melody.getVoice());
 			List<Articulation> articulations = timbre.getArticulations(instrument.getInstrumentGroup());
@@ -50,15 +47,14 @@ public class ArticulationMutation implements MutationOperator<Motive> {
 				LOGGER.info("articulations empty");
 			}else{
 				melody.updateArticulation(RandomUtil.getRandomFromList(articulations));
-				LOGGER.debug("articulations empty");
 			}
 		} 
 	}
 
 
 	@Override
-	public Motive execute(Motive motive) {
-		doMutation(motive.getRandomMutableMelody());
-		return motive;
+	public MusicElement execute(MusicElement melody) {
+		doMutation((CpMelody)melody);
+		return melody;
 	}
 }
