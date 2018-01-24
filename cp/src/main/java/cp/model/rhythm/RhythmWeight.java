@@ -23,7 +23,7 @@ public class RhythmWeight {
 	private static final double TEXTURE_WEIGHT = 1.0;
 
 	protected double getMinimumNoteValue() {
-		updateNotesLength();
+//		updateNotesLength();
 		return notes.stream().mapToDouble(note -> note.getLength()).min().getAsDouble();
 	}
 	
@@ -45,7 +45,7 @@ public class RhythmWeight {
 	}
 
 	protected void updateRhythmWeightSounds(double min) {
-		updateNotesLength();
+//		updateNotesLength();
 //		notes.get(notes.size() - 1).setLength((int) min);
 		notes.forEach(note -> note.setPositionWeight(note.getPositionWeight() + (note.getLength()/min))); 
 	}

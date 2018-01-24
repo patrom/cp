@@ -249,11 +249,18 @@ public class CpHarmony implements Comparable<CpHarmony>{
 
 	protected boolean containsMinorSecond(List<Integer> pitches){
 		int size = pitches.size() - 1;
-		for (int i = 0; i < size; i++) {
+		//root b9 allowed
+		Integer root = pitches.get(0);
+		Integer next = pitches.get(1);
+		int intervalRoot = next - root;
+		if(intervalRoot == 1){
+			return true;
+		}
+		for (int i = 1; i < size; i++) {
 			int pitch = pitches.get(i);
 			int nextPitch = pitches.get(i + 1);
-			int interval = nextPitch - pitch;
-			if(interval == 1){
+			Interval interval = Interval.getEnumInterval(nextPitch - pitch);
+			if(interval.getInterval() == 1){
 				return true;
 			}
 		}

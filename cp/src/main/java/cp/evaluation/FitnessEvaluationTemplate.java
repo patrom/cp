@@ -69,7 +69,7 @@ public class FitnessEvaluationTemplate {
 		updateRhythmWeight(melodiesToCalculate);
 
 		List<Note> allNotes = melodies.stream().flatMap(m -> m.getMelodyBlockNotes().stream()).collect(toList());
-		List<CpHarmony> harmonies = harmonyExtractor.extractHarmony(allNotes, motive.getMelodyBlocks().size());
+		List<CpHarmony> harmonies = harmonyExtractor.extractHarmony(allNotes);
         motive.setHarmonies(harmonies);
 //		melodies.forEach(h ->  LOGGER.debug(h.getMelodyBlockNotes() + ", "));
 		return evaluateObjectives(motive);

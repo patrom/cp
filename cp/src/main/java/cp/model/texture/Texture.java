@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.Collections.emptyList;
@@ -41,7 +42,7 @@ public class Texture {
         return getTextureForNoteBelow(note);
     }
 
-    public List<Note> getTextureForNoteBelow(Note note) {
+    protected List<Note> getTextureForNoteBelow(Note note) {
         DependantHarmony dependantHarmony = note.getDependantHarmony();
         if(dependantHarmony != null) {
             List<Note> textureNotes = new ArrayList<>();
@@ -57,6 +58,9 @@ public class Texture {
                 case 3:
                     textureNotes.addAll(multiNoteDependency(note, true));
                     break;
+                case 12:
+                    textureNotes.addAll(updateDependantNotesBelow(note));
+                    break;
                 default:
                     throw new IllegalArgumentException("Dependant harmony not set for type: " + dependantHarmony.getChordType());
 
@@ -66,7 +70,7 @@ public class Texture {
         return emptyList();
     }
 
-    public List<Note> getTextureForNoteAbove(Note note) {
+    protected List<Note> getTextureForNoteAbove(Note note) {
         DependantHarmony dependantHarmony = note.getDependantHarmony();
         if(dependantHarmony != null) {
             List<Note> textureNotes = new ArrayList<>();
@@ -81,6 +85,9 @@ public class Texture {
                     break;
                 case 3:
                     textureNotes.addAll(multiNoteDependency(note, false));
+                    break;
+                case 12:
+                    textureNotes.addAll(updateDependantNotesAbove(note));
                     break;
                 default:
                     throw new IllegalArgumentException("Dependant harmony not set for type: " + dependantHarmony.getChordType());
@@ -352,6 +359,46 @@ public class Texture {
             }
         }
         return clone;
+    }
+
+
+
+    public List<Note> updateDependantNotesBelow(Note note){
+        DependantHarmony dependantHarmony = note.getDependantHarmony();
+        if (dependantHarmony != null) {
+            List<Note> harmonyNotes = dependantHarmony.getNotes();
+            for (Note harmonyNote : harmonyNotes) {
+                int harmonyPitch = note.getOctave() * 12 + harmonyNote.getPitchClass();
+                if (harmonyPitch <= note.getPitch()) {
+                    harmonyNote.setPitch(harmonyPitch);
+                    harmonyNote.setOctave(note.getOctave());
+                } else {
+                    harmonyNote.setPitch(harmonyPitch - 12);
+                    harmonyNote.setOctave(note.getOctave() - 1);
+                }
+            }
+            return harmonyNotes;
+        }
+        return Collections.emptyList();
+    }
+
+    public List<Note> updateDependantNotesAbove(Note note){
+        DependantHarmony dependantHarmony = note.getDependantHarmony();
+        if (dependantHarmony != null) {
+            List<Note> harmonyNotes = dependantHarmony.getNotes();
+            for (Note harmonyNote : harmonyNotes) {
+                int harmonyPitch = note.getOctave() * 12 + harmonyNote.getPitchClass();
+                if (harmonyPitch >= note.getPitch()) {
+                    harmonyNote.setPitch(harmonyPitch);
+                    harmonyNote.setOctave(note.getOctave());
+                } else {
+                    harmonyNote.setPitch(harmonyPitch + 12);
+                    harmonyNote.setOctave(note.getOctave() + 1);
+                }
+            }
+            return harmonyNotes;
+        }
+        return Collections.emptyList();
     }
 
 }

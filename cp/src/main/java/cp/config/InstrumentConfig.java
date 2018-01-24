@@ -44,8 +44,8 @@ public class InstrumentConfig {
     public void instrumentInit(){
         Piano piano = new Piano();
         instruments.put(0,new InstrumentMapping(piano, 1, 0));
-        instruments.put(1,new InstrumentMapping(piano, 1, 1));
-        instruments.put(2,new InstrumentMapping(piano, 1, 2));
+        instruments.put(1,new InstrumentMapping(piano, 2, 1));
+//        instruments.put(2,new InstrumentMapping(piano, 1, 2));
 //        instruments.put(3,new InstrumentMapping(piano, 1, 3));
 //        instruments = getSAATBChoir();
 //        instruments.put(0,new InstrumentMapping(new ViolinSolo() , 3, 0));
@@ -70,14 +70,6 @@ public class InstrumentConfig {
 //            allInstrumentMappings.addAll(instrumentMapping.getDependantInstruments());
 //        }
 //        Collections.sort(allInstrumentMappings);
-    }
-
-    public  List<Instrument>  getInstruments(){
-        List<Instrument> instrumentList = new ArrayList<>();
-        for (InstrumentMapping instrumentMapping : instruments.values()) {
-            instrumentList.add(instrumentMapping.getInstrument());
-        }
-        return instrumentList;
     }
 
     private Map<Integer, InstrumentMapping> getWoodWindsDuo(){
@@ -335,5 +327,9 @@ public class InstrumentConfig {
             }
         }
         throw new IllegalStateException("No Instrument found in instrumentConfig " + instrument);
+    }
+
+    public Map<Integer, InstrumentMapping> getInstruments() {
+        return instruments;
     }
 }

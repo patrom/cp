@@ -1,9 +1,6 @@
 package cp.config;
 
-import cp.objective.melody.ChromaticeMelodyDissonance;
-import cp.objective.melody.MelodyDefaultDissonance;
-import cp.objective.melody.MelodyDissonance;
-import cp.objective.melody.PentatonicMelodyDissonance;
+import cp.objective.melody.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +19,8 @@ public class MelodyConfig {
     private PentatonicMelodyDissonance pentatonicMelodyDissonance;
     @Autowired
     private ChromaticeMelodyDissonance chromaticeMelodyDissonance;
+    @Autowired
+    private ChordalMeldoyDissonance chordalMeldoyDissonance;
 
     @PostConstruct
     public void init() {

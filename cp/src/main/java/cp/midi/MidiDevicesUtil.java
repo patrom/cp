@@ -1,5 +1,6 @@
 package cp.midi;
 
+import cp.composition.TwelveToneComposition;
 import cp.config.InstrumentConfig;
 import cp.config.TextureConfig;
 import cp.model.humanize.Humanize;
@@ -18,12 +19,15 @@ import cp.util.RandomUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import javax.sound.midi.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 @Component
@@ -47,6 +51,10 @@ public class MidiDevicesUtil {
 	private MidiEventGenerator midiEventGenerator;
 	@Autowired
 	private VSLArticulationConverter vslArticulationConverter;
+
+	@Autowired @Lazy
+	@Qualifier(value="twelveToneComposition")
+	private TwelveToneComposition twelveToneComposition;
 
 	public void playOnDevice(Sequence sequence, int tempo, MidiDevicePlayer kontakt) {
 		LOGGER.info("tempo:" + tempo);
@@ -111,34 +119,6 @@ public class MidiDevicesUtil {
 		return sequence;
 	}
 
-	public Sequence createSequence(List<MelodyInstrument> melodies)
-			throws InvalidMidiDataException {
-		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
-		for (MelodyInstrument melodyInstrument : melodies) {
-			if (melodyInstrument.getInstrumentMapping() != null) {
-                Track track = sequence.createTrack();
-                List<MidiEvent> events = createTrack(melodyInstrument.getNotes(), melodyInstrument.getInstrumentMapping().getChannel() );
-                events.addAll(melodyInstrument.getMidiEvents());
-                Collections.sort(events, new Comparator<MidiEvent>() {
-                    @Override
-                    public int compare(MidiEvent event1, MidiEvent event2) {
-                        if (event1.getTick() < event2.getTick()) {
-                            return -1;
-                        }
-                        if (event1.getTick() < event2.getTick()) {
-                            return 1;
-                        }
-                        return 0;
-                    }
-                });
-                for (MidiEvent event : events) {
-                    track.add(event);
-                }
-            }
-		}
-		return sequence;
-	}
-
 	public Sequence createSequenceGeneralMidi(List<MelodyInstrument> melodies, int tempo, boolean isKontakt)
 			throws InvalidMidiDataException {
 		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
@@ -159,17 +139,17 @@ public class MidiDevicesUtil {
 		return sequence;
 	}
 
-	private List<MidiEvent> createTrack(List<Note> notes, int channel)
-			throws InvalidMidiDataException {
-        List<MidiEvent> events = new ArrayList<>();
-		for (Note notePos : notes) {
-			MidiEvent eventOn = midiEventGenerator.createNoteMidiEvent(ShortMessage.NOTE_ON, notePos, notePos.getPosition(), channel);
-            events.add(eventOn);
-			MidiEvent eventOff = midiEventGenerator.createNoteMidiEvent(ShortMessage.NOTE_OFF, notePos, notePos.getPosition() + notePos.getLength(), channel);
-            events.add(eventOff);
-		}
-		return events;
-	}
+//	private List<MidiEvent> createTrack(List<Note> notes, int channel)
+//			throws InvalidMidiDataException {
+//        List<MidiEvent> events = new ArrayList<>();
+//		for (Note notePos : notes) {
+//			MidiEvent eventOn = midiEventGenerator.createNoteMidiEvent(ShortMessage.NOTE_ON, notePos, notePos.getPosition(), channel);
+//            events.add(eventOn);
+//			MidiEvent eventOff = midiEventGenerator.createNoteMidiEvent(ShortMessage.NOTE_OFF, notePos, notePos.getPosition() + notePos.getLength(), channel);
+//            events.add(eventOff);
+//		}
+//		return events;
+//	}
 
 	private void createTrackGeneralMidi(Sequence sequence, List<Note> notes, Instrument instrument, int tempo, int channel, boolean isKontakt)
 			throws InvalidMidiDataException {
@@ -272,7 +252,7 @@ public class MidiDevicesUtil {
 	public void createVelocityCurve(int channel, Track track, Note note) throws InvalidMidiDataException {
 		int notePosition = note.getMidiPosition();
 		int noteLength = note.getMidiLength();
-        int split = RandomUtil.getRandomNumberInRange(5, noteLength - 10);
+		int split = RandomUtil.getRandomNumberInRange(5, noteLength - 10);
 		int peakLevel = PEAK_LEVEL;
 		int positionPerLevelUp =  split / peakLevel;
 		int positionPerLevelDown = (noteLength - split) / peakLevel;

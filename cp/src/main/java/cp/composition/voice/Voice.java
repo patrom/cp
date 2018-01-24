@@ -1,11 +1,7 @@
 package cp.composition.voice;
 
 import cp.combination.RhythmCombination;
-import cp.combination.even.FourNoteEven;
-import cp.combination.even.OneNoteEven;
-import cp.combination.even.ThreeNoteEven;
-import cp.combination.even.TwoNoteEven;
-import cp.combination.uneven.*;
+import cp.combination.RhythmCombinations;
 import cp.composition.beat.BeatGroup;
 import cp.composition.timesignature.TimeConfig;
 import cp.generator.pitchclass.PassingPitchClasses;
@@ -62,31 +58,7 @@ public abstract class Voice {
     protected Map<Integer, List<RhythmCombination>> fixedUneven;
 
     @Autowired
-    protected OneNoteEven oneNoteEven;
-    @Autowired
-    protected TwoNoteEven twoNoteEven;
-    @Autowired
-    protected ThreeNoteEven threeNoteEven;
-    @Autowired
-    protected FourNoteEven fourNoteEven;
-
-    @Autowired
-    protected ThreeNoteTriplet threeNoteUneven;
-    @Autowired
-    protected TwoNoteTriplet twoNoteUneven;
-    @Autowired
-    protected OneNoteTriplet oneNoteUneven;
-    @Autowired
-    protected ThreeNoteSexTuplet threeNoteSexTuplet;
-    @Autowired
-    protected FourNoteSexTuplet fourNoteSexTuplet;
-    @Autowired
-    protected FiveNoteSexTuplet fiveNoteSexTuplet;
-    @Autowired
-    protected SixNoteSexTuplet sixNoteSexTuplet;
-
-    @Autowired
-    protected FiveNoteQuintuplet fiveNoteQuintuplet;
+    protected RhythmCombinations rhythmCombinations;
 
     @Autowired
     protected RandomPitchClasses randomPitchClasses;

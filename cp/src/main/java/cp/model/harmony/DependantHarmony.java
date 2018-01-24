@@ -1,5 +1,9 @@
 package cp.model.harmony;
 
+import cp.model.note.Note;
+
+import java.util.List;
+
 /**
  * Created by prombouts on 22/01/2017.
  */
@@ -8,6 +12,7 @@ public class DependantHarmony{
     private ChordType chordType;
     private int axisPitchClassHigh;
     private int axisPitchClassLow;
+    private List<Note> notes;
 
     public ChordType getChordType() {
         return chordType;
@@ -41,4 +46,13 @@ public class DependantHarmony{
     public int getAxisPitchClassLow() {
         return axisPitchClassLow;
     }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
+    }
+
+    public List<Note> getNotes() {
+        return notes;
+    }
+
 }

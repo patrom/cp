@@ -78,6 +78,9 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	@Autowired @Lazy
 	@Qualifier(value="sixVoiceComposition")
 	private SixVoiceComposition sixVoiceComposition;
+	@Autowired @Lazy
+	@Qualifier(value="twelveToneComposition")
+	private TwelveToneComposition twelveToneComposition;
 	@Autowired
 	private Orchestrator orchestrator;
 	@Autowired
@@ -142,7 +145,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		threeVoiceComposition.setHarmonizeVoice(2);
 //		composeInGenres.add(threeVoiceComposition::harmonize);
 //		composeInGenres.add(threeVoiceComposition::threeOverXX);
-		composeInGenres.add(threeVoiceComposition::allRandom);
+//		composeInGenres.add(threeVoiceComposition::allRandom);
 
 		//FOUR VOICES
 //		composeInGenres.add(fourVoiceComposition::canonA3);
@@ -163,6 +166,9 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 
 		//SIX VOICE
 //		composeInGenres.add(sixVoiceComposition::allRandom);
+
+		//12 tone
+		composeInGenres.add(twelveToneComposition::compose2);
 
 		for (CompositionGenre compositionGenre : composeInGenres) {
 			composeInGenre.setCompositionGenre(compositionGenre);

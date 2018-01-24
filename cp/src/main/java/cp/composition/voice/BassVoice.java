@@ -37,7 +37,7 @@ public class BassVoice extends Voice {
 //        map.put(0, zeroCombinations);
 
         List<RhythmCombination> oneCombinations = new ArrayList<>();
-        oneCombinations.add(oneNoteEven::pos1);
+        oneCombinations.add(rhythmCombinations.oneNoteEven::pos1);
 //		oneCombinations.add(oneNoteEven::pos2);
 //        oneCombinations.add(oneNoteEven::pos3);
 //		oneCombinations.add(oneNoteEven::pos4);

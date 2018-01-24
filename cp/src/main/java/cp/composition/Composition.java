@@ -168,7 +168,7 @@ public abstract class Composition {
 
 	@PostConstruct
 	public void init(){
-		composeInKey(keys.D);
+		composeInKey(keys.C);
 		inTempo(80);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);

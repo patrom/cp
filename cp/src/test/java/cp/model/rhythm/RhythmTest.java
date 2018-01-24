@@ -3,20 +3,16 @@ package cp.model.rhythm;
 import cp.DefaultConfig;
 import cp.midi.HarmonyPosition;
 import cp.midi.MelodyInstrument;
-import cp.midi.MidiDevicePlayer;
 import cp.midi.MidiDevicesUtil;
 import cp.model.note.Note;
 import cp.out.instrument.keyboard.Piano;
 import cp.out.play.InstrumentMapping;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.Sequence;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,10 +28,6 @@ public class RhythmTest {
 	private Rhythm rhythm;
 	@Autowired
 	private MidiDevicesUtil midiDevicesUtil;
-	@Before
-	public void setUp() throws Exception {
-	
-	}
 	
 	@Test
 	public void testRhythmPositions() {
@@ -149,14 +141,6 @@ public class RhythmTest {
 		
 		MelodyInstrument melodyInstrument = new MelodyInstrument(notes, 0);
 		melodyInstrument.setInstrumentMapping(new InstrumentMapping(new Piano(),0,0));
-//		playOnKontakt(Collections.singletonList(melodyInstrument), 90, 5000);
-		
-	}
-	
-	private void playOnKontakt(List<MelodyInstrument> melodies, int tempo, long playTime ) throws InvalidMidiDataException, InterruptedException {
-		Sequence seq = midiDevicesUtil.createSequence(melodies);
-		midiDevicesUtil.playOnDevice(seq, tempo, MidiDevicePlayer.KONTAKT);
-		Thread.sleep(playTime);
 	}
 
 	@Test

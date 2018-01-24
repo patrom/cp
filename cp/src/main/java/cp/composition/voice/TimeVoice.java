@@ -33,7 +33,7 @@ public class TimeVoice extends Voice {
     private Map<Integer, List<RhythmCombination>> getWaltzBeatGroups(){
         Map<Integer, List<RhythmCombination>> map = new HashMap<>();
         List<RhythmCombination> beatGroups = new ArrayList<>();
-        beatGroups.add(twoNoteUneven::pos23);
+        beatGroups.add(rhythmCombinations.twoNoteUneven::pos23);
         map.put(2, beatGroups);
         return map;
     }
