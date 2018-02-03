@@ -108,7 +108,7 @@ public class MusicXMLWriter {
 			int endNote = note.getPosition() + note.getLength();
 			if (endNote < nextNote.getPosition()) {
 				int length = nextNote.getPosition() - endNote;
-				Note rest = note().pitch(Note.REST).pos(endNote).len(length).voice(note.getVoice()).build();
+				Note rest = note().rest().pos(endNote).len(length).voice(note.getVoice()).build();
 				notesRestsIncluded.add(rest);
 			}
 		}
@@ -139,7 +139,7 @@ public class MusicXMLWriter {
 		if (!notes.isEmpty()) {
 			Note firsNote = notes.get(0);
 			if (firsNote.getPosition() != 0){
-				Note rest = note().pitch(Note.REST).pos(0).len(firsNote.getPosition()).voice(firsNote.getVoice()).build();
+				Note rest = note().rest().pos(0).len(firsNote.getPosition()).voice(firsNote.getVoice()).build();
 				notes.add(0, rest);
 			}
 		}

@@ -121,23 +121,35 @@ public class Note implements Comparable<Note>{
 	}
 
 	public int getMidiPosition(){
-		int midiPosition = position + humanization.getTiming();
-		if(midiPosition < 0){
+		if (humanization != null) {
+			int midiPosition = position + humanization.getTiming();
+			if(midiPosition < 0){
+                return position;
+            }
+			return midiPosition;
+		} else {
 			return position;
 		}
-		return midiPosition;
-    }
+	}
 
 	public int getBeforeMidiPosition(){
-		int midiPosition = position + humanization.getTiming() - 1;
-		if(midiPosition < 0){
-			return position;
+		if (humanization != null) {
+			int midiPosition = position + humanization.getTiming() - 1;
+			if(midiPosition < 0){
+                return position;
+            }
+			return midiPosition;
+		} else {
+		    return position;
 		}
-		return midiPosition;
 	}
 
     public int getMidiLength(){
-		return humanization.getDuration();
+		if (humanization != null) {
+			return humanization.getDuration();
+		} else {
+			return length;
+		}
 	}
 
 	public int getMidiControllerLength(){
@@ -145,15 +157,27 @@ public class Note implements Comparable<Note>{
 	}
 
 	public int getMidiAttack(){
-		return humanization.getAttack();
+		if (humanization != null) {
+			return humanization.getAttack();
+		} else {
+			return 0;
+		}
 	}
 
 	public int getMidiVelocity(){
-		return dynamicLevel + humanization.getVelocity();
+		if (humanization != null) {
+			return dynamicLevel + humanization.getVelocity();
+		} else {
+			return dynamicLevel;
+		}
 	}
 
 	public int getMidiIntonation(){
-		return DEFAULT_INTONATION + humanization.getIntonation();
+		if (humanization != null) {
+			return DEFAULT_INTONATION + humanization.getIntonation();
+		} else {
+			return DEFAULT_INTONATION;
+		}
 	}
 
 	public void setPosition(int position) {

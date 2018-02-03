@@ -46,7 +46,7 @@ public class TwelveToneRhythmMutation implements MutationOperator<CpMelody> {
 
             melody.updateNotes(notes);
 
-//          LOGGER.info("TwelveToneBuilder tone rhythm mutated: " + voice);
+          LOGGER.info("TwelveToneBuilder tone rhythm mutated: " + voice);
         }
     }
 

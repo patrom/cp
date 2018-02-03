@@ -45,7 +45,7 @@ public class TextureMutation implements MutationOperator<CpMelody> {
                 List<DependantHarmony> textureTypes = textureConfig.getTextureFor(voice);
                 DependantHarmony dependantHarmony = RandomUtil.getRandomFromList(textureTypes);
                 note.setDependantHarmony(dependantHarmony);
-//				    LOGGER.info("Texture replaced: " + melody.getVoice());
+                LOGGER.info("Texture replaced: " + melody.getVoice());
             }
         }
     }

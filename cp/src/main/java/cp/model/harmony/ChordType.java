@@ -89,6 +89,11 @@ public enum ChordType {
 	CH5(5),
 	
 	CH6(6),
+	CH7(7),
+	CH8(8),
+	CH9(9),
+	CH10(10),
+	CH11(11),
 
 	//chromatic
 	CH2_KLEINE_SECONDE_CHR(2,1),

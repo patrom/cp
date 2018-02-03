@@ -41,7 +41,10 @@ public class FourNoteSexTuplet {
 		switch (beat) {
 		case DurationConstants.QUARTER:
 			notes =  posWithBeam(length2, noteLength, noteLength, length2);
-			notes.forEach(n -> n.setSextuplet(true));
+			notes.forEach(n -> {
+				n.setSextuplet(true);
+				n.setTimeModification("16th");
+			});
 			return notes;
 //		case 24:
 //			notes =  pos(beat/3);
@@ -61,7 +64,10 @@ public class FourNoteSexTuplet {
 		switch (beat) {
 			case DurationConstants.QUARTER:
 				notes =  posWithBeam(length2, noteLength, length2, noteLength);
-				notes.forEach(n -> n.setSextuplet(true));
+				notes.forEach(n -> {
+					n.setSextuplet(true);
+					n.setTimeModification("16th");
+				});
 				return notes;
 //		case 24:
 //			notes =  pos(beat/3);
@@ -81,7 +87,10 @@ public class FourNoteSexTuplet {
 		switch (beat) {
 		case DurationConstants.QUARTER:
 			notes =  posWithBeam(length2, length2, noteLength, noteLength);
-			notes.forEach(n -> n.setSextuplet(true));
+			notes.forEach(n -> {
+				n.setSextuplet(true);
+				n.setTimeModification("16th");
+			});
 			return notes;
 //		case 24:
 //			notes =  pos(beat/3);
@@ -101,7 +110,10 @@ public class FourNoteSexTuplet {
 		switch (beat) {
 			case DurationConstants.QUARTER:
 				notes =  posWithBeam(noteLength, length2, noteLength, length2);
-				notes.forEach(n -> n.setSextuplet(true));
+				notes.forEach(n -> {
+					n.setSextuplet(true);
+					n.setTimeModification("16th");
+				});
 				return notes;
 			case DurationConstants.THREE_EIGHTS:
 				return  posWithBeam(noteLength, length2, noteLength, length2);

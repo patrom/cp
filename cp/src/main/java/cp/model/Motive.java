@@ -56,6 +56,14 @@ public class Motive implements Cloneable {
 		return RandomUtil.getRandomFromList(randomMelodyBlock.getMelodyBlocks());
 	}
 
+	public CpMelody getRandomMutableMelodyForVoice(int voice){
+		List<MelodyBlock> mutableMelodies = melodyBlocks.stream()
+				.filter(m -> m.isMutable() && m.getVoice() == voice)
+				.collect(toList());
+		MelodyBlock randomMelodyBlock = RandomUtil.getRandomFromList(mutableMelodies);
+		return RandomUtil.getRandomFromList(randomMelodyBlock.getMelodyBlocks());
+	}
+
 	public MelodyBlock getRandomMutableMelodyBlockExcludingVoice(int voice){
 		List<MelodyBlock> mutableMelodies = melodyBlocks.stream()
 				.filter(m -> m.isMutable() && m.getVoice() != voice)
@@ -117,6 +125,12 @@ public class Motive implements Cloneable {
 		return melodyBlocks.stream().filter(m -> m.getVoice() == voice).findFirst().get();
 	}
 
-
+	public CpMelody getMelody(int voice, int start) {
+		return melodyBlocks.stream()
+				.filter(m -> m.getVoice() == voice)
+				.flatMap(melodyBlock -> melodyBlock.getMelodyBlocks().stream())
+				.filter(m -> m.getStart() == start)
+				.findFirst().get();
+	}
 	
 }

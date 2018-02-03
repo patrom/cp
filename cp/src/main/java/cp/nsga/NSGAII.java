@@ -3,6 +3,7 @@ package cp.nsga;
 import cp.model.Motive;
 import cp.model.melody.CpMelody;
 import cp.nsga.operator.mutation.MutationOperator;
+import cp.nsga.operator.mutation.MutationType;
 import cp.nsga.operator.mutation.melody.Mutators;
 import cp.nsga.operator.relation.Relation;
 import cp.nsga.operator.relation.RelationConfig;
@@ -18,6 +19,7 @@ import jmetal.util.Ranking;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -36,6 +38,8 @@ public class NSGAII extends Algorithm {
 	private RelationConfig operatorConfig;
 	@Autowired
 	private Mutators mutators;
+	@Value("${composition.voices:12}")
+	protected int check12Tone;
 
 	/**
 	 * Constructor
@@ -80,20 +84,6 @@ public class NSGAII extends Algorithm {
 		requiredEvaluations = 0;
 
 		// Read the operators
-//		List<Operator> mutationOperators = new ArrayList<>();
-//		mutationOperators.add(operators_.get("replaceMelody"));
-//		mutationOperators.add(operators_.get("replaceMelodyBlock"));
-//		mutationOperators.add(operators_.get("copyMelody"));
-//		mutationOperators.add(operators_.get("repetitionMelody"));
-//		mutationOperators.add(operators_.get("rhythmMutation"));
-//		mutationOperators.add(operators_.get("operatorMutation"));
-////		mutationOperators.add(operators_.get("addRhythm"));
-////		mutationOperators.add(operators_.get("removeRhythm"));
-//		mutationOperators.add(operators_.get("oneNoteMutation"));
-//		mutationOperators.add(operators_.get("oneNoteChromaticMutation"));
-//		mutationOperators.add(operators_.get("articulationMutation"));
-//		mutationOperators.add(operators_.get("dynamicMutation"));
-//		mutationOperators.add(operators_.get("technicalMutation"));
 		jmetal.core.Operator crossoverOperator = operators_.get("crossover");
 		jmetal.core.Operator selectionOperator = operators_.get("selection");
 
@@ -237,13 +227,19 @@ public class NSGAII extends Algorithm {
 	}
 
 	private void mutateOffspring(Solution solution) {
-		CpMelody melodyBlock = getMelodyBlock(solution);
-		List<MutationOperator> mutationOperators = mutators.getMutationOperators(melodyBlock.getMutationType());
-//		mutationOperators.forEach(mutationOperator -> mutationOperator.execute(melodyBlock));
-		if (!mutationOperators.isEmpty()) {
-			MutationOperator operator = RandomUtil.getRandomFromList(mutationOperators);
-			operator.execute(melodyBlock);
+        CpMelody melody = getMelodyBlock(solution);
+        List<MutationOperator> mutationOperators = null;
+		if (check12Tone == 12) {
+            Motive motive = ((MusicVariable) solution.getDecisionVariables()[0]).getMotive();
+            List<MutationOperator> twelveToneMutationOperators = mutators.getMutationOperators(MutationType.TWELVE_TONE);
+            MutationOperator operator = RandomUtil.getRandomFromList(twelveToneMutationOperators);
+            operator.execute(motive);
+            mutationOperators = mutators.timbreMutationOperators();
+        } else {
+			mutationOperators = mutators.getMutationOperators(melody.getMutationType());
 		}
+        MutationOperator operator = RandomUtil.getRandomFromList(mutationOperators);
+        operator.execute(melody);
 	}
 
 	private CpMelody getMelodyBlock(Solution solution) {

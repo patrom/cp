@@ -42,6 +42,8 @@ public class Mutators {
     public ProvidedSymmetryMutation providedSymmetryMutation;
     @Autowired
     public TwelveToneRhythmMutation twelveToneRhythmMutation;
+    @Autowired
+    public TwelveToneRhythmMutationSplit twelveToneRhythmMutationSplit;
 
     public List<MutationOperator> getMutationOperators(MutationType mutationType){
         switch (mutationType){
@@ -60,6 +62,7 @@ public class Mutators {
             case OPERATOR:
                 return providedMutationOperators();
             case TWELVE_TONE:
+//                return twelveToneMutationOperators();
                 return twelveToneMutationOperators();
         }
         throw new IllegalArgumentException("Mutation type unknown: " + mutationType);
@@ -67,7 +70,8 @@ public class Mutators {
 
     private List<MutationOperator> twelveToneMutationOperators(){
         List<MutationOperator> mutationOperators = new ArrayList<>();
-        mutationOperators.add(twelveToneRhythmMutation);
+//        mutationOperators.add(twelveToneRhythmMutation);
+        mutationOperators.add(twelveToneRhythmMutationSplit);
         return mutationOperators;
     }
 
@@ -103,11 +107,12 @@ public class Mutators {
         return mutationOperators;
     }
 
-    private List<MutationOperator> timbreMutationOperators(){
+    public List<MutationOperator> timbreMutationOperators(){
         ArrayList<MutationOperator> mutationOperators = new ArrayList<>();
         mutationOperators.add(articulationMutation);
         mutationOperators.add(dynamicMutation);
         mutationOperators.add(technicalMutation);
+
         return mutationOperators;
     }
 

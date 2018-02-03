@@ -168,7 +168,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(sixVoiceComposition::allRandom);
 
 		//12 tone
-		composeInGenres.add(twelveToneComposition::compose2);
+		composeInGenres.add(twelveToneComposition::composeMerge);
 
 		for (CompositionGenre compositionGenre : composeInGenres) {
 			composeInGenre.setCompositionGenre(compositionGenre);

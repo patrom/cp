@@ -46,7 +46,7 @@ public class TechnicalMutation implements MutationOperator<CpMelody> {
                 LOGGER.info("technicals empty");
             }else{
                 melody.updateTechnical(RandomUtil.getRandomFromList(technicals));
-//                LOGGER.info("technical mutated");
+                LOGGER.debug("technical mutated");
             }
         }
     }

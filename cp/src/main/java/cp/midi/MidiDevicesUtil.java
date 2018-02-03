@@ -157,7 +157,7 @@ public class MidiDevicesUtil {
 		MidiEvent midiTempoEvent = midiTempo.getTempoMidiEvent(tempo);
 
 		//Hunmanise notes
-        humanize.humanize(notes, instrument);
+//        humanize.humanize(notes, instrument);
 
 		Track trackNotes = sequence.createTrack();
         Track trackMetadata = sequence.createTrack();
@@ -233,12 +233,13 @@ public class MidiDevicesUtil {
 	}
 
     private void createVelocityCrossfadeMidiEvents(int channel, Track track, Note note) throws InvalidMidiDataException {
-        MidiEvent velocityXF = setVelocityXF_On_Off(channel, note);
-        track.add(velocityXF);
-        MidiEvent midiEventVelodityXF = midiEventGenerator.createControllerChangeMidiEvent(channel, 11, note.getMidiVelocity(), note.getBeforeMidiPosition());
-        track.add(midiEventVelodityXF);
-		if(note.getHumanization().isLongNote()){
-			createVelocityCurve(channel, track, note);
+		if (note.getHumanization() != null) {
+			MidiEvent velocityXF = setVelocityXF_On_Off(channel, note);
+			track.add(velocityXF);
+			MidiEvent midiEventVelodityXF = midiEventGenerator.createControllerChangeMidiEvent(channel, 11, note.getMidiVelocity(), note.getBeforeMidiPosition());
+			track.add(midiEventVelodityXF);
+			if (note.getHumanization().isLongNote()){
+				createVelocityCurve(channel, track, note);
 //			int peakPosition = note.getMidiPosition() + RandomUtil.getRandomNumberInRange(note.getMidiPosition() / 4, note.getMidiPosition() / 2);
 //			int peakLevel = RandomUtil.getRandomNumberInRange(note.getMidiVelocity() + 5, note.getMidiVelocity() + 15);
 //			MidiEvent peakVelodityXF = midiEventGenerator.createControllerChangeMidiEvent(channel, 11, peakLevel, peakPosition);
@@ -246,12 +247,16 @@ public class MidiDevicesUtil {
 //			int endPosition = note.getBeforeMidiPosition() + note.getMidiLength() - 5;
 //			MidiEvent endVelodityXF = midiEventGenerator.createControllerChangeMidiEvent(channel, 11, note.getMidiVelocity(), endPosition);
 //			track.add(endVelodityXF);
+			}
 		}
     }
 
 	public void createVelocityCurve(int channel, Track track, Note note) throws InvalidMidiDataException {
 		int notePosition = note.getMidiPosition();
 		int noteLength = note.getMidiLength();
+		if (noteLength < DurationConstants.SIXTEENTH) {
+			System.out.println(noteLength);
+		}
 		int split = RandomUtil.getRandomNumberInRange(5, noteLength - 10);
 		int peakLevel = PEAK_LEVEL;
 		int positionPerLevelUp =  split / peakLevel;
@@ -273,12 +278,12 @@ public class MidiDevicesUtil {
 
 
 	private MidiEvent setVelocityXF_On_Off(int channel, Note note) throws InvalidMidiDataException {
-        if(note.getHumanization().isLongNote()){//velXF on/off
-            return midiEventGenerator.createControllerChangeMidiEvent(channel, 28, 127, note.getBeforeMidiPosition());
-        } else {
-            return midiEventGenerator.createControllerChangeMidiEvent(channel, 28, 0, note.getBeforeMidiPosition());
-        }
-    }
+		if(note.getHumanization().isLongNote()){//velXF on/off
+			return midiEventGenerator.createControllerChangeMidiEvent(channel, 28, 127, note.getBeforeMidiPosition());
+		} else {
+			return midiEventGenerator.createControllerChangeMidiEvent(channel, 28, 0, note.getBeforeMidiPosition());
+		}
+	}
 
     private void createControllerEvents(int channel, Track track, Note note) throws InvalidMidiDataException {
         //create atteck

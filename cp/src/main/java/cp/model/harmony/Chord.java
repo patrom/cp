@@ -4,13 +4,17 @@ import com.google.common.collect.Multiset;
 import com.google.common.collect.TreeMultiset;
 import cp.model.note.Note;
 import cp.model.setclass.PcSetUnorderedProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Chord {
-	
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(Chord.class);
+
 	private final Multiset<Integer> pitchClassMultiSet = TreeMultiset.create();
 	private ChordType chordType;
 	private int voiceLeadingZone;
@@ -60,9 +64,11 @@ public class Chord {
 	public String getForteDescription() {
 		if (getPitchClassSet().size() < 2) {
 			return "";
-		} else {
+		} else if (getPitchClassSet().size() < 10) {
 			return getPcSetUnorderedProperties().getForteDescription();
-		}
+		} else {
+		    return "size chord: " + getPitchClassSet().size();
+        }
 	}
 	
 	public String[] getSetClassProperties() {
@@ -102,8 +108,20 @@ public class Chord {
 			return ChordType.CH5;
 		case 6:
 			return ChordType.CH6;
+		case 7:
+			return ChordType.CH7;
+		case 8:
+			return ChordType.CH8;
+		case 9:
+            return ChordType.CH9;
+		case 10:
+            return ChordType.CH10;
+		case 11:
+			return ChordType.CH11;
 		default:
-			throw new IllegalArgumentException("chord type doesn't exist?");
+			LOGGER.info("chord type doesn't exist: " + chord.length);
+			return ChordType.CH11;
+//			throw new IllegalArgumentException("chord type doesn't exist: " + chord.length);
 		}
 	}
 

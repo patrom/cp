@@ -3,10 +3,7 @@ package cp.util;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.IntStream;
 
 import static cp.model.note.NoteBuilder.note;
@@ -21,6 +18,19 @@ public class RandomUtil {
 		}
 		return list.get(randomInt(0, list.size()));
 	}
+
+	public static <T> T getRandomFromSet(Set<T> set) {
+		int random = randomInt(0, set.size());
+		int i = 0;
+		for(T t : set) {
+			if (i == random) {
+				return t;
+			}
+			i++;
+		}
+		throw new IllegalStateException("no value found in set");
+	}
+
 
 	public static <T> List<T> getRandomListFromList(List<T> list) {
 		int from = getRandomNumberInRange(0, list.size() - 1);

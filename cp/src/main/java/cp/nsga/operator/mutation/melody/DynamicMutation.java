@@ -21,7 +21,7 @@ import java.util.List;
 @Component(value = "dynamicMutation")
 public class DynamicMutation implements MutationOperator<CpMelody> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ArticulationMutation.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DynamicMutation.class);
 
     private double probabilityDynamic;
 
@@ -39,7 +39,7 @@ public class DynamicMutation implements MutationOperator<CpMelody> {
             List<Dynamic> dynamics = timbre.getDynamics();
             Dynamic dynamic = RandomUtil.getRandomFromList(dynamics);
             melody.updateDynamic(dynamic);
-//			LOGGER.info("Dynamic mutated");
+			LOGGER.debug("Dynamic mutated");
         }
     }
 

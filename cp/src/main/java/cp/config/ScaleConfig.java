@@ -3,18 +3,25 @@ package cp.config;
 import cp.combination.RhythmCombination;
 import cp.model.note.Scale;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ScaleConfig {
 
     private int start;
     private int end;
-    private int beat;
+    private List<Integer> beats = new ArrayList<>();
     private RhythmCombination[] rhythmCombinations;
     private int repeat;
     private int length;
     private Scale scale;
 
-    public ScaleConfig(int beat, int repeat, Scale scale, RhythmCombination... rhythmCombinations) {
-        this.beat = beat;
+    private List<Integer> splitVoices = new ArrayList<>();
+
+    public ScaleConfig(List<Integer> durationBeats, int repeat, Scale scale, RhythmCombination... rhythmCombinations) {
+        for (int i = 0; i < repeat; i++) {
+            beats.add(durationBeats.get(i % durationBeats.size()));
+        }
         this.rhythmCombinations = rhythmCombinations;
         this.repeat = repeat;
         this.scale = scale;
@@ -34,14 +41,6 @@ public class ScaleConfig {
 
     public void setEnd(int end) {
         this.end = end;
-    }
-
-    public int getBeat() {
-        return beat;
-    }
-
-    public void setBeat(int beat) {
-        this.beat = beat;
     }
 
     public RhythmCombination[] getRhythmCombinations() {
@@ -74,5 +73,21 @@ public class ScaleConfig {
 
     public void setScale(Scale scale) {
         this.scale = scale;
+    }
+
+    public List<Integer> getBeats() {
+        return beats;
+    }
+
+    public void setBeats(List<Integer> beats) {
+        this.beats = beats;
+    }
+
+    public List<Integer> getSplitVoices() {
+        return splitVoices;
+    }
+
+    public void setSplitVoices(List<Integer> splitVoices) {
+        this.splitVoices = splitVoices;
     }
 }

@@ -46,6 +46,7 @@ public class ArticulationMutation implements MutationOperator<CpMelody> {
 				LOGGER.info("articulations empty");
 			}else{
 				melody.updateArticulation(RandomUtil.getRandomFromList(articulations));
+				LOGGER.debug("articulations mutated");
 			}
 		} 
 	}

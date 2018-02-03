@@ -46,11 +46,11 @@ public class ColorQualityConfig {
     @PostConstruct
     public void init() {
         //voice!!!
-        orchestralQualities.put(0, richBlue);
-        orchestralQualities.put(1, highRange);
-        orchestralQualities.put(2, highRange);
-        orchestralQualities.put(3, highRange);
-        orchestralQualities.put(4, mediumRange);
+        orchestralQualities.put(0, mellowPurple);
+        orchestralQualities.put(1, warmBrown);
+        orchestralQualities.put(2, warmBrown);
+        orchestralQualities.put(3, glowingRed);
+        orchestralQualities.put(4, goldenOrange);
         orchestralQualities.put(5, pleasantGreen);
     }
 
