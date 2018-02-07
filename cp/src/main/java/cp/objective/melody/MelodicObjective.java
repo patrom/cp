@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.groupingBy;
@@ -88,6 +90,14 @@ public class MelodicObjective extends Objective {
 //		}
 //		return (harmonicValue == 0)? 0:harmonicValue/(notePositions.length - 2);
 //	}
+
+
+	public static <T> Stream<List<T>> sliding(List<T> list, int size) {
+		if(size > list.size())
+			return Stream.empty();
+		return IntStream.range(0, list.size()-size+1)
+				.mapToObj(start -> list.subList(start, start+size));
+	}
 
 	private double getIntervalMelodicValue(Note note, Note nextNote, MelodyDissonance melodyDissonance) {
 		int difference = 0;

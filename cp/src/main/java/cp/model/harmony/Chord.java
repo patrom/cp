@@ -29,6 +29,12 @@ public class Chord {
 		pitchClassMultiSet.addAll(notes.stream().map(n -> n.getPitchClass()).collect(Collectors.toList()));
 	}
 
+	public Chord(List<Note> notes) {
+//		this.bassNote = bassNote; //Bass note???
+		this.bassNote = 0;
+		pitchClassMultiSet.addAll(notes.stream().map(n -> n.getPitchClass()).collect(Collectors.toList()));
+	}
+
 	public ChordType getChordType() {
 		if (chordType == null) {
 			this.chordType = extractChordType(bassNote);

@@ -60,7 +60,7 @@ public class CombinationConfig {
 		//rest
 		List<RhythmCombination> zeroCombinations = new ArrayList<>();
 		zeroCombinations.add(oneNoteEven::rest);
-		zeroCombinations.add(oneNoteEven::rest);
+//		zeroCombinations.add(oneNoteEven::rest);
 		map.put(0, zeroCombinations);
 
 		List<RhythmCombination> oneCombinations = new ArrayList<>();

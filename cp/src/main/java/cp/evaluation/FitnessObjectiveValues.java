@@ -4,6 +4,7 @@ public class FitnessObjectiveValues {
 
 	private double harmony;
 	private double melody;
+	private double melodicHarmonic;
 	private double voiceleading;
 	private double tonality;
 	private double rhythm;
@@ -62,11 +63,20 @@ public class FitnessObjectiveValues {
 	public void setResolution(double resolution) {
 		this.resolution = resolution;
 	}
+
+	public double getMelodicHarmonic() {
+		return melodicHarmonic;
+	}
+
+	public void setMelodicHarmonic(double melodicHarmonic) {
+		this.melodicHarmonic = melodicHarmonic;
+	}
+
 	@Override
 	public String toString() {
 		return "FitnessObjectiveValues [harmony=" + harmony + ", melody="
 				+ melody + ", voiceleading=" + voiceleading + ", tonality="
-				+ tonality + ", rhythm=" + rhythm + ", meter=" + meter
+				+ tonality + ", rhythm=" + rhythm + ", meter=" + meter  + ", mh=" + melodicHarmonic
 				+ ", resolution=" + resolution + ",  register=" + register + "]";
 	}
 	

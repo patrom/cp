@@ -72,6 +72,8 @@ public class MusicProblem extends Problem {
 		double register = objectives.getRegister();
 
 		solution.setObjective(5, register);
+
+		solution.setObjective(6, 1 - objectives.getMelodicHarmonic());
 //		if (objectives.getVoiceleading() > 1 && objectives.getVoiceleading() < 4) {
 //			solution.setObjective(1, 0);
 //		} else {
@@ -94,6 +96,7 @@ public class MusicProblem extends Problem {
 		musicSolution.setResolution(objectives.getResolution());
 		musicSolution.setRegister(register);
 		musicSolution.setVoiceLeading(objectives.getVoiceleading());
+		musicSolution.setMelodicHarmonic(objectives.getMelodicHarmonic());
 
 		// musicSolution.setConstraintLowestInterval(objectives[5]);
 		// musicSolution.setConstraintRhythm(objectives[6]);

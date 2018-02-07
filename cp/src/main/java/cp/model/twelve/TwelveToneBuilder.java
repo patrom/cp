@@ -14,27 +14,13 @@ import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
-public class TwelveToneBuilder {
-
-    private Set<Integer> durations = new HashSet<>();
-
-    private List<Note> gridNotes;
-    private int start;
-    private List<Integer> beats;
-    private RhythmCombination[] rhythmCombinations;
-    private int length;
-    private int voice;
-    private Scale scale;
+public class TwelveToneBuilder extends AggregateBuilder{
 
     private List<Note> splitNotes;
     private int parentVoice = -1;
 
-    public TwelveToneBuilder(int start, List<Integer> beats , int voice,  Scale scale,  RhythmCombination... rhythmCombinations) {
-        this.start = start;
-        this.beats = beats;
-        this.scale = scale;
-        this.voice = voice;
-        this.rhythmCombinations = rhythmCombinations;
+    public TwelveToneBuilder(int start, List<Integer> beats, int voice, Scale scale, RhythmCombination... rhythmCombinations) {
+        super(start, beats, voice, scale, rhythmCombinations);
     }
 
     public void setGridNotes(List<Note> gridNotes) {
@@ -72,44 +58,16 @@ public class TwelveToneBuilder {
         }
     }
 
-    public void updatePitchClasses(int[] pitchClasses) {
-        long count = gridNotes.stream().filter(note -> !note.isRest()).count();
-        if (count >= pitchClasses.length) {
-            //repeat notes
-            notesLargerOrEqualThanScale(pitchClasses);
-        } else if (count < pitchClasses.length) {
-            //build dependant notes
-            notesSmallerThanScale(pitchClasses);
-        }
-    }
-
-
-    public void createGridrepeat() {
-        //clear for mutation
-        length = 0;
-        gridNotes = new ArrayList<>();
-        Collections.shuffle(beats);
-        for (int i = 0; i < beats.size(); i++) {
-            Integer duration = beats.get(i);
-            RhythmCombination rhythmCombination = RandomUtil.getRandomFromArray(rhythmCombinations);
-            List<Note> notes = rhythmCombination.getNotes(duration);
-            for (Note note : notes) {
-                note.setPosition(start + note.getPosition() + length);
-                note.setVoice(voice);
-            }
-            length = length + duration;
-            gridNotes.addAll(notes);
-        }
-    }
-
-    public void createGridSplit() {
-        createGridrepeat();
-        long count = gridNotes.stream().filter(note -> !note.isRest()).count();
-        while(count == 0 ){
-            createGridrepeat();
-            count = gridNotes.stream().filter(note -> !note.isRest()).count();
-        }
-    }
+//    public void updatePitchClasses(int[] pitchClasses) {
+//        long count = gridNotes.stream().filter(note -> !note.isRest()).count();
+//        if (count >= pitchClasses.length) {
+//            //repeat notes
+//            notesLargerOrEqualThanScale(pitchClasses);
+//        } else if (count < pitchClasses.length) {
+//            //build dependant notes
+//            notesSmallerThanScale(pitchClasses);
+//        }
+//    }
 
     public Optional<Integer> getFirstPositionBefore(int notePosition){
         return gridNotes.stream().map(note -> note.getPosition()).filter(position -> position < notePosition).sorted(Comparator.reverseOrder()).findFirst();
@@ -200,10 +158,7 @@ public class TwelveToneBuilder {
         return lengthFirstNote;
     }
 
-    private List<Note> getGridNotesWithoutRest(){
-        return gridNotes.stream().filter(note -> !note.isRest()).collect(Collectors.toList());
-    }
-
+    @Override
     public void notesLargerOrEqualThanScale(int[] pitchClassesScale){
         List<Note> gridNotesWithoutRest = getGridNotesWithoutRest();
         int size = gridNotesWithoutRest.size();
@@ -259,6 +214,7 @@ public class TwelveToneBuilder {
         }
     }
 
+    @Override
     public List<Note> addNoteDependenciesAndPitchClasses(int[] pitchClasses) {
         List<Note> notesWithoutRests = getGridNotesWithoutRest();
         int sizeToDistribute = pitchClasses.length - notesWithoutRests.size();
@@ -276,48 +232,6 @@ public class TwelveToneBuilder {
             i++;
         }
         return notesToGroup;
-    }
-
-    public List<Note> createNoteDependencies(List<Note> notesToGroup){
-        List<Note> notesWithDependencies = new ArrayList<>();
-        Map<Integer, List<Note>> notesPerPosition = notesToGroup.stream()
-                .filter(note -> !note.isRest())
-                .collect(groupingBy(Note::getPosition, TreeMap::new, toList()));
-        for (Map.Entry<Integer, List<Note>> entry : notesPerPosition.entrySet()) {
-            List<Note> notes = entry.getValue();
-            if (notes.size() > 1) {
-                Note melodyNote = notes.get(0);
-                notes.remove(melodyNote);
-                DependantHarmony dependantHarmony = new DependantHarmony();
-                dependantHarmony.setChordType(ChordType.TWELVE_TONE);
-                dependantHarmony.setNotes(notes);
-                melodyNote.setDependantHarmony(dependantHarmony);
-                notesWithDependencies.add(melodyNote);
-            } else {
-                notesWithDependencies.addAll(notes);
-            }
-        }
-        return notesWithDependencies;
-    }
-
-    public int getStart() {
-        return start;
-    }
-
-    public int getEnd(){
-        return start + length;
-    }
-
-    public void setStart(int start) {
-        this.start = start;
-    }
-
-    public Scale getScale() {
-        return scale;
-    }
-
-    public void setScale(Scale scale) {
-        this.scale = scale;
     }
 
     public List<Note> getSplitNotes(int voice){

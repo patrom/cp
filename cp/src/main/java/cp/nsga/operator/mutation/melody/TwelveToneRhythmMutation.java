@@ -35,7 +35,7 @@ public class TwelveToneRhythmMutation implements MutationOperator<CpMelody> {
         if (PseudoRandom.randDouble() < probabilityTwelveToneRhythm) {
             Integer voice = melody.getVoice();
 
-            TwelveToneBuilder twelveToneBuilder = twelveToneConfig.getTwelveToneBuilder(voice, melody.getStart());
+            TwelveToneBuilder twelveToneBuilder = (TwelveToneBuilder) twelveToneConfig.getTwelveToneBuilder(voice, melody.getStart());
             List<Note> notes = twelveToneBuilder.buildRepeat();
 
 

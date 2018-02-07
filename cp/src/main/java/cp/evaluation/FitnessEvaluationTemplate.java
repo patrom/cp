@@ -43,9 +43,13 @@ public class FitnessEvaluationTemplate {
 	@Autowired
 	private Objective registerObjective;
 	@Autowired
-	private RhythmWeight rhythmWeight;
-	@Autowired
 	private Objective meterObjective;
+	@Autowired
+	private Objective melodicHarmonicObjective;
+
+
+	@Autowired
+	private RhythmWeight rhythmWeight;
 	@Autowired
 	private InstrumentConfig instrumentConfig;
 	@Autowired
@@ -125,6 +129,9 @@ public class FitnessEvaluationTemplate {
 		
 		double melodic = melodicObjective.evaluate(motive);
 		LOGGER.debug("melodic = " + melodic);
+
+		double melodicHarmonic = melodicHarmonicObjective.evaluate(motive);
+		LOGGER.debug("melodicHarmonic = " + melodicHarmonic);
 		
 //		double tonality = tonalityObjective.evaluate(motive);
 //		LOGGER.debug("tonality = " + tonality);
@@ -141,6 +148,7 @@ public class FitnessEvaluationTemplate {
 		FitnessObjectiveValues fitnessObjectives = new FitnessObjectiveValues();
 		fitnessObjectives.setHarmony(harmony);
 		fitnessObjectives.setMelody(melodic);
+		fitnessObjectives.setMelodicHarmonic(melodicHarmonic);
 		fitnessObjectives.setVoiceleading(voiceLeading);
 //		fitnessObjectives.setTonality(tonality);
 		fitnessObjectives.setRhythm(rhythm);

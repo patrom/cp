@@ -12,6 +12,7 @@ import java.util.TreeMap;
 public class MelodyConfig {
 
     private Map<Integer, MelodyDissonance> meldodyConfigs = new TreeMap<>();
+    private Map<Integer, MelodyHarmonicDissonance> meldodyHarmonicConfigs = new TreeMap<>();
 
     @Autowired
     private MelodyDefaultDissonance melodyDefaultDissonance;
@@ -21,6 +22,10 @@ public class MelodyConfig {
     private ChromaticeMelodyDissonance chromaticeMelodyDissonance;
     @Autowired
     private ChordalMeldoyDissonance chordalMeldoyDissonance;
+    @Autowired
+    private MelodyHarmoniceTriChordalDissonance melodyHarmoniceTriChordalDissonance;
+    @Autowired
+    private MelodyHarmoniceTetraChordalDissonance melodyHarmoniceTetraChordalDissonance;
 
     @PostConstruct
     public void init() {
@@ -31,9 +36,21 @@ public class MelodyConfig {
         meldodyConfigs.put(3, melodyDefaultDissonance);
         meldodyConfigs.put(4, melodyDefaultDissonance);
         meldodyConfigs.put(5, melodyDefaultDissonance);
+
+
+        meldodyHarmonicConfigs.put(0, melodyHarmoniceTriChordalDissonance);
+        meldodyHarmonicConfigs.put(1, melodyHarmoniceTriChordalDissonance);
+        meldodyHarmonicConfigs.put(2, melodyHarmoniceTriChordalDissonance);
+        meldodyHarmonicConfigs.put(3, melodyHarmoniceTriChordalDissonance);
+        meldodyHarmonicConfigs.put(4, melodyHarmoniceTriChordalDissonance);
+        meldodyHarmonicConfigs.put(5, melodyHarmoniceTriChordalDissonance);
     }
 
     public MelodyDissonance getMelodyDissonanceForVoice(int voice){
         return meldodyConfigs.get(voice);
+    }
+
+    public MelodyHarmonicDissonance getMelodyHarmonicDissonanceForVoice(int voice){
+        return meldodyHarmonicConfigs.get(voice);
     }
 }

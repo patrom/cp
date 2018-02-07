@@ -4,7 +4,8 @@ import cp.config.TwelveToneConfig;
 import cp.model.Motive;
 import cp.model.melody.CpMelody;
 import cp.model.note.Note;
-import cp.model.twelve.TwelveToneBuilder;
+import cp.model.twelve.AggregateBuilder;
+import cp.model.twelve.AggregateBuilderFactory;
 import cp.nsga.operator.mutation.MutationOperator;
 import cp.util.RandomUtil;
 import jmetal.util.PseudoRandom;
@@ -31,6 +32,9 @@ public class TwelveToneRhythmMutationSplit implements MutationOperator<Motive> {
     private TwelveToneConfig twelveToneConfig;
 
     @Autowired
+    private AggregateBuilderFactory aggregateBuilderFactory;
+
+    @Autowired
     public TwelveToneRhythmMutationSplit(@Value("${probabilityTwelveToneRhythmSplit}") double probabilityTwelveToneRhythmSplit) {
         this.probabilityTwelveToneRhythmSplit = probabilityTwelveToneRhythmSplit;
     }
@@ -40,19 +44,19 @@ public class TwelveToneRhythmMutationSplit implements MutationOperator<Motive> {
             int voice = RandomUtil.getRandomFromSet(twelveToneConfig.getTwelveToneConfig().keySet());
             CpMelody melody = motive.getRandomMutableMelodyForVoice(voice);
             int start = melody.getStart();
-            List<TwelveToneBuilder> builders = twelveToneConfig.getTwelveToneBuilders(voice, start);
+            List<AggregateBuilder> builders = twelveToneConfig.getTwelveToneBuilders(voice, start);
             //create new combinations
-            for (TwelveToneBuilder builder : builders) {
-                builder.createGridSplit();
+            for (AggregateBuilder builder : builders) {
+                builder.createGrid();
             }
-            TwelveToneBuilder firstBuilder = builders.get(0);
+            AggregateBuilder firstBuilder = builders.get(0);
             List<Note> mergedNotes = builders.stream()
                     .map(twelveToneBuilder -> twelveToneBuilder.getGridNotes())
                     .flatMap(notes -> notes.stream())
                     .sorted()
                     .collect(Collectors.toList());
             //update pcs
-            TwelveToneBuilder tempBuilder = new TwelveToneBuilder(firstBuilder.getStart(),
+            AggregateBuilder tempBuilder = aggregateBuilderFactory.getAggregateBuilder(firstBuilder.getBuilderType(), firstBuilder.getStart(),
                     null, voice , firstBuilder.getScale(), null);
             tempBuilder.setGridNotes(mergedNotes);
             int[] pitchClasses = firstBuilder.getScale().getPitchClasses();
