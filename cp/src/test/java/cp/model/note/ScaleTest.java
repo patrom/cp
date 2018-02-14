@@ -117,4 +117,12 @@ public class ScaleTest {
 		}
 	}
 
+	@Test
+	public void getPitchClassesRandomized(){
+		scale = Scale.ALL_COMBINATORIAL_HEXAHCORD_C;
+		int[] pitchClassesRandomized = scale.getPitchClassesRandomized();
+		Arrays.stream(pitchClassesRandomized).forEach(n -> System.out.println(n));
+		assertEquals(6, pitchClassesRandomized.length);
+	}
+
 }

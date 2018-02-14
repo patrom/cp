@@ -4,7 +4,6 @@ import cp.combination.RhythmCombination;
 import cp.model.harmony.ChordType;
 import cp.model.harmony.DependantHarmony;
 import cp.model.note.Note;
-import cp.model.note.Scale;
 import cp.util.RandomUtil;
 
 import java.util.*;
@@ -20,17 +19,17 @@ public abstract class AggregateBuilder {
     protected RhythmCombination[] rhythmCombinations;
     protected int length;
     protected int voice;
-    protected Scale scale;
+    protected int[] pitchClasses;
     protected BuilderType builderType;
 
     protected List<Note> splitNotes;
     protected int parentVoice = -1;
 
-    public AggregateBuilder(int start, List<Integer> beats , int voice,  Scale scale,  RhythmCombination... rhythmCombinations) {
+    public AggregateBuilder(int start, List<Integer> beats , int voice,  int[] pitchClasses,  RhythmCombination... rhythmCombinations) {
         this.start = start;
         this.beats = beats;
-        this.scale = scale;
         this.voice = voice;
+        this.pitchClasses = pitchClasses;
         this.rhythmCombinations = rhythmCombinations;
     }
 
@@ -39,8 +38,7 @@ public abstract class AggregateBuilder {
         length = 0;
         gridNotes = new ArrayList<>();
         Collections.shuffle(beats);
-        for (int i = 0; i < beats.size(); i++) {
-            Integer duration = beats.get(i);
+        for (Integer duration : beats) {
             RhythmCombination rhythmCombination = RandomUtil.getRandomFromArray(rhythmCombinations);
             List<Note> notes = rhythmCombination.getNotes(duration);
             for (Note note : notes) {
@@ -115,12 +113,8 @@ public abstract class AggregateBuilder {
         this.start = start;
     }
 
-    public Scale getScale() {
-        return scale;
-    }
-
-    public void setScale(Scale scale) {
-        this.scale = scale;
+    public int[] getPitchClasses() {
+        return pitchClasses;
     }
 
     public BuilderType getBuilderType() {

@@ -1,10 +1,12 @@
 package cp.composition;
 
 import cp.config.ScaleConfig;
+import cp.config.TimbreConfig;
 import cp.config.TwelveToneConfig;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
+import cp.model.timbre.Timbre;
 import cp.model.twelve.AggregateBuilder;
 import cp.model.twelve.AggregateBuilderFactory;
 import cp.model.twelve.TwelveToneBuilder;
@@ -27,7 +29,8 @@ public class TwelveToneComposition extends Composition {
     private TwelveToneConfig twelveToneConfig;
     @Autowired
     private AggregateBuilderFactory aggregateBuilderFactory;
-
+    @Autowired
+    private TimbreConfig timbreConfig;
 
 //    public List<MelodyBlock> compose() {
 //        List<MelodyBlock> melodyBlocks = new ArrayList<>();
@@ -86,7 +89,7 @@ public class TwelveToneComposition extends Composition {
 //            }
             for (ScaleConfig scaleConfig : scaleConfigs) {
                 TwelveToneBuilder twelveToneBuilder = new TwelveToneBuilder(start,
-                        scaleConfig.getBeats(), voice , scaleConfig.getScale(), scaleConfig.getRhythmCombinations());
+                        scaleConfig.getBeats(), voice , scaleConfig.getPitchClasses(), scaleConfig.getRhythmCombinations());
                 List<Note> notes = twelveToneBuilder.buildRepeat();
                 int length = twelveToneBuilder.getLength();
                 twelveToneConfig.addTwelveToneBuilder(voice, twelveToneBuilder);//mutation link with melody - start
@@ -135,13 +138,13 @@ public class TwelveToneComposition extends Composition {
             List<ScaleConfig> scaleConfigs = entry.getValue();
             for (ScaleConfig scaleConfig : scaleConfigs) {
                 AggregateBuilder aggregateBuilder = aggregateBuilderFactory.getAggregateBuilder(scaleConfig.getBuilderType(), start,
-                        scaleConfig.getBeats(), voice, scaleConfig.getScale(), scaleConfig.getRhythmCombinations());
+                        scaleConfig.getBeats(), voice, scaleConfig.getPitchClasses(), scaleConfig.getRhythmCombinations());
                 aggregateBuilder.createGrid();
                 twelveToneConfig.addTwelveToneBuilder(voice, aggregateBuilder);//mutation link with melody - start
                 List<Integer> splitVoices = scaleConfig.getSplitVoices();
                 for (Integer splitVoice : splitVoices) {
                     AggregateBuilder twelveToneBuilderSplitVoice = aggregateBuilderFactory.getAggregateBuilder(scaleConfig.getBuilderType(),start,
-                            scaleConfig.getBeats(), splitVoice , scaleConfig.getScale(), scaleConfig.getRhythmCombinations());
+                            scaleConfig.getBeats(), splitVoice , scaleConfig.getPitchClasses(), scaleConfig.getRhythmCombinations());
                     twelveToneBuilderSplitVoice.createGrid();
                     twelveToneConfig.addTwelveToneBuilder(voice ,twelveToneBuilderSplitVoice);
                 }
@@ -155,20 +158,20 @@ public class TwelveToneComposition extends Composition {
         for (Map.Entry<Integer, List<AggregateBuilder>> entry : twelveToneConfig.entrySet()) {
             Integer voice = entry.getKey();
             TreeMap<Integer, List<AggregateBuilder>> builderPerPosition = entry.getValue().stream()
-                    .collect(Collectors.groupingBy(AggregateBuilder::getStart, TreeMap::new, toList()));;
+                    .collect(Collectors.groupingBy(AggregateBuilder::getStart, TreeMap::new, toList()));
             for (Map.Entry<Integer, List<AggregateBuilder>> listEntry : builderPerPosition.entrySet()) {
                 List<AggregateBuilder> builders = listEntry.getValue();
                 AggregateBuilder firstBuilder = builders.get(0);
                 List<Note> mergedNotes = builders.stream()
-                        .map(twelveToneBuilder -> twelveToneBuilder.getGridNotes())
+                        .map(AggregateBuilder::getGridNotes)
                         .flatMap(notes -> notes.stream())
                         .sorted()
                         .collect(toList());
                 //update pcs
                 AggregateBuilder tempBuilder = aggregateBuilderFactory.getAggregateBuilder(firstBuilder.getBuilderType(), firstBuilder.getStart(),
-                        null, voice , firstBuilder.getScale(), null);
+                        null, voice , firstBuilder.getPitchClasses(), null);
                 tempBuilder.setGridNotes(mergedNotes);
-                int[] pitchClasses = firstBuilder.getScale().getPitchClasses();
+                int[] pitchClasses = firstBuilder.getPitchClasses();
                 long size = mergedNotes.stream().filter(note -> !note.isRest()).count();
                 if (size >= pitchClasses.length) {
                     //repeat notes
@@ -176,7 +179,14 @@ public class TwelveToneComposition extends Composition {
                     TreeMap<Integer, List<Note>> notePerVoice = tempBuilder.getGridNotes().stream().collect(Collectors.groupingBy(Note::getVoice, TreeMap::new, toList()));
                     for (Map.Entry<Integer, List<Note>> mapEntry : notePerVoice.entrySet()) {
                         int voiceNote = mapEntry.getKey();
-                        CpMelody cpMelody = new CpMelody(mapEntry.getValue(), voiceNote, firstBuilder.getStart(), firstBuilder.getEnd());
+                        List<Note> melodyNotes = mapEntry.getValue();
+                        Timbre timbre = timbreConfig.getTimbreConfigForVoice(voiceNote);
+                        melodyNotes.forEach(n -> {
+                            n.setDynamic(timbre.getDynamic());
+                            n.setDynamicLevel(timbre.getDynamic().getLevel());
+                            n.setTechnical(timbre.getTechnical());
+                        });
+                        CpMelody cpMelody = new CpMelody(melodyNotes, voiceNote, firstBuilder.getStart(), firstBuilder.getEnd());
                         cpMelody.setMutationType(MutationType.TWELVE_TONE);
                         MelodyBlock melodyBlock = melodyBlockMap.get(voiceNote);
                         melodyBlock.addMelodyBlock(cpMelody);
@@ -191,6 +201,12 @@ public class TwelveToneComposition extends Composition {
                         List<Note> restsForVoice = mergedNotes.stream().filter(note -> note.isRest() && note.getVoice() == voiceNote).collect(toList());
                         noteDependencies.addAll(restsForVoice);
                         Collections.sort(noteDependencies);
+                        Timbre timbre = timbreConfig.getTimbreConfigForVoice(voiceNote);
+                        noteDependencies.forEach(n -> {
+                            n.setDynamic(timbre.getDynamic());
+                            n.setDynamicLevel(timbre.getDynamic().getLevel());
+                            n.setTechnical(timbre.getTechnical());
+                        });
                         CpMelody cpMelody = new CpMelody(noteDependencies, voiceNote, firstBuilder.getStart(), firstBuilder.getEnd());
                         cpMelody.setMutationType(MutationType.TWELVE_TONE);
                         MelodyBlock melodyBlock = melodyBlockMap.get(voiceNote);

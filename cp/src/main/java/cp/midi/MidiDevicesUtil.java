@@ -5,14 +5,11 @@ import cp.config.InstrumentConfig;
 import cp.config.TextureConfig;
 import cp.model.humanize.Humanize;
 import cp.model.melody.MelodyBlock;
-import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 import cp.model.texture.Texture;
 import cp.model.texture.TextureValue;
-import cp.out.instrument.Articulation;
 import cp.out.instrument.Instrument;
-import cp.out.instrument.Technical;
 import cp.out.instrument.VSLArticulationConverter;
 import cp.out.play.InstrumentMapping;
 import cp.util.RandomUtil;
@@ -29,6 +26,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 @Component
 public class MidiDevicesUtil {
@@ -155,15 +153,15 @@ public class MidiDevicesUtil {
 			throws InvalidMidiDataException {
 		MidiTempo midiTempo = new MidiTempo();
 		MidiEvent midiTempoEvent = midiTempo.getTempoMidiEvent(tempo);
-
+		List<Note> notesNoRest = notes.stream().filter(note -> !note.isRest()).collect(Collectors.toList());
 		//Hunmanise notes
-//        humanize.humanize(notes, instrument);
+//        humanize.humanize(notesNoRest, instrument);
 
 		Track trackNotes = sequence.createTrack();
         Track trackMetadata = sequence.createTrack();
 		TextureValue textureValue = new TextureValue();
 		trackNotes.add(midiTempoEvent);
-		for (Note note : notes) {
+		for (Note note : notesNoRest) {
             createControllerEvents(channel, trackMetadata, note);
             createVelocityCrossfadeMidiEvents(channel, trackMetadata, note);
 			createMidiEventsNotes(channel, trackNotes, note);
@@ -193,47 +191,17 @@ public class MidiDevicesUtil {
 //		track.add(event);
 
 //		if (!isKontakt) {
-			Dynamic prevDynamic = null;
-			Technical prevTechinal = null;
-			Articulation prevArticulation = null;
-			for (Note note : notes) {
-                if (!note.isRest()) {
-					List<MidiEvent> midiEvents = vslArticulationConverter.convertNote(channel, note, instrument);
-					for (MidiEvent midiEvent : midiEvents) {
-						trackMetadata.add(midiEvent);
-					}
-//                    Technical technical = note.getTechnical();
-//                    if(prevArticulation != note.getArticulation() || prevDynamic != note.getDynamic() || technical != prevTechinal){
-//						List<MidiEvent> technicalEvents = midiEventConverter.convertTechnical(channel, note, instrument);
-//                        for (MidiEvent midiEvent : technicalEvents) {
-//                            trackMetadata.add(midiEvent);
-//                        }
-//                        prevTechinal = technical;
-//                    }
-//                    Articulation articulation = note.getArticulation();
-//                    if (articulation != null) {
-//                        List<MidiEvent> articulationEvents = midiEventConverter.convertArticulation(channel, note, instrument);
-//                        for (MidiEvent midiEvent : articulationEvents) {
-//                            trackMetadata.add(midiEvent);
-//                        }
-//                        prevArticulation = articulation;
-//                    }
-//
-//                    Dynamic dynamic = note.getDynamic();
-//                    if(dynamic != prevDynamic){
-//                        List<MidiEvent> dynamicEvents = midiEventConverter.convertDynamic(channel, note, instrument);
-//                        for (MidiEvent midiEvent : dynamicEvents) {
-//                            trackMetadata.add(midiEvent);
-//                        }
-//                        prevDynamic = dynamic;
-//                    }
-                }
+			for (Note note : notesNoRest) {
+				List<MidiEvent> midiEvents = vslArticulationConverter.convertNote(channel, note, instrument);
+				for (MidiEvent midiEvent : midiEvents) {
+					trackMetadata.add(midiEvent);
+				}
             }
 //		}
 	}
 
     private void createVelocityCrossfadeMidiEvents(int channel, Track track, Note note) throws InvalidMidiDataException {
-		if (note.getHumanization() != null) {
+		if (note.getHumanization() != null && !note.isRest()) {
 			MidiEvent velocityXF = setVelocityXF_On_Off(channel, note);
 			track.add(velocityXF);
 			MidiEvent midiEventVelodityXF = midiEventGenerator.createControllerChangeMidiEvent(channel, 11, note.getMidiVelocity(), note.getBeforeMidiPosition());

@@ -61,10 +61,6 @@ public class Humanization {
         this.velocity = velocity;
     }
 
-    public int getLengthNote() {
-        return lengthNote;
-    }
-
     public void setLengthNote(int lengthNote) {
         this.lengthNote = lengthNote;
     }

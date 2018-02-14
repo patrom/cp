@@ -403,6 +403,13 @@ public class MusicXMLWriter {
 			createElementWithValue("actual-notes", "5");
 			createElementWithValue("normal-notes", "4");
 		}
+//		else if(note.7){
+//			createElementWithValue("actual-notes", "7");
+//			createElementWithValue("normal-notes", "4");
+//		} else if(note.11){
+//			createElementWithValue("actual-notes", "11");
+//			createElementWithValue("normal-notes", "8");
+//		}
 		createElementWithValue("normal-type", note.getTimeModification());
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");

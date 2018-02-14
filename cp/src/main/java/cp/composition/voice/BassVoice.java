@@ -74,7 +74,7 @@ public class BassVoice extends Voice {
 //        		map.put(2, twoCombinations);
 
 //        List<RhythmCombination> fiveCombinations = new ArrayList<>();
-//		fiveCombinations.add(fiveNoteQuintuplet::pos12345);
+//		fiveCombinations.add(quintuplet::pos12345);
 //		map.put(5, fiveCombinations);
         return map;
     }

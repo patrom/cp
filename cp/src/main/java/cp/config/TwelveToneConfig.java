@@ -6,6 +6,8 @@ import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
 import cp.model.twelve.AggregateBuilder;
 import cp.model.twelve.BuilderType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +21,8 @@ import static java.util.stream.Collectors.toList;
 
 @Component
 public class TwelveToneConfig {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TwelveToneConfig.class);
 
     @Resource(name = "defaultUnevenCombinations")
     protected Map<Integer, List<RhythmCombination>> defaultUnEvenCombinations;
@@ -40,16 +44,16 @@ public class TwelveToneConfig {
 
     @PostConstruct
     public void init() {
-        List<RhythmCombination> evenValues = defaultEvenCombinations.values().stream().flatMap(rhythmCombinations -> rhythmCombinations.stream()).collect(toList());
+        List<RhythmCombination> evenValues = defaultEvenCombinations.values().stream().flatMap(Collection::stream).collect(toList());
         RhythmCombination[] evenCombinations = evenValues.toArray(new RhythmCombination[defaultEvenCombinations.values().size()]);
 
-        List<RhythmCombination> unevenValues = defaultUnEvenCombinations.values().stream().flatMap(rhythmCombinations -> rhythmCombinations.stream()).collect(toList());
+        List<RhythmCombination> unevenValues = defaultUnEvenCombinations.values().stream().flatMap(Collection::stream).collect(toList());
         RhythmCombination[] unevenCombinations = unevenValues.toArray(new RhythmCombination[defaultUnEvenCombinations.values().size()]);
 
-        List<RhythmCombination> evenHomophonicValues = homophonicEven.values().stream().flatMap(rhythmCombinations -> rhythmCombinations.stream()).collect(toList());
+        List<RhythmCombination> evenHomophonicValues = homophonicEven.values().stream().flatMap(Collection::stream).collect(toList());
         RhythmCombination[] homophonicEvenCombinations = evenHomophonicValues.toArray(new RhythmCombination[homophonicEven.values().size()]);
 
-        List<RhythmCombination> unevenHomophonicValues = homophonicUneven.values().stream().flatMap(rhythmCombinations -> rhythmCombinations.stream()).collect(toList());
+        List<RhythmCombination> unevenHomophonicValues = homophonicUneven.values().stream().flatMap(Collection::stream).collect(toList());
         RhythmCombination[] homophonicUnevenCombination = unevenHomophonicValues.toArray(new RhythmCombination[homophonicUneven.values().size()]);
 
         List<Integer> durations = Stream.of(DurationConstants.QUARTER, DurationConstants.HALF).collect(toList());
@@ -69,29 +73,45 @@ public class TwelveToneConfig {
 
         //split
         List<Integer> splitVoices = new ArrayList<>();
-//        splitVoices.add(1);
+        splitVoices.add(1);
 //        splitVoices.add(2);
 
 //        ScaleConfig ALL_INTERVAL_TRETRACHORD2 = new ScaleConfig(
 //                durations, 2, Scale.VARIATIONS_FOR_ORCHESTRA_OP31_HEXA2, BuilderType.SEGMENT,
 //                homophonicEvenCombinations);
 //        ALL_INTERVAL_TRETRACHORD2.setSplitVoices(splitVoices);
+        int[] pitchClassesRandomizedComplement = Scale.ALL_COMBINATORIAL_HEXAHCORD_C_COMPLEMENT.getPitchClasses();
+        int[] pitchClassesRandomized = Scale.ALL_COMBINATORIAL_HEXAHCORD_C.getPitchClasses();
+        LOGGER.info("pitchClassesRandomizedComplement: " + Arrays.toString(pitchClassesRandomizedComplement));
+        LOGGER.info("pitchClassesRandomized: " + Arrays.toString(pitchClassesRandomized));
+        List<Integer> durationsDouble = Stream.of(DurationConstants.WHOLE).collect(toList());
+        ScaleConfig ALL_COMBINATORIAL_HEXAHCORD_C_COMPLEMENT = new ScaleConfig(
+                durationsDouble, 2, pitchClassesRandomizedComplement, BuilderType.PARTIAL,
+                homophonicEvenCombinations);
+        ALL_COMBINATORIAL_HEXAHCORD_C_COMPLEMENT.setSplitVoices(splitVoices);
 
-        ScaleConfig ALL_INTERVAL_TRETRACHORD1 = new ScaleConfig(
-                durations, 4, Scale.TEST1, BuilderType.PARTIAL,
-                evenCombinations);
-//        ALL_INTERVAL_TRETRACHORD1.setSplitVoices(splitVoices);
+        ScaleConfig ALL_COMBINATORIAL_HEXAHCORD_C_2 = new ScaleConfig(
+                durationsDouble, 2, pitchClassesRandomized, BuilderType.PARTIAL,
+                homophonicEvenCombinations);
+        ALL_COMBINATORIAL_HEXAHCORD_C_2.setSplitVoices(splitVoices);
 
-        this.scaleConfig.put(0, Stream.of(ALL_INTERVAL_TRETRACHORD1).collect(toList()));
+        this.scaleConfig.put(0, Stream.of(ALL_COMBINATORIAL_HEXAHCORD_C_COMPLEMENT, ALL_COMBINATORIAL_HEXAHCORD_C_2).collect(toList()));
+
 
 
         List<Integer> splitVoices2 = new ArrayList<>();
-        splitVoices2.add(2);
+        splitVoices2.add(3);
 //        splitVoices2.add(4);
-        ScaleConfig TRETRACHORD2 = new ScaleConfig(
-                durations, 4, Scale.TEST2, BuilderType.TWELVE_TONE,
-                homophonicEvenCombinations);
-        TRETRACHORD2.setSplitVoices(splitVoices2);
+
+
+        ScaleConfig ALL_COMBINATORIAL_HEXAHCORD_C = new ScaleConfig(
+                durationsDouble, 2, pitchClassesRandomized, BuilderType.TWELVE_TONE,
+                evenCombinations);
+        ScaleConfig ALL_COMBINATORIAL_HEXAHCORD_C_COMPLEMENT_2 = new ScaleConfig(
+                durationsDouble, 2, pitchClassesRandomizedComplement, BuilderType.TWELVE_TONE,
+                evenCombinations);
+        ALL_COMBINATORIAL_HEXAHCORD_C.setSplitVoices(splitVoices2);
+        ALL_COMBINATORIAL_HEXAHCORD_C_COMPLEMENT_2.setSplitVoices(splitVoices2);
 //
 //        ScaleConfig TRETRACHORD1 = new ScaleConfig(
 //                durations, 2, Scale.VARIATIONS_FOR_ORCHESTRA_OP31_HEXA1,
@@ -101,7 +121,7 @@ public class TwelveToneConfig {
 //                rhythmCombinations.threeNoteUneven::pos123);
 //        ALL_INTERVAL_TRETRACHORD1.setSplitVoices(splitVoices);
 //
-        this.scaleConfig.put(1, Stream.of(TRETRACHORD2).collect(toList()));
+        this.scaleConfig.put(2, Stream.of(ALL_COMBINATORIAL_HEXAHCORD_C, ALL_COMBINATORIAL_HEXAHCORD_C_COMPLEMENT_2).collect(toList()));
 
     }
 

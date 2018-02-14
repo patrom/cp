@@ -36,14 +36,14 @@ public class TonalSetClassDissonance implements Dissonance {
 
     private double pentaChordal(Chord chord) {
         switch (chord.getForteName()) {
+            case "5-23":
+                return 0.99;
             case "5-27":
-                return 0.99;
-            case "5-31":
-                return 0.99;
-            case "5-34":
-                return 0.99;
-            case "5-35":
-                return 0.99;
+                return 0.8;
+//            case "5-34":
+//                return 0.99;
+//            case "5-35":
+//                return 0.99;
         }
         return 0;
     }
@@ -54,14 +54,14 @@ public class TonalSetClassDissonance implements Dissonance {
                 return 1.0;
             case "4-23"://sus9
                 return 1.0;
-            case "4-25"://dom7b5
-                return 1.0;
+//            case "4-25"://dom7b5
+//                return 1.0;
             case "4-26"://m7
                 return 1.0;
-            case "4-27"://dom7, halfdim7
-                return 1.0;
-            case "4-28"://dim
-                return 1.0;
+//            case "4-27"://dom7, halfdim7
+//                return 1.0;
+//            case "4-28"://dim
+//                return 1.0;
         }
 
         return 0;
@@ -73,14 +73,14 @@ public class TonalSetClassDissonance implements Dissonance {
 //                return 1.0;
 //            case "2-2":
 //                return 0.5;
-            case "2-3":
-                return 0.9;
-            case "2-4":
-                return 0.9;
+//            case "2-3":
+//                return 0.9;
+//            case "2-4":
+//                return 0.9;
             case "2-5":
                 return 0.9;
-            case "2-6":
-                return 0.9;
+//            case "2-6":
+//                return 0.9;
         }
         return 0;
     }
@@ -97,20 +97,20 @@ public class TonalSetClassDissonance implements Dissonance {
 //                return 0.98;
 //            case "3-5":
 //                return 1.0;
-//            case "3-6":
-//                return 0.8;
-//            case "3-7":
-//                return 0.9;
-            case "3-8":
-                return 0.8;
-            case "3-9":
-                return 0.8;
-            case "3-10":
-                return 1.0;
-            case "3-11":
-                return 1.0;
-            case "3-12":
+            case "3-6":
                 return 0.9;
+            case "3-7":
+                return 1.0;
+//            case "3-8":
+//                return 0.8;
+            case "3-9":
+                return 1.0;
+//            case "3-10":
+//                return 1.0;
+            case "3-11":
+                return 0.9;
+//            case "3-12":
+//                return 0.9;
         }
         return 0;
     }

@@ -43,7 +43,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Import({DefaultConfig.class, VariationConfig.class})
 public class CpApplication extends JFrame implements CommandLineRunner{
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(CpApplication.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(CpApplication.class);
 	
 	@Autowired
 	private MusicSolutionType solutionType;
@@ -187,9 +187,9 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 			    
 //			    population.sort(Comparator.comparing(MusicSolution::getMelody).thenComparing(MusicSolution::getHarmony));
 			    population.sort(Comparator
-						.comparing(MusicSolution::getMelodicHarmonic)
-						.thenComparing(MusicSolution::getHarmony)
+						.comparing(MusicSolution::getHarmony)
 						.thenComparing(MusicSolution::getMelody)
+						.thenComparing(MusicSolution::getMelodicHarmonic)
 						.thenComparing(MusicSolution::getResolution)
 			    		.thenComparing(MusicSolution::getVoiceLeading));
 
@@ -239,7 +239,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		// Algorithm parameters
 	    int populationSize = 30;
 	    algorithm.setInputParameter("populationSize", populationSize);
-	    algorithm.setInputParameter("maxEvaluations", populationSize * 200);
+	    algorithm.setInputParameter("maxEvaluations", populationSize * 2000);
 	    
 	    // Mutation and Crossover
 	    crossover.setParameter("probabilityCrossover", 1.0); 

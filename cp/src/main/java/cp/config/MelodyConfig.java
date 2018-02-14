@@ -19,9 +19,9 @@ public class MelodyConfig {
     @Autowired
     private PentatonicMelodyDissonance pentatonicMelodyDissonance;
     @Autowired
-    private ChromaticeMelodyDissonance chromaticeMelodyDissonance;
+    private ChromaticMelodyDissonance chromaticMelodyDissonance;
     @Autowired
-    private ChordalMeldoyDissonance chordalMeldoyDissonance;
+    private ChordalMelodyDissonance chordalMelodyDissonance;
     @Autowired
     private MelodyHarmoniceTriChordalDissonance melodyHarmoniceTriChordalDissonance;
     @Autowired
@@ -30,12 +30,12 @@ public class MelodyConfig {
     @PostConstruct
     public void init() {
         //voice!!!
-        meldodyConfigs.put(0, melodyDefaultDissonance);
-        meldodyConfigs.put(1, melodyDefaultDissonance);
-        meldodyConfigs.put(2, melodyDefaultDissonance);
-        meldodyConfigs.put(3, melodyDefaultDissonance);
-        meldodyConfigs.put(4, melodyDefaultDissonance);
-        meldodyConfigs.put(5, melodyDefaultDissonance);
+        meldodyConfigs.put(0, pentatonicMelodyDissonance);
+        meldodyConfigs.put(1, pentatonicMelodyDissonance);
+        meldodyConfigs.put(2, pentatonicMelodyDissonance);
+        meldodyConfigs.put(3, pentatonicMelodyDissonance);
+        meldodyConfigs.put(4, pentatonicMelodyDissonance);
+        meldodyConfigs.put(5, pentatonicMelodyDissonance);
 
 
         meldodyHarmonicConfigs.put(0, melodyHarmoniceTriChordalDissonance);

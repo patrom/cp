@@ -19,14 +19,14 @@ public class MelodyHarmoniceTriChordalDissonance implements MelodyHarmonicDisson
 //				return 0.9;
 //			case "3-5":
 //				return 1.0;
-//			case "3-6":
-//				return 0.9;
-//			case "3-7":
-//				return 0.9;
+			case "3-6":
+				return 0.9;
+			case "3-7":
+				return 1.0;
 //			case "3-8":
 //				return 0.9;
-//			case "3-9":
-//				return 0.9;
+			case "3-9":
+				return 1.0;
 //            case "3-10":
 //                return 1.0;
             case "3-11":

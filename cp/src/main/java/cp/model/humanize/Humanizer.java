@@ -34,10 +34,12 @@ public class Humanizer implements Humanize {
             int timing = timing(instrument);
             humanization.setTiming(timing);
 
-            int velocity = velocity(note);
-            humanization.setVelocity(velocity);
+            if (!note.isRest()) {
+                int velocity = velocity(note);
+                humanization.setVelocity(velocity);
 
-            humanization.setAttack(RandomUtil.getRandomNumberInRange(0, ATTACK));
+                humanization.setAttack(RandomUtil.getRandomNumberInRange(0, ATTACK));
+            }
         }
 
         int size = notes.size() - 1;
@@ -60,31 +62,39 @@ public class Humanizer implements Humanize {
                 noteLength = noteLength - lengthNextNoteBeforeEnd;
             }
             humanization.setLengthNote(noteLength);
+
             int interval = Math.abs(nextNote.getPitch() - note.getPitch());
             humanization.setInterval(interval);
+
             boolean longNote = isLongNote(note.getLength());//original length
             humanization.setLongNote(longNote);
 
             int duration = duration(instrument, note.getTechnical(), noteLength, longNote, interval);
             humanization.setDuration(duration);
 
-            int intonation = intonation(note, instrument, interval);
-            humanization.setIntonation(intonation);
+            if (!note.isRest()) {
+                int intonation = intonation(note, instrument, interval);
+                humanization.setIntonation(intonation);
+            }
         }
         //humanize last note
-        Note lastNote = notes.get(size);
-        Humanization humanization = lastNote.getHumanization();
-        int noteLength = lastNote.getLength() - humanization.getTiming();
-        humanization.setLengthNote(noteLength);
+        if (size > 0) {
+            Note lastNote = notes.get(size);
+            Humanization humanization = lastNote.getHumanization();
+            int noteLength = lastNote.getLength() - humanization.getTiming();
+            humanization.setLengthNote(noteLength);
 
-        boolean longNote = isLongNote(lastNote.getLength());
-        humanization.setLongNote(longNote);
+            boolean longNote = isLongNote(lastNote.getLength());
+            humanization.setLongNote(longNote);
 
-        int duration = duration(instrument, lastNote.getTechnical(), noteLength, longNote, 0);
-        humanization.setDuration(duration);
+            int duration = duration(instrument, lastNote.getTechnical(), noteLength, longNote, 0);
+            humanization.setDuration(duration);
 
-        int intonation = intonation(lastNote, instrument, 0);
-        humanization.setIntonation(intonation);
+            if (!lastNote.isRest()) {
+                int intonation = intonation(lastNote, instrument, 0);
+                humanization.setIntonation(intonation);
+            }
+        }
     }
 
     protected int velocity(Note note) {
@@ -169,11 +179,7 @@ public class Humanizer implements Humanize {
         int tempo = musicProperties.getTempo();
         double time = tempo / (double)60;//second
         double tempoLength = time * DurationConstants.QUARTER;//quarter note
-        if (noteLength >= tempoLength){
-            return true;
-        } else {
-            return false;
-        }
+        return noteLength >= tempoLength;
     }
 
 }

@@ -20,6 +20,10 @@ public class MelodyHarmoniceTetraChordalDissonance implements MelodyHarmonicDiss
 //                return 0.98;
 //            case "4-9":
 //                return 0.98;
+            case "4-22":
+               return 1.0;
+            case "4-23":
+                return 1.0;
         }
         return 0;
     }

@@ -1,7 +1,6 @@
 package cp.config;
 
 import cp.combination.RhythmCombination;
-import cp.model.note.Scale;
 import cp.model.twelve.BuilderType;
 
 import java.util.ArrayList;
@@ -15,18 +14,18 @@ public class ScaleConfig {
     private RhythmCombination[] rhythmCombinations;
     private int repeat;
     private int length;
-    private Scale scale;
+    private int[] pitchClasses;
     private BuilderType builderType;
 
     private List<Integer> splitVoices = new ArrayList<>();
 
-    public ScaleConfig(List<Integer> durationBeats, int repeat, Scale scale, BuilderType builderType, RhythmCombination... rhythmCombinations) {
+    public ScaleConfig(List<Integer> durationBeats, int repeat, int[] pitchClasses, BuilderType builderType, RhythmCombination... rhythmCombinations) {
         for (int i = 0; i < repeat; i++) {
             beats.add(durationBeats.get(i % durationBeats.size()));
         }
         this.rhythmCombinations = rhythmCombinations;
         this.repeat = repeat;
-        this.scale = scale;
+        this.pitchClasses = pitchClasses;
         this.builderType = builderType;
     }
 
@@ -70,12 +69,8 @@ public class ScaleConfig {
         this.length = length;
     }
 
-    public Scale getScale() {
-        return scale;
-    }
-
-    public void setScale(Scale scale) {
-        this.scale = scale;
+    public int[] getPitchClasses() {
+        return pitchClasses;
     }
 
     public List<Integer> getBeats() {

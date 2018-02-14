@@ -46,7 +46,7 @@ public class CombinationConfig {
 	private SixNoteSexTuplet sixNoteSexTuplet;
 	
 	@Autowired
-	private FiveNoteQuintuplet fiveNoteQuintuplet;//TODO investigate conversion to float???
+	private Quintuplet quintuplet;//TODO investigate conversion to float???
 
 	public List<Note> rest(int beat) {
 		List<Note> notes = new ArrayList<>();
@@ -105,7 +105,7 @@ public class CombinationConfig {
 		map.put(4, fourCombinations);
 
 //        List<RhythmCombination> fiveCombinations = new ArrayList<>();
-//		fiveCombinations.add(fiveNoteQuintuplet::pos12345);
+//		fiveCombinations.add(quintuplet::pos12345);
 //		map.put(5, fiveCombinations);
 
 		return map;
@@ -194,16 +194,16 @@ public class CombinationConfig {
 
         List<RhythmCombination> oneCombinations = new ArrayList<>();
         oneCombinations.add(oneNoteEven::pos1);
-//		oneCombinations.add(oneNoteEven::pos2);
-//		oneCombinations.add(oneNoteEven::pos3);
+		oneCombinations.add(oneNoteEven::pos2);
+		oneCombinations.add(oneNoteEven::pos3);
 //		oneCombinations.add(oneNoteEven::pos4);
         map.put(1, oneCombinations);
 
         List<RhythmCombination> twoCombinations = new ArrayList<>();
 //		twoCombinations.add(twoNoteEven::pos12);
         twoCombinations.add(twoNoteEven::pos13);
-//		twoCombinations.add(twoNoteEven::pos14);
-		twoCombinations.add(twoNoteEven::pos34);
+		twoCombinations.add(twoNoteEven::pos14);
+//		twoCombinations.add(twoNoteEven::pos34);
 //		twoCombinations.add(twoNoteEven::pos23);
 //		twoCombinations.add(twoNoteEven::pos24);
 
@@ -227,7 +227,7 @@ public class CombinationConfig {
 
 
 //        List<RhythmCombination> fiveCombinations = new ArrayList<>();
-//		fiveCombinations.add(fiveNoteQuintuplet::pos12345);
+//		fiveCombinations.add(quintuplet::pos12345);
 //		map.put(5, fiveCombinations);
         return map;
     }

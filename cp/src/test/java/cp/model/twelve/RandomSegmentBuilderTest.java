@@ -19,26 +19,25 @@ import static java.util.stream.Collectors.toList;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = DefaultConfig.class)
-public class SegmentBuilderTest {
+public class RandomSegmentBuilderTest {
 
     @Autowired
     protected RhythmCombinations rhythmCombinations;
 
-    private  List<Integer> durations;
+    private List<Integer> durations;
 
     @Before
     public void setUp(){
-        durations = Stream.of(DurationConstants.QUARTER, DurationConstants.QUARTER, DurationConstants.QUARTER, DurationConstants.QUARTER).collect(toList());
+        durations = Stream.of(DurationConstants.QUARTER, DurationConstants.QUARTER, DurationConstants.QUARTER).collect(toList());
     }
 
     @Test
     public void testNotesLargerThanScale(){
-        AggregateBuilder aggregateBuilder = new SegmentBuilder(0, durations, 0,
+        AggregateBuilder aggregateBuilder = new RandomSegmentBuilder(0, durations, 0,
                 Scale.ALL_INTERVAL_TRETRACHORD1.getPitchClasses(),
                 rhythmCombinations.twoNoteEven::pos12,
                 rhythmCombinations.twoNoteEven::pos13,
-                rhythmCombinations.oneNoteEven::pos3,
-                rhythmCombinations.threeNoteUneven::pos123);
+                rhythmCombinations.oneNoteEven::pos3);
         aggregateBuilder.createGridrepeat();
         List<Note> notes = aggregateBuilder.getGridNotes();
         aggregateBuilder.notesLargerOrEqualThanScale(Scale.ALL_INTERVAL_TRETRACHORD1.getPitchClasses());
@@ -49,7 +48,7 @@ public class SegmentBuilderTest {
     @Test
     public void testAddNoteDependenciesAndPitchClasses(){
         durations = Stream.of(DurationConstants.QUARTER, DurationConstants.QUARTER).collect(toList());
-        AggregateBuilder aggregateBuilder = new SegmentBuilder(0, durations, 0,
+        AggregateBuilder aggregateBuilder = new RandomSegmentBuilder(0, durations, 0,
                 Scale.ALL_INTERVAL_TRETRACHORD1.getPitchClasses(),
                 rhythmCombinations.oneNoteEven::pos1,
                 rhythmCombinations.oneNoteEven::pos1);

@@ -169,7 +169,7 @@ public abstract class Composition {
 	@PostConstruct
 	public void init(){
 		composeInKey(keys.C);
-		inTempo(80);
+		inTempo(50);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
 		meterObjective.setComposition(this);
@@ -296,7 +296,7 @@ public abstract class Composition {
 ////		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, 2 * DurationConstants.WHOLE, end));
 //		timeLine.addKeysForVoice(webern3, 2);
 
-		harmonicObjective.setDissonance(additiveDissonance::getDissonance);
+		harmonicObjective.setDissonance(tonalSetClassDissonance::getDissonance);
 		harmonicResolutionObjective.setDissonantResolution(dissonantResolutionImpl::isDissonant);
 
 	}

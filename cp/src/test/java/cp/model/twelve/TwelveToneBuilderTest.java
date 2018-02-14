@@ -42,7 +42,7 @@ public class TwelveToneBuilderTest {
     @Test
     public void grid() {
         TwelveToneBuilder twelveToneBuilder = new TwelveToneBuilder(0, durations, 0,
-                Scale.ALL_INTERVAL_TRETRACHORD1,
+                Scale.ALL_INTERVAL_TRETRACHORD1.getPitchClasses(),
                 rhythmCombinations.twoNoteEven::pos13,
                 rhythmCombinations.twoNoteEven::pos13,
                 rhythmCombinations.twoNoteEven::pos13,
@@ -55,7 +55,7 @@ public class TwelveToneBuilderTest {
     @Test
     public void testFirstBeforePosition() {
         TwelveToneBuilder twelveToneBuilder = new TwelveToneBuilder(0, durations, 0,
-                Scale.ALL_INTERVAL_TRETRACHORD1,
+                Scale.ALL_INTERVAL_TRETRACHORD1.getPitchClasses(),
                 rhythmCombinations.twoNoteEven::pos13,
                 rhythmCombinations.twoNoteEven::pos13,
                 rhythmCombinations.twoNoteEven::pos13,
@@ -68,7 +68,7 @@ public class TwelveToneBuilderTest {
     @Test
     public void testFirstAfterPosition() {
         TwelveToneBuilder twelveToneBuilder = new TwelveToneBuilder(0, durations, 0,
-                Scale.ALL_INTERVAL_TRETRACHORD1,
+                Scale.ALL_INTERVAL_TRETRACHORD1.getPitchClasses(),
                 rhythmCombinations.twoNoteEven::pos13,
                 rhythmCombinations.twoNoteEven::pos13,
                 rhythmCombinations.twoNoteEven::pos13,
@@ -81,7 +81,7 @@ public class TwelveToneBuilderTest {
     @Test
     public void testFirstRandom() {
         TwelveToneBuilder twelveToneBuilder = new TwelveToneBuilder(0, durations, 0,
-                Scale.ALL_INTERVAL_TRETRACHORD1,
+                Scale.ALL_INTERVAL_TRETRACHORD1.getPitchClasses(),
                 rhythmCombinations.twoNoteEven::pos13,
                 rhythmCombinations.twoNoteEven::pos13,
                 rhythmCombinations.twoNoteEven::pos13,
@@ -94,7 +94,7 @@ public class TwelveToneBuilderTest {
     @Test
     public void testBuild(){
         TwelveToneBuilder twelveToneBuilder = new TwelveToneBuilder(0, durations, 0,
-                Scale.ALL_INTERVAL_TRETRACHORD1,
+                Scale.ALL_INTERVAL_TRETRACHORD1.getPitchClasses(),
                 rhythmCombinations.twoNoteEven::pos13,
                 rhythmCombinations.twoNoteEven::pos13,
                 rhythmCombinations.twoNoteEven::pos13,
@@ -106,7 +106,7 @@ public class TwelveToneBuilderTest {
     @Test
     public void testRandomBuild(){
         TwelveToneBuilder twelveToneBuilder = new TwelveToneBuilder(0,durations, 0,
-                Scale.ALL_INTERVAL_TRETRACHORD1,
+                Scale.ALL_INTERVAL_TRETRACHORD1.getPitchClasses(),
                 rhythmCombinations.oneNoteEven::pos3,
                 rhythmCombinations.oneNoteEven::rest,
                 rhythmCombinations.twoNoteEven::pos13,
@@ -120,7 +120,7 @@ public class TwelveToneBuilderTest {
     @Test
     public void testNotesLargerThanScale(){
         TwelveToneBuilder twelveToneBuilder = new TwelveToneBuilder(0, durations, 0,
-                Scale.ALL_INTERVAL_TRETRACHORD1,
+                Scale.ALL_INTERVAL_TRETRACHORD1.getPitchClasses(),
                 rhythmCombinations.twoNoteEven::pos12,
                 rhythmCombinations.twoNoteEven::pos13,
                 rhythmCombinations.oneNoteEven::pos3,
@@ -135,7 +135,7 @@ public class TwelveToneBuilderTest {
     @Test
     public void testNotesSmallerThanScale(){
         TwelveToneBuilder twelveToneBuilder = new TwelveToneBuilder(0, Collections.singletonList(DurationConstants.QUARTER), 0,
-                Scale.ALL_INTERVAL_TRETRACHORD1,
+                Scale.ALL_INTERVAL_TRETRACHORD1.getPitchClasses(),
                 rhythmCombinations.twoNoteEven::pos12,
                 rhythmCombinations.oneNoteEven::rest,
                 rhythmCombinations.oneNoteEven::pos3);
@@ -159,7 +159,7 @@ public class TwelveToneBuilderTest {
     @Test
     public void testAddDependentNotes(){
         TwelveToneBuilder twelveToneBuilder = new TwelveToneBuilder(0, Collections.singletonList(DurationConstants.HALF), 0,
-                Scale.ALL_INTERVAL_TRETRACHORD1,
+                Scale.ALL_INTERVAL_TRETRACHORD1.getPitchClasses(),
                 rhythmCombinations.twoNoteEven::pos13);
         twelveToneBuilder.createGridrepeat();
         List<Note> notes = new ArrayList<>();

@@ -11,34 +11,27 @@ import java.util.List;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
 
-public class SegmentBuilder extends AggregateBuilder {
+public class RandomSegmentBuilder extends AggregateBuilder {
 
-    public SegmentBuilder(int start, List<Integer> beats, int voice,int[] pitchClasses, RhythmCombination... rhythmCombinations) {
+    public RandomSegmentBuilder(int start, List<Integer> beats, int voice, int[] pitchClasses, RhythmCombination... rhythmCombinations) {
         super(start, beats, voice, pitchClasses, rhythmCombinations);
     }
 
     /**
-     * Herhaalt pitchclasses - random select pc - all pc worden tenminste 1 maal gebruikt.
+     * Herhaalt pitchclasses - random select pc - mogelijk dat niet alle pc (uit pitchClassesScale) worden gebruikt.
      * @param pitchClassesScale
      */
     @Override
-    public void notesLargerOrEqualThanScale(int[] pitchClassesScale){
-        List<Integer> pitchClasses = stream(pitchClassesScale).boxed().collect(toList());
+    public void notesLargerOrEqualThanScale(int[] pitchClassesScale) {
         List<Note> gridNotesWithoutRest = getGridNotesWithoutRest();
         for (Note note : gridNotesWithoutRest) {
-            if (!pitchClasses.isEmpty()) {
-                Integer pitchClass = RandomUtil.getRandomFromList(pitchClasses);
-                note.setPitchClass(pitchClass);
-                pitchClasses.remove(pitchClass);
-            } else {
-                Integer pitchClass = RandomUtil.getRandomFromIntArray(pitchClassesScale);
-                note.setPitchClass(pitchClass);
-            }
+            int pitchClass = RandomUtil.getRandomFromIntArray(pitchClassesScale);
+            note.setPitchClass(pitchClass);
         }
     }
 
     /**
-     * Maakt dependency notes - random select pitchclasses - alle pitchclasses worden gebruikt
+     * Maakt dependency notes - random select pitchclasses - mogelijk dat niet alle pitchclasses worden gebruikt
      * @param pitchClasses
      */
     @Override
@@ -58,7 +51,6 @@ public class SegmentBuilder extends AggregateBuilder {
         for (Note note : notesToGroup) {
             Integer pitchClass = RandomUtil.getRandomFromList(allPitchClasses);
             note.setPitchClass(pitchClass);
-            allPitchClasses.remove(pitchClass);
         }
         return notesToGroup;
     }

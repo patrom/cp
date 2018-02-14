@@ -4,7 +4,6 @@ import cp.combination.RhythmCombination;
 import cp.model.harmony.ChordType;
 import cp.model.harmony.DependantHarmony;
 import cp.model.note.Note;
-import cp.model.note.Scale;
 import cp.util.RandomUtil;
 
 import java.util.*;
@@ -19,8 +18,8 @@ public class TwelveToneBuilder extends AggregateBuilder{
     private List<Note> splitNotes;
     private int parentVoice = -1;
 
-    public TwelveToneBuilder(int start, List<Integer> beats, int voice, Scale scale, RhythmCombination... rhythmCombinations) {
-        super(start, beats, voice, scale, rhythmCombinations);
+    public TwelveToneBuilder(int start, List<Integer> beats, int voice, int[] pitchClasses, RhythmCombination... rhythmCombinations) {
+        super(start, beats, voice, pitchClasses, rhythmCombinations);
     }
 
     public void setGridNotes(List<Note> gridNotes) {
@@ -48,7 +47,6 @@ public class TwelveToneBuilder extends AggregateBuilder{
 
     protected void updatePitchClasses() {
         long count = gridNotes.stream().filter(note -> !note.isRest()).count();
-        int[] pitchClasses = scale.getPitchClasses();
         if (count >= pitchClasses.length) {
             //repeat notes
             notesLargerOrEqualThanScale(pitchClasses);
@@ -158,6 +156,10 @@ public class TwelveToneBuilder extends AggregateBuilder{
         return lengthFirstNote;
     }
 
+    /**
+     * Herhaalt pitchclasses - volgorde pitchclasses blijft behouden.
+     * @param pitchClassesScale
+     */
     @Override
     public void notesLargerOrEqualThanScale(int[] pitchClassesScale){
         List<Note> gridNotesWithoutRest = getGridNotesWithoutRest();
@@ -176,6 +178,7 @@ public class TwelveToneBuilder extends AggregateBuilder{
             i++;
         }
     }
+
 
     public void notesSmallerThanScale(int[] pitchClasses){
         List<Note> gridNotesWithoutRest = getGridNotesWithoutRest();
@@ -214,6 +217,10 @@ public class TwelveToneBuilder extends AggregateBuilder{
         }
     }
 
+    /**
+     * Maakt dependency notes - volgorde pitchclasses blijft behouden - alle pitchclasses worden gebruikt
+     * @param pitchClasses
+     */
     @Override
     public List<Note> addNoteDependenciesAndPitchClasses(int[] pitchClasses) {
         List<Note> notesWithoutRests = getGridNotesWithoutRest();

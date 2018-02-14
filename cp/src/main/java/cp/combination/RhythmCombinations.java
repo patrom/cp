@@ -1,9 +1,6 @@
 package cp.combination;
 
-import cp.combination.even.FourNoteEven;
-import cp.combination.even.OneNoteEven;
-import cp.combination.even.ThreeNoteEven;
-import cp.combination.even.TwoNoteEven;
+import cp.combination.even.*;
 import cp.combination.uneven.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -36,5 +33,8 @@ public class RhythmCombinations {
     public SixNoteSexTuplet sixNoteSexTuplet;
 
     @Autowired
-    protected FiveNoteQuintuplet fiveNoteQuintuplet;
+    protected Quintuplet quintuplet;
+
+    @Autowired
+    public CombiNoteEven combiNoteEven;
 }

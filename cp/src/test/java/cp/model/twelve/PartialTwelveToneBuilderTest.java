@@ -34,7 +34,7 @@ public class PartialTwelveToneBuilderTest {
     @Test
     public void testNotesLargerThanScale(){
         AggregateBuilder aggregateBuilder = new PartialTwelveToneBuilder(0, durations, 0,
-                Scale.ALL_INTERVAL_TRETRACHORD1,
+                Scale.ALL_INTERVAL_TRETRACHORD1.getPitchClasses(),
                 rhythmCombinations.twoNoteEven::pos12,
                 rhythmCombinations.twoNoteEven::pos13,
                 rhythmCombinations.oneNoteEven::pos3);
@@ -43,6 +43,22 @@ public class PartialTwelveToneBuilderTest {
         aggregateBuilder.notesLargerOrEqualThanScale(Scale.ALL_INTERVAL_TRETRACHORD1.getPitchClasses());
         System.out.println(notes.stream().filter(note -> !note.isRest()).count());
         notes.forEach(note -> System.out.println(note.getPosition() + ", " + note.getPitchClass() + ", " + note.isRest()));
+    }
+
+    @Test
+    public void testAddNoteDependenciesAndPitchClasses(){
+        durations = Stream.of(DurationConstants.QUARTER, DurationConstants.QUARTER).collect(toList());
+        AggregateBuilder aggregateBuilder = new PartialTwelveToneBuilder(0, durations, 0,
+                Scale.ALL_INTERVAL_TRETRACHORD1.getPitchClasses(),
+                rhythmCombinations.oneNoteEven::pos1,
+                rhythmCombinations.oneNoteEven::pos1);
+        aggregateBuilder.createGridrepeat();
+        List<Note> allNotes = aggregateBuilder.addNoteDependenciesAndPitchClasses(Scale.ALL_INTERVAL_TRETRACHORD1.getPitchClasses());
+        System.out.println(allNotes.stream().filter(note -> !note.isRest()).count());
+        for (Note note : allNotes) {
+            System.out.println(note.getPosition() + ", " + note.getPitchClass()
+                    + ", " + note.isRest());
+        }
     }
 
 }

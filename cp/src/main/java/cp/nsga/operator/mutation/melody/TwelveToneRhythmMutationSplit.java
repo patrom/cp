@@ -1,9 +1,11 @@
 package cp.nsga.operator.mutation.melody;
 
+import cp.config.TimbreConfig;
 import cp.config.TwelveToneConfig;
 import cp.model.Motive;
 import cp.model.melody.CpMelody;
 import cp.model.note.Note;
+import cp.model.timbre.Timbre;
 import cp.model.twelve.AggregateBuilder;
 import cp.model.twelve.AggregateBuilderFactory;
 import cp.nsga.operator.mutation.MutationOperator;
@@ -30,9 +32,10 @@ public class TwelveToneRhythmMutationSplit implements MutationOperator<Motive> {
 
     @Autowired
     private TwelveToneConfig twelveToneConfig;
-
     @Autowired
     private AggregateBuilderFactory aggregateBuilderFactory;
+    @Autowired
+    private TimbreConfig timbreConfig;
 
     @Autowired
     public TwelveToneRhythmMutationSplit(@Value("${probabilityTwelveToneRhythmSplit}") double probabilityTwelveToneRhythmSplit) {
@@ -51,15 +54,15 @@ public class TwelveToneRhythmMutationSplit implements MutationOperator<Motive> {
             }
             AggregateBuilder firstBuilder = builders.get(0);
             List<Note> mergedNotes = builders.stream()
-                    .map(twelveToneBuilder -> twelveToneBuilder.getGridNotes())
+                    .map(AggregateBuilder::getGridNotes)
                     .flatMap(notes -> notes.stream())
                     .sorted()
                     .collect(Collectors.toList());
             //update pcs
             AggregateBuilder tempBuilder = aggregateBuilderFactory.getAggregateBuilder(firstBuilder.getBuilderType(), firstBuilder.getStart(),
-                    null, voice , firstBuilder.getScale(), null);
+                    null, voice , firstBuilder.getPitchClasses(), null);
             tempBuilder.setGridNotes(mergedNotes);
-            int[] pitchClasses = firstBuilder.getScale().getPitchClasses();
+            int[] pitchClasses = firstBuilder.getPitchClasses();
             long size = mergedNotes.stream().filter(note -> !note.isRest()).count();
             if (size >= pitchClasses.length) {
                 //repeat notes
@@ -68,7 +71,14 @@ public class TwelveToneRhythmMutationSplit implements MutationOperator<Motive> {
                 for (Map.Entry<Integer, List<Note>> mapEntry : notePerVoice.entrySet()) {
                     int voiceNote = mapEntry.getKey();
                     CpMelody melodyToUpdate = motive.getMelody(voiceNote, start);
-                    melodyToUpdate.updateNotes(mapEntry.getValue());
+                    List<Note> melodyNotes = mapEntry.getValue();
+                    Timbre timbre = timbreConfig.getTimbreConfigForVoice(voiceNote);
+                    melodyNotes.forEach(n -> {
+                        n.setDynamic(timbre.getDynamic());
+                        n.setDynamicLevel(timbre.getDynamic().getLevel());
+                        n.setTechnical(timbre.getTechnical());
+                    });
+                    melodyToUpdate.updateNotes(melodyNotes);
                 }
             } else if (size < pitchClasses.length) {
                 //build dependant notes
@@ -80,6 +90,12 @@ public class TwelveToneRhythmMutationSplit implements MutationOperator<Motive> {
                     List<Note> restsForVoice = mergedNotes.stream().filter(note -> note.isRest() && note.getVoice() == voiceNote).collect(Collectors.toList());
                     noteDependencies.addAll(restsForVoice);
                     Collections.sort(noteDependencies);
+                    Timbre timbre = timbreConfig.getTimbreConfigForVoice(voiceNote);
+                    noteDependencies.forEach(n -> {
+                        n.setDynamic(timbre.getDynamic());
+                        n.setDynamicLevel(timbre.getDynamic().getLevel());
+                        n.setTechnical(timbre.getTechnical());
+                    });
                     CpMelody melodyToUpdate = motive.getMelody(voiceNote, start);
                     melodyToUpdate.updateNotes(noteDependencies);
                 }

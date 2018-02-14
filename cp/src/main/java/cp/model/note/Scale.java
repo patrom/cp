@@ -1,9 +1,13 @@
 package cp.model.note;
 
+import cp.util.RandomUtil;
 import org.apache.commons.lang.ArrayUtils;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
+
+import static java.util.stream.Collectors.toList;
 
 public class Scale {
 	
@@ -64,7 +68,20 @@ public class Scale {
 			Z = new Scale(new int[]{10,3,4,9}),
 
 			MINOR_PART =  new Scale(new int[]{0,2,3,5,7}),
-			BARTOK_CONCERTO =  new Scale(new int[]{0,3,4,7,8,11});
+			BARTOK_CONCERTO =  new Scale(new int[]{0,3,4,7,8,11}),
+	ALL_COMBINATORIAL_HEXAHCORD_A = new Scale(new int[]{0,1,2,3,4,5}),//(012), (013), (014), (024)
+	ALL_COMBINATORIAL_HEXAHCORD_B = new Scale(new int[]{0,2,3,4,5,7}),//(013), (015), (024), (025)
+	ALL_COMBINATORIAL_HEXAHCORD_C = new Scale(new int[]{4, 5, 9, 7, 0, 2}),//(024), (025), (027), (037)
+	ALL_COMBINATORIAL_HEXAHCORD_C_COMPLEMENT = new Scale(new int[]{11, 3, 1, 6, 8, 10}),
+
+// R	[10, 8, 6, 1, 3, 11, 2, 0, 7, 9, 5, 4]
+//	I		[4, 3, 11, 1, 8, 6, 9, 5, 7, 2, 0, 10]
+//	RI		[10, 0, 2, 7, 5, 9, 6, 8, 1, 11, 3, 4]
+
+	// I3 [5, 4, 0, 2, 9, 7, 10, 6, 8, 3, 1, 11] T0  +   T6  or  I3 necessary to produce haxachordal complementation
+	ALL_COMBINATORIAL_HEXAHCORD_D = new Scale(new int[]{0,1,2,6,7,8}),//(012), (015), (016), (027)
+	ALL_COMBINATORIAL_HEXAHCORD_E = new Scale(new int[]{0,1,4,5,8,9}),//(014)3, (015), (037)3, (048)
+	ALL_COMBINATORIAL_HEXAHCORD_F = new Scale(new int[]{0,2,4,6,8,10});//(024)3, (026), (048)
 
 			
 	private final Random random = new Random(System.currentTimeMillis());
@@ -177,5 +194,16 @@ public class Scale {
 	public int[] getPitchClasses() {
 		return scale;
 	}
+
+    public int[] getPitchClassesRandomized() {
+        int[] randomizedPitchClasses = new int[scale.length];
+        List<Integer> allPitchClasses = Arrays.stream(scale).boxed().collect(toList());
+        for (int i = 0; i < scale.length; i++) {
+            Integer pitchClass = RandomUtil.getRandomFromList(allPitchClasses);
+            randomizedPitchClasses[i] = pitchClass;
+            allPitchClasses.remove(pitchClass);
+        }
+        return randomizedPitchClasses;
+    }
 
 }

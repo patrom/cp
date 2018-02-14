@@ -2,7 +2,6 @@ package cp.model.twelve;
 
 import cp.combination.RhythmCombination;
 import cp.model.note.Note;
-import cp.model.note.Scale;
 import cp.util.RandomUtil;
 
 import java.util.ArrayList;
@@ -14,10 +13,14 @@ import static java.util.stream.Collectors.toList;
 
 public class PartialTwelveToneBuilder extends AggregateBuilder {
 
-    public PartialTwelveToneBuilder(int start, List<Integer> beats, int voice, Scale scale, RhythmCombination... rhythmCombinations) {
-        super(start, beats, voice, scale, rhythmCombinations);
+    public PartialTwelveToneBuilder(int start, List<Integer> beats, int voice, int[] pitchClasses, RhythmCombination... rhythmCombinations) {
+        super(start, beats, voice, pitchClasses, rhythmCombinations);
     }
 
+    /**
+     * Herhaalt pitchclasses - insert herhaalde pc random in bestaande reeks pitchclasses (volgorde gedeeltelijk bewaard) - alle pc worden gebruikt.
+     * @param pitchClassesScale
+     */
     @Override
     public void notesLargerOrEqualThanScale(int[] pitchClassesScale) {
         List<Note> gridNotesWithoutRest = getGridNotesWithoutRest();
@@ -37,6 +40,10 @@ public class PartialTwelveToneBuilder extends AggregateBuilder {
         }
     }
 
+    /**
+     * Maakt dependency notes - random select pitchclasses - alle pitchclasses worden gebruikt
+     * @param pitchClasses
+     */
     @Override
     public List<Note> addNoteDependenciesAndPitchClasses(int[] pitchClasses) {
         List<Note> notesWithoutRests = getGridNotesWithoutRest();
