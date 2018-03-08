@@ -36,6 +36,8 @@ public class TwoNoteEven {
 			return pos(3*beat/4, beat);
 		}
 	}
+
+
 	
 	public List<Note> pos34(int beat) {
 		List<Note> notes = new ArrayList<>();

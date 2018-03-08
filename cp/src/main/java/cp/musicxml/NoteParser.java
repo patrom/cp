@@ -255,6 +255,23 @@ public class NoteParser {
                             break;
                     }
                 }
+                if(actualNotes.getElementName().equals("actual-notes") && actualNotes.getData().equals("7")){
+                    note.setSepttuplet(true);
+                    note.setTimeModification(normalType.getData());
+                    switch (type) {
+                        case "16th":
+                            duration = DurationConstants.SIXTEENTH_SEPTUPLET;
+                            break;
+//                        case "eighth":
+//                            duration = DurationConstants.EIGHT_QUINTUPLET;
+//                            if(hasDot){
+//                                duration = DurationConstants.EIGHT_QUINTUPLET + DurationConstants.SIXTEENTH_QUINTUPLET;
+//                            }
+//                            break;
+                        default:
+                            break;
+                    }
+                }
             }
         }
         return duration;

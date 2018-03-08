@@ -88,7 +88,7 @@ public class OrchestrateApplication extends JFrame implements CommandLineRunner 
             //            Score score = scoreUtilities.createScoreFromMelodyInstrument(melodyInstruments, xmlParser.getBpm());
 //            score.setTitle(xmlFile.getName());
 //            View.notate(score);
-            Thread.sleep(17000);
+            Thread.sleep(26000);
         }
     }
 

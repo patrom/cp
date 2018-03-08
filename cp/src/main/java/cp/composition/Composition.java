@@ -18,7 +18,6 @@ import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.note.Scale;
-import cp.model.rhythm.DurationConstants;
 import cp.model.timbre.Timbre;
 import cp.nsga.operator.mutation.melody.ReplaceMelody;
 import cp.nsga.operator.relation.RelationConfig;
@@ -168,8 +167,8 @@ public abstract class Composition {
 
 	@PostConstruct
 	public void init(){
-		composeInKey(keys.C);
-		inTempo(50);
+		composeInKey(keys.Eflat);
+		inTempo(100);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
 		meterObjective.setComposition(this);
@@ -187,8 +186,9 @@ public abstract class Composition {
 		timeLine.setEnd(end);
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
-		timeLineKeys.add(new TimeLineKey(keys.D, Scale.MAJOR_SCALE, 0 ,0));
-		timeLineKeys.add(new TimeLineKey(keys.B, Scale.MELODIC_MINOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.Eflat, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.Fsharp, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.G, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.C, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.G, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
@@ -202,13 +202,13 @@ public abstract class Composition {
 //		durations.add(DurationConstants.QUARTER);
 //		durations.add(DurationConstants.SIX_EIGHTS);
 //		durations.add(DurationConstants.HALF);
-		durations.add(DurationConstants.WHOLE);
-		timeLine.randomKeysAndDurations(timeLineKeys, durations);
+//		durations.add(DurationConstants.WHOLE);
+//		timeLine.randomKeysAndDurations(timeLineKeys, durations);
 
-//		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.WHOLE_TONE_SCALE_0, 0 ,end)),0);
-//		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.WHOLE_TONE_SCALE_0, 0 ,end)),1);
-//		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.WHOLE_TONE_SCALE_0, 0 ,end)),2);
-//		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.C, Scale.WHOLE_TONE_SCALE_0, 0 ,end)),3);
+		timeLine.addKeysForVoice(0, new TimeLineKey(keys.C, Scale.MAJOR_CHORD, 0 ,end));
+		timeLine.addKeysForVoice(1, new TimeLineKey(keys.C, Scale.MAJOR_CHORD, 0 ,end));
+		timeLine.addKeysForVoice(2, new TimeLineKey(keys.C, Scale.OCTATCONIC_HALF, 0 ,end));
+		timeLine.addKeysForVoice(3, new TimeLineKey(keys.C, Scale.OCTATCONIC_HALF, 0 ,end));
 //		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.D, Scale.MINOR_PART, 0 ,end)),4);
 //		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.Eflat, Scale.MAJOR_SCALE, 0 ,end)),2);
 //		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(C, Scale.MAJOR_SCALE, 0 ,end)),3);
@@ -296,7 +296,7 @@ public abstract class Composition {
 ////		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, 2 * DurationConstants.WHOLE, end));
 //		timeLine.addKeysForVoice(webern3, 2);
 
-		harmonicObjective.setDissonance(tonalSetClassDissonance::getDissonance);
+		harmonicObjective.setDissonance(additiveDissonance::getDissonance);
 		harmonicResolutionObjective.setDissonantResolution(dissonantResolutionImpl::isDissonant);
 
 	}

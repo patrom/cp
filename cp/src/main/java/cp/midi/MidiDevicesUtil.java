@@ -190,14 +190,14 @@ public class MidiDevicesUtil {
 //		MidiEvent event = createGeneralMidiEvent(instrument, channel);
 //		track.add(event);
 
-//		if (!isKontakt) {
+		if (!isKontakt) {
 			for (Note note : notesNoRest) {
 				List<MidiEvent> midiEvents = vslArticulationConverter.convertNote(channel, note, instrument);
 				for (MidiEvent midiEvent : midiEvents) {
 					trackMetadata.add(midiEvent);
 				}
             }
-//		}
+		}
 	}
 
     private void createVelocityCrossfadeMidiEvents(int channel, Track track, Note note) throws InvalidMidiDataException {

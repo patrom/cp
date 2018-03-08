@@ -33,7 +33,11 @@ public class RhythmCombinations {
     public SixNoteSexTuplet sixNoteSexTuplet;
 
     @Autowired
-    protected Quintuplet quintuplet;
+    public Quintuplet quintuplet;
+
+    @Autowired
+    public SeptTuplet septTuplet;
+
 
     @Autowired
     public CombiNoteEven combiNoteEven;

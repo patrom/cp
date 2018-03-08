@@ -14,8 +14,11 @@ public class HomophonicVoice extends Voice {
     public void init(){
         setTimeconfig();
 //        timeConfig = timeDouble44;
-        evenRhythmCombinationsPerNoteSize = homophonicEven;
-        unevenRhythmCombinationsPerNoteSize = homophonicUneven;
+//        evenRhythmCombinationsPerNoteSize = homophonicEven;
+//        unevenRhythmCombinationsPerNoteSize = homophonicUneven;
+
+        evenRhythmCombinationsPerNoteSize = getCombinations();
+        unevenRhythmCombinationsPerNoteSize = getCombinations();
 
         pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
         pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);

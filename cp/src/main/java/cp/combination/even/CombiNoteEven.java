@@ -1,5 +1,6 @@
 package cp.combination.even;
 
+import cp.combination.RhythmCombinations;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,17 +12,44 @@ import java.util.List;
 public class CombiNoteEven {
 
     @Autowired
-    public OneNoteEven oneNoteEven;
-    @Autowired
-    public TwoNoteEven twoNoteEven;
-    @Autowired
-    public ThreeNoteEven threeNoteEven;
-    @Autowired
-    public FourNoteEven fourNoteEven;
+    public RhythmCombinations rhythmCombinations;
 
     public List<Note> pos23pos12(int beat) {
-        List<Note> notes = twoNoteEven.pos23(beat);
-        List<Note> notes1 = twoNoteEven.pos12(beat);
+        List<Note> notes = rhythmCombinations.twoNoteEven.pos23(beat);
+        List<Note> notes1 = rhythmCombinations.twoNoteEven.pos12(beat);
+        notes1.forEach(note -> note.setPosition(note.getPosition() + beat));
+        notes.addAll(notes1);
+        return notes;
+    }
+
+
+    public List<Note> quintupletpos2345pos1(int beat) {
+        List<Note> notes = rhythmCombinations.quintuplet.pos2345(beat);
+        List<Note> notes1 = rhythmCombinations.oneNoteEven.pos1(beat);
+        notes1.forEach(note -> note.setPosition(note.getPosition() + beat));
+        notes.addAll(notes1);
+        return notes;
+    }
+
+    public List<Note> quintupletpos12345pos1(int beat) {
+        List<Note> notes = rhythmCombinations.quintuplet.pos12345(beat);
+        List<Note> notes1 = rhythmCombinations.oneNoteEven.pos1(beat);
+        notes1.forEach(note -> note.setPosition(note.getPosition() + beat));
+        notes.addAll(notes1);
+        return notes;
+    }
+
+    public List<Note> septTupletpos234567pos1(int beat) {
+        List<Note> notes = rhythmCombinations.septTuplet.pos234567(beat);
+        List<Note> notes1 = rhythmCombinations.oneNoteEven.pos1(beat);
+        notes1.forEach(note -> note.setPosition(note.getPosition() + beat));
+        notes.addAll(notes1);
+        return notes;
+    }
+
+    public List<Note> septTupletpos1234567pos1(int beat) {
+        List<Note> notes = rhythmCombinations.septTuplet.pos1234567(beat);
+        List<Note> notes1 = rhythmCombinations.oneNoteEven.pos1(beat);
         notes1.forEach(note -> note.setPosition(note.getPosition() + beat));
         notes.addAll(notes1);
         return notes;

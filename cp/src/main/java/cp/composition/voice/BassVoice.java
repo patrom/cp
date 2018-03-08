@@ -44,13 +44,13 @@ public class BassVoice extends Voice {
         map.put(1, oneCombinations);
 
         List<RhythmCombination> twoCombinations = new ArrayList<>();
-//////		twoCombinations.add(twoNoteEven::pos12);
-//        twoCombinations.add(twoNoteEven::pos13);
+//		twoCombinations.add(rhythmCombinations.twoNoteEven::pos12);
+        twoCombinations.add(rhythmCombinations.twoNoteEven::pos13);
 //        twoCombinations.add(twoNoteEven::pos14);
 //////		twoCombinations.add(twoNoteEven::pos34);
 ////        //twoCombinations.add(twoNoteEven::pos23);
 ////        //twoCombinations.add(twoNoteEven::pos24);
-//        map.put(2, twoCombinations);
+        map.put(2, twoCombinations);
 //
 //        List<RhythmCombination> threeCombinations = new ArrayList<>();
 //        threeCombinations.add(threeNoteEven::pos123);

@@ -15,6 +15,9 @@ public class MelodyVoice extends Voice {
         setTimeconfig();
 //        timeConfig = timeDouble44;
 
+//        evenRhythmCombinationsPerNoteSize = getCombinations();
+//        unevenRhythmCombinationsPerNoteSize = getCombinations();
+
 //        pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
         pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
         pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);

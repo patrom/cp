@@ -29,6 +29,8 @@ public class DissonantResolutionImpl {
 //				return isTetraDissonant(chord);
 			case 5:
 				return harmonicObjective.getDissonance().getDissonance(harmony) == 0;
+			case 6:
+				return harmonicObjective.getDissonance().getDissonance(harmony) == 0;
 			default:
 				break;
 		}

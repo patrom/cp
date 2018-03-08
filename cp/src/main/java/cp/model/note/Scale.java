@@ -74,6 +74,15 @@ public class Scale {
 	ALL_COMBINATORIAL_HEXAHCORD_C = new Scale(new int[]{4, 5, 9, 7, 0, 2}),//(024), (025), (027), (037)
 	ALL_COMBINATORIAL_HEXAHCORD_C_COMPLEMENT = new Scale(new int[]{11, 3, 1, 6, 8, 10}),
 
+	ALL_COMBINATORIAL_HEXAHCORD_C_I = new Scale(new int[]{4, 3, 11, 1, 8, 6}),
+			ALL_COMBINATORIAL_HEXAHCORD_C_I_COMPLEMENT = new Scale(new int[]{9, 5, 7, 2, 0, 10}),
+			ALL_COMBINATORIAL_HEXAHCORD_C_R = new Scale(new int[]{10, 8, 6, 1, 3, 11}),
+			ALL_COMBINATORIAL_HEXAHCORD_C_R_COMPLEMENT = new Scale(new int[]{2, 0, 7, 9, 5, 4}),
+			ALL_COMBINATORIAL_HEXAHCORD_C_I3 = new Scale(new int[]{5, 4, 0, 2, 9, 7}),
+	ALL_COMB_C_1  = new Scale(new int[]{4,5,9}),
+	ALL_COMB_C_2  = new Scale(new int[]{7,0,2}),
+	ALL_COMB_C_3  = new Scale(new int[]{6,8,10}),
+	ALL_COMB_C_4  = new Scale(new int[]{11,3,1}),
 // R	[10, 8, 6, 1, 3, 11, 2, 0, 7, 9, 5, 4]
 //	I		[4, 3, 11, 1, 8, 6, 9, 5, 7, 2, 0, 10]
 //	RI		[10, 0, 2, 7, 5, 9, 6, 8, 1, 11, 3, 4]

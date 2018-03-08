@@ -20,6 +20,7 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -70,6 +71,8 @@ public class Display {
 			stringBuilder.append(timeLineKey.getKey().getStep());
 			stringBuilder.append(", ");
 			stringBuilder.append(timeLineKey.getStart());
+			stringBuilder.append(", ");
+			stringBuilder.append(Arrays.toString(timeLineKey.getScale().getPitchClasses()));
 		}
 		LOGGER.info(stringBuilder.toString());
 	}

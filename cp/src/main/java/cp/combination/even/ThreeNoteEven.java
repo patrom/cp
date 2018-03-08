@@ -1,8 +1,11 @@
 package cp.combination.even;
 
+import cp.combination.RhythmCombination;
+import cp.combination.RhythmCombinations;
 import cp.model.note.BeamType;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -12,6 +15,9 @@ import static cp.model.note.NoteBuilder.note;
 
 @Component
 public class ThreeNoteEven {
+
+	@Autowired
+	public RhythmCombinations rhythmCombinations;
 
 	public List<Note> pos123(int beat) {
 		List<Note> notes = new ArrayList<>();
@@ -90,6 +96,43 @@ public class ThreeNoteEven {
 		}
 		return notes;
 	}
+
+	public List<Note> pos14_and(int beat) {
+		List<Note> notes = new ArrayList<>();
+		if (beat == DurationConstants.WHOLE){
+			notes.add(note().pos(0).len(DurationConstants.HALF + DurationConstants.QUARTER).beam(BeamType.BEGIN).build());
+			notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).len(DurationConstants.EIGHT).beam(BeamType.END).build());
+			notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT).len(DurationConstants.EIGHT).build());
+		}else{
+			throw new IllegalStateException("beat not implemented: " + beat);
+		}
+		return notes;
+	}
+
+	public List<Note> pos1pos34(int beat) {
+		return combi(beat, rhythmCombinations.oneNoteEven::pos1, rhythmCombinations.twoNoteEven::pos34);
+	}
+
+    public List<Note> pos1pos24(int beat) {
+        return combi(beat, rhythmCombinations.oneNoteEven::pos1, rhythmCombinations.twoNoteEven::pos24);
+    }
+
+    public List<Note> pos1pos13(int beat) {
+        return combi(beat, rhythmCombinations.oneNoteEven::pos1, rhythmCombinations.twoNoteEven::pos13);
+    }
+
+	private List<Note> combi(int beat, RhythmCombination rhythmCombinationFirst, RhythmCombination rhythmCombinationSecond) {
+	    List<Note> notes = null;
+        if (beat == DurationConstants.WHOLE){
+            int beatLength = DurationConstants.HALF;
+            notes = rhythmCombinationFirst.getNotes(beatLength);
+            List<Note> notes1 = rhythmCombinationSecond.getNotes(beatLength);
+            notes1.forEach(note -> note.setPosition(note.getPosition() + beatLength));
+            notes.addAll(notes1);
+            return notes;
+        }
+        return notes;
+    }
 	
 	
 	public static void main(String[] args) {

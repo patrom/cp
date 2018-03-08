@@ -16,7 +16,6 @@ import static java.util.stream.Collectors.toList;
 public class TwelveToneBuilder extends AggregateBuilder{
 
     private List<Note> splitNotes;
-    private int parentVoice = -1;
 
     public TwelveToneBuilder(int start, List<Integer> beats, int voice, int[] pitchClasses, RhythmCombination... rhythmCombinations) {
         super(start, beats, voice, pitchClasses, rhythmCombinations);

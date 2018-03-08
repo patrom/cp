@@ -4,13 +4,15 @@ import cp.model.note.BeamType;
 import cp.model.note.Note;
 import cp.model.note.TupletType;
 import cp.model.rhythm.DurationConstants;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
 
-public class Septuplet {
+@Component
+public class SeptTuplet {
 
     public List<Note> pos1234567(int beat) {
         List<Note> notes = new ArrayList<>();
@@ -18,7 +20,7 @@ public class Septuplet {
         switch (beat) {
             case DurationConstants.QUARTER:
                 notes =  posWithBeam(noteLength);
-                notes.forEach(n -> {n.setQuintuplet(true);
+                notes.forEach(n -> {n.setSepttuplet(true);
                     n.setTimeModification("16th");});
         }
         return notes;
@@ -30,7 +32,7 @@ public class Septuplet {
         switch (beat) {
             case DurationConstants.QUARTER:
                 notes =  posWithBeamRest(noteLength);
-                notes.forEach(n -> {n.setQuintuplet(true);
+                notes.forEach(n -> {n.setSepttuplet(true);
                     n.setTimeModification("16th");});
         }
         return notes;
@@ -62,8 +64,8 @@ public class Septuplet {
 
 
     public static void main(String[] args) {
-        Septuplet septuplet = new Septuplet();
-        List<Note > notes = septuplet.pos1234567(DurationConstants.QUARTER);
+        SeptTuplet septTuplet = new SeptTuplet();
+        List<Note > notes = septTuplet.pos1234567(DurationConstants.QUARTER);
         notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
     }
 }

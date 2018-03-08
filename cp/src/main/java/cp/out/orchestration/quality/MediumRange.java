@@ -11,6 +11,7 @@ import cp.out.instrument.strings.*;
 import cp.out.instrument.woodwinds.Bassoon;
 import cp.out.instrument.woodwinds.Clarinet;
 import cp.out.instrument.woodwinds.Flute;
+import cp.out.instrument.woodwinds.Oboe;
 import cp.out.orchestration.InstrumentName;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +29,7 @@ public class MediumRange extends OrchestralQuality {
         InstrumentRegister range = new InstrumentRegister(48, 72);
         instruments = Stream.of(
                 new Flute(new InstrumentRegister(59, 72)),
+                new Oboe(new InstrumentRegister(58, 79)),
 //                new ClarinetEFlat(new InstrumentRegister(55, 71)),
                 new Clarinet(new InstrumentRegister(50, 72)),
 //                new BassClarinet(new InstrumentRegister(55, 82)),

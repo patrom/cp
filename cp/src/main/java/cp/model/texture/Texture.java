@@ -98,7 +98,7 @@ public class Texture {
         return emptyList();
     }
 
-    public List<Note> multiNoteDependency(Note note, boolean octave) {
+    protected List<Note> multiNoteDependency(Note note, boolean octave) {
         List<Note> notes = new ArrayList<>();
         int pitchClass;
         int interval;
@@ -236,7 +236,7 @@ public class Texture {
         return notes;
     }
 
-    public Note singleNoteDependency(Note note, boolean octave) {
+    protected Note singleNoteDependency(Note note, boolean octave) {
         Note clone = note.clone();
         int pitchClass = -1;
         int interval = 0;
@@ -309,7 +309,7 @@ public class Texture {
         return pitchClass;
     }
 
-    public Note symmetryNoteDependencyBelow(Note note) {
+    protected Note symmetryNoteDependencyBelow(Note note) {
         Note clone = note.clone();
         int pitchClass = -1;
         if (!note.isRest()) {
@@ -335,7 +335,7 @@ public class Texture {
         return clone;
     }
 
-    public Note symmetryNoteDependencyAbove(Note note) {
+    protected Note symmetryNoteDependencyAbove(Note note) {
         Note clone = note.clone();
         int pitchClass = -1;
         if (!note.isRest()) {
@@ -363,7 +363,7 @@ public class Texture {
 
 
 
-    public List<Note> updateDependantNotesBelow(Note note){
+    protected List<Note> updateDependantNotesBelow(Note note){
         DependantHarmony dependantHarmony = note.getDependantHarmony();
         if (dependantHarmony != null) {
             List<Note> harmonyNotes = dependantHarmony.getNotes();
@@ -382,7 +382,7 @@ public class Texture {
         return Collections.emptyList();
     }
 
-    public List<Note> updateDependantNotesAbove(Note note){
+    protected List<Note> updateDependantNotesAbove(Note note){
         DependantHarmony dependantHarmony = note.getDependantHarmony();
         if (dependantHarmony != null) {
             List<Note> harmonyNotes = dependantHarmony.getNotes();

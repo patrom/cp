@@ -234,6 +234,22 @@ public class MusicXMLParser {
 								default:
 									break;
 								}
+							}else if(measureElement.getElementsByTag("actual-notes").text().equals("7")){
+								note.setSepttuplet(true);
+								note.setTimeModification(measureElement.getElementsByTag("normal-type").text());
+								switch (measureElement.getElementsByTag("type").text()) {
+									case "16th":
+										duration = DurationConstants.SIXTEENTH_SEPTUPLET;
+										break;
+//									case "eighth":
+//										duration = DurationConstants.EIGHT_QUINTUPLET;
+//										if(!measureElement.getElementsByTag("dot").isEmpty()){
+//											duration = DurationConstants.EIGHT_QUINTUPLET + DurationConstants.SIXTEENTH_QUINTUPLET;
+//										}
+//										break;
+									default:
+										break;
+								}
 							}
 						}
 						

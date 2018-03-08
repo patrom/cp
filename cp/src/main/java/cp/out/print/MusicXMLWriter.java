@@ -328,7 +328,7 @@ public class MusicXMLWriter {
 			xmlStreamWriter.writeEmptyElement("dot");
 			xmlStreamWriter.writeCharacters("\n");
 		}
-		if (note.isTriplet() || note.isSextuplet() || note.isQuintuplet()) {
+		if (note.isTriplet() || note.isSextuplet() || note.isQuintuplet() || note.isSepttuplet()) {
 			createTimeModification(note, noteType);
 		}
 		createElementWithValue("staff", String.valueOf(getStaff(instrumentMapping.getInstrument(), note)));
@@ -340,7 +340,7 @@ public class MusicXMLWriter {
 				createElementBeamType(note.getBeamType().getLabel(), "1");
 			}
 		}
-		if (note.hasArticulation()|| note.isTieStart() || note.isTieEnd() || note.isTriplet() || note.isSextuplet() || note.isQuintuplet()) {
+		if (note.hasArticulation()|| note.isTieStart() || note.isTieEnd() || note.isTriplet() || note.isSextuplet() || note.isQuintuplet() || note.isSepttuplet()) {
 			createNotationsElement(note);
 		}
 		xmlStreamWriter.writeEndElement();
@@ -402,10 +402,10 @@ public class MusicXMLWriter {
 		} else if(note.isQuintuplet()){
 			createElementWithValue("actual-notes", "5");
 			createElementWithValue("normal-notes", "4");
+		} else if(note.isSepttuplet()){
+			createElementWithValue("actual-notes", "7");
+			createElementWithValue("normal-notes", "4");
 		}
-//		else if(note.7){
-//			createElementWithValue("actual-notes", "7");
-//			createElementWithValue("normal-notes", "4");
 //		} else if(note.11){
 //			createElementWithValue("actual-notes", "11");
 //			createElementWithValue("normal-notes", "8");

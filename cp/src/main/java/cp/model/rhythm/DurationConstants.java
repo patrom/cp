@@ -19,6 +19,7 @@ public interface DurationConstants {
 	int HALF_TRIPLET = 8 * SIXTEENTH_TRIPLET;
 	
 	int SIXTEENTH_QUINTUPLET = 24;
+	int SIXTEENTH_SEPTUPLET = 17;
 	int EIGHT_QUINTUPLET = 48;
 
 	int TIMING = 3;

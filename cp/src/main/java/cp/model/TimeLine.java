@@ -41,6 +41,10 @@ public class TimeLine {
 		this.keysPerVoice.put(voice, keys);
 	}
 
+	public void addKeysForVoice(int voice, TimeLineKey... key){
+		this.keysPerVoice.put(voice, Arrays.asList(key));
+	}
+
 	public void addContourForVoice(List<Contour> contours, int voice){
 		this.contourPerVoice.put(voice, contours);
 	}
@@ -62,14 +66,21 @@ public class TimeLine {
 	}
 
 	public void randomKeysAndDurations(List<TimeLineKey> timeLineKeys, List<Integer> durations) {
+		List<TimeLineKey> allTimeLineKeys = new ArrayList<>(timeLineKeys);
 		List<TimeLineKey> keys = new ArrayList<>();
 		int start = 0;
 		int end = 0;
 		while (start < compositionEnd) {
 			int duration = RandomUtil.getRandomFromList(durations);
 			end = end + duration;
-			TimeLineKey timeLineKey = RandomUtil.getRandomFromList(timeLineKeys);
-			keys.add(new TimeLineKey(timeLineKey.getKey(), timeLineKey.getScale(), start, end));
+			if (!allTimeLineKeys.isEmpty()) {//every key is used once
+				TimeLineKey timeLineKey = RandomUtil.getRandomFromList(allTimeLineKeys);
+				keys.add(new TimeLineKey(timeLineKey.getKey(), timeLineKey.getScale(), start, end));
+				allTimeLineKeys.remove(timeLineKey);
+			} else {
+				TimeLineKey timeLineKey = RandomUtil.getRandomFromList(timeLineKeys);
+				keys.add(new TimeLineKey(timeLineKey.getKey(), timeLineKey.getScale(), start, end));
+			}
 			start = end;
 		}
 		int instrumentSize = instrumentConfig.getSize();

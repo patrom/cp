@@ -151,7 +151,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(fourVoiceComposition::canonA3);
 //		composeInGenres.add(fourVoiceComposition::canonA4);
 //		composeInGenres.add(fourVoiceComposition::doubleCanon);
-//		composeInGenres.add(fourVoiceComposition::allRandom);
+		composeInGenres.add(fourVoiceComposition::allRandom);
 //		fourVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
 //		fourVoiceComposition.setHarmonizeVoice(1);
 //		composeInGenres.add(fourVoiceComposition::harmonize);
@@ -168,7 +168,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(sixVoiceComposition::allRandom);
 
 		//12 tone
-		composeInGenres.add(twelveToneComposition::composeMerge);
+//		composeInGenres.add(twelveToneComposition::composeMerge);
 
 		for (CompositionGenre compositionGenre : composeInGenres) {
 			composeInGenre.setCompositionGenre(compositionGenre);

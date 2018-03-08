@@ -40,6 +40,7 @@ public class Note implements Comparable<Note>{
 	private boolean triplet;
 	private boolean sextuplet;
 	private boolean quintuplet;
+	private boolean septtuplet;
 	private boolean bracket;
 	private String timeModification;
 	private boolean printDynamic;
@@ -92,6 +93,7 @@ public class Note implements Comparable<Note>{
 		this.triplet = anotherNote.isTriplet();
 		this.sextuplet = anotherNote.isSextuplet();
 		this.quintuplet = anotherNote.isQuintuplet();
+		this.septtuplet = anotherNote.isSepttuplet();
 		this.tupletType = anotherNote.getTupletType();
 		this.bracket = anotherNote.isBracket();
 		this.timeModification = anotherNote.getTimeModification();
@@ -473,6 +475,14 @@ public class Note implements Comparable<Note>{
 
 	public void setQuintuplet(boolean quintuplet) {
 		this.quintuplet = quintuplet;
+	}
+
+	public boolean isSepttuplet() {
+		return septtuplet;
+	}
+
+	public void setSepttuplet(boolean septtuplet) {
+		this.septtuplet = septtuplet;
 	}
 
 	public boolean isBracket() {
