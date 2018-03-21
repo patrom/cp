@@ -85,7 +85,7 @@ public class OrchestrationGeneratorTest {
 	@Before
 	public void setUp() throws Exception {
 		resource = new FileSystemResource("");
-		path = resource.getFile().getPath() + "src/main/resources/test/";
+		path = resource.getFile().getPath() + "src/main/resources/rowMatrix/";
 	}
 
 

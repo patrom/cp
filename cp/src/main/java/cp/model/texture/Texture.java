@@ -61,6 +61,9 @@ public class Texture {
                 case 12:
                     textureNotes.addAll(updateDependantNotesBelow(note));
                     break;
+                case 100:
+                    textureNotes.addAll(getDependantNotesBelow(note));
+                    break;
                 default:
                     throw new IllegalArgumentException("Dependant harmony not set for type: " + dependantHarmony.getChordType());
 
@@ -361,7 +364,14 @@ public class Texture {
         return clone;
     }
 
-
+    protected List<Note> getDependantNotesBelow(Note note){
+        DependantHarmony dependantHarmony = note.getDependantHarmony();
+        if(dependantHarmony != null) {
+            dependantHarmony.dependantBelow(note);
+            return dependantHarmony.getNotes();
+        }
+        return Collections.emptyList();
+    }
 
     protected List<Note> updateDependantNotesBelow(Note note){
         DependantHarmony dependantHarmony = note.getDependantHarmony();

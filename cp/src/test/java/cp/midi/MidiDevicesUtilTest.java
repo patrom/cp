@@ -92,7 +92,7 @@ public class MidiDevicesUtilTest {
     private void write(MelodyBlock melodyBlock, String midiFileName) throws InvalidMidiDataException, IOException {
         final Sequence sequence = midiDevicesUtil.createSequence(Collections.singletonList(melodyBlock), 60);
         Resource resource = new FileSystemResource("");
-        midiDevicesUtil.write(sequence, resource.getFile().getPath()+ "src/main/resources/test/" + midiFileName + ".mid");
+        midiDevicesUtil.write(sequence, resource.getFile().getPath()+ "src/main/resources/rowMatrix/" + midiFileName + ".mid");
         //        midiDevicesUtil.playOnDevice(sequence, 60 , MidiDevicePlayer.KONTAKT );
     }
 

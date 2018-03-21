@@ -108,11 +108,11 @@
 			<scope>provided</scope> </dependency> -->
 
 		<!-- Test <dependency> <groupId>org.hamcrest</groupId> <artifactId>hamcrest-core</artifactId> 
-			<scope>test</scope> </dependency> <dependency> <groupId>org.powermock</groupId> 
+			<scope>rowMatrix</scope> </dependency> <dependency> <groupId>org.powermock</groupId>
 			<artifactId>powermock-module-junit4</artifactId> <version>${powermock.version}</version> 
-			<scope>test</scope> </dependency> <dependency> <groupId>org.powermock</groupId> 
+			<scope>rowMatrix</scope> </dependency> <dependency> <groupId>org.powermock</groupId>
 			<artifactId>powermock-api-mockito</artifactId> <version>${powermock.version}</version> 
-			<scope>test</scope> </dependency> -->
+			<scope>rowMatrix</scope> </dependency> -->
 	</dependencies>
 
 </project>

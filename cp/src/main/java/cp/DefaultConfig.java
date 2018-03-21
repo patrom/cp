@@ -60,7 +60,7 @@ public class DefaultConfig {
 
 	@Bean
 	public Resource fileTestResource(){
-		return new FileSystemResource("src/main/resources/test/");
+		return new FileSystemResource("src/main/resources/rowMatrix/");
 	}
 
 	@Bean

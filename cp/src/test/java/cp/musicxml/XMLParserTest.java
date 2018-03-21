@@ -19,7 +19,7 @@ public class XMLParserTest {
     public void startParsing() throws Exception {
         XMLParser xmlParser = new XMLParser();
         try {
-            xmlParser.startParsing("C:\\Users\\prombouts\\git\\cp\\cp\\src\\main\\resources\\test\\tripletparsing.xml");
+            xmlParser.startParsing("C:\\Users\\prombouts\\git\\cp\\cp\\src\\main\\resources\\rowMatrix\\tripletparsing.xml");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -31,7 +31,7 @@ public class XMLParserTest {
         for (Map.Entry<String,List<Note>> entry : xmlParser.getNotesPerInstrument().entrySet()) {
             System.out.println(entry.getKey());
             List<Note> notes = entry.getValue();
-            notes.forEach(n -> System.out.println(n));
+            notes.forEach(System.out::println);
         }
 
 //        List<Note> notes = xmlParser.getNotes(1);

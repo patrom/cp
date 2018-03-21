@@ -78,7 +78,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 	@Override
 	public void run(String... arg0) throws Exception {
 //		playMidiFilesOnKontaktFor();
-//		MusicXMLParser parser = new MusicXMLParser("cp/src/main/resources/test.xml");
+//		MusicXMLParser parser = new MusicXMLParser("cp/src/main/resources/rowMatrix.xml");
 //		parser.parseMusicXML();
 //		List<Note> notes = parser.getNotes();
 //		notes.forEach(n -> System.out.println(n));

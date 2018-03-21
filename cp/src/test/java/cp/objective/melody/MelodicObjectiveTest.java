@@ -63,7 +63,7 @@ public class MelodicObjectiveTest extends AbstractTest {
 	public void testMelody(){
 		melodyNotes = generateRandomMelody();
 		double melodicValue = melodicObjective.evaluateMelody(melodyNotes, 1, melodyDefaultDissonance);
-		LOGGER.info("test melody :" + melodicValue);
+		LOGGER.info("rowMatrix melody :" + melodicValue);
 	}
 	
 	@Test

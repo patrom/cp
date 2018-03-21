@@ -6,6 +6,8 @@ import cp.model.humanize.Humanization;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.Technical;
 
+import java.util.Objects;
+
 
 public class Note implements Comparable<Note>{
 
@@ -287,30 +289,22 @@ public class Note implements Comparable<Note>{
 //			return 0;
 //		}
 	}
-	
+
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + pitchClass;
-		result = prime * result + position;
-		return result;
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Note)) return false;
+		Note note = (Note) o;
+		return getPitch() == note.getPitch() &&
+				getPosition() == note.getPosition() &&
+				getOctave() == note.getOctave() &&
+				getPitchClass() == note.getPitchClass() &&
+				getVoice() == note.getVoice();
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Note other = (Note) obj;
-		if (pitchClass != other.pitchClass)
-			return false;
-		if (position != other.position)
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(getPitch(), getPosition(), getOctave(), getPitchClass(), getVoice());
 	}
 
 	public Note clone() {

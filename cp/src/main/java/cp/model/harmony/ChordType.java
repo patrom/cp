@@ -4,6 +4,7 @@ public enum ChordType {
 
 	SYMMEETRY(-1),
 	TWELVE_TONE(12),
+	SETCLASS(100),
 
 	ALL_INTERVALS(2),
 	NO_INTERVALS(0),
@@ -117,6 +118,7 @@ public enum ChordType {
 	MINOR_2_CHR(3),
 	DOM_CHR_1(3),
 	DOM_CHR_2(3);
+
 
 	public enum Inversion {
 		ROOT, INVERSION1, INVERSION2, OTHER

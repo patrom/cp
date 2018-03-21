@@ -3,9 +3,9 @@ package cp.util;
 import cp.model.note.Scale;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -16,11 +16,13 @@ public class RowMatrix {
 
     public static void main(String[] args) {
 
-        Integer[] s = {11,0, 6, 4, 10, 9, 1, 8, 3, 7, 5, 2};
+//        Integer[] s = {11,0, 6, 4, 10, 9, 1, 8, 3, 7, 5, 2};
+        Integer[] s = {0,2,5};
+        List<Integer> set = Arrays.asList(s);
         Stream<Integer> firstHexaChord = IntStream.of(Scale.ALL_COMBINATORIAL_HEXAHCORD_C.getPitchClasses()).boxed();
         Stream<Integer> secondHexachord = IntStream.of(Scale.ALL_COMBINATORIAL_HEXAHCORD_C_COMPLEMENT.getPitchClasses()).boxed();
 
-        List<Integer> set = Stream.concat(firstHexaChord, secondHexachord).collect(Collectors.toList());
+//        List<Integer> set = Stream.concat(firstHexaChord, secondHexachord).collect(Collectors.toList());
 //		Collections.shuffle(set);
 //        System.out.println(set);
 //        System.out.println(RowMatrix.multiply(set));
@@ -30,12 +32,22 @@ public class RowMatrix {
         RowMatrix rowMatrix = new RowMatrix(set.size(), set);
         rowMatrix.show();
 
-        System.out.println(rowMatrix.transposeSet(4));
-        System.out.println(rowMatrix.retrogradeTransposeSet(10));
-        System.out.println(rowMatrix.transposeInverseSet(4));
-        System.out.println(rowMatrix.retrogradeTransposeInverseSet(10));
+        List<Integer> inversionSet = inversion(set);
 
-        System.out.println(rowMatrix.transposeInverseSet(5));
+        System.out.println(inversionSet);
+        RowMatrix rowMatrixInversion = new RowMatrix(inversionSet.size(), inversionSet);
+        rowMatrixInversion.show();
+
+        System.out.println(Arrays.toString(rowMatrix.getRow(0)));
+        System.out.println(Arrays.toString(rowMatrix.getColumn(2)));
+
+//
+//        System.out.println(rowMatrix.transposeSet(4));
+//        System.out.println(rowMatrix.retrogradeTransposeSet(10));
+//        System.out.println(rowMatrix.transposeInverseSet(4));
+//        System.out.println(rowMatrix.retrogradeTransposeInverseSet(10));
+//
+//        System.out.println(rowMatrix.transposeInverseSet(5));
 
 //        System.out.println(RowMatrix.multiply(set));
     }
@@ -75,6 +87,22 @@ public class RowMatrix {
             }
             System.out.println();
         }
+    }
+
+    public int[] getRow(int n){
+        int[] row = new int[rowMatrix.length];
+        for (int i = 0; i < rowMatrix[0].length; i++) {
+            row[i] = rowMatrix[n][i];
+        }
+        return row;
+    }
+
+    public int[] getColumn(int n){
+        int[] column = new int[rowMatrix.length];
+        for (int i = 0; i < rowMatrix[0].length; i++) {
+            column[i] = rowMatrix[i][n];
+        }
+        return column;
     }
 
     /**
@@ -204,7 +232,7 @@ public class RowMatrix {
         return list;
     }
 
-    public  List<Integer> inversion(List<Integer> set){
+    public static List<Integer> inversion(List<Integer> set){
         List<Integer> inversion = new ArrayList<>();
         Integer[] arr = new Integer[set.size()];
         arr = set.toArray(arr);

@@ -37,7 +37,7 @@ public class HarmonyRelation {
             Note note = melodyBlockNotes.get(i);
             DependantHarmony dependantHarmony = note.getDependantHarmony();
             Note targetNote = note.clone();
-            targetNote.setPitchClass((note.getPitchClass() + 4) % 12);//test grote terts hoger
+            targetNote.setPitchClass((note.getPitchClass() + 4) % 12);//rowMatrix grote terts hoger
             targetNote.setPitch(note.getPitch() + 4);
             notes.add(targetNote);
         }

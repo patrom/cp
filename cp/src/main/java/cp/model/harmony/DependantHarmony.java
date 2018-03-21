@@ -2,7 +2,11 @@ package cp.model.harmony;
 
 import cp.model.note.Note;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static java.util.Comparator.comparingInt;
 
 /**
  * Created by prombouts on 22/01/2017.
@@ -12,7 +16,9 @@ public class DependantHarmony{
     private ChordType chordType;
     private int axisPitchClassHigh;
     private int axisPitchClassLow;
-    private List<Note> notes;
+    private List<Note> notes = new ArrayList<>();
+    private VoicingType voicingType;
+    private int[] setClass;
 
     public ChordType getChordType() {
         return chordType;
@@ -27,12 +33,20 @@ public class DependantHarmony{
 
     private DependantHarmony(DependantHarmony dependantHarmony) {
         this.chordType = dependantHarmony.getChordType();
+        this.setClass = dependantHarmony.getSetClass();
+        this.voicingType = dependantHarmony.getVoicingType();
+
     }
 
     public DependantHarmony(ChordType chordType, int axisPitchClassHigh, int axisPitchClassLow) {
         this.chordType = chordType;
         this.axisPitchClassHigh = axisPitchClassHigh;
         this.axisPitchClassLow = axisPitchClassLow;
+    }
+
+    public DependantHarmony(int[] setClass, VoicingType voicingType) {
+        this.setClass = setClass;
+        this.voicingType = voicingType;
     }
 
     public DependantHarmony clone() {
@@ -53,6 +67,122 @@ public class DependantHarmony{
 
     public List<Note> getNotes() {
         return notes;
+    }
+
+    public int[] getSetClass() {
+        return setClass;
+    }
+
+    public VoicingType getVoicingType() {
+        return voicingType;
+    }
+
+
+    public void dependantBelow(Note note){
+        notes.clear();
+        updatePitchClassesBelow(note);
+        sortDependantNotesCloseBelow(note);
+        switch (voicingType) {
+            case DROP_2:
+                drop2Voicing();
+                break;
+            case DROP_3:
+                drop3Voicing();
+                break;
+            case DROP_2_4:
+                drop2And4Voicing();
+                break;
+        }
+    }
+
+    protected void updatePitchClassesBelow(Note note){
+        int[] pitchClasses = setClass;
+        for (int i = 1; i < pitchClasses.length; i++) {
+            int pitchClass = pitchClasses[i];
+            Note clone = note.clone();
+            int newPc = (note.getPitchClass() - pitchClass + 12) % 12;
+            clone.setPitchClass(newPc);
+            notes.add(clone);
+        }
+    }
+
+    protected void updatePitchClassesAbove(Note note){
+        int[] pitchClasses = setClass;
+        for (int i = 1; i < pitchClasses.length; i++) {
+            int pitchClass = pitchClasses[i];
+            Note clone = note.clone();
+            int newPc = (note.getPitchClass() + pitchClass + 12) % 12;
+            clone.setPitchClass(newPc);
+            notes.add(clone);
+        }
+    }
+
+    /**
+     * Update all notes within an octave range below the melody note (sorted).
+     */
+    protected void sortDependantNotesCloseBelow(Note topNote){
+        for (Note note : notes) {
+            int harmonyPitch = topNote.getOctave() * 12 + note.getPitchClass();
+            if (harmonyPitch <= topNote.getPitch()) {
+                note.setPitch(harmonyPitch);
+                note.setOctave(topNote.getOctave());
+            } else {
+                note.setPitch(harmonyPitch - 12);
+                note.setOctave(topNote.getOctave() - 1);
+            }
+        }
+        Collections.sort(notes, comparingInt(Note::getPitch).reversed());
+    }
+
+    /**
+     * Update all notes within an octave range above the melody note (sorted).
+     */
+    protected void sortDependantNotesCloseAbove(Note topNote){
+        for (Note note : notes) {
+            int harmonyPitch = topNote.getOctave() * 12 + note.getPitchClass();
+            if (harmonyPitch >= topNote.getPitch()) {
+                note.setPitch(harmonyPitch);
+                note.setOctave(topNote.getOctave());
+            } else {
+                note.setPitch(harmonyPitch + 12);
+                note.setOctave(topNote.getOctave() + 1);
+            }
+        }
+        Collections.sort(notes, comparingInt(Note::getPitch));
+    }
+
+    protected void drop2Voicing(){
+        Note dropNote = notes.get(0);
+        notes.remove(0);
+        dropNote.transposeOctaveDown();
+        notes.add(dropNote);
+    }
+
+    protected void drop3Voicing(){
+        if ( notes.size() < 2) {
+           throw new IllegalStateException("drop 3 voicing not possible");
+        }
+        Note dropNote = notes.get(1);
+        notes.remove(1);
+        dropNote.transposeOctaveDown();
+        notes.add(dropNote);
+    }
+
+    protected void drop2And4Voicing(){
+        if ( notes.size() < 3) {
+            throw new IllegalStateException("drop 2 + 4 voicing not possible");
+        }
+        Note drop2Note = notes.get(0);
+        Note drop4Note = notes.get(2);
+
+        notes.remove(drop2Note);
+        notes.remove(drop4Note);
+
+        drop2Note.transposeOctaveDown();
+        drop4Note.transposeOctaveDown();
+
+        notes.add(drop2Note);
+        notes.add(drop4Note);
     }
 
 }

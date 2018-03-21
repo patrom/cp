@@ -34,7 +34,7 @@ public class TestSetTheory {
 
 		PitchClassSet pcSet = new PitchClassSet(pitchSet);
 		System.out.println(pcSet);
-		System.out.println("test:" + PitchClassSetCatalog.getNameByPitchClassSet(pcSet));
+		System.out.println("rowMatrix:" + PitchClassSetCatalog.getNameByPitchClassSet(pcSet));
 		System.out.println(pcSet.getDescription());
 		System.out.println(ArrayUtils.toString(pcSet.icVector()));
 		System.out.println(pcSet.getSignature());

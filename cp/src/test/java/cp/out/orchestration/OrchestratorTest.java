@@ -15,7 +15,7 @@ public class OrchestratorTest {
 	private Orchestrator ochestrator;
 
 	@Test
-	public void testOrchestrate() throws Exception {
+	public void testOrchestrate() {
 //		List<MelodyBlock> melodyBlocks = new ArrayList<>();
 //		List<Note> notes = new ArrayList<>();
 //		notes.add(note().pos(0).pc(0).pitch(60).octave(5).len(DurationConstants.QUARTER).build());
@@ -26,7 +26,7 @@ public class OrchestratorTest {
 //		MelodyBlock melodyBlock = new MelodyBlock(5,1);
 //		melodyBlock.addMelodyBlock(melody);
 //		melodyBlocks.add(melodyBlock);
-//		ochestrator.orchestrate(melodyBlocks, "test");
+//		ochestrator.orchestrate(melodyBlocks, "rowMatrix");
 	}
 
 }
