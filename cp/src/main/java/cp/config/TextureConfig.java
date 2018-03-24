@@ -115,16 +115,43 @@ public class TextureConfig {
         rowMatrix.show();
 
         int[] row = rowMatrix.getRow(setClass.length - 1);
+        Arrays.sort(row);
         DependantHarmony dependantHarmony = new DependantHarmony(row, voicingType);
         dependantHarmony.setChordType(ChordType.SETCLASS);
         setClassTypes.add(dependantHarmony);
         System.out.println(Arrays.toString(row));
 
         int[] column = rowMatrix.getColumn(0);
+        Arrays.sort(column);
         DependantHarmony dependantHarmonyInversion = new DependantHarmony(column, voicingType);
         dependantHarmonyInversion.setChordType(ChordType.SETCLASS);
         setClassTypes.add(dependantHarmonyInversion);
         System.out.println(Arrays.toString(column));
+        return setClassTypes;
+    }
+
+    public List<DependantHarmony> getAllRowMatrix(int[] setClass, VoicingType voicingType){
+        List<DependantHarmony> setClassTypes = new ArrayList<>();
+
+        List<Integer> pitchClasses = Arrays.stream(setClass).boxed().collect(Collectors.toList());
+        RowMatrix rowMatrix = new RowMatrix(setClass.length, pitchClasses);
+        rowMatrix.show();
+
+        for (int i = 0; i < setClass.length; i++) {
+            int[] row = rowMatrix.getRow(i);
+            Arrays.sort(row);
+            System.out.println(Arrays.toString(row));
+            DependantHarmony dependantHarmonyRow = new DependantHarmony(row, voicingType);
+            dependantHarmonyRow.setChordType(ChordType.SETCLASS);
+            setClassTypes.add(dependantHarmonyRow);
+
+            int[] column = rowMatrix.getColumn(i);
+            Arrays.sort(column);
+            System.out.println(Arrays.toString(column));
+            DependantHarmony dependantHarmonyInversion = new DependantHarmony(column, voicingType);
+            dependantHarmonyInversion.setChordType(ChordType.SETCLASS);
+            setClassTypes.add(dependantHarmonyInversion);
+        }
         return setClassTypes;
     }
 

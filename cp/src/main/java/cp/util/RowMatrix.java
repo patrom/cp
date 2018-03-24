@@ -17,7 +17,7 @@ public class RowMatrix {
     public static void main(String[] args) {
 
 //        Integer[] s = {11,0, 6, 4, 10, 9, 1, 8, 3, 7, 5, 2};
-        Integer[] s = {0,2,5};
+        Integer[] s = {0,3,7};
         List<Integer> set = Arrays.asList(s);
         Stream<Integer> firstHexaChord = IntStream.of(Scale.ALL_COMBINATORIAL_HEXAHCORD_C.getPitchClasses()).boxed();
         Stream<Integer> secondHexachord = IntStream.of(Scale.ALL_COMBINATORIAL_HEXAHCORD_C_COMPLEMENT.getPitchClasses()).boxed();
@@ -32,14 +32,31 @@ public class RowMatrix {
         RowMatrix rowMatrix = new RowMatrix(set.size(), set);
         rowMatrix.show();
 
-        List<Integer> inversionSet = inversion(set);
+        for (int i = 0; i < s.length; i++) {
+            int[] row = rowMatrix.getRow(i);
+            Arrays.sort(row);
+            System.out.println(Arrays.toString(row));
+            int[] column = rowMatrix.getColumn(i);
+            Arrays.sort(column);
+            System.out.println(Arrays.toString(column));
+        }
 
-        System.out.println(inversionSet);
-        RowMatrix rowMatrixInversion = new RowMatrix(inversionSet.size(), inversionSet);
-        rowMatrixInversion.show();
+//        int[] row = rowMatrix.getRow(s.length - 1);
+//        Arrays.sort(row);
+//        System.out.println(Arrays.toString(row));
+//
+//        int[] column = rowMatrix.getColumn(0);
+//        Arrays.sort(column);
+//        System.out.println(Arrays.toString(column));
 
-        System.out.println(Arrays.toString(rowMatrix.getRow(0)));
-        System.out.println(Arrays.toString(rowMatrix.getColumn(2)));
+//        List<Integer> inversionSet = inversion(set);
+
+//        System.out.println(inversionSet);
+//        RowMatrix rowMatrixInversion = new RowMatrix(inversionSet.size(), inversionSet);
+//        rowMatrixInversion.show();
+
+//        System.out.println(Arrays.toString(rowMatrix.getRow(0)));
+//        System.out.println(Arrays.toString(rowMatrix.getColumn(2)));
 
 //
 //        System.out.println(rowMatrix.transposeSet(4));
