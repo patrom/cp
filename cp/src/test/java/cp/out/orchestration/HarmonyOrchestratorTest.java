@@ -33,6 +33,7 @@ import java.util.function.Predicate;
 
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
@@ -79,7 +80,7 @@ public class HarmonyOrchestratorTest {
     }
 
     @Test
-    public void varyRandomHarmonyNote() throws Exception {
+    public void varyRandomHarmonyNote(){
         List<CpHarmony> harmonies = new ArrayList<>();
         List<Note> notes = new ArrayList<>();
         notes.add(note().pos(0).pitch(60).pc(0).octave(5).voice(5).build());
@@ -116,7 +117,7 @@ public class HarmonyOrchestratorTest {
     }
 
     @Test
-    public void varyHarmonyRhythmDependant() throws Exception {
+    public void varyHarmonyRhythmDependant() {
         List<CpHarmony> harmonies = new ArrayList<>();
         List<Note> notes = new ArrayList<>();
         notes.add(note().pos(0).pc(0).voice(5).build());
@@ -155,7 +156,7 @@ public class HarmonyOrchestratorTest {
     }
 
     @Test
-    public void varyOriginalNote() throws Exception {
+    public void varyOriginalNote() {
         int voice = 2;
         MelodyBlock melodyBlock = new MelodyBlock(5,voice);
         List<Note> notes = new ArrayList<>();
@@ -177,7 +178,7 @@ public class HarmonyOrchestratorTest {
     }
 
     @Test
-    public void testUpdateAccomp() throws Exception {
+    public void testUpdateAccomp(){
         List<CpHarmony> harmonies = new ArrayList<>();
         List<Note> notes = new ArrayList<>();
         notes.add(note().pos(0).pc(0).pitch(60).voice(5).octave(5).build());
@@ -242,7 +243,7 @@ public class HarmonyOrchestratorTest {
         AccompGroup accompGroup = new AccompGroup(melodyVoice, accompContour);
         harmonyOrchestrator.updateAccomp(motive, accompGroup,  1, harmonyFilter);
         List<Note> melodyBlockNotes = motive.getMelodyBlock(1).getMelodyBlockNotes();
-        melodyBlockNotes.forEach(n -> System.out.println(n));
+        melodyBlockNotes.forEach(System.out::println);
 //        for (Note melodyBlockNote : melodyBlockNotes) {
 //            assertTrue(melodyBlockNote.getPitch() >= 48 || melodyBlockNote.getPitch() <= 50);
 //        }

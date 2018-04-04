@@ -27,9 +27,9 @@ import cp.model.rhythm.DurationConstants;
 import cp.out.print.ScoreUtilities;
 import cp.out.print.note.Key;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class})
@@ -115,14 +115,15 @@ public class MelodyGeneratorTest extends JFrame{
 		beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER));
 		when(beatGroupStrategy.getBeatGroups()).thenReturn(beatGroups);
 		when(pitchClassGenerator.updatePitchClasses(notes)).thenReturn(notes);
-		when(voiceConfig.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
-		when(voiceConfig.getRandomPitchClassGenerator(Mockito.anyInt())).thenReturn(pg -> new ArrayList<>());
+		when(voiceConfig.getVoiceConfiguration(anyInt())).thenReturn(melodyVoice);
+		when(voiceConfig.getRandomPitchClassGenerator(anyInt())).thenReturn(pg -> new ArrayList<>());
 		MelodyBlock melody = melodyGenerator.generateMelodyBlockConfig(1, 5);
 		assertEquals(1, melody.getVoice());
 		assertTrue(melody.getMelodyBlocks().size() > 1);
 	}
 
 	@Test
+	@Ignore
 	public void testGenerateMelodyBlockConfig() {
 		when(composition.getStart()).thenReturn(0);
 		when(composition.getEnd()).thenReturn(DurationConstants.WHOLE);
@@ -134,7 +135,7 @@ public class MelodyGeneratorTest extends JFrame{
 		AccompGroup accompGroup = new AccompGroup(melodyVoice, contour);
 		MelodyBlock melody = melodyGenerator.generateMelodyBlockWithoutPitchClassGenerator(1, accompGroup,  0);
 		List<Note> melodyBlockNotes = melody.getMelodyBlockNotes();
-		melodyBlockNotes.forEach(n -> System.out.println(n));
+		melodyBlockNotes.forEach(System.out::println);
 		assertEquals(8, melodyBlockNotes.size());
 		for (Note melodyBlockNote : melodyBlockNotes) {
 			assertEquals(DurationConstants.EIGHT, melodyBlockNote.getLength());
@@ -153,8 +154,8 @@ public class MelodyGeneratorTest extends JFrame{
 		beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER));
 		when(beatGroupStrategy.getBeatGroups()).thenReturn(beatGroups);
 		when(pitchClassGenerator.updatePitchClasses(notes)).thenReturn(notes);
-		when(voiceConfig.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
-		when(voiceConfig.getRandomPitchClassGenerator(Mockito.anyInt())).thenReturn(pitchClassGenerator);
+		when(voiceConfig.getVoiceConfiguration(anyInt())).thenReturn(melodyVoice);
+		when(voiceConfig.getRandomPitchClassGenerator(anyInt())).thenReturn(pitchClassGenerator);
 
 		List<Integer> beats = new ArrayList<>();
 		beats.add(12);

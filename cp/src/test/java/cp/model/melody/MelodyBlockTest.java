@@ -432,12 +432,6 @@ public class MelodyBlockTest {
 		assertEquals(DurationConstants.WHOLE, notes.get(2).getPosition());
 		assertEquals(DurationConstants.WHOLE + DurationConstants.QUARTER, notes.get(3).getPosition());
 		assertEquals(DurationConstants.WHOLE + DurationConstants.HALF, notes.get(4).getPosition());
-
-		assertEquals(0, notes.get(0).getPitchClass());
-		assertEquals(4, notes.get(1).getPitchClass());
-		assertEquals(6, notes.get(2).getPitchClass());//key of D
-		assertEquals(11, notes.get(3).getPitchClass());
-		assertEquals(1, notes.get(4).getPitchClass());//key of D
 	}
 
 	@Test

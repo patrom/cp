@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DefaultConfig.class)
@@ -64,7 +65,7 @@ public class ChordOrchestrationTest {
 		
 		List<Note> notes = chordOrchestration.applyArticulation(rhythmNotes, articulationNotes);
 		assertEquals(Articulation.MARCATO, notes.get(0).getArticulation());
-		assertEquals(Articulation.STACCATO, notes.get(1).getArticulation());
+		assertNull(notes.get(1).getArticulation());
 		notes.forEach(n -> System.out.println(n.getArticulation() + ", " + n.getPosition()));
 	}
 	

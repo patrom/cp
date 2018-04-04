@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DefaultConfig.class)
@@ -29,17 +28,6 @@ public class VerticalRelationsTest {
 	public void setUp() throws Exception {
 	}
 
-
-	@Test
-	public void testSuperpositionSplit1() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSuperpositionSplit3() {
-		fail("Not yet implemented");
-	}
-
 	@Test
 	public void testOneOrchestralQuality() {
 		InstrumentNoteMapping instrumentNoteMapping = verticalRelations.oneOrchestralQuality(new int[]{67, 64,60,57}, new ViolinsI(), null);
@@ -49,11 +37,6 @@ public class VerticalRelationsTest {
 		assertEquals(notes.get(1).getPitch(), 64);
 		assertEquals(notes.get(2).getPitch(), 60);
 		assertEquals(notes.get(3).getPitch(), 57);
-	}
-
-	@Test
-	public void testOverlapping2() {
-		fail("Not yet implemented");
 	}
 	
 	@Test
