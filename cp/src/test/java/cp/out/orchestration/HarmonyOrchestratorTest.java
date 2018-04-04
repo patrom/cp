@@ -22,12 +22,10 @@ import cp.out.instrument.register.InstrumentRegister;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,27 +33,25 @@ import java.util.function.Predicate;
 
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 /**
  * Created by prombouts on 13/01/2017.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = DefaultConfig.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = DefaultConfig.class)
 public class HarmonyOrchestratorTest {
 
     @Autowired
-    @InjectMocks
     private HarmonyOrchestrator harmonyOrchestrator;
-    @Mock
+    @MockBean(name = "fourVoiceComposition")
     private Composition composition;
-    @Mock
+    @MockBean(name = "instrumentConfig")
     private InstrumentConfig instrumentConfig;
-    @Mock
+    @MockBean(name = "melodyGenerator")
     private MelodyGenerator melodyGenerator;
-    @Mock
+    @MockBean(name = "timeLine")
     private TimeLine timeLine;
     @Autowired
     private FourNoteEven fourNoteEven;
@@ -64,7 +60,6 @@ public class HarmonyOrchestratorTest {
 
     @Before
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
         int voice = 5;
         when(composition.getStart()).thenReturn(0);
         when(composition.getEnd()).thenReturn(DurationConstants.WHOLE);

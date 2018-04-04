@@ -6,11 +6,10 @@ import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +18,8 @@ import java.util.Map;
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = DefaultConfig.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = DefaultConfig.class)
 public class MotiveTest extends AbstractTest {
 	
 	private Motive motive;

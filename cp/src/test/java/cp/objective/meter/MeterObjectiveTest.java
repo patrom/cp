@@ -7,27 +7,24 @@ import cp.model.rhythm.DurationConstants;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = DefaultConfig.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = DefaultConfig.class)
 public class MeterObjectiveTest {
 	
 	@Autowired
-	@InjectMocks
 	private MeterObjective meterObjective;
-	@Mock
+	@MockBean(name = "fourVoiceComposition")
 	private Composition composition;
 	@Autowired
 	@Qualifier(value="time44")
@@ -35,7 +32,7 @@ public class MeterObjectiveTest {
 
 	@Before
 	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
+		meterObjective.setComposition(composition);
 	}
 
 	@Test

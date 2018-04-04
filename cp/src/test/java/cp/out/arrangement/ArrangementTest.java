@@ -5,13 +5,14 @@ import cp.midi.HarmonyPosition;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -21,8 +22,9 @@ import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = DefaultConfig.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = DefaultConfig.class)
+@Ignore
 public class ArrangementTest extends JFrame{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ArrangementTest.class.getName());

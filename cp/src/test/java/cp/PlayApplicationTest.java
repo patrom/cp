@@ -10,8 +10,8 @@ import cp.out.instrument.strings.Viola;
 import cp.out.play.InstrumentMapping;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +21,12 @@ import static cp.model.note.NoteBuilder.note;
 /**
  * Created by prombouts on 12/04/2017.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = DefaultConfig.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = DefaultConfig.class)
 public class PlayApplicationTest extends AbstractTest {
 
     @Test
-    public void playMidiFilesOnKontaktFor() throws Exception {
+    public void playMidiFilesOnKontaktFor() {
         List<Note> notes = new ArrayList<>();
         notes.add(note().pos(0).len(DurationConstants.QUARTER).pc(0).pitch(60).octave(5).tech(Technical.TREMELO).dyn(Dynamic.F).build());
         notes.add(note().pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).pc(0).pitch(60).octave(5).dyn(Dynamic.F).art(Articulation.MARCATO).build());

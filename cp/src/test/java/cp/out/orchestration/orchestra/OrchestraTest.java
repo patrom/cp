@@ -4,7 +4,7 @@ import cp.DefaultConfig;
 import cp.model.note.Note;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = DefaultConfig.class)
+@SpringBootTest(classes = DefaultConfig.class)
 public class OrchestraTest {
 	
 	private final ClassicalOrchestra orchestra = new ClassicalOrchestra();

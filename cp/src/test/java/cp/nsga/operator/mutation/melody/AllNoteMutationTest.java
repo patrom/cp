@@ -1,54 +1,60 @@
 package cp.nsga.operator.mutation.melody;
 
-import cp.DefaultConfig;
 import cp.config.VoiceConfig;
 import cp.generator.pitchclass.PassingPitchClasses;
+import cp.model.TimeLine;
+import cp.model.TimeLineKey;
 import cp.model.melody.CpMelody;
 import cp.model.note.Note;
+import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
+import cp.out.print.Keys;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
-import static org.mockito.Matchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 /**
  * Created by prombouts on 21/05/2017.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = DefaultConfig.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest
+//@TestPropertySource(locations="classpath:test.properties")
 public class AllNoteMutationTest {
 
     @Autowired
-    @InjectMocks
     private AllNoteMutation allNoteMutation;
 
-    @Mock
+    @MockBean
     private VoiceConfig voiceConfig;
     @Autowired
     private PassingPitchClasses passingPitchClasses;
+    @MockBean
+    private TimeLine timeLine;
+    @Autowired
+    private Keys keys;
 
     @Before
     public void setUp(){
         ReflectionTestUtils.setField(allNoteMutation, "probabilityAllNote", 1.0);
-        MockitoAnnotations.initMocks(this);
     }
 
     @Test
     public void doMutation() {
         when(voiceConfig.getRandomPitchClassGenerator(anyInt())).thenReturn(passingPitchClasses::updatePitchClasses);
+        TimeLineKey timeLineKey = new TimeLineKey(keys.A, Scale.MAJOR_SCALE);
+        when(timeLine.getTimeLineKeyAtPosition(anyInt(), anyInt())).thenReturn(timeLineKey);
         List<Note> notes = new ArrayList<>();
         notes.add(note().pos(DurationConstants.EIGHT).pc(1).build());
         notes.add(note().pos(DurationConstants.QUARTER).pc(9).build());

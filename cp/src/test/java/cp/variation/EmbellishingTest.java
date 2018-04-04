@@ -13,14 +13,12 @@ import cp.variation.pattern.VariationPattern;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,15 +26,13 @@ import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {DefaultConfig.class, VariationConfig.class})
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class})
 public class EmbellishingTest {
 	
 	@Autowired
-	@InjectMocks
 	private Embellisher embellishing;
 	@Autowired
 	private NeighborScaleDown neighborScaleDown;
@@ -48,12 +44,11 @@ public class EmbellishingTest {
 	@Qualifier(value="NeigborVariationPattern")
 	private VariationPattern variationPattern;
 	
-	@Mock
+	@MockBean
 	private VariationSelector variationSelector;
 
 	@Before
 	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
 		neighborScaleDown.setExcludedVoices(Collections.singletonList(0));
 		suspension.setSecondNoteChanged(false);
 	}
@@ -69,7 +64,7 @@ public class EmbellishingTest {
 		note = note().pc(4).pitch(64).pos(DurationConstants.HALF).len(DurationConstants.QUARTER).octave(5).voice(3).build();
 		notes.add(note);
 		List<Note> embellishedMelody = embellishing.embellish(notes);
-		assertTrue(embellishedMelody.size() == 5);
+		assertEquals(5, embellishedMelody.size());
 		assertEquals(60, embellishedMelody.get(0).getPitch());
 		assertEquals(61, embellishedMelody.get(1).getPitch());
 		assertEquals(62, embellishedMelody.get(2).getPitch());
@@ -92,7 +87,7 @@ public class EmbellishingTest {
 		note = note().pc(0).pitch(60).pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).octave(5).voice(3).build();
 		notes.add(note);
 		List<Note> embellishedMelody = embellishing.embellish(notes);
-		assertTrue(embellishedMelody.size() == 4);
+		assertEquals(4, embellishedMelody.size());
 		assertEquals(64, embellishedMelody.get(0).getPitch());
 		assertEquals(62, embellishedMelody.get(1).getPitch());
 		assertEquals(64, embellishedMelody.get(2).getPitch());
@@ -113,7 +108,7 @@ public class EmbellishingTest {
 		note = note().pc(0).pitch(60).pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).octave(5).voice(3).build();
 		notes.add(note);
 		List<Note> embellishedMelody = embellishing.embellish(notes);
-		assertTrue(embellishedMelody.size() == 2);
+		assertEquals(2, embellishedMelody.size());
 		assertEquals(62, embellishedMelody.get(0).getPitch());
 		assertEquals(60, embellishedMelody.get(1).getPitch());
 		
@@ -130,7 +125,7 @@ public class EmbellishingTest {
 		note = note().pc(0).pitch(60).pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).octave(5).voice(3).build();
 		notes.add(note);
 		List<Note> embellishedMelody = embellishing.embellish(notes);
-		assertTrue(embellishedMelody.size() == 2);
+		assertEquals(2, embellishedMelody.size());
 		assertEquals(62, embellishedMelody.get(0).getPitch());
 		assertEquals(60, embellishedMelody.get(1).getPitch());
 		
@@ -147,7 +142,7 @@ public class EmbellishingTest {
 		note = note().pc(0).pitch(60).pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).octave(5).voice(0).build();
 		notes.add(note);
 		List<Note> embellishedMelody = embellishing.embellish(notes);
-		assertTrue(embellishedMelody.size() == 2);
+		assertEquals(2, embellishedMelody.size());
 		assertEquals(64, embellishedMelody.get(0).getPitch());
 		assertEquals(60, embellishedMelody.get(1).getPitch());
 		

@@ -10,16 +10,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {DefaultConfig.class, VariationConfig.class})
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class})
 public class SuspensionTest extends AbstractVariationTest{
 
 	@Autowired

@@ -10,8 +10,8 @@ import cp.out.play.InstrumentMapping;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +20,8 @@ import java.util.Map;
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = DefaultConfig.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = DefaultConfig.class)
 public class RhythmTest {
 	
 	@Autowired
@@ -52,7 +52,7 @@ public class RhythmTest {
 	}
 	
 	@Test
-	public void testSplitSoundsHarmonyRanges() throws Exception {
+	public void testSplitSoundsHarmonyRanges() {
 		int[] sounds = {0,6,12,18,24,27,30};
 		List<Integer[]> harmonyRanges = new ArrayList<>();
 		Integer[] range = {0,18};
@@ -67,7 +67,7 @@ public class RhythmTest {
 	}
 	
 	@Test
-	public void testRhythm3() throws Exception {
+	public void testRhythm3() {
 		List<Note> chordNotes = new ArrayList<>();
 		chordNotes.add(note().pc(0).pitch(60).octave(5).voice(0).build());
 		chordNotes.add(note().pc(4).pitch(64).octave(5).voice(1).build());
@@ -103,7 +103,7 @@ public class RhythmTest {
 	}
 	
 	@Test
-	public void testRhythm2() throws Exception {
+	public void testRhythm2() {
 		List<MelodyInstrument> melodyInstruments = new ArrayList<>();
 		List<Note> chordNotes = new ArrayList<>();
 		chordNotes.add(note().pc(0).pitch(60).octave(5).voice(0).build());
@@ -131,7 +131,7 @@ public class RhythmTest {
 	}
 	
 	@Test
-	public void testRhythm() throws Exception {
+	public void testRhythm(){
 		List<Note> chordNotes = new ArrayList<>();
 		chordNotes.add(note().pc(0).pitch(60).octave(5).build());
 		chordNotes.add(note().pc(4).pitch(64).octave(5).build());
@@ -144,7 +144,7 @@ public class RhythmTest {
 	}
 
 	@Test
-	public void testTexture() throws Exception {
+	public void testTexture(){
 		List<Note> chordNotes = new ArrayList<>();
 		chordNotes.add(note().pc(0).pitch(60).octave(5).voice(0).build());
 		chordNotes.add(note().pc(4).pitch(64).octave(5).voice(1).build());

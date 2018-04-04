@@ -2,8 +2,10 @@ package cp.evaluation;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
+import cp.composition.Composition;
 import cp.composition.timesignature.TimeConfig;
 import cp.composition.voice.MelodyVoice;
+import cp.config.InstrumentConfig;
 import cp.config.VoiceConfig;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
@@ -12,20 +14,22 @@ import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
+import cp.objective.meter.MeterObjective;
+import cp.out.instrument.Instrument;
+import cp.out.instrument.keyboard.Piano;
 import cp.out.print.ScoreUtilities;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -33,14 +37,14 @@ import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {DefaultConfig.class, VariationConfig.class})
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class})
+@TestPropertySource(locations="classpath:test.properties")
 public class FitnessEvaluationTemplateTest extends JFrame{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(FitnessEvaluationTemplateTest.class);
 	
 	@Autowired
-	@InjectMocks
 	private FitnessEvaluationTemplate fitnessEvaluationTemplate;
 	@Autowired
 	private MelodyGenerator melodyGenerator;
@@ -53,16 +57,28 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 	private TimeConfig time44;
 	
 	private List<MelodyBlock> melodies;
-	@Mock
+	@MockBean
 	private VoiceConfig voiceConfig;
 	@Autowired
 	private MelodyVoice melodyVoice;
+	@MockBean(name="instrumentConfig")
+	private InstrumentConfig instrumentConfig;
+	@Autowired
+	private MeterObjective meterObjective;
+	@MockBean
+    @Qualifier(value ="fourVoiceComposition" )
+	private Composition fourVoiceComposition;
+
+	private Instrument instrument;
 
 	@Before
 	public void setUp() throws Exception {
+        meterObjective.setComposition(fourVoiceComposition);
 		melodies = new ArrayList<>();
-		MockitoAnnotations.initMocks(this);
+		instrument = new Piano();
 		Mockito.when(voiceConfig.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
+		Mockito.when(instrumentConfig.getInstrumentForVoice(Mockito.anyInt())).thenReturn(instrument);
+		Mockito.when(fourVoiceComposition.getTimeConfig()).thenReturn(time44);
 	}
 
 	@Test

@@ -19,17 +19,20 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {DefaultConfig.class, VariationConfig.class})
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class})
 public class MelodyBlockTest {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(MelodyBlockTest.class);
@@ -45,10 +48,12 @@ public class MelodyBlockTest {
 	private Key C;
 	@Autowired
 	private Key G;
-	@Autowired
+	@MockBean
 	private TimeLine timeLine;
 	@Autowired
 	private BeatGroupFactory beatGroupFactory;
+	@MockBean
+	private TimeLineKey timeLineKey;
 
 	@Before
 	public void setUp() throws Exception {
@@ -67,6 +72,8 @@ public class MelodyBlockTest {
 		melody.getContour().set(0, 4);
 		melody.getContour().set(1, 5);
 		melodyBlock.addMelodyBlock(melody);
+		TimeLineKey timeLineKey = new TimeLineKey(C, Scale.MAJOR_SCALE);
+		when(timeLine.getTimeLineKeyAtPosition(anyInt(), anyInt())).thenReturn(timeLineKey);
 	}
 	
 	@Test

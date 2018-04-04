@@ -9,12 +9,10 @@ import cp.out.print.note.Key;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,29 +22,27 @@ import static org.mockito.Mockito.when;
 /**
  * Created by prombouts on 8/12/2016.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = DefaultConfig.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = DefaultConfig.class)
 public class TimeLineTest {
 
     @Autowired
-    @InjectMocks
     private TimeLine timeLine;
     @Autowired
     private Key A;
     @Autowired
     private Key C;
-    @Mock
+    @MockBean
     private InstrumentConfig instrumentConfig;
-    @Mock
+    @MockBean
     private Composition composition;
 
     @Before
     public void setup() {
-        MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void randomKeys() throws Exception {
+    public void randomKeys() {
         when(instrumentConfig.getSize()).thenReturn(2);
         List<TimeLineKey> timeLineKeys = new ArrayList<>();
         timeLineKeys.add(new TimeLineKey(A, Scale.MAJOR_SCALE, 0 ,0));
@@ -57,7 +53,7 @@ public class TimeLineTest {
     }
 
     @Test
-    public void randomKeysAndDurations() throws Exception {
+    public void randomKeysAndDurations() {
         when(instrumentConfig.getSize()).thenReturn(2);
         when(composition.getEnd()).thenReturn(DurationConstants.WHOLE);
         List<TimeLineKey> timeLineKeys = new ArrayList<>();

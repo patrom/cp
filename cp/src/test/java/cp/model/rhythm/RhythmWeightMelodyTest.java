@@ -14,13 +14,11 @@ import cp.out.print.ScoreUtilities;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -33,7 +31,7 @@ import java.util.stream.Collectors;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = DefaultConfig.class)
+@SpringBootTest(classes = DefaultConfig.class)
 public class RhythmWeightMelodyTest extends JFrame{
 
 	@Autowired
@@ -43,19 +41,17 @@ public class RhythmWeightMelodyTest extends JFrame{
 	@Autowired
 	private ScoreUtilities scoreUtilities;
 	@Autowired
-	@InjectMocks
 	private RhythmObjective rhythmObjective;
 	@Autowired
 	@Qualifier(value="time44")
 	private TimeConfig time44;
-	@Mock
+	@MockBean
 	private VoiceConfig voiceConfig;
 	@Autowired
 	private MelodyVoice melodyVoice;
 
 	@Before
 	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
 		Mockito.when(voiceConfig.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
 	}
 	

@@ -23,16 +23,14 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import javax.sound.midi.InvalidMidiDataException;
@@ -42,8 +40,8 @@ import java.nio.file.Files;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = DefaultConfig.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = DefaultConfig.class)
 @Ignore
 public class MelodiesTest extends AbstractTest {
 	
@@ -62,13 +60,12 @@ public class MelodiesTest extends AbstractTest {
 	@Autowired
 	private RhythmWeight rhythmWeight;
 	@Autowired
-	@InjectMocks
 	private RhythmObjective rhythmObjective;
 	@Autowired
 	private MelodyGenerator melodyGenerator;
 	@Resource(name="defaultUnevenCombinations")
 	private List<RhythmCombination> defaultUnEvenCombinations;
-	@Mock
+	@MockBean
 	private VoiceConfig voiceConfig;
 	@Autowired
 	private MelodyVoice melodyVoice;
@@ -77,7 +74,6 @@ public class MelodiesTest extends AbstractTest {
 
 	@Before
 	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
 		Mockito.when(voiceConfig.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
 	}
 

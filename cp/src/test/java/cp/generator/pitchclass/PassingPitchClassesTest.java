@@ -11,31 +11,28 @@ import cp.out.print.note.Key;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {DefaultConfig.class, VariationConfig.class})
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class})
 public class PassingPitchClassesTest {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(PassingPitchClassesTest.class);
 	
 	@Autowired
-	@InjectMocks
 	private PassingPitchClasses passingPitchClasses;
-	@Mock
+	@MockBean
 	private TimeLine timeLine;
 	@Autowired
 	private Key D;
@@ -43,7 +40,6 @@ public class PassingPitchClassesTest {
 	@Before
 	public void setUp() throws Exception {
 		TimeLineKey timeLineKey = new TimeLineKey(D, Scale.MAJOR_SCALE, 0, 48);
-		MockitoAnnotations.initMocks(this);
 		when(timeLine.getTimeLineKeyAtPosition(Mockito.anyInt(), Mockito.anyInt())).thenReturn(timeLineKey);
 	}
 

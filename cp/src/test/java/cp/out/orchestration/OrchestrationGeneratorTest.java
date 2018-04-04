@@ -23,10 +23,10 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLStreamException;
@@ -44,8 +44,8 @@ import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = DefaultConfig.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = DefaultConfig.class)
 public class OrchestrationGeneratorTest {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(OrchestrationGeneratorTest.class);
@@ -85,7 +85,7 @@ public class OrchestrationGeneratorTest {
 	@Before
 	public void setUp() throws Exception {
 		resource = new FileSystemResource("");
-		path = resource.getFile().getPath() + "src/main/resources/rowMatrix/";
+		path = resource.getFile().getPath() + "src/main/resources/";
 	}
 
 

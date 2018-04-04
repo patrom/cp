@@ -1,30 +1,33 @@
 package cp.midi;
 
 import cp.DefaultConfig;
+import cp.composition.Composition;
 import cp.config.InstrumentConfig;
 import cp.generator.MusicProperties;
+import cp.model.TimeLine;
+import cp.model.TimeLineKey;
 import cp.model.harmony.ChordType;
 import cp.model.harmony.DependantHarmony;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
+import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.Technical;
 import cp.out.instrument.strings.ViolinSolo;
 import cp.out.play.InstrumentMapping;
+import cp.out.print.Keys;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
@@ -34,29 +37,35 @@ import java.util.Collections;
 import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
-import static org.mockito.Matchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = DefaultConfig.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = DefaultConfig.class)
 public class MidiDevicesUtilTest {
 
     @Autowired
-    @InjectMocks
     private MidiDevicesUtil midiDevicesUtil;
 
-    @Mock
+    @MockBean(name = "instrumentConfig")
     private InstrumentConfig instrumentConfig;
-    @Mock
+    @MockBean(name = "musicProperties")
     private MusicProperties musicProperties;
+    @MockBean
+    private TimeLine timeLine;
+    @Autowired
+    private Keys keys;
 
     private InstrumentMapping instrumentMapping;
+    @MockBean(name = "fourVoiceComposition")
+    private Composition composition;
 
     @Before
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
         instrumentMapping = new InstrumentMapping(new ViolinSolo(), 1, 0);
         when(musicProperties.getTempo()).thenReturn(60);
+        TimeLineKey timeLineKey = new TimeLineKey(keys.A, Scale.MAJOR_SCALE);
+        when(timeLine.getTimeLineKeyAtPosition(anyInt(), anyInt())).thenReturn(timeLineKey);
     }
 
     @Test
@@ -80,7 +89,7 @@ public class MidiDevicesUtilTest {
         notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).pitch(65).pc(5).dyn(Dynamic.MF).len(DurationConstants.QUARTER).tech(Technical.TREMELO).build());
         CpMelody melody = new CpMelody(notes, 0, 0 , DurationConstants.WHOLE);
         melodyBlock.addMelodyBlock(melody);
-        write(melodyBlock, "createSequence");
+//        write(melodyBlock, "createSequence");
     }
 
     private DependantHarmony createDependantHarmony(ChordType chordType){

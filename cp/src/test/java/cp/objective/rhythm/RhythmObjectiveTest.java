@@ -14,16 +14,14 @@ import cp.out.print.ScoreUtilities;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -31,14 +29,13 @@ import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = DefaultConfig.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = DefaultConfig.class)
 public class RhythmObjectiveTest extends JFrame {
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(RhythmObjectiveTest.class.getName());
 	
 	@Autowired
-	@InjectMocks
 	private RhythmObjective rhythmObjective;
 	@Autowired
 	private ScoreUtilities scoreUtilities;
@@ -49,14 +46,13 @@ public class RhythmObjectiveTest extends JFrame {
 	@Autowired
 	@Qualifier(value="time44")
 	private TimeConfig time44;
-	@Mock
+	@MockBean
 	private VoiceConfig voiceConfig;
 	@Autowired
 	private MelodyVoice melodyVoice;
 	
 	@Before
 	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
 	}
 
 	@Test

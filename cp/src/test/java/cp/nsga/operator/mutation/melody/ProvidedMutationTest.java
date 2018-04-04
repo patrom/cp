@@ -2,6 +2,7 @@ package cp.nsga.operator.mutation.melody;
 
 import cp.DefaultConfig;
 import cp.composition.beat.BeatGroupTwo;
+import cp.composition.voice.MelodyVoice;
 import cp.config.TextureConfig;
 import cp.config.VoiceConfig;
 import cp.generator.provider.MelodyProvider;
@@ -16,14 +17,12 @@ import cp.out.print.Keys;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.ArrayList;
@@ -35,32 +34,32 @@ import static org.mockito.Mockito.when;
 /**
  * Created by prombouts on 14/06/2017.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = DefaultConfig.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = DefaultConfig.class)
 public class ProvidedMutationTest {
 
     @Autowired
-    @InjectMocks
     private ProvidedMutation providedMutation;
 
-    @Mock
+    @Autowired
     private VoiceConfig voiceConfig;
-    @Mock
+    @MockBean(name = "textureConfig")
     private TextureConfig textureConfig;
-    @Mock
+    @MockBean(name = "melodyProvider")
     @Qualifier(value = "melodyManualProvider")
     protected MelodyProvider melodyProvider;
-    @Mock
+    @MockBean(name = "melodyTransformer")
     private MelodyTransformer melodyTransformer;
-    @Mock
+    @MockBean(name = "timeLine")
     private TimeLine timeLine;
     @Autowired
     private Keys keys;
+    @Autowired
+    private MelodyVoice melodyVoice;
 
 
     @Before
     public void setUp(){
-        MockitoAnnotations.initMocks(this);
         List<CpMelody> melodyList = new ArrayList<>();
         List<Note> notes = new ArrayList<>();
         notes.add(note().pos(0).pc(0).pitch(60).octave(5).len(DurationConstants.SIXTEENTH).build());
@@ -75,6 +74,7 @@ public class ProvidedMutationTest {
         when(melodyProvider.getMelodies(0)).thenReturn(melodyList);
         TimeLineKey timeLineKey = new TimeLineKey(keys.E, Scale.MAJOR_SCALE,0 ,DurationConstants.WHOLE);
         when(timeLine.getTimeLineKeyAtPosition(Mockito.anyInt(), Mockito.anyInt())).thenReturn(timeLineKey);
+//        when(voiceConfig.getVoiceConfiguration((Mockito.anyInt()))).thenReturn(melodyVoice);
         ReflectionTestUtils.setField(providedMutation, "probabilityProvided", 1.0);
     }
 

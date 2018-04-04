@@ -3,6 +3,7 @@ package cp.musicxml;
 import cp.model.note.Note;
 import cp.musicxml.parsed.ComplexElement;
 import cp.musicxml.parsed.ElementWrapper;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.util.Map;
 /**
  * Created by prombouts on 13/05/2017.
  */
+@Ignore
 public class XMLParserTest {
 
     @Test

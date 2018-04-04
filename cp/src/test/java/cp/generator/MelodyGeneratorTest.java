@@ -29,16 +29,14 @@ import cp.out.print.note.Key;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import javax.swing.*;
@@ -50,14 +48,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.when;
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {DefaultConfig.class, VariationConfig.class})
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class})
 public class MelodyGeneratorTest extends JFrame{
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(MelodyGeneratorTest.class);
 	
 	@Autowired
-	@InjectMocks
 	private MelodyGenerator melodyGenerator;
 	@Autowired
 	private ScoreUtilities scoreUtilities;
@@ -69,20 +66,18 @@ public class MelodyGeneratorTest extends JFrame{
 	private MusicProperties musicProperties;
 	@Autowired
 	private RandomPitchClasses randomPitchClasses;
-	@Mock
+	@MockBean(name = "pitchClassGenerator")
 	private PitchClassGenerator pitchClassGenerator;
-	@Mock
+	@MockBean(name = "beatGroupStrategy")
 	private BeatGroupStrategy beatGroupStrategy;
-	@Mock
+	@MockBean(name = "timeLine")
 	private TimeLine timeLine;
 	@Autowired
 	@Qualifier(value="time44")
 	private TimeConfig time44;
 	@Resource(name = "fixedEven")
 	private List<RhythmCombination> fixedEven;
-	@Mock
-	private Composition composition;
-	@Mock
+	@MockBean(name = "voiceConfig")
 	private VoiceConfig voiceConfig;
 	@Autowired
 	private MelodyVoice melodyVoice;
@@ -91,9 +86,12 @@ public class MelodyGeneratorTest extends JFrame{
 	@Autowired
 	private FourNoteEven fourNoteEven;
 
+	@MockBean
+	@Qualifier(value ="fourVoiceComposition" )
+	private Composition composition;
+
 	@Before
 	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
 		musicProperties.setKey(C);
 	}
 

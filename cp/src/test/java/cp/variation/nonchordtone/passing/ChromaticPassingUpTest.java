@@ -2,6 +2,7 @@ package cp.variation.nonchordtone.passing;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
+import cp.composition.Composition;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 import cp.variation.AbstractVariationTest;
@@ -10,22 +11,25 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {DefaultConfig.class, VariationConfig.class})
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class})
 public class ChromaticPassingUpTest extends AbstractVariationTest{
 
 	@Autowired
 	private PassingUp passingUp;
 	@Autowired
 	private PassingVariationPattern passingVariationPattern;
+	@MockBean(name = "fourVoiceComposition")
+	private Composition composition;
 	private final double[][] passingPattern =  new double[][]{{0.5, 0.5}};
 
 	@Before

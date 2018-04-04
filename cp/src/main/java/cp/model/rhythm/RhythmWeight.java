@@ -47,6 +47,9 @@ public class RhythmWeight {
 	protected void updateRhythmWeightSounds(double min) {
 //		updateNotesLength();
 //		notes.get(notes.size() - 1).setLength((int) min);
+		if (min <= 0) {
+			throw new IllegalArgumentException("min value not allowed");
+		}
 		notes.forEach(note -> note.setPositionWeight(note.getPositionWeight() + (note.getLength()/min))); 
 	}
 

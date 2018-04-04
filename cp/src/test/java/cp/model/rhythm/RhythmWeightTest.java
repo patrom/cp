@@ -9,8 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +18,8 @@ import java.util.List;
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = DefaultConfig.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = DefaultConfig.class)
 public class RhythmWeightTest {
 	
 	@Autowired
@@ -45,11 +45,11 @@ public class RhythmWeightTest {
 	@Test
 	public void testGetMinimumNoteValue() {
 		List<Note> notes = new ArrayList<>();
-		notes.add(note().pos(0).pitch(60).build());
-		notes.add(note().pos(DurationConstants.QUARTER).pitch(60).build());
-		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pitch(60).build());
-		notes.add(note().pos(DurationConstants.HALF).pitch(60).build());
-		notes.add(note().pos(DurationConstants.WHOLE).pitch(60).build());
+		notes.add(note().pos(0).pitch(60).len(DurationConstants.QUARTER).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pitch(60).len(DurationConstants.EIGHT).build());
+		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pitch(60).len(DurationConstants.EIGHT).build());
+		notes.add(note().pos(DurationConstants.HALF).pitch(60).len(DurationConstants.HALF).build());
+		notes.add(note().pos(DurationConstants.WHOLE).pitch(60).len(DurationConstants.EIGHT).build());
 		rhythmWeight.setNotes(notes);
 		double min = rhythmWeight.getMinimumNoteValue();
 		assertEquals(DurationConstants.EIGHT , min, 0);
@@ -58,11 +58,11 @@ public class RhythmWeightTest {
 	@Test
 	public void testUpdateRhythmWeightSounds() {
 		List<Note> notes = new ArrayList<>();
-		notes.add(note().pos(0).pitch(60).build());
-		notes.add(note().pos(DurationConstants.QUARTER).pitch(60).build());
-		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pitch(60).build());
-		notes.add(note().pos(DurationConstants.HALF).pitch(60).build());
-		notes.add(note().pos(DurationConstants.WHOLE).pitch(60).build());
+		notes.add(note().pos(0).pitch(60).len(DurationConstants.QUARTER).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pitch(60).len(DurationConstants.EIGHT).build());
+		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pitch(60).len(DurationConstants.EIGHT).build());
+		notes.add(note().pos(DurationConstants.HALF).pitch(60).len(DurationConstants.HALF).build());
+		notes.add(note().pos(DurationConstants.WHOLE).pitch(60).len(DurationConstants.EIGHT).build());
 		rhythmWeight.setNotes(notes);
 		rhythmWeight.updateRhythmWeightSounds(DurationConstants.EIGHT);
 		assertEquals(2 , notes.get(0).getPositionWeight(), 0);
@@ -210,18 +210,18 @@ public class RhythmWeightTest {
 	@Test
 	public void testUpdateRhythmWeight() {
 		List<Note> notes = new ArrayList<>();
-		notes.add(note().pos(0).pitch(60).dyn(Dynamic.P).build());
-		notes.add(note().pos(DurationConstants.EIGHT).pitch(62).build());
-		notes.add(note().pos(DurationConstants.QUARTER).pitch(64).build());
-		notes.add(note().pos(DurationConstants.HALF).pitch(64).art(Articulation.STACCATO).build());
-		notes.add(note().pos(DurationConstants.HALF + DurationConstants.EIGHT).pitch(65).build());
-		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pitch(65).build());
+		notes.add(note().pos(0).pitch(60).len(DurationConstants.EIGHT).dyn(Dynamic.P).build());
+		notes.add(note().pos(DurationConstants.EIGHT).pitch(62).len(DurationConstants.EIGHT).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pitch(64).len(DurationConstants.QUARTER).build());
+		notes.add(note().pos(DurationConstants.HALF).pitch(64).len(DurationConstants.EIGHT).art(Articulation.STACCATO).build());
+		notes.add(note().pos(DurationConstants.HALF + DurationConstants.EIGHT).pitch(65).len(DurationConstants.EIGHT).build());
+		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pitch(65).len(DurationConstants.QUARTER).build());
 		
-		notes.add(note().pos(DurationConstants.WHOLE).pitch(67).dyn(Dynamic.F).build());
-		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.HALF).pitch(65).art(Articulation.STACCATO).build());
-		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.HALF + DurationConstants.EIGHT).pitch(65).build());
-		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.HALF + DurationConstants.QUARTER).pitch(64).build());
-		notes.add(note().pos(DurationConstants.WHOLE * 2).pitch(0).build());
+		notes.add(note().pos(DurationConstants.WHOLE).pitch(67).dyn(Dynamic.F).len(DurationConstants.HALF).build());
+		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.HALF).pitch(65).len(DurationConstants.EIGHT).art(Articulation.STACCATO).build());
+		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.HALF + DurationConstants.EIGHT).pitch(65).len(DurationConstants.EIGHT).build());
+		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.HALF + DurationConstants.QUARTER).pitch(64).len(DurationConstants.QUARTER).build());
+		notes.add(note().pos(DurationConstants.WHOLE * 2).pitch(0).len(DurationConstants.QUARTER).build());
 		
 		rhythmWeight.setNotes(notes);
 		rhythmWeight.updateRhythmWeight();
@@ -269,12 +269,12 @@ public class RhythmWeightTest {
 	@Test
 	public void testFilterRhythmWeight() {
 		List<Note> notes = new ArrayList<>();
-		notes.add(note().pos(0).pitch(60).dyn(Dynamic.F).build());
-		notes.add(note().pos(DurationConstants.QUARTER).pitch(60).build());
-		notes.add(note().pos(DurationConstants.HALF).pitch(62).build());
-		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pitch(61).dyn(Dynamic.MP).build());
-		notes.add(note().pos(DurationConstants.WHOLE).pitch(59).build());
-		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pitch(60).build());
+		notes.add(note().pos(0).pitch(60).dyn(Dynamic.F).len(DurationConstants.QUARTER).build());
+		notes.add(note().pos(DurationConstants.QUARTER).pitch(60).len(DurationConstants.QUARTER).build());
+		notes.add(note().pos(DurationConstants.HALF).pitch(62).len(DurationConstants.QUARTER).build());
+		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pitch(61).dyn(Dynamic.MP).len(DurationConstants.QUARTER).build());
+		notes.add(note().pos(DurationConstants.WHOLE).pitch(59).len(DurationConstants.QUARTER).build());
+		notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pitch(60).len(DurationConstants.QUARTER).build());
 		rhythmWeight.setNotes(notes);
 		rhythmWeight.updateRhythmWeight();
 		List<Note> filteredNotes = rhythmWeight.filterRhythmWeigths(4.0);

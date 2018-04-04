@@ -11,16 +11,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {DefaultConfig.class, VariationConfig.class})
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class})
 public class NeighborScaleDownTest extends AbstractVariationTest {
 	
 	@Autowired
@@ -89,7 +88,7 @@ public class NeighborScaleDownTest extends AbstractVariationTest {
 		variation = neighborScaleUp;
 		setVariation();
 		List<Note> notes = testNotAllowedLength();
-		assertTrue(notes.size() == 1);
+		assertEquals(1, notes.size());
 		assertEquals(64, notes.get(0).getPitch());
 	}
 

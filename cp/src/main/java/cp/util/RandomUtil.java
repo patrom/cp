@@ -4,6 +4,7 @@ import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
 import static cp.model.note.NoteBuilder.note;
@@ -66,7 +67,10 @@ public class RandomUtil {
 	}
 
 	public static int getRandomNumberInRange(int minInclusive, int maxInclusive) {
-		return random.nextInt((maxInclusive - minInclusive) + 1) + minInclusive;
+//		return random.nextInt((maxInclusive - minInclusive) + 1) + minInclusive;
+		// nextInt is normally exclusive of the top value,
+// so add 1 to make it inclusive
+		return ThreadLocalRandom.current().nextInt(minInclusive, maxInclusive + 1);
 	}
 	
 	public static IntStream range(int size){
