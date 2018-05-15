@@ -6,9 +6,10 @@ import cp.model.setclass.TnTnIType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
@@ -124,12 +125,27 @@ public class DependantHarmonyTest {
     @Test
     public void dependantBelow() {
         dependantHarmony = new DependantHarmony(set.tntnitype, VoicingType.CLOSE);
-        Note topNote = note().pc(11).pitch(71).octave(5).build();
+        Note topNote = note().pc(11).pitch(71).octave(6).build();
         dependantHarmony.dependantBelow(topNote);
         List<Note> notes = dependantHarmony.getNotes();
+        System.out.println(Arrays.toString(set.tntnitype));
         notes.forEach(n -> System.out.println(n.getPitch() + ", " + n.getOctave()));
         assertEquals(70, notes.get(0).getPitch());
         assertEquals(69, notes.get(1).getPitch());
+    }
+
+    @Test
+    public void getAllRowMatrix() {
+        set = tnTnIType.getPrimeByName("3-11");
+        dependantHarmony = new DependantHarmony(set.tntnitype, VoicingType.CLOSE);
+        Note topNote = note().pc(0).pitch(72).octave(5).build();
+        List<DependantHarmony> allRowMatrix = dependantHarmony.getAllRowMatrixBelow(topNote);
+        System.out.println("set: " + Arrays.toString(set.tntnitype));
+        for (DependantHarmony dependantHarmony : allRowMatrix) {
+            List<Note> notes = dependantHarmony.getNotes();
+            notes.forEach(n -> System.out.print(n.getPitch() + ", " + n.getOctave() + "; "));
+            System.out.println();
+        }
     }
 
 }

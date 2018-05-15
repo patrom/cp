@@ -4,7 +4,7 @@ import cp.out.instrument.Instrument;
 import cp.out.instrument.brass.Trumpet;
 import cp.out.instrument.keyboard.Celesta;
 import cp.out.instrument.keyboard.Piano;
-import cp.out.instrument.percussion.Glockenspiel;
+import cp.out.instrument.percussion.determinate.Glockenspiel;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.*;
 import cp.out.instrument.woodwinds.Clarinet;

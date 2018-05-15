@@ -4,7 +4,7 @@ import cp.out.instrument.Instrument;
 import cp.out.instrument.brass.FrenchHorn;
 import cp.out.instrument.brass.Tuba;
 import cp.out.instrument.keyboard.Piano;
-import cp.out.instrument.percussion.Vibraphone;
+import cp.out.instrument.percussion.determinate.Vibraphone;
 import cp.out.instrument.plucked.Harp;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.*;

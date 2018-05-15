@@ -5,7 +5,7 @@ import cp.out.instrument.brass.BassTrombone;
 import cp.out.instrument.brass.FrenchHorn;
 import cp.out.instrument.brass.Trombone;
 import cp.out.instrument.brass.Trumpet;
-import cp.out.instrument.percussion.Xylophone;
+import cp.out.instrument.percussion.determinate.Xylophone;
 import cp.out.instrument.plucked.Harp;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.ViolinSolo;

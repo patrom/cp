@@ -2,9 +2,9 @@ package cp.out.orchestration.orchestra;
 
 import cp.out.instrument.keyboard.Celesta;
 import cp.out.instrument.keyboard.Piano;
-import cp.out.instrument.percussion.Glockenspiel;
-import cp.out.instrument.percussion.Timpani;
-import cp.out.instrument.percussion.Xylophone;
+import cp.out.instrument.percussion.determinate.Glockenspiel;
+import cp.out.instrument.percussion.determinate.Timpani;
+import cp.out.instrument.percussion.determinate.Xylophone;
 import cp.out.instrument.plucked.Harp;
 import cp.out.play.InstrumentMapping;
 

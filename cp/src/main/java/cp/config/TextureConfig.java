@@ -12,7 +12,8 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by prombouts on 4/06/2017.
@@ -98,56 +99,67 @@ public class TextureConfig {
 //        textureTypes.put(2, symmetryChords2);
 
         TnTnIType tnTnIType = new TnTnIType();
-        Set set3_1 = tnTnIType.getPrimeByName("3-1");
+        Set set3_1 = tnTnIType.getPrimeByName("3-5");
         List<DependantHarmony> setClassTypes = new ArrayList<>();
         setClassTypes.add(createDependantHarmony(set3_1.tntnitype, VoicingType.CLOSE));
         setClassTypes.add(createDependantHarmony(set3_1.tntnitype, VoicingType.DROP_2));
         setClassTypes.add(createDependantHarmony(set3_1.tntnitype, VoicingType.DROP_3));
 //        setClassTypes.add(createDependantHarmony(set3_1.tntnitype, VoicingType.DROP_2_4));
-        textureTypes.put(3, setClassTypes);
+
+        List<DependantHarmony> allRowMatrixDrop2 = getAllRowMatrix(set3_1.tntnitype, VoicingType.DROP_2);
+        List<DependantHarmony> allRowMatrixDrop3 = getAllRowMatrix(set3_1.tntnitype, VoicingType.DROP_3);
+        allRowMatrixDrop2.addAll(allRowMatrixDrop3);
+
+        Set set3_4 = tnTnIType.getPrimeByName("3-4");
+        List<DependantHarmony> allRowMatrixDrop2set3_4 = getAllRowMatrix(set3_4.tntnitype, VoicingType.DROP_2);
+        List<DependantHarmony> allRowMatrixDrop3set3_4 = getAllRowMatrix(set3_4.tntnitype, VoicingType.DROP_3);
+        allRowMatrixDrop2set3_4.addAll(allRowMatrixDrop3set3_4);
+
+        allRowMatrixDrop3.addAll(allRowMatrixDrop2set3_4);
+        textureTypes.put(0, allRowMatrixDrop2);
     }
 
-    public List<DependantHarmony> rowMatrix(int[] setClass, VoicingType voicingType) {
-        List<DependantHarmony> setClassTypes = new ArrayList<>();
-
-        List<Integer> pitchClasses = Arrays.stream(setClass).boxed().collect(Collectors.toList());
-        RowMatrix rowMatrix = new RowMatrix(setClass.length, pitchClasses);
-        rowMatrix.show();
-
-        int[] row = rowMatrix.getRow(setClass.length - 1);
-        Arrays.sort(row);
-        DependantHarmony dependantHarmony = new DependantHarmony(row, voicingType);
-        dependantHarmony.setChordType(ChordType.SETCLASS);
-        setClassTypes.add(dependantHarmony);
-        System.out.println(Arrays.toString(row));
-
-        int[] column = rowMatrix.getColumn(0);
-        Arrays.sort(column);
-        DependantHarmony dependantHarmonyInversion = new DependantHarmony(column, voicingType);
-        dependantHarmonyInversion.setChordType(ChordType.SETCLASS);
-        setClassTypes.add(dependantHarmonyInversion);
-        System.out.println(Arrays.toString(column));
-        return setClassTypes;
-    }
+//    public List<DependantHarmony> rowMatrix(int[] setClass, VoicingType voicingType) {
+//        List<DependantHarmony> setClassTypes = new ArrayList<>();
+//
+//        List<Integer> pitchClasses = Arrays.stream(setClass).boxed().collect(Collectors.toList());
+//        RowMatrix rowMatrix = new RowMatrix(setClass.length, pitchClasses);
+//        rowMatrix.show();
+//
+//        int[] row = rowMatrix.getRow(setClass.length - 1);
+//        Arrays.sort(row);
+//        DependantHarmony dependantHarmony = new DependantHarmony(row, voicingType);
+//        dependantHarmony.setChordType(ChordType.SETCLASS);
+//        setClassTypes.add(dependantHarmony);
+//        System.out.println(Arrays.toString(row));
+//
+//        int[] column = rowMatrix.getColumn(0);
+//        Arrays.sort(column);
+//        DependantHarmony dependantHarmonyInversion = new DependantHarmony(column, voicingType);
+//        dependantHarmonyInversion.setChordType(ChordType.SETCLASS);
+//        setClassTypes.add(dependantHarmonyInversion);
+//        System.out.println(Arrays.toString(column));
+//        return setClassTypes;
+//    }
 
     public List<DependantHarmony> getAllRowMatrix(int[] setClass, VoicingType voicingType){
         List<DependantHarmony> setClassTypes = new ArrayList<>();
 
-        List<Integer> pitchClasses = Arrays.stream(setClass).boxed().collect(Collectors.toList());
+        List<Integer> pitchClasses = Arrays.stream(setClass).boxed().collect(toList());
         RowMatrix rowMatrix = new RowMatrix(setClass.length, pitchClasses);
         rowMatrix.show();
 
         for (int i = 0; i < setClass.length; i++) {
             int[] row = rowMatrix.getRow(i);
             Arrays.sort(row);
-            System.out.println(Arrays.toString(row));
+//            System.out.println(Arrays.toString(row));
             DependantHarmony dependantHarmonyRow = new DependantHarmony(row, voicingType);
             dependantHarmonyRow.setChordType(ChordType.SETCLASS);
             setClassTypes.add(dependantHarmonyRow);
 
             int[] column = rowMatrix.getColumn(i);
             Arrays.sort(column);
-            System.out.println(Arrays.toString(column));
+//            System.out.println(Arrays.toString(column));
             DependantHarmony dependantHarmonyInversion = new DependantHarmony(column, voicingType);
             dependantHarmonyInversion.setChordType(ChordType.SETCLASS);
             setClassTypes.add(dependantHarmonyInversion);

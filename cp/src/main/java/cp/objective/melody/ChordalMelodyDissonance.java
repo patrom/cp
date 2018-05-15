@@ -10,7 +10,7 @@ import java.util.Map;
 @Component
 public class ChordalMelodyDissonance implements MelodyDissonance{
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ChromaticMelodyDissonance.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChordalMelodyDissonance.class);
 
     public static final Map<Integer,Double> intervalMap = new HashMap<Integer,Double>() {{
         put(0, 1.0); //octaaf

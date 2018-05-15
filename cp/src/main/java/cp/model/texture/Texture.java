@@ -92,6 +92,9 @@ public class Texture {
                 case 12:
                     textureNotes.addAll(updateDependantNotesAbove(note));
                     break;
+                case 100:
+                    textureNotes.addAll(getDependantNotesBelow(note));
+                    break;
                 default:
                     throw new IllegalArgumentException("Dependant harmony not set for type: " + dependantHarmony.getChordType());
 

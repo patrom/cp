@@ -1,4 +1,4 @@
-package cp.out.instrument.percussion;
+package cp.out.instrument.percussion.determinate;
 
 import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
@@ -6,26 +6,27 @@ import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.orchestration.InstrumentName;
 
-public class Glockenspiel extends Instrument {
-
-	public Glockenspiel() {
+public class Xylophone  extends Instrument {
+	
+	public Xylophone() {
 		init();
 	}
 
 	private void init() {
 		instrumentGroup = InstrumentGroup.PERCUSSION;
 		order = 0;
-		setLowest(77);
+		setLowest(65);
 		setHighest(108);
-		setGeneralMidi(GeneralMidi.GLOCKEN);
+		setGeneralMidi(GeneralMidi.XYLOPHONE);
 		
-		setInstrumentName(InstrumentName.GLOCKENSPIEL.getName());
-		setInstrumentSound("pitched-percussion.glockenspiel");
-		setVirtualName("Glockenspiel");
+		setInstrumentName(InstrumentName.XYLOPHONE.getName());
+		setInstrumentSound("pitched-percussion.xylophone");
+		setVirtualName("Xylophone");
 	}
 
-	public Glockenspiel(InstrumentRegister instrumentRegister) {
+	public Xylophone(InstrumentRegister instrumentRegister) {
 		init();
 		setInstrumentRegister(instrumentRegister);
 	}
 }
+

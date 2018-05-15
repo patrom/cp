@@ -2,7 +2,7 @@ package cp.out.orchestration.quality;
 
 import cp.out.instrument.Instrument;
 import cp.out.instrument.keyboard.Piano;
-import cp.out.instrument.percussion.Marimba;
+import cp.out.instrument.percussion.determinate.Marimba;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.*;
 import cp.out.instrument.woodwinds.Bassoon;

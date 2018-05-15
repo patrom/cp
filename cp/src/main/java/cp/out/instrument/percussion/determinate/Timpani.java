@@ -1,4 +1,4 @@
-package cp.out.instrument.percussion;
+package cp.out.instrument.percussion.determinate;
 
 import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;

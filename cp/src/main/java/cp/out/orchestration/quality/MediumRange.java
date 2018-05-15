@@ -5,7 +5,8 @@ import cp.out.instrument.brass.FrenchHorn;
 import cp.out.instrument.brass.Trombone;
 import cp.out.instrument.brass.Trumpet;
 import cp.out.instrument.keyboard.Piano;
-import cp.out.instrument.percussion.Marimba;
+import cp.out.instrument.percussion.determinate.Marimba;
+import cp.out.instrument.plucked.Guitar;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.*;
 import cp.out.instrument.woodwinds.Bassoon;
@@ -49,7 +50,9 @@ public class MediumRange extends OrchestralQuality {
                 new Piano(range),
                 new Trombone(range),
                 new FrenchHorn(range),
-                new Trumpet(new InstrumentRegister(58, 72))
+                new Trumpet(new InstrumentRegister(58, 72)),
+
+                new Guitar(new InstrumentRegister(55, 71))
 
         ).collect(toList());
 

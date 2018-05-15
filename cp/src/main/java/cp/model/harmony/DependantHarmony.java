@@ -1,12 +1,15 @@
 package cp.model.harmony;
 
 import cp.model.note.Note;
+import cp.util.RowMatrix;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static java.util.Comparator.comparingInt;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by prombouts on 22/01/2017.
@@ -183,6 +186,33 @@ public class DependantHarmony{
 
         notes.add(drop2Note);
         notes.add(drop4Note);
+    }
+
+    public List<DependantHarmony> getAllRowMatrixBelow(Note note){
+        List<DependantHarmony> setClassTypes = new ArrayList<>();
+
+        List<Integer> pitchClasses = Arrays.stream(setClass).boxed().collect(toList());
+        RowMatrix rowMatrix = new RowMatrix(setClass.length, pitchClasses);
+        rowMatrix.show();
+
+        for (int i = 0; i < setClass.length; i++) {
+            int[] row = rowMatrix.getRow(i);
+            Arrays.sort(row);
+//            System.out.println(Arrays.toString(row));
+            DependantHarmony dependantHarmonyRow = new DependantHarmony(row, voicingType);
+            dependantHarmonyRow.dependantBelow(note);
+            dependantHarmonyRow.setChordType(ChordType.SETCLASS);
+            setClassTypes.add(dependantHarmonyRow);
+
+            int[] column = rowMatrix.getColumn(i);
+            Arrays.sort(column);
+//            System.out.println(Arrays.toString(column));
+            DependantHarmony dependantHarmonyInversion = new DependantHarmony(column, voicingType);
+            dependantHarmonyInversion.dependantBelow(note);
+            dependantHarmonyInversion.setChordType(ChordType.SETCLASS);
+            setClassTypes.add(dependantHarmonyInversion);
+        }
+        return setClassTypes;
     }
 
 }

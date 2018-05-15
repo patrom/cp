@@ -2,12 +2,10 @@ package cp.objective.melody;
 
 import cp.config.MelodyConfig;
 import cp.model.Motive;
-import cp.model.dissonance.Dissonance;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.objective.Objective;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -21,9 +19,9 @@ import static java.util.stream.Collectors.toList;
 @Component
 public class MelodicObjective extends Objective {
 	
-	@Autowired
-	@Qualifier(value="TonalDissonance")
-	private Dissonance dissonance;
+//	@Autowired
+//	@Qualifier(value="TonalDissonance")
+//	private Dissonance dissonance;
 	@Autowired
 	private MelodyConfig melodyConfig;
 	

@@ -1,4 +1,4 @@
-package cp.out.instrument.percussion;
+package cp.out.instrument.percussion.determinate;
 
 import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
@@ -9,25 +9,25 @@ import cp.out.orchestration.InstrumentName;
 /**
  * Created by prombouts on 18/06/2017.
  */
-public class Vibraphone extends Instrument {
+public class Marimba extends Instrument {
 
-    public Vibraphone() {
+    public Marimba() {
         init();
     }
 
     private void init() {
         instrumentGroup = InstrumentGroup.PERCUSSION;
         order = 0;
-        setLowest(53);
-        setHighest(89);
-        setGeneralMidi(GeneralMidi.VIBRAPHONE);
+        setLowest(36);
+        setHighest(96);
+		setGeneralMidi(GeneralMidi.MARIMBA);
 
-        setInstrumentName(InstrumentName.VIBRAPHONE.getName());
-        setInstrumentSound("pitched-percussion.vibraphone");
-        setVirtualName("Vibraphone");
+        setInstrumentName(InstrumentName.MARIMBA.getName());
+        setInstrumentSound("pitched-percussion.marimba");
+        setVirtualName("Marimba");
     }
 
-    public Vibraphone(InstrumentRegister instrumentRegister) {
+    public Marimba(InstrumentRegister instrumentRegister) {
         init();
         setInstrumentRegister(instrumentRegister);
     }
