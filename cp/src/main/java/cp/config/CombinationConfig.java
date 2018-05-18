@@ -1,10 +1,7 @@
 package cp.config;
 
 import cp.combination.RhythmCombination;
-import cp.combination.even.FourNoteEven;
-import cp.combination.even.OneNoteEven;
-import cp.combination.even.ThreeNoteEven;
-import cp.combination.even.TwoNoteEven;
+import cp.combination.even.*;
 import cp.combination.uneven.*;
 import cp.model.note.Note;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +26,8 @@ public class CombinationConfig {
 	private ThreeNoteEven threeNoteEven;
 	@Autowired
 	private FourNoteEven fourNoteEven;
+	@Autowired
+	private CombiNoteEven combiNoteEven;
 	
 	@Autowired
 	private ThreeNoteTriplet threeNoteUneven;
@@ -44,6 +43,8 @@ public class CombinationConfig {
 	private FiveNoteSexTuplet fiveNoteSexTuplet;
 	@Autowired
 	private SixNoteSexTuplet sixNoteSexTuplet;
+	@Autowired
+	private CombiNoteUneven combiNoteUneven;
 	
 	@Autowired
 	private Quintuplet quintuplet;//TODO investigate conversion to float???
@@ -253,7 +254,7 @@ public class CombinationConfig {
 //		oneCombinations.add(oneNoteEven::pos2);
 //		oneCombinations.add(oneNoteEven::pos3);
 //		oneCombinations.add(oneNoteEven::pos4);
-        map.put(1, oneCombinations);
+//        map.put(1, oneCombinations);
 //
 //        List<RhythmCombination> twoCombinations = new ArrayList<>();
 //		twoCombinations.add(twoNoteEven::pos12);
@@ -271,9 +272,10 @@ public class CombinationConfig {
 //		threeCombinations.add(threeNoteEven::pos234);
 //        map.put(3, threeCombinations);
 
-//        List<RhythmCombination> fourCombinations = new ArrayList<>();
+        List<RhythmCombination> fourCombinations = new ArrayList<>();
+		fourCombinations.add(combiNoteUneven::pos23pos12);
 //		fourCombinations.add(fourNoteEven::pos1234);
-//        map.put(4, fourCombinations);
+        map.put(4, fourCombinations);
 
         //3 divisions
 //        List<RhythmCombination> oneUnevenCombinations = new ArrayList<>();
@@ -289,7 +291,7 @@ public class CombinationConfig {
         map.put(2, twoUnevenombinations);
 
         List<RhythmCombination> threeUnevenCombinations = new ArrayList<>();
-		threeUnevenCombinations.add(threeNoteUneven::pos123);
+//		threeUnevenCombinations.add(threeNoteUneven::pos123);
 
 //		threeUnevenCombinations.add(threeNoteSexTuplet::pos145);
 //		threeUnevenCombinations.add(threeNoteSexTuplet::pos136);
@@ -309,6 +311,8 @@ public class CombinationConfig {
 //        List<RhythmCombination> sixUnevenCombinations = new ArrayList<>();
 //		sixUnevenCombinations.add(sixNoteSexTuplet::pos123456);
 //        map.put(6, sixUnevenCombinations);
+
+
         return map;
     }
 	

@@ -63,8 +63,8 @@ public class InstrumentConfig {
 //        orchestra = getOrchestra();
 //        instruments = getWoodWindsDuo();
 //        instruments = getStringTrio();
-//        instruments = getStringDuo();
-        instruments = getGuitarDuo();
+        instruments = getStringDuo();
+//        instruments = getGuitarDuo();
 //        instruments = getInstrument(5, new Clarinet());
 //        instruments.put(0,new InstrumentMapping(new ViolinSolo() , 3, 0));
 //        for (InstrumentMapping instrumentMapping : instruments.values()) {
@@ -88,8 +88,8 @@ public class InstrumentConfig {
     }
 
     private Map<Integer, InstrumentMapping> getStringDuo(){
-        instruments.put(1,new InstrumentMapping(new ViolinsI(), 5, 1));
-        instruments.put(0,new InstrumentMapping(new ViolinsI(), 4, 2));
+        instruments.put(1, new InstrumentMapping(new ViolinsI(), 2, 1));
+        instruments.put(0, new InstrumentMapping(new Cello(), 1, 2));
         return instruments;
     }
 

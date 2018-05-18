@@ -18,6 +18,9 @@ public class InstrumentMapping implements Comparable<InstrumentMapping>{
     private InstrumentMapping harmonyInstrumentMapping;
 
     public InstrumentMapping(Instrument instrument, int channel, int scoreOrder) {
+        if (channel < 1) {
+            throw new IllegalArgumentException("A channel cannot be 0 or smaller (Instrument config)");
+        }
         this.instrument = instrument;
         this.channel = channel - 1;
         this.scoreOrder = scoreOrder;

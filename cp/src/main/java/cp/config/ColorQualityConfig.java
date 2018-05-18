@@ -47,7 +47,7 @@ public class ColorQualityConfig {
     public void init() {
         //voice!!!
         orchestralQualities.put(0, mediumRange);
-        orchestralQualities.put(1, pleasantGreen);
+        orchestralQualities.put(1, mediumRange);
         orchestralQualities.put(2, mediumRange);
         orchestralQualities.put(3, pleasantGreen);
         orchestralQualities.put(4, brightYellow);

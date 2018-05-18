@@ -62,10 +62,10 @@ public class TextureConfig {
         intervaltypes.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT_CHR));
         intervaltypes.add(createDependantHarmony(ChordType.CH2_KLEINE_SIXT_CHR));
         intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
+        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
+        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
 //        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
-//        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
-//        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
-//        intervaltypes.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS));
+        intervaltypes.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS));
 //        intervaltypes.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS_CHR));
 //        intervaltypes.add(createDependantHarmony(ChordType.CH2_KLEINE_TERTS_CHR));
         intervaltypes.add(createDependantHarmony(ChordType.CH2_OCTAVE));
@@ -106,17 +106,27 @@ public class TextureConfig {
         setClassTypes.add(createDependantHarmony(set3_1.tntnitype, VoicingType.DROP_3));
 //        setClassTypes.add(createDependantHarmony(set3_1.tntnitype, VoicingType.DROP_2_4));
 
-        List<DependantHarmony> allRowMatrixDrop2 = getAllRowMatrix(set3_1.tntnitype, VoicingType.DROP_2);
-        List<DependantHarmony> allRowMatrixDrop3 = getAllRowMatrix(set3_1.tntnitype, VoicingType.DROP_3);
-        allRowMatrixDrop2.addAll(allRowMatrixDrop3);
+        List<DependantHarmony> allRowMatrixDrop2 = getAllRowMatrix(set3_1.tntnitype, VoicingType.CLOSE);
+//        List<DependantHarmony> allRowMatrixDrop3 = getAllRowMatrix(set3_1.tntnitype, VoicingType.DROP_3);
+//        allRowMatrixDrop2.addAll(allRowMatrixDrop3);
 
         Set set3_4 = tnTnIType.getPrimeByName("3-4");
-        List<DependantHarmony> allRowMatrixDrop2set3_4 = getAllRowMatrix(set3_4.tntnitype, VoicingType.DROP_2);
-        List<DependantHarmony> allRowMatrixDrop3set3_4 = getAllRowMatrix(set3_4.tntnitype, VoicingType.DROP_3);
-        allRowMatrixDrop2set3_4.addAll(allRowMatrixDrop3set3_4);
+        List<DependantHarmony> allRowMatrixDrop2set3_4 = getAllRowMatrix(set3_4.tntnitype, VoicingType.CLOSE);
+//        List<DependantHarmony> allRowMatrixDrop3set3_4 = getAllRowMatrix(set3_4.tntnitype, VoicingType.DROP_3);
+//        allRowMatrixDrop2set3_4.addAll(allRowMatrixDrop3set3_4);
 
-        allRowMatrixDrop3.addAll(allRowMatrixDrop2set3_4);
-        textureTypes.put(0, allRowMatrixDrop2);
+        allRowMatrixDrop2.addAll(allRowMatrixDrop2set3_4);
+        allRowMatrixDrop2.addAll(intervaltypes);
+        textureTypes.put(1, allRowMatrixDrop2);
+
+
+        Set set3_11 = tnTnIType.getPrimeByName("3-11");
+        List<DependantHarmony> setClassTypesSet3_11 = new ArrayList<>();
+//        setClassTypesSet3_11.add(createDependantHarmony(set3_11.tntnitype, VoicingType.CLOSE));
+        setClassTypesSet3_11.add(createDependantHarmony(set3_11.tntnitype, VoicingType.DROP_2));
+        setClassTypesSet3_11.add(createDependantHarmony(set3_11.tntnitype, VoicingType.DROP_3));
+
+        textureTypes.put(0, setClassTypesSet3_11);
     }
 
 //    public List<DependantHarmony> rowMatrix(int[] setClass, VoicingType voicingType) {
