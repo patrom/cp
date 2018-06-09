@@ -41,4 +41,5 @@ public class RhythmCombinations {
 
     @Autowired
     public CombiNoteEven combiNoteEven;
+
 }

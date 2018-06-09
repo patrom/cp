@@ -39,6 +39,7 @@ public class TimeLineTest {
 
     @Before
     public void setup() {
+        timeLine.setEnd(2 * DurationConstants.WHOLE);
     }
 
     @Test
@@ -66,6 +67,24 @@ public class TimeLineTest {
         timeLine.randomKeysAndDurations(timeLineKeys, durations);
 //        assertEquals(timeLine.getTimeLineKeyAtPosition(DurationConstants.QUARTER,0).getKey(), A);
 
+    }
+
+    @Test
+    public void randomKeysAndDurationsForVoice() {
+        when(instrumentConfig.getSize()).thenReturn(2);
+        List<TimeLineKey> timeLineKeys = new ArrayList<>();
+        timeLineKeys.add(new TimeLineKey(A, Scale.MAJOR_SCALE, 0 ,0));
+        timeLineKeys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0 ,0));
+        List<Integer> durations = new ArrayList<>();
+        durations.add(DurationConstants.QUARTER);
+//		durations.add(DurationConstants.SIX_EIGHTS);
+        durations.add(DurationConstants.HALF);
+//		durations.add(DurationConstants.WHOLE);
+        timeLine.randomKeysAndDurationsForVoice(0, timeLineKeys, durations);
+
+        timeLine.getKeysPerVoice().get(0).forEach(timeLineKey -> System.out.println(timeLineKey.getKey() + ", " + timeLineKey.getStart()));
+//        assertEquals(timeLine.getTimeLineKeyAtPosition(DurationConstants.QUARTER,0).getKey(), A);
+//        assertEquals(timeLine.getTimeLineKeyAtPosition(2 * DurationConstants.WHOLE,0).getKey(), A);
     }
 
 }

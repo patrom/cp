@@ -73,14 +73,12 @@ public class TimeLine {
 		while (start < compositionEnd) {
 			int duration = RandomUtil.getRandomFromList(durations);
 			end = end + duration;
-			if (!allTimeLineKeys.isEmpty()) {//every key is used once
-				TimeLineKey timeLineKey = RandomUtil.getRandomFromList(allTimeLineKeys);
-				keys.add(new TimeLineKey(timeLineKey.getKey(), timeLineKey.getScale(), start, end));
-				allTimeLineKeys.remove(timeLineKey);
-			} else {
-				TimeLineKey timeLineKey = RandomUtil.getRandomFromList(timeLineKeys);
-				keys.add(new TimeLineKey(timeLineKey.getKey(), timeLineKey.getScale(), start, end));
-			}
+            TimeLineKey timeLineKey = RandomUtil.getRandomFromList(allTimeLineKeys);
+            keys.add(new TimeLineKey(timeLineKey.getKey(), timeLineKey.getScale(), start, end));
+            allTimeLineKeys.remove(timeLineKey);
+            if (allTimeLineKeys.isEmpty()) {
+                allTimeLineKeys = new ArrayList<>(timeLineKeys);
+            }
 			start = end;
 		}
 		int instrumentSize = instrumentConfig.getSize();
@@ -88,6 +86,25 @@ public class TimeLine {
 			addKeysForVoice(keys, i);
 		}
 	}
+
+    public void randomKeysAndDurationsForVoice(int voice, List<TimeLineKey> timeLineKeys, List<Integer> durations) {
+        List<TimeLineKey> allTimeLineKeys = new ArrayList<>(timeLineKeys);
+        List<TimeLineKey> keys = new ArrayList<>();
+        int start = 0;
+        int end = 0;
+        while (start < compositionEnd) {
+            int duration = RandomUtil.getRandomFromList(durations);
+            end = end + duration;
+            TimeLineKey timeLineKey = RandomUtil.getRandomFromList(allTimeLineKeys);
+            keys.add(new TimeLineKey(timeLineKey.getKey(), timeLineKey.getScale(), start, end));
+            allTimeLineKeys.remove(timeLineKey);
+            if (allTimeLineKeys.isEmpty()) {
+                allTimeLineKeys = new ArrayList<>(timeLineKeys);
+            }
+            start = end;
+        }
+        addKeysForVoice(keys, voice);
+    }
 
 	public void repeatContourPattern(int duration, int voice, int... directions){
 		List<Contour> contouren = new ArrayList<>();

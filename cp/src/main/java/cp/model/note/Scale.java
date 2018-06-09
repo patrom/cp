@@ -197,8 +197,19 @@ public class Scale {
 				return scale[step];
 			}
 		}
-		return pitchClass;
+		return pickHigerStepFromScalePCNotInScale(pitchClass, higherStep);
 	}
+
+    public int pickHigerStepFromScalePCNotInScale(int pitchClass, int higherStep){
+        int length = scale.length - 1;
+        for (int i = 0; i < length; i++) {
+            if (pitchClass > scale[i] && pitchClass < scale[i+1]) {
+                int step = (i + higherStep) % scale.length;
+                return scale[step];
+            }
+        }
+        return pitchClass;
+    }
 	
 	public int[] getPitchClasses() {
 		return scale;

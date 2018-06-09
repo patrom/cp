@@ -155,15 +155,15 @@ public class MidiDevicesUtil {
 		MidiEvent midiTempoEvent = midiTempo.getTempoMidiEvent(tempo);
 		List<Note> notesNoRest = notes.stream().filter(note -> !note.isRest()).collect(Collectors.toList());
 		//Hunmanise notes
-//        humanize.humanize(notesNoRest, instrument);
+        humanize.humanize(notesNoRest, instrument);
 
 		Track trackNotes = sequence.createTrack();
-        Track trackMetadata = sequence.createTrack();
+//        Track trackMetadata = sequence.createTrack();//controllers,... on seperate track
 		TextureValue textureValue = new TextureValue();
 		trackNotes.add(midiTempoEvent);
 		for (Note note : notesNoRest) {
-            createControllerEvents(channel, trackMetadata, note);
-            createVelocityCrossfadeMidiEvents(channel, trackMetadata, note);
+            createControllerEvents(channel, trackNotes, note);
+            createVelocityCrossfadeMidiEvents(channel, trackNotes, note);
 			createMidiEventsNotes(channel, trackNotes, note);
 
             if(note.hasTexture()){
@@ -194,7 +194,7 @@ public class MidiDevicesUtil {
 			for (Note note : notesNoRest) {
 				List<MidiEvent> midiEvents = vslArticulationConverter.convertNote(channel, note, instrument);
 				for (MidiEvent midiEvent : midiEvents) {
-					trackMetadata.add(midiEvent);
+                    trackNotes.add(midiEvent);
 				}
             }
 		}

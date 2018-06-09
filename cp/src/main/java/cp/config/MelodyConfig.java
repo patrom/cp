@@ -30,16 +30,16 @@ public class MelodyConfig {
     @PostConstruct
     public void init() {
         //voice!!!
-        meldodyConfigs.put(0, pentatonicMelodyDissonance);
+        meldodyConfigs.put(0, melodyDefaultDissonance);
         meldodyConfigs.put(1, melodyDefaultDissonance);
         meldodyConfigs.put(2, melodyDefaultDissonance);
         meldodyConfigs.put(3, melodyDefaultDissonance);
         meldodyConfigs.put(4, pentatonicMelodyDissonance);
         meldodyConfigs.put(5, pentatonicMelodyDissonance);
 
-
-        meldodyHarmonicConfigs.put(0, melodyHarmoniceTriChordalDissonance);
-        meldodyHarmonicConfigs.put(1, melodyHarmoniceTriChordalDissonance);
+        MelodicHarmonicTriadDissonance melodicHarmonicTriadDissonance = new MelodicHarmonicTriadDissonance("3-1", "3-2","3-3","3-4","3-5" );
+        meldodyHarmonicConfigs.put(0, melodicHarmonicTriadDissonance);
+        meldodyHarmonicConfigs.put(1, melodicHarmonicTriadDissonance);
         meldodyHarmonicConfigs.put(2, melodyHarmoniceTriChordalDissonance);
         meldodyHarmonicConfigs.put(3, melodyHarmoniceTriChordalDissonance);
         meldodyHarmonicConfigs.put(4, melodyHarmoniceTriChordalDissonance);

@@ -1,13 +1,17 @@
 package cp.model.texture;
 
 import cp.DefaultConfig;
+import cp.config.TextureConfig;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.harmony.ChordType;
 import cp.model.harmony.DependantHarmony;
+import cp.model.harmony.VoicingType;
 import cp.model.note.Note;
 import cp.model.note.NoteBuilder;
 import cp.model.note.Scale;
+import cp.model.setclass.Set;
+import cp.model.setclass.TnTnIType;
 import cp.out.print.Keys;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,6 +40,9 @@ public class TextureTest {
 
     @MockBean
     private TimeLine timeLine;
+
+    @Autowired
+    private TextureConfig textureConfig;
 
     @Autowired
     private Keys keys;
@@ -165,6 +172,79 @@ public class TextureTest {
         assertEquals(5, dependantNote.getOctave());
     }
 
+    @Test
+    public void getAllRowMatrix() {
+        TnTnIType tnTnIType = new TnTnIType();
+        Set set3_1 = tnTnIType.getPrimeByName("3-1");
+        List<DependantHarmony> allRowMatrix = textureConfig.getAllRowMatrix(set3_1.tntnitype, VoicingType.CLOSE);
+        for (DependantHarmony dependantHarmony : allRowMatrix) {
+            Note note = NoteBuilder.note().pc(0).pitch(72).octave(6).dep(dependantHarmony).build();
+            List<Note> textureForNoteAbove = texture.getTextureForNoteBelow(note);
+            textureForNoteAbove.forEach(n -> System.out.println(n.getPitch()));
+            System.out.println("-------------------");
+        }
+    }
 
+    @Test
+    public void getAllRowMatrixTetraChordalSet() {
+        TnTnIType tnTnIType = new TnTnIType();
+        Set set4_27 = tnTnIType.getPrimeByName("4-27");
+        List<DependantHarmony> allRowMatrix = textureConfig.getAllRowMatrix(set4_27.tntnitype, VoicingType.CLOSE);
+        for (DependantHarmony dependantHarmony : allRowMatrix) {
+            Note note = NoteBuilder.note().pc(0).pitch(72).octave(6).dep(dependantHarmony).build();
+            List<Note> textureForNoteAbove = texture.getTextureForNoteBelow(note);
+            textureForNoteAbove.forEach(n -> System.out.println(n.getPitch()));
+            System.out.println("-------------------");
+        }
+    }
+
+    @Test
+    public void getAllRowMatrixAboveTetraChordalSet() {
+        TnTnIType tnTnIType = new TnTnIType();
+        Set set4_27 = tnTnIType.getPrimeByName("4-27");
+        List<DependantHarmony> allRowMatrix = textureConfig.getAllRowMatrix(set4_27.tntnitype, VoicingType.UP_2);
+        for (DependantHarmony dependantHarmony : allRowMatrix) {
+            Note note = NoteBuilder.note().pc(0).pitch(60).octave(5).dep(dependantHarmony).build();
+            List<Note> textureForNoteAbove = texture.getTextureForNoteAbove(note);
+            textureForNoteAbove.forEach(n -> System.out.println(n.getPitch()));
+            System.out.println("-------------------");
+        }
+    }
+
+    //not always generating thirds when not in not in scale!!
+    @Test
+    public void getTextureChromatic() throws Exception {
+        TimeLineKey timeLineKey = new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0, 0);
+        when(timeLine.getTimeLineKeyAtPosition(anyInt(), anyInt())).thenReturn(timeLineKey);
+        DependantHarmony dependantHarmony = new DependantHarmony();
+        dependantHarmony.setChordType(ChordType.CH2_GROTE_TERTS );
+        Scale chromaticScale = Scale.CHROMATIC_SCALE;
+        int[] pitchClasses = chromaticScale.getPitchClasses();
+        for (int pitchClass : pitchClasses) {
+            Note note = NoteBuilder.note().pc(pitchClass).pitch(60 + pitchClass).octave(5).dep(dependantHarmony).build();
+            List<Note> dependantNotes = texture.getTextureForNoteAbove(note);
+            System.out.print(note.getPitch() + ", ");
+            dependantNotes.forEach(depNote1 -> System.out.print(depNote1.getPitch() + ", "));
+            System.out.println();
+        }
+    }
+
+    //not always generating triads when not in not in scale!!
+    @Test
+    public void getTextureChromaticChords() throws Exception {
+        TimeLineKey timeLineKey = new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0, 0);
+        when(timeLine.getTimeLineKeyAtPosition(anyInt(), anyInt())).thenReturn(timeLineKey);
+        DependantHarmony dependantHarmony = new DependantHarmony();
+        dependantHarmony.setChordType(ChordType.MAJOR);
+        Scale chromaticScale = Scale.CHROMATIC_SCALE;
+        int[] pitchClasses = chromaticScale.getPitchClasses();
+        for (int pitchClass : pitchClasses) {
+            Note note = NoteBuilder.note().pc(pitchClass).pitch(60 + pitchClass).octave(5).dep(dependantHarmony).build();
+            List<Note> dependantNotes = texture.getTextureForNoteAbove(note);
+            System.out.print(note.getPitch() + ", ");
+            dependantNotes.forEach(depNote1 -> System.out.print(depNote1.getPitch() + ", "));
+            System.out.println();
+        }
+    }
 
 }

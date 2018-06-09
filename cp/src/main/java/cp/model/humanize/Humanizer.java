@@ -57,12 +57,12 @@ public class Humanizer implements Humanize {
             Humanization humanization = note.getHumanization();
             int noteLength = note.getLength();
             int noteEndPosition = note.getMidiPosition() + note.getLength();
-            if(noteEndPosition >= nextNote.getMidiPosition()){
+            if(note.getPosition() != nextNote.getPosition() && noteEndPosition >= nextNote.getMidiPosition()){
                 int lengthNextNoteBeforeEnd = noteEndPosition - nextNote.getMidiPosition();
                 noteLength = noteLength - lengthNextNoteBeforeEnd;
             }
             humanization.setLengthNote(noteLength);
-
+ 
             int interval = Math.abs(nextNote.getPitch() - note.getPitch());
             humanization.setInterval(interval);
 

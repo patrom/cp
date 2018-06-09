@@ -98,6 +98,23 @@ public class DependantHarmony{
         }
     }
 
+    public void dependantAbove(Note note){
+        notes.clear();
+        updatePitchClassesAbove(note);
+        sortDependantNotesCloseAbove(note);
+        switch (voicingType) {
+            case UP_2:
+                up2Voicing();
+                break;
+            case UP_3:
+                up3Voicing();
+                break;
+//            case DROP_2_4:
+//                drop2And4Voicing();
+//                break;
+        }
+    }
+
     protected void updatePitchClassesBelow(Note note){
         int[] pitchClasses = setClass;
         for (int i = 1; i < pitchClasses.length; i++) {
@@ -161,6 +178,13 @@ public class DependantHarmony{
         notes.add(dropNote);
     }
 
+    protected void up2Voicing(){
+        Note upNote = notes.get(0);
+        notes.remove(0);
+        upNote.transposeOctaveUp();
+        notes.add(upNote);
+    }
+
     protected void drop3Voicing(){
         if ( notes.size() < 2) {
            throw new IllegalStateException("drop 3 voicing not possible");
@@ -169,6 +193,16 @@ public class DependantHarmony{
         notes.remove(1);
         dropNote.transposeOctaveDown();
         notes.add(dropNote);
+    }
+
+    protected void up3Voicing(){
+        if ( notes.size() < 2) {
+            throw new IllegalStateException("drop 3 voicing not possible");
+        }
+        Note upNote = notes.get(1);
+        notes.remove(1);
+        upNote.transposeOctaveUp();
+        notes.add(upNote);
     }
 
     protected void drop2And4Voicing(){

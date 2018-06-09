@@ -186,18 +186,31 @@ public class MusicXMLWriter {
 		xmlStreamWriter.writeCharacters("\n");
 	}
 
-	private void createNoteDirectionElement(Note note, Instrument instrument) throws XMLStreamException {
-		xmlStreamWriter.writeStartElement("direction");
-		xmlStreamWriter.writeCharacters("\n");
+	private void createNoteDirectionDynamicElement(Note note, Instrument instrument) throws XMLStreamException {
+        xmlStreamWriter.writeStartElement("direction");
+        xmlStreamWriter.writeCharacters("\n");
 
-		createNoteDirectionTypeElement(note);
+        createNoteDirectionTypeDynamicElement(note);
         createElementWithValue("voice", String.valueOf(note.getVoice()));
 //        createElementWithValue("staff", String.valueOf(getStaff(instrument, note)));
         createElementWithValue("staff", "1");
 
-		xmlStreamWriter.writeEndElement();
-		xmlStreamWriter.writeCharacters("\n");
-	}
+        xmlStreamWriter.writeEndElement();
+        xmlStreamWriter.writeCharacters("\n");
+    }
+
+    private void createNoteDirectionTechnicalElement(Note note, Instrument instrument) throws XMLStreamException {
+        xmlStreamWriter.writeStartElement("direction");
+        xmlStreamWriter.writeCharacters("\n");
+
+        createNoteDirectionTypeTechnicalElement(note);
+        createElementWithValue("voice", String.valueOf(note.getVoice()));
+//        createElementWithValue("staff", String.valueOf(getStaff(instrument, note)));
+        createElementWithValue("staff", "1");
+
+        xmlStreamWriter.writeEndElement();
+        xmlStreamWriter.writeCharacters("\n");
+    }
 
 	private void createDirectionTypeElement() throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("direction-type");
@@ -209,20 +222,26 @@ public class MusicXMLWriter {
 		xmlStreamWriter.writeCharacters("\n");
 	}
 
-	private void createNoteDirectionTypeElement(Note note) throws XMLStreamException {
-		xmlStreamWriter.writeStartElement("direction-type");
+	private void createNoteDirectionTypeDynamicElement(Note note) throws XMLStreamException {
+		xmlStreamWriter.writeStartElement(
+		        "direction-type");
 		xmlStreamWriter.writeCharacters("\n");
 
-        if (note.isPrintDynamic()) {
-            createDynamicElement(note.getDynamic());
-        }
-        if (note.isPrintTechnical()) {
-            createWordsElement(note.getTechnical());
-        }
+		createDynamicElement(note.getDynamic());
 
         xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
 	}
+
+    private void createNoteDirectionTypeTechnicalElement(Note note) throws XMLStreamException {
+        xmlStreamWriter.writeStartElement("direction-type");
+        xmlStreamWriter.writeCharacters("\n");
+
+        createWordsElement(note.getTechnical());
+
+        xmlStreamWriter.writeEndElement();
+        xmlStreamWriter.writeCharacters("\n");
+    }
 
 	private void createWordsElement(Technical technical) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("words");
@@ -484,36 +503,19 @@ public class MusicXMLWriter {
 
 	private void createClefElement(Instrument instrument) throws XMLStreamException {
 		xmlStreamWriter.writeStartElement("clef");
-		
-		if (instrument instanceof Piano) {
-			xmlStreamWriter.writeAttribute("number", "1");
-			xmlStreamWriter.writeCharacters("\n");
-			
-			createElementWithValue("sign", "G");
-			createElementWithValue("line", "2");
 
-			xmlStreamWriter.writeEndElement();
-			xmlStreamWriter.writeCharacters("\n");
-			
-			xmlStreamWriter.writeStartElement("clef");
-			xmlStreamWriter.writeAttribute("number", "2");
-			xmlStreamWriter.writeCharacters("\n");
-			
-			createElementWithValue("sign", "F");
-			createElementWithValue("line", "4");
-		}else{
-			xmlStreamWriter.writeCharacters("\n");
-			if (instrument.getClef().equals("F")) {
-				createElementWithValue("sign", "F");
-				createElementWithValue("line", "4");
-			} if (instrument.getClef().equals("C")) {
-				createElementWithValue("sign", "C");
-				createElementWithValue("line", "3");
-			} else {
-				createElementWithValue("sign", "G");
-				createElementWithValue("line", "2");
-			}
-		}
+        xmlStreamWriter.writeCharacters("\n");
+        if (instrument.getClef().equals("F")) {
+            createElementWithValue("sign", "F");
+            createElementWithValue("line", "4");
+        } else if (instrument.getClef().equals("C")) {
+            createElementWithValue("sign", "C");
+            createElementWithValue("line", "3");
+        } else {
+            createElementWithValue("sign", "G");
+            createElementWithValue("line", "2");
+        }
+
 		xmlStreamWriter.writeEndElement();
 		xmlStreamWriter.writeCharacters("\n");
 	}
@@ -682,9 +684,13 @@ public class MusicXMLWriter {
 	private void updateBeat(InstrumentMapping instrumentMapping, List<Note> notes)
 			throws XMLStreamException {
 		for (Note note : notes) {
-			if (note.isPrintDynamic() || note.isPrintTechnical()) {
-				createNoteDirectionElement(note, instrumentMapping.getInstrument());
+		    //direction can contain 1 and only 1 direction-type
+			if (note.isPrintDynamic()) {
+                createNoteDirectionDynamicElement(note, instrumentMapping.getInstrument());
 			}
+            if (note.isPrintTechnical()) {
+                createNoteDirectionTechnicalElement(note, instrumentMapping.getInstrument());
+            }
 			createNoteElement(note, instrumentMapping, false);
             //texture
             List<Note> textureNotes = texture.getTextureForNote(note);
