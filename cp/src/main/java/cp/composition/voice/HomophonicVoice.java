@@ -20,9 +20,12 @@ public class HomophonicVoice extends Voice {
 //        evenRhythmCombinationsPerNoteSize = getCombinations();
 //        unevenRhythmCombinationsPerNoteSize = getCombinations();
 
-        pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
-        pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
-        pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
+//        pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
+//        pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
+//        pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
+        pitchClassGenerators.add(orderPitchClasses::updatePitchClasses);
+//        pitchClassGenerators.add(orderRandomNotePitchClasses::updatePitchClasses);
+//        pitchClassGenerators.add(orderNoteRepetitionPitchClasses::updatePitchClasses);
     }
 
 }

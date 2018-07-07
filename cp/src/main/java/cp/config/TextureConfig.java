@@ -77,7 +77,7 @@ public class TextureConfig {
         intervalOctavetypes.add(createDependantHarmony(ChordType.CH2_KWINT_OCTAVE));
         intervalOctavetypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
 
-        textureTypes.put(1, intervaltypes);
+//        textureTypes.put(2, intervaltypes);
 //        textureTypes.put(2, chordTypes);
         chordTypes.addAll(intervaltypes);
 //        textureTypes.put(0, chordTypes);
@@ -131,19 +131,19 @@ public class TextureConfig {
 //        setClassTypesSet.add(createDependantHarmony(set.tntnitype, VoicingType.DROP_2));
 //        setClassTypesSet.add(createDependantHarmony(set.tntnitype, VoicingType.DROP_3));
 
-//        setClassTypesSet.add(createDependantHarmony(set.tntnitype, VoicingType.CLOSE));
-        setClassTypesSet.add(createDependantHarmony(set.tntnitype, VoicingType.UP_2));
-        setClassTypesSet.add(createDependantHarmony(set.tntnitype, VoicingType.UP_3));
+        setClassTypesSet.add(createDependantHarmony(set.tntnitype, VoicingType.CLOSE));
+        setClassTypesSet.add(createDependantHarmony(set.tntnitype, VoicingType.DROP_2));
+//        setClassTypesSet.add(createDependantHarmony(set.tntnitype, VoicingType.UP_3));
 
-//        setClassTypesSet.add(createDependantHarmony(set3_11.tntnitype, VoicingType.CLOSE));
-        setClassTypesSet.add(createDependantHarmony(set3_11.tntnitype, VoicingType.UP_2));
-        setClassTypesSet.add(createDependantHarmony(set3_11.tntnitype, VoicingType.UP_3));
+        setClassTypesSet.add(createDependantHarmony(set3_11.tntnitype, VoicingType.CLOSE));
+        setClassTypesSet.add(createDependantHarmony(set3_11.tntnitype, VoicingType.DROP_2));
+//        setClassTypesSet.add(createDependantHarmony(set3_11.tntnitype, VoicingType.UP_3));
 
-//        setClassTypesSet.add(createDependantHarmony(set_dim.tntnitype, VoicingType.CLOSE));
-        setClassTypesSet.add(createDependantHarmony(set_dim.tntnitype, VoicingType.UP_2));
-        setClassTypesSet.add(createDependantHarmony(set_dim.tntnitype, VoicingType.UP_3));
+        setClassTypesSet.add(createDependantHarmony(set_dim.tntnitype, VoicingType.CLOSE));
+        setClassTypesSet.add(createDependantHarmony(set_dim.tntnitype, VoicingType.DROP_2));
+//        setClassTypesSet.add(createDependantHarmony(set_dim.tntnitype, VoicingType.UP_3));
 
-        textureTypes.put(0, setClassTypesSet);
+//        textureTypes.put(1, setClassTypesSet);
     }
 
 //    public List<DependantHarmony> rowMatrix(int[] setClass, VoicingType voicingType) {

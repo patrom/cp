@@ -64,17 +64,19 @@ public class Display {
 
 	private void printTimeLine() {
 		Map<Integer, List<TimeLineKey>> keysPerVoice = timeLine.getKeysPerVoice();
-		List<TimeLineKey> timeLineKeys = keysPerVoice.get(0);
-		StringBuilder stringBuilder = new StringBuilder();
-		for (TimeLineKey timeLineKey : timeLineKeys) {
-			stringBuilder.append(", Key: ");
-			stringBuilder.append(timeLineKey.getKey().getStep());
-			stringBuilder.append(", ");
-			stringBuilder.append(timeLineKey.getStart());
-			stringBuilder.append(", ");
-			stringBuilder.append(Arrays.toString(timeLineKey.getScale().getPitchClasses()));
-		}
-		LOGGER.info(stringBuilder.toString());
+        for (Integer integer : keysPerVoice.keySet()) {
+            List<TimeLineKey> timeLineKeys = keysPerVoice.get(integer);
+            StringBuilder stringBuilder = new StringBuilder();
+            for (TimeLineKey timeLineKey : timeLineKeys) {
+                stringBuilder.append(", Key: ");
+                stringBuilder.append(timeLineKey.getKey().getStep());
+                stringBuilder.append(", ");
+                stringBuilder.append(timeLineKey.getStart());
+                stringBuilder.append(", ");
+                stringBuilder.append(Arrays.toString(timeLineKey.getScale().getPitchClasses()));
+            }
+            LOGGER.info(stringBuilder.toString());
+        }
 	}
 
 	private void printHarmonies(List<CpHarmony> harmonies) {

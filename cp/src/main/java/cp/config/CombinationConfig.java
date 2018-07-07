@@ -261,11 +261,11 @@ public class CombinationConfig {
 //		map.put(0, zeroCombinations);
 
         List<RhythmCombination> oneCombinations = new ArrayList<>();
-        oneCombinations.add(oneNoteEven::pos1);
+//        oneCombinations.add(oneNoteEven::pos1);
 //		oneCombinations.add(oneNoteEven::pos2);
 //		oneCombinations.add(oneNoteEven::pos3);
 //		oneCombinations.add(oneNoteEven::pos4);
-        map.put(1, oneCombinations);
+//        map.put(1, oneCombinations);
 //
 //        List<RhythmCombination> twoCombinations = new ArrayList<>();
 //		twoCombinations.add(twoNoteEven::pos12);
@@ -300,18 +300,18 @@ public class CombinationConfig {
 //        map.put(1, oneUnevenCombinations);
 
         List<RhythmCombination> twoUnevenombinations = new ArrayList<>();
-		twoUnevenombinations.add(twoNoteUneven::pos13);
-        twoUnevenombinations.add(twoNoteUneven::pos12);
-		twoUnevenombinations.add(twoNoteUneven::pos23);
-        map.put(2, twoUnevenombinations);
+//		twoUnevenombinations.add(twoNoteUneven::pos13);
+//        twoUnevenombinations.add(twoNoteUneven::pos12);
+//		twoUnevenombinations.add(twoNoteUneven::pos23);
+//        map.put(2, twoUnevenombinations);
 
-//        List<RhythmCombination> threeUnevenCombinations = new ArrayList<>();
-//		threeUnevenCombinations.add(threeNoteUneven::pos123);
+        List<RhythmCombination> threeUnevenCombinations = new ArrayList<>();
+		threeUnevenCombinations.add(threeNoteUneven::pos123);
 
-//		threeUnevenCombinations.add(threeNoteSexTuplet::pos145);
-//		threeUnevenCombinations.add(threeNoteSexTuplet::pos136);
-//		threeUnevenCombinations.add(threeNoteSexTuplet::pos156);
-//        map.put(3, threeUnevenCombinations);
+		threeUnevenCombinations.add(threeNoteSexTuplet::pos145);
+		threeUnevenCombinations.add(threeNoteSexTuplet::pos136);
+		threeUnevenCombinations.add(threeNoteSexTuplet::pos156);
+        map.put(3, threeUnevenCombinations);
 ////
 //        List<RhythmCombination> fourUnevenCombinations = new ArrayList<>();
 //		fourUnevenCombinations.add(fourNoteSexTuplet::pos1456);

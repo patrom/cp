@@ -82,8 +82,8 @@ public class InstrumentConfig {
 
     private Map<Integer, InstrumentMapping> getStringTrio(){
         instruments.put(2,new InstrumentMapping(new ViolinsII(), 5, 0));
-        instruments.put(1,new InstrumentMapping(new ViolinsII(), 4, 1));
-        instruments.put(0,new InstrumentMapping(new Viola(), 3, 2));
+        instruments.put(1,new InstrumentMapping(new Viola(), 4, 1));
+        instruments.put(0,new InstrumentMapping(new Cello(), 3, 2));
         return instruments;
     }
 

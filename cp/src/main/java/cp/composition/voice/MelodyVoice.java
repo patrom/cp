@@ -19,8 +19,11 @@ public class MelodyVoice extends Voice {
 //        unevenRhythmCombinationsPerNoteSize = getCombinations();
 
 //        pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
-        pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
-        pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
+//        pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
+//        pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
+        pitchClassGenerators.add(orderPitchClasses::updatePitchClasses);
+//        pitchClassGenerators.add(orderRandomNotePitchClasses::updatePitchClasses);
+//        pitchClassGenerators.add(orderNoteRepetitionPitchClasses::updatePitchClasses);
 
     }
 

@@ -4,10 +4,7 @@ import cp.combination.RhythmCombination;
 import cp.combination.RhythmCombinations;
 import cp.composition.beat.BeatGroup;
 import cp.composition.timesignature.TimeConfig;
-import cp.generator.pitchclass.PassingPitchClasses;
-import cp.generator.pitchclass.PitchClassGenerator;
-import cp.generator.pitchclass.RandomPitchClasses;
-import cp.generator.pitchclass.RepeatingPitchClasses;
+import cp.generator.pitchclass.*;
 import cp.model.harmony.ChordType;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
@@ -66,6 +63,13 @@ public abstract class Voice {
     protected PassingPitchClasses passingPitchClasses;
     @Autowired
     protected RepeatingPitchClasses repeatingPitchClasses;
+    @Autowired
+    protected OrderPitchClasses orderPitchClasses;
+    @Autowired
+    protected OrderRandomNotePitchClasses orderRandomNotePitchClasses;
+    @Autowired
+    protected OrderNoteRepetitionPitchClasses orderNoteRepetitionPitchClasses;
+
 
     @Autowired
     @Qualifier(value="time44")
