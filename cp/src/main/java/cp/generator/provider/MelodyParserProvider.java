@@ -1,6 +1,5 @@
 package cp.generator.provider;
 
-import cp.composition.beat.BeatGroupThree;
 import cp.config.InstrumentConfig;
 import cp.model.TimeLineKey;
 import cp.model.melody.CpMelody;
@@ -72,7 +71,7 @@ public class MelodyParserProvider extends AbstractProvidder implements MelodyPro
                 int duration = lastNote.getPosition() + lastNote.getLength();
                 CpMelody melody = new CpMelody(notes, 0, 0, duration);
 //                melody.setBeatGroup(new BeatGroupTwo(duration/2));//beatgroup 2 or 3 -> time!!
-                melody.setBeatGroup(new BeatGroupThree(duration/3));//beatgroup 2 or 3 -> time!!
+//                melody.setBeatGroup(new BeatGroupThree(duration/3));//beatgroup 2 or 3 -> time!!
                 melody.setNotesSize((int) notes.stream().filter(n -> !n.isRest()).count());
                 melody.setMutationType(MutationType.OPERATOR);
                 melody.setTimeLineKey(new TimeLineKey(keys.Eflat, Scale.MAJOR_SCALE));

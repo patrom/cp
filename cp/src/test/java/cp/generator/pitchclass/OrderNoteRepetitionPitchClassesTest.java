@@ -50,7 +50,7 @@ public class OrderNoteRepetitionPitchClassesTest {
         notes.add(NoteBuilder.note().pc(0).build());
         notes.add(NoteBuilder.note().pc(0).build());
         notes.add(NoteBuilder.note().pc(0).build());
-        notes = orderNoteRepetitionPitchClasses.updatePitchClasses(notes);
+        notes = orderNoteRepetitionPitchClasses.updatePitchClasses(notes, null);
         LOGGER.info("Notes: " + notes);
     }
 

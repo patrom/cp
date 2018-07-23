@@ -6,6 +6,7 @@ import cp.composition.beat.BeatGroup;
 import cp.composition.voice.NoteSizeValueObject;
 import cp.composition.voice.Voice;
 import cp.config.*;
+import cp.generator.pitchclass.PitchClassGenerator;
 import cp.generator.provider.MelodyProvider;
 import cp.model.TimeLine;
 import cp.model.harmony.DependantHarmony;
@@ -154,20 +155,20 @@ public class MelodyGenerator {
             case 9:
             case 12:
                 int i = 0;
-                BeatGroup beatGroup = voiceConfig.getTimeConfig().getRandomBeatgroup();
+                BeatGroup beatGroup = voiceConfig.getRandomBeatgroup();
                 end = start + beatGroup.getBeatLength();
                 while (end <= stop) {
                     CpMelody melody = generateMelodyConfig(voice, start, beatGroup, voiceConfig, timbreConfigForVoice);
                     melodyBlock.addMelodyBlock(melody);
                     i++;
-                    beatGroup = voiceConfig.getTimeConfig().getRandomBeatgroup();
+                    beatGroup = voiceConfig.getRandomBeatgroup();
                     start = end;
                     end = start + beatGroup.getBeatLength();
                 }
                 break;
 			case 5:
 			case 7:
-                List<BeatGroup> beatGroups = voiceConfig.getTimeConfig().getBeatGroups();
+                List<BeatGroup> beatGroups = voiceConfig.getBeatGroups();
                 int beatGroupLength = beatGroups.stream().mapToInt(BeatGroup::getBeatLength).sum();
                 end = start + beatGroupLength;
                 while (end <= stop) {
@@ -176,7 +177,6 @@ public class MelodyGenerator {
                         melodyBlock.addMelodyBlock(melody);
                         start = start + group.getBeatLength();
                     }
-                    beatGroups = voiceConfig.getTimeConfig().getBeatGroups();
                     start = end;
                     beatGroupLength = beatGroups.stream().mapToInt(BeatGroup::getBeatLength).sum();
                     end = start + beatGroupLength;
@@ -187,8 +187,9 @@ public class MelodyGenerator {
 	}
 
 	public CpMelody generateMelodyConfig(int voice, int start, BeatGroup beatGroup, Voice voiceConfig, Timbre timbre) {
-		NoteSizeValueObject valueObject = voiceConfig.getRandomRhythmNotesForBeatgroupType(beatGroup);
+		NoteSizeValueObject valueObject = beatGroup.getRandomRhythmNotesForBeatgroupType();
 		List<Note> melodyNotes = valueObject.getRhythmCombination().getNotes(beatGroup.getBeatLength());
+
 		melodyNotes.forEach(n -> {
 			n.setVoice(voice);
 			n.setDynamic(timbre.getDynamic());
@@ -196,7 +197,16 @@ public class MelodyGenerator {
 			n.setTechnical(timbre.getTechnical());
 			n.setPosition(n.getPosition() + start);
 		});
-		melodyNotes = voiceConfiguration.getRandomPitchClassGenerator(voice).updatePitchClasses(melodyNotes);
+        if (beatGroup.getPitchClassGenerators().isEmpty()) {
+            melodyNotes = voiceConfiguration.getRandomPitchClassGenerator(voice).updatePitchClasses(melodyNotes, null);
+        } else {
+            PitchClassGenerator pcGenerator = RandomUtil.getRandomFromList(beatGroup.getPitchClassGenerators());
+            if (beatGroup.getMotivePitchClasses().isEmpty()) {
+                melodyNotes = pcGenerator.updatePitchClasses(melodyNotes, null);
+            } else {
+                melodyNotes = pcGenerator.updatePitchClasses(melodyNotes, beatGroup);
+            }
+        }
         if (textureConfig.hasTexture(voice)) {
             List<DependantHarmony> textureTypes = textureConfig.getTextureFor(voice);
             for (Note melodyNote : melodyNotes) {
@@ -219,17 +229,17 @@ public class MelodyGenerator {
 		MelodyBlock melodyBlock = new MelodyBlock(octave, voice);
 
 		int i = 0;
-		BeatGroup beatGroup = accompGroup.getVoice().getTimeConfig().getRandomBeatgroup();
+		BeatGroup beatGroup = accompGroup.getVoice().getRandomBeatgroup();
 		int end = start + beatGroup.getBeatLength();
 		while (end <= stop) {
-			NoteSizeValueObject valueObject = accompGroup.getVoice().getRandomRhythmNotesForBeatgroupType(beatGroup);
+			NoteSizeValueObject valueObject = beatGroup.getRandomRhythmNotesForBeatgroupType();
 			List<Note> melodyNotes = valueObject.getRhythmCombination().getNotes(beatGroup.getBeatLength());
 			CpMelody melody = generateMelodyConfigWithoutPitchClassGenerator(voice, start, beatGroup, melodyNotes, accompGroup.getVoice().getMutationTypes());
 			melody.setNotesSize(valueObject.getKey());
 			melody.setContour(accompGroup.getContour());
 			melodyBlock.addMelodyBlock(melody);
 			i++;
-			beatGroup = accompGroup.getVoice().getTimeConfig().getRandomBeatgroup();
+			beatGroup = accompGroup.getVoice().getRandomBeatgroup();
 			start = end;
 			end = start + beatGroup.getBeatLength();
 		}

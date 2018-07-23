@@ -1,5 +1,6 @@
 package cp.generator.pitchclass;
 
+import cp.composition.beat.BeatGroup;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.note.Note;
@@ -21,7 +22,7 @@ public class PassingPitchClasses{
 	@Autowired
 	private TimeLine timeLine;
 
-	public List<Note> updatePitchClasses(List<Note> notes) {
+	public List<Note> updatePitchClasses(List<Note> notes, BeatGroup beatGroup) {
 		LOGGER.debug("PassingPitchClasses");
 		List<Note> melodyNotes = notes.stream().filter(n -> !n.isRest()).collect(toList());
 		if (!melodyNotes.isEmpty()) {

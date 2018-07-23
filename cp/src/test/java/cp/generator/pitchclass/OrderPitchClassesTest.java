@@ -51,7 +51,7 @@ public class OrderPitchClassesTest {
         notes.add(NoteBuilder.note().pc(0).build());
         notes.add(NoteBuilder.note().pc(0).build());
         notes.add(NoteBuilder.note().pc(0).build());
-        notes = orderPitchClasses.updatePitchClasses(notes);
+        notes = orderPitchClasses.updatePitchClasses(notes, null);
         LOGGER.info("Notes: " + notes);
         Assertions.assertThat(notes.get(0).getPitchClass()).isEqualTo(0);
         Assertions.assertThat(notes.get(1).getPitchClass()).isEqualTo(4);

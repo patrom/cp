@@ -50,7 +50,7 @@ public class PassingPitchClassesTest {
 		notes.add(NoteBuilder.note().pc(0).build());
 		notes.add(NoteBuilder.note().pc(0).build());
 		notes.add(NoteBuilder.note().pc(0).build());
-		notes = passingPitchClasses.updatePitchClasses(notes);
+		notes = passingPitchClasses.updatePitchClasses(notes, null);
 		LOGGER.info("Notes: " + notes);
 	}
 

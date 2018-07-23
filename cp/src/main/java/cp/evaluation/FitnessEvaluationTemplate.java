@@ -85,7 +85,8 @@ public class FitnessEvaluationTemplate {
 			Instrument instrument = instrumentConfig.getInstrumentForVoice(updatebleMelody.getVoice());
 //			updatebleMelody.updatePitchesFromInstrument(instrument);
 			updatebleMelody.updatePitchesFromContour();
-		}
+
+        }
 	}
 
 	private void updateMelodyInRange(List<MelodyBlock> melodies) {

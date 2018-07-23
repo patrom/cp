@@ -1,5 +1,6 @@
 package cp.generator.pitchclass;
 
+import cp.composition.beat.BeatGroup;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.note.Note;
@@ -20,7 +21,7 @@ public class OrderNoteRepetitionPitchClasses {
     @Autowired
     private TimeLine timeLine;
 
-    public List<Note> updatePitchClasses(List<Note> notes) {
+    public List<Note> updatePitchClasses(List<Note> notes, BeatGroup beatGroup) {
         LOGGER.debug("OrderNoteRepetitionPitchClasses");
         List<Note> melodyNotes = notes.stream().filter(n -> !n.isRest()).collect(toList());
         if (!melodyNotes.isEmpty()) {
@@ -28,7 +29,7 @@ public class OrderNoteRepetitionPitchClasses {
             TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(firstNote.getPosition(), firstNote.getVoice());
             int[] pitchClasses = timeLineKey.getScale().getPitchClasses();
             int i = 0;
-            for (Note note : notes) {
+            for (Note note : melodyNotes) {
                 note.setPitchClass((pitchClasses[i]+ timeLineKey.getKey().getInterval()) % 12);
                 if (RandomUtil.toggleSelection()) {//repeat
                     i = (i + 1) % pitchClasses.length;

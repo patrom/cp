@@ -27,7 +27,7 @@ public class OneNoteMutation implements MutationOperator<CpMelody> {
 
 	//one pitch
 	public void doMutation(double probability, CpMelody melody) {
-		if (PseudoRandom.randDouble() < probability) {
+		if (PseudoRandom.randDouble() < probability && !melody.hasScale()) {
 			melody.updateRandomNote(timeLine);
 //			LOGGER.info("one note" + melody.getVoice());
 		}

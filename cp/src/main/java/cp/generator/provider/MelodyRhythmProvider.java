@@ -1,7 +1,5 @@
 package cp.generator.provider;
 
-import cp.composition.beat.BeatGroupThree;
-import cp.composition.beat.BeatGroupTwo;
 import cp.config.InstrumentConfig;
 import cp.config.VoiceConfig;
 import cp.model.TimeLineKey;
@@ -83,7 +81,7 @@ public class MelodyRhythmProvider extends AbstractProvidder implements MelodyPro
                 int duration = lastNote.getPosition() + lastNote.getLength();
                 CpMelody melody = new CpMelody(melodyNotes, 0, 0, duration);
 //                melody.setBeatGroup(new BeatGroupTwo(duration/2));//beatgroup 2 or 3 -> time!!
-                melody.setBeatGroup(new BeatGroupThree(duration/3));//beatgroup 2 or 3 -> time!!
+//                melody.setBeatGroup(new BeatGroupThree(duration/3));//beatgroup 2 or 3 -> time!!
                 melody.setNotesSize((int) melodyNotes.stream().filter(n -> !n.isRest()).count());
                 melody.setMutationType(MutationType.PITCH);
                 melody.setTimeLineKey(new TimeLineKey(keys.Eflat, Scale.MAJOR_SCALE));
@@ -100,7 +98,7 @@ public class MelodyRhythmProvider extends AbstractProvidder implements MelodyPro
         notes.add(note().pos(0).pc(0).len(DurationConstants.QUARTER + DurationConstants.EIGHT).build());
         notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.EIGHT).pc(0).len(DurationConstants.EIGHT).build());
         CpMelody melody = new CpMelody(notes, voice0, 0, DurationConstants.HALF);
-        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.QUARTER));
+//        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.QUARTER));
         melody.setNotesSize(2);
         melody.setMutationType(MutationType.PITCH);
 //        melody.setTonality(Tonality.ATONAL);
@@ -111,7 +109,7 @@ public class MelodyRhythmProvider extends AbstractProvidder implements MelodyPro
         notes.add(note().pos(0).pc(0).len(DurationConstants.QUARTER).build());
 //        notes.add(note().pos(DurationConstants.EIGHT).pc(0).len(DurationConstants.EIGHT ).build());
         melody = new CpMelody(notes, voice0, 0, DurationConstants.QUARTER);
-        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT ));
+//        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT ));
         melody.setNotesSize(1);
         melody.setTimeLineKey(timeLineKey);
         melody.setMutationType(MutationType.PITCH);
@@ -122,7 +120,7 @@ public class MelodyRhythmProvider extends AbstractProvidder implements MelodyPro
         notes.add(note().pos(0).pc(0).len(DurationConstants.EIGHT).build());
         notes.add(note().pos(DurationConstants.EIGHT).pc(0).len(DurationConstants.QUARTER + DurationConstants.EIGHT).build());
         melody = new CpMelody(notes, voice0, 0, DurationConstants.HALF);
-        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.QUARTER));
+//        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.QUARTER));
         melody.setNotesSize(2);
         melody.setMutationType(MutationType.PITCH);
         melody.setTimeLineKey(timeLineKey);
@@ -133,7 +131,7 @@ public class MelodyRhythmProvider extends AbstractProvidder implements MelodyPro
         notes = new ArrayList<>();
         notes.add(note().pos(0).pc(0).len(DurationConstants.HALF).build());
         melody = new CpMelody(notes, voice0, 0, DurationConstants.HALF);
-        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.QUARTER));
+//        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.QUARTER));
         melody.setNotesSize(2);
         melody.setMutationType(MutationType.PITCH);
         melody.setTimeLineKey(timeLineKey);

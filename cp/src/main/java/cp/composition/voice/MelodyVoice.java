@@ -3,6 +3,7 @@ package cp.composition.voice;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.Arrays;
 
 /**
  * Created by prombouts on 23/11/2016.
@@ -12,11 +13,11 @@ public class MelodyVoice extends Voice {
 
     @PostConstruct
     public void init(){
-        setTimeconfig();
+
 //        timeConfig = timeDouble44;
 
 //        evenRhythmCombinationsPerNoteSize = getCombinations();
-//        unevenRhythmCombinationsPerNoteSize = getCombinations();
+//        unevenRhythmCombinationsPerNoteSize = getCombinations();N
 
 //        pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
 //        pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
@@ -24,7 +25,9 @@ public class MelodyVoice extends Voice {
         pitchClassGenerators.add(orderPitchClasses::updatePitchClasses);
 //        pitchClassGenerators.add(orderRandomNotePitchClasses::updatePitchClasses);
 //        pitchClassGenerators.add(orderNoteRepetitionPitchClasses::updatePitchClasses);
-
+        allBeatgroups = Arrays.asList(beatgroups.beatgroupFourMotive);
+//        allBeatgroups = Arrays.asList(beatgroups.beatGroupTwo, beatgroups.beatGroupThree, beatgroups.beatGroupFour, beatgroups.beatgroupFourMotive);
+        setTimeconfig();
     }
 
 }

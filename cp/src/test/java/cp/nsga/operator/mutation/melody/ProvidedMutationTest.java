@@ -1,7 +1,6 @@
 package cp.nsga.operator.mutation.melody;
 
 import cp.DefaultConfig;
-import cp.composition.beat.BeatGroupTwo;
 import cp.composition.voice.MelodyVoice;
 import cp.config.TextureConfig;
 import cp.config.VoiceConfig;
@@ -69,7 +68,7 @@ public class ProvidedMutationTest {
         melody.setNotesSize(3);
         melody.setTonality(Tonality.TONAL);
         melody.setTimeLineKey(new TimeLineKey(keys.C, Scale.MAJOR_SCALE));
-        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.QUARTER));
+//        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.QUARTER));
         melodyList.add(melody);
         when(melodyProvider.getMelodies(0)).thenReturn(melodyList);
         TimeLineKey timeLineKey = new TimeLineKey(keys.E, Scale.MAJOR_SCALE,0 ,DurationConstants.WHOLE);
@@ -79,11 +78,11 @@ public class ProvidedMutationTest {
     }
 
     @Test
-    public void execute() throws Exception {
-        BeatGroupTwo beatGroupTwo = new BeatGroupTwo(DurationConstants.QUARTER);
+    public void execute() {
+//        BeatGroupTwo beatGroupTwo = new BeatGroupTwo(DurationConstants.QUARTER);
         int start = 0;
         CpMelody melody = new CpMelody(new ArrayList<>(), 0, start, start + DurationConstants.QUARTER);
-        melody.setBeatGroup(beatGroupTwo);
+//        melody.setBeatGroup(beatGroupTwo);
         providedMutation.execute(melody);
         melody.getNotes().forEach(n -> {
             System.out.println(n.getLength());

@@ -3,6 +3,7 @@ package cp.composition.voice;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.Arrays;
 
 /**
  * Created by prombouts on 23/11/2016.
@@ -12,7 +13,7 @@ public class HomophonicVoice extends Voice {
 
     @PostConstruct
     public void init(){
-        setTimeconfig();
+
 //        timeConfig = timeDouble44;
         evenRhythmCombinationsPerNoteSize = homophonicEven;
         unevenRhythmCombinationsPerNoteSize = homophonicUneven;
@@ -26,6 +27,8 @@ public class HomophonicVoice extends Voice {
         pitchClassGenerators.add(orderPitchClasses::updatePitchClasses);
 //        pitchClassGenerators.add(orderRandomNotePitchClasses::updatePitchClasses);
 //        pitchClassGenerators.add(orderNoteRepetitionPitchClasses::updatePitchClasses);
+        allBeatgroups = Arrays.asList(beatgroups.homophonicBeatgroup2, beatgroups.homophonicBeatgroup3);
+        setTimeconfig();
     }
 
 }

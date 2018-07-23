@@ -1,8 +1,10 @@
 package cp.model.note;
 
+import cp.out.print.note.Key;
 import cp.util.RandomUtil;
 import org.apache.commons.lang.ArrayUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -50,7 +52,7 @@ public class Scale {
 			VARIATIONS_FOR_ORCHESTRA_OP31_HEXA1 = new Scale(new int[]{10,4,6,3,5,9}),
 			 VARIATIONS_FOR_ORCHESTRA_OP31_HEXA2 = new Scale(new int[]{2,1,7,8,11,0}),
 
-            MELODY = new Scale(new int[]{2, 5, 4}),
+            MELODY = new Scale(new int[]{0, 2, 5, 4}),
 
 	TEST1 = new Scale(new int[]{0, 1,2}),
 
@@ -131,14 +133,18 @@ public class Scale {
 		return scale[inversionIndex];
 	}
 
-	public int getInversedPitchClassIndex(int functionalDegreeCenter, int index){
+	public int getInversedPitchClassForIndex(int functionalDegreeCenter, int index){
 		int inversionIndex = (scale.length + (functionalDegreeCenter - 1) + (functionalDegreeCenter - 1 - index)) % scale.length;
 		return scale[inversionIndex];
 	}
 
+    public int getInversedIndex(int functionalDegreeCenter, int index){
+        return (scale.length + (functionalDegreeCenter - 1) + (functionalDegreeCenter - 1 - index)) % scale.length;
+    }
+
 	public int inverse(Scale oldScale, int pcOldScale, int functionalDegreeCenter){
 		int indexPitchClass = oldScale.getIndex(pcOldScale);
-		return this.getInversedPitchClassIndex(functionalDegreeCenter, indexPitchClass);
+		return this.getInversedPitchClassForIndex(functionalDegreeCenter, indexPitchClass);
 	}
 	
 	public int transposePitchClass(int pitchClass, int steps){
@@ -226,6 +232,24 @@ public class Scale {
             allPitchClasses.remove(pitchClass);
         }
         return randomizedPitchClasses;
+    }
+
+    public int[] getIndexes(int[] pitchClasses) {
+        int[] indexes = new int[pitchClasses.length];
+        for (int i = 0; i < pitchClasses.length; i++) {
+            int pc = pitchClasses[i];
+            indexes[i] = getIndex(pc);
+        }
+        return indexes;
+    }
+
+    public List<Integer> getPitchClasses(int[] indexes, int steps, Key key) {
+	    List<Integer> pitchClasses = new ArrayList<>();
+        for (int i = 0; i < indexes.length; i++) {
+            int index = (scale.length + (indexes[i] + steps)) % scale.length;
+            pitchClasses.add((scale[index] + key.getInterval()) % 12);
+        }
+        return pitchClasses;
     }
 
 }

@@ -64,7 +64,7 @@ public class AccompGroup {
 //    }
 
     public List<Note> getNotes(BeatGroup beatGroup){
-        NoteSizeValueObject valueObject = voice.getRandomRhythmNotesForBeatgroupType(beatGroup);
+        NoteSizeValueObject valueObject = beatGroup.getRandomRhythmNotesForBeatgroupType();
         List<Note> notes = valueObject.getRhythmCombination().getNotes(beatGroup.getBeatLength());
         notes.forEach(n -> n.setArticulation(Articulation.STACCATO));
         Note firstNote = notes.get(0);

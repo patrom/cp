@@ -239,7 +239,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		// Algorithm parameters
 	    int populationSize = 30;
 	    algorithm.setInputParameter("populationSize", populationSize);
-	    algorithm.setInputParameter("maxEvaluations", populationSize * 2000);
+	    algorithm.setInputParameter("maxEvaluations", populationSize * 200);
 	    
 	    // Mutation and Crossover
 	    crossover.setParameter("probabilityCrossover", 1.0); 

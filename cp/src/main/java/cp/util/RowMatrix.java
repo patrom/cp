@@ -17,7 +17,7 @@ public class RowMatrix {
     public static void main(String[] args) {
 
 //        Integer[] s = {11,0, 6, 4, 10, 9, 1, 8, 3, 7, 5, 2};
-        Integer[] s = {0,3,7};
+        Integer[] s = {0,2,5,4};
         List<Integer> set = Arrays.asList(s);
         Stream<Integer> firstHexaChord = IntStream.of(Scale.ALL_COMBINATORIAL_HEXAHCORD_C.getPitchClasses()).boxed();
         Stream<Integer> secondHexachord = IntStream.of(Scale.ALL_COMBINATORIAL_HEXAHCORD_C_COMPLEMENT.getPitchClasses()).boxed();

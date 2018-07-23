@@ -1,6 +1,5 @@
 package cp.composition.timesignature;
 
-import cp.composition.beat.BeatGroup;
 import cp.model.rhythm.DurationConstants;
 import org.springframework.stereotype.Component;
 
@@ -11,8 +10,6 @@ public class Time68 extends TimeConfig{
 	@Override
 	public void init() {
 		super.init();
-		BeatGroup defaultGroup = beatGroupFactory.getBeatGroupUneven(DurationConstants.EIGHT); // X 3
-		allBeatgroups.add(defaultGroup);
 		minimumLength = DurationConstants.EIGHT;
 		distance = new int[]{3,6,9,12,15,18,20,21,22,24,26,27,28,30,32};
 		offset = DurationConstants.SIX_EIGHTS;

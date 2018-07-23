@@ -20,7 +20,7 @@ import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
 import cp.model.timbre.Timbre;
-import cp.nsga.operator.mutation.melody.ReplaceMelody;
+import cp.nsga.operator.mutation.melody.NoteSizeMutation;
 import cp.nsga.operator.relation.RelationConfig;
 import cp.objective.harmony.DissonantResolutionImpl;
 import cp.objective.harmony.HarmonicObjective;
@@ -62,7 +62,7 @@ public abstract class Composition {
 	protected Instrument instrument6;
 
 	@Autowired
-	protected ReplaceMelody replaceMelody;
+	protected NoteSizeMutation noteSizeMutation;
 	@Autowired
 	protected MusicProperties musicProperties;
 	@Autowired
@@ -142,6 +142,9 @@ public abstract class Composition {
 	@Autowired
 	@Qualifier(value="time58")
 	protected TimeConfig time58;
+    @Autowired
+    @Qualifier(value="time54")
+    protected TimeConfig time54;
 	@Autowired
 	@Qualifier(value="timeRandom")
 	protected TimeConfig timeRandom;
@@ -187,7 +190,7 @@ public abstract class Composition {
 		timeLine.setEnd(end);
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
-//		timeLineKeys.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.Fsharp, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.C, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.G, Scale.MAJOR_SCALE, 0 ,0));
@@ -200,30 +203,30 @@ public abstract class Composition {
 //		timeLineKeys.add(new TimeLineKey(E, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 
 		List<Integer> durations = new ArrayList<>();
-		durations.add(DurationConstants.QUARTER);
+//		durations.add(DurationConstants.QUARTER);
 //		durations.add(DurationConstants.SIX_EIGHTS);
 		durations.add(DurationConstants.HALF);
 //		durations.add(DurationConstants.WHOLE);
-		durations.add(DurationConstants.THREE_QUARTERS);
-//		timeLine.randomKeysAndDurations(timeLineKeys, durations);
+//		durations.add(DurationConstants.THREE_QUARTERS);
+		timeLine.randomKeysAndDurations(timeLineKeys, durations);
 
-        List<TimeLineKey> timeLineKeysForVoice = new ArrayList<>();
-        timeLineKeysForVoice.add(new TimeLineKey(keys.C, Scale.MELODY, 0 ,0));
-        timeLineKeysForVoice.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
+//        List<TimeLineKey> timeLineKeysForVoice = new ArrayList<>();
+//        timeLineKeysForVoice.add(new TimeLineKey(keys.C, Scale.MELODY, 0 ,0));
+//        timeLineKeysForVoice.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.Fsharp, Scale.MAJOR_SCALE, 0 ,0));
 //        timeLineKeysForVoice.add(new TimeLineKey(keys.C, Scale.OCTATCONIC_HALF, 0 ,0));
 //        timeLineKeysForVoice.add(new TimeLineKey(keys.C, Scale.LYDIAN_SCALE, 0 ,0));
 //        timeLineKeysForVoice.add(new TimeLineKey(keys.C, Scale.MIXOLYDIAN_SCALE, 0 ,0));
-        timeLine.randomKeysAndDurationsForVoice(0, timeLineKeysForVoice, durations);
+//        timeLine.randomKeysAndDurationsForVoice(0, timeLineKeysForVoice, durations);
 
 
-        List<TimeLineKey> timeLineKeysForVoice1 = new ArrayList<>();
-        timeLineKeysForVoice1.add(new TimeLineKey(keys.Eflat, Scale.MELODY, 0 ,0));
-        timeLineKeysForVoice1.add(new TimeLineKey(keys.Eflat, Scale.MAJOR_SCALE, 0 ,0));
+//        List<TimeLineKey> timeLineKeysForVoice1 = new ArrayList<>();
+//        timeLineKeysForVoice1.add(new TimeLineKey(keys.Eflat, Scale.MELODY, 0 ,0));
+//        timeLineKeysForVoice1.add(new TimeLineKey(keys.Eflat, Scale.MAJOR_SCALE, 0 ,0));
 //        timeLineKeysForVoice1.add(new TimeLineKey(keys.C, Scale.OCTATCONIC_HALF, 0 ,0));
 //        timeLineKeysForVoice1.add(new TimeLineKey(keys.C, Scale.LYDIAN_SCALE, 0 ,0));
 //        timeLineKeysForVoice1.add(new TimeLineKey(keys.C, Scale.MIXOLYDIAN_SCALE, 0 ,0));
-        timeLine.randomKeysAndDurationsForVoice(1, timeLineKeysForVoice1, durations);
+//        timeLine.randomKeysAndDurationsForVoice(1, timeLineKeysForVoice1, durations);
 
 //		timeLine.addKeysForVoice(0, new TimeLineKey(keys.C, Scale.CHROMATIC_SCALE, 0 ,end));
 //		timeLine.addKeysForVoice(1, new TimeLineKey(keys.C, Scale.CHROMATIC_SCALE, 0 ,end));
@@ -340,7 +343,9 @@ public abstract class Composition {
 			timeConfig = time128;
 		} else if (numerator == 5 && denominator == 8) {
 			timeConfig = time58;
-		}
+		} else if (numerator == 5 && denominator == 4) {
+            timeConfig = time54;
+        }
 	}
 	
 	public TimeConfig getTimeConfig(){

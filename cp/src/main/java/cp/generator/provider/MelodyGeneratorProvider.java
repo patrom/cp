@@ -69,7 +69,7 @@ public class MelodyGeneratorProvider extends AbstractProvidder implements Melody
     public CpMelody generateMelodyConfig(int voice) {
         Timbre timbreConfigForVoice = timbreConfig.getTimbreConfigForVoice(voice);
         Voice voiceConfig = voiceConfiguration.getVoiceConfiguration(voice);
-        BeatGroup beatGroup = voiceConfig.getTimeConfig().getRandomBeatgroup();
+        BeatGroup beatGroup = voiceConfig.getRandomBeatgroup();
         return melodyGenerator.generateMelodyConfig(voice, 0, beatGroup, voiceConfig, timbreConfigForVoice);
 //        return generateMelodyConfig(voice, beatGroup);
     }

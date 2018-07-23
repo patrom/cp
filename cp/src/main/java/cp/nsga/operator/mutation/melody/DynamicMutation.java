@@ -37,7 +37,11 @@ public class DynamicMutation implements MutationOperator<CpMelody> {
         if (PseudoRandom.randDouble() < probabilityDynamic) {
             Timbre timbre = timbreConfig.getTimbreConfigForVoice(melody.getVoice());
             List<Dynamic> dynamics = timbre.getDynamics();
+            if (dynamics.isEmpty()) {
+                System.out.println("stopsdfml sdkjfm sldkjf");
+            }
             Dynamic dynamic = RandomUtil.getRandomFromList(dynamics);
+
             melody.updateDynamic(dynamic);
 			LOGGER.debug("Dynamic mutated");
         }

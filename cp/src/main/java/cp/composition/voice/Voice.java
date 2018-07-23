@@ -3,11 +3,11 @@ package cp.composition.voice;
 import cp.combination.RhythmCombination;
 import cp.combination.RhythmCombinations;
 import cp.composition.beat.BeatGroup;
+import cp.composition.beat.BeatGroups;
 import cp.composition.timesignature.TimeConfig;
 import cp.generator.pitchclass.*;
 import cp.model.harmony.ChordType;
 import cp.model.note.Dynamic;
-import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 import cp.nsga.operator.mutation.MutationType;
 import cp.out.instrument.Technical;
@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import javax.annotation.Resource;
 import java.util.*;
 
-import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by prombouts on 22/11/2016.
@@ -96,6 +96,9 @@ public abstract class Voice {
     @Qualifier(value="time58")
     protected TimeConfig time58;
     @Autowired
+    @Qualifier(value="time54")
+    protected TimeConfig time54;
+    @Autowired
     @Qualifier(value="timeRandom")
     protected TimeConfig timeRandom;
 
@@ -119,28 +122,53 @@ public abstract class Voice {
     protected Map<Integer, List<RhythmCombination>> evenRhythmCombinationsPerNoteSize;
     protected Map<Integer, List<RhythmCombination>> unevenRhythmCombinationsPerNoteSize;
 
+    protected List<BeatGroup> allBeatgroups = new ArrayList<>();
+    @Autowired
+    protected BeatGroups beatgroups;
+
     protected void setTimeconfig(){
         if (numerator == 4 && denominator == 4) {
             timeConfig = time44;
+            allBeatgroups = allBeatgroups.stream().filter(beatGroup -> beatGroup.getType() == 2
+                || beatGroup.getType() == 4).collect(toList());
         } else if (numerator == 3 && denominator == 4) {
             timeConfig = time34;
+            allBeatgroups = allBeatgroups.stream().filter(beatGroup -> beatGroup.getType() == 3).collect(toList());
         } else if (numerator == 6 && denominator == 8) {
             timeConfig = time68;
+            allBeatgroups = allBeatgroups.stream().filter(beatGroup -> beatGroup.getType() == 3).collect(toList());
         } else if (numerator == 9 && denominator == 8) {
             timeConfig = time98;
+            allBeatgroups = allBeatgroups.stream().filter(beatGroup -> beatGroup.getType() == 3).collect(toList());
         }else if (numerator == 12 && denominator == 8) {
             timeConfig = time128;
+            allBeatgroups = allBeatgroups.stream().filter(beatGroup -> beatGroup.getType() == 3).collect(toList());
         } else if (numerator == 5 && denominator == 8) {
             timeConfig = time58;
+            allBeatgroups = Arrays.asList(beatgroups.beatGroupTwo, beatgroups.beatGroupThree);
+        } else if (numerator == 5 && denominator == 4) {
+            timeConfig = time58;
+            allBeatgroups = Arrays.asList(beatgroups.beatGroupTwo, beatgroups.beatGroupThree);
         } else if (numerator == 2 && denominator == 4) {
             timeConfig = time24;
+            allBeatgroups = allBeatgroups.stream().filter(beatGroup -> beatGroup.getType() == 2).collect(toList());
         }
 
         evenRhythmCombinationsPerNoteSize = defaultEvenCombinations;
         unevenRhythmCombinationsPerNoteSize = defaultUnEvenCombinations;
 
         mutationTypes = Collections.singletonList(MutationType.ALL);
+    }
 
+    public BeatGroup getRandomBeatgroup(){
+        if(allBeatgroups.size() > 1){
+            return RandomUtil.getRandomFromList(allBeatgroups);
+        }
+        return allBeatgroups.get(0);
+    }
+
+    public List<BeatGroup> getBeatGroups() {
+        return allBeatgroups;
     }
 
     public TimeConfig getTimeConfig(){
@@ -157,49 +185,6 @@ public abstract class Voice {
 
     public void addChordType(ChordType chordType){
         chordTypes.add(chordType);
-    }
-
-    public List<Note> getRhythmNotesForBeatgroupType(BeatGroup beatGroup, int size){
-        List<RhythmCombination> rhythmCombinations = new ArrayList<>();
-        if (beatGroup.getType() == 2) {
-            rhythmCombinations = this.evenRhythmCombinationsPerNoteSize.get(size);
-            if(rhythmCombinations == null){
-                LOGGER.info("No (provided) combination found for size: " + size);
-                return emptyList();
-            }
-
-        }
-        if (beatGroup.getType() == 3) {
-            rhythmCombinations = this.unevenRhythmCombinationsPerNoteSize.get(size);
-            if(rhythmCombinations == null){
-                LOGGER.info("No (provided) combination found for size: " + size);
-                return emptyList();
-            }
-        }
-        return getNotes(beatGroup, rhythmCombinations);
-    }
-
-    public NoteSizeValueObject getRandomRhythmNotesForBeatgroupType(BeatGroup beatGroup){
-        if (beatGroup.getType() == 2) {
-            Object[] keys = evenRhythmCombinationsPerNoteSize.keySet().toArray();
-            Integer key = (Integer) keys[new Random().nextInt(keys.length)];
-            List<RhythmCombination> rhythmCombinations = evenRhythmCombinationsPerNoteSize.get(key);
-            RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
-            return new NoteSizeValueObject(key, rhythmCombination);
-        }
-        if (beatGroup.getType() == 3) {
-            Object[] keys = unevenRhythmCombinationsPerNoteSize.keySet().toArray();
-            Integer key = (Integer) keys[new Random().nextInt(keys.length)];
-            List<RhythmCombination> rhythmCombinations = unevenRhythmCombinationsPerNoteSize.get(key);
-            RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
-            return new NoteSizeValueObject(key, rhythmCombination);
-        }
-        throw new IllegalStateException("No beatgroup found");
-    }
-
-    private List<Note> getNotes(BeatGroup beatGroup, List<RhythmCombination> rhythmCombinations) {
-        RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
-        return rhythmCombination.getNotes(beatGroup.getBeatLength());
     }
 
     public int getNumerator() {

@@ -1,5 +1,6 @@
 package cp.generator.pitchclass;
 
+import cp.composition.beat.BeatGroup;
 import cp.model.TimeLine;
 import cp.model.note.Note;
 import cp.model.note.Scale;
@@ -19,7 +20,7 @@ public class TwelveTonePitchClasses {
 	private int counter = 0;
 	private Scale scale = Scale.VARIATIONS_FOR_ORCHESTRA_OP31;
 
-	public List<Note> updatePitchClasses(List<Note> notes) {
+	public List<Note> updatePitchClasses(List<Note> notes, BeatGroup beatGroup) {
 		List<Note> melodyNotes = notes.stream().filter(n -> !n.isRest()).collect(toList());
 		Note firstNote = melodyNotes.get(0);
 		firstNote.setPitchClass(getNextPitchClass());

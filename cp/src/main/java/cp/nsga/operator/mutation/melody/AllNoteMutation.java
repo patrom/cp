@@ -5,6 +5,7 @@ import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.melody.CpMelody;
 import cp.model.note.Note;
 import cp.nsga.operator.mutation.MutationOperator;
+import cp.util.RandomUtil;
 import jmetal.util.PseudoRandom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,10 +38,27 @@ public class AllNoteMutation implements MutationOperator<CpMelody> {
         if (PseudoRandom.randDouble() < probabilityAllNote) {
             List<Note> melodyNotes = melody.getNotes();
             if (!melodyNotes.isEmpty()) {
-                PitchClassGenerator pitchClassGenerator = voiceConfig.getRandomPitchClassGenerator(melody.getVoice());
-                melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes);
-                melody.updateNotes(melodyNotes);
-//				LOGGER.info("All notes: " + melody.getVoice());
+                if (melody.hasPCGenerators() && melody.hasScale()) {
+                    PitchClassGenerator pitchClassGenerator = RandomUtil.getRandomFromList(melody.getBeatGroup().getPitchClassGenerators());
+                    melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes, melody.getBeatGroup());
+                    melody.updateNotes(melodyNotes);
+//                    LOGGER.info("All notes motive: " + melody.getVoice());
+                } else if(melody.hasPCGenerators()){
+                    PitchClassGenerator pitchClassGenerator = RandomUtil.getRandomFromList(melody.getBeatGroup().getPitchClassGenerators());
+                    melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes, null);
+                    melody.updateNotes(melodyNotes);
+//                    LOGGER.info("All notes pc gen: " + melody.getVoice());
+                } else if(melody.hasScale()){
+                    PitchClassGenerator pitchClassGenerator = voiceConfig.getRandomPitchClassGenerator(melody.getVoice());
+                    melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes, melody.getBeatGroup());
+                    melody.updateNotes(melodyNotes);
+//                    LOGGER.info("All notes scale: " + melody.getVoice());
+                } else {
+                    PitchClassGenerator pitchClassGenerator = voiceConfig.getRandomPitchClassGenerator(melody.getVoice());
+                    melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes, null);
+                    melody.updateNotes(melodyNotes);
+//                    LOGGER.info("All notes: " + melody.getVoice());
+                }
             }
         }
     }

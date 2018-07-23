@@ -7,7 +7,6 @@ import cp.config.TextureConfig;
 import cp.config.TimbreConfig;
 import cp.config.VoiceConfig;
 import cp.generator.pitchclass.PitchClassGenerator;
-import cp.generator.provider.MelodyProvider;
 import cp.model.harmony.DependantHarmony;
 import cp.model.melody.CpMelody;
 import cp.model.note.Note;
@@ -24,14 +23,12 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
+@Component(value= "noteSizeMutation")
+public class NoteSizeMutation implements MutationOperator<CpMelody> {
 
-@Component(value="replaceMelody")
-public class ReplaceMelody implements MutationOperator<CpMelody> {
+	private static Logger LOGGER = LoggerFactory.getLogger(NoteSizeMutation.class);
 
-	private static Logger LOGGER = LoggerFactory.getLogger(ReplaceMelody.class);
-
-    private double probabilityReplaceMelody;
+    private double probabilityNoteSize;
 
 	@Autowired
 	private VoiceConfig voiceConfig;
@@ -43,43 +40,32 @@ public class ReplaceMelody implements MutationOperator<CpMelody> {
 	@Autowired
 	private MelodyProviderConfig melodyProviderConfig;
 
-	@Autowired
-    public ReplaceMelody(@Value("${probabilityReplaceMelody}") double probabilityReplaceMelody) {
-        this.probabilityReplaceMelody = probabilityReplaceMelody;
+    @Autowired
+    public NoteSizeMutation(@Value("${probabilityNoteSize}") double probabilityNoteSize) {
+        this.probabilityNoteSize = probabilityNoteSize;
     }
 
     //all rhythm combinations and pitches
     public void doMutation(CpMelody melody) {
-		if (PseudoRandom.randDouble() < probabilityReplaceMelody) {
+		if (PseudoRandom.randDouble() < probabilityNoteSize) {
 			Voice voice = voiceConfig.getVoiceConfiguration(melody.getVoice());
 			Timbre timbreConfigForVoice = timbreConfig.getTimbreConfigForVoice(melody.getVoice());
 
-			BeatGroup beatGroup = voice.getTimeConfig().getRandomBeatgroup();
-			if(melody.getBeatGroup().getBeatLength() == beatGroup.getBeatLength()){
-				List<Note> melodyNotes = new ArrayList<>();
-				if (voice.isMelodiesProvided()) {
-					MelodyProvider melodyProviderForVoice = melodyProviderConfig.getMelodyProviderForVoice(melody.getVoice());
-					List<CpMelody> provideMelodies = melodyProviderForVoice.getMelodies(melody.getVoice()).stream()
-							.filter(m -> m.getBeatGroupLength() == melody.getBeatGroupLength() && m.getMutationType() == melody.getMutationType())
-							.collect(toList());
-					if (!provideMelodies.isEmpty()) {
-						CpMelody providedMelody = RandomUtil.getRandomFromList(provideMelodies).clone(melody.getVoice());
-						melodyNotes = providedMelody.getNotes();
-					}
-				} else {
-					melodyNotes = voice.getRhythmNotesForBeatgroupType(beatGroup, melody.getNotesSize());
-				}
-//                    LOGGER.info("Melody replaced: " + melody.getVoice() + ", " + beatGroup.getBeatLength());
-
-				if (!melodyNotes.isEmpty()) {
-					melodyNotes.forEach(n -> {
+			BeatGroup beatGroup = melody.getBeatGroup();
+			List<Note> melodyNotes = new ArrayList<>();
+            int randomNoteSize = beatGroup.getRandomNoteSize();
+            if (randomNoteSize != melody.getNotesSize()) {
+//                LOGGER.info(randomNoteSize != melody.getNotesSize()?"change note size":"");
+                melodyNotes = melody.getBeatGroup().getRhythmNotesForBeatgroupType(randomNoteSize);
+                if (!melodyNotes.isEmpty()) {
+                    melodyNotes.forEach(n -> {
                         n.setVoice(melody.getVoice());
                         n.setDynamic(timbreConfigForVoice.getDynamic());
                         n.setDynamicLevel(timbreConfigForVoice.getDynamic().getLevel());
                         n.setTechnical(timbreConfigForVoice.getTechnical());
                         n.setPosition(n.getPosition() + melody.getStart());
                     });
-					if (textureConfig.hasTexture(melody.getVoice())) {
+                    if (textureConfig.hasTexture(melody.getVoice())) {
                         List<DependantHarmony> textureTypes = textureConfig.getTextureFor(melody.getVoice());
                         for (Note melodyNote : melodyNotes) {
                             if (!melodyNote.isRest()) {
@@ -88,12 +74,13 @@ public class ReplaceMelody implements MutationOperator<CpMelody> {
                             }
                         }
                     }
-					PitchClassGenerator pitchClassGenerator = voiceConfig.getRandomPitchClassGenerator(melody.getVoice());
-					melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes);
-					melody.updateNotes(melodyNotes);
-					melody.setBeatGroup(beatGroup);
-				}
-			}
+                    PitchClassGenerator pitchClassGenerator = voiceConfig.getRandomPitchClassGenerator(melody.getVoice());
+                    melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes, null);
+                    melody.updateNotes(melodyNotes);
+                    melody.setNotesSize(randomNoteSize);
+//                    LOGGER.info("Note size: " + melody.getNotesSize());
+                }
+            }
 		}
 	}
 

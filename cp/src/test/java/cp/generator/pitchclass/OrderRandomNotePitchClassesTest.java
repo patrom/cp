@@ -51,7 +51,7 @@ public class OrderRandomNotePitchClassesTest {
         notes.add(NoteBuilder.note().pc(0).build());
         notes.add(NoteBuilder.note().pc(0).build());
         notes.add(NoteBuilder.note().pc(0).build());
-        notes = orderRandomNotePitchClasses.updatePitchClasses(notes);
+        notes = orderRandomNotePitchClasses.updatePitchClasses(notes, null);
         LOGGER.info("Notes: " + notes);
         Assertions.assertThat(notes.get(0).getPitchClass()).isEqualTo(0);
         Assertions.assertThat(notes.get(1).getPitchClass()).isEqualTo(4);

@@ -26,7 +26,7 @@ public class OneNoteChromaticMutation implements MutationOperator<CpMelody> {
     }
 
     public void doMutation(double probability, CpMelody melody)  {
-        if (PseudoRandom.randDouble() < probability) {
+        if (PseudoRandom.randDouble() < probability && !melody.hasScale()) {
             melody.updateRandomNote(Scale.CHROMATIC_SCALE.pickRandomPitchClass());
 //          LOGGER.info("OneNoteChromaticMutation");
         }

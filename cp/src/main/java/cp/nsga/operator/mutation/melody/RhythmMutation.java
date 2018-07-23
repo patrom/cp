@@ -1,6 +1,5 @@
 package cp.nsga.operator.mutation.melody;
 
-import cp.composition.voice.Voice;
 import cp.config.TextureConfig;
 import cp.config.TimbreConfig;
 import cp.config.VoiceConfig;
@@ -44,10 +43,8 @@ public class RhythmMutation implements MutationOperator<CpMelody> {
     public void doMutation(double probability, CpMelody melody)  {
         if (PseudoRandom.randDouble() < probability) {
             int v = melody.getVoice();
-            Voice voice = voiceConfig.getVoiceConfiguration(v);
             Timbre timbreConfigForVoice = timbreConfig.getTimbreConfigForVoice(v);
-
-            List<Note> rhythmNotes = voice.getRhythmNotesForBeatgroupType(melody.getBeatGroup(), melody.getNotesSize());
+            List<Note> rhythmNotes = melody.getBeatGroup().getRhythmNotesForBeatgroupType(melody.getNotesSize());
             if (!rhythmNotes.isEmpty()) {
                 rhythmNotes.forEach(n -> {
                     n.setVoice(melody.getVoice());

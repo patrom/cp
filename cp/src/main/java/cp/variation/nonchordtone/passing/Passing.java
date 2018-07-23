@@ -7,7 +7,7 @@ public abstract class Passing extends Variation {
 	
 	public Passing() {
 		scales.add(Scale.OCTATCONIC_HALF);
-//		scales.add(new Scale(Scale.LYDIAN_SCALE));
+//		timeLineKeys.add(new Scale(Scale.LYDIAN_SCALE));
 	}
 	
 }

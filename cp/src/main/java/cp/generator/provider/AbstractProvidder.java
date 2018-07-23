@@ -1,8 +1,6 @@
 package cp.generator.provider;
 
 import cp.composition.beat.BeatGroup;
-import cp.composition.beat.BeatGroupThree;
-import cp.composition.beat.BeatGroupTwo;
 import cp.model.TimeLineKey;
 import cp.model.melody.CpMelody;
 import cp.model.melody.Tonality;
@@ -37,7 +35,7 @@ public abstract class AbstractProvidder {
         notes.add(note().pos(DurationConstants.QUARTER * 2).pc(5).len(DurationConstants.QUARTER).build());
         notes.add(note().pos(DurationConstants.QUARTER * 3).pc(4).len(DurationConstants.QUARTER * 3).build());
         CpMelody melody = new CpMelody(notes, voice0, 0, DurationConstants.HALF);
-        melody.setBeatGroup(new BeatGroupThree(DurationConstants.QUARTER * 2));
+//        melody.setBeatGroup(new BeatGroupThree(DurationConstants.QUARTER * 2));
         melody.setNotesSize(4);
         melody.setTonality(Tonality.ATONAL);
         melody.setMutationType(MutationType.ALL);
@@ -49,7 +47,7 @@ public abstract class AbstractProvidder {
         notes.add(note().pos(DurationConstants.QUARTER * 2 + DurationConstants.EIGHT).pc(5).len(DurationConstants.EIGHT).build());
         notes.add(note().pos(DurationConstants.QUARTER * 3).pc(4).len(DurationConstants.QUARTER * 3).build());
         melody = new CpMelody(notes, voice0, 0, DurationConstants.QUARTER * 6);
-        melody.setBeatGroup(new BeatGroupThree(DurationConstants.QUARTER * 2));
+//        melody.setBeatGroup(new BeatGroupThree(DurationConstants.QUARTER * 2));
         melody.setNotesSize(4);
         melody.setTonality(Tonality.ATONAL);
         melody.setMutationType(MutationType.ALL);
@@ -72,7 +70,7 @@ public abstract class AbstractProvidder {
         notes.add(note().pos(DurationConstants.QUARTER * 2).pc(3).len(DurationConstants.QUARTER).build());
         notes.add(note().pos(DurationConstants.QUARTER * 3).pc(2).len(DurationConstants.QUARTER * 3).build());
         melody = new CpMelody(notes, voice0, 0, DurationConstants.QUARTER * 6);
-        melody.setBeatGroup(new BeatGroupThree(DurationConstants.QUARTER * 2));
+//        melody.setBeatGroup(new BeatGroupThree(DurationConstants.QUARTER * 2));
         melody.setNotesSize(4);
         melody.setTonality(Tonality.ATONAL);
         melody.setMutationType(MutationType.ALL);
@@ -93,7 +91,7 @@ public abstract class AbstractProvidder {
         List<Note> notes = new ArrayList<>();
         notes.add(note().pos(0).rest().len(duration).build());
         CpMelody melody = new CpMelody(notes, voice, 0, duration);
-        melody.setBeatGroup(new BeatGroupTwo(duration/2));
+//        melody.setBeatGroup(new BeatGroupTwo(duration/2));
         melody.setNotesSize(0);
         melody.setMutationType(MutationType.ALL);
         return melody;
@@ -103,7 +101,7 @@ public abstract class AbstractProvidder {
         List<Note> notes = new ArrayList<>();
         notes.add(note().pos(0).pc(0).len(duration).build());
         CpMelody melody = new CpMelody(notes, voice, 0, duration);
-        melody.setBeatGroup(new BeatGroupTwo(duration/2));
+//        melody.setBeatGroup(new BeatGroupTwo(duration/2));
         melody.setNotesSize(1);
         melody.setMutationType(MutationType.ALL);
         return melody;
@@ -117,8 +115,8 @@ public abstract class AbstractProvidder {
             n.setLength((int) (n.getLength() * times));}
         );
         clone.setEnd((int) (clone.getEnd() * times));
-        final BeatGroup beatGroupClone = melody.getBeatGroup().clone(times);
-        clone.setBeatGroup(beatGroupClone);
+        final BeatGroup beatGroup = melody.getBeatGroup();
+        clone.setBeatGroup(beatGroup);
         clone.setMutationType(MutationType.ALL);
         return clone;
     }
@@ -132,7 +130,7 @@ public abstract class AbstractProvidder {
         notes.add(note().pos(DurationConstants.QUARTER).pc(7).len(DurationConstants.EIGHT).build());
         notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(9).len(DurationConstants.THREE_EIGHTS).build());
         CpMelody melody = new CpMelody(notes, voice0, 0, DurationConstants.SIX_EIGHTS);
-        melody.setBeatGroup(new BeatGroupThree(DurationConstants.QUARTER));//check length is same as melody length!!
+//        melody.setBeatGroup(new BeatGroupThree(DurationConstants.QUARTER));//check length is same as melody length!!
         melody.setTimeLineKey(new TimeLineKey(keys.C, Scale.MAJOR_SCALE));//TODO same scale as timeline composition!!!
         melody.setNotesSize(4);
         melody.setMutationType(MutationType.SYMMETRY);
@@ -146,7 +144,7 @@ public abstract class AbstractProvidder {
         notes.add(note().pos(DurationConstants.QUARTER).pc(4).len(DurationConstants.EIGHT).build());
         notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(0).len(DurationConstants.THREE_EIGHTS).build());
         melody = new CpMelody(notes, voice0, 0, DurationConstants.SIX_EIGHTS);
-        melody.setBeatGroup(new BeatGroupThree(DurationConstants.QUARTER));//check length is same as melody length!!
+//        melody.setBeatGroup(new BeatGroupThree(DurationConstants.QUARTER));//check length is same as melody length!!
         melody.setTimeLineKey(new TimeLineKey(keys.C, Scale.MAJOR_SCALE));//TODO same scale as timeline composition!!!
         melody.setNotesSize(4);
         melody.setMutationType(MutationType.SYMMETRY);

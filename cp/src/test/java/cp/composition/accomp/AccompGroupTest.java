@@ -3,10 +3,7 @@ package cp.composition.accomp;
 import cp.AbstractTest;
 import cp.DefaultConfig;
 import cp.combination.even.FourNoteEven;
-import cp.composition.beat.BeatGroup;
-import cp.composition.beat.BeatGroupTwo;
 import cp.composition.voice.MelodyVoice;
-import cp.model.rhythm.DurationConstants;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +32,9 @@ public class AccompGroupTest extends AbstractTest{
         contour.add(1);
         contour.add(1);
         contour.add(-1);
-        BeatGroup beatGroup = new BeatGroupTwo(DurationConstants.QUARTER);
+//        BeatGroup beatGroup = new BeatGroupTwo(DurationConstants.QUARTER);
         accompGroup = new AccompGroup(melodyVoice, contour);
-        accompGroup.getNotes(beatGroup).forEach(n -> System.out.println(n));
+//        accompGroup.getNotes(beatGroup).forEach(n -> System.out.println(n));
 
 //        playOnKontakt(notes, new InstrumentMapping(new ViolinSolo(),4,0), 90, 50000);
     }

@@ -8,7 +8,6 @@ import cp.composition.Composition;
 import cp.composition.accomp.AccompGroup;
 import cp.composition.beat.BeatGroup;
 import cp.composition.beat.BeatGroupStrategy;
-import cp.composition.beat.BeatGroupTwo;
 import cp.composition.timesignature.TimeConfig;
 import cp.composition.voice.FixedVoice;
 import cp.composition.voice.MelodyVoice;
@@ -112,11 +111,11 @@ public class MelodyGeneratorTest extends JFrame{
 		when(composition.getEnd()).thenReturn(DurationConstants.WHOLE);
 		when(composition.getTimeConfig()).thenReturn(time44);
 		List<BeatGroup> beatGroups = new ArrayList<>();
-		beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER));
+//		beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER));
 		when(beatGroupStrategy.getBeatGroups()).thenReturn(beatGroups);
-		when(pitchClassGenerator.updatePitchClasses(notes)).thenReturn(notes);
+		when(pitchClassGenerator.updatePitchClasses(notes, null)).thenReturn(notes);
 		when(voiceConfig.getVoiceConfiguration(anyInt())).thenReturn(melodyVoice);
-		when(voiceConfig.getRandomPitchClassGenerator(anyInt())).thenReturn(pg -> new ArrayList<>());
+		when(voiceConfig.getRandomPitchClassGenerator(anyInt())).thenReturn(pitchClassGenerator);
 		MelodyBlock melody = melodyGenerator.generateMelodyBlockConfig(1, 5);
 		assertEquals(1, melody.getVoice());
 		assertTrue(melody.getMelodyBlocks().size() > 1);
@@ -151,9 +150,9 @@ public class MelodyGeneratorTest extends JFrame{
 		when(composition.getEnd()).thenReturn(2 * DurationConstants.WHOLE);
 		when(composition.getTimeConfig()).thenReturn(time44);
 		List<BeatGroup> beatGroups = new ArrayList<>();
-		beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER));
+//		beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER));
 		when(beatGroupStrategy.getBeatGroups()).thenReturn(beatGroups);
-		when(pitchClassGenerator.updatePitchClasses(notes)).thenReturn(notes);
+		when(pitchClassGenerator.updatePitchClasses(notes, null)).thenReturn(notes);
 		when(voiceConfig.getVoiceConfiguration(anyInt())).thenReturn(melodyVoice);
 		when(voiceConfig.getRandomPitchClassGenerator(anyInt())).thenReturn(pitchClassGenerator);
 

@@ -12,15 +12,15 @@ import java.util.Random;
 import static java.util.Collections.emptyList;
 
 @Component
-public class BeatGroupThree extends BeatGroup {
+public class HomophonicBeatGroup3 extends BeatGroup {
 
-	@Override
-	public int getType() {
-		return 3;
-	}
+    @Override
+    public int getType() {
+        return 3;
+    }
 
     public List<Note> getRhythmNotesForBeatgroupType(int size){
-        List<RhythmCombination> rhythmCombinations = this.defaultUnEvenCombinations.get(size);
+        List<RhythmCombination> rhythmCombinations = this.homophonicUneven.get(size);
         if(rhythmCombinations == null){
             LOGGER.info("No (provided) combination found for size: " + size);
             return emptyList();
@@ -29,16 +29,15 @@ public class BeatGroupThree extends BeatGroup {
     }
 
     public NoteSizeValueObject getRandomRhythmNotesForBeatgroupType(){
-        Object[] keys = defaultUnEvenCombinations.keySet().toArray();
+        Object[] keys = homophonicUneven.keySet().toArray();
         Integer key = (Integer) keys[new Random().nextInt(keys.length)];
-        List<RhythmCombination> rhythmCombinations = defaultUnEvenCombinations.get(key);
+        List<RhythmCombination> rhythmCombinations = homophonicUneven.get(key);
         RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
         return new NoteSizeValueObject(key, rhythmCombination);
     }
 
     @Override
     public int getRandomNoteSize() {
-        return RandomUtil.getRandomFromSet(defaultUnEvenCombinations.keySet());
+        return RandomUtil.getRandomFromSet(homophonicUneven.keySet());
     }
-
 }

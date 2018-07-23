@@ -64,7 +64,7 @@ public class CombinationConfig {
 		List<RhythmCombination> zeroCombinations = new ArrayList<>();
 		zeroCombinations.add(oneNoteEven::rest);
 //		zeroCombinations.add(oneNoteEven::rest);
-		map.put(0, zeroCombinations);
+//		map.put(0, zeroCombinations);//TODO not possible with mutation (articulation, dynamic,...)
 
 		List<RhythmCombination> oneCombinations = new ArrayList<>();
 		oneCombinations.add(oneNoteEven::pos1);
@@ -126,7 +126,7 @@ public class CombinationConfig {
 		Map<Integer, List<RhythmCombination>> map = new HashMap<>();
 		List<RhythmCombination> zeroCombinations = new ArrayList<>();
 //		zeroCombinations.add(oneNoteEven::rest);
-//		map.put(0, zeroCombinations);
+//		map.put(0, zeroCombinations);//TODO not possible with mutation (articulation, dynamic,...)
 
 //        List<RhythmCombination> oneCombinations = new ArrayList<>();
 //        oneCombinations.add(oneNoteEven::pos1);
@@ -211,10 +211,10 @@ public class CombinationConfig {
         //rest
         List<RhythmCombination> zeroCombinations = new ArrayList<>();
 		zeroCombinations.add(oneNoteEven::rest);
-//		map.put(0, zeroCombinations);
+//		map.put(0, zeroCombinations);//TODO not possible with mutation (articulation, dynamic,...)
 
         List<RhythmCombination> oneCombinations = new ArrayList<>();
-        oneCombinations.add(oneNoteEven::pos1);
+//        oneCombinations.add(oneNoteEven::pos1);
 //		oneCombinations.add(oneNoteEven::pos2);
 		oneCombinations.add(oneNoteEven::pos3);
 //		oneCombinations.add(oneNoteEven::pos4);
@@ -258,7 +258,7 @@ public class CombinationConfig {
         Map<Integer, List<RhythmCombination>> map = new HashMap<>();
 //		List<RhythmCombination> zeroCombinations = new ArrayList<>();
 //		zeroCombinations.add(oneNoteEven::rest);
-//		map.put(0, zeroCombinations);
+//		map.put(0, zeroCombinations);//TODO not possible with mutation (articulation, dynamic,...)
 
         List<RhythmCombination> oneCombinations = new ArrayList<>();
 //        oneCombinations.add(oneNoteEven::pos1);
@@ -302,15 +302,15 @@ public class CombinationConfig {
         List<RhythmCombination> twoUnevenombinations = new ArrayList<>();
 //		twoUnevenombinations.add(twoNoteUneven::pos13);
 //        twoUnevenombinations.add(twoNoteUneven::pos12);
-//		twoUnevenombinations.add(twoNoteUneven::pos23);
-//        map.put(2, twoUnevenombinations);
+		twoUnevenombinations.add(twoNoteUneven::pos23);
+        map.put(2, twoUnevenombinations);
 
         List<RhythmCombination> threeUnevenCombinations = new ArrayList<>();
 		threeUnevenCombinations.add(threeNoteUneven::pos123);
 
 		threeUnevenCombinations.add(threeNoteSexTuplet::pos145);
-		threeUnevenCombinations.add(threeNoteSexTuplet::pos136);
-		threeUnevenCombinations.add(threeNoteSexTuplet::pos156);
+//		threeUnevenCombinations.add(threeNoteSexTuplet::pos136);
+//		threeUnevenCombinations.add(threeNoteSexTuplet::pos156);
         map.put(3, threeUnevenCombinations);
 ////
 //        List<RhythmCombination> fourUnevenCombinations = new ArrayList<>();
@@ -344,8 +344,8 @@ public class CombinationConfig {
 	private Map<Integer, List<RhythmCombination>> getEvenBeatGroups(){
 		Map<Integer, List<RhythmCombination>> map = new HashMap<>();
 		List<RhythmCombination> beatGroups = new ArrayList<>();
-		beatGroups.add(twoNoteEven::pos13);
-		beatGroups.add(twoNoteEven::pos14);
+		beatGroups.add(fourNoteEven::pos1234);
+		beatGroups.add(combiNoteEven::pos23pos12);
 		map.put(2, beatGroups);
 		return map;
 	}

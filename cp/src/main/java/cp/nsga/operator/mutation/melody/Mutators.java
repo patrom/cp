@@ -23,7 +23,7 @@ public class Mutators {
     @Autowired
     public AllNoteMutation allNoteMutation;
     @Autowired
-    public ReplaceMelody replaceMelody;
+    public NoteSizeMutation noteSizeMutation;
     @Autowired
     public TextureMutation textureMutation;
 
@@ -79,7 +79,7 @@ public class Mutators {
         List<MutationOperator> mutationOperators = new ArrayList<>();
         mutationOperators.add(rhythmMutation);
 //        mutationOperators.add(operatorMutation);
-        mutationOperators.add(replaceMelody);
+        mutationOperators.add(noteSizeMutation);
         mutationOperators.add(oneNoteMutation);
 //        mutationOperators.add(oneNoteChromaticMutation);//no timeline
         mutationOperators.add(allNoteMutation);
@@ -87,6 +87,7 @@ public class Mutators {
         mutationOperators.add(dynamicMutation);
         mutationOperators.add(technicalMutation);
         mutationOperators.add(textureMutation);
+        mutationOperators.add(operatorMutation);
 //        mutationOperators.add(providedMutation); //-> check if provided melody sizes are part of combinations!!
         return mutationOperators;
     }
@@ -96,7 +97,8 @@ public class Mutators {
         mutationOperators.add(oneNoteMutation);
 //        mutationOperators.add(oneNoteChromaticMutation);
         mutationOperators.add(allNoteMutation);
-        mutationOperators.add(replaceMelody);
+        mutationOperators.add(noteSizeMutation);
+        mutationOperators.add(operatorMutation);
         return mutationOperators;
     }
 
@@ -153,7 +155,7 @@ public class Mutators {
         mutationOperators.add(oneNoteMutation);
 //        mutationOperators.add(oneNoteChromaticMutation);//no timeline
         mutationOperators.add(allNoteMutation);
-//        mutationOperators.add(replaceMelody);
+//        mutationOperators.add(noteSizeMutation);
         return mutationOperators;
     }
 }
