@@ -129,8 +129,8 @@ public abstract class Voice {
     protected void setTimeconfig(){
         if (numerator == 4 && denominator == 4) {
             timeConfig = time44;
-            allBeatgroups = allBeatgroups.stream().filter(beatGroup -> beatGroup.getType() == 2
-                || beatGroup.getType() == 4).collect(toList());
+//            allBeatgroups = allBeatgroups.stream().filter(beatGroup -> beatGroup.getType() == 1
+//                    || beatGroup.getType() == 2 || beatGroup.getType() == 4).collect(toList());
         } else if (numerator == 3 && denominator == 4) {
             timeConfig = time34;
             allBeatgroups = allBeatgroups.stream().filter(beatGroup -> beatGroup.getType() == 3).collect(toList());

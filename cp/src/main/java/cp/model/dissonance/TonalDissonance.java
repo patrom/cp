@@ -107,17 +107,17 @@ public class TonalDissonance implements Dissonance {
 	private double dyadic(Chord chord) {
 		switch (chord.getChordType()) {
 			case CH2_KLEINE_TERTS:
-				return 0.9;
+				return 0.7;
 			case CH2_GROTE_TERTS:
-				return 0.9;
+				return 0.7;
 			case CH2_GROTE_SIXT:
-				return 0.9;
+				return 0.7;
 			case CH2_KLEINE_SIXT:
-				return 0.9;
+				return 0.7;
 			case CH2_KWART:
-				return 0.9;
+				return 0.7;
 			case CH2_KWINT:
-				return 0.9;
+				return 0.7;
 		}
 		return 0;
 	}

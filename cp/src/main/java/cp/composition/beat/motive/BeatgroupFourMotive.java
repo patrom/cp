@@ -1,8 +1,8 @@
-package cp.composition.beat;
+package cp.composition.beat.motive;
 
 import cp.combination.RhythmCombination;
+import cp.composition.beat.BeatGroup;
 import cp.composition.voice.NoteSizeValueObject;
-import cp.model.TimeLineKey;
 import cp.model.melody.Tonality;
 import cp.model.note.Note;
 import cp.model.note.Scale;
@@ -11,8 +11,7 @@ import cp.util.RandomUtil;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static java.util.Collections.emptyList;
 
@@ -25,7 +24,7 @@ public class BeatgroupFourMotive extends BeatGroup {
     }
 
     public List<Note> getRhythmNotesForBeatgroupType(int size){
-        List<RhythmCombination> rhythmCombinations = this.fixedEven.get(size);
+        List<RhythmCombination> rhythmCombinations = this.rhythmCombinationsMotiveMap.get(size);
         if(rhythmCombinations == null){
             LOGGER.info("No (provided) combination found for size: " + size);
             return emptyList();
@@ -34,16 +33,16 @@ public class BeatgroupFourMotive extends BeatGroup {
     }
 
     public NoteSizeValueObject getRandomRhythmNotesForBeatgroupType(){
-        Object[] keys = fixedEven.keySet().toArray();
+        Object[] keys = rhythmCombinationsMotiveMap.keySet().toArray();
         Integer key = (Integer) keys[new Random().nextInt(keys.length)];
-        List<RhythmCombination> rhythmCombinations = fixedEven.get(key);
+        List<RhythmCombination> rhythmCombinations = rhythmCombinationsMotiveMap.get(key);
         RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
         return new NoteSizeValueObject(key, rhythmCombination);
     }
 
     @Override
     public int getRandomNoteSize() {
-        return RandomUtil.getRandomFromSet(fixedEven.keySet());
+        return RandomUtil.getRandomFromSet(rhythmCombinationsMotiveMap.keySet());
     }
 
     @Override
@@ -53,25 +52,30 @@ public class BeatgroupFourMotive extends BeatGroup {
 
     @PostConstruct
     public void init() {
-        motiveScale = Scale.MAJOR_SCALE;
-        tonalities.add(Tonality.TONAL);
-        timeLineKeys.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE));
-        timeLineKeys.add(new TimeLineKey(keys.F, Scale.MAJOR_SCALE));
-        timeLineKeys.add(new TimeLineKey(keys.A, Scale.HARMONIC_MINOR_SCALE));
-        timeLineKeys.add(new TimeLineKey(keys.D, Scale.HARMONIC_MINOR_SCALE));
-        pitchClassGenerators.add(orderPitchClasses::updatePitchClasses);
-        motivePitchClasses.add(new int[]{0,2,5,4});
+        super.init();
+        Map<Integer, List<RhythmCombination>> map = new HashMap<>();
+        List<RhythmCombination> beatGroups = new ArrayList<>();
+        beatGroups.add(rhythmCombinations.threeNoteEven::pos123);
 
-        for (int[] motivePitchClass : motivePitchClasses) {
-            int[] indexes = getMotiveScale().getIndexes(motivePitchClass);
-            indexesMotivePitchClasses.add(indexes);
-            int[] inversedIndexes = new int[indexes.length];
-            for (int i = 0; i < indexes.length; i++) {
-                int index = indexes[i];
-                int inversedIndex = Scale.MAJOR_SCALE.getInversedIndex(1, index);
-                inversedIndexes[i] = inversedIndex;
-            }
-            inverseIndexesMotivePitchClasses.add(inversedIndexes);
-        }
+        map.put(3, beatGroups);
+
+        map.put(2, Collections.singletonList(rhythmCombinations.twoNoteEven::pos12));
+        rhythmCombinationsMotiveMap = map;
+        motiveScale = Scale.MAJOR_SCALE;
+
+        tonality = Tonality.ATONAL;
+//        timeLineKeys.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE));
+//        timeLineKeys.add(new TimeLineKey(keys.F, Scale.MAJOR_SCALE));
+//        timeLineKeys.add(new TimeLineKey(keys.A, Scale.HARMONIC_MINOR_SCALE));
+//        timeLineKeys.add(new TimeLineKey(keys.D, Scale.HARMONIC_MINOR_SCALE));
+        pitchClassGenerators.add(orderPitchClasses::updatePitchClasses);
+//        pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
+        Scale scale = new Scale(new int[]{0, 4, 3});
+//        Scale scale = new Scale(new int[]{0, 2, 3, 4});
+        motivePitchClasses.add(scale);
+
+        extractIndexes();
+
     }
+
 }

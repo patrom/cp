@@ -55,7 +55,7 @@ public class InstrumentConfig {
 //        instruments = getBrassTrio();
 //        instruments = getBrassQuartet();
 //        instruments = getStrinqQuartet();
-//        instruments = getStrinqQuartetOrchestral();
+        instruments = getStrinqQuartetOrchestral();
 //        instruments = getTesttOrchestral();
 //        instruments = getStrinqQuintetOrchestral();
 //        instruments = getBrassQuintet();
@@ -63,7 +63,7 @@ public class InstrumentConfig {
 //        orchestra = getOrchestra();
 //        instruments = getWoodWindsDuo();
 //        instruments = getStringTrio();
-        instruments = getStringDuo();
+//        instruments = getStringDuo();
 //        instruments = getGuitarDuo();
 //        instruments = getInstrument(5, new Clarinet());
 //        instruments.put(0,new InstrumentMapping(new ViolinSolo() , 3, 0));
@@ -81,7 +81,7 @@ public class InstrumentConfig {
     }
 
     private Map<Integer, InstrumentMapping> getStringTrio(){
-        instruments.put(2,new InstrumentMapping(new ViolinsII(), 5, 0));
+        instruments.put(2,new InstrumentMapping(new ViolinsI(), 5, 0));
         instruments.put(1,new InstrumentMapping(new Viola(), 4, 1));
         instruments.put(0,new InstrumentMapping(new Cello(), 3, 2));
         return instruments;
@@ -132,10 +132,10 @@ public class InstrumentConfig {
     }
 
     public Map<Integer, InstrumentMapping> getStrinqQuartetOrchestral() {
-        instruments.put(3, new InstrumentMapping(new ViolinsI(), 5, 0));
-        instruments.put(2, new InstrumentMapping(new ViolinsII(), 4, 1));
+        instruments.put(3, new InstrumentMapping(new ViolinsI(), 1, 0));
+        instruments.put(2, new InstrumentMapping(new ViolinsII(), 2, 1));
         instruments.put(1, new InstrumentMapping(new Viola(), 3, 2));
-        instruments.put(0, new InstrumentMapping(new Cello(), 2, 3));
+        instruments.put(0, new InstrumentMapping(new Cello(), 5, 3));
         return instruments;
     }
 

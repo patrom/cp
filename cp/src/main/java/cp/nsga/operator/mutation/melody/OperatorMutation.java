@@ -7,6 +7,7 @@ import cp.model.TimeLineKey;
 import cp.model.melody.CpMelody;
 import cp.model.melody.Tonality;
 import cp.model.note.Note;
+import cp.model.note.Scale;
 import cp.nsga.operator.mutation.MutationOperator;
 import cp.util.RandomUtil;
 import jmetal.util.PseudoRandom;
@@ -41,36 +42,34 @@ public class OperatorMutation implements MutationOperator<CpMelody> {
     public void doMutation(CpMelody melody) {
         if (PseudoRandom.randDouble() < probabilityOperatorMutation) {
             if (melody.hasScale()) {
-                if (melody.getTonality() == Tonality.TONAL) {
+                BeatGroup beatGroup = melody.getBeatGroup();
+                if (beatGroup.getTonality() == Tonality.TONAL) {
                     int random = RandomUtil.getRandomNumberInRange(0, 1);
-                    int steps = RandomUtil.getRandomNumberInRange(0, 7);
+//                    int steps = RandomUtil.getRandomNumberInRange(0, 7);
+                    int steps = RandomUtil.getRandomFromIntArray(Scale.MAJOR_SCALE.getPitchClasses());
+                    List<Integer> pitchClasses = null;
+
+                    TimeLineKey timeLineKey = RandomUtil.getRandomFromList(beatGroup.getTimeLineKeys());
                     switch (random) {
                         case 0:
-                            BeatGroup beatGroup = melody.getBeatGroup();
                             int[] indexesMotivePitchClasses = RandomUtil.getRandomFromList(beatGroup.getIndexesMotivePitchClasses());
-                            TimeLineKey timeLineKey = RandomUtil.getRandomFromList(beatGroup.getTimeLineKeys());
-
-                            List<Integer> pitchClasses = timeLineKey.getScale().getPitchClasses(indexesMotivePitchClasses, steps, timeLineKey.getKey());
-
-                            int i = 0;
-                            for (Note note : melody.getNotesNoRest()) {
-                                note.setPitchClass(pitchClasses.get(i));
-                                i++;
-                            }
-                            LOGGER.info("transpose tonal");
+                            pitchClasses = timeLineKey.getScale().getPitchClasses(indexesMotivePitchClasses, steps, timeLineKey.getKey());
+//                            LOGGER.info("transpose tonal");
                             break;
                         case 1:
-                            beatGroup = melody.getBeatGroup();
                             indexesMotivePitchClasses = RandomUtil.getRandomFromList(beatGroup.getInverseIndexesMotivePitchClasses());
-                            timeLineKey = RandomUtil.getRandomFromList(beatGroup.getTimeLineKeys());
-
                             pitchClasses = timeLineKey.getScale().getPitchClasses(indexesMotivePitchClasses, steps, timeLineKey.getKey());
-                            i = 0;
-                            for (Note note : melody.getNotesNoRest()) {
-                                note.setPitchClass(pitchClasses.get(i));
-                                i++;
-                            }
-                            LOGGER.info("inverse tonal");
+//                            LOGGER.info("inverse tonal");
+                            break;
+                        case 2:
+                            indexesMotivePitchClasses = RandomUtil.getRandomFromList(beatGroup.getReversedIndexesMotivePitchClasses());
+                            pitchClasses = timeLineKey.getScale().getPitchClasses(indexesMotivePitchClasses, steps, timeLineKey.getKey());
+                            LOGGER.info("retrograde tonal");
+                            break;
+                        case 3:
+                            indexesMotivePitchClasses = RandomUtil.getRandomFromList(beatGroup.getReverseInverseIndexesMotivePitchClasses());
+                            pitchClasses = timeLineKey.getScale().getPitchClasses(indexesMotivePitchClasses, steps, timeLineKey.getKey());
+                            LOGGER.info("retrograde inverse tonal");
                             break;
                         //                    case 5:
     //                        steps = RandomUtil.getRandomNumberInRange(0, 7);
@@ -91,17 +90,24 @@ public class OperatorMutation implements MutationOperator<CpMelody> {
                         default:
                             break;
                     }
-                } else if (melody.getTonality() == Tonality.ATONAL) {
+                    int i = 0;
+                    for (Note note : melody.getNotesNoRest()) {
+                        note.setPitchClass(pitchClasses.get(i));
+                        i++;
+                    }
+                } else if (beatGroup.getTonality() == Tonality.ATONAL) {
                     int random = RandomUtil.getRandomNumberInRange(0, 1);
-                    int steps = RandomUtil.getRandomNumberInRange(0, 11);
+                    int[] pitchClasses = Scale.MAJOR_SCALE.getPitchClasses();
+//                    int steps = RandomUtil.getRandomNumberInRange(0, 11);
+                    int steps = RandomUtil.getRandomFromIntArray(pitchClasses);
                     switch (random) {
                         case 0:
                             melody.T(steps);
-                            LOGGER.info("T:" + steps);
+//                            LOGGER.info("T:" + steps);
                             break;
                         case 1:
                             melody.I().T(steps);
-                            LOGGER.info("IT:" + steps);
+//                            LOGGER.info("IT:" + steps);
                             break;
     //                        case 2:
     //                            melody.R().T(steps);

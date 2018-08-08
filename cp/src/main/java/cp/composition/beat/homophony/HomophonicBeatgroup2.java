@@ -1,26 +1,29 @@
-package cp.composition.beat;
+package cp.composition.beat.homophony;
 
 import cp.combination.RhythmCombination;
+import cp.composition.beat.BeatGroup;
 import cp.composition.voice.NoteSizeValueObject;
 import cp.model.note.Note;
 import cp.util.RandomUtil;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import static java.util.Collections.emptyList;
 
 @Component
-public class BeatGroupThree extends BeatGroup {
+public class HomophonicBeatgroup2 extends BeatGroup {
 
-	@Override
-	public int getType() {
-		return 3;
-	}
+    @Override
+    public int getType() {
+        return 2;
+    }
 
     public List<Note> getRhythmNotesForBeatgroupType(int size){
-        List<RhythmCombination> rhythmCombinations = this.defaultUnEvenCombinations.get(size);
+        List<RhythmCombination> rhythmCombinations = new ArrayList<>();
+        rhythmCombinations = this.homophonicEven.get(size);
         if(rhythmCombinations == null){
             LOGGER.info("No (provided) combination found for size: " + size);
             return emptyList();
@@ -29,16 +32,16 @@ public class BeatGroupThree extends BeatGroup {
     }
 
     public NoteSizeValueObject getRandomRhythmNotesForBeatgroupType(){
-        Object[] keys = defaultUnEvenCombinations.keySet().toArray();
+        Object[] keys = homophonicEven.keySet().toArray();
         Integer key = (Integer) keys[new Random().nextInt(keys.length)];
-        List<RhythmCombination> rhythmCombinations = defaultUnEvenCombinations.get(key);
+        List<RhythmCombination> rhythmCombinations = homophonicEven.get(key);
         RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
         return new NoteSizeValueObject(key, rhythmCombination);
     }
 
     @Override
     public int getRandomNoteSize() {
-        return RandomUtil.getRandomFromSet(defaultUnEvenCombinations.keySet());
+        return RandomUtil.getRandomFromSet(homophonicEven.keySet());
     }
 
 }

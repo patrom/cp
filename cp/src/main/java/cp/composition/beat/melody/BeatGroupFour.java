@@ -1,12 +1,14 @@
-package cp.composition.beat;
+package cp.composition.beat.melody;
 
 import cp.combination.RhythmCombination;
+import cp.composition.beat.BeatGroup;
 import cp.composition.voice.NoteSizeValueObject;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 import cp.util.RandomUtil;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Random;
 
@@ -21,7 +23,7 @@ public class BeatGroupFour extends BeatGroup {
     }
 
     public List<Note> getRhythmNotesForBeatgroupType(int size){
-        List<RhythmCombination> rhythmCombinations = this.defaultEvenCombinations.get(size);
+        List<RhythmCombination> rhythmCombinations = this.rhythmCombinationMap.get(size);
         if(rhythmCombinations == null){
             LOGGER.info("No (provided) combination found for size: " + size);
             return emptyList();
@@ -30,20 +32,26 @@ public class BeatGroupFour extends BeatGroup {
     }
 
     public NoteSizeValueObject getRandomRhythmNotesForBeatgroupType(){
-        Object[] keys = defaultEvenCombinations.keySet().toArray();
+        Object[] keys = rhythmCombinationMap.keySet().toArray();
         Integer key = (Integer) keys[new Random().nextInt(keys.length)];
-        List<RhythmCombination> rhythmCombinations = defaultEvenCombinations.get(key);
+        List<RhythmCombination> rhythmCombinations = rhythmCombinationMap.get(key);
         RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
         return new NoteSizeValueObject(key, rhythmCombination);
     }
 
     @Override
     public int getRandomNoteSize() {
-        return RandomUtil.getRandomFromSet(defaultEvenCombinations.keySet());
+        return RandomUtil.getRandomFromSet(rhythmCombinationMap.keySet());
     }
 
     @Override
     public int getBeatLength() {
         return getType() * DurationConstants.QUARTER;
     }
+
+    @PostConstruct
+    public void init() {
+        rhythmCombinationMap = defaultEvenCombinations;
+    }
+
 }

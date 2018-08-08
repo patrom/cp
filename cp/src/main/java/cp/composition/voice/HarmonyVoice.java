@@ -3,6 +3,7 @@ package cp.composition.voice;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.Arrays;
 
 /**
  * Created by prombouts on 7/01/2017.
@@ -12,12 +13,11 @@ public class HarmonyVoice extends Voice {
 
     @PostConstruct
     public void init(){
+        allBeatgroups = Arrays.asList(beatgroups.beatgroupHarmonyOne, beatgroups.beatgroupHarmonyTwo);
         setTimeconfig();
-        pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
-        pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
-        pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
-
     }
 
-
 }
+
+
+

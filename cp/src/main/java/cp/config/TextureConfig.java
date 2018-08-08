@@ -77,7 +77,7 @@ public class TextureConfig {
         intervalOctavetypes.add(createDependantHarmony(ChordType.CH2_KWINT_OCTAVE));
         intervalOctavetypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
 
-//        textureTypes.put(2, intervaltypes);
+//        textureTypes.put(1, intervaltypes);
 //        textureTypes.put(2, chordTypes);
         chordTypes.addAll(intervaltypes);
 //        textureTypes.put(0, chordTypes);

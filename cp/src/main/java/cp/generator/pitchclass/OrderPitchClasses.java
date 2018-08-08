@@ -3,6 +3,7 @@ package cp.generator.pitchclass;
 import cp.composition.beat.BeatGroup;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
+import cp.model.melody.Tonality;
 import cp.model.note.Note;
 import cp.util.RandomUtil;
 import org.slf4j.Logger;
@@ -42,15 +43,25 @@ public class OrderPitchClasses {
     }
 
     private void setPitchClasses(List<Note> notes, BeatGroup beatGroup) {
-        int[] indexesMotivePitchClasses = RandomUtil.getRandomFromList(beatGroup.getIndexesMotivePitchClasses());
-        TimeLineKey timeLineKey = RandomUtil.getRandomFromList(beatGroup.getTimeLineKeys());
-        List<Integer> pitchClasses = timeLineKey.getScale().getPitchClasses(indexesMotivePitchClasses, 0, timeLineKey.getKey());
+        if (beatGroup.getTonality() == Tonality.TONAL) {
+            int[] indexesMotivePitchClasses = RandomUtil.getRandomFromList(beatGroup.getIndexesMotivePitchClasses());
+            TimeLineKey timeLineKey = RandomUtil.getRandomFromList(beatGroup.getTimeLineKeys());
+            List<Integer> pitchClasses = timeLineKey.getScale().getPitchClasses(indexesMotivePitchClasses, 0, timeLineKey.getKey());
 
-        int i = 0;
-        for (Note note : notes) {
-            note.setPitchClass(pitchClasses.get(i));
-            i = (i + 1) % pitchClasses.size();
+            int i = 0;
+            for (Note note : notes) {
+                note.setPitchClass(pitchClasses.get(i));
+                i = (i + 1) % pitchClasses.size();
+            }
+        } else {
+            int[] motivePitchClasses = RandomUtil.getRandomFromList(beatGroup.getMotivePitchClasses()).getPitchClasses();
+            int i = 0;
+            for (Note note : notes) {
+                note.setPitchClass(motivePitchClasses[i] % 12);
+                i = (i + 1) % motivePitchClasses.length;
+            }
         }
+
     }
 
 }

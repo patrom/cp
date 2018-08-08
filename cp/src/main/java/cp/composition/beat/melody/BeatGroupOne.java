@@ -1,6 +1,7 @@
-package cp.composition.beat;
+package cp.composition.beat.melody;
 
 import cp.combination.RhythmCombination;
+import cp.composition.beat.BeatGroup;
 import cp.composition.voice.NoteSizeValueObject;
 import cp.model.note.Note;
 import cp.util.RandomUtil;
@@ -23,7 +24,7 @@ public class BeatGroupOne extends BeatGroup {
 
     public List<Note> getRhythmNotesForBeatgroupType(int size){
         List<RhythmCombination> rhythmCombinations = new ArrayList<>();
-        rhythmCombinations = this.customCombi.get(size);
+        rhythmCombinations = this.rhythmCombinationMap.get(size);
         if(rhythmCombinations == null){
             LOGGER.info("No (provided) combination found for size: " + size);
             return emptyList();
@@ -32,21 +33,25 @@ public class BeatGroupOne extends BeatGroup {
     }
 
     public NoteSizeValueObject getRandomRhythmNotesForBeatgroupType(){
-        Object[] keys = customCombi.keySet().toArray();
+        Object[] keys = rhythmCombinationMap.keySet().toArray();
         Integer key = (Integer) keys[new Random().nextInt(keys.length)];
-        List<RhythmCombination> rhythmCombinations = customCombi.get(key);
+        List<RhythmCombination> rhythmCombinations = rhythmCombinationMap.get(key);
         RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
         return new NoteSizeValueObject(key, rhythmCombination);
     }
 
     @Override
     public int getRandomNoteSize() {
-        return RandomUtil.getRandomFromSet(customCombi.keySet());
+        return RandomUtil.getRandomFromSet(rhythmCombinationMap.keySet());
     }
 
     @PostConstruct
     public void init() {
-        customCombi = getEvenBeatGroups();
+//        Map<Integer, List<RhythmCombination>> map = new HashMap<>();
+//        List<RhythmCombination> beatGroups = new ArrayList<>();
+//        beatGroups.add(rhythmCombinations.oneNoteEven::pos1);
+//        map.put(1, beatGroups);
+        rhythmCombinationMap = defaultEvenCombinations;
 //        timeLineKeys.add(new TimeLineKey(keys.C, Scale.MELODY));
         pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
     }

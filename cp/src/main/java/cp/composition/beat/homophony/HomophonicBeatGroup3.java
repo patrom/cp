@@ -1,6 +1,7 @@
-package cp.composition.beat;
+package cp.composition.beat.homophony;
 
 import cp.combination.RhythmCombination;
+import cp.composition.beat.BeatGroup;
 import cp.composition.voice.NoteSizeValueObject;
 import cp.model.note.Note;
 import cp.util.RandomUtil;

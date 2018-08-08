@@ -203,7 +203,7 @@ public class CpMelody implements Comparable<CpMelody>{
 	
 	public void updateArticulation(Articulation articulation) {
 		List<Note> notesNoRest = getNotesNoRest();
-//		if (notesNoRest.size() > 1) {
+		if (notesNoRest.size() > 1) {
 			//		notes.forEach(note -> note.setArticulation(Note.DEFAULT_ARTICULATION));//reset?
 			Note note = RandomUtil.getRandomFromList(notesNoRest);
 			note.setArticulation(articulation);
@@ -215,15 +215,12 @@ public class CpMelody implements Comparable<CpMelody>{
 
 //			Note removeArticulation = RandomUtil.getRandomFromList(notesNoRest);
 //			removeArticulation.setArticulation(null);
-//		}
+		}
 	}
 
 	public void updateDynamic(Dynamic dynamic) {
 		List<Note> notesNoRest = getNotesNoRest();
-        if (notesNoRest.isEmpty()) {
-            System.out.println();
-        }
-//		if (notesNoRest.size() > 1) {
+		if (notesNoRest.size() > 1) {
             //		notes.forEach(note -> note.setArticulation(Note.DEFAULT_ARTICULATION));//reset?
 //			Note note = RandomUtil.getRandomFromList(notesNoRest);
 //			note.setDynamic(dynamic);
@@ -242,12 +239,12 @@ public class CpMelody implements Comparable<CpMelody>{
 
 //            Note removeArticulation = RandomUtil.getRandomFromList(notesNoRest);
 //			removeArticulation.setDynamic(Note.DEFAULT_DYNAMIC);
-//		}
+		}
 	}
 
 	public void updateTechnical(Technical technical) {
 		List<Note> notesNoRest = getNotesNoRest();
-//		if (notesNoRest.size() > 1) {
+		if (notesNoRest.size() > 1) {
 			//		notes.forEach(note -> note.setArticulation(Note.DEFAULT_ARTICULATION));//reset?
 //			Note note = RandomUtil.getRandomFromList(notesNoRest);
 //			note.setTechnical(technical);
@@ -259,7 +256,7 @@ public class CpMelody implements Comparable<CpMelody>{
 
 //			Note removeArticulation = RandomUtil.getRandomFromList(notesNoRest);
 //			removeArticulation.setTechnical(Note.DEFAULT_TECHNICAL);
-//		}
+		}
 	}
 	
 	protected int invertPitchClass(int functionalDegreeCenter, int pitchClass, Scale scale, Scale dependingScale, int key, int dependingKey){
@@ -609,7 +606,7 @@ public class CpMelody implements Comparable<CpMelody>{
 
     public boolean hasScale() {
         if (beatGroup != null) {
-            return !beatGroup.getTimeLineKeys().isEmpty();
+            return beatGroup.getTonality() != null;
         }
         return false;
     }

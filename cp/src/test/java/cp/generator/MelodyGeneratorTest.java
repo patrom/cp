@@ -7,7 +7,6 @@ import cp.combination.even.FourNoteEven;
 import cp.composition.Composition;
 import cp.composition.accomp.AccompGroup;
 import cp.composition.beat.BeatGroup;
-import cp.composition.beat.BeatGroupStrategy;
 import cp.composition.timesignature.TimeConfig;
 import cp.composition.voice.FixedVoice;
 import cp.composition.voice.MelodyVoice;
@@ -67,8 +66,6 @@ public class MelodyGeneratorTest extends JFrame{
 	private RandomPitchClasses randomPitchClasses;
 	@MockBean(name = "pitchClassGenerator")
 	private PitchClassGenerator pitchClassGenerator;
-	@MockBean(name = "beatGroupStrategy")
-	private BeatGroupStrategy beatGroupStrategy;
 	@MockBean(name = "timeLine")
 	private TimeLine timeLine;
 	@Autowired
@@ -112,7 +109,6 @@ public class MelodyGeneratorTest extends JFrame{
 		when(composition.getTimeConfig()).thenReturn(time44);
 		List<BeatGroup> beatGroups = new ArrayList<>();
 //		beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER));
-		when(beatGroupStrategy.getBeatGroups()).thenReturn(beatGroups);
 		when(pitchClassGenerator.updatePitchClasses(notes, null)).thenReturn(notes);
 		when(voiceConfig.getVoiceConfiguration(anyInt())).thenReturn(melodyVoice);
 		when(voiceConfig.getRandomPitchClassGenerator(anyInt())).thenReturn(pitchClassGenerator);
@@ -151,7 +147,6 @@ public class MelodyGeneratorTest extends JFrame{
 		when(composition.getTimeConfig()).thenReturn(time44);
 		List<BeatGroup> beatGroups = new ArrayList<>();
 //		beatGroups.add(new BeatGroupTwo(DurationConstants.QUARTER));
-		when(beatGroupStrategy.getBeatGroups()).thenReturn(beatGroups);
 		when(pitchClassGenerator.updatePitchClasses(notes, null)).thenReturn(notes);
 		when(voiceConfig.getVoiceConfiguration(anyInt())).thenReturn(melodyVoice);
 		when(voiceConfig.getRandomPitchClassGenerator(anyInt())).thenReturn(pitchClassGenerator);
