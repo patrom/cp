@@ -2,6 +2,7 @@ package cp.generator.pitchclass;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
+import cp.composition.beat.BeatGroupConfig;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.note.Note;
@@ -26,7 +27,7 @@ import java.util.List;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class})
+@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
 public class OrderPitchClassesTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderPitchClassesTest.class);

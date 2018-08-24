@@ -3,6 +3,7 @@ package cp.generator;
 import cp.AbstractTest;
 import cp.DefaultConfig;
 import cp.VariationConfig;
+import cp.composition.beat.BeatGroupConfig;
 import cp.midi.MelodyInstrument;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
@@ -21,7 +22,7 @@ import java.util.List;
 import static cp.model.note.NoteBuilder.note;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class})
+@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
 public class AccompanimentGeneratorTest extends AbstractTest {
 	
 	@Autowired

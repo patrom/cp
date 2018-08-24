@@ -1,5 +1,6 @@
 package cp;
 
+import cp.composition.beat.BeatGroupConfig;
 import cp.config.ColorQualityConfig;
 import cp.config.InstrumentConfig;
 import cp.generator.MelodyGenerator;
@@ -39,7 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Import({DefaultConfig.class, VariationConfig.class})
+@Import({DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
 public class PlayApplication extends JFrame implements CommandLineRunner{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(PlayApplication.class.getName());

@@ -2,6 +2,7 @@ package cp.generator.provider;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
+import cp.composition.beat.BeatGroupConfig;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.melody.CpMelody;
@@ -22,7 +23,7 @@ import static org.mockito.Mockito.when;
  * Created by prombouts on 13/05/2017.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class})
+@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
 public class MelodyGeneratorProviderTest {
 
     @Autowired

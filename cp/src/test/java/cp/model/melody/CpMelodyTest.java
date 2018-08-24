@@ -2,6 +2,7 @@ package cp.model.melody;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
+import cp.composition.beat.BeatGroupConfig;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.note.Note;
@@ -26,7 +27,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class})
+@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
 public class CpMelodyTest {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(CpMelodyTest.class);

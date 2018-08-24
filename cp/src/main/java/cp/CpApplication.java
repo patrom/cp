@@ -2,7 +2,7 @@ package cp;
 
 import cp.combination.even.FourNoteEven;
 import cp.composition.*;
-import cp.composition.voice.FixedVoice;
+import cp.composition.beat.BeatGroupConfig;
 import cp.generator.MusicProperties;
 import cp.model.Motive;
 import cp.model.melody.MelodyBlock;
@@ -40,7 +40,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Import({DefaultConfig.class, VariationConfig.class})
+@Import({BeatGroupConfig.class, DefaultConfig.class, VariationConfig.class})
 public class CpApplication extends JFrame implements CommandLineRunner{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(CpApplication.class);
@@ -91,9 +91,6 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	private HarmonizeNotes harmonizeNotes;
 	@Autowired
 	private HarmonyOrchestrator harmonyOrchestrator;
-	@Autowired
-	private FixedVoice fixedVoice;
-
 
 	@Autowired
 	private FourNoteEven fourNoteEven;
@@ -239,7 +236,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		// Algorithm parameters
 	    int populationSize = 30;
 	    algorithm.setInputParameter("populationSize", populationSize);
-	    algorithm.setInputParameter("maxEvaluations", populationSize * 2000);
+	    algorithm.setInputParameter("maxEvaluations", populationSize * 200);
 	    
 	    // Mutation and Crossover
 	    crossover.setParameter("probabilityCrossover", 1.0); 

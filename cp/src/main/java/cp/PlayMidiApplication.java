@@ -1,5 +1,6 @@
 package cp;
 
+import cp.composition.beat.BeatGroupConfig;
 import cp.midi.MidiDevicePlayer;
 import cp.midi.MidiDevicesUtil;
 import cp.out.orchestration.orchestra.ClassicalOrchestra;
@@ -18,7 +19,7 @@ import javax.sound.midi.Sequence;
 import javax.swing.*;
 import java.io.File;
 
-@Import({DefaultConfig.class, VariationConfig.class})
+@Import({DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
 public class PlayMidiApplication extends JFrame implements CommandLineRunner {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PlayApplication.class.getName());

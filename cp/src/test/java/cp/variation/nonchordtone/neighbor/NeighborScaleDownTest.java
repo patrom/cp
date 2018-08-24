@@ -2,6 +2,7 @@ package cp.variation.nonchordtone.neighbor;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
+import cp.composition.beat.BeatGroupConfig;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 import cp.variation.AbstractVariationTest;
@@ -19,7 +20,7 @@ import java.util.List;
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class})
+@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
 public class NeighborScaleDownTest extends AbstractVariationTest {
 	
 	@Autowired

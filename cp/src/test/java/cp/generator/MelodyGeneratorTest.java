@@ -7,8 +7,8 @@ import cp.combination.even.FourNoteEven;
 import cp.composition.Composition;
 import cp.composition.accomp.AccompGroup;
 import cp.composition.beat.BeatGroup;
+import cp.composition.beat.BeatGroupConfig;
 import cp.composition.timesignature.TimeConfig;
-import cp.composition.voice.FixedVoice;
 import cp.composition.voice.MelodyVoice;
 import cp.config.VoiceConfig;
 import cp.generator.pitchclass.PitchClassGenerator;
@@ -47,7 +47,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class})
+@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
 public class MelodyGeneratorTest extends JFrame{
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(MelodyGeneratorTest.class);
@@ -77,8 +77,6 @@ public class MelodyGeneratorTest extends JFrame{
 	private VoiceConfig voiceConfig;
 	@Autowired
 	private MelodyVoice melodyVoice;
-	@Autowired
-	private FixedVoice fixedVoice;
 	@Autowired
 	private FourNoteEven fourNoteEven;
 

@@ -13,10 +13,6 @@ public class DoubleTimeVoice extends Voice {
     @PostConstruct
     public void init() {
         setTimeconfig();
-        pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
-        pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
-        pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
-//        rhythmCombinations1 = timeConfig::getBeatsDoubleLength;
 
     }
 

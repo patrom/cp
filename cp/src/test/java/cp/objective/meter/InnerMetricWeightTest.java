@@ -2,6 +2,7 @@ package cp.objective.meter;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
+import cp.composition.beat.BeatGroupConfig;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
 import cp.model.note.Note;
@@ -35,7 +36,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class})
+@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
 public class InnerMetricWeightTest extends JFrame {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(InnerMetricWeightTest.class.getName());

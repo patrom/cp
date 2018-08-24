@@ -22,21 +22,13 @@ public class VoiceConfig {
     @Autowired
     private BassVoice bassVoice;
     @Autowired
-    private FixedVoice fixedVoice;
-    @Autowired
     private DoubleTimeVoice doubleTimeVoice;
     @Autowired
     private HarmonyVoice harmonyVoice;
     @Autowired
     private RowVoice rowVoice;
     @Autowired
-    private ProvidedVoice providedVoice;
-    @Autowired
     private ProvidedDoubleVoice providedDoubleVoice;
-    @Autowired
-    private TimeVoice timeVoice;
-    @Autowired
-    private ProvidedRhythmVoice providedRhythmVoice;
 
     private Map<Integer, Voice> voiceConfiguration = new TreeMap<>();
 

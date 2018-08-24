@@ -13,7 +13,7 @@ public class HarmonyVoice extends Voice {
 
     @PostConstruct
     public void init(){
-        allBeatgroups = Arrays.asList(beatgroups.beatgroupHarmonyOne, beatgroups.beatgroupHarmonyTwo);
+        allBeatgroups = Arrays.asList(beatgroups.beatGroupHarmonyOne, beatgroups.beatGroupHarmonyTwo);
         setTimeconfig();
     }
 

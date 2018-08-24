@@ -2,6 +2,7 @@ package cp.out.print;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
+import cp.composition.beat.BeatGroupConfig;
 import cp.model.harmony.ChordType;
 import cp.model.harmony.DependantHarmony;
 import cp.model.note.Note;
@@ -24,7 +25,7 @@ import java.util.List;
  * Created by prombouts on 29/05/2017.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class})
+@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
 public class ScoreUtilitiesTest extends JFrame {
 
     @Autowired

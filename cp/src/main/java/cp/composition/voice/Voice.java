@@ -1,11 +1,9 @@
 package cp.composition.voice;
 
-import cp.combination.RhythmCombination;
-import cp.combination.RhythmCombinations;
 import cp.composition.beat.BeatGroup;
 import cp.composition.beat.BeatGroups;
 import cp.composition.timesignature.TimeConfig;
-import cp.generator.pitchclass.*;
+import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.harmony.ChordType;
 import cp.model.note.Dynamic;
 import cp.model.rhythm.DurationConstants;
@@ -18,8 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 
-import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
@@ -35,41 +35,6 @@ public abstract class Voice {
     public static final Technical DEFAULT_TECHNICAL = Technical.LEGATO;
     public static final Dynamic DEFAULT_DYNAMIC = Dynamic.MF;
     public static final int DEFAULT_LENGTH = DurationConstants.QUARTER;
-
-    @Resource(name = "defaultUnevenCombinations")
-    protected Map<Integer, List<RhythmCombination>> defaultUnEvenCombinations;
-
-    @Resource(name = "defaultEvenCombinations")
-    protected Map<Integer, List<RhythmCombination>> defaultEvenCombinations;
-
-    @Resource(name = "homophonicEven")
-    protected  Map<Integer, List<RhythmCombination>> homophonicEven;
-
-    @Resource(name = "homophonicUneven")
-    protected Map<Integer, List<RhythmCombination>> homophonicUneven;
-
-    @Resource(name = "fixedEven")
-    protected Map<Integer, List<RhythmCombination>> fixedEven;
-
-    @Resource(name = "fixedUneven")
-    protected Map<Integer, List<RhythmCombination>> fixedUneven;
-
-    @Autowired
-    protected RhythmCombinations rhythmCombinations;
-
-    @Autowired
-    protected RandomPitchClasses randomPitchClasses;
-    @Autowired
-    protected PassingPitchClasses passingPitchClasses;
-    @Autowired
-    protected RepeatingPitchClasses repeatingPitchClasses;
-    @Autowired
-    protected OrderPitchClasses orderPitchClasses;
-    @Autowired
-    protected OrderRandomNotePitchClasses orderRandomNotePitchClasses;
-    @Autowired
-    protected OrderNoteRepetitionPitchClasses orderNoteRepetitionPitchClasses;
-
 
     @Autowired
     @Qualifier(value="time44")
@@ -118,10 +83,6 @@ public abstract class Voice {
     protected boolean hasDependentHarmony;
     protected List<ChordType> chordTypes = new ArrayList<>();
 
-
-    protected Map<Integer, List<RhythmCombination>> evenRhythmCombinationsPerNoteSize;
-    protected Map<Integer, List<RhythmCombination>> unevenRhythmCombinationsPerNoteSize;
-
     protected List<BeatGroup> allBeatgroups = new ArrayList<>();
     @Autowired
     protected BeatGroups beatgroups;
@@ -153,9 +114,6 @@ public abstract class Voice {
             timeConfig = time24;
             allBeatgroups = allBeatgroups.stream().filter(beatGroup -> beatGroup.getType() == 2).collect(toList());
         }
-
-        evenRhythmCombinationsPerNoteSize = defaultEvenCombinations;
-        unevenRhythmCombinationsPerNoteSize = defaultUnEvenCombinations;
 
         mutationTypes = Collections.singletonList(MutationType.ALL);
     }
@@ -197,60 +155,6 @@ public abstract class Voice {
 
     public List<MutationType> getMutationTypes() {
         return mutationTypes;
-    }
-
-    protected Map<Integer, List<RhythmCombination>> getCombinations(){
-        Map<Integer, List<RhythmCombination>> map = new HashMap<>();
-        //rest
-//        List<RhythmCombination> zeroCombinations = new ArrayList<>();
-//        zeroCombinations.add(oneNoteEven::rest);
-//        map.put(0, zeroCombinations);
-
-        List<RhythmCombination> oneCombinations = new ArrayList<>();
-//        oneCombinations.add(rhythmCombinations.combiNoteEven::pos23pos12);
-//        oneCombinations.add(oneNoteEven::pos3);
-//		oneCombinations.add(oneNoteEven::pos4);
-//        map.put(1, oneCombinations);
-
-        List<RhythmCombination> twoCombinations = new ArrayList<>();
-//////		twoCombinations.add(twoNoteEven::pos12);
-        twoCombinations.add(rhythmCombinations.twoNoteEven::pos13);
-//        twoCombinations.add(twoNoteEven::pos14);
-//////		twoCombinations.add(twoNoteEven::pos34);
-////        //twoCombinations.add(twoNoteEven::pos23);
-////        //twoCombinations.add(twoNoteEven::pos24);
-//        twoCombinations.add(rhythmCombinations.twoNoteEven::pos14);
-        map.put(2, twoCombinations);
-//
-        List<RhythmCombination> threeCombinations = new ArrayList<>();
-//        threeCombinations.add(threeNoteEven::pos123);
-//        threeCombinations.add(threeNoteEven::pos134);
-////		threeCombinations.add(threeNoteEven::pos124);
-//        threeCombinations.add(threeNoteEven::pos234);
-//        threeCombinations.add(rhythmCombinations.threeNoteEven::pos14_and);
-//        threeCombinations.add(rhythmCombinations.threeNoteEven::pos1pos34);
-//        threeCombinations.add(rhythmCombinations.threeNoteEven::pos1pos13);
-//        threeCombinations.add(rhythmCombinations.threeNoteEven::pos1pos24);
-//        map.put(3, threeCombinations);
-//
-//        List<RhythmCombination> fourCombinations = new ArrayList<>();
-//        fourCombinations.add(fourNoteEven::pos1234);
-//        map.put(4, fourCombinations);
-
-//        oneCombinations.add(oneNoteUneven::pos1);
-
-//		threeCombinations.add(threeNoteUneven::pos123);
-////		map.put(3, threeCombinations);
-//
-//		twoCombinations.add(twoNoteUneven::pos23);
-//		twoCombinations.add(twoNoteUneven::pos12);
-//		twoCombinations.add(twoNoteUneven::pos13);
-//        		map.put(2, twoCombinations);
-
-//        List<RhythmCombination> fiveCombinations = new ArrayList<>();
-//		fiveCombinations.add(quintuplet::pos12345);
-//		map.put(5, fiveCombinations);
-        return map;
     }
 
 }

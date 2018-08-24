@@ -1,27 +1,28 @@
-package cp.composition.beat.homophony;
+package cp.composition.beat.melody;
 
 import cp.combination.RhythmCombination;
 import cp.composition.beat.BeatGroup;
 import cp.composition.voice.NoteSizeValueObject;
+import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.note.Note;
 import cp.util.RandomUtil;
-import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import static java.util.Collections.emptyList;
 
-@Component
-public class HomophonicBeatGroup3 extends BeatGroup {
+public class BeatGroupMelody extends BeatGroup {
 
-    @Override
-    public int getType() {
-        return 3;
+    public BeatGroupMelody(int type, Map<Integer, List<RhythmCombination>> rhythmCombinationMap, List<PitchClassGenerator> pitchClassGenerators) {
+        super(type, rhythmCombinationMap, pitchClassGenerators);
     }
 
     public List<Note> getRhythmNotesForBeatgroupType(int size){
-        List<RhythmCombination> rhythmCombinations = this.homophonicUneven.get(size);
+        List<RhythmCombination> rhythmCombinations = new ArrayList<>();
+        rhythmCombinations = this.rhythmCombinationMap.get(size);
         if(rhythmCombinations == null){
             LOGGER.info("No (provided) combination found for size: " + size);
             return emptyList();
@@ -30,15 +31,11 @@ public class HomophonicBeatGroup3 extends BeatGroup {
     }
 
     public NoteSizeValueObject getRandomRhythmNotesForBeatgroupType(){
-        Object[] keys = homophonicUneven.keySet().toArray();
+        Object[] keys = rhythmCombinationMap.keySet().toArray();
         Integer key = (Integer) keys[new Random().nextInt(keys.length)];
-        List<RhythmCombination> rhythmCombinations = homophonicUneven.get(key);
+        List<RhythmCombination> rhythmCombinations = rhythmCombinationMap.get(key);
         RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
         return new NoteSizeValueObject(key, rhythmCombination);
     }
 
-    @Override
-    public int getRandomNoteSize() {
-        return RandomUtil.getRandomFromSet(homophonicUneven.keySet());
-    }
 }

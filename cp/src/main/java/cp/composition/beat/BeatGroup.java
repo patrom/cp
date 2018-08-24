@@ -4,7 +4,7 @@ import cp.combination.RhythmCombination;
 import cp.combination.RhythmCombinations;
 import cp.composition.voice.NoteSizeValueObject;
 import cp.generator.ChordGenerator;
-import cp.generator.pitchclass.*;
+import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.TimeLineKey;
 import cp.model.melody.Tonality;
 import cp.model.note.Note;
@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,11 +26,39 @@ import java.util.Map;
 
 public abstract class BeatGroup {
 
+    protected static final Logger LOGGER = LoggerFactory.getLogger(BeatGroup.class);
+
+    protected int type;
+    protected Map<Integer, List<RhythmCombination>> rhythmCombinationMap;
+    protected List<PitchClassGenerator> pitchClassGenerators = new ArrayList<>();
+
+    public BeatGroup(int type, Map<Integer, List<RhythmCombination>> rhythmCombinationMap, List<PitchClassGenerator> pitchClassGenerators) {
+        this.type = type;
+        this.rhythmCombinationMap = rhythmCombinationMap;
+        this.pitchClassGenerators = pitchClassGenerators;
+    }
+
     protected Tonality tonality;
     protected Scale motiveScale;
     protected List<Scale> motivePitchClasses = new ArrayList<>();
     protected List<TimeLineKey> timeLineKeys = new ArrayList<>();
-    protected List<PitchClassGenerator> pitchClassGenerators = new ArrayList<>();
+
+    public void setTonality(Tonality tonality) {
+        this.tonality = tonality;
+    }
+
+    public void setMotiveScale(Scale motiveScale) {
+        this.motiveScale = motiveScale;
+    }
+
+    public void addMotivePitchClasses(Scale scale) {
+        motivePitchClasses.add(scale);
+    }
+
+    public void addTimeLineKey(TimeLineKey timeLineKey) {
+        timeLineKeys.add(timeLineKey);
+    }
+
     protected List<int[]> indexesMotivePitchClasses = new ArrayList<>();
     protected List<int[]> reversedIndexesMotivePitchClasses = new ArrayList<>();
     protected List<int[]> inverseIndexesMotivePitchClasses= new ArrayList<>();
@@ -43,52 +70,15 @@ public abstract class BeatGroup {
     @Autowired
     protected Keys keys;
 
-    @Autowired
-    protected RandomPitchClasses randomPitchClasses;
-    @Autowired
-    protected PassingPitchClasses passingPitchClasses;
-    @Autowired
-    protected RepeatingPitchClasses repeatingPitchClasses;
-    @Autowired
-    protected OrderPitchClasses orderPitchClasses;
-    @Autowired
-    protected OrderRandomNotePitchClasses orderRandomNotePitchClasses;
-    @Autowired
-    protected OrderNoteRepetitionPitchClasses orderNoteRepetitionPitchClasses;
-
-    protected static Logger LOGGER = LoggerFactory.getLogger(BeatGroup.class);
-
-    @Resource(name = "defaultUnevenCombinations")
-    protected Map<Integer, List<RhythmCombination>> defaultUnEvenCombinations;
-
-    @Resource(name = "defaultEvenCombinations")
-    protected Map<Integer, List<RhythmCombination>> defaultEvenCombinations;
-
-    @Resource(name = "homophonicEven")
-    protected  Map<Integer, List<RhythmCombination>> homophonicEven;
-
-    @Resource(name = "homophonicUneven")
-    protected Map<Integer, List<RhythmCombination>> homophonicUneven;
-
-    @Resource(name = "fixedEven")
-    protected Map<Integer, List<RhythmCombination>> fixedEven;
-
-    @Resource(name = "fixedUneven")
-    protected Map<Integer, List<RhythmCombination>> fixedUneven;
-
-    protected Map<Integer, List<RhythmCombination>> rhythmCombinationMap;
-
-    protected Map<Integer, List<RhythmCombination>> rhythmCombinationsHarmonyMap;
-
-    protected Map<Integer, List<RhythmCombination>> rhythmCombinationsMotiveMap;
-
     @Value("${composition.denominator:4}")
     protected int denominator;
 
     @Autowired
     protected RhythmCombinations rhythmCombinations;
 
-    public abstract int getType();
+    public int getType() {
+        return type;
+    }
 
     public int getBeatLength() {
         if (denominator == 8) {
@@ -108,7 +98,9 @@ public abstract class BeatGroup {
         return rhythmCombination.getNotes(this.getBeatLength());
     }
 
-    public abstract int getRandomNoteSize();
+    public int getRandomNoteSize() {
+        return RandomUtil.getRandomFromSet(rhythmCombinationMap.keySet());
+    }
 
     public List<TimeLineKey> getTimeLineKeys() {
         return timeLineKeys;

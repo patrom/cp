@@ -3,6 +3,7 @@ package cp.evaluation;
 import cp.DefaultConfig;
 import cp.VariationConfig;
 import cp.composition.Composition;
+import cp.composition.beat.BeatGroupConfig;
 import cp.composition.timesignature.TimeConfig;
 import cp.composition.voice.MelodyVoice;
 import cp.config.InstrumentConfig;
@@ -38,7 +39,7 @@ import java.util.List;
 import static cp.model.note.NoteBuilder.note;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class})
+@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
 @TestPropertySource(locations="classpath:test.properties")
 public class FitnessEvaluationTemplateTest extends JFrame{
 	

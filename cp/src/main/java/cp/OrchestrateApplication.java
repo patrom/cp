@@ -1,5 +1,6 @@
 package cp;
 
+import cp.composition.beat.BeatGroupConfig;
 import cp.config.InstrumentConfig;
 import cp.midi.MidiDevicePlayer;
 import cp.midi.MidiDevicesUtil;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Import({DefaultConfig.class, VariationConfig.class})
+@Import({DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
 public class OrchestrateApplication extends JFrame implements CommandLineRunner {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OrchestrateApplication.class.getName());

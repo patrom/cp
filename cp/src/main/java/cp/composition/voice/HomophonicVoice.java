@@ -13,21 +13,7 @@ public class HomophonicVoice extends Voice {
 
     @PostConstruct
     public void init(){
-
-//        timeConfig = timeDouble44;
-        evenRhythmCombinationsPerNoteSize = homophonicEven;
-        unevenRhythmCombinationsPerNoteSize = homophonicUneven;
-
-//        evenRhythmCombinationsPerNoteSize = getCombinations();
-//        unevenRhythmCombinationsPerNoteSize = getCombinations();
-
-//        pitchClassGenerators.add(repeatingPitchClasses::updatePitchClasses);
-//        pitchClassGenerators.add(randomPitchClasses::randomPitchClasses);
-//        pitchClassGenerators.add(passingPitchClasses::updatePitchClasses);
-        pitchClassGenerators.add(orderPitchClasses::updatePitchClasses);
-//        pitchClassGenerators.add(orderRandomNotePitchClasses::updatePitchClasses);
-//        pitchClassGenerators.add(orderNoteRepetitionPitchClasses::updatePitchClasses);
-        allBeatgroups = Arrays.asList(beatgroups.homophonicBeatgroup2, beatgroups.homophonicBeatgroup3);
+        allBeatgroups = Arrays.asList(beatgroups.beatGroupHomophonicTwo, beatgroups.beatGroupHomophonicThree);
         setTimeconfig();
     }
 

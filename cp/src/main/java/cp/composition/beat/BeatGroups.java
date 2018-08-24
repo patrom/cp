@@ -1,15 +1,5 @@
 package cp.composition.beat;
 
-import cp.composition.beat.harmony.BeatgroupHarmonyOne;
-import cp.composition.beat.harmony.BeatgroupHarmonyTwo;
-import cp.composition.beat.homophony.HomophonicBeatGroup3;
-import cp.composition.beat.homophony.HomophonicBeatgroup2;
-import cp.composition.beat.melody.BeatGroupFour;
-import cp.composition.beat.melody.BeatGroupOne;
-import cp.composition.beat.melody.BeatGroupThree;
-import cp.composition.beat.melody.BeatGroupTwo;
-import cp.composition.beat.motive.BeatGroupOneMotive;
-import cp.composition.beat.motive.BeatgroupFourMotive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,26 +7,29 @@ import org.springframework.stereotype.Component;
 public class BeatGroups {
 
     @Autowired
-    public BeatGroupOne beatGroupOne;
+    public BeatGroup beatGroupOne;
     @Autowired
-    public BeatGroupTwo beatGroupTwo;
+    public BeatGroup beatGroupTwo;
     @Autowired
-    public BeatGroupThree beatGroupThree;
+    public BeatGroup beatGroupThree;
     @Autowired
-    public BeatGroupFour beatGroupFour;
+    public BeatGroup beatGroupFour;
 
     @Autowired
-    public HomophonicBeatgroup2 homophonicBeatgroup2;
+    public BeatGroup beatGroupHomophonicOne;
     @Autowired
-    public HomophonicBeatGroup3 homophonicBeatgroup3;
+    public BeatGroup beatGroupHomophonicTwo;
+    @Autowired
+    public BeatGroup beatGroupHomophonicThree;
+    @Autowired
+    public BeatGroup beatGroupHomophonicFour;
 
     @Autowired
-    public BeatGroupOneMotive beatGroupOneMotive;
-    @Autowired
-    public BeatgroupFourMotive beatgroupFourMotive;
+    public BeatGroup beatGroupMotiveOne;
+
 
     @Autowired
-    public BeatgroupHarmonyOne beatgroupHarmonyOne;
+    public BeatGroup beatGroupHarmonyOne;
     @Autowired
-    public BeatgroupHarmonyTwo beatgroupHarmonyTwo;
+    public BeatGroup beatGroupHarmonyTwo;
 }

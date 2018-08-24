@@ -2,7 +2,8 @@ package cp.model.melody;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
-import cp.composition.beat.melody.BeatGroupTwo;
+import cp.composition.beat.BeatGroupConfig;
+import cp.composition.beat.melody.BeatGroupMelody;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.note.Note;
@@ -31,7 +32,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class})
+@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
 public class MelodyBlockTest {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(MelodyBlockTest.class);
@@ -52,7 +53,7 @@ public class MelodyBlockTest {
 	@MockBean
 	private TimeLineKey timeLineKey;
     @Autowired
-	private BeatGroupTwo beatGroupTwo;
+	private BeatGroupMelody beatGroupTwo;
 
 	@Before
 	public void setUp() throws Exception {
