@@ -11,14 +11,16 @@ import cp.variation.nonchordtone.neighbor.NeighborScaleDown;
 import cp.variation.nonchordtone.passing.ChromaticPassingUp;
 import cp.variation.nonchordtone.suspension.Suspension;
 import cp.variation.pattern.VariationPattern;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
+@ExtendWith(SpringExtension.class)
 public class EmbellishingTest {
 	
 	@Autowired
@@ -48,7 +51,7 @@ public class EmbellishingTest {
 	@MockBean
 	private VariationSelector variationSelector;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		neighborScaleDown.setExcludedVoices(Collections.singletonList(0));
 		suspension.setSecondNoteChanged(false);

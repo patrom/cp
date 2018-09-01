@@ -5,11 +5,13 @@ import cp.combination.RhythmCombinations;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ import static org.junit.Assert.assertNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DefaultConfig.class)
+@ExtendWith(SpringExtension.class)
 public class TwelveToneBuilderTest {
 
     private TwelveToneBuilder twelveToneBuilder;
@@ -34,7 +37,7 @@ public class TwelveToneBuilderTest {
 
     private  List<Integer> durations;
 
-    @Before
+    @BeforeEach
     public void setUp(){
         durations = Stream.of(DurationConstants.QUARTER, DurationConstants.QUARTER, DurationConstants.QUARTER, DurationConstants.QUARTER).collect(Collectors.toList());
     }

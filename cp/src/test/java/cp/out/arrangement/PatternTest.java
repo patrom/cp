@@ -1,7 +1,7 @@
 package cp.out.arrangement;
 
 import cp.model.note.Note;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 

@@ -11,10 +11,12 @@ import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Articulation;
 import jm.music.data.Score;
 import jm.util.View;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.swing.*;
@@ -26,6 +28,7 @@ import java.util.List;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
+@ExtendWith(SpringExtension.class)
 public class ScoreUtilitiesTest extends JFrame {
 
     @Autowired

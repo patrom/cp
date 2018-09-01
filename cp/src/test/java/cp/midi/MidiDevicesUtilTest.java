@@ -19,14 +19,16 @@ import cp.out.instrument.Technical;
 import cp.out.instrument.strings.ViolinSolo;
 import cp.out.play.InstrumentMapping;
 import cp.out.print.Keys;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -42,6 +44,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DefaultConfig.class)
+@ExtendWith(SpringExtension.class)
 public class MidiDevicesUtilTest {
 
     @Autowired
@@ -60,7 +63,7 @@ public class MidiDevicesUtilTest {
     @MockBean(name = "fourVoiceComposition")
     private Composition composition;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         instrumentMapping = new InstrumentMapping(new ViolinSolo(), 1, 0);
         when(musicProperties.getTempo()).thenReturn(60);

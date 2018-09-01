@@ -8,8 +8,9 @@ import cp.model.harmony.Chord;
 import cp.model.note.Interval;
 import cp.model.note.Note;
 import cp.util.Util;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -30,6 +32,7 @@ import static java.util.stream.Collectors.toMap;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DefaultConfig.class)
+@ExtendWith(SpringExtension.class)
 public class PatternMatchingTest {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(PatternMatchingTest.class);
@@ -38,7 +41,7 @@ public class PatternMatchingTest {
 	@Autowired
 	private MidiParser midiParser;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws IOException{
 		Resource resource = new FileSystemResource("src/main/resources/melodies");
 		dir = resource.getFile();

@@ -12,13 +12,15 @@ import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.strings.CelloSolo;
-import org.junit.Before;
 import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.FileOutputStream;
@@ -30,6 +32,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
+@ExtendWith(SpringExtension.class)
 public class MusicXMLWriterTest {
 	
 	@Autowired
@@ -40,7 +43,7 @@ public class MusicXMLWriterTest {
 	private Resource fileTestResource;
 	private String path;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		melodyBlocks = new ArrayList<>();
 		instrument = new CelloSolo();

@@ -5,8 +5,8 @@ import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.note.NoteBuilder;
 import cp.model.rhythm.DurationConstants;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +17,7 @@ public class TonalityFunctionsTest {
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(TonalityFunctionsTest.class.getName());
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 	}
 

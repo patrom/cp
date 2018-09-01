@@ -17,12 +17,14 @@ import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.register.InstrumentRegister;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -40,6 +42,7 @@ import static org.mockito.Mockito.when;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DefaultConfig.class)
+@ExtendWith(SpringExtension.class)
 public class HarmonyOrchestratorTest {
 
     @Autowired
@@ -57,7 +60,7 @@ public class HarmonyOrchestratorTest {
     @Autowired
     private MelodyVoice melodyVoice;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         int voice = 5;
         when(composition.getStart()).thenReturn(0);

@@ -2,8 +2,8 @@ package cp.out.print;
 
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class BeatMapTest {
 	
 	private BeatMap beatMap;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		beatMap = new BeatMap();
 	}

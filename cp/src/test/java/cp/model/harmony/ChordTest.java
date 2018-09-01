@@ -3,7 +3,7 @@ package cp.model.harmony;
 
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -4,14 +4,16 @@ import cp.DefaultConfig;
 import cp.midi.HarmonyPosition;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
-import org.junit.Before;
 import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.swing.*;
@@ -24,6 +26,7 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DefaultConfig.class)
+@ExtendWith(SpringExtension.class)
 @Ignore
 public class ArrangementTest extends JFrame{
 	
@@ -34,7 +37,7 @@ public class ArrangementTest extends JFrame{
 	private List<Note> notes;
 	private int[] pattern;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		notes = new ArrayList<>();
 		notes.add(note().pos(0).len(DurationConstants.QUARTER).pitch(60).build());

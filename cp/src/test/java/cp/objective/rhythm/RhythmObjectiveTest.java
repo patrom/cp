@@ -11,8 +11,9 @@ import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 import cp.out.print.ScoreUtilities;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.swing.*;
@@ -31,6 +33,7 @@ import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DefaultConfig.class)
+@ExtendWith(SpringExtension.class)
 public class RhythmObjectiveTest extends JFrame {
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(RhythmObjectiveTest.class.getName());
@@ -51,7 +54,7 @@ public class RhythmObjectiveTest extends JFrame {
 	@Autowired
 	private MelodyVoice melodyVoice;
 	
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 	}
 

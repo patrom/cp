@@ -1,7 +1,7 @@
 package cp.model.perle;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -13,7 +13,7 @@ public class AxisDyadArrayTest {
 	
 	private AxisDyadArray axisDyadArray;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		 axisDyadArray = new AxisDyadArray(new CyclicSet(IntervalCycle.P_IC7, 0), 0,
 				new CyclicSet(IntervalCycle.P_IC7, 2), 0);

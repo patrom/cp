@@ -4,7 +4,7 @@ import cp.model.note.Note;
 import cp.musicxml.parsed.ComplexElement;
 import cp.musicxml.parsed.ElementWrapper;
 import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;

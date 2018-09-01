@@ -11,14 +11,16 @@ import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.objective.rhythm.RhythmObjective;
 import cp.out.print.ScoreUtilities;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -32,6 +34,7 @@ import java.util.stream.Collectors;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = DefaultConfig.class)
+@ExtendWith(SpringExtension.class)
 public class RhythmWeightMelodyTest extends JFrame{
 
 	@Autowired
@@ -50,7 +53,7 @@ public class RhythmWeightMelodyTest extends JFrame{
 	@Autowired
 	private MelodyVoice melodyVoice;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		Mockito.when(voiceConfig.getVoiceConfiguration(Mockito.anyInt())).thenReturn(melodyVoice);
 	}

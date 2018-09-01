@@ -6,12 +6,14 @@ import cp.model.dissonance.Dissonance;
 import cp.model.note.Interval;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DefaultConfig.class)
+@ExtendWith(SpringExtension.class)
 public class MelodicObjectiveTest extends AbstractTest {
 
 	@Autowired
@@ -39,7 +42,7 @@ public class MelodicObjectiveTest extends AbstractTest {
 	
 	private final Random random = new Random();
 	
-	@Before
+	@BeforeEach
 	public void setup() {
 		melodyNotes = new ArrayList<>();
 	}

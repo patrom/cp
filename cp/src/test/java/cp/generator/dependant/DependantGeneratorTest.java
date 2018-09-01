@@ -11,8 +11,8 @@ import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
 import cp.out.print.note.D;
 import cp.out.print.note.Key;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,7 +34,7 @@ public class DependantGeneratorTest {
 
     private Key D;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         D = new D();
         TimeLineKey timeLineKey = new TimeLineKey(D, Scale.MAJOR_SCALE, 0, 500);

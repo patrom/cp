@@ -9,12 +9,14 @@ import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
 import cp.out.print.Keys;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -30,6 +32,7 @@ import static org.mockito.Mockito.when;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@ExtendWith(SpringExtension.class)
 //@TestPropertySource(locations="classpath:test.properties")
 public class AllNoteMutationTest {
 
@@ -45,7 +48,7 @@ public class AllNoteMutationTest {
     @Autowired
     private Keys keys;
 
-    @Before
+    @BeforeEach
     public void setUp(){
         ReflectionTestUtils.setField(allNoteMutation, "probabilityAllNote", 1.0);
     }

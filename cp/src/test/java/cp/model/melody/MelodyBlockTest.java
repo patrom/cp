@@ -13,14 +13,16 @@ import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Instrument;
 import cp.out.print.note.Key;
 import cp.util.Util;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -33,6 +35,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
+@ExtendWith(SpringExtension.class)
 public class MelodyBlockTest {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(MelodyBlockTest.class);
@@ -55,7 +58,7 @@ public class MelodyBlockTest {
     @Autowired
 	private BeatGroupMelody beatGroupTwo;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		melodyBlock = new MelodyBlock(5, 1);
 		List<Note> notes = new ArrayList<>();

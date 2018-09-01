@@ -19,8 +19,9 @@ import cp.objective.meter.MeterObjective;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.keyboard.Piano;
 import cp.out.print.ScoreUtilities;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
@@ -30,6 +31,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.swing.*;
@@ -41,6 +43,7 @@ import static cp.model.note.NoteBuilder.note;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
 @TestPropertySource(locations="classpath:test.properties")
+@ExtendWith(SpringExtension.class)
 public class FitnessEvaluationTemplateTest extends JFrame{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(FitnessEvaluationTemplateTest.class);
@@ -72,7 +75,7 @@ public class FitnessEvaluationTemplateTest extends JFrame{
 
 	private Instrument instrument;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
         meterObjective.setComposition(fourVoiceComposition);
 		melodies = new ArrayList<>();

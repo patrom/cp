@@ -1,8 +1,8 @@
 package cp.model.note;
 
 import cp.util.RandomUtil;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
@@ -13,7 +13,7 @@ public class ScaleTest {
 	
 	private Scale scale;
 	
-	@Before
+	@BeforeEach
 	public void setUp() {
 		scale = Scale.MAJOR_SCALE;
 	}

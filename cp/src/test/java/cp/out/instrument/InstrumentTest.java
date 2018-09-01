@@ -3,8 +3,8 @@ package cp.out.instrument;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.out.instrument.register.InstrumentRegister;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +22,7 @@ public class InstrumentTest {
 	private final Instrument instrument = new Instrument();
 	private List<Note> notes;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		instrument.setInstrumentRegister(new InstrumentRegister(50,55));
 		notes = new ArrayList<>();

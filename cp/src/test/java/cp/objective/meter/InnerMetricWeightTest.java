@@ -16,13 +16,15 @@ import jm.music.data.Score;
 import jm.util.Play;
 import jm.util.View;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.swing.*;
@@ -37,6 +39,7 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
+@ExtendWith(SpringExtension.class)
 public class InnerMetricWeightTest extends JFrame {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(InnerMetricWeightTest.class.getName());
@@ -57,7 +60,7 @@ public class InnerMetricWeightTest extends JFrame {
 	
 	private int[] distance;
 	
-	@Before
+	@BeforeEach
 	public void setUp() {
 		distance = new int[]{2,3,4,5,6,8,9,10,12,14,15,16,18,20,21,22,24,26,27,28,30,32};//atomic beat = 12
 		musicProperties.setDistance(distance);

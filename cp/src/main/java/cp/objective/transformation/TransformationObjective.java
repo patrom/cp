@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.DoubleSummaryStatistics;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
@@ -47,7 +44,11 @@ public class TransformationObjective extends Objective {
             transformations.add(transformation);
         }
         motive.setTransformations(transformations);
-        return transformations.stream().mapToDouble(transformation -> transformationDissonance.getDissonance(transformation)).average().getAsDouble();
+        OptionalDouble average = transformations.stream().mapToDouble(transformation -> transformationDissonance.getDissonance(transformation)).average();
+        if (average.isPresent()) {
+            return average.getAsDouble();
+        }
+        return 0.0;
     }
 
     public List<CpHarmony> filterHarmonies(List<CpHarmony> harmonies){

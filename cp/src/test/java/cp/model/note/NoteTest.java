@@ -1,7 +1,7 @@
 package cp.model.note;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
@@ -10,7 +10,7 @@ public class NoteTest {
 	
 	private Note note;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		note = note().pc(11).pitch(59).octave(4).build();
 	}

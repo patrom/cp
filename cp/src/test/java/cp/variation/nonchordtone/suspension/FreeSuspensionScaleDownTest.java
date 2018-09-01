@@ -7,11 +7,13 @@ import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 import cp.variation.AbstractVariationTest;
 import cp.variation.pattern.FreeSuspensionVariationPattern;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -21,6 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
+@ExtendWith(SpringExtension.class)
 public class FreeSuspensionScaleDownTest extends AbstractVariationTest{
 
 	@Autowired
@@ -29,7 +32,7 @@ public class FreeSuspensionScaleDownTest extends AbstractVariationTest{
 	private FreeSuspensionVariationPattern freeSuspensionVariationPattern;
 	private final double[][] suspensionPattern =  new double[][]{{0.5, 0.5}};
 	
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		variation = freeSuspensionScaleDown;
 		variationPattern = freeSuspensionVariationPattern;

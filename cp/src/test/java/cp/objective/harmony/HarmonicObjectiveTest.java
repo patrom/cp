@@ -5,14 +5,16 @@ import cp.model.dissonance.TonalSetClassDissonance;
 import cp.model.harmony.CpHarmony;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.swing.*;
@@ -26,6 +28,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DefaultConfig.class)
+@ExtendWith(SpringExtension.class)
 public class HarmonicObjectiveTest extends JFrame {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(HarmonicObjectiveTest.class);
@@ -35,7 +38,7 @@ public class HarmonicObjectiveTest extends JFrame {
     @MockBean
 	private TonalSetClassDissonance dissonance;
 	
-	@Before
+	@BeforeEach
 	public void setup() {
 		harmonicObjective.setDissonance(dissonance);
 	}

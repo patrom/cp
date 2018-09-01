@@ -1,7 +1,7 @@
 package cp.model.perle;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -11,7 +11,7 @@ public class CyclicSetTest {
 	private CyclicSet cyclicSet;
 	private IntervalCycle intervalCycle;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		intervalCycle = IntervalCycle.P_IC7;
 		cyclicSet = new CyclicSet(intervalCycle , 0);

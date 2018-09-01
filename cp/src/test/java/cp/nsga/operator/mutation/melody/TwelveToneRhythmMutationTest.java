@@ -7,8 +7,8 @@ import cp.model.note.Note;
 import cp.model.note.NoteBuilder;
 import cp.model.rhythm.DurationConstants;
 import cp.model.twelve.TwelveToneBuilder;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,7 +37,7 @@ public class TwelveToneRhythmMutationTest {
     private List<Integer> durations = Stream.of(DurationConstants.SIXTEENTH,
             DurationConstants.EIGHT, DurationConstants.QUARTER, DurationConstants.HALF).collect(Collectors.toList());
 
-    @Before
+    @BeforeEach
     public void setUp() {
 //        when(twelveToneConfig.getDurations()).thenReturn(durations);
 //        twelveToneBuilder.build(DurationConstants.QUARTER, twoNoteEven::pos13, twoNoteEven::pos13, twoNoteEven::pos13, twoNoteEven::pos13);
