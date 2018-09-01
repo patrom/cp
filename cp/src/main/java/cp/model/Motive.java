@@ -4,6 +4,7 @@ import cp.model.harmony.CpHarmony;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
+import cp.objective.transformation.Transformation;
 import cp.util.RandomUtil;
 
 import java.util.*;
@@ -16,6 +17,8 @@ public class Motive implements Cloneable {
 
 	private List<CpHarmony> harmonies;
 	private final List<MelodyBlock> melodyBlocks;
+
+    private List<Transformation> transformations = new ArrayList<>();
 	
 	public Motive(List<MelodyBlock> melodyBlocks){
 		this.melodyBlocks = melodyBlocks;
@@ -132,5 +135,12 @@ public class Motive implements Cloneable {
 				.filter(m -> m.getStart() == start)
 				.findFirst().get();
 	}
-	
+
+    public void setTransformations(List<Transformation> transformations) {
+        this.transformations = transformations;
+    }
+
+    public List<Transformation> getTransformations() {
+        return transformations;
+    }
 }

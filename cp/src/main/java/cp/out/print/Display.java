@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class Display {
@@ -49,12 +50,15 @@ public class Display {
 //            }
 //        });
 
-		printHarmonies(motive.getHarmonies());
-		viewScore(motive.getMelodyBlocks(), id);
-		generateMusicXml(motive.getMelodyBlocks(), id);
-		writeMidi(motive.getMelodyBlocks(), id);
-		printTimeLine();
-	}
+        printHarmonies(motive.getHarmonies());
+        viewScore(motive.getMelodyBlocks(), id);
+        generateMusicXml(motive.getMelodyBlocks(), id);
+        writeMidi(motive.getMelodyBlocks(), id);
+        printTimeLine();
+        List<String> transformationNames = motive.getTransformations().stream().map(Enum::name).collect(Collectors.toList());
+        LOGGER.info("Transformations: " + transformationNames);
+
+    }
 
 	private void writeMidi(List<MelodyBlock> melodyBlocks, String id) throws IOException, InvalidMidiDataException {
 		Sequence sequence = midiDevicesUtil.createSequence(melodyBlocks, musicProperties.getTempo());

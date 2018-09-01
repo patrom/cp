@@ -19,6 +19,7 @@ public class Chord {
 	private ChordType chordType;
 	private int voiceLeadingZone;
 	private final int bassNote;
+	private int root = -1;
 
 	public Chord(int bassNote) {
 		this.bassNote = bassNote;
@@ -255,19 +256,23 @@ public class Chord {
 				return ChordType.DIM;
 			} else if (secondInterval == 4) {
 				int chordPosition = Math.abs(chord[0] - bassNote);
+				root = chord[0];
 				return getMinorInversion(chordPosition);
 			} else if (secondInterval == 5) {
 				int chordPosition = Math.abs(chord[2] - bassNote);
+                root = chord[2];
 				return getMajorInversion(chordPosition);
 			}
 		} else if (firstInterval == 4) {
 			if (secondInterval == 3) {
 				int chordPosition = Math.abs(chord[0] - bassNote);
+                root = chord[0];
 				return getMajorInversion(chordPosition);
 			} else if (secondInterval == 4) {
 				return ChordType.AUGM;
 			} else if (secondInterval == 5) {
 				int chordPosition = Math.abs(chord[2] - bassNote);
+                root = chord[2];
 				return getMinorInversion(chordPosition);
 			} else if (secondInterval == 6) {
 				return ChordType.DOM;
@@ -275,9 +280,11 @@ public class Chord {
 		} else if (firstInterval == 5) {
 			if (secondInterval == 3) {
 				int chordPosition = Math.abs(chord[1] - bassNote);
+                root = chord[1];
 				return getMinorInversion(chordPosition);
 			} else if (secondInterval == 4) {
 				int chordPosition = Math.abs(chord[1] - bassNote);
+                root = chord[1];
 				return getMajorInversion(chordPosition);
 			}
 		} else if (firstInterval == 6) {
@@ -383,6 +390,8 @@ public class Chord {
 		builder.append(getForteDescription());
 		builder.append(", bassNote: ");
 		builder.append(getbassNote());
+        builder.append(", root: ");
+        builder.append(getRoot());
 		return builder.toString();
 	}
 
@@ -394,4 +403,7 @@ public class Chord {
 		return bassNote;
 	}
 
+    public int getRoot() {
+        return root;
+    }
 }

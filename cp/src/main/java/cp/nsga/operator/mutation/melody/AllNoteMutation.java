@@ -42,22 +42,22 @@ public class AllNoteMutation implements MutationOperator<CpMelody> {
                     PitchClassGenerator pitchClassGenerator = RandomUtil.getRandomFromList(melody.getBeatGroup().getPitchClassGenerators());
                     melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes, melody.getBeatGroup());
                     melody.updateNotes(melodyNotes);
-//                    LOGGER.info("All notes motive: " + melody.getVoice());
+                    LOGGER.debug("All notes motive: " + melody.getVoice());
                 } else if(melody.hasPCGenerators()){
                     PitchClassGenerator pitchClassGenerator = RandomUtil.getRandomFromList(melody.getBeatGroup().getPitchClassGenerators());
                     melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes, null);
                     melody.updateNotes(melodyNotes);
-//                    LOGGER.info("All notes pc gen: " + melody.getVoice());
+                    LOGGER.debug("All notes pc gen: " + melody.getVoice());
                 } else if(melody.hasScale()){
                     PitchClassGenerator pitchClassGenerator = voiceConfig.getRandomPitchClassGenerator(melody.getVoice());
                     melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes, melody.getBeatGroup());
                     melody.updateNotes(melodyNotes);
-//                    LOGGER.info("All notes scale: " + melody.getVoice());
+                    LOGGER.debug("All notes scale: " + melody.getVoice());
                 } else {
                     PitchClassGenerator pitchClassGenerator = voiceConfig.getRandomPitchClassGenerator(melody.getVoice());
                     melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes, null);
                     melody.updateNotes(melodyNotes);
-//                    LOGGER.info("All notes: " + melody.getVoice());
+                    LOGGER.debug("All notes: " + melody.getVoice());
                 }
             }
         }

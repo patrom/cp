@@ -11,6 +11,7 @@ public class FitnessObjectiveValues {
 	private double meter;
 	private double resolution;
 	private double register;
+	private double transformation;
 	
 	public double getHarmony() {
 		return harmony;
@@ -64,7 +65,15 @@ public class FitnessObjectiveValues {
 		this.resolution = resolution;
 	}
 
-	public double getMelodicHarmonic() {
+    public double getTransformation() {
+        return transformation;
+    }
+
+    public void setTransformation(double transformation) {
+        this.transformation = transformation;
+    }
+
+    public double getMelodicHarmonic() {
 		return melodicHarmonic;
 	}
 
@@ -76,7 +85,7 @@ public class FitnessObjectiveValues {
 	public String toString() {
 		return "FitnessObjectiveValues [harmony=" + harmony + ", melody="
 				+ melody + ", voiceleading=" + voiceleading + ", tonality="
-				+ tonality + ", rhythm=" + rhythm + ", meter=" + meter  + ", mh=" + melodicHarmonic
+				+ tonality + ", rhythm=" + rhythm + ", meter=" + meter  + ", mh=" + melodicHarmonic + ", tr=" + transformation
 				+ ", resolution=" + resolution + ",  register=" + register + "]";
 	}
 	

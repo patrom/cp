@@ -262,4 +262,16 @@ public class CpHarmonyTest {
 		assertEquals(ChordType.ANCHOR_10, additiveChord);
 	}
 
+    @Test
+    public void isNotAdditiveHarmonyMajor() {
+        List<Note> notes = new ArrayList<>();
+        notes.add(note().pos(0).pc(0).pitch(60).build());
+        notes.add(note().pos(0).pc(4).pitch(64).build());
+        notes.add(note().pos(0).pc(7).pitch(67).build());
+        cpHarmony = new CpHarmony(notes, 0);
+        ChordType additiveChord = cpHarmony.getAdditiveChord();
+        assertEquals(ChordType.ANCHOR_7, additiveChord);
+    }
+
+
 }

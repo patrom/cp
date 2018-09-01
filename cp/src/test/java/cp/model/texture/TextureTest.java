@@ -13,16 +13,23 @@ import cp.model.note.Scale;
 import cp.model.setclass.Set;
 import cp.model.setclass.TnTnIType;
 import cp.out.print.Keys;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -33,7 +40,10 @@ import static org.mockito.Mockito.when;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DefaultConfig.class)
+@ExtendWith(SpringExtension.class)
 public class TextureTest {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TextureTest.class.getName());
 
     @Autowired
     private Texture texture;
@@ -47,7 +57,7 @@ public class TextureTest {
     @Autowired
     private Keys keys;
 
-    @Before
+    @BeforeEach
     public void setUp(){
         TimeLineKey timeLineKey = new TimeLineKey(keys.E, Scale.MAJOR_SCALE, 0, 0);
         when(timeLine.getTimeLineKeyAtPosition(anyInt(), anyInt())).thenReturn(timeLineKey);
@@ -110,6 +120,20 @@ public class TextureTest {
         assertEquals(4, dependantNote.getOctave());
     }
 
+    @ParameterizedTest
+    @MethodSource("chordTypeProvider")
+    void multiNoteDependencyBelow(ChordType chordType) {
+        DependantHarmony dependantHarmony = new DependantHarmony();
+        dependantHarmony.setChordType(chordType);
+        Note note = NoteBuilder.note().pc(1).pitch(60).octave(5).dep(dependantHarmony).build();
+        List<Note> notes = texture.multiNoteDependency(note, false);
+        notes.forEach(n -> System.out.println(n.getPitch()));
+    }
+
+    private static Stream chordTypeProvider() {
+        return Stream.of(ChordType.MAJOR_CHR);
+    }
+
     @Test
     public void singleNoteDependencyAbove() throws Exception {
         DependantHarmony dependantHarmony = new DependantHarmony();
@@ -134,7 +158,7 @@ public class TextureTest {
 
     @Test
     public void symmetryNoteDependencyBelow() throws Exception {
-        DependantHarmony dependantHarmony = new DependantHarmony(ChordType.SYMMEETRY, 0,0);
+        DependantHarmony dependantHarmony = new DependantHarmony(ChordType.SYMMETRY, 0,0);
         Note note = NoteBuilder.note().pc(1).pitch(61).octave(5).dep(dependantHarmony).build();
         Note dependantNote = texture.symmetryNoteDependencyBelow(note);
         assertEquals(11, dependantNote.getPitchClass());
@@ -144,7 +168,7 @@ public class TextureTest {
 
     @Test
     public void symmetryNoteDependencyAbove() throws Exception {
-        DependantHarmony dependantHarmony = new DependantHarmony(ChordType.SYMMEETRY, 0,0);
+        DependantHarmony dependantHarmony = new DependantHarmony(ChordType.SYMMETRY, 0,0);
         Note note = NoteBuilder.note().pc(11).pitch(71).octave(5).dep(dependantHarmony).build();
         Note dependantNote = texture.symmetryNoteDependencyAbove(note);
         assertEquals(1, dependantNote.getPitchClass());
@@ -154,7 +178,7 @@ public class TextureTest {
 
     @Test
     public void symmetryNoteDependencyAboveTwoNoteAxis() throws Exception {
-        DependantHarmony dependantHarmony = new DependantHarmony(ChordType.SYMMEETRY, 0,11);
+        DependantHarmony dependantHarmony = new DependantHarmony(ChordType.SYMMETRY, 0,11);
         Note note = NoteBuilder.note().pc(11).pitch(71).octave(5).dep(dependantHarmony).build();
         Note dependantNote = texture.symmetryNoteDependencyAbove(note);
         assertEquals(0, dependantNote.getPitchClass());
@@ -164,7 +188,7 @@ public class TextureTest {
 
     @Test
     public void symmetryNoteDependencyAboveTwoNoteAxis2() throws Exception {
-        DependantHarmony dependantHarmony = new DependantHarmony(ChordType.SYMMEETRY, 0,11);
+        DependantHarmony dependantHarmony = new DependantHarmony(ChordType.SYMMETRY, 0,11);
         Note note = NoteBuilder.note().pc(1).pitch(61).octave(5).dep(dependantHarmony).build();
         Note dependantNote = texture.symmetryNoteDependencyAbove(note);
         assertEquals(10, dependantNote.getPitchClass());

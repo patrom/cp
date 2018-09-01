@@ -13,7 +13,7 @@ public class HomophonicVoice extends Voice {
 
     @PostConstruct
     public void init(){
-        allBeatgroups = Arrays.asList(beatgroups.beatGroupHomophonicTwo, beatgroups.beatGroupHomophonicThree);
+        allBeatgroups = Arrays.asList(beatgroups.beatGroupHomophonicFour);
         setTimeconfig();
     }
 

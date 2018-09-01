@@ -34,23 +34,30 @@ public class MelodicObjective extends Objective {
 //		int minNotes = beats  / 3;
 		for(MelodyBlock melody: melodies){
 			List<Note> notes =  melody.getMelodyBlockNotes();
-//			if(notes.size() < minNotes){
-//				return 0;
-//			}
             MelodyDissonance melodyDissonance = melodyConfig.getMelodyDissonanceForVoice(melody.getVoice());
+            double melodyValue = evaluateMelody(notes, 1, melodyDissonance);
 
-            double melodyValue = evaluateMelody(notes, 2, melodyDissonance);
 //			notes = extractNotesOnLevel(notes, 1);
-			for (double level : musicProperties.getFilterLevels()) {
-				List<Note> filteredNotes = filterNotesWithWeightEqualToOrGreaterThan(notes, level);
-				if ((filteredNotes.size() > 1) && filteredNotes.size() != notes.size()) {
-					double value = evaluateMelody(filteredNotes, 1, melodyDissonance);
-					totalMelodySum = totalMelodySum + value;
-					melodyCount++;
-				}
-			}
+//			for (double level : musicProperties.getFilterLevels()) {
+//				List<Note> filteredNotes = filterNotesWithWeightEqualToOrGreaterThan(notes, level);
+//				if ((filteredNotes.size() > 1) && filteredNotes.size() != notes.size()) {
+//					double value = evaluateMelody(filteredNotes, 1, melodyDissonance);
+//					totalMelodySum = totalMelodySum + value;
+//					melodyCount++;
+//				}
+//			}
 			totalMelodySum = totalMelodySum + melodyValue;
 		}
+		//intervals between weightier notes
+        for (MelodyBlock melody : melodies) {
+            double averageNoteWeight = melody.getMelodyBlockNotes().stream().mapToDouble(note -> note.getPositionWeight()).average().getAsDouble();
+            List<Note> notesAboveAverage = melody.getMelodyBlockNotes().stream().filter(note -> note.getPositionWeight() > averageNoteWeight).sorted().collect(toList());
+            MelodyDissonance melodyDissonance = melodyConfig.getMelodyDissonanceForVoice(melody.getVoice());
+            double melodyValue = evaluateMelody(notesAboveAverage, 1, melodyDissonance);
+            totalMelodySum = totalMelodySum + melodyValue;
+            melodyCount++;
+        }
+
 		return totalMelodySum/melodyCount;
 	}
 	

@@ -46,6 +46,8 @@ public class FitnessEvaluationTemplate {
 	private Objective meterObjective;
 	@Autowired
 	private Objective melodicHarmonicObjective;
+    @Autowired
+	private Objective transformationObjective;
 
 
 	@Autowired
@@ -82,7 +84,7 @@ public class FitnessEvaluationTemplate {
 	private void updatePitchesFromContour(List<MelodyBlock> melodies) {
 		List<MelodyBlock> updatebleMelodies = melodies.stream().filter(m -> !m.getMelodyBlockNotes().isEmpty()).collect(toList());
 		for (MelodyBlock updatebleMelody : updatebleMelodies) {
-			Instrument instrument = instrumentConfig.getInstrumentForVoice(updatebleMelody.getVoice());
+//			Instrument instrument = instrumentConfig.getInstrumentForVoice(updatebleMelody.getVoice());
 //			updatebleMelody.updatePitchesFromInstrument(instrument);
 			updatebleMelody.updatePitchesFromContour();
 
@@ -125,8 +127,8 @@ public class FitnessEvaluationTemplate {
 		double harmonyResolution = harmonicResolutionObjective.evaluate(motive);
 		LOGGER.debug("harmonyResolution: " + harmonyResolution);
 		
-		double voiceLeading = voiceLeadingObjective.evaluate(motive);
-		LOGGER.debug("voiceLeadingSize: " + voiceLeading);
+//		double voiceLeading = voiceLeadingObjective.evaluate(motive);
+//		LOGGER.debug("voiceLeadingSize: " + voiceLeading);
 		
 		double melodic = melodicObjective.evaluate(motive);
 		LOGGER.debug("melodic = " + melodic);
@@ -145,17 +147,21 @@ public class FitnessEvaluationTemplate {
 
 		double register = registerObjective.evaluate(motive);
 		LOGGER.debug("register = " + register);
-		
-		FitnessObjectiveValues fitnessObjectives = new FitnessObjectiveValues();
+
+        double transformation = transformationObjective.evaluate(motive);
+        LOGGER.debug("transformation = " + transformation);
+
+        FitnessObjectiveValues fitnessObjectives = new FitnessObjectiveValues();
 		fitnessObjectives.setHarmony(harmony);
 		fitnessObjectives.setMelody(melodic);
 		fitnessObjectives.setMelodicHarmonic(melodicHarmonic);
-		fitnessObjectives.setVoiceleading(voiceLeading);
+//		fitnessObjectives.setVoiceleading(voiceLeading);
 //		fitnessObjectives.setTonality(tonality);
 		fitnessObjectives.setRhythm(rhythm);
 		fitnessObjectives.setMeter(meter);
 		fitnessObjectives.setRegister(register);
 		fitnessObjectives.setResolution(harmonyResolution);
+		fitnessObjectives.setTransformation(transformation);
 
 		//constraints
 //		objectives[5] = lowestIntervalRegisterValue;

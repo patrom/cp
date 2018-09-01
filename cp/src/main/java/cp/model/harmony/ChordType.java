@@ -2,7 +2,7 @@ package cp.model.harmony;
 
 public enum ChordType {
 
-	SYMMEETRY(-1),
+	SYMMETRY(-1),
 	TWELVE_TONE(12),
 	SETCLASS(100),
 

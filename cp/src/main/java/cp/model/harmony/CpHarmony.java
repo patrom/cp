@@ -168,7 +168,7 @@ public class CpHarmony implements Comparable<CpHarmony>{
                 }
             }
 
-            if(uniquePitches.size() >= 4){
+            if(uniquePitches.size() >= 3){
 				Integer firstLowestPitch = pitches.get(0);
 				Integer secondLowestPitch = pitches.get(1);
 				Integer thirdLowestPitch = pitches.get(2);

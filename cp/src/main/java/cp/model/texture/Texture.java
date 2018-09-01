@@ -321,7 +321,7 @@ public class Texture {
         if (!note.isRest()) {
             DependantHarmony dependantHarmony = note.getDependantHarmony();
             switch (dependantHarmony.getChordType()){
-                case SYMMEETRY:
+                case SYMMETRY:
                     int interval = note.getPitchClass() - dependantHarmony.getAxisPitchClassHigh();
                     pitchClass = (dependantHarmony.getAxisPitchClassLow() - interval + 12) % 12;
                     break;
@@ -347,7 +347,7 @@ public class Texture {
         if (!note.isRest()) {
             DependantHarmony dependantHarmony = note.getDependantHarmony();
             switch (dependantHarmony.getChordType()){
-                case SYMMEETRY:
+                case SYMMETRY:
                     int interval = note.getPitchClass() - dependantHarmony.getAxisPitchClassHigh();
                     pitchClass = (dependantHarmony.getAxisPitchClassLow() - interval + 12) % 12;
                     break;

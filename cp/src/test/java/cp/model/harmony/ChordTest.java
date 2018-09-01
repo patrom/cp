@@ -29,6 +29,7 @@ public class ChordTest {
 		chord.addPitchClass(6);
 		chord.addPitchClass(9);
 		assertEquals("Chord type wrong", ChordType.MAJOR, chord.getChordType());
+        assertEquals(2, chord.getRoot());
 	}
 	
 	@Test
@@ -38,6 +39,7 @@ public class ChordTest {
 		chord.addPitchClass(6);
 		chord.addPitchClass(9);
 		assertEquals("Chord type wrong", ChordType.MAJOR_1, chord.getChordType());
+        assertEquals(2, chord.getRoot());
 	}
 	
 	@Test
@@ -47,6 +49,7 @@ public class ChordTest {
 		chord.addPitchClass(6);
 		chord.addPitchClass(9);
 		assertEquals("Chord type wrong", ChordType.MAJOR_2, chord.getChordType());
+        assertEquals(2, chord.getRoot());
 	}
 	
 	@Test
@@ -56,6 +59,7 @@ public class ChordTest {
 		chord.addPitchClass(5);
 		chord.addPitchClass(9);
 		assertEquals("Chord type wrong", ChordType.MINOR, chord.getChordType());
+        assertEquals(2, chord.getRoot());
 	}
 	
 	@Test
@@ -65,6 +69,7 @@ public class ChordTest {
 		chord.addPitchClass(5);
 		chord.addPitchClass(9);
 		assertEquals("Chord type wrong", ChordType.MINOR_1, chord.getChordType());
+        assertEquals(2, chord.getRoot());
 	}
 	
 	@Test
@@ -74,6 +79,7 @@ public class ChordTest {
 		chord.addPitchClass(5);
 		chord.addPitchClass(9);
 		assertEquals("Chord type wrong", ChordType.MINOR_2, chord.getChordType());
+        assertEquals(2, chord.getRoot());
 	}
 	
 	@Test

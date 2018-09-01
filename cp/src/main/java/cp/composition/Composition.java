@@ -171,8 +171,8 @@ public abstract class Composition {
 
 	@PostConstruct
 	public void init(){
-		composeInKey(keys.C);
-		inTempo(52);
+		composeInKey(keys.Bflat);
+		inTempo(71);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
 		meterObjective.setComposition(this);
@@ -190,8 +190,9 @@ public abstract class Composition {
 		timeLine.setEnd(end);
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
-		timeLineKeys.add(new TimeLineKey(keys.C, Scale.OCTATCONIC_HALF, 0 ,0));
-//		timeLineKeys.add(new TimeLineKey(keys.Fsharp, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.F, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.Aflat, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.D, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.C, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.G, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.C, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
@@ -205,25 +206,26 @@ public abstract class Composition {
 		List<Integer> durations = new ArrayList<>();
 //		durations.add(DurationConstants.QUARTER);
 //		durations.add(DurationConstants.SIX_EIGHTS);
-//		durations.add(DurationConstants.HALF);
+		durations.add(DurationConstants.HALF);
 		durations.add(DurationConstants.WHOLE);
 //		durations.add(DurationConstants.THREE_QUARTERS);
 		timeLine.randomKeysAndDurations(timeLineKeys, durations);
-
-//        List<TimeLineKey> timeLineKeysForVoice = new ArrayList<>();
-//        timeLineKeysForVoice.add(new TimeLineKey(keys.C, Scale.MELODY, 0 ,0));
+        //or add timeline key per voice
+        List<TimeLineKey> timeLineKeysForVoice = new ArrayList<>();
+        timeLineKeysForVoice.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
 //        timeLineKeysForVoice.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.Fsharp, Scale.MAJOR_SCALE, 0 ,0));
 //        timeLineKeysForVoice.add(new TimeLineKey(keys.C, Scale.OCTATCONIC_HALF, 0 ,0));
 //        timeLineKeysForVoice.add(new TimeLineKey(keys.C, Scale.LYDIAN_SCALE, 0 ,0));
 //        timeLineKeysForVoice.add(new TimeLineKey(keys.C, Scale.MIXOLYDIAN_SCALE, 0 ,0));
 //        timeLine.randomKeysAndDurationsForVoice(0, timeLineKeysForVoice, durations);
+//        timeLine.randomKeysAndDurationsForVoice(2, timeLineKeysForVoice, durations);
 
 
-//        List<TimeLineKey> timeLineKeysForVoice1 = new ArrayList<>();
+        List<TimeLineKey> timeLineKeysForVoice1 = new ArrayList<>();
 //        timeLineKeysForVoice1.add(new TimeLineKey(keys.Eflat, Scale.MELODY, 0 ,0));
 //        timeLineKeysForVoice1.add(new TimeLineKey(keys.Eflat, Scale.MAJOR_SCALE, 0 ,0));
-//        timeLineKeysForVoice1.add(new TimeLineKey(keys.C, Scale.OCTATCONIC_HALF, 0 ,0));
+        timeLineKeysForVoice1.add(new TimeLineKey(keys.C, Scale.OCTATCONIC_HALF, 0 ,0));
 //        timeLineKeysForVoice1.add(new TimeLineKey(keys.C, Scale.LYDIAN_SCALE, 0 ,0));
 //        timeLineKeysForVoice1.add(new TimeLineKey(keys.C, Scale.MIXOLYDIAN_SCALE, 0 ,0));
 //        timeLine.randomKeysAndDurationsForVoice(1, timeLineKeysForVoice1, durations);

@@ -86,7 +86,7 @@ public class BeatGroupConfig {
     @Bean
     public BeatGroup beatGroupHomophonicTwo(){
         return new BeatGroupMelody(2,
-                homophonicEven , Collections.singletonList(passingPitchClasses::updatePitchClasses));
+                homophonicEven , Collections.singletonList(randomPitchClasses::randomPitchClasses));
     }
 
     @Bean
@@ -98,7 +98,7 @@ public class BeatGroupConfig {
     @Bean
     public BeatGroup beatGroupHomophonicFour(){
         return new BeatGroupMelody(4,
-                homophonicEven , Collections.singletonList(passingPitchClasses::updatePitchClasses));
+                homophonicEven , Collections.singletonList(randomPitchClasses::randomPitchClasses));
     }
 
 

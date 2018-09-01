@@ -3,6 +3,8 @@ package cp.nsga;
 import jmetal.core.Problem;
 import jmetal.core.Solution;
 
+import java.util.Objects;
+
 public class MusicSolution extends Solution {
 	
 	private double harmony;
@@ -14,6 +16,7 @@ public class MusicSolution extends Solution {
 	private double resolution;
 	private double register;
 	private double melodicHarmonic;
+	private double transformation;
 	
 	private double constraintLowestInterval;
 	private double constraintRhythm;
@@ -98,52 +101,38 @@ public class MusicSolution extends Solution {
 		return melodicHarmonic;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(harmony);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(melody);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(rhythm);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(tonality);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(voiceLeading);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		return result;
-	}
+    public double getTransformation() {
+        return transformation;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		MusicSolution other = (MusicSolution) obj;
-		if (Double.doubleToLongBits(harmony) != Double
-				.doubleToLongBits(other.harmony))
-			return false;
-		if (Double.doubleToLongBits(melody) != Double
-				.doubleToLongBits(other.melody))
-			return false;
-		if (Double.doubleToLongBits(rhythm) != Double
-				.doubleToLongBits(other.rhythm))
-			return false;
-		if (Double.doubleToLongBits(tonality) != Double
-				.doubleToLongBits(other.tonality))
-			return false;
-		if (Double.doubleToLongBits(voiceLeading) != Double
-				.doubleToLongBits(other.voiceLeading))
-			return false;
-		return true;
-	}
+    public void setTransformation(double transformation) {
+        this.transformation = transformation;
+    }
 
-	public double getMeter() {
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MusicSolution that = (MusicSolution) o;
+        return Double.compare(that.harmony, harmony) == 0 &&
+                Double.compare(that.melody, melody) == 0 &&
+                Double.compare(that.voiceLeading, voiceLeading) == 0 &&
+                Double.compare(that.rhythm, rhythm) == 0 &&
+                Double.compare(that.tonality, tonality) == 0 &&
+                Double.compare(that.meter, meter) == 0 &&
+                Double.compare(that.resolution, resolution) == 0 &&
+                Double.compare(that.register, register) == 0 &&
+                Double.compare(that.melodicHarmonic, melodicHarmonic) == 0 &&
+                Double.compare(that.transformation, transformation) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(harmony, melody, voiceLeading, rhythm, tonality, meter, resolution, register, melodicHarmonic, transformation);
+    }
+
+    public double getMeter() {
 		return meter;
 	}
 
@@ -163,7 +152,7 @@ public class MusicSolution extends Solution {
 	public String toString() {
 		return "MusicSolution [harmony=" + harmony + ", melody=" + melody
 				+ ", voiceLeading=" + voiceLeading + ", rhythm=" + rhythm
-				+ ", tonality=" + tonality + ", meter=" + meter + ", mh=" + melodicHarmonic
+				+ ", tonality=" + tonality + ", meter=" + meter + ", mh=" + melodicHarmonic + ", tr=" + transformation
 				+ ", resolution=" + resolution + ", register=" +register + "]";
 	}
 }
