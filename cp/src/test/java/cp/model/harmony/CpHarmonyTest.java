@@ -1,10 +1,11 @@
 package cp.model.harmony;
 
 import cp.model.note.Note;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,14 +13,16 @@ import java.util.stream.Stream;
 
 import static cp.model.note.NoteBuilder.note;
 import static java.util.stream.Collectors.toList;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-@RunWith(MockitoJUnitRunner.class)
+
+@ExtendWith(MockitoExtension.class)
+@DisplayName("CpHarmonyTest")
 public class CpHarmonyTest {
 
 	private CpHarmony cpHarmony;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).pitch(60).octave(5).positionWeight(3.0).build());
@@ -224,7 +227,7 @@ public class CpHarmonyTest {
 		notes.add(note().pos(0).pc(9).pitch(69).octave(5).build());
 		cpHarmony = new CpHarmony(notes, 0);
         ChordType additiveChord = cpHarmony.getAdditiveChord();
-        assertNull(additiveChord);
+        assertEquals(ChordType.ANCHOR_49_MIN, additiveChord);
 	}
 
 	@Test

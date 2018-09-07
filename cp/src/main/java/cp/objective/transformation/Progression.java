@@ -10,8 +10,93 @@ public class Progression {
     private static final Logger LOGGER = LoggerFactory.getLogger(Progression.class);
 
     public static Transformation getTransformation(Chord chord, Chord nextChord) {
-        chord.getChordType();//set root!!!
-        nextChord.getChordType();
+        ChordType chordType = chord.getChordType();
+        ChordType nextChordType = nextChord.getChordType();
+        if (chordType.getSize() == 3 && nextChord.getSize() == 3) {
+            return triadic(chord, nextChord);
+        } else  if (chordType.getSize() == 4 && nextChord.getSize() == 4) {
+            return cube(chord, nextChord);
+        }
+        return Transformation.UNDEFINED;
+    }
+
+    private static Transformation cube(Chord chord, Chord nextChord) {
+        ChordType chordType = chord.getChordType();
+        ChordType nextChordType = nextChord.getChordType();
+            if ((chordType == ChordType.DOM7 ||
+                    chordType == ChordType.HALFDIM7 ||
+                    chordType == ChordType.MINOR7 ||
+                    chordType == ChordType.MINOR7_1 ||
+                    chordType == ChordType.MINOR7_2 ||
+                    chordType == ChordType.MINOR7_3 ||
+                    chord.getForteName().equals("4-25") ||
+                    chordType == ChordType.DIM7)
+                    && (nextChordType == ChordType.DOM7 ||
+                    nextChordType == ChordType.HALFDIM7 ||
+                    nextChordType == ChordType.MINOR7 ||
+                    nextChordType == ChordType.MINOR7_1 ||
+                    nextChordType == ChordType.MINOR7_2 ||
+                    nextChordType == ChordType.MINOR7_3 ||
+                    nextChord.getForteName().equals("4-25") ||
+                    nextChordType == ChordType.DIM7)) {
+                int stepInterval = chord.getVoiceLeadingZone() - nextChord.getVoiceLeadingZone();
+                switch (stepInterval) {
+                    case 0:
+                        return Transformation.ZONE_0;
+                    case 1:
+                        return Transformation.ZONE_1;
+                    case 2:
+                        return Transformation.ZONE_2;
+                    case 3:
+                        return Transformation.ZONE_3;
+                    case 4:
+                        return Transformation.ZONE_4;
+                    case 5:
+                        return Transformation.ZONE_5;
+                    case 6:
+                        return Transformation.ZONE_6;
+                    case 7:
+                        return Transformation.ZONE_5;
+                    case 8:
+                        return Transformation.ZONE_4;
+                    case 9:
+                        return Transformation.ZONE_3;
+                    case 10:
+                        return Transformation.ZONE_2;
+                    case 11:
+                        return Transformation.ZONE_1;
+                    case -1:
+                        return Transformation.ZONE_1;
+                    case -2:
+                        return Transformation.ZONE_2;
+                    case -3:
+                        return Transformation.ZONE_3;
+                    case -4:
+                        return Transformation.ZONE_4;
+                    case -5:
+                        return Transformation.ZONE_5;
+                    case -6:
+                        return Transformation.ZONE_6;
+                    case -7:
+                        return Transformation.ZONE_5;
+                    case -8:
+                        return Transformation.ZONE_4;
+                    case -9:
+                        return Transformation.ZONE_3;
+                    case -10:
+                        return Transformation.ZONE_2;
+                    case -11:
+                        return Transformation.ZONE_1;
+                }
+
+        }
+        return Transformation.UNDEFINED;
+    }
+
+
+    private static Transformation triadic(Chord chord, Chord nextChord) {
+        ChordType chordType = chord.getChordType();
+        ChordType nextChordType = nextChord.getChordType();
         int root = chord.getRoot();
         int nextRoot = nextChord.getRoot();
 //        LOGGER.info("root: " + root);
@@ -19,8 +104,6 @@ public class Progression {
         if (root > -1 && nextRoot > -1) {
 //            LOGGER.info("step");
             int stepInterval = root - nextRoot;
-            ChordType chordType = chord.getChordType();
-            ChordType nextChordType = nextChord.getChordType();
             if ((chordType == ChordType.MAJOR ||
                     chordType == ChordType.MAJOR_1 ||
                     chordType == ChordType.MAJOR_2)

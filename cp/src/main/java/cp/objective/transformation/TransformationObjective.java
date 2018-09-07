@@ -28,11 +28,12 @@ public class TransformationObjective extends Objective {
     @Autowired
 //    @Qualifier(value = "functionalTransformation")
     @Qualifier(value = "neoRiemannTransformation")
+//    @Qualifier(value = "voiceLeadingZoneTransformation")
     private TransformationDissonance transformationDissonance;
 
     @Override
     public double evaluate(Motive motive) {
-        List<Note> harmonyNotes = motive.getMelodyBlocks().stream().filter(m -> m.getVoice() == 1 || m.getVoice() == 0)
+        List<Note> harmonyNotes = motive.getMelodyBlocks().stream().filter(m -> m.getVoice() == 0 ||  m.getVoice() == 1 )
                 .flatMap(m -> m.getMelodyBlockNotes().stream()).collect(toList());
         List<CpHarmony> transformationHarmonies = harmonyExtractor.extractHarmony(harmonyNotes);
         List<Transformation> transformations = new ArrayList<>();

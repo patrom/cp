@@ -199,7 +199,7 @@ public class Chord {
 				}
 			} else if (secondInterval == 3) {
 				if (thirdInterval == 3) {
-					return ChordType.DIM;
+					return ChordType.DIM7;
 				} else if(thirdInterval == 4){
 					return ChordType.HALFDIM7;
 				} else if(thirdInterval == 2){
@@ -396,7 +396,7 @@ public class Chord {
 	}
 
 	public int getVoiceLeadingZone() {
-		return voiceLeadingZone;
+        return pitchClassMultiSet.elementSet().stream().mapToInt(Integer::intValue).sum();
 	}
 
 	public int getbassNote() {

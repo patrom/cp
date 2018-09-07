@@ -55,20 +55,20 @@ public class TextureConfig {
 
         List<DependantHarmony> intervaltypes = new ArrayList<>();
 //        intervaltypes.add(createDependantHarmony(ChordType.CH2_KWART));
-        intervaltypes.add(createDependantHarmony(ChordType.CH2_KWINT));
+//        intervaltypes.add(createDependantHarmony(ChordType.CH2_KWINT));
 //        intervaltypes.add(createDependantHarmony(ChordType.CH2_TRITONE)); == kwart diatonic
 //        intervaltypes.add(createDependantHarmony(ChordType.CH2_TRITONE_CHR));
         intervaltypes.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT));
 //        intervaltypes.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT_CHR));
 //        intervaltypes.add(createDependantHarmony(ChordType.CH2_KLEINE_SIXT_CHR));
-        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
-        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
-        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
+//        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
+//        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
+//        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
 //        intervaltypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
         intervaltypes.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS));
 //        intervaltypes.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS_CHR));
 //        intervaltypes.add(createDependantHarmony(ChordType.CH2_KLEINE_TERTS_CHR));
-        intervaltypes.add(createDependantHarmony(ChordType.CH2_OCTAVE));
+//        intervaltypes.add(createDependantHarmony(ChordType.CH2_OCTAVE));
 
         List<DependantHarmony> intervalOctavetypes = new ArrayList<>();
         intervalOctavetypes.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS_OCTAVE));
@@ -77,10 +77,12 @@ public class TextureConfig {
         intervalOctavetypes.add(createDependantHarmony(ChordType.CH2_KWINT_OCTAVE));
         intervalOctavetypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
 
+//        textureTypes.put(0, intervaltypes);
 //        textureTypes.put(1, intervaltypes);
 //        textureTypes.put(2, chordTypes);
+//        textureTypes.put(2, chordTypes);
 //        chordTypes.addAll(intervaltypes);
-        textureTypes.put(1, chordTypes);
+        textureTypes.put(0, chordTypes);
 
         List<DependantHarmony> octaveDoubling = new ArrayList<>();
         octaveDoubling.add(createDependantHarmony(ChordType.CH2_OCTAVE));
@@ -122,7 +124,10 @@ public class TextureConfig {
 
 
         Set set3_11 = tnTnIType.getPrimeByName("3-11");
-        Set set = tnTnIType.getPrimeByName("4-27");
+        Set set_maj7 = tnTnIType.getPrimeByName("4-20");
+        Set set_French6 = tnTnIType.getPrimeByName("4-25");
+        Set set_min7 = tnTnIType.getPrimeByName("4-26");
+        Set set_dom_halfdim = tnTnIType.getPrimeByName("4-27");
         Set set_dim = tnTnIType.getPrimeByName("4-28");
 
         List<DependantHarmony> setClassTypesSet = new ArrayList<>();
@@ -130,20 +135,22 @@ public class TextureConfig {
 //        setClassTypesSet.add(createDependantHarmony(set.tntnitype, VoicingType.CLOSE));
 //        setClassTypesSet.add(createDependantHarmony(set.tntnitype, VoicingType.DROP_2));
 //        setClassTypesSet.add(createDependantHarmony(set.tntnitype, VoicingType.DROP_3));
+        setClassTypesSet.add(createDependantHarmony(set_maj7.tntnitype, VoicingType.CLOSE));
+        setClassTypesSet.add(createDependantHarmony(set_French6.tntnitype, VoicingType.CLOSE));
 
-        setClassTypesSet.add(createDependantHarmony(set.tntnitype, VoicingType.CLOSE));
-        setClassTypesSet.add(createDependantHarmony(set.tntnitype, VoicingType.DROP_2));
+        setClassTypesSet.add(createDependantHarmony(set_min7.tntnitype, VoicingType.CLOSE));
+//        setClassTypesSet.add(createDependantHarmony(set_min7.tntnitype, VoicingType.DROP_2));
 //        setClassTypesSet.add(createDependantHarmony(set.tntnitype, VoicingType.UP_3));
 
-        setClassTypesSet.add(createDependantHarmony(set3_11.tntnitype, VoicingType.CLOSE));
-        setClassTypesSet.add(createDependantHarmony(set3_11.tntnitype, VoicingType.DROP_2));
+        setClassTypesSet.add(createDependantHarmony(set_dom_halfdim.tntnitype, VoicingType.CLOSE));
+//        setClassTypesSet.add(createDependantHarmony(set3_11.tntnitype, VoicingType.DROP_2));
 //        setClassTypesSet.add(createDependantHarmony(set3_11.tntnitype, VoicingType.UP_3));
 
         setClassTypesSet.add(createDependantHarmony(set_dim.tntnitype, VoicingType.CLOSE));
-        setClassTypesSet.add(createDependantHarmony(set_dim.tntnitype, VoicingType.DROP_2));
+//        setClassTypesSet.add(createDependantHarmony(set_dim.tntnitype, VoicingType.DROP_2));
 //        setClassTypesSet.add(createDependantHarmony(set_dim.tntnitype, VoicingType.UP_3));
 
-//        textureTypes.put(1, setClassTypesSet);
+//        textureTypes.put(0, setClassTypesSet);
     }
 
 //    public List<DependantHarmony> rowMatrix(int[] setClass, VoicingType voicingType) {

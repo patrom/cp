@@ -48,6 +48,8 @@ public class BeatGroupConfig {
     private OrderRandomNotePitchClasses orderRandomNotePitchClasses;
     @Autowired
     private OrderNoteRepetitionPitchClasses orderNoteRepetitionPitchClasses;
+//    @Autowired
+//    private HarmonyPitchClasses harmonyPitchClasses;
 
     @Autowired
     private RhythmCombinations rhythmCombinations;
@@ -104,43 +106,49 @@ public class BeatGroupConfig {
 
     @Bean
     public BeatGroup beatGroupHarmonyOne(){
-        return new BeatgroupHarmony(1,
+        return new BeatgroupHarmony(2,
                 getBeatGroups() , Collections.singletonList(orderPitchClasses::updatePitchClasses));
     }
 
     @Bean
     public BeatGroup beatGroupHarmonyTwo(){
-        return new BeatgroupHarmony(2,
+        return new BeatgroupHarmony(8,
                 getBeatGroups() , Collections.singletonList(orderPitchClasses::updatePitchClasses));
     }
 
 
     @Bean
     public BeatGroup beatGroupMotiveOne(){
-        Map<Integer, List<RhythmCombination>> map = new HashMap<>();
-        List<RhythmCombination> beatGroups2 = new ArrayList<>();
-        beatGroups2.add(rhythmCombinations.threeNoteEven::pos134);
-        beatGroups2.add(rhythmCombinations.threeNoteEven::pos234);
-        map.put(2, beatGroups2);
-        BeatgroupMotive beatgroupMotive = new BeatgroupMotive(1,
-                map, Collections.singletonList(orderPitchClasses::updatePitchClasses));
+//        Map<Integer, List<RhythmCombination>> map = new HashMap<>();
+//        List<RhythmCombination> beatGroups2 = new ArrayList<>();
+//        beatGroups2.add(rhythmCombinations.threeNoteEven::pos134);
+//        beatGroups2.add(rhythmCombinations.threeNoteEven::pos234);
+//        map.put(2, beatGroups2);
+//
+//        BeatgroupMotive beatgroupMotive = new BeatgroupMotive(1,
+//                map, Collections.singletonList(orderPitchClasses::updatePitchClasses));
+//        beatgroupMotive.setMotiveScale(Scale.MAJOR_SCALE);
+//        beatgroupMotive.setTonality(Tonality.ATONAL);
+////        timeLineKeys.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE));
+////        timeLineKeys.add(new TimeLineKey(keys.F, Scale.MAJOR_SCALE));
+////        timeLineKeys.add(new TimeLineKey(keys.A, Scale.HARMONIC_MINOR_SCALE));
+////        timeLineKeys.add(new TimeLineKey(keys.D, Scale.HARMONIC_MINOR_SCALE));
+//        Scale scale = new Scale(new int[]{0, 3, 2});
+////        Scale scale = new Scale(new int[]{0, 2, 3, 4});
+//        beatgroupMotive.addMotivePitchClasses(scale);
+        return getBeatGroup(1);
+    }
 
-        beatgroupMotive.setMotiveScale(Scale.MAJOR_SCALE);
-        beatgroupMotive.setTonality(Tonality.ATONAL);
-//        timeLineKeys.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE));
-//        timeLineKeys.add(new TimeLineKey(keys.F, Scale.MAJOR_SCALE));
-//        timeLineKeys.add(new TimeLineKey(keys.A, Scale.HARMONIC_MINOR_SCALE));
-//        timeLineKeys.add(new TimeLineKey(keys.D, Scale.HARMONIC_MINOR_SCALE));
-        Scale scale = new Scale(new int[]{0, 4, 3});
-//        Scale scale = new Scale(new int[]{0, 2, 3, 4});
-        beatgroupMotive.addMotivePitchClasses(scale);
-        return beatgroupMotive;
+    @Bean
+    public BeatGroup beatGroupMotiveTwo(){
+        return getBeatGroup(2);
     }
 
     private Map<Integer, List<RhythmCombination>> getBeatGroups(){
         Map<Integer, List<RhythmCombination>> map = new HashMap<>();
         List<RhythmCombination> beatGroups2 = new ArrayList<>();
-        beatGroups2.add(rhythmCombinations.twoNoteEven::pos13);
+        beatGroups2.add(rhythmCombinations.oneNoteEven::pos1);
+//        beatGroups2.add(rhythmCombinations.twoNoteEven::pos13);
 //        beatGroups2.add(rhythmCombinations.twoNoteEven::pos14);
         map.put(2, beatGroups2);
 
@@ -149,5 +157,28 @@ public class BeatGroupConfig {
 //        beatGroups4.add(rhythmCombinations.combiNoteEven::pos23pos12);
 //        map.put(4, beatGroups4);
         return map;
+    }
+
+    private BeatGroup getBeatGroup(int type) {
+        Map<Integer, List<RhythmCombination>> map = new HashMap<>();
+        List<RhythmCombination> beatGroups2 = new ArrayList<>();
+        beatGroups2.add(rhythmCombinations.threeNoteEven::pos134);
+        beatGroups2.add(rhythmCombinations.threeNoteEven::pos234);
+        map.put(2, beatGroups2);
+
+        BeatgroupMotive beatgroupMotive = new BeatgroupMotive(type,
+                map, Collections.singletonList(orderPitchClasses::updatePitchClasses));
+        beatgroupMotive.setMotiveScale(Scale.MAJOR_SCALE);
+        beatgroupMotive.setTonality(Tonality.ATONAL);
+//        timeLineKeys.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE));
+//        timeLineKeys.add(new TimeLineKey(keys.F, Scale.MAJOR_SCALE));
+//        timeLineKeys.add(new TimeLineKey(keys.A, Scale.HARMONIC_MINOR_SCALE));
+//        timeLineKeys.add(new TimeLineKey(keys.D, Scale.HARMONIC_MINOR_SCALE));
+        Scale scale = new Scale(new int[]{0, 4, 8});
+//        Scale scale = new Scale(new int[]{0, 2, 3, 4});
+        beatgroupMotive.addMotivePitchClasses(scale);
+        scale = new Scale(new int[]{0, 3, 8});
+        beatgroupMotive.addMotivePitchClasses(scale);
+        return beatgroupMotive;
     }
 }

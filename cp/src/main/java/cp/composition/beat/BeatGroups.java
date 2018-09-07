@@ -27,6 +27,9 @@ public class BeatGroups {
     @Autowired
     public BeatGroup beatGroupMotiveOne;
 
+    @Autowired
+    public BeatGroup beatGroupMotiveTwo;
+
 
     @Autowired
     public BeatGroup beatGroupHarmonyOne;

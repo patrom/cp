@@ -46,9 +46,9 @@ public class BeatgroupHarmony extends BeatGroup {
     @PostConstruct
     public void init() {
         timeLineKeys.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE));
-        timeLineKeys.add(new TimeLineKey(keys.F, Scale.MAJOR_SCALE));
-        timeLineKeys.add(new TimeLineKey(keys.A, Scale.HARMONIC_MINOR_SCALE));
-        timeLineKeys.add(new TimeLineKey(keys.D, Scale.HARMONIC_MINOR_SCALE));
+//        timeLineKeys.add(new TimeLineKey(keys.F, Scale.MAJOR_SCALE));
+//        timeLineKeys.add(new TimeLineKey(keys.A, Scale.HARMONIC_MINOR_SCALE));
+//        timeLineKeys.add(new TimeLineKey(keys.D, Scale.HARMONIC_MINOR_SCALE));
 
         motiveScale = Scale.MAJOR_SCALE;
 
@@ -56,8 +56,8 @@ public class BeatgroupHarmony extends BeatGroup {
 
         Scale scale = new Scale(new int[]{0, 4});
         motivePitchClasses.add(scale);
-        scale = new Scale(new int[]{0, 5});
-        motivePitchClasses.add(scale);
+//        scale = new Scale(new int[]{0, 5});
+//        motivePitchClasses.add(scale);
 
         int[] setClass = chordGenerator.generatePitchClasses("2-5");
         List<Integer> pitchClasses = Arrays.stream(setClass).boxed().collect(toList());

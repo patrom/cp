@@ -13,7 +13,8 @@ public class MelodyVoice extends Voice {
 
     @PostConstruct
     public void init(){
-        allBeatgroups = Arrays.asList(beatgroups.beatGroupHomophonicTwo, beatgroups.beatGroupTwo);
+        allBeatgroups = Arrays.asList(beatgroups.beatGroupTwo, beatgroups.beatGroupOne);
+//        allBeatgroups = Arrays.asList(beatgroups.beatGroupMotiveOne, beatgroups.beatGroupMotiveTwo);
         setTimeconfig();
     }
 

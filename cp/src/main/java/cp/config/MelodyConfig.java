@@ -40,7 +40,7 @@ public class MelodyConfig {
         MelodicHarmonicTriadDissonance melodicHarmonicTriadDissonance = new MelodicHarmonicTriadDissonance("3-1", "3-2","3-3","3-4","3-5" );
         meldodyHarmonicConfigs.put(0, melodicHarmonicTriadDissonance);
         meldodyHarmonicConfigs.put(1, melodicHarmonicTriadDissonance);
-        meldodyHarmonicConfigs.put(2, melodicHarmonicTriadDissonance);
+        meldodyHarmonicConfigs.put(2, melodyHarmoniceTriChordalDissonance);
         meldodyHarmonicConfigs.put(3, melodyHarmoniceTriChordalDissonance);
         meldodyHarmonicConfigs.put(4, melodyHarmoniceTriChordalDissonance);
         meldodyHarmonicConfigs.put(5, melodyHarmoniceTriChordalDissonance);

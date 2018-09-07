@@ -3,22 +3,24 @@ package cp.objective.harmony;
 import cp.model.harmony.CpHarmony;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
+@DisplayName("HumanizerTest")
 public class HarmonicResolutionObjectiveTest {
 
     @InjectMocks
@@ -26,14 +28,14 @@ public class HarmonicResolutionObjectiveTest {
 	@Mock
 	private DissonantResolution dissonantResolution;
 	
-	@Before
+	@BeforeEach
 	public void setup() {
 
 	}
 
 	@Test
 	public void testNoHarmonieHasResolution() {
-		when(dissonantResolution.isDissonant(any())).thenReturn(Boolean.TRUE);
+		when(dissonantResolution.isDissonant(Mockito.any())).thenReturn(Boolean.TRUE);
 		List<CpHarmony> harmonies = new ArrayList<>();
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).positionWeight(4.0).build());

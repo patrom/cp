@@ -3,10 +3,11 @@ package cp.model.harmony;
 import cp.model.note.Note;
 import cp.model.setclass.Set;
 import cp.model.setclass.TnTnIType;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +16,8 @@ import java.util.List;
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.Assert.assertEquals;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
+@DisplayName("DependantHarmonyTest")
 public class DependantHarmonyTest {
 
     private DependantHarmony dependantHarmony;
@@ -23,7 +25,7 @@ public class DependantHarmonyTest {
     private TnTnIType tnTnIType ;
     private Set set ;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         tnTnIType = new TnTnIType();
         set = tnTnIType.getPrimeByName("3-1");
