@@ -422,4 +422,5 @@ public class MelodyBlock {
 	public void setMelodyBlocks(List<CpMelody> melodyBlocks) {
 		this.melodyBlocks = melodyBlocks;
 	}
+
 }

@@ -338,30 +338,6 @@ public class CpMelodyTest {
 	}
 
 	@Test
-	public void testInversePitchClasses3() {
-		//A major
-		List<Note> notes = new ArrayList<>();
-		notes.add(note().pos(0).pc(9).voice(0).build());
-		notes.add(note().pos(DurationConstants.QUARTER).pc(11).voice(0).build());
-		notes.add(note().pos(DurationConstants.HALF).pc(1).voice(0).build());
-		notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).pc(2).voice(0).build());
-		melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE + DurationConstants.QUARTER);
-		melody.setTonality(Tonality.TONAL);
-		melody.setTimeLineKey(new TimeLineKey(A, Scale.MAJOR_SCALE, 0, DurationConstants.WHOLE));
-		notes.forEach(n -> System.out.println(n.toString()));
-		System.out.println();
-
-		timeLine = new TimeLine();
-		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(D, Scale.HARMONIC_MINOR_SCALE, 0, DurationConstants.WHOLE)), 0);
-
-		melody.inversePitchClasses(timeLine);
-
-		List<Note> inverseNotes = melody.getNotes();
-		inverseNotes.forEach(n -> System.out.println(n.toString()));
-		System.out.println();
-	}
-
-	@Test
 	public void testInverse(){
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).build());
@@ -508,67 +484,6 @@ public class CpMelodyTest {
             melody.getNotes().forEach(n -> System.out.println(n));
             System.out.println();
         }
-    }
-
-	@Test
-	public void testConvertToKey(){
-		timeLine = new TimeLine();
-		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(D, Scale.MAJOR_SCALE, 0, DurationConstants.WHOLE)), 0);
-		List<Note> notes = new ArrayList<>();
-		notes.add(note().pos(0).pc(0).build());
-		notes.add(note().pos(DurationConstants.QUARTER).pc(2).build());
-		notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.EIGHT).pc(4).build());
-		notes.add(note().pos(DurationConstants.HALF).pc(5).build());
-		CpMelody melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
-		melody.setTimeLineKey(new TimeLineKey(keys.C, Scale.MAJOR_SCALE));
-		melody.getNotes().forEach(n -> System.out.println(n));
-		System.out.println();
-
-		melody.convertToTimelineKey(timeLine);
-		melody.getNotes().forEach(n -> System.out.println(n));
-		System.out.println();
-	}
-
-	@Test
-	public void testConvertToKeyDtoE(){
-		timeLine = new TimeLine();
-		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.E, Scale.MAJOR_SCALE, 0, DurationConstants.WHOLE)), 0);
-		List<Note> notes = new ArrayList<>();
-		notes.add(note().pos(0).pc(1).build());
-		notes.add(note().pos(DurationConstants.QUARTER).pc(2).build());
-		notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.EIGHT).pc(4).build());
-		notes.add(note().pos(DurationConstants.HALF).pc(6).build());
-		CpMelody melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
-        melody.setTimeLineKey(new TimeLineKey(keys.D, Scale.MAJOR_SCALE));
-		melody.getNotes().forEach(n -> System.out.println(n));
-		System.out.println();
-
-		melody.convertToTimelineKey(timeLine);
-		melody.getNotes().forEach(n -> System.out.println(n));
-		System.out.println();
-        assertEquals(keys.E.getStep(), melody.getTimeLineKey().getKey().getStep());
-        assertEquals(Scale.MAJOR_SCALE, melody.getTimeLineKey().getScale());
-    }
-
-    @Test
-    public void testConvertToKeyDtoEminor(){
-        timeLine = new TimeLine();
-        timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(keys.E, Scale.HARMONIC_MINOR_SCALE, 0, DurationConstants.WHOLE)), 0);
-        List<Note> notes = new ArrayList<>();
-        notes.add(note().pos(0).pc(1).build());
-        notes.add(note().pos(DurationConstants.QUARTER).pc(2).build());
-        notes.add(note().pos(DurationConstants.QUARTER + DurationConstants.EIGHT).pc(4).build());
-        notes.add(note().pos(DurationConstants.HALF).pc(6).build());
-        CpMelody melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
-        melody.setTimeLineKey(new TimeLineKey(keys.D, Scale.MAJOR_SCALE));
-        melody.getNotes().forEach(n -> System.out.println(n));
-        System.out.println();
-
-        melody.convertToTimelineKey(timeLine);
-        melody.getNotes().forEach(n -> System.out.println(n));
-        System.out.println();
-        assertEquals(keys.E.getStep(), melody.getTimeLineKey().getKey().getStep());
-        assertEquals(Scale.HARMONIC_MINOR_SCALE, melody.getTimeLineKey().getScale());
     }
 
 	@Test

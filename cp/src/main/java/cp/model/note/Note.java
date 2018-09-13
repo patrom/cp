@@ -99,7 +99,6 @@ public class Note implements Comparable<Note>{
 		this.tupletType = anotherNote.getTupletType();
 		this.bracket = anotherNote.isBracket();
 		this.timeModification = anotherNote.getTimeModification();
-		this.dependantHarmony = anotherNote.getDependantHarmony();
 	}
 
 	public void updateNote(Note note){

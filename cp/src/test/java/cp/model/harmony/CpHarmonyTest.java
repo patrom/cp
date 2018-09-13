@@ -220,7 +220,7 @@ public class CpHarmonyTest {
 	}
 
 	@Test
-	public void isNotAdditiveHarmony3() {
+	public void isAdditiveHarmony3() {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).pitch(60).octave(4).build());
 		notes.add(note().pos(0).pc(4).pitch(64).octave(5).build());
@@ -229,6 +229,17 @@ public class CpHarmonyTest {
         ChordType additiveChord = cpHarmony.getAdditiveChord();
         assertEquals(ChordType.ANCHOR_49_MIN, additiveChord);
 	}
+
+    @Test
+    public void isAdditiveHarmony4() {
+        List<Note> notes = new ArrayList<>();
+        notes.add(note().pos(0).pc(0).pitch(60).octave(4).build());
+        notes.add(note().pos(0).pc(9).pitch(69).octave(5).build());
+        notes.add(note().pos(0).pc(4).pitch(76).octave(6).build());
+        cpHarmony = new CpHarmony(notes, 0);
+        ChordType additiveChord = cpHarmony.getAdditiveChord();
+        assertEquals(ChordType.ANCHOR_49_MIN, additiveChord);
+    }
 
 	@Test
 	public void isAnchor() {

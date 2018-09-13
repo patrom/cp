@@ -2,11 +2,15 @@ package cp.model;
 
 import cp.config.InstrumentConfig;
 import cp.model.contour.Contour;
+import cp.model.note.Note;
+import cp.model.note.Scale;
+import cp.out.print.note.Key;
 import cp.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -40,6 +44,21 @@ public class TimeLine {
 	public void addKeysForVoice(List<TimeLineKey> keys, int voice){
 		this.keysPerVoice.put(voice, keys);
 	}
+
+    public void addTimeLineKey(int voice, Key key, Scale scale, int duration) {
+        if (keysPerVoice.isEmpty()) {
+            List<TimeLineKey> timeLineKeys = new ArrayList<>();
+            timeLineKeys.add( new TimeLineKey(key, scale, 0, duration));
+            keysPerVoice.put(voice, timeLineKeys);
+        } else {
+            List<TimeLineKey> timeLineKeys = keysPerVoice.get(voice);
+            Collections.sort(timeLineKeys);
+            TimeLineKey lastTimeLineKey = timeLineKeys.get(timeLineKeys.size() - 1);
+            int start = lastTimeLineKey.getEnd();
+            timeLineKeys.add( new TimeLineKey(key, scale, start, start + duration));
+            keysPerVoice.put(voice, timeLineKeys);
+        }
+    }
 
 	public void addKeysForVoice(int voice, TimeLineKey... key){
 		this.keysPerVoice.put(voice, Arrays.asList(key));
@@ -120,6 +139,25 @@ public class TimeLine {
 		}
 		addContourForVoice(contouren, voice);
 	}
+
+    public List<TimeLineKey> getTimelineKeys(int voice, int start, int end) {
+        return this.keysPerVoice.get(voice).stream()
+                .filter(timeLineKey ->
+                        (timeLineKey.getStart() >= start && timeLineKey.getStart() < end)
+                                ||  (timeLineKey.getEnd() > start && timeLineKey.getEnd() <= end))
+                .collect(Collectors.toList());
+    }
+
+    public void filter(int voice, int start, int end, List<Note> notes ) {
+	    Map<TimeLineKey, List<Note>> notesForTimeLineKey = new HashMap<>();
+        List<TimeLineKey> timeLineKeysForMelody = getTimelineKeys(voice, start, end);
+        for (TimeLineKey timeLineKey : timeLineKeysForMelody) {
+            List<Note> notesForKey = notes.stream()
+                    .filter(note -> note.getPosition() >= timeLineKey.getStart() && note.getPosition() < timeLineKey.getEnd())
+                    .collect(Collectors.toList());
+            notesForTimeLineKey.put(timeLineKey, notesForKey);
+        }
+    }
 
 	public void setEnd(int compositionEnd) {
 		this.compositionEnd = compositionEnd;

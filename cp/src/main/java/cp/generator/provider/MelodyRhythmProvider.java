@@ -84,7 +84,7 @@ public class MelodyRhythmProvider extends AbstractProvidder implements MelodyPro
 //                melody.setBeatGroup(new BeatGroupThree(duration/3));//beatgroup 2 or 3 -> time!!
                 melody.setNotesSize((int) melodyNotes.stream().filter(n -> !n.isRest()).count());
                 melody.setMutationType(MutationType.PITCH);
-                melody.setTimeLineKey(new TimeLineKey(keys.Eflat, Scale.MAJOR_SCALE));
+//                melody.setTimeLineKey(new TimeLineKey(keys.Eflat, Scale.MAJOR_SCALE));
 //                melody.convertToTimelineKey(timeLine);
                 melodies.add(melody);
             }
@@ -102,7 +102,7 @@ public class MelodyRhythmProvider extends AbstractProvidder implements MelodyPro
         melody.setNotesSize(2);
         melody.setMutationType(MutationType.PITCH);
 //        melody.setTonality(Tonality.ATONAL);
-        melody.setTimeLineKey(timeLineKey);
+//        melody.setTimeLineKey(timeLineKey);
         melodies.add(melody);
         //variation1
         notes = new ArrayList<>();
@@ -111,7 +111,7 @@ public class MelodyRhythmProvider extends AbstractProvidder implements MelodyPro
         melody = new CpMelody(notes, voice0, 0, DurationConstants.QUARTER);
 //        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.EIGHT ));
         melody.setNotesSize(1);
-        melody.setTimeLineKey(timeLineKey);
+//        melody.setTimeLineKey(timeLineKey);
         melody.setMutationType(MutationType.PITCH);
 //        melody.setTonality(Tonality.ATONAL);
         melodies.add(melody);
@@ -123,7 +123,7 @@ public class MelodyRhythmProvider extends AbstractProvidder implements MelodyPro
 //        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.QUARTER));
         melody.setNotesSize(2);
         melody.setMutationType(MutationType.PITCH);
-        melody.setTimeLineKey(timeLineKey);
+//        melody.setTimeLineKey(timeLineKey);
 //        melody.setTonality(Tonality.ATONAL);
         melodies.add(melody);
 
@@ -134,7 +134,7 @@ public class MelodyRhythmProvider extends AbstractProvidder implements MelodyPro
 //        melody.setBeatGroup(new BeatGroupTwo(DurationConstants.QUARTER));
         melody.setNotesSize(2);
         melody.setMutationType(MutationType.PITCH);
-        melody.setTimeLineKey(timeLineKey);
+//        melody.setTimeLineKey(timeLineKey);
 //        melody.setTonality(Tonality.ATONAL);
         melodies.add(melody);
 //        //variation2

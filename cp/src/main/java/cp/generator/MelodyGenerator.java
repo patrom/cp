@@ -9,10 +9,10 @@ import cp.config.*;
 import cp.generator.pitchclass.PitchClassGenerator;
 import cp.generator.provider.MelodyProvider;
 import cp.model.TimeLine;
+import cp.model.harmony.ChordType;
 import cp.model.harmony.DependantHarmony;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
-import cp.model.melody.Tonality;
 import cp.model.note.Note;
 import cp.model.timbre.Timbre;
 import cp.nsga.operator.mutation.MutationType;
@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static java.util.stream.Collectors.toList;
 
 @Component
 public class MelodyGenerator {
@@ -95,9 +97,9 @@ public class MelodyGenerator {
 			cloneMelody.setStart(start);
 			cloneMelody.setEnd(end);
 			cloneMelody.updateNotes(timbre, start);
-			if (cloneMelody.getTonality() == Tonality.TONAL && cloneMelody.getTimeLineKey() != null) {
-				cloneMelody.convertToTimelineKey(timeLine);
-			}
+//			if (cloneMelody.getTonality() == Tonality.TONAL && cloneMelody.getTimeLineKey() != null) {
+//				cloneMelody.convertToTimelineKey(timeLine);
+//			}
 			if (textureConfig.hasTexture(voice)) {
 				List<DependantHarmony> textureTypes = textureConfig.getTextureFor(voice);
 				for (Note melodyNote : cloneMelody.getNotesNoRest()) {
@@ -134,15 +136,18 @@ public class MelodyGenerator {
 
 	public MelodyBlock generateMelodyBlockConfig(int voice, int octave, int start, int stop) {
 		Voice voiceConfig = voiceConfiguration.getVoiceConfiguration(voice);
-		if( voiceConfig.isMelodiesProvided()){
-			return generateProvidedMelodyBlockConfigRandom(voice, voiceConfig, octave, start, stop);
-		} else {
+//		if( voiceConfig.isMelodiesProvided()){
+//			return generateProvidedMelodyBlockConfigRandom(voice, voiceConfig, octave, start, stop);
+//		} else {
 			return generateMelodyBlockConfig(voice, voiceConfig, octave, start, stop);
-		}
+//		}
 	}
 
 	public MelodyBlock generateMelodyBlockConfig(int voice, Voice voiceConfig, int octave, int start, int stop) {
 		MelodyBlock melodyBlock = new MelodyBlock(octave, voice);
+        if (voiceConfig.isMelodiesProvided()) {
+            melodyBlock.setMutable(false);
+        }
 		melodyBlock.setOffset(voiceConfig.getTimeConfig().getOffset());
 		Timbre timbreConfigForVoice = timbreConfig.getTimbreConfigForVoice(voice);
 
@@ -207,9 +212,19 @@ public class MelodyGenerator {
                 melodyNotes = pcGenerator.updatePitchClasses(melodyNotes, beatGroup);
             }
         }
-        if (textureConfig.hasTexture(voice)) {
+
+        List<Note> melodyNotesNoRests = melodyNotes.stream().filter(n -> !n.isRest()).collect(toList());
+        if (!beatGroup.getChordTypes().isEmpty()) {
+            List<ChordType> chordTypes = beatGroup.getChordTypes();
+            for (int i = 0; i < melodyNotesNoRests.size(); i++) {
+                Note note = melodyNotesNoRests.get(i);
+                DependantHarmony dependantHarmony = new DependantHarmony();
+                dependantHarmony.setChordType(chordTypes.get(i % chordTypes.size()));
+                note.setDependantHarmony(dependantHarmony);
+            }
+        } else if (textureConfig.hasTexture(voice)) {
             List<DependantHarmony> textureTypes = textureConfig.getTextureFor(voice);
-            for (Note melodyNote : melodyNotes) {
+            for (Note melodyNote : melodyNotesNoRests) {
 				if (!melodyNote.isRest()) {
 					DependantHarmony dependantHarmony = RandomUtil.getRandomFromList(textureTypes);
 					melodyNote.setDependantHarmony(dependantHarmony);
@@ -219,8 +234,13 @@ public class MelodyGenerator {
         CpMelody melody = new CpMelody(melodyNotes, voice, start, start + beatGroup.getBeatLength());
 		melody.setBeatGroup(beatGroup);
 		melody.setNotesSize(valueObject.getKey());
-		melody.setMutationType(RandomUtil.getRandomFromList(voiceConfig.getMutationTypes()));
-		return melody;
+        if (voiceConfig.isMelodiesProvided()) {
+            melody.setMutable(false);
+        } else {
+            melody.setMutationType(RandomUtil.getRandomFromList(voiceConfig.getMutationTypes()));
+        }
+
+        return melody;
 	}
 
 	public MelodyBlock generateMelodyBlockWithoutPitchClassGenerator(int voice, AccompGroup accompGroup, int octave) {

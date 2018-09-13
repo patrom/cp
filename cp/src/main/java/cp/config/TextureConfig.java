@@ -77,29 +77,29 @@ public class TextureConfig {
         intervalOctavetypes.add(createDependantHarmony(ChordType.CH2_KWINT_OCTAVE));
         intervalOctavetypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
 
-//        textureTypes.put(0, intervaltypes);
-//        textureTypes.put(1, intervaltypes);
-//        textureTypes.put(2, chordTypes);
-//        textureTypes.put(2, chordTypes);
+//        chordTypes.put(0, intervaltypes);
+//        chordTypes.put(1, intervaltypes);
+//        chordTypes.put(2, chordTypes);
+//        chordTypes.put(2, chordTypes);
 //        chordTypes.addAll(intervaltypes);
-        textureTypes.put(0, chordTypes);
+//        chordTypes.put(0, chordTypes);
 
         List<DependantHarmony> octaveDoubling = new ArrayList<>();
         octaveDoubling.add(createDependantHarmony(ChordType.CH2_OCTAVE));
-//        textureTypes.put(0, octaveDoubling);
-//        textureTypes.put(3, octaveDoubling);
+//        chordTypes.put(0, octaveDoubling);
+//        chordTypes.put(3, octaveDoubling);
 
         List<DependantHarmony> symmetryChords = new ArrayList<>();
         symmetryChords.add(createDependantHarmony(ChordType.SYMMETRY, composition.axisHigh,composition.axisLow));
         symmetryChords.add(createDependantHarmony(ChordType.NO_INTERVALS));
-//        textureTypes.put(0, symmetryChords);
-//        textureTypes.put(1, symmetryChords);
+//        chordTypes.put(0, symmetryChords);
+//        chordTypes.put(1, symmetryChords);
 //
         List<DependantHarmony> symmetryChords2 = new ArrayList<>();
         symmetryChords2.add(createDependantHarmony(ChordType.SYMMETRY, composition.axisHigh,composition.axisLow));
 //        symmetryChords2.add(createDependantHarmony(ChordType.SYMMETRY, composition.axisHigh,composition.axisLow));
 //        symmetryChords2.add(createDependantHarmony(ChordType.NO_INTERVALS));
-//        textureTypes.put(2, symmetryChords2);
+//        chordTypes.put(2, symmetryChords2);
 
         TnTnIType tnTnIType = new TnTnIType();
         Set set3_1 = tnTnIType.getPrimeByName("3-5");
@@ -120,7 +120,7 @@ public class TextureConfig {
 
         allRowMatrixDrop2.addAll(allRowMatrixDrop2set3_4);
         allRowMatrixDrop2.addAll(intervaltypes);
-//        textureTypes.put(1, allRowMatrixDrop2);
+//        chordTypes.put(1, allRowMatrixDrop2);
 
 
         Set set3_11 = tnTnIType.getPrimeByName("3-11");
@@ -150,7 +150,7 @@ public class TextureConfig {
 //        setClassTypesSet.add(createDependantHarmony(set_dim.tntnitype, VoicingType.DROP_2));
 //        setClassTypesSet.add(createDependantHarmony(set_dim.tntnitype, VoicingType.UP_3));
 
-//        textureTypes.put(0, setClassTypesSet);
+//        chordTypes.put(0, setClassTypesSet);
     }
 
 //    public List<DependantHarmony> rowMatrix(int[] setClass, VoicingType voicingType) {

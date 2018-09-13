@@ -3,9 +3,9 @@ package cp.model;
 import cp.model.note.Scale;
 import cp.out.print.note.Key;
 
-public class TimeLineKey {
+public class TimeLineKey implements Comparable<TimeLineKey>{
 
-	private Key key;
+    private Key key;
 	private int start = 0;
 	private int end = 0;
 	private Scale scale;
@@ -37,5 +37,9 @@ public class TimeLineKey {
 	public Scale getScale() {
 		return scale;
 	}
-	
+
+    @Override
+    public int compareTo(TimeLineKey timeLineKey) {
+        return Integer.compare(this.start, timeLineKey.getStart());
+    }
 }

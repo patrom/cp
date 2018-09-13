@@ -66,8 +66,6 @@ public class Mutators {
     public OperatorMutation operatorMutation;
 
     @Autowired
-    public ProvidedMutation providedMutation;
-    @Autowired
     public ProvidedSymmetryMutation providedSymmetryMutation;
     @Autowired
     public TwelveToneRhythmMutation twelveToneRhythmMutation;
@@ -150,7 +148,6 @@ public class Mutators {
     private List<MutationOperator> rhytmMutationOperators(){
         ArrayList<MutationOperator> mutationOperators = new ArrayList<>();
         mutationOperators.add(rhythmMutation);
-        mutationOperators.add(providedMutation);
         return mutationOperators;
     }
 
@@ -175,7 +172,6 @@ public class Mutators {
         mutationOperators.add(dynamicMutation);
         mutationOperators.add(technicalMutation);
         mutationOperators.add(textureMutation);
-        mutationOperators.add(providedMutation);
         return mutationOperators;
     }
 
@@ -195,7 +191,6 @@ public class Mutators {
         mutationOperators.add(dynamicMutation);
         mutationOperators.add(technicalMutation);
         mutationOperators.add(textureMutation);
-        mutationOperators.add(providedMutation);
 
         mutationOperators.add(oneNoteMutation);
 //        mutationOperators.add(oneNoteChromaticMutation);//no timeline

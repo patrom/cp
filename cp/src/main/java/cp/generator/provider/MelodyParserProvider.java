@@ -1,10 +1,8 @@
 package cp.generator.provider;
 
 import cp.config.InstrumentConfig;
-import cp.model.TimeLineKey;
 import cp.model.melody.CpMelody;
 import cp.model.note.Note;
-import cp.model.note.Scale;
 import cp.musicxml.XMLParser;
 import cp.musicxml.parsed.ComplexElement;
 import cp.musicxml.parsed.ElementWrapper;
@@ -74,7 +72,7 @@ public class MelodyParserProvider extends AbstractProvidder implements MelodyPro
 //                melody.setBeatGroup(new BeatGroupThree(duration/3));//beatgroup 2 or 3 -> time!!
                 melody.setNotesSize((int) notes.stream().filter(n -> !n.isRest()).count());
                 melody.setMutationType(MutationType.OPERATOR);
-                melody.setTimeLineKey(new TimeLineKey(keys.Eflat, Scale.MAJOR_SCALE));
+//                melody.setTimeLineKey(new TimeLineKey(keys.Eflat, Scale.MAJOR_SCALE));
                 melodies.add(melody);
             }
         }

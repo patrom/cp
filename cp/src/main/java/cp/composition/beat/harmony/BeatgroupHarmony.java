@@ -5,6 +5,7 @@ import cp.composition.beat.BeatGroup;
 import cp.composition.voice.NoteSizeValueObject;
 import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.TimeLineKey;
+import cp.model.harmony.ChordType;
 import cp.model.melody.Tonality;
 import cp.model.note.Note;
 import cp.model.note.Scale;
@@ -52,12 +53,15 @@ public class BeatgroupHarmony extends BeatGroup {
 
         motiveScale = Scale.MAJOR_SCALE;
 
-        tonality = Tonality.TONAL;
+        tonality = Tonality.ATONAL;
 
-        Scale scale = new Scale(new int[]{0, 4});
+        Scale scale = new Scale(new int[]{4, 0, 7, 3});
         motivePitchClasses.add(scale);
 //        scale = new Scale(new int[]{0, 5});
 //        motivePitchClasses.add(scale);
+
+        chordTypes.add(ChordType.MINOR_CHR);
+        chordTypes.add(ChordType.MAJOR_CHR);
 
         int[] setClass = chordGenerator.generatePitchClasses("2-5");
         List<Integer> pitchClasses = Arrays.stream(setClass).boxed().collect(toList());

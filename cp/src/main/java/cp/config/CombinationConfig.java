@@ -71,7 +71,7 @@ public class CombinationConfig {
 //		oneCombinations.add(oneNoteEven::pos2);
 //		oneCombinations.add(oneNoteEven::pos3);
 //		oneCombinations.add(oneNoteEven::pos4);
-		map.put(1, oneCombinations);
+//		map.put(1, oneCombinations);
 
 		List<RhythmCombination> twoCombinations = new ArrayList<>();
 //		twoCombinations.add(twoNoteEven::pos12);
@@ -216,11 +216,11 @@ public class CombinationConfig {
 //		map.put(0, zeroCombinations);//TODO not possible with mutation (articulation, dynamic,...)
 
         List<RhythmCombination> oneCombinations = new ArrayList<>();
-//        oneCombinations.add(oneNoteEven::pos1);
+        oneCombinations.add(oneNoteEven::pos1);
 //		oneCombinations.add(oneNoteEven::pos2);
 //		oneCombinations.add(oneNoteEven::pos3);
 //		oneCombinations.add(oneNoteEven::pos4);
-//        map.put(1, oneCombinations);
+        map.put(1, oneCombinations);
 
         List<RhythmCombination> twoCombinations = new ArrayList<>();
 //		twoCombinations.add(twoNoteEven::pos12);
@@ -242,7 +242,7 @@ public class CombinationConfig {
 //		threeCombinations.add(threeNoteEven::pos234);
 
 		threeCombinations.add(threeNoteUneven::pos123);
-		map.put(3, threeCombinations);
+//		map.put(3, threeCombinations);
 
         List<RhythmCombination> fourCombinations = new ArrayList<>();
 		fourCombinations.add(fourNoteEven::pos1234);

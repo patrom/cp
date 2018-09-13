@@ -55,8 +55,12 @@ public class Motive implements Cloneable {
 		List<MelodyBlock> mutableMelodies = melodyBlocks.stream()
 				.filter(m -> m.isMutable())
 				.collect(toList());
-		MelodyBlock randomMelodyBlock = RandomUtil.getRandomFromList(mutableMelodies);
-		return RandomUtil.getRandomFromList(randomMelodyBlock.getMelodyBlocks());
+
+        if (mutableMelodies.isEmpty()) {
+           return null;
+        }
+        MelodyBlock randomMelodyBlock = RandomUtil.getRandomFromList(mutableMelodies);
+        return RandomUtil.getRandomFromList(randomMelodyBlock.getMelodyBlocks());
 	}
 
 	public CpMelody getRandomMutableMelodyForVoice(int voice){

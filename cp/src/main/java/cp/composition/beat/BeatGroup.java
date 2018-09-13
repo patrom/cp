@@ -6,6 +6,7 @@ import cp.composition.voice.NoteSizeValueObject;
 import cp.generator.ChordGenerator;
 import cp.generator.pitchclass.PitchClassGenerator;
 import cp.model.TimeLineKey;
+import cp.model.harmony.ChordType;
 import cp.model.melody.Tonality;
 import cp.model.note.Note;
 import cp.model.note.Scale;
@@ -42,6 +43,7 @@ public abstract class BeatGroup {
     protected Scale motiveScale;
     protected List<Scale> motivePitchClasses = new ArrayList<>();
     protected List<TimeLineKey> timeLineKeys = new ArrayList<>();
+    protected List<ChordType> chordTypes = new ArrayList<>();
 
     public void setTonality(Tonality tonality) {
         this.tonality = tonality;
@@ -166,6 +168,10 @@ public abstract class BeatGroup {
 
     public List<int[]> getReverseInverseIndexesMotivePitchClasses() {
         return reverseInverseIndexesMotivePitchClasses;
+    }
+
+    public List<ChordType> getChordTypes() {
+        return chordTypes;
     }
 
     public Scale getMotiveScale() {

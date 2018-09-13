@@ -119,10 +119,10 @@ public class NSGAII extends Algorithm {
 					Solution[] offSpring = (Solution[]) crossoverOperator.execute(parents);
 					mutateOffspring(offSpring[0]);
 					mutateOffspring(offSpring[1]);
-					for (Relation relation : operatorConfig.getRelations()) {
-						relation.execute(offSpring[0]);
-						relation.execute(offSpring[1]);
-					}
+//					for (Relation relation : operatorConfig.getRelations()) {
+//						relation.execute(offSpring[0]);
+//						relation.execute(offSpring[1]);
+//					}
 					problem_.evaluate(offSpring[0]);
 					problem_.evaluateConstraints(offSpring[0]);
 					problem_.evaluate(offSpring[1]);
@@ -228,19 +228,21 @@ public class NSGAII extends Algorithm {
 
 	private void mutateOffspring(Solution solution) {
         CpMelody melody = getMelodyBlock(solution);
-        List<MutationOperator> mutationOperators = null;
-		if (check12Tone == 12) {
+        if (melody != null) {
+            List<MutationOperator> mutationOperators = null;
+            if (check12Tone == 12) {
             Motive motive = ((MusicVariable) solution.getDecisionVariables()[0]).getMotive();
             List<MutationOperator> twelveToneMutationOperators = mutators.getMutationOperators(MutationType.TWELVE_TONE);
             MutationOperator operator = RandomUtil.getRandomFromList(twelveToneMutationOperators);
             operator.execute(motive);
             mutationOperators = mutators.timbreMutationOperators();
-        } else {
-			mutationOperators = mutators.getMutationOperators(melody.getMutationType());
-		}
-        MutationOperator operator = RandomUtil.getRandomFromList(mutationOperators);
-        operator.execute(melody);
-	}
+            } else {
+                mutationOperators = mutators.getMutationOperators(melody.getMutationType());
+            }
+            MutationOperator operator = RandomUtil.getRandomFromList(mutationOperators);
+            operator.execute(melody);
+        }
+    }
 
 	private CpMelody getMelodyBlock(Solution solution) {
 		Motive motive = ((MusicVariable) solution.getDecisionVariables()[0]).getMotive();
