@@ -605,5 +605,27 @@ public class CpMelodyTest {
 		clonedMelody.getNotes().forEach(n -> System.out.println(n));
 		System.out.println();
 	}
-	
+
+    @Test
+    public void updateTimeLineKeysNotes() {
+        List<Note> notes = new ArrayList<>();
+        notes.add(note().pos(0).pc(0).voice(0).build());
+        notes.add(note().pos(DurationConstants.QUARTER).pc(4).voice(0).build());
+        notes.add(note().pos(DurationConstants.HALF).pc(5).voice(0).build());
+        notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pc(7).voice(0).build());
+        melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE + DurationConstants.QUARTER);
+
+        List<TimeLineKey> keys = new ArrayList<>();
+        keys.add(new TimeLineKey(C, Scale.MAJOR_SCALE, 0, DurationConstants.WHOLE));
+        keys.add(new TimeLineKey(D, Scale.MAJOR_SCALE, DurationConstants.WHOLE, 3 * DurationConstants.WHOLE));
+        melody.setTimeLineKeys(keys);
+        melody.updateTimeLineKeysNotes();
+        List<Note> updatedNotes = melody.getNotes();
+        assertEquals(C, updatedNotes.get(0).getTimeLineKey().getKey());
+        assertEquals(C, updatedNotes.get(1).getTimeLineKey().getKey());
+        assertEquals(C, updatedNotes.get(2).getTimeLineKey().getKey());
+        assertEquals(D, updatedNotes.get(3).getTimeLineKey().getKey());
+    }
+
+
 }

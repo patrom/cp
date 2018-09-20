@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Comparator.reverseOrder;
 import static java.util.stream.Collectors.toList;
@@ -548,7 +549,7 @@ public class CpMelody implements Comparable<CpMelody>{
 	public int compareTo(CpMelody melody) {
 		if(this.start < melody.getStart()){
 			return -1;
-		}else if(this.start < melody.getStart()){
+		}else if(this.start > melody.getStart()){
 			return 1;
 		}
 		return 0;
@@ -616,5 +617,32 @@ public class CpMelody implements Comparable<CpMelody>{
             return !beatGroup.getPitchClassGenerators().isEmpty();
         }
         return false;
+    }
+
+    public TimeLineKey getTimeLineKeyAtPosition(int position){
+        if(timeLineKeys.size() == 1){
+	        return timeLineKeys.get(0);
+        }
+//        Map<TimeLineKey, List<Note>> notesPerTimeLineKey = new HashMap<>();
+//        for (TimeLineKey timeLineKey : timeLineKeys) {
+//            List<Note> notesTimeLineKey = this.notes.stream()
+//                    .filter(note -> note.getPosition() >= timeLineKey.getStart() && note.getPosition() < timeLineKey.getEnd())
+//                    .collect(Collectors.toList());
+//            notesPerTimeLineKey.put(timeLineKey, notesTimeLineKey);
+//        }
+
+        Optional<TimeLineKey> optional = timeLineKeys.stream().filter(k -> k.getStart() <= position && position < k.getEnd()).findFirst();
+        if(optional.isPresent()){
+            return optional.get();
+        }
+        throw new IllegalArgumentException("No Key found at position; " + position + " for voice: " + voice);
+    }
+
+    public void updateTimeLineKeysNotes() {
+        for (TimeLineKey timeLineKey : timeLineKeys) {
+            this.notes.stream()
+                    .filter(note -> note.getPosition() >= timeLineKey.getStart() && note.getPosition() < timeLineKey.getEnd())
+                    .forEach(note -> note.setTimeLineKey(timeLineKey));
+        }
     }
 }

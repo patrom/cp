@@ -132,7 +132,15 @@ public class TimeLineTest {
         assertEquals(Scale.MAJOR_SCALE, timelineKeys.get(0).getScale());
         assertEquals(Scale.DORIAN_SCALE, timelineKeys.get(1).getScale());
         assertEquals(Scale.OCTATCONIC_WHOLE, timelineKeys.get(2).getScale());
+    }
 
+    @Test
+    public void getTimeLineKeys2() {
+        timeLine.addTimeLineKey(1, A, Scale.MAJOR_SCALE, DurationConstants.WHOLE * 2);
+
+        List<TimeLineKey> timelineKeys = timeLine.getTimelineKeys(1, DurationConstants.HALF, DurationConstants.WHOLE + DurationConstants.HALF);
+        Assertions.assertEquals(1, timelineKeys.size());
+        assertEquals(Scale.MAJOR_SCALE, timelineKeys.get(0).getScale());
     }
 
 }

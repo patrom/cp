@@ -59,6 +59,15 @@ public class CombiNoteEven {
         return notes;
     }
 
+    public List<Note> combiHalf(RhythmCombination combi1, RhythmCombination combi2, int beat) {
+        int beat2 = beat / 2;
+        List<Note> notes = combi1.getNotes(beat2);
+        List<Note> notes1 = combi2.getNotes(beat2);
+        notes1.forEach(note -> note.setPosition(note.getPosition() + beat2));
+        notes.addAll(notes1);
+        return notes;
+    }
+
     public static void main(String[] args) {
         CombiNoteEven combiNoteEven = new CombiNoteEven();
         List<Note > notes = combiNoteEven.pos23pos12(DurationConstants.QUARTER);

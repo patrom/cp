@@ -1,17 +1,42 @@
 package cp.model.note;
 
+import cp.DefaultConfig;
+import cp.VariationConfig;
+import cp.composition.beat.BeatGroupConfig;
+import cp.model.TimeLineKey;
+import cp.out.print.Keys;
 import cp.util.RandomUtil;
+import org.apache.commons.lang.ArrayUtils;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
+@ExtendWith(SpringExtension.class)
 public class ScaleTest {
-	
-	private Scale scale;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ScaleTest.class);
+
+
+    private Scale scale;
+	@Autowired
+	private Keys keys;
 	
 	@BeforeEach
 	public void setUp() {
@@ -24,28 +49,24 @@ public class ScaleTest {
 		assertEquals(7, transposed);
 	}
 
-	@Test
-	public void testPickNextPitchFromScale() {
-		int next = scale.pickNextPitchFromScale(4);
-		assertEquals(5, next);
-	}
-	
-	@Test
-	public void testPickNextPitchFromScaleNoteNotInScale() {
-		int next = scale.pickNextPitchFromScale(10);
-		assertEquals(11, next);
+    @ParameterizedTest
+    @ValueSource(ints = { 1, 2, 3, 4 , 5, 6, 7 , 8, 9, 10, 11, 0 })
+	public void testPickNextPitchFromScale(int pitchClass) {
+		int next = scale.pickNextPitchFromScale(pitchClass);
+        assertTrue(
+                ArrayUtils.contains(scale.getPitchClasses(), next),
+                () -> String.format("The scale doesn't contain the pitchClass: %s", next)
+        );
 	}
 
-	@Test
-	public void testPickPreviousPitchFromScale() {
-		int previous = scale.pickPreviousPitchFromScale(4);
-		assertEquals(2, previous);
-	}
-	
-	@Test
-	public void testPickPreviousPitchFromScaleNoteNotInScale() {
-		int previous = scale.pickPreviousPitchFromScale(6);
-		assertEquals(5, previous);
+    @ParameterizedTest
+    @ValueSource(ints = { 1, 2, 3, 4 , 5, 6, 7 , 8, 9, 10, 11, 0 })
+	public void testPickPreviousPitchFromScale(int pitchClass) {
+		int previous = scale.pickPreviousPitchFromScale(pitchClass);
+        assertTrue(
+                ArrayUtils.contains(scale.getPitchClasses(), previous),
+                () -> String.format("The scale doesn't contain the pitchClass: %s", previous)
+        );
 	}
 
 	@Test
@@ -90,7 +111,7 @@ public class ScaleTest {
 			transpositions[i] = transposed;
 		}
 		Arrays.sort(transpositions);
-		assertTrue(Arrays.equals(transpositions, scale.getPitchClasses()));
+		Assert.assertTrue(Arrays.equals(transpositions, scale.getPitchClasses()));
 	}
 
 	@Test
@@ -124,5 +145,43 @@ public class ScaleTest {
 		Arrays.stream(pitchClassesRandomized).forEach(n -> System.out.println(n));
 		assertEquals(6, pitchClassesRandomized.length);
 	}
+
+    @ParameterizedTest
+    @ValueSource(ints = { 1, 2, 3, 4 , 5, 6, 7 , 8, 9, 10, 11, 0 })
+    public void testPickNextPitchFromScale2(int pitchClass) {
+	    scale = Scale.PENTATONIC_SCALE_MINOR;
+        int next = scale.pickNextPitchFromScale(pitchClass);
+        System.out.println(next);
+        assertTrue(
+                ArrayUtils.contains(scale.getPitchClasses(), next),
+                () -> String.format("The scale doesn't contain the pitchClass: %s", next)
+        );
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = { 1, 2, 3, 4 , 5, 6, 7 , 8, 9, 10, 11, 0 })
+    public void testPickPreviousPitchFromScale2(int pitchClass) {
+        scale = Scale.MAJOR_CHORD;
+        int previous = scale.pickPreviousPitchFromScale(pitchClass);
+        System.out.println(previous);
+        assertTrue(
+                ArrayUtils.contains(scale.getPitchClasses(), previous),
+                () -> String.format("The scale doesn't contain the pitchClass: %s", previous)
+        );
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = { 1, 2, 3, 4 , 5, 6, 7 , 8, 9, 10, 11, 0 })
+    public void testKeys(int pitchClass) {
+        scale = Scale.LYDIAN_SCALE;
+        TimeLineKey timeLineKey = new TimeLineKey(keys.D, scale, 0, 0);
+        int next = timeLineKey.getPitchClassForKey(pitchClass);
+//        LOGGER.info("Pc: " + next);
+        System.out.println(next);
+//        assertTrue(
+//                ArrayUtils.contains(scale.getPitchClasses(), next),
+//                () -> String.format("The scale doesn't contain the pitchClass: %s", next)
+//        );
+    }
 
 }

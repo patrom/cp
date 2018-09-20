@@ -31,7 +31,8 @@ public class CombiNoteUnevenTest {
     public void combi() {
         Function<Integer, List<Note>> f = rhythmCombinations.threeNoteEven::pos123;
         Function<Integer, List<Note>> g = rhythmCombinations.twoNoteEven::pos12;
-//        Function<Integer, List<Note>> integerVFunction = f.compose(g);
+//        Function<Integer, List<Note>> integerVFunction = f.andThen(g);
+
 
         List<Note> notes = f.apply(DurationConstants.QUARTER);
         notes.forEach(note -> System.out.println(note.getPosition()));

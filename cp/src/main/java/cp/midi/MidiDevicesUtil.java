@@ -153,11 +153,16 @@ public class MidiDevicesUtil {
 			throws InvalidMidiDataException {
 		MidiTempo midiTempo = new MidiTempo();
 		MidiEvent midiTempoEvent = midiTempo.getTempoMidiEvent(tempo);
-		List<Note> notesNoRest = notes.stream().filter(note -> !note.isRest()).collect(Collectors.toList());
+
+        List<Note> notesNoRest = notes.stream().filter(note -> !note.isRest()).collect(Collectors.toList());
 		//Hunmanise notes
         humanize.humanize(notesNoRest, instrument);
 
 		Track trackNotes = sequence.createTrack();
+
+        MidiEvent generalMidiEvent = getGeneralMidiInstrument(instrument, channel);
+        trackNotes.add(generalMidiEvent);
+
 //        Track trackMetadata = sequence.createTrack();//controllers,... on seperate track
 		TextureValue textureValue = new TextureValue();
 		trackNotes.add(midiTempoEvent);
@@ -178,27 +183,31 @@ public class MidiDevicesUtil {
 
 		if(!textureValue.getTextureNotesPerLine().isEmpty()){
 			for (Entry<Integer,List<Note>> entry : textureValue.getTextureNotesPerLine().entrySet()) {
-				Track trackTexture = sequence.createTrack();
+//				Track trackTexture = sequence.createTrack();
 				List<Note> textureNotes = entry.getValue();
                 humanize.humanize(textureNotes, instrument);
 				for (Note textureNote : textureNotes) {
-					createMidiEventsNotes(channel, trackTexture, textureNote);
+					createMidiEventsNotes(channel, trackNotes, textureNote);
 				}
 			}
 		}
 
-//		MidiEvent event = createGeneralMidiEvent(instrument, channel);
-//		track.add(event);
 
-		if (!isKontakt) {
-			for (Note note : notesNoRest) {
-				List<MidiEvent> midiEvents = vslArticulationConverter.convertNote(channel, note, instrument);
-				for (MidiEvent midiEvent : midiEvents) {
-                    trackNotes.add(midiEvent);
-				}
-            }
-		}
+//		if (!isKontakt) {
+//			for (Note note : notesNoRest) {
+//				List<MidiEvent> midiEvents = vslArticulationConverter.convertNote(channel, note, instrument);
+//				for (MidiEvent midiEvent : midiEvents) {
+//                    trackNotes.add(midiEvent);
+//				}
+//            }
+//		}
 	}
+
+    private MidiEvent getGeneralMidiInstrument(Instrument instrument, int channel) throws InvalidMidiDataException {
+        ShortMessage mm = new ShortMessage();
+        mm.setMessage(0xC0, channel, instrument.getGeneralMidi().getEvent(), 0x00);
+        return new MidiEvent(mm, (long) 0);
+    }
 
     private void createVelocityCrossfadeMidiEvents(int channel, Track track, Note note) throws InvalidMidiDataException {
 		if (note.getHumanization() != null && !note.isRest()) {
@@ -278,10 +287,27 @@ public class MidiDevicesUtil {
 		for (MidiDevice.Info info : infos) {
 			System.out.println(info);
 		}
-//		writeMidi();
+		writeMidi();
 	}
 
-	public static void writeMidi() throws IOException, InvalidMidiDataException {
+    // Meta Message Type Values
+    public static final byte META_SEQUENCE_NUMBER = 0x00;
+    public static final byte META_TEXT_EVENT = 0x01;
+    public static final byte META_COPYRIGHT_NOTICE = 0x02;
+    public static final byte META_SEQUENCE_NAME = 0x03;
+    public static final byte META_INSTRUMENT_NAME = 0x04;
+    public static final byte META_LYRIC = 0x05;
+    public static final byte META_MARKER = 0x06;
+    public static final byte META_CUE_POINT = 0x07;
+    public static final byte META_MIDI_CHANNEL_PREFIX = 0x20;
+    public static final byte META_END_OF_TRACK = 0x2F;
+    public static final byte META_TEMPO = 0x51;
+    public static final byte META_SMTPE_OFFSET = 0x54;
+    public static final byte META_TIMESIG = 0x58;
+    public static final byte META_KEYSIG = 0x59;
+    public static final byte META_VENDOR = 0x7F;
+
+    public static void writeMidi() throws IOException, InvalidMidiDataException {
 		// **** Create a new MIDI sequence with 24 ticks per beat ****
 		Sequence s = new Sequence(javax.sound.midi.Sequence.PPQ, 24);
 
@@ -295,6 +321,8 @@ public class MidiDevicesUtil {
 		MidiEvent me = new MidiEvent(sm, (long) 0);
 		t.add(me);
 
+//        The status byte 0xFF shows that this is a meta message. The second byte is the meta type 0x20 and signifies that this is a channel prefix meta message. The third byte is 1, which means that one byte follows. The last byte is 2, which means that this is a channel prefix for channel 2. Thus, meta messages that follow are specific to channel 2.
+
 		// **** set tempo (meta event) ****
 		MetaMessage mt = new MetaMessage();
 		byte[] bt = { 0x02, (byte) 0x00, 0x00 };
@@ -304,7 +332,7 @@ public class MidiDevicesUtil {
 
 		// **** set track name (meta event) ****
 		mt = new MetaMessage();
-		String TrackName = "midifile track";
+		String TrackName = "Violin";
 		mt.setMessage(0x03, TrackName.getBytes(), TrackName.length());
 		me = new MidiEvent(mt, (long) 0);
 		t.add(me);
@@ -321,11 +349,25 @@ public class MidiDevicesUtil {
 		me = new MidiEvent(mm, (long) 0);
 		t.add(me);
 
-		// **** set instrument to Piano ****
-		mm = new ShortMessage();
-		mm.setMessage(0xC0, 0x00, 0x00);
-		me = new MidiEvent(mm, (long) 0);
-		t.add(me);
+//        mt = new MetaMessage();
+//        byte[] channel = { (byte) 0x01 };//channel
+//        mt.setMessage(0x20, channel, 0x01);
+//        me = new MidiEvent(mt, (long) 0);
+//        t.add(me);
+
+//		//0xFF 0x04 0x04 0x42 0x61 0x73 0x73
+//		// **** set instrument to Bass ****
+//        mt = new MetaMessage();
+//        byte[] name = { (byte) 0x42, 0x61, 0x73, 0x73 };
+//        mt.setMessage(0x04, name, 0x04);
+//		me = new MidiEvent(mt, (long) 0);
+//		t.add(me);
+
+        // **** set instrument to Piano ****
+        mm = new ShortMessage();
+        mm.setMessage(0xC0, 56, 0x00);//alto sax
+        me = new MidiEvent(mm, (long) 0);
+        t.add(me);
 
 		// **** note on - middle C ****
 		mm = new ShortMessage();
@@ -347,7 +389,7 @@ public class MidiDevicesUtil {
 		t.add(me);
 
 		// **** write the MIDI sequence to a MIDI file ****
-		File f = new File("midifile.mid");
+		File f = new File("E:/temp/midifile.mid");
 		MidiSystem.write(s, 1, f);
 	}
 

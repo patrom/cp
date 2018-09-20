@@ -153,6 +153,9 @@ public abstract class Composition {
 	@Value("${composition.denominator:4}")
 	protected int denominator;
 
+    @Value("${composition.voices}")
+	protected int numberOfVoices;
+
 	protected HarmonizeMelody harmonizeMelody;
 	protected int harmonizeVoice;
 	@Autowired
@@ -185,7 +188,7 @@ public abstract class Composition {
 //		instruments = ensemble.getStringQuartet();
 
 		setTimeconfig();
-		end = 2 * getTimeConfig().getMeasureDuration();
+		end = 4 * getTimeConfig().getMeasureDuration();
 		timeLine.setEnd(end);
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
@@ -258,11 +261,17 @@ public abstract class Composition {
 //        major1.add(new TimeLineKey(keys.Eflat, Scale.LYDIAN_SCALE, DurationConstants.WHOLE + DurationConstants.HALF, end));
 //        timeLine.addKeysForVoice(major1, 1);
 
-        timeLine.addTimeLineKey(1 , keys.E, Scale.DORIAN_SCALE, DurationConstants.HALF);
-        timeLine.addTimeLineKey(1 , keys.C, Scale.LYDIAN_SCALE, DurationConstants.HALF);
-        timeLine.addTimeLineKey(1 , keys.G, Scale.DORIAN_SCALE, DurationConstants.HALF);
-        timeLine.addTimeLineKey(1 , keys.Eflat, Scale.LYDIAN_SCALE, DurationConstants.HALF);
-
+        for (int i = 0; i < numberOfVoices; i++) {
+            timeLine.addTimeLineKey(i , keys.E, Scale.DORIAN_SCALE, DurationConstants.WHOLE);
+            timeLine.addTimeLineKey(i , keys.C, Scale.LYDIAN_SCALE, DurationConstants.WHOLE);
+            timeLine.addTimeLineKey(i , keys.G, Scale.DORIAN_SCALE, DurationConstants.WHOLE);
+            timeLine.addTimeLineKey(i , keys.Eflat, Scale.LYDIAN_SCALE, DurationConstants.WHOLE);
+            //repeat
+//            timeLine.addTimeLineKey(i , keys.E, Scale.DORIAN_SCALE, DurationConstants.HALF);
+//            timeLine.addTimeLineKey(i , keys.C, Scale.LYDIAN_SCALE, DurationConstants.HALF);
+//            timeLine.addTimeLineKey(i , keys.G, Scale.DORIAN_SCALE, DurationConstants.HALF);
+//            timeLine.addTimeLineKey(i , keys.Eflat, Scale.LYDIAN_SCALE, DurationConstants.HALF);
+        }
 
 //		List<TimeLineKey> major2 = new ArrayList<>();
 //		major2.add(new TimeLineKey(keys.C, Scale.MAJOR_CHORD, start, DurationConstants.SIX_EIGHTS * 2));

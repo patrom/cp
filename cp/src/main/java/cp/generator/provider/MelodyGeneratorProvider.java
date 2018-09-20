@@ -5,10 +5,7 @@ import cp.composition.voice.Voice;
 import cp.config.TimbreConfig;
 import cp.config.VoiceConfig;
 import cp.generator.MelodyGenerator;
-import cp.generator.pitchclass.PassingPitchClassesProvidedGenerator;
 import cp.generator.pitchclass.PitchClassProvidedGenerator;
-import cp.generator.pitchclass.RandomPitchClassesProvidedGenerator;
-import cp.generator.pitchclass.RepeatingPitchClassesProvidedGenerator;
 import cp.model.melody.CpMelody;
 import cp.model.timbre.Timbre;
 import cp.out.print.Keys;
@@ -16,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,12 +26,6 @@ public class MelodyGeneratorProvider extends AbstractProvidder implements Melody
     @Autowired
     private Keys keys;
     @Autowired
-    private RandomPitchClassesProvidedGenerator randomPitchClassesProvidedGenerator;
-    @Autowired
-    private PassingPitchClassesProvidedGenerator passingPitchClassesProvidedGenerator;
-    @Autowired
-    private RepeatingPitchClassesProvidedGenerator repeatingPitchClassesProvidedGenerator;
-    @Autowired
     private MelodyGenerator melodyGenerator;
     @Autowired
     private TimbreConfig timbreConfig;
@@ -44,10 +34,6 @@ public class MelodyGeneratorProvider extends AbstractProvidder implements Melody
 
     @PostConstruct
     public void init(){
-        pitchClassProvidedGenerators = new ArrayList<>();
-        pitchClassProvidedGenerators.add(randomPitchClassesProvidedGenerator::randomPitchClasses);
-        pitchClassProvidedGenerators.add(passingPitchClassesProvidedGenerator::updatePitchClasses);
-//        pitchClassProvidedGenerators.add(repeatingPitchClassesProvidedGenerator::updatePitchClasses);
     }
 
     public List<CpMelody> getMelodies(int voice){

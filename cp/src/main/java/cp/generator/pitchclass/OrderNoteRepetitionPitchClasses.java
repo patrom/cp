@@ -1,33 +1,29 @@
 package cp.generator.pitchclass;
 
 import cp.composition.beat.BeatGroup;
-import cp.model.TimeLine;
 import cp.model.TimeLineKey;
+import cp.model.melody.CpMelody;
 import cp.model.note.Note;
 import cp.util.RandomUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 @Component
 public class OrderNoteRepetitionPitchClasses {
     private static Logger LOGGER = LoggerFactory.getLogger(OrderNoteRepetitionPitchClasses.class);
 
-    @Autowired
-    private TimeLine timeLine;
-
-    public List<Note> updatePitchClasses(List<Note> notes, BeatGroup beatGroup) {
+    public List<Note> updatePitchClasses(CpMelody melody) {
         LOGGER.debug("OrderNoteRepetitionPitchClasses");
-        List<Note> melodyNotes = notes.stream().filter(n -> !n.isRest()).collect(toList());
-        if (!melodyNotes.isEmpty()) {
+        List<Note> melodyNotes = melody.getNotesNoRest();
+        melody.updateTimeLineKeysNotes();
+        BeatGroup beatGroup = melody.getBeatGroup();
+        if (beatGroup.hasMelody() && !melodyNotes.isEmpty()) {
             Note firstNote = melodyNotes.get(0);
-            TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(firstNote.getPosition(), firstNote.getVoice());
-            int[] pitchClasses = timeLineKey.getScale().getPitchClasses();
+            TimeLineKey timeLineKey = firstNote.getTimeLineKey();
+            int[] pitchClasses = timeLineKey.getScale().getPitchClasses();//TODO getbeatgroup pitchclasses
             int i = 0;
             for (Note note : melodyNotes) {
                 note.setPitchClass((pitchClasses[i]+ timeLineKey.getKey().getInterval()) % 12);
@@ -36,7 +32,7 @@ public class OrderNoteRepetitionPitchClasses {
                 }
             }
         }
-        return notes;
+        return melodyNotes;
     }
 
 }

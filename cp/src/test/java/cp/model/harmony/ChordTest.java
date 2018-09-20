@@ -1,17 +1,34 @@
 package cp.model.harmony;
 
 
+import cp.DefaultConfig;
+import cp.generator.ChordGenerator;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
+import cp.util.RowMatrix;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
-import static org.junit.Assert.assertEquals;
+import static java.util.stream.Collectors.toList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = DefaultConfig.class)
+@ExtendWith(SpringExtension.class)
 public class ChordTest {
+
+    @Autowired
+    private ChordGenerator chordGenerator;
 
 	@Test
 	public void testTriadType() {
@@ -28,7 +45,7 @@ public class ChordTest {
 		chord.addPitchClass(2);
 		chord.addPitchClass(6);
 		chord.addPitchClass(9);
-		assertEquals("Chord type wrong", ChordType.MAJOR, chord.getChordType());
+		assertEquals(ChordType.MAJOR, chord.getChordType(), "Chord type wrong");
         assertEquals(2, chord.getRoot());
 	}
 	
@@ -38,7 +55,7 @@ public class ChordTest {
 		chord.addPitchClass(2);
 		chord.addPitchClass(6);
 		chord.addPitchClass(9);
-		assertEquals("Chord type wrong", ChordType.MAJOR_1, chord.getChordType());
+		assertEquals(ChordType.MAJOR_1, chord.getChordType(), "Chord type wrong");
         assertEquals(2, chord.getRoot());
 	}
 	
@@ -48,7 +65,7 @@ public class ChordTest {
 		chord.addPitchClass(2);
 		chord.addPitchClass(6);
 		chord.addPitchClass(9);
-		assertEquals("Chord type wrong", ChordType.MAJOR_2, chord.getChordType());
+		assertEquals(ChordType.MAJOR_2, chord.getChordType(), "Chord type wrong");
         assertEquals(2, chord.getRoot());
 	}
 	
@@ -58,7 +75,7 @@ public class ChordTest {
 		chord.addPitchClass(2);
 		chord.addPitchClass(5);
 		chord.addPitchClass(9);
-		assertEquals("Chord type wrong", ChordType.MINOR, chord.getChordType());
+		assertEquals(ChordType.MINOR, chord.getChordType(), "Chord type wrong");
         assertEquals(2, chord.getRoot());
 	}
 	
@@ -68,7 +85,7 @@ public class ChordTest {
 		chord.addPitchClass(2);
 		chord.addPitchClass(5);
 		chord.addPitchClass(9);
-		assertEquals("Chord type wrong", ChordType.MINOR_1, chord.getChordType());
+		assertEquals(ChordType.MINOR_1, chord.getChordType(), "Chord type wrong");
         assertEquals(2, chord.getRoot());
 	}
 	
@@ -78,7 +95,7 @@ public class ChordTest {
 		chord.addPitchClass(2);
 		chord.addPitchClass(5);
 		chord.addPitchClass(9);
-		assertEquals("Chord type wrong", ChordType.MINOR_2, chord.getChordType());
+		assertEquals(ChordType.MINOR_2, chord.getChordType(), "Chord type wrong");
         assertEquals(2, chord.getRoot());
 	}
 	
@@ -88,7 +105,7 @@ public class ChordTest {
 		chord.addPitchClass(2);
 		chord.addPitchClass(0);
 		chord.addPitchClass(9);
-		assertEquals("Chord type wrong", ChordType.CH3, chord.getChordType());
+		assertEquals(ChordType.CH3, chord.getChordType(), "Chord type wrong");
 	}
 	
 	@Test
@@ -97,7 +114,7 @@ public class ChordTest {
 		chord.addPitchClass(11);
 		chord.addPitchClass(7);
 		chord.addPitchClass(5);
-		assertEquals("Chord type wrong", ChordType.DOM, chord.getChordType());
+		assertEquals(ChordType.DOM, chord.getChordType(), "Chord type wrong");
 	}
 	
 	@Test
@@ -106,7 +123,7 @@ public class ChordTest {
 		chord.addPitchClass(2);
 		chord.addPitchClass(2);
 		chord.addPitchClass(9);
-		assertEquals("Chord type wrong", ChordType.CH2_KWINT, chord.getChordType());
+		assertEquals(ChordType.CH2_KWINT, chord.getChordType(), "Chord type wrong");
 	}
 	
 	@Test
@@ -116,7 +133,7 @@ public class ChordTest {
 		chord.addPitchClass(4);
 		chord.addPitchClass(7);
 		chord.addPitchClass(11);
-		assertEquals("Chord type wrong", ChordType.MAJOR7, chord.getChordType());
+		assertEquals(ChordType.MAJOR7, chord.getChordType(), "Chord type wrong");
 	}
 	
 	@Test
@@ -126,7 +143,7 @@ public class ChordTest {
 		chord.addPitchClass(4);
 		chord.addPitchClass(7);
 		chord.addPitchClass(11);
-		assertEquals("Chord type wrong", ChordType.MAJOR7_1, chord.getChordType());
+		assertEquals(ChordType.MAJOR7_1, chord.getChordType(), "Chord type wrong");
 	}
 	
 	@Test
@@ -136,7 +153,7 @@ public class ChordTest {
 		chord.addPitchClass(4);
 		chord.addPitchClass(7);
 		chord.addPitchClass(11);
-		assertEquals("Chord type wrong", ChordType.MAJOR7_2, chord.getChordType());
+		assertEquals(ChordType.MAJOR7_2, chord.getChordType(), "Chord type wrong");
 	}
 	
 	@Test
@@ -146,7 +163,7 @@ public class ChordTest {
 		chord.addPitchClass(4);
 		chord.addPitchClass(7);
 		chord.addPitchClass(11);
-		assertEquals("Chord type wrong", ChordType.MAJOR7_3, chord.getChordType());
+		assertEquals(ChordType.MAJOR7_3, chord.getChordType(), "Chord type wrong");
 	}
 	
 	@Test
@@ -156,7 +173,7 @@ public class ChordTest {
 		chord.addPitchClass(3);
 		chord.addPitchClass(7);
 		chord.addPitchClass(10);
-		assertEquals("Chord type wrong", ChordType.MINOR7, chord.getChordType());
+		assertEquals(ChordType.MINOR7, chord.getChordType(), "Chord type wrong");
 	}
 	
 	@Test
@@ -166,7 +183,7 @@ public class ChordTest {
 		chord.addPitchClass(3);
 		chord.addPitchClass(7);
 		chord.addPitchClass(10);
-		assertEquals("Chord type wrong", ChordType.MINOR7_1, chord.getChordType());
+		assertEquals(ChordType.MINOR7_1, chord.getChordType(), "Chord type wrong");
 	}
 	
 	@Test
@@ -176,7 +193,7 @@ public class ChordTest {
 		chord.addPitchClass(3);
 		chord.addPitchClass(7);
 		chord.addPitchClass(10);
-		assertEquals("Chord type wrong", ChordType.MINOR7_2, chord.getChordType());
+		assertEquals(ChordType.MINOR7_2, chord.getChordType(), "Chord type wrong");
 	}
 	
 	@Test
@@ -186,7 +203,7 @@ public class ChordTest {
 		chord.addPitchClass(3);
 		chord.addPitchClass(7);
 		chord.addPitchClass(10);
-		assertEquals("Chord type wrong", ChordType.MINOR7_3, chord.getChordType());
+		assertEquals(ChordType.MINOR7_3, chord.getChordType(), "Chord type wrong");
 	}
 	
 	@Test
@@ -196,7 +213,7 @@ public class ChordTest {
 		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(76).octave(6).build());
 		notes.add(note().pos(DurationConstants.WHOLE).pc(7).pitch(79).octave(6).build());
 		Chord chord = new Chord(0, notes);
-		assertEquals("Chord type wrong", ChordType.MAJOR, chord.getChordType());
+		assertEquals(ChordType.MAJOR, chord.getChordType(), "Chord type wrong");
 	}
 	
 	@Test
@@ -205,7 +222,7 @@ public class ChordTest {
 		notes.add(note().pos(0).pc(0).pitch(60).octave(5).build());
 		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(76).octave(6).build());
 		Chord chord = new Chord(0, notes);
-		assertEquals("Chord type wrong", ChordType.CH2_GROTE_TERTS, chord.getChordType());
+		assertEquals(ChordType.CH2_GROTE_TERTS, chord.getChordType(), "Chord type wrong");
 	}
 	
 	@Test
@@ -214,7 +231,65 @@ public class ChordTest {
 		notes.add(note().pos(0).pc(0).pitch(60).octave(5).build());
 		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(76).octave(6).build());
 		Chord chord = new Chord(4, notes);
-		assertEquals("Chord type wrong", ChordType.CH2_KLEINE_SIXT, chord.getChordType());
+		assertEquals(ChordType.CH2_KLEINE_SIXT, chord.getChordType(), "Chord type wrong");
 	}
+
+    @Test
+    void testDomAndHalfsDimChords() {
+        int[] generatedPitchClasses = chordGenerator.generatePitchClasses("4-27");
+        List<Integer> pitchClasses = Arrays.stream(generatedPitchClasses).boxed().collect(toList());
+        RowMatrix rowMatrix = new RowMatrix(generatedPitchClasses.length, pitchClasses);
+        for (int i = 0; i < generatedPitchClasses.length; i++) {
+            int[] row = rowMatrix.getRow(i);
+            Arrays.sort(row);
+            createChord(row);
+
+            int[] column = rowMatrix.getColumn(i);
+            Arrays.sort(column);
+            createChord(column);
+        }
+    }
+
+    @Test
+    void testMinor7Chords() {
+        int[] generatedPitchClasses = chordGenerator.generatePitchClasses("4-26");
+        List<Integer> pitchClasses = Arrays.stream(generatedPitchClasses).boxed().collect(toList());
+        RowMatrix rowMatrix = new RowMatrix(generatedPitchClasses.length, pitchClasses);
+        for (int i = 0; i < generatedPitchClasses.length; i++) {
+            int[] row = rowMatrix.getRow(i);
+            Arrays.sort(row);
+            createChord(row);
+
+            int[] column = rowMatrix.getColumn(i);
+            Arrays.sort(column);
+            createChord(column);
+        }
+    }
+
+    @Test
+    void testMajorChords() {
+        int[] generatedPitchClasses = chordGenerator.generatePitchClasses("4-20");
+        List<Integer> pitchClasses = Arrays.stream(generatedPitchClasses).boxed().collect(toList());
+        RowMatrix rowMatrix = new RowMatrix(generatedPitchClasses.length, pitchClasses);
+        for (int i = 0; i < generatedPitchClasses.length; i++) {
+            int[] row = rowMatrix.getRow(i);
+            Arrays.sort(row);
+            createChord(row);
+
+            int[] column = rowMatrix.getColumn(i);
+            Arrays.sort(column);
+            createChord(column);
+        }
+    }
+
+    private void createChord(int[] pitchClasses) {
+        Chord chord = new Chord(0, new ArrayList<>());
+        for (int generatedPitchClass : pitchClasses) {
+            chord.addPitchClass(generatedPitchClass);
+        }
+        ChordType chordType = chord.getChordType();
+        System.out.print(Arrays.toString(pitchClasses) + " , ");
+        System.out.println(chordType + ", root:" + chord.getRoot());
+    }
 
 }

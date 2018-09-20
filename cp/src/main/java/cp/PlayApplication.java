@@ -30,7 +30,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
-import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
 import javax.swing.*;
 import java.io.File;
@@ -139,7 +138,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
             Resource outResource = new FileSystemResource("");
 
             midiDevicesUtil.write(sequence, outResource.getFile().getPath()+ "cp/src/main/resources/orch/" + removeExtension(xmlFile.getName()) + "orch.mid");
-			Thread.sleep(9000);
+			Thread.sleep(20000);
 		}
 	}
 
@@ -285,7 +284,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 //	}
 	
 	private void playOnKontakt(List<MelodyInstrument> melodies, Sequence sequence,
-			int tempo) throws InvalidMidiDataException {
+			int tempo)  {
 		midiDevicesUtil.playOnDevice(sequence, tempo, MidiDevicePlayer.KONTAKT);
 	}
 

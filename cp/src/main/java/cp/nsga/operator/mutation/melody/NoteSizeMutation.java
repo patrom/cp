@@ -75,7 +75,7 @@ public class NoteSizeMutation implements MutationOperator<CpMelody> {
                         }
                     }
                     PitchClassGenerator pitchClassGenerator = voiceConfig.getRandomPitchClassGenerator(melody.getVoice());
-                    melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes, null);
+                    melodyNotes = pitchClassGenerator.updatePitchClasses(melody);
                     melody.updateNotes(melodyNotes);
                     melody.setNotesSize(randomNoteSize);
 //                    LOGGER.info("Note size: " + melody.getNotesSize());

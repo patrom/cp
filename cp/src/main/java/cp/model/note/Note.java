@@ -1,6 +1,7 @@
 package cp.model.note;
 
 import cp.composition.voice.Voice;
+import cp.model.TimeLineKey;
 import cp.model.harmony.DependantHarmony;
 import cp.model.humanize.Humanization;
 import cp.out.instrument.Articulation;
@@ -57,6 +58,9 @@ public class Note implements Comparable<Note>{
 	private String instrument;
 	private DependantHarmony dependantHarmony;
 	private boolean chord = false;
+
+	//updating pitchclass generators
+    private TimeLineKey timeLineKey;
 	
 	private Articulation articulation;
 	private Dynamic dynamic = Voice.DEFAULT_DYNAMIC;
@@ -545,4 +549,12 @@ public class Note implements Comparable<Note>{
 	public boolean hasTexture(){
 		return dependantHarmony != null;
 	}
+
+    public void setTimeLineKey(TimeLineKey timeLineKey) {
+        this.timeLineKey = timeLineKey;
+    }
+
+    public TimeLineKey getTimeLineKey() {
+        return timeLineKey;
+    }
 }

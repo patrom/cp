@@ -140,7 +140,8 @@ public class MidiParser {
 	private String decodeMessage(MetaMessage message, MidiInfo midiInfo){
 		byte[]	abData = message.getData();
 		String	strMessage = null;
-		switch (message.getType()){
+        int type = message.getType();
+        switch (message.getType()){
 		case 0:
 		        int	nSequenceNumber;
 		        if (abData.length == 0)
@@ -158,7 +159,7 @@ public class MidiParser {
 			strMessage = "Sequence/Track Name: " +  strTrackName;
 			break;
 		case 4:
-			String	strInstrumentName = new String(abData);
+			String	strInstrumentName = new String(abData); // 	C1 	46
 			strMessage = "Instrument Name: " + strInstrumentName;
 			break;
 		case 5:

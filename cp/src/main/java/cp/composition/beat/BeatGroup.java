@@ -112,6 +112,14 @@ public abstract class BeatGroup {
         return pitchClassGenerators;
     }
 
+    public boolean hasPitchClassGenerators() {
+        return !pitchClassGenerators.isEmpty();
+    }
+
+    public boolean hasMelody() {
+        return !motivePitchClasses.isEmpty();
+    }
+
     @PostConstruct
     public void init() {
         timeLineKeys.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE));
@@ -172,6 +180,10 @@ public abstract class BeatGroup {
 
     public List<ChordType> getChordTypes() {
         return chordTypes;
+    }
+
+    public boolean hasChordTypes() {
+        return !chordTypes.isEmpty();
     }
 
     public Scale getMotiveScale() {

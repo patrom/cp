@@ -1,79 +1,63 @@
 package cp.generator.pitchclass;
 
 import cp.composition.beat.BeatGroup;
-import cp.model.TimeLine;
 import cp.model.TimeLineKey;
+import cp.model.melody.CpMelody;
 import cp.model.melody.Tonality;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.util.RandomUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 @Component
 public class PassingPitchClasses{
 
 	private static Logger LOGGER = LoggerFactory.getLogger(PassingPitchClasses.class);
-	
-	@Autowired
-	private TimeLine timeLine;
 
-	public List<Note> updatePitchClasses(List<Note> notes, BeatGroup beatGroup) {
+	public List<Note> updatePitchClasses(CpMelody melody) {
 		LOGGER.debug("PassingPitchClasses");
-		List<Note> melodyNotes = notes.stream().filter(n -> !n.isRest()).collect(toList());
-        if (beatGroup != null) {
-            if (beatGroup.getTonality() == Tonality.TONAL) {
-                Scale scale = RandomUtil.getRandomFromList(beatGroup.getMotivePitchClasses());
-                int tempPC = scale.pickRandomPitchClass();
-                TimeLineKey timeLineKey = RandomUtil.getRandomFromList(beatGroup.getTimeLineKeys());
-
-                Note firstNote = melodyNotes.get(0);
-                firstNote.setPitchClass((tempPC + timeLineKey.getKey().getInterval()) % 12);
-                for (int i = 1; i < melodyNotes.size(); i++) {
-                    Note nextNote = melodyNotes.get(i);
-                    int pitchClass;
-                    if (RandomUtil.toggleSelection()) {
-                        pitchClass = scale.pickNextPitchFromScale(tempPC);
-                    } else {
-                        pitchClass = scale.pickPreviousPitchFromScale(tempPC);
-                    }
-                    tempPC = pitchClass;
-                    nextNote.setPitchClass((pitchClass + timeLineKey.getKey().getInterval()) % 12);
-//                    LOGGER.info("passing");
-                }
-            } else {
-                Scale scale = RandomUtil.getRandomFromList(beatGroup.getMotivePitchClasses());
-                int tempPC = scale.pickRandomPitchClass();
-                Note firstNote = melodyNotes.get(0);
-                firstNote.setPitchClass((tempPC));
-                for (int i = 1; i < melodyNotes.size(); i++) {
-                    Note nextNote = melodyNotes.get(i);
-                    int pitchClass;
-                    if (RandomUtil.toggleSelection()) {
-                        pitchClass = scale.pickNextPitchFromScale(tempPC);
-                    } else {
-                        pitchClass = scale.pickPreviousPitchFromScale(tempPC);
-                    }
-                    tempPC = pitchClass;
-                    nextNote.setPitchClass((pitchClass));
-                }
-            }
+		List<Note> melodyNotes = melody.getNotesNoRest();
+        melody.updateTimeLineKeysNotes();
+        BeatGroup beatGroup = melody.getBeatGroup();
+        if (beatGroup.hasMelody()) {
+            updateNotesForBeatgroup(melodyNotes, beatGroup);
         } else if (!melodyNotes.isEmpty()) {
             Note firstNote = melodyNotes.get(0);
-			TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(firstNote.getPosition(), firstNote.getVoice());
+			TimeLineKey timeLineKey = firstNote.getTimeLineKey();
 			int tempPC = timeLineKey.getScale().pickRandomPitchClass();
-            Scale scale = timeLineKey.getScale();
+			firstNote.setPitchClass(timeLineKey.getPitchClassForKey(tempPC));
 
-			firstNote.setPitchClass((tempPC + timeLineKey.getKey().getInterval()) % 12);
 			for (int i = 1; i < melodyNotes.size(); i++) {
                 Note nextNote = melodyNotes.get(i);
-                timeLineKey = timeLine.getTimeLineKeyAtPosition(nextNote.getPosition(), nextNote.getVoice());
+                timeLineKey = nextNote.getTimeLineKey();
+                Scale scale = timeLineKey.getScale();
+                int pitchClass;
+                if (RandomUtil.toggleSelection()) {
+                    pitchClass = scale.pickNextPitchFromScale(tempPC);
+                } else {
+                    pitchClass = scale.pickPreviousPitchFromScale(tempPC);
+                }
+                nextNote.setPitchClass(timeLineKey.getPitchClassForKey(pitchClass));
+                tempPC = pitchClass;
+            }
+		}
+		return melodyNotes;
+	}
+
+    private void updateNotesForBeatgroup(List<Note> melodyNotes, BeatGroup beatGroup) {
+        if (beatGroup.getTonality() == Tonality.TONAL) {
+            Scale scale = RandomUtil.getRandomFromList(beatGroup.getMotivePitchClasses());
+            int tempPC = scale.pickRandomPitchClass();
+            TimeLineKey timeLineKey = RandomUtil.getRandomFromList(beatGroup.getTimeLineKeys());
+
+            Note firstNote = melodyNotes.get(0);
+            firstNote.setPitchClass((tempPC + timeLineKey.getKey().getInterval()) % 12);
+            for (int i = 1; i < melodyNotes.size(); i++) {
+                Note nextNote = melodyNotes.get(i);
                 int pitchClass;
                 if (RandomUtil.toggleSelection()) {
                     pitchClass = scale.pickNextPitchFromScale(tempPC);
@@ -82,9 +66,25 @@ public class PassingPitchClasses{
                 }
                 tempPC = pitchClass;
                 nextNote.setPitchClass((pitchClass + timeLineKey.getKey().getInterval()) % 12);
+//                    LOGGER.info("passing");
             }
-		}
-		return notes;
-	}
+        } else {
+            Scale scale = RandomUtil.getRandomFromList(beatGroup.getMotivePitchClasses());
+            int tempPC = scale.pickRandomPitchClass();
+            Note firstNote = melodyNotes.get(0);
+            firstNote.setPitchClass((tempPC));
+            for (int i = 1; i < melodyNotes.size(); i++) {
+                Note nextNote = melodyNotes.get(i);
+                int pitchClass;
+                if (RandomUtil.toggleSelection()) {
+                    pitchClass = scale.pickNextPitchFromScale(tempPC);
+                } else {
+                    pitchClass = scale.pickPreviousPitchFromScale(tempPC);
+                }
+                tempPC = pitchClass;
+                nextNote.setPitchClass((pitchClass));
+            }
+        }
+    }
 
 }

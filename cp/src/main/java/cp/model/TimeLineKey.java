@@ -38,6 +38,10 @@ public class TimeLineKey implements Comparable<TimeLineKey>{
 		return scale;
 	}
 
+    public int getPitchClassForKey(int pitchClass) {
+	    return (pitchClass + key.getInterval()) % 12;
+    }
+
     @Override
     public int compareTo(TimeLineKey timeLineKey) {
         return Integer.compare(this.start, timeLineKey.getStart());

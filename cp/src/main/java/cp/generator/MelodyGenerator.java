@@ -9,6 +9,7 @@ import cp.config.*;
 import cp.generator.pitchclass.PitchClassGenerator;
 import cp.generator.provider.MelodyProvider;
 import cp.model.TimeLine;
+import cp.model.TimeLineKey;
 import cp.model.harmony.ChordType;
 import cp.model.harmony.DependantHarmony;
 import cp.model.melody.CpMelody;
@@ -195,26 +196,38 @@ public class MelodyGenerator {
 		NoteSizeValueObject valueObject = beatGroup.getRandomRhythmNotesForBeatgroupType();
 		List<Note> melodyNotes = valueObject.getRhythmCombination().getNotes(beatGroup.getBeatLength());
 
-		melodyNotes.forEach(n -> {
+
+
+        CpMelody melody = new CpMelody(melodyNotes, voice, start, start + beatGroup.getBeatLength());
+        melody.setBeatGroup(beatGroup);
+        melody.setNotesSize(valueObject.getKey());
+
+//        if (!voiceConfig.isMelodiesProvided()) {
+            List<TimeLineKey> timelineKeys = timeLine.getTimelineKeys(voice, start, start + beatGroup.getBeatLength());
+            melody.setTimeLineKeys(timelineKeys);
+//        }
+
+        if (voiceConfig.isMelodiesProvided()) {
+            melody.setMutable(false);
+        } else {
+            melody.setMutationType(RandomUtil.getRandomFromList(voiceConfig.getMutationTypes()));
+        }
+
+        melodyNotes.forEach(n -> {
 			n.setVoice(voice);
 			n.setDynamic(timbre.getDynamic());
 			n.setDynamicLevel(timbre.getDynamic().getLevel());
 			n.setTechnical(timbre.getTechnical());
 			n.setPosition(n.getPosition() + start);
 		});
-        if (beatGroup.getPitchClassGenerators().isEmpty()) {
-            melodyNotes = voiceConfiguration.getRandomPitchClassGenerator(voice).updatePitchClasses(melodyNotes, null);
-        } else {
+        if (beatGroup.hasPitchClassGenerators()) {
             PitchClassGenerator pcGenerator = RandomUtil.getRandomFromList(beatGroup.getPitchClassGenerators());
-            if (beatGroup.getMotivePitchClasses().isEmpty()) {
-                melodyNotes = pcGenerator.updatePitchClasses(melodyNotes, null);
-            } else {
-                melodyNotes = pcGenerator.updatePitchClasses(melodyNotes, beatGroup);
-            }
+            melodyNotes = pcGenerator.updatePitchClasses(melody);
+        } else {
+            melodyNotes = voiceConfiguration.getRandomPitchClassGenerator(voice).updatePitchClasses(melody);
         }
-
         List<Note> melodyNotesNoRests = melodyNotes.stream().filter(n -> !n.isRest()).collect(toList());
-        if (!beatGroup.getChordTypes().isEmpty()) {
+        if (beatGroup.hasChordTypes()) {
             List<ChordType> chordTypes = beatGroup.getChordTypes();
             for (int i = 0; i < melodyNotesNoRests.size(); i++) {
                 Note note = melodyNotesNoRests.get(i);
@@ -230,14 +243,6 @@ public class MelodyGenerator {
 					melodyNote.setDependantHarmony(dependantHarmony);
 				}
 			}
-        }
-        CpMelody melody = new CpMelody(melodyNotes, voice, start, start + beatGroup.getBeatLength());
-		melody.setBeatGroup(beatGroup);
-		melody.setNotesSize(valueObject.getKey());
-        if (voiceConfig.isMelodiesProvided()) {
-            melody.setMutable(false);
-        } else {
-            melody.setMutationType(RandomUtil.getRandomFromList(voiceConfig.getMutationTypes()));
         }
 
         return melody;

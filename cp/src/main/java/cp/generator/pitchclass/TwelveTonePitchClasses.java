@@ -1,34 +1,29 @@
 package cp.generator.pitchclass;
 
 import cp.composition.beat.BeatGroup;
-import cp.model.TimeLine;
+import cp.model.melody.CpMelody;
 import cp.model.note.Note;
 import cp.model.note.Scale;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
-
 @Component
 public class TwelveTonePitchClasses {
-
-	@Autowired
-	private TimeLine timeLine;
 
 	private int counter = 0;
 	private Scale scale = Scale.VARIATIONS_FOR_ORCHESTRA_OP31;
 
-	public List<Note> updatePitchClasses(List<Note> notes, BeatGroup beatGroup) {
-		List<Note> melodyNotes = notes.stream().filter(n -> !n.isRest()).collect(toList());
+	public List<Note> updatePitchClasses(CpMelody melody) {
+        List<Note> melodyNotes = melody.getNotesNoRest();
+        BeatGroup beatGroup = melody.getBeatGroup();
 		Note firstNote = melodyNotes.get(0);
 		firstNote.setPitchClass(getNextPitchClass());
 		for (int i = 1; i < melodyNotes.size(); i++) {
 			Note nextNote = melodyNotes.get(i);
 			nextNote.setPitchClass(getNextPitchClass());
 		}
-		return notes;
+		return melodyNotes;
 	}
 
 	private int getNextPitchClass(){

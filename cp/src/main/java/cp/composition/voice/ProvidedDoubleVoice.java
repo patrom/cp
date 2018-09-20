@@ -21,7 +21,7 @@ public class ProvidedDoubleVoice extends Voice {
     @PostConstruct
     public void init(){
         melodiesProvided = true;
-        allBeatgroups = Arrays.asList(beatgroups.beatGroupHarmonyTwo);
+        allBeatgroups = Arrays.asList(beatgroups.beatGroupHarmonyFour);
         setTimeconfig();
     }
 

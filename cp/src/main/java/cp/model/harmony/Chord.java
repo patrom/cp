@@ -37,10 +37,10 @@ public class Chord {
 	}
 
 	public ChordType getChordType() {
-		if (chordType == null) {
-			this.chordType = extractChordType(bassNote);
-		}
-		return chordType;
+//		if (chordType == null) {
+//			this.chordType = extractChordType(bassNote);
+//		}
+		return extractChordType(bassNote);
 	}
 	
 	public Multiset<Integer> getPitchClassMultiSet() {
@@ -99,7 +99,7 @@ public class Chord {
 
 	private ChordType extractChordType(int bassNote) {
 		Set<Integer> pitchClassSet = getPitchClassSet();
-		Integer[] chord = pitchClassSet.toArray(new Integer[pitchClassSet.size()]);
+		Integer[] chord = pitchClassSet.toArray(new Integer[0]);
 		switch (chord.length) {
 		case 0:
 			return ChordType.CH0;
@@ -177,43 +177,51 @@ public class Chord {
 			//maj7
 			if (secondInterval == 4 && thirdInterval == 3) {
 				int chordPosition = Math.abs(chord[1] - bassNote);
-				return getMajor7Inversion(chordPosition);
+				return getMajor7Inversion(chordPosition, chord);
 			} 
 			break;
 		case 2:
 			//dom7 - min7
 			if (secondInterval == 4 && thirdInterval == 3) {
+			    root = chord[1];
 				return ChordType.DOM7;
 			} else if (secondInterval == 3 && thirdInterval == 4) {
 				int chordPosition = Math.abs(chord[1] - bassNote);
-				return getMinor7Inversion(chordPosition);
-			} 
+				return getMinor7Inversion(chordPosition, chord);
+			} else if (secondInterval == 3 && thirdInterval == 3) {
+                root = chord[1];
+                return ChordType.HALFDIM7;
+            }
 			break;
 		case 3:
 			if (secondInterval == 2) {
 				if (thirdInterval == 3) {
 					int chordPosition = Math.abs(chord[2] - bassNote);
-					return getMinor7Inversion(chordPosition);
+					return getMinor7Inversion(chordPosition, chord);
 				} else if(thirdInterval == 4){
+                    root = chord[2];
 					return ChordType.DOM7;
 				}
 			} else if (secondInterval == 3) {
 				if (thirdInterval == 3) {
 					return ChordType.DIM7;
 				} else if(thirdInterval == 4){
+                    root = chord[0];
 					return ChordType.HALFDIM7;
 				} else if(thirdInterval == 2){
+                    root = chord[3];
 					return ChordType.DOM7;
 				}
 			}else if (secondInterval == 4) {
 				if (thirdInterval == 3) {
 					int chordPosition = Math.abs(chord[0] - bassNote);
-					return getMinor7Inversion(chordPosition);
+					return getMinor7Inversion(chordPosition, chord);
 				} else if(thirdInterval == 2){
+                    root = chord[3];
 					return ChordType.HALFDIM7;
 				} else if(thirdInterval == 1){
 					int chordPosition = Math.abs(chord[3] - bassNote);
-					return getMajor7Inversion(chordPosition);
+					return getMajor7Inversion(chordPosition, chord);
 				}
 			}
 			break;
@@ -221,21 +229,23 @@ public class Chord {
 			if (secondInterval == 1) {
 				if (thirdInterval == 4) {
 					int chordPosition = Math.abs(chord[2] - bassNote);
-					return getMajor7Inversion(chordPosition);
+					return getMajor7Inversion(chordPosition, chord);
 				} 
 			} else if (secondInterval == 2) {
 				if (thirdInterval == 3) {
+                    root = chord[2];
 					return ChordType.HALFDIM7;
 				} 
 			}else if (secondInterval == 3) {
 				if (thirdInterval == 3) {
+                    root = chord[0];
 					return ChordType.DOM7;
 				} else if(thirdInterval == 4){
 					int chordPosition = Math.abs(chord[0] - bassNote);
-					return getMajor7Inversion(chordPosition);
+					return getMajor7Inversion(chordPosition, chord);
 				} else if(thirdInterval == 2){
 					int chordPosition = Math.abs(chord[3] - bassNote);
-					return getMinor7Inversion(chordPosition);
+					return getMinor7Inversion(chordPosition, chord);
 				}
 			}
 			break;
@@ -301,18 +311,22 @@ public class Chord {
 		}
 		if ("3-4".equals(forteName)) {
 			if (firstInterval == 4 && secondInterval == 7 ) {
+                root = chord[0];
 				return ChordType.MAJOR7_OMIT5;
 			}
 		}
 		if ("3-6".equals(forteName)) {
 			if (firstInterval == 2 && secondInterval == 2 ) {
+                root = chord[0];
 				return ChordType.ADD9;
 			}
 		}
 		if ("3-7".equals(forteName)) {
 			if (firstInterval == 3 && secondInterval == 7 ) {
+                root = chord[0];
 				return ChordType.MINOR7_OMIT5;
 			} else if (firstInterval == 7 && secondInterval == 2 ) {
+                root = chord[1];
 				return ChordType.MINOR7_OMIT5_1;
 			}
 		}
@@ -333,18 +347,22 @@ public class Chord {
 		throw new IllegalArgumentException("No Inversion found for chord position: " + chordPosition);
 	}
 	
-	private ChordType getMinor7Inversion(int chordPosition) {
+	private ChordType getMinor7Inversion(int chordPosition, Integer[] chord) {
 		switch (chordPosition) {
 			case 0:
+                root = chord[0];
 				return ChordType.MINOR7;
 			case 3:
 			case 9:
+                root = chord[3];
 				return ChordType.MINOR7_1;
 			case 5:
 			case 7:
+                root = chord[2];
 				return ChordType.MINOR7_2;
 			case 2:
 			case 10:
+                root = chord[1];
 				return ChordType.MINOR7_3;
 		}
 		throw new IllegalArgumentException("No Inversion found for chord position: " + chordPosition);
@@ -364,18 +382,22 @@ public class Chord {
 		throw new IllegalArgumentException("No Inversion found for chord position: " + chordPosition);
 	}
 	
-	private ChordType getMajor7Inversion(int chordPosition) {
+	private ChordType getMajor7Inversion(int chordPosition, Integer[] chord) {
 		switch (chordPosition) {
 			case 0:
+			    root = chord[0];
 				return ChordType.MAJOR7;
 			case 4:
 			case 8:
+                root = chord[3];
 				return ChordType.MAJOR7_1;
 			case 5:
 			case 7:
+                root = chord[2];
 				return ChordType.MAJOR7_2;
 			case 1:
 			case 11:
+                root = chord[1];
 				return ChordType.MAJOR7_3;
 		}
 		throw new IllegalArgumentException("No Inversion found for chord position: " + chordPosition);

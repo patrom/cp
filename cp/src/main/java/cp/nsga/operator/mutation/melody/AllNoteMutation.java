@@ -40,22 +40,24 @@ public class AllNoteMutation implements MutationOperator<CpMelody> {
             if (!melodyNotes.isEmpty()) {
                 if (melody.hasPCGenerators() && melody.hasScale()) {
                     PitchClassGenerator pitchClassGenerator = RandomUtil.getRandomFromList(melody.getBeatGroup().getPitchClassGenerators());
-                    melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes, melody.getBeatGroup());
+                    melodyNotes = pitchClassGenerator.updatePitchClasses(melody);
                     melody.updateNotes(melodyNotes);
                     LOGGER.debug("All notes motive: " + melody.getVoice());
                 } else if(melody.hasPCGenerators()){
                     PitchClassGenerator pitchClassGenerator = RandomUtil.getRandomFromList(melody.getBeatGroup().getPitchClassGenerators());
-                    melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes, null);
+                    melodyNotes = pitchClassGenerator.updatePitchClasses(melody);
                     melody.updateNotes(melodyNotes);
                     LOGGER.debug("All notes pc gen: " + melody.getVoice());
                 } else if(melody.hasScale()){
+
+                    //TODO move to generator
                     PitchClassGenerator pitchClassGenerator = voiceConfig.getRandomPitchClassGenerator(melody.getVoice());
-                    melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes, melody.getBeatGroup());
+                    melodyNotes = pitchClassGenerator.updatePitchClasses(melody);
                     melody.updateNotes(melodyNotes);
                     LOGGER.debug("All notes scale: " + melody.getVoice());
                 } else {
                     PitchClassGenerator pitchClassGenerator = voiceConfig.getRandomPitchClassGenerator(melody.getVoice());
-                    melodyNotes = pitchClassGenerator.updatePitchClasses(melodyNotes, null);
+                    melodyNotes = pitchClassGenerator.updatePitchClasses(melody);
                     melody.updateNotes(melodyNotes);
                     LOGGER.debug("All notes: " + melody.getVoice());
                 }

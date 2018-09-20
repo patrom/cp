@@ -11,9 +11,7 @@ import cp.model.note.NoteBuilder;
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
 import cp.out.print.Keys;
-import cp.out.print.note.Key;
 import org.apache.commons.lang.ArrayUtils;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,49 +27,51 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
 @ExtendWith(SpringExtension.class)
-public class OrderPitchClassesTest {
+public class RepeatingPitchClassesTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(OrderPitchClassesTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PassingPitchClassesTest.class);
 
     @Autowired
-    private OrderPitchClasses orderPitchClasses;
-    @Autowired
-    private Key D;
-    @Autowired
-    private BeatGroups beatGroups;
+    private RepeatingPitchClasses repeatingPitchClasses;
     @Autowired
     private Keys keys;
+    @Autowired
+    private BeatGroups beatGroups;
 
     private TimeLineKey timeLineKey;
 
     @BeforeEach
     public void setUp() throws Exception {
-        timeLineKey = new TimeLineKey(D, Scale.MAJOR_CHORD, 0, DurationConstants.WHOLE);
+        timeLineKey = new TimeLineKey(keys.D, Scale.MAJOR_SCALE, 0, DurationConstants.WHOLE);
     }
 
     @Test
     public void testUpdatePitchClasses() {
         List<Note> notes = new ArrayList<>();
-        notes.add(NoteBuilder.note().pc(0).build());
-        notes.add(NoteBuilder.note().pc(0).build());
-        notes.add(NoteBuilder.note().pc(0).build());
-        notes.add(NoteBuilder.note().pc(0).build());
+        notes.add(NoteBuilder.note().pc(0).pos(0).build());
+        notes.add(NoteBuilder.note().pc(0).pos(DurationConstants.QUARTER).build());
+        notes.add(NoteBuilder.note().pc(0).pos(DurationConstants.HALF).build());
+        notes.add(NoteBuilder.note().pc(0).pos(DurationConstants.HALF + DurationConstants.EIGHT).build());
         CpMelody melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
         melody.setBeatGroup(beatGroups.beatGroupTwo);
         melody.setTimeLineKeys(Collections.singletonList(timeLineKey));
-        notes = orderPitchClasses.updatePitchClasses(melody);
+        notes = repeatingPitchClasses.updatePitchClasses(melody);
         LOGGER.info("Notes: " + notes);
-        Assertions.assertThat(notes.get(0).getPitchClass()).isEqualTo(2);
-        Assertions.assertThat(notes.get(1).getPitchClass()).isEqualTo(6);
-        Assertions.assertThat(notes.get(2).getPitchClass()).isEqualTo(9);
-        Assertions.assertThat(notes.get(3).getPitchClass()).isEqualTo(2);
+        int firstPc = notes.get(0).getPitchClass();
+        notes.forEach(note -> assertEquals(note.getPitchClass(), firstPc));
+        for (Note note : notes) {
+            assertTrue(
+                    ArrayUtils.contains(timeLineKey.getScale().getPitchClasses(), (note.getPitchClass() - note.getTimeLineKey().getKey().getInterval() + 12) % 12),
+                    () -> String.format("The scale doesn't contain the pitchClass: %s", (note.getPitchClass() - note.getTimeLineKey().getKey().getInterval() + 12) % 12)
+            );
+        }
     }
-
 
     @Test
     public void testUpdatePitchClassesMultipleKeys() {
@@ -88,7 +88,7 @@ public class OrderPitchClassesTest {
         timeLineKeys.add(timeLineKeyAflat);
         timeLineKeys.add(timeLineKeyC);
         melody.setTimeLineKeys(timeLineKeys);
-        notes = orderPitchClasses.updatePitchClasses(melody);
+        notes = repeatingPitchClasses.updatePitchClasses(melody);
         LOGGER.info("Notes: " + notes);
         for (Note note : notes) {
             assertTrue(

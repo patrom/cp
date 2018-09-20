@@ -8,6 +8,7 @@ import cp.composition.beat.motive.BeatgroupMotive;
 import cp.generator.pitchclass.*;
 import cp.model.melody.Tonality;
 import cp.model.note.Scale;
+import cp.model.rhythm.DurationConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -106,16 +107,21 @@ public class BeatGroupConfig {
 
     @Bean
     public BeatGroup beatGroupHarmonyOne(){
-        return new BeatgroupHarmony(2,
+        return new BeatgroupHarmony(1,
                 getBeatGroups() , Collections.singletonList(orderPitchClasses::updatePitchClasses));
     }
 
     @Bean
     public BeatGroup beatGroupHarmonyTwo(){
-        return new BeatgroupHarmony(8,
+        return new BeatgroupHarmony(2,
                 getBeatGroups() , Collections.singletonList(orderPitchClasses::updatePitchClasses));
     }
 
+    @Bean
+    public BeatGroup beatGroupHarmonyFour(){
+        return new BeatgroupHarmony(16,
+                getBeatGroups() , Collections.singletonList(orderPitchClasses::updatePitchClasses));
+    }
 
     @Bean
     public BeatGroup beatGroupMotiveOne(){
@@ -177,14 +183,27 @@ public class BeatGroupConfig {
         return beatgroupMotive;
     }
 
+    private void test() {
+        Map<Integer, List<RhythmCombination>> map = new HashMap<>();
+        List<RhythmCombination> beatGroups2 = new ArrayList<>();
+//        beatGroups2.add(rhythmCombinations.oneNoteEven::pos1);
+//        beatGroups2.add();
+        rhythmCombinations.combiNoteEven.combiHalf(
+                rhythmCombinations.twoNoteEven::pos12,
+                rhythmCombinations.threeNoteEven::pos234,
+                DurationConstants.WHOLE);
+        map.put(4, beatGroups2);
+        
+    }
+
     private Map<Integer, List<RhythmCombination>> getBeatGroups(){
         Map<Integer, List<RhythmCombination>> map = new HashMap<>();
         List<RhythmCombination> beatGroups2 = new ArrayList<>();
 //        beatGroups2.add(rhythmCombinations.oneNoteEven::pos1);
         beatGroups2.add(rhythmCombinations.fourNoteEven::pos1234);
-        beatGroups2.add(rhythmCombinations.combiNoteEven::pos23pos12);
+//        beatGroups2.add(rhythmCombinations.combiNoteEven::pos23pos12);
 //        beatGroups2.add(rhythmCombinations.twoNoteEven::pos14);
-        map.put(2, beatGroups2);
+        map.put(4, beatGroups2);
 
 //        List<RhythmCombination> beatGroups4 = new ArrayList<>();
 //        beatGroups4.add(rhythmCombinations.fourNoteEven::pos1234);
