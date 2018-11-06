@@ -25,6 +25,7 @@ public class Quintuplet {
 //			case DurationConstants.THREE_EIGHTS:
 //				notes =  posWithBeam(noteLength, noteLength, noteLength, noteLength, noteLength);
 //				notes.forEach(n -> n.setQuintuplet(true));//TODO check 5:3 ??
+                break;
 			case DurationConstants.HALF:
 				notes =  posWithBeamHalf(noteLength);
 				notes.forEach(n -> {n.setQuintuplet(true);
@@ -64,6 +65,7 @@ public class Quintuplet {
 //			case DurationConstants.THREE_EIGHTS:
 //				notes =  posWithBeam(noteLength, noteLength, noteLength, noteLength, noteLength);
 //				notes.forEach(n -> n.setQuintuplet(true));//TODO check 5:3 ??
+                break;
 			case DurationConstants.HALF:
 				notes =  posWithBeamHalfRest(noteLength);
 				notes.forEach(n -> {n.setQuintuplet(true);

@@ -30,11 +30,19 @@ public abstract class BeatGroup {
     protected static final Logger LOGGER = LoggerFactory.getLogger(BeatGroup.class);
 
     protected int type;
+    protected int pulse;
     protected Map<Integer, List<RhythmCombination>> rhythmCombinationMap;
     protected List<PitchClassGenerator> pitchClassGenerators = new ArrayList<>();
 
     public BeatGroup(int type, Map<Integer, List<RhythmCombination>> rhythmCombinationMap, List<PitchClassGenerator> pitchClassGenerators) {
         this.type = type;
+        this.rhythmCombinationMap = rhythmCombinationMap;
+        this.pitchClassGenerators = pitchClassGenerators;
+    }
+
+    public BeatGroup(int type, int pulse, Map<Integer, List<RhythmCombination>> rhythmCombinationMap, List<PitchClassGenerator> pitchClassGenerators) {
+        this.type = type;
+        this.pulse = pulse;
         this.rhythmCombinationMap = rhythmCombinationMap;
         this.pitchClassGenerators = pitchClassGenerators;
     }
@@ -82,13 +90,25 @@ public abstract class BeatGroup {
         return type;
     }
 
+    public void setPulse(int pulse) {
+        this.pulse = pulse;
+    }
+
+    public int getPulse() {
+        return pulse;
+    }
+
     public int getBeatLength() {
-        if (denominator == 8) {
-            return getType() * DurationConstants.EIGHT;
-        } else if (denominator == 2) {
-            return getType() * DurationConstants.HALF;
+        if (pulse == 0) {
+            if (denominator == 8) {
+                return getType() * DurationConstants.EIGHT;
+            } else if (denominator == 2) {
+                return getType() * DurationConstants.HALF;
+            }
+            return getType() * DurationConstants.QUARTER;
+        } else {
+            return getType() * pulse;
         }
-        return getType() * DurationConstants.QUARTER;
 	}
 
     public abstract List<Note> getRhythmNotesForBeatgroupType(int size);

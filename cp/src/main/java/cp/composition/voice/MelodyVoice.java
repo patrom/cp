@@ -16,10 +16,13 @@ public class MelodyVoice extends Voice {
         allBeatgroups = Arrays.asList(
 //                beatgroups.beatGroupMotiveTwo,
 //                beatgroups.beatGroupMotiveThree,
-//                beatgroups.beatGroupMotiveFour ,
-                beatgroups.beatGroupThree,
-                beatgroups.beatGroupTwo);
-//                beatgroups.beatGroupFour);
+//                beatgroups.beatGroupMotiveFour
+                beatgroups.beatGroupBalance30
+//                beatgroups.beatGroupOne,
+//                beatgroups.beatGroupTwo);
+//                beatgroups.beatGroupFour
+
+        );
 //        allBeatgroups = Arrays.asList(beatgroups.beatGroupMotiveOne, beatgroups.beatGroupMotiveTwo);
         setTimeconfig();
     }

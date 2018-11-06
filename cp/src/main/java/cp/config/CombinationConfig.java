@@ -97,17 +97,17 @@ public class CombinationConfig {
 //		threeCombinations.add(threeNoteSexTuplet::pos145);
 //		threeCombinations.add(threeNoteSexTuplet::pos136);
 //		threeCombinations.add(threeNoteSexTuplet::pos156);
-//		threeCombinations.add(threeNoteSexTuplet::pos123);tex
+//		threeCombinations.add(threeNoteSexTuplet::pos123);
 		map.put(3, threeCombinations);
 
         List<RhythmCombination> fourCombinations = new ArrayList<>();
 		fourCombinations.add(fourNoteEven::pos1234);
 
-//		fourCombinations.add(fourNoteSexTuplet::pos1456);
-//		fourCombinations.add(fourNoteSexTuplet::pos1234);
-//        fourCombinations.add(fourNoteSexTuplet::pos1345);
-//        fourCombinations.add(fourNoteSexTuplet::pos1346);
-//        fourCombinations.add(fourNoteSexTuplet::pos1356);
+		fourCombinations.add(fourNoteSexTuplet::pos1456);
+		fourCombinations.add(fourNoteSexTuplet::pos1234);
+        fourCombinations.add(fourNoteSexTuplet::pos1345);
+        fourCombinations.add(fourNoteSexTuplet::pos1346);
+        fourCombinations.add(fourNoteSexTuplet::pos1356);
 		map.put(4, fourCombinations);
 
         List<RhythmCombination> fiveCombinations = new ArrayList<>();

@@ -97,7 +97,7 @@ public abstract class Voice {
             allBeatgroups = allBeatgroups.stream().filter(beatGroup -> beatGroup.getType() == 3).collect(toList());
         } else if (numerator == 6 && denominator == 8) {
             timeConfig = time68;
-            allBeatgroups = allBeatgroups.stream().filter(beatGroup -> beatGroup.getType() == 3).collect(toList());
+//            allBeatgroups = allBeatgroups.stream().filter(beatGroup -> beatGroup.getType() == 3).collect(toList());
         } else if (numerator == 9 && denominator == 8) {
             timeConfig = time98;
             allBeatgroups = allBeatgroups.stream().filter(beatGroup -> beatGroup.getType() == 3).collect(toList());

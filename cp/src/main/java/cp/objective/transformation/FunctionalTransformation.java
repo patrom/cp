@@ -15,9 +15,9 @@ public class FunctionalTransformation implements TransformationDissonance {
             case P:
                 return 0.0;
             case R:
-                return 1.0;
+                return 0.7;
             case L:
-                return 1.0;
+                return 0.7;
             case S:
                 return 0.0;
             case H:

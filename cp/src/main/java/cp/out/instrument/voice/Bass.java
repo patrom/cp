@@ -20,7 +20,7 @@ public class Bass extends Instrument {
 		
 		setInstrumentName(InstrumentName.BASS.getName());
 //		setInstrumentSound("strings.cello");
-//		setVirtualName("Celli");
+		setVirtualName("Bass");
 	}
 
 	public Bass(InstrumentRegister instrumentRegister) {

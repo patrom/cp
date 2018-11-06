@@ -19,6 +19,7 @@ public class CombiNoteUneven {
 
     @Autowired
     public RhythmCombinations rhythmCombinations;
+
     private List<RhythmCombination> twoNoteCombinations1;
     private List<RhythmCombination> twoNoteCombinations2;
 
@@ -40,7 +41,6 @@ public class CombiNoteUneven {
 
         RhythmCombination pos1234 = rhythmCombinations.fourNoteEven::pos1234;
         fourNoteCombinations2 = Stream.of(pos1234).collect(Collectors.toList());
-
     }
 
 

@@ -22,6 +22,7 @@ public class SeptTuplet {
                 notes =  posWithBeam(noteLength);
                 notes.forEach(n -> {n.setSepttuplet(true);
                     n.setTimeModification("16th");});
+                break;
         }
         return notes;
     }
@@ -34,6 +35,7 @@ public class SeptTuplet {
                 notes =  posWithBeamRest(noteLength);
                 notes.forEach(n -> {n.setSepttuplet(true);
                     n.setTimeModification("16th");});
+                break;
         }
         return notes;
     }

@@ -4,7 +4,6 @@ import cp.model.Motive;
 import cp.model.harmony.Chord;
 import cp.model.harmony.CpHarmony;
 import cp.model.harmony.HarmonyExtractor;
-import cp.model.rhythm.DurationConstants;
 import cp.objective.Objective;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,9 +35,10 @@ public class TransformationObjective extends Objective {
 //        List<Note> harmonyNotes = motive.getMelodyBlocks().stream().filter(m -> m.getVoice() == 0 ||  m.getVoice() == 1 )
 //                .flatMap(m -> m.getMelodyBlockNotes().stream()).collect(toList());
 //        List<CpHarmony> transformationHarmonies = harmonyExtractor.extractHarmony(harmonyNotes);
-        List<CpHarmony> transformationHarmonies = motive.getHarmonies().stream()
-                .filter(cpHarmony -> cpHarmony.getNotes().get(0).getLength() > DurationConstants.EIGHT)
-                .collect(Collectors.toList());
+        List<CpHarmony> transformationHarmonies = motive.getHarmonies();
+//                .stream()
+//                .filter(cpHarmony -> cpHarmony.getNotes().get(0).getLength() > DurationConstants.EIGHT)
+//                .collect(Collectors.toList());
         List<Transformation> transformations = new ArrayList<>();
         int size = transformationHarmonies.size() - 1;
         for (int i = 0; i < size; i++) {

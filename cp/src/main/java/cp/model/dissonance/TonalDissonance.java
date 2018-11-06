@@ -94,7 +94,7 @@ public class TonalDissonance implements Dissonance {
 			case MINOR7_3:
 				return 0.97;
 			case DOM7:
-				return 1.0;
+				return 0.99;
 			case HALFDIM7:
 				return 0.98;
 			case DIM7:

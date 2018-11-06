@@ -1,5 +1,6 @@
 package cp.combination;
 
+import cp.combination.balance.BalancedPattern;
 import cp.combination.even.*;
 import cp.combination.uneven.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,7 @@ public class RhythmCombinations {
 
     @Autowired
     public CombiNoteEven combiNoteEven;
+    @Autowired
+    public BalancedPattern balancedPattern;
 
 }

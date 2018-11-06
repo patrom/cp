@@ -4,7 +4,7 @@ import cp.DefaultConfig;
 import cp.combination.RhythmCombinations;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +29,24 @@ public class CombiNoteEvenTest {
         List<Note> combi = combiNoteEven.combiHalf(rhythmCombinations.twoNoteEven::pos12, rhythmCombinations.threeNoteEven::pos234, DurationConstants.WHOLE);
 //        List<Note> combi = combiNoteUneven.apply(f, g, DurationConstants.QUARTER);
         combi.forEach(note -> System.out.println(note.getPosition() + ", " + note.isRest()));
+    }
+
+
+    @Test
+    public void custom() {
+        List<Note > notes = combiNoteEven.custom(DurationConstants.HALF);
+        notes.forEach(note -> System.out.println(note.getPosition() + ", " + note.getLength()));
+    }
+
+    @Test
+    public void customRandom() {
+        List<Note > notes = combiNoteEven.customRandom(DurationConstants.HALF);
+        notes.forEach(note -> System.out.println(note.getPosition() + ", " + note.getLength()));
+    }
+
+    @Test
+    public void quintupletpos12345pos1() {
+        List<Note > notes = combiNoteEven.quintupletpos12345pos1(DurationConstants.WHOLE);
+        notes.forEach(note -> System.out.println(note.getPosition() + ", " + note.getLength()));
     }
 }

@@ -155,8 +155,8 @@ public class CpHarmony implements Comparable<CpHarmony>{
                     .collect(Collectors.toList());
             int lowestPitch = lowerPitches.get(0);
             int size = lowerPitches.size();
-            for (int i = 1; i < size; i++) {
-                int nextPitch = lowerPitches.get(i);
+//            for (int i = 1; i < size; i++) {
+                int nextPitch = lowerPitches.get(1);
                 Interval interval = Interval.getEnumInterval(nextPitch - lowestPitch);
                 switch (interval.getInterval()){
                     case 7:
@@ -165,7 +165,7 @@ public class CpHarmony implements Comparable<CpHarmony>{
                         return ChordType.ANCHOR_10;
                     case 11:
                         return ChordType.ANCHOR_11;
-                }
+//                }
             }
 
             if(uniquePitches.size() >= 3){
@@ -257,29 +257,28 @@ public class CpHarmony implements Comparable<CpHarmony>{
 			return true;
 		}
 		for (int i = 1; i < size; i++) {
-			int pitch = pitches.get(i);
-			int nextPitch = pitches.get(i + 1);
-			Interval interval = Interval.getEnumInterval(nextPitch - pitch);
-			if(interval.getInterval() == 1){
-				return true;
-			}
+            for (int j = i + 1; j < pitches.size(); j++) {
+                int pitch = pitches.get(i);
+                int nextPitch = pitches.get(j);
+                Interval interval = Interval.getEnumInterval(nextPitch - pitch);//check 1 and b9
+                if(interval.getInterval() == 1){
+                    return true;
+                }
+            }
 		}
 		return false;
 	}
 
     protected boolean containsConsecutiveSeconds(List<Integer> pitches){
-        int size = pitches.size() - 1;
-        boolean containsOne = false;
+        int size = pitches.size() - 2;
         for (int i = 0; i < size; i++) {
             int pitch = pitches.get(i);
-            int nextPitch = pitches.get(i + 1);
-            int interval = nextPitch - pitch;
-            if(interval == 2){
-                if (!containsOne){
-                    containsOne = true;
-                } else {
-                    return true;
-                }
+            int secondPitch = pitches.get(i + 1);
+            int thirdPitch = pitches.get(i + 2);
+            int firstInterval = secondPitch - pitch;
+            int secondInterval = thirdPitch - secondPitch;
+            if(firstInterval == 2 && secondInterval == 2){
+                return true;
             }
         }
         return false;

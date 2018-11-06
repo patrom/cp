@@ -174,7 +174,7 @@ public abstract class Composition {
 	@PostConstruct
 	public void init(){
 		composeInKey(keys.C);
-		inTempo(60);
+		inTempo(64);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
 		meterObjective.setComposition(this);
@@ -188,7 +188,7 @@ public abstract class Composition {
 //		instruments = ensemble.getStringQuartet();
 
 		setTimeconfig();
-		end = 4 * getTimeConfig().getMeasureDuration();
+		end = 5 * getTimeConfig().getMeasureDuration();
 		timeLine.setEnd(end);
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
@@ -209,25 +209,25 @@ public abstract class Composition {
 //		timeLine.randomKeysAndDurations(timeLineKeys, durations);
 
         //2. or add timeline key per voice
-//        List<TimeLineKey> timeLineKeysForVoice0 = new ArrayList<>();
-//        timeLineKeysForVoice0.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
-//        timeLineKeysForVoice0.add(new TimeLineKey(keys.C, Scale.CHROMATIC_SCALE, 0 ,0));
-//        timeLine.randomKeysAndDurationsForVoice(0, timeLineKeysForVoice0, durations);
-//
-//        List<TimeLineKey> timeLineKeysForVoice1 = new ArrayList<>();
-//        timeLineKeysForVoice1.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
-//        timeLineKeysForVoice1.add(new TimeLineKey(keys.C, Scale.CHROMATIC_SCALE, 0 ,0));
-//        timeLine.randomKeysAndDurationsForVoice(1, timeLineKeysForVoice1, durations);
-//
-//        List<TimeLineKey> timeLineKeysForVoice2 = new ArrayList<>();
-//        timeLineKeysForVoice2.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
-//        timeLineKeysForVoice2.add(new TimeLineKey(keys.C, Scale.CHROMATIC_SCALE, 0 ,0));
-//        timeLine.randomKeysAndDurationsForVoice(2, timeLineKeysForVoice2, durations);
-//
-//        List<TimeLineKey> timeLineKeysForVoice3 = new ArrayList<>();
-//        timeLineKeysForVoice3.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
-//        timeLineKeysForVoice3.add(new TimeLineKey(keys.C, Scale.CHROMATIC_SCALE, 0 ,0));
-//        timeLine.randomKeysAndDurationsForVoice(3, timeLineKeysForVoice3, durations);
+        List<TimeLineKey> timeLineKeysForVoice0 = new ArrayList<>();
+        timeLineKeysForVoice0.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
+//        timeLineKeysForVoice0.add(new TimeLineKey(keys.C, Scale.OCTATCONIC_WHOLE, 0 ,0));
+        timeLine.randomKeysAndDurationsForVoice(0, timeLineKeysForVoice0, durations);
+
+        List<TimeLineKey> timeLineKeysForVoice1 = new ArrayList<>();
+        timeLineKeysForVoice1.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
+        timeLineKeysForVoice1.add(new TimeLineKey(keys.C, Scale.OCTATCONIC_WHOLE, 0 ,0));
+        timeLine.randomKeysAndDurationsForVoice(1, timeLineKeysForVoice1, durations);
+
+        List<TimeLineKey> timeLineKeysForVoice2 = new ArrayList<>();
+        timeLineKeysForVoice2.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
+        timeLineKeysForVoice2.add(new TimeLineKey(keys.C, Scale.OCTATCONIC_WHOLE, 0 ,0));
+        timeLine.randomKeysAndDurationsForVoice(2, timeLineKeysForVoice2, durations);
+
+        List<TimeLineKey> timeLineKeysForVoice3 = new ArrayList<>();
+        timeLineKeysForVoice3.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
+        timeLineKeysForVoice3.add(new TimeLineKey(keys.C, Scale.OCTATCONIC_WHOLE, 0 ,0));
+        timeLine.randomKeysAndDurationsForVoice(3, timeLineKeysForVoice3, durations);
 
 
 //		List<Contour> contouren = new ArrayList<>();
@@ -262,10 +262,10 @@ public abstract class Composition {
 //        timeLine.addKeysForVoice(major1, 1);
 
         for (int i = 0; i < numberOfVoices; i++) {
-            timeLine.addTimeLineKey(i , keys.E, Scale.DORIAN_SCALE, DurationConstants.WHOLE);
-            timeLine.addTimeLineKey(i , keys.C, Scale.LYDIAN_SCALE, DurationConstants.WHOLE);
-            timeLine.addTimeLineKey(i , keys.G, Scale.DORIAN_SCALE, DurationConstants.WHOLE);
-            timeLine.addTimeLineKey(i , keys.Eflat, Scale.LYDIAN_SCALE, DurationConstants.WHOLE);
+//            timeLine.addTimeLineKey(i , keys.E, Scale.DORIAN_SCALE, DurationConstants.WHOLE);
+//            timeLine.addTimeLineKey(i , keys.C, Scale.LYDIAN_SCALE, DurationConstants.WHOLE);
+//            timeLine.addTimeLineKey(i , keys.G, Scale.DORIAN_SCALE, DurationConstants.WHOLE);
+//            timeLine.addTimeLineKey(i , keys.Eflat, Scale.LYDIAN_SCALE, DurationConstants.WHOLE);
             //repeat
 //            timeLine.addTimeLineKey(i , keys.E, Scale.DORIAN_SCALE, DurationConstants.HALF);
 //            timeLine.addTimeLineKey(i , keys.C, Scale.LYDIAN_SCALE, DurationConstants.HALF);

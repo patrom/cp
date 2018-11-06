@@ -1,11 +1,17 @@
 package cp.model.harmony;
 
+import cp.DefaultConfig;
 import cp.model.note.Note;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +21,9 @@ import static cp.model.note.NoteBuilder.note;
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.*;
 
-
-@ExtendWith(MockitoExtension.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = DefaultConfig.class)
+@ExtendWith(SpringExtension.class)
 @DisplayName("CpHarmonyTest")
 public class CpHarmonyTest {
 
@@ -34,7 +41,7 @@ public class CpHarmonyTest {
 	@Test
 	public void testGetHarmonyWeight() {
 		double harmonyWeight = cpHarmony.getHarmonyWeight();
-		assertEquals(7.0, harmonyWeight, 0);
+		assertEquals(7.0, harmonyWeight);
 	}
 
 	@Test
@@ -52,7 +59,7 @@ public class CpHarmonyTest {
 		notes.add(note().pos(0).pc(0).pitch(60).octave(5).positionWeight(3.0).build());
 		cpHarmony = new CpHarmony(notes, 0);
 		double register = cpHarmony.getRegister(64);
-		assertEquals(1.0, register, 0.0);
+		assertEquals(1.0, register);
 	}
 
 	@Test
@@ -186,10 +193,10 @@ public class CpHarmonyTest {
 	@Test
 	public void isAdditiveHarmony() {
 		List<Note> notes = new ArrayList<>();
-		notes.add(note().pos(0).pc(0).pitch(60).octave(4).build());
-		notes.add(note().pos(0).pc(3).pitch(63).octave(5).build());
-		notes.add(note().pos(0).pc(5).pitch(65).octave(5).build());
-		notes.add(note().pos(0).pc(11).pitch(71).octave(5).build());
+		notes.add(note().pos(0).pc(0).pitch(60).build());
+		notes.add(note().pos(0).pc(3).pitch(75).build());
+		notes.add(note().pos(0).pc(5).pitch(77).build());
+		notes.add(note().pos(0).pc(11).pitch(71).build());
 		cpHarmony = new CpHarmony(notes, 0);
         ChordType additiveChord = cpHarmony.getAdditiveChord();
         assertEquals(ChordType.ANCHOR_11, additiveChord);
@@ -280,12 +287,174 @@ public class CpHarmonyTest {
     public void isNotAdditiveHarmonyMajor() {
         List<Note> notes = new ArrayList<>();
         notes.add(note().pos(0).pc(0).pitch(60).build());
-        notes.add(note().pos(0).pc(4).pitch(64).build());
+        notes.add(note().pos(0).pc(4).pitch(76).build());
         notes.add(note().pos(0).pc(7).pitch(67).build());
         cpHarmony = new CpHarmony(notes, 0);
         ChordType additiveChord = cpHarmony.getAdditiveChord();
         assertEquals(ChordType.ANCHOR_7, additiveChord);
     }
 
+
+    @ParameterizedTest
+    @MethodSource("anchor7Provider")
+    public void anchor7Test(List<Note> notes) {
+        cpHarmony = new CpHarmony(notes, 0);
+        ChordType additiveChord = cpHarmony.getAdditiveChord();
+        assertEquals(ChordType.ANCHOR_7, additiveChord);
+        System.out.print("AdditiveChord: " + additiveChord + ": ");
+        System.out.print(notes);
+        System.out.println();
+    }
+
+    private static Stream anchor7Provider() {
+        List<Note> notes = new ArrayList<>();
+        notes.add(note().pos(0).pc(0).pitch(60).build());
+        notes.add(note().pos(0).pc(7).pitch(67).build());
+        notes.add(note().pos(0).pc(9).pitch(69).build());
+
+        List<Note> notes2 = new ArrayList<>();
+        notes2.add(note().pos(0).pc(0).pitch(60).build());
+        notes2.add(note().pos(0).pc(7).pitch(67).build());
+        notes2.add(note().pos(0).pc(11).pitch(71).build());
+
+        List<Note> notes3 = new ArrayList<>();
+        notes3.add(note().pos(0).pc(0).pitch(60).build());
+        notes3.add(note().pos(0).pc(7).pitch(67).build());
+        notes3.add(note().pos(0).pc(10).pitch(70).build());
+        notes3.add(note().pos(0).pc(0).pitch(72).build());
+        notes3.add(note().pos(0).pc(10).pitch(84).build());
+
+        List<Note> notes4 = new ArrayList<>();
+        notes4.add(note().pos(0).pc(0).pitch(60).build());
+        notes4.add(note().pos(0).pc(7).pitch(67).build());
+        notes4.add(note().pos(0).pc(2).pitch(74).build());
+        notes4.add(note().pos(0).pc(5).pitch(77).build());
+
+        List<Note> notes5 = new ArrayList<>();
+        notes5.add(note().pos(0).pc(0).pitch(60).build());
+        notes5.add(note().pos(0).pc(5).pitch(67).build());
+        notes5.add(note().pos(0).pc(4).pitch(78).build());
+
+        List<Note> notes6 = new ArrayList<>();
+        notes6.add(note().pos(0).pc(0).pitch(60).build());
+        notes6.add(note().pos(0).pc(5).pitch(67).build());
+        notes6.add(note().pos(0).pc(1).pitch(73).build());//b9
+	    return Stream.of(notes, notes2, notes3, notes4, notes5, notes6);
+    }
+
+    @ParameterizedTest
+    @MethodSource("noAnchorProvider")
+    public void noAnchorTest(List<Note> notes) {
+        cpHarmony = new CpHarmony(notes, 0);
+        ChordType additiveChord = cpHarmony.getAdditiveChord();
+        assertNull(additiveChord);
+        System.out.print("AdditiveChord: " + additiveChord + ": ");
+        System.out.print(notes);
+        System.out.println();
+    }
+
+    private static Stream noAnchorProvider() {
+        List<Note> notes = new ArrayList<>();
+        notes.add(note().pos(0).pc(0).pitch(60).build());
+        notes.add(note().pos(0).pc(4).pitch(64).build());
+        notes.add(note().pos(0).pc(7).pitch(67).build());
+
+        List<Note> notes2 = new ArrayList<>();
+        notes2.add(note().pos(0).pc(0).pitch(60).build());
+        notes2.add(note().pos(0).pc(5).pitch(65).build());
+        notes2.add(note().pos(0).pc(7).pitch(67).build());
+
+        List<Note> notes3 = new ArrayList<>();
+        notes3.add(note().pos(0).pc(0).pitch(60).build());
+        notes3.add(note().pos(0).pc(7).pitch(67).build());
+        notes3.add(note().pos(0).pc(8).pitch(68).build());
+
+        List<Note> notes4 = new ArrayList<>();
+        notes4.add(note().pos(0).pc(0).pitch(60).build());
+        notes4.add(note().pos(0).pc(7).pitch(67).build());
+        notes4.add(note().pos(0).pc(9).pitch(69).build());
+        notes4.add(note().pos(0).pc(11).pitch(71).build());
+
+        List<Note> notes5 = new ArrayList<>();
+        notes5.add(note().pos(0).pc(0).pitch(60).build());
+        notes5.add(note().pos(0).pc(7).pitch(67).build());
+
+        List<Note> notes6 = new ArrayList<>();
+        notes6.add(note().pos(0).pc(0).pitch(60).build());
+        notes6.add(note().pos(0).pc(7).pitch(67).build());
+        notes6.add(note().pos(0).pc(9).pitch(69).build());
+        notes6.add(note().pos(0).pc(10).pitch(70).build());
+
+        List<Note> notes7 = new ArrayList<>();
+        notes7.add(note().pos(0).pc(7).pitch(55).build());
+        notes7.add(note().pos(0).pc(1).pitch(61).build());
+        notes7.add(note().pos(0).pc(3).pitch(63).build());
+        notes7.add(note().pos(0).pc(5).pitch(65).build());
+        notes7.add(note().pos(0).pc(10).pitch(70).build());//Dom9 inversion not allowed??
+        return Stream.of(notes, notes2, notes3, notes4, notes5, notes6, notes7);
+
+    }
+
+    @ParameterizedTest
+    @MethodSource("anchor68DomProvider")
+    public void anchor68DomTest(List<Note> notes) {
+        cpHarmony = new CpHarmony(notes, 0);
+        ChordType additiveChord = cpHarmony.getAdditiveChord();
+        assertEquals(ChordType.ANCHOR_68_DOM, additiveChord);
+        System.out.print("AdditiveChord: " + additiveChord + ": ");
+        System.out.print(notes);
+        System.out.println();
+    }
+
+    private static Stream anchor68DomProvider() {
+        List<Note> notes = new ArrayList<>();
+        notes.add(note().pos(0).pc(7).pitch(55).build());
+        notes.add(note().pos(0).pc(1).pitch(61).build());
+        notes.add(note().pos(0).pc(3).pitch(63).build());
+
+        List<Note> notes2 = new ArrayList<>();
+        notes2.add(note().pos(0).pc(7).pitch(55).build());
+        notes2.add(note().pos(0).pc(1).pitch(61).build());
+        notes2.add(note().pos(0).pc(3).pitch(63).build());
+        notes2.add(note().pos(0).pc(9).pitch(69).build());
+
+        List<Note> notes3 = new ArrayList<>();
+        notes3.add(note().pos(0).pc(7).pitch(55).build());
+        notes3.add(note().pos(0).pc(1).pitch(61).build());
+        notes3.add(note().pos(0).pc(3).pitch(63).build());
+        notes3.add(note().pos(0).pc(0).pitch(72).build());
+        notes3.add(note().pos(0).pc(10).pitch(84).build());
+
+        List<Note> notes4 = new ArrayList<>();
+        notes4.add(note().pos(0).pc(7).pitch(55).build());
+        notes4.add(note().pos(0).pc(1).pitch(61).build());
+        notes4.add(note().pos(0).pc(3).pitch(63).build());
+        notes4.add(note().pos(0).pc(7).pitch(67).build());
+        notes4.add(note().pos(0).pc(0).pitch(72).build());
+        notes4.add(note().pos(0).pc(5).pitch(77).build());
+
+        List<Note> notes5 = new ArrayList<>();
+        notes5.add(note().pos(0).pc(7).pitch(55).build());
+        notes5.add(note().pos(0).pc(1).pitch(61).build());
+        notes5.add(note().pos(0).pc(3).pitch(63).build());
+        notes5.add(note().pos(0).pc(0).pitch(72).build());
+        notes5.add(note().pos(0).pc(9).pitch(69).build());
+        notes5.add(note().pos(0).pc(5).pitch(77).build());
+
+        List<Note> notes6 = new ArrayList<>();
+        notes6.add(note().pos(0).pc(7).pitch(55).build());
+        notes6.add(note().pos(0).pc(1).pitch(61).build());
+        notes6.add(note().pos(0).pc(3).pitch(63).build());
+        notes6.add(note().pos(0).pc(9).pitch(69).build());
+        notes6.add(note().pos(0).pc(0).pitch(72).build());
+
+        List<Note> notes7 = new ArrayList<>();
+        notes7.add(note().pos(0).pc(7).pitch(55).build());
+        notes7.add(note().pos(0).pc(1).pitch(61).build());
+        notes7.add(note().pos(0).pc(3).pitch(63).build());
+        notes7.add(note().pos(0).pc(8).pitch(68).build());
+        notes7.add(note().pos(0).pc(10).pitch(70).build());
+        return Stream.of(notes, notes2, notes3, notes4, notes5, notes6, notes7);
+    }
 
 }

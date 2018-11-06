@@ -15,10 +15,10 @@ public class HomophonicVoice extends Voice {
     public void init(){
         allBeatgroups = Arrays.asList(
                 beatgroups.beatGroupHomophonicTwo,
-                beatgroups.beatGroupHomophonicFour,
-                beatgroups.beatGroupMotiveTwo,
-                beatgroups.beatGroupMotiveThree,
-                beatgroups.beatGroupMotiveFour);
+                beatgroups.beatGroupHomophonicFour);
+//                beatgroups.beatGroupMotiveTwo,
+//                beatgroups.beatGroupMotiveThree,
+//                beatgroups.beatGroupMotiveFour);
         setTimeconfig();
     }
 

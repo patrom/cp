@@ -21,7 +21,7 @@ public class Alto extends Instrument {
 		
 		setInstrumentName(InstrumentName.ALTO.getName());
 //		setInstrumentSound("strings.cello");
-//		setVirtualName("Celli");
+		setVirtualName("Alto");
 	}
 
 	public Alto(InstrumentRegister instrumentRegister) {

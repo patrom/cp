@@ -20,7 +20,7 @@ public class Soprano extends Instrument {
 		
 		setInstrumentName(InstrumentName.SOPRANO.getName());
 		setInstrumentSound("strings.cello");
-		setVirtualName("Celli");
+		setVirtualName("Soprano");
 	}
 
 	public Soprano(InstrumentRegister instrumentRegister) {

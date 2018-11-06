@@ -40,4 +40,7 @@ public class BeatGroups {
     public BeatGroup beatGroupHarmonyTwo;
     @Autowired
     public BeatGroup beatGroupHarmonyFour;
+
+    @Autowired
+    public BeatGroup beatGroupBalance30;
 }

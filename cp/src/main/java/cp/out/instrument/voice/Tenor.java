@@ -20,7 +20,7 @@ public class Tenor extends Instrument {
 		
 		setInstrumentName(InstrumentName.TENOR.getName());
 //		setInstrumentSound("strings.cello");
-//		setVirtualName("Celli");
+		setVirtualName("Tenor");
 	}
 
 	public Tenor(InstrumentRegister instrumentRegister) {

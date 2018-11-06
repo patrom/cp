@@ -119,7 +119,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(melodyComposition::melody);
 
 		//TWO VOICES
-		composeInGenres.add(twoVoiceComposition::random);
+//		composeInGenres.add(twoVoiceComposition::random);
 //		composeInGenres.add(twoVoiceComposition::beatEven);
 //		composeInGenres.add(twoVoiceComposition::canon);
 //		composeInGenres.add(twoVoiceComposition::fugueInverse);
@@ -142,7 +142,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		threeVoiceComposition.setHarmonizeVoice(2);
 //		composeInGenres.add(threeVoiceComposition::harmonize);
 //		composeInGenres.add(threeVoiceComposition::threeOverXX);
-//		composeInGenres.add(threeVoiceComposition::allRandom);
+		composeInGenres.add(threeVoiceComposition::allRandom);
 
 		//FOUR VOICES
 //		composeInGenres.add(fourVoiceComposition::canonA3);
@@ -186,9 +186,9 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 			    population.sort(Comparator
 						.comparing(MusicSolution::getTransformation)
 						.thenComparing(MusicSolution::getHarmony)
-						.thenComparing(MusicSolution::getMelodicHarmonic)
+						.thenComparing(MusicSolution::getMelody)
 						.thenComparing(MusicSolution::getResolution)
-			    		.thenComparing(MusicSolution::getMelody));
+			    		.thenComparing(MusicSolution::getMelodicHarmonic));
 
 			    
 			    Iterator<Solution> solutionIterator = population.iterator();
