@@ -1,6 +1,7 @@
 package cp.combination.balance;
 
 import cp.model.note.Note;
+import cp.util.RandomUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -37,8 +38,18 @@ public class BalancedPattern {
 
     public List<Note> pos3(int beat) {
         int beat30 = beat/30;
-        List<Integer> positions3 = Arrays.asList(0,10,20);
-        return getNotesForPositions(beat30, positions3);
+        int randomNumber = RandomUtil.getRandomNumberInRange(0, 9);
+        List<Integer> positions = Arrays.asList(0,10,20);
+        positions = positions.stream().map(integer -> integer = ((integer + randomNumber) % size)).sorted().collect(Collectors.toList());
+        return getNotesForPositions(beat30, positions);
+    }
+
+    public List<Note> pos6in30(int beat) {
+        int beat30 = beat/30;
+        int randomNumber = RandomUtil.getRandomNumberInRange(0, 29);
+        List<Integer> positions = Arrays.asList(9,10,16,22,28,29);
+        positions = positions.stream().map(integer -> integer = ((integer + randomNumber) % size)).sorted().collect(Collectors.toList());
+        return getNotesForPositions(beat30, positions);
     }
 
     private List<Note> getNotesForPositions(int beat, List<Integer> positions) {
@@ -49,16 +60,19 @@ public class BalancedPattern {
             }
         }
 
-        int positionsSize = positions.size();
-        if (notes.size() != positionsSize) {
-            System.out.println(("stop"));
-        }
+        int positionsSize = positions.size() - 1;
         for (int i = 0; i < positionsSize; i++) {
-            int length = (size - positions.get(i %  positionsSize) + positions.get((i + 1) % positionsSize)) % size;
+            int length = positions.get(i + 1) - positions.get(i);
             Note note = notes.get(i);
             note.setLength(length * beat);
             note.setDisplayLength(length * beat);
         }
+
+        //last
+        int length = size - positions.get(positionsSize);
+        Note note = notes.get(positionsSize);
+        note.setLength(length * beat);
+        note.setDisplayLength(length * beat);
         return notes;
     }
 }

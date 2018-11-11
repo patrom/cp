@@ -23,13 +23,19 @@ public class BalancedPatternTest {
 
     @Test
     public void pos5() {
-        List<Note> notes = balancedPattern.pos5_X0000(DurationConstants.EIGHT);
+        List<Note> notes = balancedPattern.pos5_X0000(DurationConstants.EIGHT * 30);
         notes.forEach(note -> System.out.println(note.getPosition() + ", " + note.getLength()));
     }
 
     @Test
     public void pos3() {
-        List<Note> notes = balancedPattern.pos5_00X00(DurationConstants.EIGHT * 30);
+        List<Note> notes = balancedPattern.pos3(DurationConstants.EIGHT * 30);
+        notes.forEach(note -> System.out.println(note.getPosition() + ", " + note.getLength()));
+    }
+
+    @Test
+    public void pos6in30() {
+        List<Note> notes = balancedPattern.pos6in30(DurationConstants.EIGHT * 30);
         notes.forEach(note -> System.out.println(note.getPosition() + ", " + note.getLength()));
     }
 }

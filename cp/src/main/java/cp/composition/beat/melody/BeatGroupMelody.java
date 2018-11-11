@@ -20,6 +20,10 @@ public class BeatGroupMelody extends BeatGroup {
         super(type, rhythmCombinationMap, pitchClassGenerators);
     }
 
+    public BeatGroupMelody(int type, int pulse, Map<Integer, List<RhythmCombination>> rhythmCombinationMap, List<PitchClassGenerator> pitchClassGenerators) {
+        super(type, pulse, rhythmCombinationMap, pitchClassGenerators);
+    }
+
     public List<Note> getRhythmNotesForBeatgroupType(int size){
         List<RhythmCombination> rhythmCombinations = new ArrayList<>();
         rhythmCombinations = this.rhythmCombinationMap.get(size);

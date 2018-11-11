@@ -11,9 +11,13 @@ import cp.model.rhythm.DurationConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 
 import javax.annotation.Resource;
 import java.util.*;
+
+import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
+import static org.springframework.context.annotation.ScopedProxyMode.TARGET_CLASS;
 
 @Configuration
 public class BeatGroupConfig {
@@ -55,24 +59,28 @@ public class BeatGroupConfig {
     private RhythmCombinations rhythmCombinations;
 
     @Bean
+    @Scope(value = SCOPE_PROTOTYPE)
     public BeatGroup beatGroupOne(){
         return new BeatGroupMelody(1,
                 defaultEvenCombinations , Collections.singletonList(passingPitchClasses::updatePitchClasses));
     }
 
     @Bean
+    @Scope(value = SCOPE_PROTOTYPE)
     public BeatGroup beatGroupTwo(){
         return new BeatGroupMelody(2,
                 defaultEvenCombinations , Collections.singletonList(passingPitchClasses::updatePitchClasses));
     }
 
     @Bean
+    @Scope(value = SCOPE_PROTOTYPE)
     public BeatGroup beatGroupThree(){
         return new BeatGroupMelody(3,
                 defaultUnEvenCombinations , Collections.singletonList(passingPitchClasses::updatePitchClasses));
     }
 
     @Bean
+    @Scope(value = SCOPE_PROTOTYPE)
     public BeatGroup beatGroupFour(){
         return new BeatGroupMelody(4,
                 defaultEvenCombinations , Collections.singletonList(passingPitchClasses::updatePitchClasses));
@@ -80,24 +88,28 @@ public class BeatGroupConfig {
 
 
     @Bean
+    @Scope(value = SCOPE_PROTOTYPE)
     public BeatGroup beatGroupHomophonicOne(){
         return new BeatGroupMelody(1,
                 homophonicEven , Collections.singletonList(passingPitchClasses::updatePitchClasses));
     }
 
     @Bean
+    @Scope(value = SCOPE_PROTOTYPE)
     public BeatGroup beatGroupHomophonicTwo(){
         return new BeatGroupMelody(2,
                 homophonicEven , Collections.singletonList(randomPitchClasses::randomPitchClasses));
     }
 
     @Bean
+    @Scope(value = SCOPE_PROTOTYPE)
     public BeatGroup beatGroupHomophonicThree(){
         return new BeatGroupMelody(3,
                 homophonicUneven , Collections.singletonList(passingPitchClasses::updatePitchClasses));
     }
 
     @Bean
+    @Scope(value = SCOPE_PROTOTYPE)
     public BeatGroup beatGroupHomophonicFour(){
         return new BeatGroupMelody(4,
                 homophonicEven , Collections.singletonList(randomPitchClasses::randomPitchClasses));
@@ -105,6 +117,7 @@ public class BeatGroupConfig {
 
 
     @Bean
+    @Scope(value = SCOPE_PROTOTYPE, proxyMode = TARGET_CLASS)
     public BeatGroup beatGroupHarmonyOne(){
         return new BeatgroupHarmony(1,
                 getBeatGroups() , Collections.singletonList(orderPitchClasses::updatePitchClasses));
@@ -117,12 +130,14 @@ public class BeatGroupConfig {
     }
 
     @Bean
+    @Scope(value = SCOPE_PROTOTYPE)
     public BeatGroup beatGroupHarmonyFour(){
         return new BeatgroupHarmony(16,
                 getBeatGroups() , Collections.singletonList(orderPitchClasses::updatePitchClasses));
     }
 
     @Bean
+    @Scope(value = SCOPE_PROTOTYPE)
     public BeatGroup beatGroupMotiveOne(){
 //        Map<Integer, List<RhythmCombination>> map = new HashMap<>();
 //        List<RhythmCombination> beatGroups2 = new ArrayList<>();
@@ -145,16 +160,19 @@ public class BeatGroupConfig {
     }
 
     @Bean
+    @Scope(value = SCOPE_PROTOTYPE)
     public BeatGroup beatGroupMotiveTwo(){
         return getBeatGroup(2);
     }
 
     @Bean
+    @Scope(value = SCOPE_PROTOTYPE)
     public BeatGroup beatGroupMotiveThree(){
         return getBeatGroup(4);
     }
 
     @Bean
+    @Scope(value = SCOPE_PROTOTYPE)
     public BeatGroup beatGroupMotiveFour(){
         return getBeatGroup(4);
     }
@@ -186,8 +204,39 @@ public class BeatGroupConfig {
     }
 
     @Bean
-    public BeatGroup beatGroupBalance30(){
-        return new BeatGroupMelody(30, getBalance30BeatGroups() , Collections.singletonList(randomPitchClasses::randomPitchClasses));
+    @Scope(value = SCOPE_PROTOTYPE)
+    public BeatGroup beatGroupBalance30_5gon(){
+        Map<Integer, List<RhythmCombination>> map = new HashMap<>();
+        List<RhythmCombination> beatGroups5 = new ArrayList<>();
+        beatGroups5.add(rhythmCombinations.balancedPattern::pos5_X0000);
+        beatGroups5.add(rhythmCombinations.balancedPattern::pos5_0X000);
+        beatGroups5.add(rhythmCombinations.balancedPattern::pos5_00X00);
+        map.put(5, beatGroups5);
+        return new BeatGroupMelody(30, DurationConstants.EIGHT,  map , Collections.singletonList(randomPitchClasses::randomPitchClasses));
+    }
+
+    @Bean
+    @Scope(value = SCOPE_PROTOTYPE)
+    public BeatGroup beatGroupBalance30_3gon(){
+        Map<Integer, List<RhythmCombination>> map = new HashMap<>();
+        List<RhythmCombination> beatGroups3 = new ArrayList<>();
+        beatGroups3.add(rhythmCombinations.balancedPattern::pos3);
+        beatGroups3.add(rhythmCombinations.balancedPattern::pos3);
+        beatGroups3.add(rhythmCombinations.balancedPattern::pos3);
+        map.put(3, beatGroups3);
+        return new BeatGroupMelody(30, DurationConstants.EIGHT,  map , Collections.singletonList(randomPitchClasses::randomPitchClasses));
+    }
+
+    @Bean
+    @Scope(value = SCOPE_PROTOTYPE)
+    public BeatGroup beatGroupBalance30_6in30gon(){
+        Map<Integer, List<RhythmCombination>> map = new HashMap<>();
+        List<RhythmCombination> beatGroups = new ArrayList<>();
+        beatGroups.add(rhythmCombinations.balancedPattern::pos6in30);
+        beatGroups.add(rhythmCombinations.balancedPattern::pos6in30);
+        beatGroups.add(rhythmCombinations.balancedPattern::pos6in30);
+        map.put(6, beatGroups);
+        return new BeatGroupMelody(30, DurationConstants.EIGHT,  map , Collections.singletonList(randomPitchClasses::randomPitchClasses));
     }
 
     private void test() {
@@ -219,17 +268,4 @@ public class BeatGroupConfig {
         return map;
     }
 
-    private Map<Integer, List<RhythmCombination>> getBalance30BeatGroups(){
-        Map<Integer, List<RhythmCombination>> map = new HashMap<>();
-        List<RhythmCombination> beatGroups5 = new ArrayList<>();
-        beatGroups5.add(rhythmCombinations.balancedPattern::pos5_X0000);
-        beatGroups5.add(rhythmCombinations.balancedPattern::pos5_0X000);
-        beatGroups5.add(rhythmCombinations.balancedPattern::pos5_00X00);
-        map.put(5, beatGroups5);
-
-        List<RhythmCombination> beatGroups3 = new ArrayList<>();
-        beatGroups3.add(rhythmCombinations.balancedPattern::pos3);
-        map.put(3, beatGroups3);
-        return map;
-    }
 }

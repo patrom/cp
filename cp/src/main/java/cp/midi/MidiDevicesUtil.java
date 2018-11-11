@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
@@ -49,6 +50,11 @@ public class MidiDevicesUtil {
 	private MidiEventGenerator midiEventGenerator;
 	@Autowired
 	private VSLArticulationConverter vslArticulationConverter;
+
+    @Value("${composition.numerator:4}")
+    protected int numerator;
+    @Value("${composition.denominator:4}")
+    protected int denominator;
 
 	@Autowired @Lazy
 	@Qualifier(value="twelveToneComposition")
@@ -110,9 +116,11 @@ public class MidiDevicesUtil {
 	public Sequence createSequence(Map<InstrumentMapping, List<Note>> map, int tempo)
 			throws InvalidMidiDataException {
 		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
+		int i = 0;
 		for (Entry<InstrumentMapping, List<Note>> entry: map.entrySet()) {
 			InstrumentMapping instrumentMapping = entry.getKey();
-			createTrackGeneralMidi(sequence, entry.getValue(), instrumentMapping.getInstrument(), tempo, instrumentMapping.getChannel(), false);
+			createTrackGeneralMidi(sequence, entry.getValue(), instrumentMapping.getInstrument(), tempo, instrumentMapping.getChannel(), false, i);
+			i++;
 		}
 		return sequence;
 	}
@@ -120,9 +128,11 @@ public class MidiDevicesUtil {
 	public Sequence createSequenceGeneralMidi(List<MelodyInstrument> melodies, int tempo, boolean isKontakt)
 			throws InvalidMidiDataException {
 		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
+        int i = 0;
 		for (MelodyInstrument melodyInstrument : melodies) {
 			InstrumentMapping instrumentMapping = melodyInstrument.getInstrumentMapping();
-			createTrackGeneralMidi(sequence, melodyInstrument.getNotes(), instrumentMapping.getInstrument(), tempo, instrumentMapping.getChannel(), isKontakt);
+			createTrackGeneralMidi(sequence, melodyInstrument.getNotes(), instrumentMapping.getInstrument(), tempo, instrumentMapping.getChannel(), isKontakt, i);
+			i++;
 		}
 		return sequence;
 	}
@@ -130,9 +140,11 @@ public class MidiDevicesUtil {
 	public Sequence createSequence(List<MelodyBlock> melodies, int tempo)
 			throws InvalidMidiDataException {
 		Sequence sequence = new Sequence(Sequence.PPQ, RESOLUTION);
+        int i = 0;
 		for (MelodyBlock melody : melodies) {
 			InstrumentMapping instrumentMapping = instrumentConfig.getInstrumentMappingForVoice(melody.getVoice());
-			createTrackGeneralMidi(sequence, melody.getMelodyBlockNotesWithRests(), instrumentMapping.getInstrument(), tempo, instrumentMapping.getChannel(), false);
+			createTrackGeneralMidi(sequence, melody.getMelodyBlockNotesWithRests(), instrumentMapping.getInstrument(), tempo, instrumentMapping.getChannel(), false, i);
+			i++;
 		}
 		return sequence;
 	}
@@ -149,10 +161,11 @@ public class MidiDevicesUtil {
 //		return events;
 //	}
 
-	private void createTrackGeneralMidi(Sequence sequence, List<Note> notes, Instrument instrument, int tempo, int channel, boolean isKontakt)
+	private void createTrackGeneralMidi(Sequence sequence, List<Note> notes, Instrument instrument, int tempo, int channel, boolean isKontakt, int first)
 			throws InvalidMidiDataException {
 		MidiTempo midiTempo = new MidiTempo();
 		MidiEvent midiTempoEvent = midiTempo.getTempoMidiEvent(tempo);
+        MetaMessage timeSignatureMessage = midiTempo.timeSignatureMessage((byte) numerator, (byte) denominator);
 
         List<Note> notesNoRest = notes.stream().filter(note -> !note.isRest()).collect(Collectors.toList());
 		//Hunmanise notes
@@ -160,12 +173,17 @@ public class MidiDevicesUtil {
 
 		Track trackNotes = sequence.createTrack();
 
+        if (first == 0) {
+            trackNotes.add(midiTempoEvent);
+        }
+        trackNotes.add(new MidiEvent(timeSignatureMessage,(long)00));
+
         MidiEvent generalMidiEvent = getGeneralMidiInstrument(instrument, channel);
         trackNotes.add(generalMidiEvent);
 
 //        Track trackMetadata = sequence.createTrack();//controllers,... on seperate track
 		TextureValue textureValue = new TextureValue();
-		trackNotes.add(midiTempoEvent);
+
 		for (Note note : notesNoRest) {
             createControllerEvents(channel, trackNotes, note);
             createVelocityCrossfadeMidiEvents(channel, trackNotes, note);

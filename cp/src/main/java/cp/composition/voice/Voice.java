@@ -1,5 +1,6 @@
 package cp.composition.voice;
 
+import cp.combination.RhythmCombinations;
 import cp.composition.beat.BeatGroup;
 import cp.composition.beat.BeatGroups;
 import cp.composition.timesignature.TimeConfig;
@@ -35,6 +36,12 @@ public abstract class Voice {
     public static final Technical DEFAULT_TECHNICAL = Technical.LEGATO;
     public static final Dynamic DEFAULT_DYNAMIC = Dynamic.MF;
     public static final int DEFAULT_LENGTH = DurationConstants.QUARTER;
+
+    @Autowired
+    protected RhythmCombinations rhythmCombinations;
+
+    @Autowired
+    protected BeatGroup beatGroupThree;
 
     @Autowired
     @Qualifier(value="time44")

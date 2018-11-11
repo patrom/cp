@@ -210,6 +210,18 @@ public abstract class BeatGroup {
         return motiveScale;
     }
 
+    public void setRhythmCombinationMap(Map<Integer, List<RhythmCombination>> rhythmCombinationMap) {
+        this.rhythmCombinationMap = rhythmCombinationMap;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public void setPitchClassGenerators(List<PitchClassGenerator> pitchClassGenerators) {
+        this.pitchClassGenerators = pitchClassGenerators;
+    }
+
     protected void extractIndexes() {
         if (tonality == Tonality.TONAL) {
             for (Scale motivePitchClass : motivePitchClasses) {
