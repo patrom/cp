@@ -174,7 +174,7 @@ public abstract class Composition {
 	@PostConstruct
 	public void init(){
 		composeInKey(keys.C);
-		inTempo(64);
+		inTempo(105);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
 		meterObjective.setComposition(this);
@@ -192,17 +192,17 @@ public abstract class Composition {
 		timeLine.setEnd(end);
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
-		timeLineKeys.add(new TimeLineKey(keys.C, Scale.CHROMATIC_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.C, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.F, Scale.MELODIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.C, Scale.DORIAN_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.C, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.G, Scale.MAJOR_SCALE, 0 ,0));
 
 		List<Integer> durations = new ArrayList<>();
-		durations.add(DurationConstants.QUARTER);
+//		durations.add(DurationConstants.QUARTER);
 //		durations.add(DurationConstants.SIX_EIGHTS);
-		durations.add(DurationConstants.HALF);
-//		durations.add(DurationConstants.WHOLE);
+//		durations.add(DurationConstants.HALF);
+		durations.add(DurationConstants.WHOLE);
 //		durations.add(DurationConstants.THREE_QUARTERS);
 
         //1. timeline for all voices
@@ -211,7 +211,7 @@ public abstract class Composition {
         //2. or add timeline key per voice
         List<TimeLineKey> timeLineKeysForVoice0 = new ArrayList<>();
         timeLineKeysForVoice0.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
-//        timeLineKeysForVoice0.add(new TimeLineKey(keys.C, Scale.OCTATCONIC_WHOLE, 0 ,0));
+        timeLineKeysForVoice0.add(new TimeLineKey(keys.C, Scale.OCTATCONIC_WHOLE, 0 ,0));
         timeLine.randomKeysAndDurationsForVoice(0, timeLineKeysForVoice0, durations);
 
         List<TimeLineKey> timeLineKeysForVoice1 = new ArrayList<>();
@@ -261,7 +261,7 @@ public abstract class Composition {
 //        major1.add(new TimeLineKey(keys.Eflat, Scale.LYDIAN_SCALE, DurationConstants.WHOLE + DurationConstants.HALF, end));
 //        timeLine.addKeysForVoice(major1, 1);
 
-        for (int i = 0; i < numberOfVoices; i++) {
+//        for (int i = 0; i < numberOfVoices; i++) {
 //            timeLine.addTimeLineKey(i , keys.E, Scale.DORIAN_SCALE, DurationConstants.WHOLE);
 //            timeLine.addTimeLineKey(i , keys.C, Scale.LYDIAN_SCALE, DurationConstants.WHOLE);
 //            timeLine.addTimeLineKey(i , keys.G, Scale.DORIAN_SCALE, DurationConstants.WHOLE);
@@ -271,7 +271,7 @@ public abstract class Composition {
 //            timeLine.addTimeLineKey(i , keys.C, Scale.LYDIAN_SCALE, DurationConstants.HALF);
 //            timeLine.addTimeLineKey(i , keys.G, Scale.DORIAN_SCALE, DurationConstants.HALF);
 //            timeLine.addTimeLineKey(i , keys.Eflat, Scale.LYDIAN_SCALE, DurationConstants.HALF);
-        }
+//        }
 
 //		List<TimeLineKey> major2 = new ArrayList<>();
 //		major2.add(new TimeLineKey(keys.C, Scale.MAJOR_CHORD, start, DurationConstants.SIX_EIGHTS * 2));

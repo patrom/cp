@@ -3,6 +3,7 @@ package cp.out.orchestration.quality;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.percussion.determinate.Marimba;
+import cp.out.instrument.plucked.Harp;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.*;
 import cp.out.instrument.woodwinds.Bassoon;
@@ -41,7 +42,7 @@ public class High extends OrchestralQuality {
                 new Marimba(range),
 //                new Glockenspiel(new InstrumentRegister(87, 103)),
 //                new Celesta(new InstrumentRegister(72, 84)),
-//                new Harp(new InstrumentRegister(84, 95)),
+                new Harp(range),
                 new Piano(range)
         ).collect(toList());
 

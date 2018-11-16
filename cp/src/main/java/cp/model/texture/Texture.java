@@ -254,12 +254,12 @@ public class Texture {
                     pitchClass = (pitchClass + timeLineKeyAtPosition.getKey().getInterval()) % 12;
                     interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
                     break;
-                case CH2_GROTE_TERTS:
-                    pitchClass = getDependantPitchClass(note, 2);
+                case CH2_GROTE_SECONDE:
+                    pitchClass = getDependantPitchClass(note, 1);
                     interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
                     break;
-                case CH2_GROTE_SIXT:
-                    pitchClass = getDependantPitchClass(note, 5);
+                case CH2_GROTE_TERTS:
+                    pitchClass = getDependantPitchClass(note, 2);
                     interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
                     break;
                 case CH2_KWART:
@@ -268,6 +268,10 @@ public class Texture {
                     break;
                 case CH2_KWINT:
                     pitchClass = getDependantPitchClass(note, 4);
+                    interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
+                    break;
+                case CH2_GROTE_SIXT:
+                    pitchClass = getDependantPitchClass(note, 5);
                     interval = getIntervalClockWise(note.getPitchClass(), pitchClass);
                     break;
                 case CH2_TRITONE_CHR:

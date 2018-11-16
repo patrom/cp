@@ -7,6 +7,7 @@ import cp.out.instrument.brass.Trumpet;
 import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.percussion.determinate.Marimba;
 import cp.out.instrument.plucked.Guitar;
+import cp.out.instrument.plucked.Harp;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.*;
 import cp.out.instrument.woodwinds.Bassoon;
@@ -42,11 +43,11 @@ public class MediumRange extends OrchestralQuality {
                 new ViolaSolo(range),
                 new Cello(range),
                 new CelloSolo(range),
-//                new DoubleBass(new InstrumentRegister(43, 49)),
+                new DoubleBass(range),
                 new Marimba(range),
 //                new Glockenspiel(new InstrumentRegister(87, 103)),
 //                new Celesta(new InstrumentRegister(72, 84)),
-//                new Harp(new InstrumentRegister(84, 95)),
+                new Harp(range),
                 new Piano(range),
                 new Trombone(range),
                 new FrenchHorn(range),

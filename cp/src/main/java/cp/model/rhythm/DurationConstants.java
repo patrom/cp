@@ -2,6 +2,7 @@ package cp.model.rhythm;
 
 public interface DurationConstants {
 
+    int THIRTHY_SECOND = 15;
 	int SIXTEENTH = 30;
 	int EIGHT = 2 * SIXTEENTH;
 	int THREE_SIXTEENTH = 3 * SIXTEENTH;

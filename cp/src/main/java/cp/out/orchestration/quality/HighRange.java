@@ -1,11 +1,11 @@
 package cp.out.orchestration.quality;
 
+import cp.out.instrument.keyboard.Celesta;
 import cp.out.instrument.keyboard.Piano;
+import cp.out.instrument.percussion.determinate.Glockenspiel;
+import cp.out.instrument.plucked.Harp;
 import cp.out.instrument.register.InstrumentRegister;
-import cp.out.instrument.strings.ViolaSolo;
-import cp.out.instrument.strings.ViolinSolo;
-import cp.out.instrument.strings.ViolinsI;
-import cp.out.instrument.strings.ViolinsII;
+import cp.out.instrument.strings.*;
 import cp.out.instrument.woodwinds.Clarinet;
 import cp.out.instrument.woodwinds.ClarinetEFlat;
 import cp.out.instrument.woodwinds.Flute;
@@ -30,14 +30,13 @@ public class HighRange extends OrchestralQuality {
                 new ViolinsI(range),
                 new ViolinsII(range),
                 new ViolinSolo(range),//TODO Range?
-//                new Viola(new InstrumentRegister(62, 74)),
+                new Viola(range),
                 new ViolaSolo(range),
-//                new Cello(new InstrumentRegister(50, 61)),
-//                new CelloSolo(new InstrumentRegister(50, 61)),
-//                new DoubleBass(new InstrumentRegister(43, 49)),
-//                new Glockenspiel(new InstrumentRegister(87, 103)),
-//                new Celesta(new InstrumentRegister(72, 84)),
-//                new Harp(new InstrumentRegister(84, 95)),
+                new Cello(range),
+                new CelloSolo(range),
+                new Glockenspiel(range),
+                new Celesta(range),
+                new Harp(range),
                 new Piano(range)
         ).collect(toList());
 

@@ -1,7 +1,6 @@
 package cp.composition.voice;
 
 import cp.combination.RhythmCombination;
-import cp.composition.beat.BeatGroup;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -15,7 +14,6 @@ public class MelodyVoiceTest extends Voice {
 
     @PostConstruct
     public void init(){
-        BeatGroup beatGroupThree = beatgroups.beatGroupThree;
         beatGroupThree.setRhythmCombinationMap(getRhythmCombinations());
         allBeatgroups = Arrays.asList(
 //                beatgroups.beatGroupMotiveTwo,

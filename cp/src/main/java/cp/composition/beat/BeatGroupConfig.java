@@ -130,6 +130,12 @@ public class BeatGroupConfig {
     }
 
     @Bean
+    public BeatGroup beatGroupHarmonyThree(){
+        return new BeatgroupHarmony(3,
+                getBeatGroups() , Collections.singletonList(orderPitchClasses::updatePitchClasses));
+    }
+
+    @Bean
     @Scope(value = SCOPE_PROTOTYPE)
     public BeatGroup beatGroupHarmonyFour(){
         return new BeatgroupHarmony(16,
@@ -208,11 +214,12 @@ public class BeatGroupConfig {
     public BeatGroup beatGroupBalance30_5gon(){
         Map<Integer, List<RhythmCombination>> map = new HashMap<>();
         List<RhythmCombination> beatGroups5 = new ArrayList<>();
+//        rhythmCombinations.balancedPattern.setSize(30);
         beatGroups5.add(rhythmCombinations.balancedPattern::pos5_X0000);
         beatGroups5.add(rhythmCombinations.balancedPattern::pos5_0X000);
         beatGroups5.add(rhythmCombinations.balancedPattern::pos5_00X00);
         map.put(5, beatGroups5);
-        return new BeatGroupMelody(30, DurationConstants.EIGHT,  map , Collections.singletonList(randomPitchClasses::randomPitchClasses));
+        return new BeatGroupMelody(30, DurationConstants.SIXTEENTH,  map , Collections.singletonList(randomPitchClasses::randomPitchClasses));
     }
 
     @Bean
@@ -220,11 +227,11 @@ public class BeatGroupConfig {
     public BeatGroup beatGroupBalance30_3gon(){
         Map<Integer, List<RhythmCombination>> map = new HashMap<>();
         List<RhythmCombination> beatGroups3 = new ArrayList<>();
-        beatGroups3.add(rhythmCombinations.balancedPattern::pos3);
+        beatGroups3.add(rhythmCombinations.balancedPattern::pos3);//random
         beatGroups3.add(rhythmCombinations.balancedPattern::pos3);
         beatGroups3.add(rhythmCombinations.balancedPattern::pos3);
         map.put(3, beatGroups3);
-        return new BeatGroupMelody(30, DurationConstants.EIGHT,  map , Collections.singletonList(randomPitchClasses::randomPitchClasses));
+        return new BeatGroupMelody(30, DurationConstants.SIXTEENTH,  map , Collections.singletonList(randomPitchClasses::randomPitchClasses));
     }
 
     @Bean
@@ -232,11 +239,14 @@ public class BeatGroupConfig {
     public BeatGroup beatGroupBalance30_6in30gon(){
         Map<Integer, List<RhythmCombination>> map = new HashMap<>();
         List<RhythmCombination> beatGroups = new ArrayList<>();
+        beatGroups.add(rhythmCombinations.balancedPattern::pos6in30);//random
+        beatGroups.add(rhythmCombinations.balancedPattern::pos6in30);
+        beatGroups.add(rhythmCombinations.balancedPattern::pos6in30);
         beatGroups.add(rhythmCombinations.balancedPattern::pos6in30);
         beatGroups.add(rhythmCombinations.balancedPattern::pos6in30);
         beatGroups.add(rhythmCombinations.balancedPattern::pos6in30);
         map.put(6, beatGroups);
-        return new BeatGroupMelody(30, DurationConstants.EIGHT,  map , Collections.singletonList(randomPitchClasses::randomPitchClasses));
+        return new BeatGroupMelody(30, DurationConstants.SIXTEENTH,  map , Collections.singletonList(randomPitchClasses::randomPitchClasses));
     }
 
     private void test() {
@@ -256,10 +266,11 @@ public class BeatGroupConfig {
         Map<Integer, List<RhythmCombination>> map = new HashMap<>();
         List<RhythmCombination> beatGroups2 = new ArrayList<>();
 //        beatGroups2.add(rhythmCombinations.oneNoteEven::pos1);
-        beatGroups2.add(rhythmCombinations.fourNoteEven::pos1234);
+//        beatGroups2.add(rhythmCombinations.fourNoteEven::pos1234);
+        beatGroups2.add(rhythmCombinations.threeNoteUneven::pos123);
 //        beatGroups2.add(rhythmCombinations.combiNoteEven::pos23pos12);
 //        beatGroups2.add(rhythmCombinations.twoNoteEven::pos14);
-        map.put(4, beatGroups2);
+        map.put(3, beatGroups2);
 
 //        List<RhythmCombination> beatGroups4 = new ArrayList<>();
 //        beatGroups4.add(rhythmCombinations.fourNoteEven::pos1234);

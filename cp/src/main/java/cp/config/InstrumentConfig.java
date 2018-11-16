@@ -47,7 +47,7 @@ public class InstrumentConfig {
 //        instruments.put(1,new InstrumentMapping(piano, 2, 1));
 //        instruments.put(2,new InstrumentMapping(piano, 3, 2));
 //        instruments.put(3,new InstrumentMapping(piano, 4, 3));
-        instruments = getSATBChoir();
+//        instruments = getSATBChoir();
 //        instruments = getSAChoir();
 //        instruments.put(0,new InstrumentMapping(new ViolinSolo() , 3, 0));
 //        instruments = getPianoAndStrinqQuartet(pleasantGreen, mellowPurple, richBlue);
@@ -63,7 +63,7 @@ public class InstrumentConfig {
 //        instruments = getStrinqSextet();
 //        orchestra = getOrchestra();
 //        instruments = getWoodWindsDuo();
-//        instruments = getStringTrio();
+        instruments = getStringTrio();
 //        instruments = getStringDuo();
 //        instruments = getGuitarDuo();
 //        instruments = getInstrument(5, new Clarinet());
@@ -82,14 +82,14 @@ public class InstrumentConfig {
     }
 
     private Map<Integer, InstrumentMapping> getStringTrio(){
-        instruments.put(2,new InstrumentMapping(new ViolinsI(), 5, 0));
-        instruments.put(1,new InstrumentMapping(new Viola(), 4, 1));
-        instruments.put(0,new InstrumentMapping(new Cello(), 3, 2));
+        instruments.put(2,new InstrumentMapping(new ViolinsI(), 4, 0));
+        instruments.put(1,new InstrumentMapping(new Viola(), 2, 1));
+        instruments.put(0,new InstrumentMapping(new Cello(), 1, 2));
         return instruments;
     }
 
     private Map<Integer, InstrumentMapping> getStringDuo(){
-        instruments.put(1, new InstrumentMapping(new ViolinsI(), 2, 1));
+        instruments.put(1, new InstrumentMapping(new ViolinsI(), 4, 1));
         instruments.put(0, new InstrumentMapping(new Cello(), 1, 2));
         return instruments;
     }
@@ -125,8 +125,8 @@ public class InstrumentConfig {
     }
 
     public Map<Integer, InstrumentMapping> getStrinqQuartet() {
-        instruments.put(3, new InstrumentMapping(new ViolinSolo(), 5, 0));
-        instruments.put(2, new InstrumentMapping(new ViolinSolo(), 4, 1));
+        instruments.put(3, new InstrumentMapping(new ViolinSolo(), 4, 0));
+        instruments.put(2, new InstrumentMapping(new ViolinSolo(), 3, 1));
         instruments.put(1, new InstrumentMapping(new ViolaSolo(), 2, 2));
         instruments.put(0, new InstrumentMapping(new CelloSolo(), 1, 3));
         return instruments;
