@@ -19,7 +19,7 @@ public class ThreeNoteEven {
 	@Autowired
 	public RhythmCombinations rhythmCombinations;
 
-	public List<Note> pos123(int beat) {
+	public List<Note> pos123(int beat, int pulse) {
 		List<Note> notes = new ArrayList<>();
 		int beat2 = beat/2;
 		int beat4 = beat/4;
@@ -39,7 +39,7 @@ public class ThreeNoteEven {
 		return notes;
 	}
 	
-	public List<Note> pos134(int beat) {
+	public List<Note> pos134(int beat, int pulse) {
 		List<Note> notes = new ArrayList<>();
 		int beat2 = beat/2;
 		int beat4 = beat/4;
@@ -59,7 +59,7 @@ public class ThreeNoteEven {
 		return notes;
 	}
 	
-	public List<Note> pos234(int beat) {
+	public List<Note> pos234(int beat, int pulse) {
 		List<Note> notes = new ArrayList<>();
 		int beat4 = beat/4;
 		if (beat == DurationConstants.QUARTER) {
@@ -81,7 +81,7 @@ public class ThreeNoteEven {
 		return notes;
 	}
 	
-	public List<Note> pos124(int beat) {
+	public List<Note> pos124(int beat, int pulse) {
 		List<Note> notes = new ArrayList<>();
 		int beat2 = beat/2;
 		int beat4 = beat/4;
@@ -97,7 +97,7 @@ public class ThreeNoteEven {
 		return notes;
 	}
 
-	public List<Note> pos14_and(int beat) {
+	public List<Note> pos14_and(int beat, int pulse) {
 		List<Note> notes = new ArrayList<>();
 		if (beat == DurationConstants.WHOLE){
 			notes.add(note().pos(0).len(DurationConstants.HALF + DurationConstants.QUARTER).beam(BeamType.BEGIN).build());
@@ -109,24 +109,24 @@ public class ThreeNoteEven {
 		return notes;
 	}
 
-	public List<Note> pos1pos34(int beat) {
-		return combi(beat, rhythmCombinations.oneNoteEven::pos1, rhythmCombinations.twoNoteEven::pos34);
+	public List<Note> pos1pos34(int beat, int pulse) {
+		return combi(beat, rhythmCombinations.oneNoteEven::pos1, rhythmCombinations.twoNoteEven::pos34, pulse);
 	}
 
-    public List<Note> pos1pos24(int beat) {
-        return combi(beat, rhythmCombinations.oneNoteEven::pos1, rhythmCombinations.twoNoteEven::pos24);
+    public List<Note> pos1pos24(int beat, int pulse) {
+        return combi(beat, rhythmCombinations.oneNoteEven::pos1, rhythmCombinations.twoNoteEven::pos24, pulse);
     }
 
-    public List<Note> pos1pos13(int beat) {
-        return combi(beat, rhythmCombinations.oneNoteEven::pos1, rhythmCombinations.twoNoteEven::pos13);
+    public List<Note> pos1pos13(int beat, int pulse) {
+        return combi(beat, rhythmCombinations.oneNoteEven::pos1, rhythmCombinations.twoNoteEven::pos13, pulse);
     }
 
-	private List<Note> combi(int beat, RhythmCombination rhythmCombinationFirst, RhythmCombination rhythmCombinationSecond) {
+	private List<Note> combi(int beat, RhythmCombination rhythmCombinationFirst, RhythmCombination rhythmCombinationSecond, int pulse) {
 	    List<Note> notes = null;
         if (beat == DurationConstants.WHOLE){
             int beatLength = DurationConstants.HALF;
-            notes = rhythmCombinationFirst.getNotes(beatLength);
-            List<Note> notes1 = rhythmCombinationSecond.getNotes(beatLength);
+            notes = rhythmCombinationFirst.getNotes(beatLength, pulse);
+            List<Note> notes1 = rhythmCombinationSecond.getNotes(beatLength, pulse);
             notes1.forEach(note -> note.setPosition(note.getPosition() + beatLength));
             notes.addAll(notes1);
             return notes;
@@ -137,16 +137,16 @@ public class ThreeNoteEven {
 	
 	public static void main(String[] args) {
 		ThreeNoteEven threeNoteEven = new ThreeNoteEven();
-		List<Note > notes = threeNoteEven.pos123(DurationConstants.HALF);
+		List<Note > notes = threeNoteEven.pos123(DurationConstants.HALF, DurationConstants.EIGHT);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 		
-		notes = threeNoteEven.pos124(DurationConstants.HALF);
+		notes = threeNoteEven.pos124(DurationConstants.HALF, DurationConstants.EIGHT);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 		
-		notes = threeNoteEven.pos134(DurationConstants.HALF);
+		notes = threeNoteEven.pos134(DurationConstants.HALF, DurationConstants.EIGHT);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 		
-		notes = threeNoteEven.pos234(DurationConstants.HALF);
+		notes = threeNoteEven.pos234(DurationConstants.HALF, DurationConstants.EIGHT);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 	}
 

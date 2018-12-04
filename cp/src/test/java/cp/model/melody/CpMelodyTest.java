@@ -110,20 +110,20 @@ public class CpMelodyTest {
 		assertEquals(1, melody.getContour().get(0).intValue());
 	}
 	
-	@Test
-	public void testRemoveContour(){
-		List<Note> notes = new ArrayList<>();
-		notes.add(note().pos(0).pc(0).build());
-		notes.add(note().pos(DurationConstants.QUARTER).pc(4).build());
-		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(11).build());
-		notes.add(note().pos(DurationConstants.HALF).pc(7).build());
-		notes.add(note().pos(DurationConstants.WHOLE).pc(9).build());
-		melody = new CpMelody(notes, 1, 0, DurationConstants.WHOLE + DurationConstants.QUARTER);
-		melody.removeContour(3, 1);
-		LOGGER.info("Contour: " + melody.getContour());
-		assertEquals(4, melody.getContour().size());
-		assertEquals(1, melody.getContour().get(2).intValue());
-	}
+//	@Test
+//	public void testRemoveContour(){
+//		List<Note> notes = new ArrayList<>();
+//		notes.add(note().pos(0).pc(0).build());
+//		notes.add(note().pos(DurationConstants.QUARTER).pc(4).build());
+//		notes.add(note().pos(DurationConstants.THREE_EIGHTS).pc(11).build());
+//		notes.add(note().pos(DurationConstants.HALF).pc(7).build());
+//		notes.add(note().pos(DurationConstants.WHOLE).pc(9).build());
+//		melody = new CpMelody(notes, 1, 0, DurationConstants.WHOLE + DurationConstants.QUARTER);
+//		melody.removeContour(3, 1);
+//		LOGGER.info("Contour: " + melody.getContour());
+//		assertEquals(4, melody.getContour().size());
+//		assertEquals(1, melody.getContour().get(2).intValue());
+//	}
 	
 	@Test
 	public void testUpdateNotes(){

@@ -1,6 +1,6 @@
 package cp.nsga.operator.mutation.melody;
 
-import cp.composition.beat.BeatGroup;
+import cp.composition.voice.NoteSizeValueObject;
 import cp.composition.voice.Voice;
 import cp.config.MelodyProviderConfig;
 import cp.config.TextureConfig;
@@ -51,12 +51,11 @@ public class NoteSizeMutation implements MutationOperator<CpMelody> {
 			Voice voice = voiceConfig.getVoiceConfiguration(melody.getVoice());
 			Timbre timbreConfigForVoice = timbreConfig.getTimbreConfigForVoice(melody.getVoice());
 
-			BeatGroup beatGroup = melody.getBeatGroup();
 			List<Note> melodyNotes = new ArrayList<>();
-            int randomNoteSize = beatGroup.getRandomNoteSize();
-            if (randomNoteSize != melody.getNotesSize()) {
-//                LOGGER.info(randomNoteSize != melody.getNotesSize()?"change note size":"");
-                melodyNotes = melody.getBeatGroup().getRhythmNotesForBeatgroupType(randomNoteSize);
+            NoteSizeValueObject noteSizeValueObject = melody.getBeatGroup().getRandomRhythmNotesForBeatgroupType();
+            if (noteSizeValueObject.getKey() != melody.getNotesSize()) {
+                LOGGER.info(noteSizeValueObject.getKey() != melody.getNotesSize()?"change note size":"");
+                melodyNotes = noteSizeValueObject.getNotes();
                 if (!melodyNotes.isEmpty()) {
                     melodyNotes.forEach(n -> {
                         n.setVoice(melody.getVoice());
@@ -77,7 +76,7 @@ public class NoteSizeMutation implements MutationOperator<CpMelody> {
                     PitchClassGenerator pitchClassGenerator = voiceConfig.getRandomPitchClassGenerator(melody.getVoice());
                     melodyNotes = pitchClassGenerator.updatePitchClasses(melody);
                     melody.updateNotes(melodyNotes);
-                    melody.setNotesSize(randomNoteSize);
+                    melody.setNotesSize(noteSizeValueObject.getKey());
 //                    LOGGER.info("Note size: " + melody.getNotesSize());
                 }
             }

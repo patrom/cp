@@ -13,8 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DefaultConfig.class)
 @ExtendWith(SpringExtension.class)
@@ -25,28 +23,20 @@ public class BalancedPatternTest {
 
     @Test
     public void pos5() {
-        List<Note> notes = balancedPattern.pos5_X0000(DurationConstants.EIGHT * 30);
+        List<Note> notes = balancedPattern.pos5_X0000(DurationConstants.SIXTEENTH * 30, DurationConstants.SIXTEENTH);
         notes.forEach(note -> System.out.println(note.getPosition() + ", " + note.getLength()));
     }
 
     @Test
     public void pos3() {
-        List<Note> notes = balancedPattern.pos3(DurationConstants.EIGHT * 30);
+        List<Note> notes = balancedPattern.pos3(DurationConstants.EIGHT * 30, DurationConstants.EIGHT);
         notes.forEach(note -> System.out.println(note.getPosition() + ", " + note.getLength()));
     }
 
     @Test
     public void pos6in30() {
-        List<Note> notes = balancedPattern.pos6in30(DurationConstants.EIGHT * 30);
+        List<Note> notes = balancedPattern.pos6in30(DurationConstants.EIGHT * 30, DurationConstants.EIGHT);
         notes.forEach(note -> System.out.println(note.getPosition() + ", " + note.getLength()));
     }
 
-    @Test
-    public void posRandom() {
-        balancedPattern.setSize(12);
-        balancedPattern.setLimitPositions(6);
-        List<Note> notes = balancedPattern.posRandom(DurationConstants.EIGHT * 12);
-        assertEquals(6 , notes.size());
-        notes.forEach(note -> System.out.println(note.getPosition() + ", " + note.getLength()));
-    }
 }

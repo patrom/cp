@@ -3,6 +3,7 @@ package cp.out.orchestration.quality;
 import cp.out.instrument.keyboard.Celesta;
 import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.percussion.determinate.Glockenspiel;
+import cp.out.instrument.percussion.determinate.Xylophone;
 import cp.out.instrument.plucked.Harp;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.*;
@@ -34,7 +35,8 @@ public class HighRange extends OrchestralQuality {
                 new ViolaSolo(range),
                 new Cello(range),
                 new CelloSolo(range),
-                new Glockenspiel(range),
+                new Glockenspiel(new InstrumentRegister(77, 84)),
+                new Xylophone(range),
                 new Celesta(range),
                 new Harp(range),
                 new Piano(range)

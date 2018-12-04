@@ -13,7 +13,7 @@ import static cp.model.note.NoteBuilder.note;
 @Component
 public class FourNoteEven {
 
-	public List<Note> pos1234(int beat) {
+	public List<Note> pos1234(int beat, int pulse) {
 		List<Note> notes = new ArrayList<>();
 		int beat4 = beat/4;
 		if (beat == DurationConstants.QUARTER) {

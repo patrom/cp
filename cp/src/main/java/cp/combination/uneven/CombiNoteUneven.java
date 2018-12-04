@@ -44,35 +44,35 @@ public class CombiNoteUneven {
     }
 
 
-    public List<Note> combiHalfQuarter(RhythmCombination combi1, RhythmCombination combi2, int beat) {
+    public List<Note> combiHalfQuarter(RhythmCombination combi1, RhythmCombination combi2, int beat, int pulse) {
         int beat3 = beat / 3;
-        List<Note> notes = combi1.getNotes(beat3 * 2);
-        List<Note> notes1 = combi2.getNotes(beat3);
+        List<Note> notes = combi1.getNotes(beat3 * 2, pulse);
+        List<Note> notes1 = combi2.getNotes(beat3, pulse);
         notes1.forEach(note -> note.setPosition(note.getPosition() + beat3 * 2));
         notes.addAll(notes1);
         return notes;
     }
 
-    public List<Note> combiHalfQuarter(List<RhythmCombination> combinations1, List<RhythmCombination> combinations2, int beat) {
+    public List<Note> combiHalfQuarter(List<RhythmCombination> combinations1, List<RhythmCombination> combinations2, int beat, int pulse) {
         int beat3 = beat / 3;
-        List<Note> notes = RandomUtil.getRandomFromList(combinations1).getNotes(beat3 * 2);
-        List<Note> notes1 = RandomUtil.getRandomFromList(combinations2).getNotes(beat3);
+        List<Note> notes = RandomUtil.getRandomFromList(combinations1).getNotes(beat3 * 2, pulse);
+        List<Note> notes1 = RandomUtil.getRandomFromList(combinations2).getNotes(beat3, pulse);
         notes1.forEach(note -> note.setPosition(note.getPosition() + beat3 * 2));
         notes.addAll(notes1);
         return notes;
     }
 
-    protected List<Note> combiQuarterHalf(RhythmCombination combi1, RhythmCombination combi2, int beat) {
+    protected List<Note> combiQuarterHalf(RhythmCombination combi1, RhythmCombination combi2, int beat, int pulse) {
         int beat3 = beat / 3;
-        List<Note> notes = combi1.getNotes(beat3);
-        List<Note> notes1 = combi2.getNotes(beat3 * 2);
+        List<Note> notes = combi1.getNotes(beat3, pulse);
+        List<Note> notes1 = combi2.getNotes(beat3 * 2, pulse);
         notes1.forEach(note -> note.setPosition(note.getPosition() + beat3 * 2));
         notes.addAll(notes1);
         return notes;
     }
 
 
-    public List<Note> apply(Function<Integer, List<Note>> combi1, Function<Integer, List<Note>> combi2, int beat) {
+    public List<Note> apply(Function<Integer, List<Note>> combi1, Function<Integer, List<Note>> combi2, int beat, int pulse) {
         int beat3 = beat / 3;
         List<Note> notes = combi1.apply(beat3 * 2);
         List<Note> notes1 = combi2.apply(beat3);
@@ -81,44 +81,44 @@ public class CombiNoteUneven {
         return notes;
     }
 
-    public List<Note> pos23pos12(int beat) {
-        return combiHalfQuarter(rhythmCombinations.twoNoteEven::pos23, rhythmCombinations.twoNoteEven::pos12, beat);
+    public List<Note> pos23pos12(int beat, int pulse) {
+        return combiHalfQuarter(rhythmCombinations.twoNoteEven::pos23, rhythmCombinations.twoNoteEven::pos12, beat, pulse);
     }
 
-    public List<Note> pos12pos12(int beat) {
-        return combiHalfQuarter(rhythmCombinations.twoNoteEven::pos12, rhythmCombinations.twoNoteEven::pos12, beat);
+    public List<Note> pos12pos12(int beat, int pulse) {
+        return combiHalfQuarter(rhythmCombinations.twoNoteEven::pos12, rhythmCombinations.twoNoteEven::pos12, beat, pulse);
     }
 
-    public List<Note> pos13pos12(int beat) {
-        return combiHalfQuarter(rhythmCombinations.twoNoteEven::pos13, rhythmCombinations.twoNoteEven::pos12, beat);
+    public List<Note> pos13pos12(int beat, int pulse) {
+        return combiHalfQuarter(rhythmCombinations.twoNoteEven::pos13, rhythmCombinations.twoNoteEven::pos12, beat, pulse);
     }
 
-    public List<Note> posXposXX(int beat) {
-        return combiHalfQuarter(Collections.singletonList(rhythmCombinations.oneNoteEven::pos1), twoNoteCombinations2, beat);
+    public List<Note> posXposXX(int beat, int pulse) {
+        return combiHalfQuarter(Collections.singletonList(rhythmCombinations.oneNoteEven::pos1), twoNoteCombinations2, beat, pulse);
     }
 
-    public List<Note> posXposXXX(int beat) {
-        return combiHalfQuarter(Collections.singletonList(rhythmCombinations.oneNoteEven::pos1),threeNoteCombinations2, beat);
+    public List<Note> posXposXXX(int beat, int pulse) {
+        return combiHalfQuarter(Collections.singletonList(rhythmCombinations.oneNoteEven::pos1),threeNoteCombinations2, beat, pulse);
     }
 
-    public List<Note> posXXposXX(int beat) {
-        return combiHalfQuarter(twoNoteCombinations1, twoNoteCombinations2, beat);
+    public List<Note> posXXposXX(int beat, int pulse) {
+        return combiHalfQuarter(twoNoteCombinations1, twoNoteCombinations2, beat, pulse);
     }
 
-    public List<Note> posXXXposXXX(int beat) {
-        return combiHalfQuarter(threeNoteCombinations1, threeNoteCombinations2, beat);
+    public List<Note> posXXXposXXX(int beat, int pulse) {
+        return combiHalfQuarter(threeNoteCombinations1, threeNoteCombinations2, beat, pulse);
     }
 
-    public List<Note> posXXXposXX(int beat) {
-        return combiHalfQuarter(threeNoteCombinations1, twoNoteCombinations2, beat);
+    public List<Note> posXXXposXX(int beat, int pulse) {
+        return combiHalfQuarter(threeNoteCombinations1, twoNoteCombinations2, beat, pulse);
     }
 
-    public List<Note> posXXposXXX(int beat) {
-        return combiHalfQuarter(twoNoteCombinations1, threeNoteCombinations2, beat);
+    public List<Note> posXXposXXX(int beat, int pulse) {
+        return combiHalfQuarter(twoNoteCombinations1, threeNoteCombinations2, beat, pulse);
     }
 
-    public List<Note> posXXposXXXX(int beat) {
-        return combiHalfQuarter(twoNoteCombinations1, fourNoteCombinations2, beat);
+    public List<Note> posXXposXXXX(int beat, int pulse) {
+        return combiHalfQuarter(twoNoteCombinations1, fourNoteCombinations2, beat, pulse);
     }
 
 }

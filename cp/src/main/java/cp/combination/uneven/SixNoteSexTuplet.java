@@ -13,7 +13,7 @@ import static cp.model.note.NoteBuilder.note;
 @Component
 public class SixNoteSexTuplet {
 
-	public List<Note> pos123456(int beat) {
+	public List<Note> pos123456(int beat, int pulse) {
 		List<Note> notes;
 		int noteLength = beat / 6;
 		switch (beat) {
@@ -64,7 +64,7 @@ public class SixNoteSexTuplet {
 	
 	public static void main(String[] args) {
 		SixNoteSexTuplet sixNoteSexTuplet = new SixNoteSexTuplet();
-		List<Note > notes = sixNoteSexTuplet.pos123456(DurationConstants.THREE_EIGHTS);
+		List<Note > notes = sixNoteSexTuplet.pos123456(DurationConstants.THREE_EIGHTS, DurationConstants.QUARTER);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 	}
 }

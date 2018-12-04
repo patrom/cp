@@ -16,8 +16,12 @@ import static java.util.Collections.emptyList;
 
 public class BeatgroupMotive extends BeatGroup {
 
-    public BeatgroupMotive(int type, Map<Integer, List<RhythmCombination>> rhythmCombinationMap, List<PitchClassGenerator> pitchClassGenerators) {
-        super(type, rhythmCombinationMap, pitchClassGenerators);
+    public BeatgroupMotive(int length, Map<Integer, List<RhythmCombination>> rhythmCombinationMap, List<PitchClassGenerator> pitchClassGenerators) {
+        super(length, rhythmCombinationMap, pitchClassGenerators);
+    }
+
+    public BeatgroupMotive(int length, int pulse, Map<Integer, List<RhythmCombination>> rhythmCombinationMap, List<PitchClassGenerator> pitchClassGenerators) {
+        super(length, pulse, rhythmCombinationMap, pitchClassGenerators);
     }
 
     public List<Note> getRhythmNotesForBeatgroupType(int size){
@@ -34,7 +38,7 @@ public class BeatgroupMotive extends BeatGroup {
         Integer key = (Integer) keys[new Random().nextInt(keys.length)];
         List<RhythmCombination> rhythmCombinations = rhythmCombinationMap.get(key);
         RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
-        return new NoteSizeValueObject(key, rhythmCombination);
+        return new NoteSizeValueObject(key, rhythmCombination.getNotes(this.length, this.pulse));
     }
 
     @PostConstruct

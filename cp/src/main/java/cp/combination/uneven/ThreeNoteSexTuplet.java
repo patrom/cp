@@ -14,7 +14,7 @@ import static cp.model.note.NoteBuilder.note;
 @Component
 public class ThreeNoteSexTuplet {
 
-	public List<Note> pos145(int beat) {
+	public List<Note> pos145(int beat, int pulse) {
 		List<Note> notes;
 		int noteLength = beat / 6;
 		int length3 = noteLength * 3;
@@ -43,7 +43,7 @@ public class ThreeNoteSexTuplet {
 		}
 	}
 
-	public List<Note> pos136(int beat) {
+	public List<Note> pos136(int beat, int pulse) {
 		List<Note> notes;
 		int noteLength = beat / 6;
 		int length3 = noteLength * 3;
@@ -73,7 +73,7 @@ public class ThreeNoteSexTuplet {
 		}
 	}
 
-	public List<Note> pos156(int beat) {
+	public List<Note> pos156(int beat, int pulse) {
 		List<Note> notes;
 		int noteLength = beat / 6;
 		int length4 = noteLength * 4;
@@ -101,7 +101,7 @@ public class ThreeNoteSexTuplet {
 		}
 	}
 
-	public List<Note> pos123(int beat) {
+	public List<Note> pos123(int beat, int pulse) {
 		List<Note> notes;
 		int noteLength = beat / 6;
 		int length4 = noteLength * 4;
@@ -147,7 +147,7 @@ public class ThreeNoteSexTuplet {
 	
 	public static void main(String[] args) {
 		ThreeNoteSexTuplet threeNoteSexTuplet = new ThreeNoteSexTuplet();
-		List<Note > notes = threeNoteSexTuplet.pos145(DurationConstants.HALF);
+		List<Note > notes = threeNoteSexTuplet.pos145(DurationConstants.HALF, DurationConstants.QUARTER);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 		
 //		notes = threeNoteSexTuplet.pos145(DurationConstants.SIX_EIGHTS);
@@ -159,7 +159,7 @@ public class ThreeNoteSexTuplet {
 //		notes = threeNoteSexTuplet.pos136(DurationConstants.SIX_EIGHTS);
 //		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 		
-		notes = threeNoteSexTuplet.pos156(DurationConstants.HALF);
+		notes = threeNoteSexTuplet.pos156(DurationConstants.HALF, DurationConstants.QUARTER);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 	}
 }

@@ -50,4 +50,6 @@ public class BeatGroups {
     public BeatGroup beatGroupBalance30_3gon;
     @Autowired
     public BeatGroup beatGroupBalance30_6in30gon;
+    @Autowired
+    public BeatGroup beatGroupBalance30;
 }

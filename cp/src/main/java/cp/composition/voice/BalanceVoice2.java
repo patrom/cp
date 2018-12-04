@@ -10,9 +10,9 @@ public class BalanceVoice2 extends Voice {
 
     @PostConstruct
     public void init() {
+        setTimeconfig();
         allBeatgroups = Arrays.asList(
                 beatgroups.beatGroupBalance30_3gon
         );
-        setTimeconfig();
     }
 }

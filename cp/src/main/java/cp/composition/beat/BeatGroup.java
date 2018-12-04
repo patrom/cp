@@ -10,7 +10,6 @@ import cp.model.harmony.ChordType;
 import cp.model.melody.Tonality;
 import cp.model.note.Note;
 import cp.model.note.Scale;
-import cp.model.rhythm.DurationConstants;
 import cp.out.print.Keys;
 import cp.util.RandomUtil;
 import org.apache.commons.lang.ArrayUtils;
@@ -21,7 +20,6 @@ import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,19 +27,25 @@ public abstract class BeatGroup {
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(BeatGroup.class);
 
-    protected int type;
+    protected List<BeatGroup> beatGroups = new ArrayList<>();
+
+    protected int length;
     protected int pulse;
     protected Map<Integer, List<RhythmCombination>> rhythmCombinationMap;
     protected List<PitchClassGenerator> pitchClassGenerators = new ArrayList<>();
 
-    public BeatGroup(int type, Map<Integer, List<RhythmCombination>> rhythmCombinationMap, List<PitchClassGenerator> pitchClassGenerators) {
-        this.type = type;
+    public BeatGroup(int length) {
+        this.length = length;
+    }
+
+    public BeatGroup(int length, Map<Integer, List<RhythmCombination>> rhythmCombinationMap, List<PitchClassGenerator> pitchClassGenerators) {
+        this.length = length;
         this.rhythmCombinationMap = rhythmCombinationMap;
         this.pitchClassGenerators = pitchClassGenerators;
     }
 
-    public BeatGroup(int type, int pulse, Map<Integer, List<RhythmCombination>> rhythmCombinationMap, List<PitchClassGenerator> pitchClassGenerators) {
-        this.type = type;
+    public BeatGroup(int length, int pulse, Map<Integer, List<RhythmCombination>> rhythmCombinationMap, List<PitchClassGenerator> pitchClassGenerators) {
+        this.length = length;
         this.pulse = pulse;
         this.rhythmCombinationMap = rhythmCombinationMap;
         this.pitchClassGenerators = pitchClassGenerators;
@@ -86,10 +90,6 @@ public abstract class BeatGroup {
     @Autowired
     protected RhythmCombinations rhythmCombinations;
 
-    public int getType() {
-        return type;
-    }
-
     public void setPulse(int pulse) {
         this.pulse = pulse;
     }
@@ -99,16 +99,7 @@ public abstract class BeatGroup {
     }
 
     public int getBeatLength() {
-        if (pulse == 0) {
-            if (denominator == 8) {
-                return getType() * DurationConstants.EIGHT;
-            } else if (denominator == 2) {
-                return getType() * DurationConstants.HALF;
-            }
-            return getType() * DurationConstants.QUARTER;
-        } else {
-            return getType() * pulse;
-        }
+        return length;
 	}
 
     public abstract List<Note> getRhythmNotesForBeatgroupType(int size);
@@ -117,11 +108,7 @@ public abstract class BeatGroup {
 
     protected List<Note> getNotes(List<RhythmCombination> rhythmCombinations) {
         RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
-        return rhythmCombination.getNotes(this.getBeatLength());
-    }
-
-    public int getRandomNoteSize() {
-        return RandomUtil.getRandomFromSet(rhythmCombinationMap.keySet());
+        return rhythmCombination.getNotes(this.getBeatLength(), this.pulse);
     }
 
     public List<TimeLineKey> getTimeLineKeys() {
@@ -146,32 +133,6 @@ public abstract class BeatGroup {
         timeLineKeys.add(new TimeLineKey(keys.F, Scale.MAJOR_SCALE));
         timeLineKeys.add(new TimeLineKey(keys.A, Scale.HARMONIC_MINOR_SCALE));
         timeLineKeys.add(new TimeLineKey(keys.D, Scale.HARMONIC_MINOR_SCALE));
-    }
-
-    protected Map<Integer, List<RhythmCombination>> getEvenBeatGroups(){
-        Map<Integer, List<RhythmCombination>> map = new HashMap<>();
-        List<RhythmCombination> beatGroups = new ArrayList<>();
-//        beatGroups.add(rhythmCombinations.fourNoteEven::pos1234);
-//        map.put(4, beatGroups);
-
-        beatGroups = new ArrayList<>();
-        beatGroups.add(rhythmCombinations.threeNoteEven::pos134);
-        beatGroups.add(rhythmCombinations.threeNoteEven::pos234);
-        map.put(3, beatGroups);
-
-        beatGroups = new ArrayList<>();
-        beatGroups.add(rhythmCombinations.twoNoteEven::pos13);
-        map.put(2, beatGroups);
-
-        beatGroups = new ArrayList<>();
-        beatGroups.add(rhythmCombinations.oneNoteEven::pos1);
-        map.put(1, beatGroups);
-
-        beatGroups = new ArrayList<>();
-        beatGroups.add(rhythmCombinations.oneNoteEven::rest);
-        map.put(0, beatGroups);
-
-        return map;
     }
 
     public Tonality getTonality() {
@@ -212,10 +173,6 @@ public abstract class BeatGroup {
 
     public void setRhythmCombinationMap(Map<Integer, List<RhythmCombination>> rhythmCombinationMap) {
         this.rhythmCombinationMap = rhythmCombinationMap;
-    }
-
-    public void setType(int type) {
-        this.type = type;
     }
 
     public void setPitchClassGenerators(List<PitchClassGenerator> pitchClassGenerators) {

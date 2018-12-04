@@ -7,6 +7,6 @@ import java.util.List;
 @FunctionalInterface
 public interface RhythmCombination {
 
-	List<Note> getNotes(int beat);
+	List<Note> getNotes(int beatLength, int pulse);
 
 }

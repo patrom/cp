@@ -13,7 +13,7 @@ import static cp.model.note.NoteBuilder.note;
 @Component
 public class TwoNoteEven {
 
-	public List<Note> pos12(int beat) {
+	public List<Note> pos12(int beat, int pulse) {
 		if (beat == DurationConstants.QUARTER) {
 			return posWithBeam(beat/4, beat);
 		} else {
@@ -21,7 +21,7 @@ public class TwoNoteEven {
 		}
 	}
 	
-	public List<Note> pos13(int beat) {
+	public List<Note> pos13(int beat, int pulse) {
 		if (beat == DurationConstants.QUARTER) {
 			return posWithBeam(beat/2, beat);
 		} else {
@@ -29,7 +29,7 @@ public class TwoNoteEven {
 		}
 	}
 	
-	public List<Note> pos14(int beat) {
+	public List<Note> pos14(int beat, int pulse) {
 		if (beat == DurationConstants.QUARTER) {
 			return posWithBeam(3*beat/4, beat);
 		} else {
@@ -39,7 +39,7 @@ public class TwoNoteEven {
 
 
 	
-	public List<Note> pos34(int beat) {
+	public List<Note> pos34(int beat, int pulse) {
 		List<Note> notes = new ArrayList<>();
 		int beat2 = beat/2;
 		int beat4 = beat/4;
@@ -59,7 +59,7 @@ public class TwoNoteEven {
 		return notes;
 	}
 	
-	public List<Note> pos23(int beat) {
+	public List<Note> pos23(int beat, int pulse) {
 		List<Note> notes = new ArrayList<>();
 		int beat2 = beat/2;
 		int beat4 = beat/4;
@@ -69,7 +69,7 @@ public class TwoNoteEven {
 		return notes;
 	}
 	
-	public List<Note> pos24(int beat) {
+	public List<Note> pos24(int beat, int pulse) {
 		List<Note> notes = new ArrayList<>();
 		int beat2 = beat/2;
 		int beat4 = beat/4;
@@ -101,7 +101,7 @@ public class TwoNoteEven {
 	
 	public static void main(String[] args) {
 		TwoNoteEven twoNoteEven = new TwoNoteEven();
-		List<Note > notes = twoNoteEven.pos13(DurationConstants.QUARTER);
+		List<Note > notes = twoNoteEven.pos13(DurationConstants.QUARTER, DurationConstants.QUARTER);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength() + ", " + n.isRest()));
 	}
 

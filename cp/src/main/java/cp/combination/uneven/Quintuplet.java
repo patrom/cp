@@ -14,7 +14,7 @@ import static cp.model.note.NoteBuilder.note;
 @Component
 public class Quintuplet {
 
-	public List<Note> pos12345(int beat) {
+	public List<Note> pos12345(int beat, int pulse) {
 		List<Note> notes = new ArrayList<>();
 		int noteLength = beat/5;
 		switch (beat) {
@@ -54,7 +54,7 @@ public class Quintuplet {
 		return notes;
 	}
 
-	public List<Note> pos2345(int beat) {
+	public List<Note> pos2345(int beat, int pulse) {
 		List<Note> notes = new ArrayList<>();
 		int noteLength = beat/5;
 		switch (beat) {
@@ -96,7 +96,7 @@ public class Quintuplet {
 	
 	public static void main(String[] args) {
 		Quintuplet quinTuplet = new Quintuplet();
-		List<Note > notes = quinTuplet.pos12345(DurationConstants.QUARTER);
+		List<Note > notes = quinTuplet.pos12345(DurationConstants.QUARTER, DurationConstants.QUARTER);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 	}
 }

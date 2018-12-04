@@ -42,86 +42,86 @@ public class CombiNoteEven {
         fourNoteCombinations2 = Stream.of(pos1234).collect(Collectors.toList());
     }
 
-    private List<Note> combi(RhythmCombination combi1, RhythmCombination comvi2, int beat) {
-        List<Note> notes = combi1.getNotes(beat);
-        List<Note> notes1 = comvi2.getNotes(beat);
+    private List<Note> combi(RhythmCombination combi1, RhythmCombination comvi2, int beat, int pulse) {
+        List<Note> notes = combi1.getNotes(beat, pulse);
+        List<Note> notes1 = comvi2.getNotes(beat, pulse);
         notes1.forEach(note -> note.setPosition(note.getPosition() + beat));
         notes.addAll(notes1);
         return notes;
     }
 
-    public List<Note> pos23pos12(int beat) {
-        return combi(rhythmCombinations.twoNoteEven::pos23, rhythmCombinations.twoNoteEven::pos12, beat/2);
+    public List<Note> pos23pos12(int beat, int pulse) {
+        return combi(rhythmCombinations.twoNoteEven::pos23, rhythmCombinations.twoNoteEven::pos12, beat/2, pulse);
     }
 
-    public List<Note> quintupletpos2345pos1(int beat) {
+    public List<Note> quintupletpos2345pos1(int beat, int pulse) {
         int beat2 = beat / 4;
-        List<Note> notes = rhythmCombinations.quintuplet.pos2345(beat2);
-        List<Note> notes1 = rhythmCombinations.oneNoteEven.pos1(beat2 * 3);
+        List<Note> notes = rhythmCombinations.quintuplet.pos2345(beat2, pulse);
+        List<Note> notes1 = rhythmCombinations.oneNoteEven.pos1(beat2 * 3, pulse);
         notes1.forEach(note -> note.setPosition(note.getPosition() + beat2));
         notes.addAll(notes1);
         return notes;
     }
 
-    public List<Note> quintupletpos12345pos1(int beat) {
+    public List<Note> quintupletpos12345pos1(int beat, int pulse) {
         int beat2 = beat / 4;
-        List<Note> notes = rhythmCombinations.quintuplet.pos12345(beat2);
-        List<Note> notes1 = rhythmCombinations.oneNoteEven.pos1(beat2 * 3);
+        List<Note> notes = rhythmCombinations.quintuplet.pos12345(beat2, pulse);
+        List<Note> notes1 = rhythmCombinations.oneNoteEven.pos1(beat2 * 3, pulse);
         notes1.forEach(note -> note.setPosition(note.getPosition() + beat2));
         notes.addAll(notes1);
         return notes;
     }
 
-    public List<Note> pos1quintupletpos12345(int beat) {
+    public List<Note> pos1quintupletpos12345(int beat, int pulse) {
         int beat2 = beat / 4;
-        List<Note> notes = rhythmCombinations.oneNoteEven.pos1(beat2 * 3);
-        List<Note> notes1 = rhythmCombinations.quintuplet.pos12345(beat2);
+        List<Note> notes = rhythmCombinations.oneNoteEven.pos1(beat2 * 3, pulse);
+        List<Note> notes1 = rhythmCombinations.quintuplet.pos12345(beat2, pulse);
         notes1.forEach(note -> note.setPosition(note.getPosition() + beat2));
         notes.addAll(notes1);
         return notes;
     }
 
-    public List<Note> septTupletpos234567pos1(int beat) {
+    public List<Note> septTupletpos234567pos1(int beat, int pulse) {
         int beat2 = beat / 4;
-        List<Note> notes = rhythmCombinations.septTuplet.pos234567(beat2);
-        List<Note> notes1 = rhythmCombinations.oneNoteEven.pos1(beat2);
+        List<Note> notes = rhythmCombinations.septTuplet.pos234567(beat2, pulse);
+        List<Note> notes1 = rhythmCombinations.oneNoteEven.pos1(beat2, pulse);
         notes1.forEach(note -> note.setPosition(note.getPosition() + beat2));
         notes.addAll(notes1);
         return notes;
     }
 
-    public List<Note> septTupletpos1234567pos1(int beat) {
+    public List<Note> septTupletpos1234567pos1(int beat, int pulse) {
         int beat2 = beat / 4;
-        List<Note> notes = rhythmCombinations.septTuplet.pos1234567(beat2);
-        List<Note> notes1 = rhythmCombinations.oneNoteEven.pos1(beat2 * 3);
+        List<Note> notes = rhythmCombinations.septTuplet.pos1234567(beat2, pulse);
+        List<Note> notes1 = rhythmCombinations.oneNoteEven.pos1(beat2 * 3, pulse);
         notes1.forEach(note -> note.setPosition(note.getPosition() + beat2));
         notes.addAll(notes1);
         return notes;
     }
 
-    public List<Note> pos1eptTupletpos1234567(int beat) {
+    public List<Note> pos1eptTupletpos1234567(int beat, int pulse) {
         int beat2 = beat / 4;
-        List<Note> notes = rhythmCombinations.oneNoteEven.pos1(beat2 * 3);
-        List<Note> notes1 = rhythmCombinations.septTuplet.pos1234567(beat2);
+        List<Note> notes = rhythmCombinations.oneNoteEven.pos1(beat2 * 3, pulse);
+        List<Note> notes1 = rhythmCombinations.septTuplet.pos1234567(beat2, pulse);
         notes1.forEach(note -> note.setPosition(note.getPosition() + beat2));
         notes.addAll(notes1);
         return notes;
     }
 
-    public List<Note> combiHalf(RhythmCombination combi1, RhythmCombination combi2, int beat) {
+    public List<Note> combiHalf(RhythmCombination combi1, RhythmCombination combi2, int beat, int pulse) {
         int beat2 = beat / 2;
-        List<Note> notes = combi1.getNotes(beat2);
-        List<Note> notes1 = combi2.getNotes(beat2);
+        List<Note> notes = combi1.getNotes(beat2, pulse);
+        List<Note> notes1 = combi2.getNotes(beat2, pulse);
         notes1.forEach(note -> note.setPosition(note.getPosition() + beat2));
         notes.addAll(notes1);
         return notes;
     }
 
-    public List<Note> custom(int beat) {
+    public List<Note> custom(int beat, int pulse) {
         int beat4 = beat / 4;
-        List<Note> notes = rhythmCombinations.twoNoteEven.pos13(beat4);
-        List<Note> notes1 = rhythmCombinations.oneNoteEven.pos1(beat / 2);
-        List<Note> notes2 = rhythmCombinations.twoNoteEven.pos13(beat4);
+        List<Note> notes = rhythmCombinations.twoNoteEven.pos13(beat4, pulse);
+        List<Note> notes1 = rhythmCombinations.oneNoteEven.pos1(beat / 2, pulse);
+        List<Note> notes2 = rhythmCombinations.twoNoteEven.pos13(beat4, pulse);
         notes1.forEach(note -> note.setPosition(note.getPosition() + beat4));
         notes.addAll(notes1);
         notes2.forEach(note -> note.setPosition(note.getPosition() + beat4 * 3));
@@ -129,11 +129,11 @@ public class CombiNoteEven {
         return notes;
     }
 
-    public List<Note> customRandom(int beat) {
+    public List<Note> customRandom(int beat, int pulse) {
         int beat4 = beat / 4;
-        List<Note> notes = RandomUtil.getRandomFromList(twoNoteCombinations1).getNotes(beat4);
-        List<Note> notes1 = rhythmCombinations.oneNoteEven.pos1(beat / 2);
-        List<Note> notes2 = RandomUtil.getRandomFromList(twoNoteCombinations1).getNotes(beat4);
+        List<Note> notes = RandomUtil.getRandomFromList(twoNoteCombinations1).getNotes(beat4, pulse);
+        List<Note> notes1 = rhythmCombinations.oneNoteEven.pos1(beat / 2, pulse);
+        List<Note> notes2 = RandomUtil.getRandomFromList(twoNoteCombinations1).getNotes(beat4, pulse);
         notes1.forEach(note -> note.setPosition(note.getPosition() + beat4));
         notes.addAll(notes1);
         notes2.forEach(note -> note.setPosition(note.getPosition() + beat4 * 3));
@@ -143,7 +143,7 @@ public class CombiNoteEven {
 
     public static void main(String[] args) {
         CombiNoteEven combiNoteEven = new CombiNoteEven();
-        List<Note > notes = combiNoteEven.pos23pos12(DurationConstants.QUARTER);
+        List<Note > notes = combiNoteEven.pos23pos12(DurationConstants.QUARTER, DurationConstants.EIGHT);
         notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength() + ", " + n.isRest()));
     }
 }

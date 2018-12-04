@@ -2,6 +2,7 @@ package cp.nsga.operator.mutation.melody;
 
 import cp.nsga.operator.mutation.MutationOperator;
 import cp.nsga.operator.mutation.MutationType;
+import cp.nsga.operator.mutation.contour.ContourMutation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -71,6 +72,10 @@ public class Mutators {
     public TwelveToneRhythmMutation twelveToneRhythmMutation;
     @Autowired
     public TwelveToneRhythmMutationSplit twelveToneRhythmMutationSplit;
+    @Value("${probabilityContour}")
+    private double probabilityContour;
+    @Autowired
+    public ContourMutation contourMutation;
 
     public List<MutationOperator> getMutationOperators(MutationType mutationType){
         switch (mutationType){
@@ -131,6 +136,9 @@ public class Mutators {
         }
         if (probabilityOperatorMutation > 0) {
             mutationOperators.add(operatorMutation);
+        }
+        if (probabilityContour > 0) {
+            mutationOperators.add(contourMutation);
         }
         return mutationOperators;
     }

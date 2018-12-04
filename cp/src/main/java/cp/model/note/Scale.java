@@ -32,6 +32,8 @@ public class Scale {
             WHOLE_TONE_SCALE_0 = new Scale(new int[]{0, 2, 4, 6, 8, 10}),
             WHOLE_TONE_SCALE_1 = new Scale(new int[]{1, 3, 5, 7, 9, 11}),
 			PITCH_SET_0134 = new Scale(new int[]{0, 1, 3, 4}),
+			PITCH_SET_0246 = new Scale(new int[]{0, 2, 4, 6}),
+			PITCH_SET_0257 = new Scale(new int[]{0, 2, 5, 7}),
 			PITCH_SET_FOURTH = new Scale(new int[]{0, 5, 7, 10}),
 			MODULATION_DOM = new Scale(new int[]{0, 2, 4, 5, 6, 7, 9, 11}),
 			ALL_INTERVAL_TRETRACHORD1 = new Scale(new int[]{0, 1, 4, 6}),
@@ -62,6 +64,8 @@ public class Scale {
 			MINOR_CHORD = new Scale(new int[]{0, 3 , 7}),
 			HALF_DIMINISHED_CHORD = new Scale(new int[]{0, 3 , 6, 10}),
 			DIMINISHED_CHORD = new Scale(new int[]{0, 3 , 6, 9}),
+			AUGMENTED_CHORD = new Scale(new int[]{0, 4 , 8}),
+			QUARTAL_CHORD = new Scale(new int[]{0, 5 , 10}),
 			CHORD = new Scale(new int[]{0, 1 , 5}),
 			PEDAL = new Scale(new int[]{0}),
 

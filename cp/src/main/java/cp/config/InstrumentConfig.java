@@ -7,18 +7,18 @@ import cp.out.instrument.brass.Trumpet;
 import cp.out.instrument.brass.Tuba;
 import cp.out.instrument.keyboard.Celesta;
 import cp.out.instrument.keyboard.Piano;
+import cp.out.instrument.percussion.determinate.Glockenspiel;
 import cp.out.instrument.percussion.determinate.Marimba;
+import cp.out.instrument.percussion.determinate.Xylophone;
 import cp.out.instrument.plucked.Guitar;
+import cp.out.instrument.plucked.Harp;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.*;
 import cp.out.instrument.voice.Alto;
 import cp.out.instrument.voice.Bass;
 import cp.out.instrument.voice.Soprano;
 import cp.out.instrument.voice.Tenor;
-import cp.out.instrument.woodwinds.Bassoon;
-import cp.out.instrument.woodwinds.Clarinet;
-import cp.out.instrument.woodwinds.Flute;
-import cp.out.instrument.woodwinds.Oboe;
+import cp.out.instrument.woodwinds.*;
 import cp.out.orchestration.quality.OrchestralQuality;
 import cp.out.play.InstrumentMapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,10 +52,10 @@ public class InstrumentConfig {
 //        instruments.put(0,new InstrumentMapping(new ViolinSolo() , 3, 0));
 //        instruments = getPianoAndStrinqQuartet(pleasantGreen, mellowPurple, richBlue);
 //        instruments = getStrinqQuartet(mediumRange, mellowPurple, mediumRange);
-//        instruments = getFluteClarinetBassoon();
+        instruments = getWindQuartet();
 //        instruments = getBrassTrio();
 //        instruments = getBrassQuartet();
-//        instruments = getStrinqQuartet();
+//        instruments = getRhythmQuartet();
 //        instruments = getStrinqQuartetOrchestral();
 //        instruments = getTesttOrchestral();
 //        instruments = getStrinqQuintetOrchestral();
@@ -63,7 +63,7 @@ public class InstrumentConfig {
 //        instruments = getStrinqSextet();
 //        orchestra = getOrchestra();
 //        instruments = getWoodWindsDuo();
-        instruments = getStringTrio();
+//        instruments = getStringTrio();
 //        instruments = getStringDuo();
 //        instruments = getGuitarDuo();
 //        instruments = getInstrument(5, new Clarinet());
@@ -126,9 +126,25 @@ public class InstrumentConfig {
 
     public Map<Integer, InstrumentMapping> getStrinqQuartet() {
         instruments.put(3, new InstrumentMapping(new ViolinSolo(), 4, 0));
-        instruments.put(2, new InstrumentMapping(new ViolinSolo(), 3, 1));
+        instruments.put(2, new InstrumentMapping(new Flute(), 3, 1));
         instruments.put(1, new InstrumentMapping(new ViolaSolo(), 2, 2));
         instruments.put(0, new InstrumentMapping(new CelloSolo(), 1, 3));
+        return instruments;
+    }
+
+    public Map<Integer, InstrumentMapping> getRhythmQuartet() {
+        instruments.put(3, new InstrumentMapping(new Glockenspiel(), 4, 0));
+        instruments.put(2, new InstrumentMapping(new Flute(), 3, 1));
+        instruments.put(1, new InstrumentMapping(new Celesta(), 2, 2));
+        instruments.put(0, new InstrumentMapping(new DoubleBass(), 1, 3));
+        return instruments;
+    }
+
+    public Map<Integer, InstrumentMapping> getRhythmQuartet2() {
+        instruments.put(3, new InstrumentMapping(new Xylophone(), 4, 0));
+        instruments.put(2, new InstrumentMapping(new CorAnglais(), 3, 1));
+        instruments.put(1, new InstrumentMapping(new Harp(), 2, 2));
+        instruments.put(0, new InstrumentMapping(new Bassoon(), 1, 3));
         return instruments;
     }
 
@@ -247,10 +263,10 @@ public class InstrumentConfig {
 	}
 
 	public Map<Integer, InstrumentMapping> getWindQuartet(){
-        instruments.put(3,new InstrumentMapping(new Flute(), 4, 0));
-        instruments.put(2,new InstrumentMapping(new Oboe(), 3, 1));
+        instruments.put(2,new InstrumentMapping(new Flute(), 1, 0));
+//        instruments.put(2,new InstrumentMapping(new Oboe(), 3, 1));
         instruments.put(1,new InstrumentMapping(new Clarinet(), 2, 2));
-        instruments.put(0,new InstrumentMapping(new Bassoon(), 1, 3));
+        instruments.put(0,new InstrumentMapping(new Bassoon(), 4, 3));
 		return instruments;
 	}
 

@@ -13,13 +13,13 @@ import static cp.model.note.NoteBuilder.note;
 @Component
 public class OneNoteTriplet {
 
-	public List<Note> pos1(int beat) {
+	public List<Note> pos1(int beat, int pulse) {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).len(beat).build());
 		return notes;
 	}
 	
-	public List<Note> pos2(int beat) {
+	public List<Note> pos2(int beat, int pulse) {
 		List<Note> notes;
 		int noteLength = beat/3;
 		int noteLength2 = noteLength * 2;
@@ -45,7 +45,7 @@ public class OneNoteTriplet {
 		}
 	}
 	
-	public List<Note> pos3(int beat) {
+	public List<Note> pos3(int beat, int pulse) {
 		List<Note> notes;
 		int noteLength = beat/3;
 		int noteLength2 = noteLength * 2;
@@ -88,16 +88,16 @@ public class OneNoteTriplet {
 	
 	public static void main(String[] args) {
 		OneNoteTriplet oneNoteUneven = new OneNoteTriplet();
-		List<Note > notes = oneNoteUneven.pos1(DurationConstants.THREE_QUARTERS);
+		List<Note > notes = oneNoteUneven.pos1(DurationConstants.THREE_QUARTERS, DurationConstants.QUARTER);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 
-		notes = oneNoteUneven.pos1(DurationConstants.THREE_QUARTERS);
+		notes = oneNoteUneven.pos1(DurationConstants.THREE_QUARTERS, DurationConstants.QUARTER);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 
-		notes = oneNoteUneven.pos2(DurationConstants.HALF);
+		notes = oneNoteUneven.pos2(DurationConstants.HALF, DurationConstants.QUARTER);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 
-		notes = oneNoteUneven.pos3(DurationConstants.HALF);
+		notes = oneNoteUneven.pos3(DurationConstants.HALF, DurationConstants.QUARTER);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 	}
 

@@ -279,6 +279,10 @@ public class Texture {
                 case CH2_KLEINE_TERTS_CHR:
                 case CH2_GROTE_SIXT_CHR:
                 case CH2_KLEINE_SIXT_CHR:
+                case CH2_KWINT_CHR:
+                case CH2_KWART_CHR:
+                case CH2_KLEINE_SECONDE_CHR:
+                case CH2_GROTE_SECONDE_CHR:
                     interval = note.getDependantHarmony().getChordType().getInterval();
                     pitchClass = (note.getPitchClass() + interval) % 12;
                     break;

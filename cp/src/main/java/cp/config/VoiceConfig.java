@@ -38,6 +38,8 @@ public class VoiceConfig {
     private BalanceVoice2 balanceVoice2;
     @Autowired
     private BalanceVoice3 balanceVoice3;
+    @Autowired
+    private BalanceVoice4 balanceVoice4;
 
     private Map<Integer, Voice> voiceConfiguration = new TreeMap<>();
 
@@ -51,10 +53,10 @@ public class VoiceConfig {
 
     @PostConstruct
     public void initVoiceConfig(){
-        voiceConfiguration.put(0, balanceVoice3);
-        voiceConfiguration.put(1, harmonyVoice);
-        voiceConfiguration.put(2, melodyVoice);
-        voiceConfiguration.put(3, melodyVoice);
+        voiceConfiguration.put(0, homophonicVoice);
+        voiceConfiguration.put(1, homophonicVoice);
+        voiceConfiguration.put(2, homophonicVoice);
+        voiceConfiguration.put(3, homophonicVoice);
         voiceConfiguration.put(4, homophonicVoice);
         voiceConfiguration.put(5, melodyVoice);
 

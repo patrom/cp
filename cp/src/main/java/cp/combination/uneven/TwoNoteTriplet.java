@@ -14,7 +14,7 @@ import static cp.model.note.NoteBuilder.note;
 @Component
 public class TwoNoteTriplet {
 	
-	public List<Note> pos13(int beat) {
+	public List<Note> pos13(int beat, int pulse) {
 		List<Note> notes;
 		int noteLength = beat/3;
 		int noteLength2 = noteLength * 2;
@@ -40,7 +40,7 @@ public class TwoNoteTriplet {
 		}
 	}
 	
-	public List<Note> pos12(int beat) {
+	public List<Note> pos12(int beat, int pulse) {
 		List<Note> notes;
 		int noteLength = beat/3;
 		int noteLength2 = noteLength * 2;
@@ -66,7 +66,7 @@ public class TwoNoteTriplet {
 		}
 	}
 	
-	public List<Note> pos23(int beat) {
+	public List<Note> pos23(int beat, int pulse) {
 		List<Note> notes;
 		int noteLength = beat/3;
 		int noteLength2 = noteLength * 2;
@@ -141,11 +141,11 @@ public class TwoNoteTriplet {
 	
 	public static void main(String[] args) {
 		TwoNoteTriplet twoNoteUneven = new TwoNoteTriplet();
-		List<Note > notes = twoNoteUneven.pos13(DurationConstants.SIX_EIGHTS);
+		List<Note > notes = twoNoteUneven.pos13(DurationConstants.SIX_EIGHTS, DurationConstants.QUARTER);
 //		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength() + ","  + n.isRest()));
-		notes = twoNoteUneven.pos23(DurationConstants.THREE_QUARTERS);
+		notes = twoNoteUneven.pos23(DurationConstants.THREE_QUARTERS, DurationConstants.QUARTER);
 //		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength() + ","  + n.isRest()));
-		notes = twoNoteUneven.pos23(DurationConstants.THREE_QUARTERS);
+		notes = twoNoteUneven.pos23(DurationConstants.THREE_QUARTERS, DurationConstants.QUARTER);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength() + ","  + n.isRest()));
 	}
 }

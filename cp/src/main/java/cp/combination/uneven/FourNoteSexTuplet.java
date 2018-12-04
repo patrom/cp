@@ -13,7 +13,7 @@ import static cp.model.note.NoteBuilder.note;
 @Component
 public class FourNoteSexTuplet {
 
-	public List<Note> pos1456(int beat) {
+	public List<Note> pos1456(int beat, int pulse) {
 		List<Note> notes;
 		int noteLength = beat/6;
 		int length3 = noteLength * 3;
@@ -34,7 +34,7 @@ public class FourNoteSexTuplet {
 		}
 	}
 	
-	public List<Note> pos1345(int beat) {
+	public List<Note> pos1345(int beat, int pulse) {
 		List<Note> notes;
 		int noteLength = beat/6;
 		int length2 = noteLength * 2;
@@ -57,7 +57,7 @@ public class FourNoteSexTuplet {
 		}
 	}
 
-	public List<Note> pos1346(int beat) {
+	public List<Note> pos1346(int beat, int pulse) {
 		List<Note> notes;
 		int noteLength = beat/6;
 		int length2 = noteLength * 2;
@@ -80,7 +80,7 @@ public class FourNoteSexTuplet {
 		}
 	}
 	
-	public List<Note> pos1356(int beat) {
+	public List<Note> pos1356(int beat, int pulse) {
 		List<Note> notes;
 		int noteLength = beat/6;
 		int length2 = noteLength * 2;
@@ -103,7 +103,7 @@ public class FourNoteSexTuplet {
 		}
 	}
 
-	public List<Note> pos1245(int beat) {
+	public List<Note> pos1245(int beat, int pulse) {
 		List<Note> notes;
 		int noteLength = beat/6;
 		int length2 = noteLength * 2;
@@ -122,7 +122,7 @@ public class FourNoteSexTuplet {
 		}
 	}
 
-	public List<Note> pos1234(int beat) {
+	public List<Note> pos1234(int beat, int pulse) {
 		List<Note> notes;
 		int noteLength = beat/6;
 		int length3 = noteLength * 3;
@@ -162,13 +162,13 @@ public class FourNoteSexTuplet {
 	
 	public static void main(String[] args) {
 		FourNoteSexTuplet fourNoteSexTuplet = new FourNoteSexTuplet();
-		List<Note > notes = fourNoteSexTuplet.pos1234(DurationConstants.QUARTER);
+		List<Note > notes = fourNoteSexTuplet.pos1234(DurationConstants.QUARTER, DurationConstants.QUARTER);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 
-		 notes = fourNoteSexTuplet.pos1346(DurationConstants.SIX_EIGHTS);
+		 notes = fourNoteSexTuplet.pos1346(DurationConstants.SIX_EIGHTS, DurationConstants.QUARTER);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 		
-		notes = fourNoteSexTuplet.pos1356(DurationConstants.SIX_EIGHTS);
+		notes = fourNoteSexTuplet.pos1356(DurationConstants.SIX_EIGHTS, DurationConstants.QUARTER);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 	}
 }

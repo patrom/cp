@@ -22,8 +22,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
-
 /**
  * Created by prombouts on 22/11/2016.
  */
@@ -97,29 +95,37 @@ public abstract class Voice {
     protected void setTimeconfig(){
         if (numerator == 4 && denominator == 4) {
             timeConfig = time44;
+            allBeatgroups.forEach(beatGroup -> beatGroup.setPulse(DurationConstants.QUARTER));
 //            allBeatgroups = allBeatgroups.stream().filter(beatGroup -> beatGroup.getType() == 1
 //                    || beatGroup.getType() == 2 || beatGroup.getType() == 4).collect(toList());
         } else if (numerator == 3 && denominator == 4) {
             timeConfig = time34;
-            allBeatgroups = allBeatgroups.stream().filter(beatGroup -> beatGroup.getType() == 3).collect(toList());
+            allBeatgroups.forEach(beatGroup -> beatGroup.setPulse(DurationConstants.QUARTER));
+//            allBeatgroups = allBeatgroups.stream().filter(beatGroup -> beatGroup.getType() == 3).collect(toList());
         } else if (numerator == 6 && denominator == 8) {
             timeConfig = time68;
+            allBeatgroups.forEach(beatGroup -> beatGroup.setPulse(DurationConstants.EIGHT));
 //            allBeatgroups = allBeatgroups.stream().filter(beatGroup -> beatGroup.getType() == 3).collect(toList());
         } else if (numerator == 9 && denominator == 8) {
             timeConfig = time98;
-            allBeatgroups = allBeatgroups.stream().filter(beatGroup -> beatGroup.getType() == 3).collect(toList());
+            allBeatgroups.forEach(beatGroup -> beatGroup.setPulse(DurationConstants.EIGHT));
+//            allBeatgroups = allBeatgroups.stream().filter(beatGroup -> beatGroup.getType() == 3).collect(toList());
         }else if (numerator == 12 && denominator == 8) {
             timeConfig = time128;
-            allBeatgroups = allBeatgroups.stream().filter(beatGroup -> beatGroup.getType() == 3).collect(toList());
+            allBeatgroups.forEach(beatGroup -> beatGroup.setPulse(DurationConstants.EIGHT));
+//            allBeatgroups = allBeatgroups.stream().filter(beatGroup -> beatGroup.getType() == 3).collect(toList());
         } else if (numerator == 5 && denominator == 8) {
             timeConfig = time58;
             allBeatgroups = Arrays.asList(beatgroups.beatGroupTwo, beatgroups.beatGroupThree);
+            allBeatgroups.forEach(beatGroup -> beatGroup.setPulse(DurationConstants.EIGHT));
         } else if (numerator == 5 && denominator == 4) {
             timeConfig = time58;
             allBeatgroups = Arrays.asList(beatgroups.beatGroupTwo, beatgroups.beatGroupThree);
+            allBeatgroups.forEach(beatGroup -> beatGroup.setPulse(DurationConstants.QUARTER));
         } else if (numerator == 2 && denominator == 4) {
             timeConfig = time24;
-            allBeatgroups = allBeatgroups.stream().filter(beatGroup -> beatGroup.getType() == 2).collect(toList());
+            allBeatgroups.forEach(beatGroup -> beatGroup.setPulse(DurationConstants.QUARTER));
+//            allBeatgroups = allBeatgroups.stream().filter(beatGroup -> beatGroup.getType() == 2).collect(toList());
         }
 
         mutationTypes = Collections.singletonList(MutationType.ALL);

@@ -68,6 +68,7 @@ public class FitnessEvaluationTemplate {
 
 	public FitnessObjectiveValues evaluate(Motive motive) {
 		List<MelodyBlock> melodies = motive.getMelodyBlocks();
+//        melodies.stream().flatMap(melodyBlock -> melodyBlock.getMelodyBlocks().stream()).forEach(cpMelody -> cpMelody.updateContourAscending());
 
 		List<MelodyBlock> melodiesToCalculate = melodies.stream().filter(m -> m.isCalculable() && !m.getMelodyBlockNotes().isEmpty()).collect(toList());
 		updatePitchesFromContour(melodies);

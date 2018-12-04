@@ -4,15 +4,14 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
-
 @Component
-public class BalanceVoice1 extends Voice {
+public class BalanceVoice4 extends Voice {
 
     @PostConstruct
     public void init() {
         setTimeconfig();
         allBeatgroups = Arrays.asList(
-                beatgroups.beatGroupBalance30_5gon
+                beatgroups.beatGroupBalance30
         );
     }
 }

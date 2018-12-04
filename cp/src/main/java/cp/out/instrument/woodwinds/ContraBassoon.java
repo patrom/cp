@@ -1,5 +1,6 @@
 package cp.out.instrument.woodwinds;
 
+import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
@@ -12,7 +13,7 @@ public class ContraBassoon extends Instrument{
 		order = 9;
 		setLowest(22);
 		setHighest(54);
-//		setGeneralMidi(GeneralMidi.BASSOON);
+		setGeneralMidi(GeneralMidi.BASSOON);
 		
 		setInstrumentName(InstrumentName.CONTRABASSOON.getName());
 		setInstrumentSound("wind.reed.contrabassoon");

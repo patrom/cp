@@ -14,28 +14,61 @@ public class SymmetryDissonance implements Dissonance{
             case 2:
                 return 0;
             case 3:
-                return trichordal(harmony.getChord());
+//                return trichordal(harmony.getChord());
+                return 0;
             case 4:
-                return tetrachordal(harmony.getChord());
-//            case 5:
-//                return pentaChordal(chord);
+//                return tetrachordal(harmony.getChord());
+                return 0;
+            case 5:
+                return pentaChordal(harmony.getChord());
+            case 6:
+                return hexaChordal(harmony.getChord());
         }
         return 0;
     }
 
     private double pentaChordal(Chord chord) {
         switch (chord.getForteName()) {
-//            case "5-27":
-//                return 0.99;
-//            case "5-31":
-//                return 0.99;
+            case "5-33":
+                return 1.0;
 //            case "5-34":
-//                return 0.99;
-//            case "5-35":
-//                return 0.99;
+//                return 1.0;
+            case "5-35":
+                return 1.0;
+//            case "5-37":
+//                return 1.0;
         }
         return 0;
     }
+
+    private double hexaChordal(Chord chord) {
+        switch (chord.getForteName()) {
+//            case "6-20":
+//                return 1.0;
+//            case "6-26":
+//                return 1.0;
+//            case "6-32":
+//                return 1.0;
+//            case "6-35":
+//                return 1.0;
+//            case "6-38":
+//                return 1.0;
+//            case "6-42":
+//                return 1.0;
+            case "6-7":
+                return 1.0;
+            case "6-23":
+                return 1.0;
+            case "6-26":
+                return 1.0;
+            case "6-35":
+                return 1.0;
+            case "6-49":
+                return 1.0;
+        }
+        return 0;
+    }
+
 
     private double tetrachordal(Chord chord) {
         switch (chord.getForteName()) {

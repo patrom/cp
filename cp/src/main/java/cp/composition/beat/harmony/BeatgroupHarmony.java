@@ -22,8 +22,8 @@ import static java.util.stream.Collectors.toList;
 
 public class BeatgroupHarmony extends BeatGroup {
 
-    public BeatgroupHarmony(int type, Map<Integer, List<RhythmCombination>> rhythmCombinationMap, List<PitchClassGenerator> pitchClassGenerators) {
-        super(type, rhythmCombinationMap, pitchClassGenerators);
+    public BeatgroupHarmony(int length, Map<Integer, List<RhythmCombination>> rhythmCombinationMap, List<PitchClassGenerator> pitchClassGenerators) {
+        super(length, rhythmCombinationMap, pitchClassGenerators);
     }
 
     public List<Note> getRhythmNotesForBeatgroupType(int size){
@@ -40,7 +40,7 @@ public class BeatgroupHarmony extends BeatGroup {
         Integer key = (Integer) keys[new Random().nextInt(keys.length)];
         List<RhythmCombination> rhythmCombinations = rhythmCombinationMap.get(key);
         RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
-        return new NoteSizeValueObject(key, rhythmCombination);
+        return new NoteSizeValueObject(key, rhythmCombination.getNotes(this.length, this.pulse));
     }
 
     @PostConstruct

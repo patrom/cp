@@ -27,7 +27,7 @@ public class LowRange extends  OrchestralQuality {
 //                new ClarinetEFlat(new InstrumentRegister(55, 71)),
 //                new Clarinet(new InstrumentRegister(67, 77)),
 //                new BassClarinet(new InstrumentRegister(55, 82)),
-                new Bassoon(range),
+                new Bassoon( new InstrumentRegister(36, 60)),
 
 //                new Viola(new InstrumentRegister(62, 74)),
 //                new Cello(new InstrumentRegister(50, 61)),

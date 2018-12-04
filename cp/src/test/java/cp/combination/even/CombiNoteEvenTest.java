@@ -26,7 +26,7 @@ public class CombiNoteEvenTest {
 
     @Test
     public void combiHalf() {
-        List<Note> combi = combiNoteEven.combiHalf(rhythmCombinations.twoNoteEven::pos12, rhythmCombinations.threeNoteEven::pos234, DurationConstants.WHOLE);
+        List<Note> combi = combiNoteEven.combiHalf(rhythmCombinations.twoNoteEven::pos12, rhythmCombinations.threeNoteEven::pos234, DurationConstants.WHOLE, DurationConstants.EIGHT);
 //        List<Note> combi = combiNoteUneven.apply(f, g, DurationConstants.QUARTER);
         combi.forEach(note -> System.out.println(note.getPosition() + ", " + note.isRest()));
     }
@@ -34,19 +34,19 @@ public class CombiNoteEvenTest {
 
     @Test
     public void custom() {
-        List<Note > notes = combiNoteEven.custom(DurationConstants.HALF);
+        List<Note > notes = combiNoteEven.custom(DurationConstants.HALF, DurationConstants.EIGHT);
         notes.forEach(note -> System.out.println(note.getPosition() + ", " + note.getLength()));
     }
 
     @Test
     public void customRandom() {
-        List<Note > notes = combiNoteEven.customRandom(DurationConstants.HALF);
+        List<Note > notes = combiNoteEven.customRandom(DurationConstants.HALF, DurationConstants.EIGHT);
         notes.forEach(note -> System.out.println(note.getPosition() + ", " + note.getLength()));
     }
 
     @Test
     public void quintupletpos12345pos1() {
-        List<Note > notes = combiNoteEven.quintupletpos12345pos1(DurationConstants.WHOLE);
+        List<Note > notes = combiNoteEven.quintupletpos12345pos1(DurationConstants.WHOLE, DurationConstants.EIGHT);
         notes.forEach(note -> System.out.println(note.getPosition() + ", " + note.getLength()));
     }
 }

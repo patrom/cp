@@ -44,5 +44,7 @@ public class RhythmCombinations {
     public CombiNoteEven combiNoteEven;
     @Autowired
     public BalancedPattern balancedPattern;
+    @Autowired
+    public RandomCombination randomCombination;
 
 }

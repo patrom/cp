@@ -2,6 +2,7 @@ package cp.out.orchestration;
 
 import cp.combination.RhythmCombination;
 import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Articulation;
 import cp.out.orchestration.notetemplate.NoteTemplate;
 
@@ -35,7 +36,7 @@ public class ChordOrchestration {
 		List<Note> rhythmNotes = new ArrayList<>();
 		int length = start;
 		while (length < end) {
-			List<Note> rNotes = rhythmCombination.getNotes(beat);
+			List<Note> rNotes = rhythmCombination.getNotes(beat, DurationConstants.QUARTER);
 			for (Note note : rNotes) {
 				note.setPosition(note.getPosition() + length);
 				rhythmNotes.add(note);

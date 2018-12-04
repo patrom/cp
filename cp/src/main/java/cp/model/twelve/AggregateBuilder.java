@@ -4,6 +4,7 @@ import cp.combination.RhythmCombination;
 import cp.model.harmony.ChordType;
 import cp.model.harmony.DependantHarmony;
 import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
 import cp.util.RandomUtil;
 
 import java.util.*;
@@ -40,7 +41,7 @@ public abstract class AggregateBuilder {
         Collections.shuffle(beats);
         for (Integer duration : beats) {
             RhythmCombination rhythmCombination = RandomUtil.getRandomFromArray(rhythmCombinations);
-            List<Note> notes = rhythmCombination.getNotes(duration);
+            List<Note> notes = rhythmCombination.getNotes(duration, DurationConstants.EIGHT);
             for (Note note : notes) {
                 note.setPosition(start + note.getPosition() + length);
                 note.setVoice(voice);

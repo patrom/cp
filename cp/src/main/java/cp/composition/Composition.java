@@ -174,7 +174,7 @@ public abstract class Composition {
 	@PostConstruct
 	public void init(){
 		composeInKey(keys.C);
-		inTempo(105);
+		inTempo(60);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
 		meterObjective.setComposition(this);
@@ -188,7 +188,7 @@ public abstract class Composition {
 //		instruments = ensemble.getStringQuartet();
 
 		setTimeconfig();
-		end = 5 * getTimeConfig().getMeasureDuration();
+		end = 2 * getTimeConfig().getMeasureDuration();
 		timeLine.setEnd(end);
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
@@ -210,23 +210,23 @@ public abstract class Composition {
 
         //2. or add timeline key per voice
         List<TimeLineKey> timeLineKeysForVoice0 = new ArrayList<>();
-        timeLineKeysForVoice0.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
-        timeLineKeysForVoice0.add(new TimeLineKey(keys.C, Scale.OCTATCONIC_WHOLE, 0 ,0));
+        timeLineKeysForVoice0.add(new TimeLineKey(keys.C, Scale.CHROMATIC_SCALE, 0 ,0));
+//        timeLineKeysForVoice0.add(new TimeLineKey(keys.C, Scale.OCTATCONIC_WHOLE, 0 ,0));
         timeLine.randomKeysAndDurationsForVoice(0, timeLineKeysForVoice0, durations);
 
         List<TimeLineKey> timeLineKeysForVoice1 = new ArrayList<>();
-        timeLineKeysForVoice1.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
-        timeLineKeysForVoice1.add(new TimeLineKey(keys.C, Scale.OCTATCONIC_WHOLE, 0 ,0));
+        timeLineKeysForVoice1.add(new TimeLineKey(keys.C, Scale.CHROMATIC_SCALE, 0 ,0));
+//        timeLineKeysForVoice1.add(new TimeLineKey(keys.C, Scale.OCTATCONIC_WHOLE, 0 ,0));
         timeLine.randomKeysAndDurationsForVoice(1, timeLineKeysForVoice1, durations);
 
         List<TimeLineKey> timeLineKeysForVoice2 = new ArrayList<>();
-        timeLineKeysForVoice2.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
-        timeLineKeysForVoice2.add(new TimeLineKey(keys.C, Scale.OCTATCONIC_WHOLE, 0 ,0));
+        timeLineKeysForVoice2.add(new TimeLineKey(keys.C, Scale.CHROMATIC_SCALE, 0 ,0));
+//        timeLineKeysForVoice2.add(new TimeLineKey(keys.C, Scale.OCTATCONIC_WHOLE, 0 ,0));
         timeLine.randomKeysAndDurationsForVoice(2, timeLineKeysForVoice2, durations);
 
         List<TimeLineKey> timeLineKeysForVoice3 = new ArrayList<>();
-        timeLineKeysForVoice3.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
-        timeLineKeysForVoice3.add(new TimeLineKey(keys.C, Scale.OCTATCONIC_WHOLE, 0 ,0));
+        timeLineKeysForVoice3.add(new TimeLineKey(keys.C, Scale.CHROMATIC_SCALE, 0 ,0));
+//        timeLineKeysForVoice3.add(new TimeLineKey(keys.C, Scale.OCTATCONIC_WHOLE, 0 ,0));
         timeLine.randomKeysAndDurationsForVoice(3, timeLineKeysForVoice3, durations);
 
 
@@ -325,7 +325,8 @@ public abstract class Composition {
 ////		webern3.add(new TimeLineKey(C, Scale.WEBERN_TRICHORD_1, 2 * DurationConstants.WHOLE, end));
 //		timeLine.addKeysForVoice(webern3, 2);
 
-		harmonicObjective.setDissonance(tonalDissonance::getDissonance);
+//		harmonicObjective.setDissonance(tonalDissonance::getDissonance);
+		harmonicObjective.setDissonance(symmetryDissonance::getDissonance);
 //		harmonicObjective.setDissonance(additiveDissonance::getDissonance);
 		harmonicResolutionObjective.setDissonantResolution(dissonantResolutionImpl::isDissonant);
 

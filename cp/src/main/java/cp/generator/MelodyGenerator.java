@@ -194,7 +194,7 @@ public class MelodyGenerator {
 
 	public CpMelody generateMelodyConfig(int voice, int start, BeatGroup beatGroup, Voice voiceConfig, Timbre timbre) {
 		NoteSizeValueObject valueObject = beatGroup.getRandomRhythmNotesForBeatgroupType();
-		List<Note> melodyNotes = valueObject.getRhythmCombination().getNotes(beatGroup.getBeatLength());
+		List<Note> melodyNotes = valueObject.getNotes();
 
 
 
@@ -258,7 +258,7 @@ public class MelodyGenerator {
 		int end = start + beatGroup.getBeatLength();
 		while (end <= stop) {
 			NoteSizeValueObject valueObject = beatGroup.getRandomRhythmNotesForBeatgroupType();
-			List<Note> melodyNotes = valueObject.getRhythmCombination().getNotes(beatGroup.getBeatLength());
+			List<Note> melodyNotes = valueObject.getNotes();
 			CpMelody melody = generateMelodyConfigWithoutPitchClassGenerator(voice, start, beatGroup, melodyNotes, accompGroup.getVoice().getMutationTypes());
 			melody.setNotesSize(valueObject.getKey());
 			melody.setContour(accompGroup.getContour());

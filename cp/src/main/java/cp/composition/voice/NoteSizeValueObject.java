@@ -1,6 +1,8 @@
 package cp.composition.voice;
 
-import cp.combination.RhythmCombination;
+import cp.model.note.Note;
+
+import java.util.List;
 
 /**
  * Created by prombouts on 12/06/2017.
@@ -8,19 +10,19 @@ import cp.combination.RhythmCombination;
 public class NoteSizeValueObject {
 
     private Integer key;
-    private  RhythmCombination rhythmCombination;
+    private List<Note> notes;
 
-    public NoteSizeValueObject(Integer key, RhythmCombination rhythmCombination) {
+    public NoteSizeValueObject(Integer key, List<Note> notes) {
         this.key = key;
-        this.rhythmCombination = rhythmCombination;
+        this.notes = notes;
     }
 
     public Integer getKey() {
         return key;
     }
 
-    public RhythmCombination getRhythmCombination() {
-        return rhythmCombination;
+    public List<Note> getNotes() {
+        return notes;
     }
 
 }

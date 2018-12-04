@@ -14,7 +14,7 @@ import static cp.model.note.NoteBuilder.note;
 @Component
 public class ThreeNoteTriplet {
 
-	public List<Note> pos123(int beat) {
+	public List<Note> pos123(int beat, int pulse) {
 		List<Note> notes;
 		switch (beat) {
 			case DurationConstants.QUARTER:
@@ -75,7 +75,7 @@ public class ThreeNoteTriplet {
 	
 	public static void main(String[] args) {
 		ThreeNoteTriplet threeNoteUneven = new ThreeNoteTriplet();
-		List<Note > notes = threeNoteUneven.pos123(12);
+		List<Note > notes = threeNoteUneven.pos123(12, DurationConstants.QUARTER);
 		notes.forEach(n -> System.out.println(n.getPosition() + ", " + n.getLength()));
 	}
 }

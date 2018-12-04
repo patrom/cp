@@ -107,12 +107,20 @@ public class CpMelody implements Comparable<CpMelody>{
 		return melody;
 	}
 	
-	private void updateContour() {
-		List<Note> notesNoRest = getNotesNoRest();
-		for (int i = 0; i < notesNoRest.size(); i++) {
-			contour.add(RandomUtil.randomAscendingOrDescending());
-		}
+	public void updateContour() {
+        this.contour.clear();
+        notes.stream().filter(n -> !n.isRest()).forEach(note -> contour.add(RandomUtil.randomAscendingOrDescending()));
 	}
+
+    public void updateContourAscending() {
+        this.contour.clear();
+        notes.stream().filter(n -> !n.isRest()).forEach(note -> contour.add(1));
+    }
+
+    public void updateContourDescending() {
+        this.contour.clear();
+        notes.stream().filter(n -> !n.isRest()).forEach(note -> contour.add(-1));
+    }
 
 	public void updateRandomNote(TimeLine timeline) {
 		List<Note> notesNoRest = getNotesNoRest();
@@ -157,32 +165,26 @@ public class CpMelody implements Comparable<CpMelody>{
 		}
 	}
 	
-	protected void removeContour(int index, int direction){
-		contour.remove(index);
-		if (index > 0) {
-			contour.set(index - 1, direction);
-		}
-	}
-
-	protected void insertContourDirections(int index){
-		contour.add(index, RandomUtil.randomAscendingOrDescending());
-		updatePreviousContour(index, RandomUtil.randomAscendingOrDescending());
-	}
-
-	public void removeNote() {
-		List<Note> notesNoRest = getNotesNoRest();
-		int size = notesNoRest.size();
-		if (size > 1) {
-			int index = RandomUtil.randomInt(0, size);
-			notesNoRest.remove(index);
-			removeContour(index, RandomUtil.randomAscendingOrDescending());
-			LOGGER.info("rhythm note removed");
-		}
-	}
+//	protected void removeContour(int index, int direction){
+//		contour.remove(index);
+//		if (index > 0) {
+//			contour.set(index - 1, direction);
+//		}
+//	}
+//
+//	public void removeNote() {
+//		List<Note> notesNoRest = getNotesNoRest();
+//		int size = notesNoRest.size();
+//		if (size > 1) {
+//			int index = RandomUtil.randomInt(0, size);
+//			notesNoRest.remove(index);
+//			removeContour(index, RandomUtil.randomAscendingOrDescending());
+//			LOGGER.info("rhythm note removed");
+//		}
+//	}
 	
 	public void updateNotes(List<Note> melodyNotes) {
 		this.notes = melodyNotes;
-		this.contour.clear();
 		updateContour();
 	}
 
