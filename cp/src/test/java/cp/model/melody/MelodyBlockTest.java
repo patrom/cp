@@ -2,8 +2,8 @@ package cp.model.melody;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
-import cp.composition.beat.BeatGroupConfig;
 import cp.composition.beat.melody.BeatGroupMelody;
+import cp.config.BeatGroupConfig;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.note.Note;
@@ -138,7 +138,7 @@ public class MelodyBlockTest {
 		instrument.setLowest(60);
 		instrument.setHighest(80);
 		melodyBlock.addMelodyBlock(melody);
-		instrument.updateMelodyInRange(melodyBlock.getMelodyBlockNotes());
+		instrument.updateNotesInRange(melodyBlock.getMelodyBlockNotes());
 		assertEquals(60, notes.get(0).getPitch());
 		assertEquals(71, notes.get(1).getPitch());
 		assertEquals(77, notes.get(2).getPitch());

@@ -2,7 +2,7 @@ package cp.generator.provider;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
-import cp.composition.beat.BeatGroupConfig;
+import cp.config.BeatGroupConfig;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

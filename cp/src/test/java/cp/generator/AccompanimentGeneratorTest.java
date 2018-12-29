@@ -3,7 +3,7 @@ package cp.generator;
 import cp.AbstractTest;
 import cp.DefaultConfig;
 import cp.VariationConfig;
-import cp.composition.beat.BeatGroupConfig;
+import cp.config.BeatGroupConfig;
 import cp.midi.MelodyInstrument;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;

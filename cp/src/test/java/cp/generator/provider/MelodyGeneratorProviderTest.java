@@ -2,7 +2,7 @@ package cp.generator.provider;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
-import cp.composition.beat.BeatGroupConfig;
+import cp.config.BeatGroupConfig;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.melody.CpMelody;

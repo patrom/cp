@@ -1,10 +1,7 @@
 package cp.config;
 
 import cp.out.instrument.Instrument;
-import cp.out.instrument.brass.FrenchHorn;
-import cp.out.instrument.brass.Trombone;
-import cp.out.instrument.brass.Trumpet;
-import cp.out.instrument.brass.Tuba;
+import cp.out.instrument.brass.*;
 import cp.out.instrument.keyboard.Celesta;
 import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.percussion.determinate.Glockenspiel;
@@ -37,8 +34,6 @@ public class InstrumentConfig {
     private ColorQualityConfig colorQualityConfig;
 
     private Map<Integer, InstrumentMapping> instruments = new TreeMap<>();
-    private List<InstrumentMapping> orchestra = new ArrayList<>();
-//    private List<InstrumentMapping> allInstrumentMappings = new ArrayList<>();
 
     @PostConstruct
     public void instrumentInit(){
@@ -52,11 +47,13 @@ public class InstrumentConfig {
 //        instruments.put(0,new InstrumentMapping(new ViolinSolo() , 3, 0));
 //        instruments = getPianoAndStrinqQuartet(pleasantGreen, mellowPurple, richBlue);
 //        instruments = getStrinqQuartet(mediumRange, mellowPurple, mediumRange);
-        instruments = getWindQuartet();
+//        instruments = getOrchestra();
+//        instruments = getWoodWind_Horn_mutedBrass();
+//        instruments = getWindQuartet();
 //        instruments = getBrassTrio();
 //        instruments = getBrassQuartet();
 //        instruments = getRhythmQuartet();
-//        instruments = getStrinqQuartetOrchestral();
+        instruments = getStrinqQuartetOrchestral();
 //        instruments = getTesttOrchestral();
 //        instruments = getStrinqQuintetOrchestral();
 //        instruments = getBrassQuintet();
@@ -67,12 +64,6 @@ public class InstrumentConfig {
 //        instruments = getStringDuo();
 //        instruments = getGuitarDuo();
 //        instruments = getInstrument(5, new Clarinet());
-//        instruments.put(0,new InstrumentMapping(new ViolinSolo() , 3, 0));
-//        for (InstrumentMapping instrumentMapping : instruments.values()) {
-//            allInstrumentMappings.add(instrumentMapping);
-//            allInstrumentMappings.addAll(instrumentMapping.getDependantInstruments());
-//        }
-//        Collections.sort(allInstrumentMappings);
     }
 
     private Map<Integer, InstrumentMapping> getWoodWindsDuo(){
@@ -263,9 +254,9 @@ public class InstrumentConfig {
 	}
 
 	public Map<Integer, InstrumentMapping> getWindQuartet(){
-        instruments.put(2,new InstrumentMapping(new Flute(), 1, 0));
-//        instruments.put(2,new InstrumentMapping(new Oboe(), 3, 1));
-        instruments.put(1,new InstrumentMapping(new Clarinet(), 2, 2));
+        instruments.put(3,new InstrumentMapping(new Flute(), 1, 0));
+        instruments.put(2,new InstrumentMapping(new Oboe(), 2, 1));
+        instruments.put(1,new InstrumentMapping(new Clarinet(), 3, 2));
         instruments.put(0,new InstrumentMapping(new Bassoon(), 4, 3));
 		return instruments;
 	}
@@ -286,45 +277,63 @@ public class InstrumentConfig {
         instruments.put(0,new InstrumentMapping(new Piano(), 4, 4));
         return instruments;
 	}
-	private List<InstrumentMapping> getOrchestra(){
-//        orchestra.add(new InstrumentMapping(new Piccolo(), 2, 0));
-        orchestra.add(new InstrumentMapping(new Flute(), 1, 0));
-//        orchestra.add(new InstrumentMapping(new AltoFlute(), 2, 2));
-        orchestra.add(new InstrumentMapping(new Oboe(), 2, 1));
-//        orchestra.add(new InstrumentMapping(new CorAnglais(), 2, 4));
-//        orchestra.add(new InstrumentMapping(new ClarinetEFlat(), 2, 5));
-        orchestra.add(new InstrumentMapping(new Clarinet(), 3, 2));
-//        orchestra.add(new InstrumentMapping(new BassClarinet(), 2, 7));
-        orchestra.add(new InstrumentMapping(new Bassoon(), 4, 3));
-//        orchestra.add(new InstrumentMapping(new ContraBassoon(), 2, 9));
 
-        orchestra.add(new InstrumentMapping(new FrenchHorn(), 5, 4));
-        orchestra.add(new InstrumentMapping(new Trumpet(), 6, 5));
-        orchestra.add(new InstrumentMapping(new Trombone(), 7, 6));
-//        orchestra.add(new InstrumentMapping(new BassTrombone(), 2, 7));
-//        orchestra.add(new InstrumentMapping(new Tuba(), 2, 14));
+	private Map<Integer, InstrumentMapping> getOrchestra(){
+        List<InstrumentMapping> orchestra = new ArrayList<>();
+        orchestra.add(new InstrumentMapping(new Piccolo(), 1, 1));
+        orchestra.add(new InstrumentMapping(new Flute(), 2, 2));
+        orchestra.add(new InstrumentMapping(new Oboe(), 3, 3));
+        orchestra.add(new InstrumentMapping(new CorAnglais(), 4, 4));
+        orchestra.add(new InstrumentMapping(new Clarinet(), 5, 5));
+        orchestra.add(new InstrumentMapping(new BassClarinet(), 6, 6));
+        orchestra.add(new InstrumentMapping(new Bassoon(), 7, 7));
+        orchestra.add(new InstrumentMapping(new ContraBassoon(), 8, 8));
 
-        orchestra.add(new InstrumentMapping(new ViolinsI(), 8, 7));
-        orchestra.add(new InstrumentMapping(new ViolinsII(), 9, 8));
-        orchestra.add(new InstrumentMapping(new Viola(), 10, 9));
-        orchestra.add(new InstrumentMapping(new Cello(), 11, 10));
-        orchestra.add(new InstrumentMapping(new DoubleBass(), 12, 11));
-        return  orchestra;
-    }
+        orchestra.add(new InstrumentMapping(new FrenchHorn(), 9, 9));
+        orchestra.add(new InstrumentMapping(new Trumpet(), 10, 10));
+        orchestra.add(new InstrumentMapping(new Trombone(), 11, 11));
+        orchestra.add(new InstrumentMapping(new Tuba(), 12, 12));
 
-    public List<Instrument> getOrchestraInstuments(){
-	    List<Instrument> instrumentList = new ArrayList<>();
+        orchestra.add(new InstrumentMapping(new ViolinsI(), 13, 13));
+        orchestra.add(new InstrumentMapping(new Viola(), 14, 14));
+        orchestra.add(new InstrumentMapping(new Cello(), 15, 15));
+        orchestra.add(new InstrumentMapping(new DoubleBass(), 16, 16));
+        int voice = orchestra.size() - 1;
         for (InstrumentMapping instrumentMapping : orchestra) {
-            instrumentList.add(instrumentMapping.getInstrument());
+            instruments.put(voice, instrumentMapping);
+            voice--;
         }
-        return instrumentList;
+        return  instruments;
     }
 
-    public List<InstrumentMapping> getOrderedInstrumentMappings(){
-        List<InstrumentMapping> instrumentMappings = new ArrayList<>(instruments.values());
-        Collections.sort(instrumentMappings);
-        return instrumentMappings;
+    private Map<Integer, InstrumentMapping> getWoodWind_Horn_mutedBrass(){
+        List<InstrumentMapping> orchestra = new ArrayList<>();
+        orchestra.add(new InstrumentMapping(new Piccolo(), 1, 1));
+        orchestra.add(new InstrumentMapping(new Flute(), 2, 2));
+        orchestra.add(new InstrumentMapping(new AltoFlute(), 3, 3));
+        orchestra.add(new InstrumentMapping(new Oboe(), 4, 4));
+        orchestra.add(new InstrumentMapping(new CorAnglais(), 5, 5));
+        orchestra.add(new InstrumentMapping(new ClarinetEFlat(), 6, 6));
+        orchestra.add(new InstrumentMapping(new Clarinet(), 7, 7));
+        orchestra.add(new InstrumentMapping(new BassClarinet(), 8, 8));
+        orchestra.add(new InstrumentMapping(new Bassoon(), 9, 9));
+        orchestra.add(new InstrumentMapping(new ContraBassoon(), 10, 10));
+
+        orchestra.add(new InstrumentMapping(new FrenchHorn(), 11, 11));
+        orchestra.add(new InstrumentMapping(new Trumpet(), 12, 12));
+        orchestra.add(new InstrumentMapping(new TrumpetMuted(), 13, 13));//muted
+        orchestra.add(new InstrumentMapping(new Trombone(), 14, 14));//muted
+        orchestra.add(new InstrumentMapping(new TromboneMuted(), 15, 15));//muted
+        orchestra.add(new InstrumentMapping(new Tuba(), 16, 16));//muted
+
+        int voice = orchestra.size() - 1;
+        for (InstrumentMapping instrumentMapping : orchestra) {
+            instruments.put(voice, instrumentMapping);
+            voice--;
+        }
+        return  instruments;
     }
+
 
     public InstrumentMapping getInstrumentMappingForVoice(int voice){
         return instruments.get(voice);
@@ -346,6 +355,15 @@ public class InstrumentConfig {
         return instrumentMapping.getInstrument();
     }
 
+    public InstrumentMapping getInstrumentMappingByBame(String name){
+        Optional<InstrumentMapping> mapping = instruments.values().stream().filter(instrumentMapping -> instrumentMapping.getInstrument().getInstrumentName().equals(name)).findFirst();
+        if (mapping.isPresent()) {
+            return mapping.get();
+        }
+//        throw new IllegalStateException("InstrumentMapping not available for name: " + name);
+        return null;
+    }
+
     public int getSize(){
         return instruments.size();
     }
@@ -359,16 +377,11 @@ public class InstrumentConfig {
         throw new IllegalStateException("No Instrument found in instrumentConfig for: " + order);
     }
 
-    public InstrumentMapping getOrchestraInstrumentMappingForInstrument(Instrument instrument){
-        for (InstrumentMapping instrumentMapping : orchestra) {
-            if (instrumentMapping.getInstrument().equals(instrument)){
-                return instrumentMapping;
-            }
-        }
-        throw new IllegalStateException("No Instrument found in instrumentConfig " + instrument);
-    }
-
     public Map<Integer, InstrumentMapping> getInstruments() {
         return instruments;
+    }
+
+    public boolean contains(Instrument instrument) {
+        return instruments.values().stream().anyMatch(instrumentMapping -> instrumentMapping.getInstrument().equals(instrument));
     }
 }

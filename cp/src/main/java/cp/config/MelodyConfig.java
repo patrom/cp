@@ -33,11 +33,12 @@ public class MelodyConfig {
         meldodyConfigs.put(0, melodyDefaultDissonance);
         meldodyConfigs.put(1, melodyDefaultDissonance);
         meldodyConfigs.put(2, melodyDefaultDissonance);
-        meldodyConfigs.put(3, melodyDefaultDissonance);
+        meldodyConfigs.put(3, pentatonicMelodyDissonance);
         meldodyConfigs.put(4, pentatonicMelodyDissonance);
         meldodyConfigs.put(5, pentatonicMelodyDissonance);
 
-        MelodicHarmonicTriadDissonance melodicHarmonicTriadDissonance = new MelodicHarmonicTriadDissonance("3-1", "3-2","3-3","3-4","3-5" );
+//        MelodicHarmonicTriadDissonance melodicHarmonicTriadDissonance = new MelodicHarmonicTriadDissonance("3-1", "3-2","3-3","3-4","3-5" );
+        MelodicHarmonicTriadDissonance melodicHarmonicTriadDissonance = new MelodicHarmonicTriadDissonance("3-3","3-4","3-5" );
         meldodyHarmonicConfigs.put(0, melodyHarmoniceTriChordalDissonance);
         meldodyHarmonicConfigs.put(1, melodyHarmoniceTriChordalDissonance);
         meldodyHarmonicConfigs.put(2, melodyHarmoniceTriChordalDissonance);

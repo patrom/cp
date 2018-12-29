@@ -2,7 +2,7 @@ package cp;
 
 import cp.combination.even.FourNoteEven;
 import cp.composition.*;
-import cp.composition.beat.BeatGroupConfig;
+import cp.config.BeatGroupConfig;
 import cp.generator.MusicProperties;
 import cp.model.Motive;
 import cp.model.melody.MelodyBlock;
@@ -116,7 +116,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 
 	private void compose() throws Exception {
 		List<CompositionGenre> composeInGenres = new ArrayList<>();
-//		composeInGenres.add(melodyComposition::melody);
+		composeInGenres.add(melodyComposition::melody);
 
 		//TWO VOICES
 //		composeInGenres.add(twoVoiceComposition::random);
@@ -142,7 +142,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		threeVoiceComposition.setHarmonizeVoice(2);
 //		composeInGenres.add(threeVoiceComposition::harmonize);
 //		composeInGenres.add(threeVoiceComposition::threeOverXX);
-		composeInGenres.add(threeVoiceComposition::allRandom);
+//		composeInGenres.add(threeVoiceComposition::allRandom);
 //
 		//FOUR VOICES
 //		composeInGenres.add(fourVoiceComposition::canonA3);
@@ -186,7 +186,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 			    population.sort(Comparator
 						.comparing(MusicSolution::getHarmony)
 						.thenComparing(MusicSolution::getMelody)
-						.thenComparing(MusicSolution::getTransformation)
+//						.thenComparing(MusicSolution::getTransformation)
 						.thenComparing(MusicSolution::getResolution)
 			    		.thenComparing(MusicSolution::getMelodicHarmonic));
 
@@ -236,7 +236,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		// Algorithm parameters
 	    int populationSize = 30;
 	    algorithm.setInputParameter("populationSize", populationSize);
-	    algorithm.setInputParameter("maxEvaluations", populationSize * 2000);
+	    algorithm.setInputParameter("maxEvaluations", populationSize * 200);
 	    
 	    // Mutation and Crossover
 	    crossover.setParameter("probabilityCrossover", 1.0); 

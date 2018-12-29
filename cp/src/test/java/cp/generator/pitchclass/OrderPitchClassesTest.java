@@ -2,8 +2,8 @@ package cp.generator.pitchclass;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
-import cp.composition.beat.BeatGroupConfig;
 import cp.composition.beat.BeatGroups;
+import cp.config.BeatGroupConfig;
 import cp.model.TimeLineKey;
 import cp.model.melody.CpMelody;
 import cp.model.note.Note;

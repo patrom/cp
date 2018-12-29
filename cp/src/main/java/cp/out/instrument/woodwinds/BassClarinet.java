@@ -1,5 +1,6 @@
 package cp.out.instrument.woodwinds;
 
+import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
@@ -12,7 +13,7 @@ public class BassClarinet extends Instrument{
 		order = 7;
 		setLowest(34);
 		setHighest(82);
-//		setGeneralMidi(GeneralMidi.CLARINET);
+		setGeneralMidi(GeneralMidi.CLARINET);
 		
 		setInstrumentName(InstrumentName.BASS_CLARINET.getName());
 		setInstrumentSound("wind.reed.clarinet.bass");

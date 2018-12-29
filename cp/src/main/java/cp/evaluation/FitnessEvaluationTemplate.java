@@ -68,6 +68,13 @@ public class FitnessEvaluationTemplate {
 
 	public FitnessObjectiveValues evaluate(Motive motive) {
 		List<MelodyBlock> melodies = motive.getMelodyBlocks();
+        for (MelodyBlock melody : melodies) {
+            List<Note> melodyBlockNotes = melody.getMelodyBlockNotes();
+            if (melodyBlockNotes.get(0).getPitchClass() == melodyBlockNotes.get(1).getPitchClass()) {
+                System.out.println("same");
+            }
+
+        }
 //        melodies.stream().flatMap(melodyBlock -> melodyBlock.getMelodyBlocks().stream()).forEach(cpMelody -> cpMelody.updateContourAscending());
 
 		List<MelodyBlock> melodiesToCalculate = melodies.stream().filter(m -> m.isCalculable() && !m.getMelodyBlockNotes().isEmpty()).collect(toList());
@@ -96,7 +103,7 @@ public class FitnessEvaluationTemplate {
 //		List<MelodyBlock> updatebleMelodies = melodies.stream().filter(m -> m.isCalculable() && !m.getMelodyBlockNotes().isEmpty()).collect(toList());
 		for (MelodyBlock updatebleMelody : melodies) {
 			Instrument instrument = instrumentConfig.getInstrumentForVoice(updatebleMelody.getVoice());
-			instrument.updateMelodyInRange(updatebleMelody.getMelodyBlockNotes());
+			instrument.updateNotesInRange(updatebleMelody.getMelodyBlockNotes());
 //			removeTextureNotesOutOfRange(updatebleMelody, instrument);
 		}
 	}

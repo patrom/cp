@@ -18,6 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -97,14 +98,14 @@ public class TimeLineTest {
     public void addTimeLineKey() {
         timeLine.addTimeLineKey(1, A, Scale.MAJOR_SCALE , DurationConstants.WHOLE);
         timeLine.addTimeLineKey(1, C, Scale.DORIAN_SCALE , DurationConstants.QUARTER);
-        timeLine.addTimeLineKey(1, A, Scale.OCTATCONIC_WHOLE , DurationConstants.HALF);
+        timeLine.addTimeLineKey(1, A, Scale.OCTATCONIC_02 , DurationConstants.HALF);
         timeLine.addTimeLineKey(1, C, Scale.HARMONIC_MINOR_SCALE , DurationConstants.QUARTER);
 
         Map<Integer, List<TimeLineKey>> keysPerVoice = timeLine.getKeysPerVoice();
         List<TimeLineKey> timeLineKeys = keysPerVoice.get(1);
         assertEquals(Scale.MAJOR_SCALE, timeLineKeys.get(0).getScale());
         assertEquals(Scale.DORIAN_SCALE, timeLineKeys.get(1).getScale());
-        assertEquals(Scale.OCTATCONIC_WHOLE, timeLineKeys.get(2).getScale());
+        assertEquals(Scale.OCTATCONIC_02, timeLineKeys.get(2).getScale());
         assertEquals(Scale.HARMONIC_MINOR_SCALE, timeLineKeys.get(3).getScale());
 
         assertEquals(0, timeLineKeys.get(0).getStart());
@@ -124,14 +125,14 @@ public class TimeLineTest {
     public void getTimeLineKeys() {
         timeLine.addTimeLineKey(1, A, Scale.MAJOR_SCALE, DurationConstants.WHOLE);
         timeLine.addTimeLineKey(1, C, Scale.DORIAN_SCALE, DurationConstants.QUARTER);
-        timeLine.addTimeLineKey(1, A, Scale.OCTATCONIC_WHOLE, DurationConstants.HALF);
+        timeLine.addTimeLineKey(1, A, Scale.OCTATCONIC_02, DurationConstants.HALF);
         timeLine.addTimeLineKey(1, C, Scale.HARMONIC_MINOR_SCALE, DurationConstants.QUARTER);
 
         List<TimeLineKey> timelineKeys = timeLine.getTimelineKeys(1, DurationConstants.HALF, DurationConstants.WHOLE + DurationConstants.HALF);
         Assertions.assertEquals(3, timelineKeys.size());
         assertEquals(Scale.MAJOR_SCALE, timelineKeys.get(0).getScale());
         assertEquals(Scale.DORIAN_SCALE, timelineKeys.get(1).getScale());
-        assertEquals(Scale.OCTATCONIC_WHOLE, timelineKeys.get(2).getScale());
+        assertEquals(Scale.OCTATCONIC_02, timelineKeys.get(2).getScale());
     }
 
     @Test
@@ -141,6 +142,33 @@ public class TimeLineTest {
         List<TimeLineKey> timelineKeys = timeLine.getTimelineKeys(1, DurationConstants.HALF, DurationConstants.WHOLE + DurationConstants.HALF);
         Assertions.assertEquals(1, timelineKeys.size());
         assertEquals(Scale.MAJOR_SCALE, timelineKeys.get(0).getScale());
+    }
+
+    @Test
+    public void randomKeysAndDurationsForVoices() {
+        List<TimeLineKey> timeLineKeysForVoices = new ArrayList<>();
+        timeLineKeysForVoices.add(new TimeLineKey(0, C, new Scale(new int[]{3, 4}), 0 ,0));
+        timeLineKeysForVoices.add(new TimeLineKey(3, C,  new Scale(new int[]{5, 6}), 0 ,0));
+
+        List<TimeLineKey> timeLineKeysForVoices2 = new ArrayList<>();
+        timeLineKeysForVoices2.add(new TimeLineKey(0, C, new Scale(new int[]{1, 2}), 0 ,0));
+        timeLineKeysForVoices2.add(new TimeLineKey(3, C,  new Scale(new int[]{7, 8}), 0 ,0));
+
+        List<Integer> durations = new ArrayList<>();
+//		durations.add(DurationConstants.QUARTER);
+//		durations.add(DurationConstants.SIX_EIGHTS);
+		durations.add(DurationConstants.HALF);
+        durations.add(DurationConstants.WHOLE);
+        timeLine.randomKeysAndDurationsForVoices(durations, timeLineKeysForVoices, timeLineKeysForVoices2);
+        Map<Integer, List<TimeLineKey>> keysPerVoice = timeLine.getKeysPerVoice();
+        for (Map.Entry<Integer, List<TimeLineKey>> entry : keysPerVoice.entrySet()) {
+            System.out.println(entry.getKey());
+            entry.getValue().forEach(timeLineKey -> {
+                System.out.println(timeLineKey.getStart() + ", " + timeLineKey.getEnd());
+                System.out.println(Arrays.toString(timeLineKey.getScale().getPitchClasses()));
+            });
+        }
+
     }
 
 }

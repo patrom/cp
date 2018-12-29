@@ -2,6 +2,7 @@ package cp.out.orchestration.quality;
 
 import cp.out.instrument.Instrument;
 import cp.out.instrument.brass.Trumpet;
+import cp.out.instrument.brass.TrumpetMuted;
 import cp.out.instrument.keyboard.Celesta;
 import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.percussion.determinate.Glockenspiel;
@@ -31,6 +32,7 @@ public class BrilliantWhite extends OrchestralQuality{
 				new Piccolo(new InstrumentRegister(83, 108)),
 				new Clarinet(new InstrumentRegister(82, 92)),
 				new Trumpet(new InstrumentRegister(82, 92)),
+				new TrumpetMuted(new InstrumentRegister(78, 92)),
 //				new Piano(new InstrumentRegister(96, 108)),
 				new ViolinsI(new InstrumentRegister(89, 100)),
 				new ViolinsII(new InstrumentRegister(89, 100)),

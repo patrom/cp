@@ -124,7 +124,32 @@ public class TimeLine {
         addKeysForVoice(keys, voice);
     }
 
-	public void repeatContourPattern(int duration, int voice, int... directions){
+    public void randomKeysAndDurationsForVoices(List<Integer> durations , List<TimeLineKey>... timeLineKeys) {
+        List<List<TimeLineKey>> allKeys = new ArrayList<>(Arrays.asList(timeLineKeys));
+        Map<Integer, List<TimeLineKey>> allTimeLineKeys = new HashMap<>();
+        int start = 0;
+        int end = 0;
+        while (start < compositionEnd) {
+            int duration = RandomUtil.getRandomFromList(durations);
+            end = end + duration;
+            List<TimeLineKey> randomTimeLineKey = RandomUtil.getRandomFromList(allKeys);
+            for (TimeLineKey timeLineKey : randomTimeLineKey) {
+                allTimeLineKeys.computeIfAbsent(timeLineKey.getVoice(), voice -> new ArrayList<>())
+                        .add(new TimeLineKey(timeLineKey.getKey(), timeLineKey.getScale(), start, end));
+            }
+            allKeys.remove(randomTimeLineKey);
+            if (allKeys.isEmpty()) {
+                allKeys = new ArrayList<>(Arrays.asList(timeLineKeys));
+            }
+            start = end;
+        }
+        for (Map.Entry<Integer, List<TimeLineKey>> entry : allTimeLineKeys.entrySet()) {
+            addKeysForVoice(entry.getValue(), entry.getKey());
+        }
+    }
+
+
+    public void repeatContourPattern(int duration, int voice, int... directions){
 		List<Contour> contouren = new ArrayList<>();
 		int start = 0;
 		int end = duration;

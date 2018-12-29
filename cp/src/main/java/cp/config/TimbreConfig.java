@@ -17,7 +17,7 @@ public class TimbreConfig {
 
     @PostConstruct
     public void init() {
-        Timbre defaultTimbre = new Timbre(null, Technical.LEGATO, Dynamic.PP);
+        Timbre defaultTimbre = new Timbre(null, Technical.LEGATO, Dynamic.MF);
 //        defaultTimbre.setDynamics(Stream.of(Dynamic.P, Dynamic.MF, Dynamic.F).collect(toList()););
 
         //voice!!!

@@ -1,9 +1,6 @@
 package cp.out.instrument.register;
 
-import cp.model.note.Note;
 import cp.out.instrument.Articulation;
-
-import java.util.List;
 
 public class InstrumentRegister {
 
@@ -21,17 +18,6 @@ public class InstrumentRegister {
 		this.high = high;
 	}
 
-	public void updateMelodyBetween(List<Note> notes){
-		for (Note note : notes) {
-			while (note.getPitch() < low) {
-				note.transposeOctaveUp();
-			}
-			while (note.getPitch() > high) {
-				note.transposeOctaveDown();
-			}
-		}
-	}
-	
 	public int getHigh() {
 		return high;
 	}

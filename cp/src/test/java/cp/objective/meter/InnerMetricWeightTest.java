@@ -2,7 +2,7 @@ package cp.objective.meter;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
-import cp.composition.beat.BeatGroupConfig;
+import cp.config.BeatGroupConfig;
 import cp.generator.MelodyGenerator;
 import cp.generator.MusicProperties;
 import cp.model.note.Note;

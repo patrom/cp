@@ -36,7 +36,7 @@ public class InstrumentTest {
 	@Test
 	public void testUpdateMelodyInRange() {
 		instrument.setInstrumentRegister(new InstrumentRegister(50,80));
-		instrument.updateMelodyInRange(notes);
+		instrument.updateNotesInRange(notes);
 		assertEquals(50, notes.get(0).getPitch());
 		assertEquals(60, notes.get(1).getPitch());
 	}

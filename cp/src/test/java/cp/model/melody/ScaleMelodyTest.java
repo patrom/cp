@@ -2,7 +2,7 @@ package cp.model.melody;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
-import cp.composition.beat.BeatGroupConfig;
+import cp.config.BeatGroupConfig;
 import cp.model.TimeLine;
 import cp.model.note.Scale;
 import cp.out.print.Keys;

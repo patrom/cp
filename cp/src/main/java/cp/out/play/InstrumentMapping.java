@@ -81,7 +81,7 @@ public class InstrumentMapping implements Comparable<InstrumentMapping>{
                     return n;
                 })
                 .collect(toList());
-        getInstrument().updateMelodyInRange(duplicateNotes.stream().filter(n -> !n.isRest()).collect(toList()));
+        getInstrument().updateNotesInRange(duplicateNotes.stream().filter(n -> !n.isRest()).collect(toList()));
         return duplicateNotes;
     }
 

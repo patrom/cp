@@ -1,7 +1,10 @@
 package cp.out.orchestration.quality;
 
 import cp.out.instrument.Instrument;
+import cp.out.instrument.brass.BassTromboneMuted;
+import cp.out.instrument.brass.TromboneMuted;
 import cp.out.instrument.brass.Trumpet;
+import cp.out.instrument.brass.TrumpetMuted;
 import cp.out.instrument.keyboard.Celesta;
 import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.plucked.Harp;
@@ -35,6 +38,9 @@ public class BrightYellow extends OrchestralQuality{
 				new ClarinetEFlat(new InstrumentRegister(73, 95)),
 				new Clarinet(new InstrumentRegister(77, 82)),
 				new Trumpet(new InstrumentRegister(78, 83)),
+				new TrumpetMuted(new InstrumentRegister(70, 78)),
+				new TromboneMuted(new InstrumentRegister(64, 77)),
+				new BassTromboneMuted(new InstrumentRegister(55, 69)),
 				new ViolinsI(new InstrumentRegister(76, 89)),
 				new ViolinsII(new InstrumentRegister(76, 89)),
 				new ViolinSolo(new InstrumentRegister(76, 89)),

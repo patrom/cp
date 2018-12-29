@@ -2,7 +2,7 @@ package cp.model.melody;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
-import cp.composition.beat.BeatGroupConfig;
+import cp.config.BeatGroupConfig;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.note.Note;
@@ -488,7 +488,7 @@ public class CpMelodyTest {
 
 	@Test
 	public void testTransposeScales(){
-		Scale scale = Scale.OCTATCONIC_HALF;
+		Scale scale = Scale.OCTATCONIC_01;
 		timeLine = new TimeLine();
 		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(C, scale , 0, DurationConstants.WHOLE)), 0);
 		List<Note> notes = new ArrayList<>();
@@ -533,7 +533,7 @@ public class CpMelodyTest {
 
 	@Test
 	public void testTransposePitchClassesRandom(){
-		Scale scale = Scale.OCTATCONIC_HALF;
+		Scale scale = Scale.OCTATCONIC_01;
 		timeLine = new TimeLine();
 		timeLine.addKeysForVoice(Collections.singletonList(new TimeLineKey(C, scale , 0, DurationConstants.WHOLE)), 0);
 		List<Note> notes = new ArrayList<>();

@@ -1,6 +1,6 @@
 package cp;
 
-import cp.composition.beat.BeatGroupConfig;
+import cp.config.BeatGroupConfig;
 import cp.midi.MidiDevicePlayer;
 import cp.midi.MidiDevicesUtil;
 import cp.out.orchestration.orchestra.ClassicalOrchestra;
@@ -48,7 +48,7 @@ public class PlayMidiApplication extends JFrame implements CommandLineRunner {
             LOGGER.info(midiFile.getName());
             Sequence sequence = MidiSystem.getSequence(midiFile);
             midiDevicesUtil.playOnDevice(sequence, 0, MidiDevicePlayer.KONTAKT);
-            Thread.sleep(10000);
+            Thread.sleep(9000);
         }
     }
 

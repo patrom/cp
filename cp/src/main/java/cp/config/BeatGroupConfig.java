@@ -1,7 +1,8 @@
-package cp.composition.beat;
+package cp.config;
 
 import cp.combination.RhythmCombination;
 import cp.combination.RhythmCombinations;
+import cp.composition.beat.BeatGroup;
 import cp.composition.beat.harmony.BeatgroupHarmony;
 import cp.composition.beat.melody.BeatGroupMelody;
 import cp.composition.beat.motive.BeatgroupMotive;
@@ -201,7 +202,7 @@ public class BeatGroupConfig {
 //        timeLineKeys.add(new TimeLineKey(keys.F, Scale.MAJOR_SCALE));
 //        timeLineKeys.add(new TimeLineKey(keys.A, Scale.HARMONIC_MINOR_SCALE));
 //        timeLineKeys.add(new TimeLineKey(keys.D, Scale.HARMONIC_MINOR_SCALE));
-        Scale scale = new Scale(new int[]{0, 1, 2, 3, 4});
+        Scale scale = new Scale(new int[]{0, 1});
 //        Scale scale = new Scale(new int[]{0, 2, 3, 4});
 //        beatgroupMotive.addMotivePitchClasses(scale);
 //        scale = new Scale(new int[]{0, 3, 8});
@@ -264,6 +265,49 @@ public class BeatGroupConfig {
         beatGroups9.add(rhythmCombinations.balancedPattern::pos9in30);//random
         map.put(9, beatGroups9);
         return new BeatGroupMelody(DurationConstants.SIXTEENTH * 30, DurationConstants.SIXTEENTH,  map , Collections.singletonList(randomPitchClasses::randomPitchClasses));
+    }
+
+    @Bean
+    @Scope(value = SCOPE_PROTOTYPE, proxyMode = TARGET_CLASS)
+    public BeatGroup beatGroupAccomp1(){
+        Map<Integer, List<RhythmCombination>> map = new HashMap<>();
+        List<RhythmCombination> beatGroups2 = new ArrayList<>();
+        beatGroups2.add(rhythmCombinations.twoNoteEven::pos13);
+        map.put(2, beatGroups2);
+//        List<RhythmCombination> beatGroups1 = new ArrayList<>();
+//        beatGroups1.add(rhythmCombinations.oneNoteEven::pos3);
+//        map.put(1, beatGroups1);
+        return new BeatgroupMotive(DurationConstants.QUARTER,
+                map , Collections.singletonList(orderPitchClasses::updatePitchClasses));
+    }
+
+    @Bean
+    @Scope(value = SCOPE_PROTOTYPE, proxyMode = TARGET_CLASS)
+    public BeatGroup beatGroupAccomp2(){
+        Map<Integer, List<RhythmCombination>> map = new HashMap<>();
+        List<RhythmCombination> beatGroups2 = new ArrayList<>();
+        beatGroups2.add(rhythmCombinations.sixNoteSexTuplet::pos123456);
+        map.put(2, beatGroups2);
+//        List<RhythmCombination> beatGroups1 = new ArrayList<>();
+//        beatGroups1.add(rhythmCombinations.oneNoteEven::pos1);
+//        map.put(1, beatGroups1);
+        return new BeatgroupMotive(DurationConstants.QUARTER,
+                map , Collections.singletonList(orderPitchClasses::updatePitchClasses));
+    }
+
+    @Bean
+    @Scope(value = SCOPE_PROTOTYPE, proxyMode = TARGET_CLASS)
+    public BeatGroup beatGroupAccomp3(){
+        Map<Integer, List<RhythmCombination>> map = new HashMap<>();
+        List<RhythmCombination> beatGroups2 = new ArrayList<>();
+        beatGroups2.add(rhythmCombinations.fourNoteEven::pos1234);
+        map.put(2, beatGroups2);
+//        List<RhythmCombination> beatGroups1 = new ArrayList<>();
+//        beatGroups1.add(rhythmCombinations.oneNoteEven::pos4);
+//        beatGroups1.add(rhythmCombinations.oneNoteEven::pos3);
+//        map.put(1, beatGroups1);
+        return new BeatgroupMotive(DurationConstants.QUARTER,
+                map , Collections.singletonList(orderPitchClasses::updatePitchClasses));
     }
 
 //    private void test() {

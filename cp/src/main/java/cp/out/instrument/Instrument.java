@@ -28,16 +28,25 @@ public class Instrument {
 	public Instrument() {
 	}
 	
-	public void updateMelodyInRange(List<Note> notes){
-		for (Note note : notes) {
-			while (note.getPitch() > getHighest()) {
-				note.transposeOctaveDown();
-			}
-			while (note.getPitch() < getLowest()) {
-				note.transposeOctaveUp();
-			}
-		}
-	}
+	public void updateNotesInRange(List<Note> notes){
+        for (Note note : notes) {
+            while (note.getPitch() > getHighest()) {
+                note.transposeOctaveDown();
+            }
+            while (note.getPitch() < getLowest()) {
+                note.transposeOctaveUp();
+            }
+        }
+    }
+
+    public void updateNoteInRange(Note note){
+        while (note.getPitch() > getHighest()) {
+            note.transposeOctaveDown();
+        }
+        while (note.getPitch() < getLowest()) {
+            note.transposeOctaveUp();
+        }
+    }
 	
 	public List<Note> removeMelodyNotInRange(List<Note> notes){
 		return notes.stream()

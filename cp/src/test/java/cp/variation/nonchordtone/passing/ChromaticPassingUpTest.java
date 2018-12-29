@@ -3,7 +3,7 @@ package cp.variation.nonchordtone.passing;
 import cp.DefaultConfig;
 import cp.VariationConfig;
 import cp.composition.Composition;
-import cp.composition.beat.BeatGroupConfig;
+import cp.config.BeatGroupConfig;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 import cp.variation.AbstractVariationTest;

@@ -52,4 +52,11 @@ public class BeatGroups {
     public BeatGroup beatGroupBalance30_6in30gon;
     @Autowired
     public BeatGroup beatGroupBalance30;
+
+    @Autowired
+    public BeatGroup beatGroupAccomp1;
+    @Autowired
+    public BeatGroup beatGroupAccomp2;
+    @Autowired
+    public BeatGroup beatGroupAccomp3;
 }

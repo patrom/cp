@@ -80,9 +80,9 @@ public class TextureConfig {
         intervalOctavetypes.add(createDependantHarmony(ChordType.NO_INTERVALS));
 
 //        textureTypes.put(0, Collections.singletonList(createDependantHarmony(ChordType.CH2_KWINT_CHR)));
-        textureTypes.put(0, intervaltypes);
-        textureTypes.put(1, intervaltypes);
-        textureTypes.put(2, intervaltypes);
+//        textureTypes.put(0, intervaltypes);
+//        textureTypes.put(1, intervaltypes);
+//        textureTypes.put(2, intervaltypes);
 //        textureTypes.put(2, chordTypes);
 //        textureTypes.addAll(intervaltypes);
 //        textureTypes.put(0, chordTypes);

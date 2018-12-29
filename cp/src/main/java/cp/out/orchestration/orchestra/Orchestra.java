@@ -394,7 +394,7 @@ public class Orchestra {
 //				n.transposePitch(octave);
 //			}
 //		});
-//		instrument.updateMelodyInRange(duplicateNotes);
+//		instrument.updateNotesInRange(duplicateNotes);
 //		return duplicateNotes;
 //	}
 	

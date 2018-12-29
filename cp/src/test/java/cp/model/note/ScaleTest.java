@@ -2,7 +2,7 @@ package cp.model.note;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
-import cp.composition.beat.BeatGroupConfig;
+import cp.config.BeatGroupConfig;
 import cp.model.TimeLineKey;
 import cp.out.print.Keys;
 import cp.util.RandomUtil;

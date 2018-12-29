@@ -296,8 +296,8 @@ public class MidiDevicesUtil {
 		trackNotes.add(eventOff);
 	}
 
-	public void write(Sequence in, String ouputPath) throws IOException{
-		MidiSystem.write(in, 1, new File(ouputPath));//1 = multi-track
+	public void write(Sequence in, String outputPath) throws IOException{
+		MidiSystem.write(in, 1, new File(outputPath));//1 = multi-track
 	}
 
 	public static void main(String[] args) throws IOException, InvalidMidiDataException {

@@ -1,6 +1,6 @@
 package cp;
 
-import cp.composition.beat.BeatGroupConfig;
+import cp.config.BeatGroupConfig;
 import cp.config.ColorQualityConfig;
 import cp.config.InstrumentConfig;
 import cp.generator.MelodyGenerator;

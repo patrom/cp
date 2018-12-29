@@ -41,8 +41,10 @@ public class Scale {
 			ALL_INTERVAL_HEXACHORD = new Scale(new int[]{0, 1, 2, 4, 7, 8}),
 			HEXATONIC = new Scale(new int[]{0, 3, 4, 7, 8, 11}),
 			
-			OCTATCONIC_WHOLE = new Scale(new int[]{0, 2, 3, 5, 6, 8, 9, 11}),
-			OCTATCONIC_HALF = new Scale(new int[]{0, 1, 3, 4, 6, 7,  9, 10}),
+			OCTATCONIC_02 = new Scale(new int[]{0, 2, 3, 5, 6, 8, 9, 11}),
+			OCTATCONIC_01 = new Scale(new int[]{0, 1, 3, 4, 6, 7,  9, 10}),
+			OCTATCONIC_12 = new Scale(new int[]{1, 2, 4, 5, 7, 8, 10, 11}),
+
 			ACOUSTIC =  new Scale(new int[]{0, 2, 4, 6, 7, 9, 10}),
 	
 			WEBERN_TRICHORD_1 = new Scale(new int[]{10, 11, 2}),//op. 24

@@ -32,7 +32,6 @@ public class RandomUtil {
 		throw new IllegalStateException("no value found in set");
 	}
 
-
 	public static <T> List<T> getRandomListFromList(List<T> list) {
 		int from = getRandomNumberInRange(0, list.size() - 1);
 		int to = getRandomNumberInRange(1, list.size());

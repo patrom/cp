@@ -103,7 +103,7 @@ public class HarmonyOrchestrator {
         }
         melodyBlock.updatePitchesFromContour(timeLine);
 //        melodyBlock.updateMelodyBetween();
-        instrument.updateMelodyInRange(melodyBlock.getMelodyBlockNotes());
+        instrument.updateNotesInRange(melodyBlock.getMelodyBlockNotes());
         return  melodyBlock;
     }
 
@@ -132,7 +132,7 @@ public class HarmonyOrchestrator {
 
         melodyBlock.updatePitchesFromContour(timeLine);
 //        melodyBlock.updateMelodyBetween();
-        instrument.updateMelodyInRange(melodyBlock.getMelodyBlockNotes());
+        instrument.updateNotesInRange(melodyBlock.getMelodyBlockNotes());
         melodyBlocks.add(melodyBlock);
 
         Map<Integer, List<Note>> notesPerVoice = notes.stream().collect(groupingBy(Note::getVoice, TreeMap::new, Collectors.toList()));
@@ -143,7 +143,7 @@ public class HarmonyOrchestrator {
             block.addMelodyBlock(melody);
             block.updatePitchesFromContour(timeLine);
 //            block.updateMelodyBetween();
-            instrument.updateMelodyInRange(block.getMelodyBlockNotes());
+            instrument.updateNotesInRange(block.getMelodyBlockNotes());
             melodyBlocks.add(block);
         }
 
@@ -168,7 +168,7 @@ public class HarmonyOrchestrator {
 
         generatedMelodyBlock.updatePitchesFromContour(timeLine);
 //        generatedMelodyBlock.updateMelodyBetween();
-        instrument.updateMelodyInRange(generatedMelodyBlock.getMelodyBlockNotes());
+        instrument.updateNotesInRange(generatedMelodyBlock.getMelodyBlockNotes());
         return generatedMelodyBlock;
     }
 
@@ -202,7 +202,7 @@ public class HarmonyOrchestrator {
         MelodyBlock dependantMelodyBlock = new MelodyBlock(0, voiceTarget);
         dependantMelodyBlock.addMelodyBlock(new CpMelody(allHarmonyNotes,voiceTarget,composition.getStart(), composition.getEnd()));
 //        dependantMelodyBlock.updateMelodyBetween();
-        instrument.updateMelodyInRange(dependantMelodyBlock.getMelodyBlockNotes());
+        instrument.updateNotesInRange(dependantMelodyBlock.getMelodyBlockNotes());
         return dependantMelodyBlock;
     }
 

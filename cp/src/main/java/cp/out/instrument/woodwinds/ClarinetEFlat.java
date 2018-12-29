@@ -1,5 +1,6 @@
 package cp.out.instrument.woodwinds;
 
+import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.register.InstrumentRegister;
@@ -12,7 +13,7 @@ public class ClarinetEFlat extends Instrument {
 		order = 4;
 		setLowest(55);
 		setHighest(95);
-//		setGeneralMidi(GeneralMidi.CLARINET);
+		setGeneralMidi(GeneralMidi.CLARINET);
 		
 		setInstrumentName(InstrumentName.SMALL_CLARINET.getName());
 		setInstrumentSound("wind.reed.clarinet");

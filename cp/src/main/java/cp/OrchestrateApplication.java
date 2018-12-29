@@ -1,6 +1,6 @@
 package cp;
 
-import cp.composition.beat.BeatGroupConfig;
+import cp.config.BeatGroupConfig;
 import cp.config.InstrumentConfig;
 import cp.midi.MidiDevicePlayer;
 import cp.midi.MidiDevicesUtil;

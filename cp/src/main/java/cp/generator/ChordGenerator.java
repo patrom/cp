@@ -7,9 +7,13 @@ import cp.model.setclass.TnTnIType;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static cp.model.note.NoteBuilder.note;
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toList;
 
 @Component
 public class ChordGenerator {
@@ -75,6 +79,16 @@ public class ChordGenerator {
         return pcs;
     }
 
+    public List<Integer> generatePcs(String forteName) {
+        int[] setClass = generatePitchClasses(forteName);
+        return Arrays.stream(setClass).boxed().collect(Collectors.toList());
+    }
+
+    public List<Note> generatePitches(String forteName, int duration) {
+        int[] setClass = generatePitchClasses(forteName);
+        return stream(setClass).boxed().map(integer -> note().pitch(integer).len(duration).build()).collect(toList());
+    }
+
 	private int[] getSet(String forteName, Set[] set) {
 		for (int i = 0; i < set.length; i++) {
 			if(set[i].name.equals(forteName)){
@@ -83,4 +97,34 @@ public class ChordGenerator {
 		}
 		throw new IllegalArgumentException("No set class found for forte name: " + forteName);
 	}
+
+    public int[] getIntervalVector(String forteName){
+        Integer intervalVectorBasket = Integer.valueOf(forteName.substring(forteName.length() - 2)) - 1;
+        TnTnIType type = new TnTnIType();
+        int[] intervalVector;
+        if (forteName.startsWith("2")) {
+            type.initPrime2();
+            intervalVector = type.ivector;
+        }
+        else if (forteName.startsWith("3")) {
+            type.initPrime3();
+            intervalVector = type.ivector;
+        }
+        else if (forteName.startsWith("4")) {
+            type.initPrime4();
+            Set set = type.prime4[intervalVectorBasket];
+            intervalVector = set.ivector;
+        }
+        else if (forteName.startsWith("5")) {
+            type.initPrime5();
+            intervalVector = type.ivector;
+        }
+        else if (forteName.startsWith("6")) {
+            type.initPrime6();
+            intervalVector = type.ivector;
+        } else {
+            throw new IllegalArgumentException("No set class found for forte name: " + forteName);
+        }
+        return intervalVector;
+    }
 }

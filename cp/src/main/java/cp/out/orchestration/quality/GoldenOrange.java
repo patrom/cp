@@ -1,10 +1,7 @@
 package cp.out.orchestration.quality;
 
 import cp.out.instrument.Instrument;
-import cp.out.instrument.brass.BassTrombone;
-import cp.out.instrument.brass.FrenchHorn;
-import cp.out.instrument.brass.Trombone;
-import cp.out.instrument.brass.Trumpet;
+import cp.out.instrument.brass.*;
 import cp.out.instrument.percussion.determinate.Xylophone;
 import cp.out.instrument.plucked.Harp;
 import cp.out.instrument.register.InstrumentRegister;
@@ -37,8 +34,11 @@ public class GoldenOrange extends OrchestralQuality{
 				new Oboe(new InstrumentRegister(67, 80)),
 				new FrenchHorn(new InstrumentRegister(68, 79)),
 				new Trumpet(new InstrumentRegister(70, 78)),
+				new TrumpetMuted(new InstrumentRegister(58, 70)),
 				new Trombone(new InstrumentRegister(64, 77)),
+				new TromboneMuted(new InstrumentRegister(48, 64)),
 				new BassTrombone(new InstrumentRegister(55, 69)),
+				new BassTromboneMuted(new InstrumentRegister(41, 55)),
 				new ViolinsI(new InstrumentRegister(74, 84)),
 				new ViolinsII(new InstrumentRegister(74, 84)),
 				new ViolinSolo(new InstrumentRegister(74, 84)),

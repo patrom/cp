@@ -17,7 +17,7 @@ public class MidiTempo {
     private static final byte THIRTY_SECOND_NOTES_PER_QUARTER = 8;
     private static final int DEFAULT_PPQN = 960;
 
-    public MetaMessage timeSignatureMessage(byte numerator, byte denominator) {
+    public static MetaMessage timeSignatureMessage(byte numerator, byte denominator) {
         MetaMessage timeSigMessage = null;
         try {
             timeSigMessage = new MetaMessage(TIME_SIGNATURE_MIDI_SUBTYPE, new byte[] {
@@ -32,7 +32,7 @@ public class MidiTempo {
         return timeSigMessage;
     }
 
-    public MetaMessage tempoMessage(int bpm) {
+    public static MetaMessage tempoMessage(int bpm) {
         int microSecPerBeat = MICROSECONDS_PER_MINUTE / bpm;
         MetaMessage tempoMessage = null;
         try {
@@ -46,8 +46,19 @@ public class MidiTempo {
         }
         return tempoMessage;
     }
+
+    public static MetaMessage portMessage() {
+        MetaMessage portMessage = null;
+        try {
+            portMessage = new MetaMessage( 0x21, "B".getBytes(), 1);
+        } catch (InvalidMidiDataException ignored) {
+            /* Will never happen as the message type is a defined constant */
+        }
+        return portMessage;
+    }
+
 	
-	public MidiEvent getTempoMidiEvent(int tempo) throws InvalidMidiDataException{
+	public static MidiEvent getTempoMidiEvent(int tempo) throws InvalidMidiDataException{
 		MetaMessage mt = new MetaMessage();
 		int mMPQN = 60000000 / tempo;
 //		0x0F, 0x42, 0x40 = 60
@@ -70,4 +81,5 @@ public class MidiTempo {
 		}
 		return buffer;
 	}
+
 }

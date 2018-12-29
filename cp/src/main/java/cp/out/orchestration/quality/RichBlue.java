@@ -1,6 +1,7 @@
 package cp.out.orchestration.quality;
 
 import cp.out.instrument.Instrument;
+import cp.out.instrument.brass.FrenchHornMuted;
 import cp.out.instrument.keyboard.Celesta;
 import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.percussion.determinate.Glockenspiel;
@@ -33,6 +34,7 @@ public class RichBlue extends OrchestralQuality{
 				new Clarinet(new InstrumentRegister(50, 65)),
 				new BassClarinet(new InstrumentRegister(34, 53)),
 				new ViolinsI(new InstrumentRegister(62, 74)),
+                new FrenchHornMuted(new InstrumentRegister(53, 73)),
 				new ViolinsII(new InstrumentRegister(62, 74)),
 				new ViolinSolo(new InstrumentRegister(62, 74)),
 				new Viola(new InstrumentRegister(55, 67)),

@@ -6,7 +6,7 @@ import cp.variation.nonchordtone.Variation;
 public abstract class Passing extends Variation {
 	
 	public Passing() {
-		scales.add(Scale.OCTATCONIC_HALF);
+		scales.add(Scale.OCTATCONIC_01);
 //		timeLineKeys.add(new Scale(Scale.LYDIAN_SCALE));
 	}
 	
