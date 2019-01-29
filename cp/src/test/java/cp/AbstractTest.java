@@ -33,7 +33,7 @@ public abstract class AbstractTest extends JFrame {
 	@Autowired
 	protected MusicProperties musicProperties;
 
-	protected void playOnKontakt(List<Note> notes, InstrumentMapping instrumentMapping, int tempo, long playTime){
+	protected void playOnKontakt(List<Note> notes, InstrumentMapping instrumentMapping, int tempo, long playTime)  {
 		try {
 			MelodyInstrument melodyInstrument = new MelodyInstrument(notes, 0);
 			melodyInstrument.setInstrumentMapping(instrumentMapping);

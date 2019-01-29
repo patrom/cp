@@ -1,6 +1,8 @@
 package cp.config;
 
 import cp.objective.melody.*;
+import cp.objective.melody.subset.MelodyMajorScale_7_35;
+import cp.objective.melody.subset.MelodySubSet_8_25;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +28,10 @@ public class MelodyConfig {
     private MelodyHarmoniceTriChordalDissonance melodyHarmoniceTriChordalDissonance;
     @Autowired
     private MelodyHarmoniceTetraChordalDissonance melodyHarmoniceTetraChordalDissonance;
+    @Autowired
+    private MelodyMajorScale_7_35 melodyMajorScale_7_35;
+    @Autowired
+    private MelodySubSet_8_25 melodySubSet_8_25;
 
     @PostConstruct
     public void init() {
@@ -37,14 +43,14 @@ public class MelodyConfig {
         meldodyConfigs.put(4, pentatonicMelodyDissonance);
         meldodyConfigs.put(5, pentatonicMelodyDissonance);
 
-//        MelodicHarmonicTriadDissonance melodicHarmonicTriadDissonance = new MelodicHarmonicTriadDissonance("3-1", "3-2","3-3","3-4","3-5" );
-        MelodicHarmonicTriadDissonance melodicHarmonicTriadDissonance = new MelodicHarmonicTriadDissonance("3-3","3-4","3-5" );
-        meldodyHarmonicConfigs.put(0, melodyHarmoniceTriChordalDissonance);
-        meldodyHarmonicConfigs.put(1, melodyHarmoniceTriChordalDissonance);
-        meldodyHarmonicConfigs.put(2, melodyHarmoniceTriChordalDissonance);
-        meldodyHarmonicConfigs.put(3, melodyHarmoniceTriChordalDissonance);
-        meldodyHarmonicConfigs.put(4, melodyHarmoniceTriChordalDissonance);
-        meldodyHarmonicConfigs.put(5, melodyHarmoniceTriChordalDissonance);
+        MelodicHarmonicTriadDissonance melodicHarmonicTriadDissonance = new MelodicHarmonicTriadDissonance("3-10" );
+//        MelodicHarmonicTriadDissonance melodicHarmonicTriadDissonance = new MelodicHarmonicTriadDissonance("3-3","3-4","3-5" );
+        meldodyHarmonicConfigs.put(0, melodySubSet_8_25);
+        meldodyHarmonicConfigs.put(1, melodySubSet_8_25);
+        meldodyHarmonicConfigs.put(2, melodySubSet_8_25);
+        meldodyHarmonicConfigs.put(3, melodySubSet_8_25);
+        meldodyHarmonicConfigs.put(4, melodyMajorScale_7_35);
+        meldodyHarmonicConfigs.put(5, melodyMajorScale_7_35);
     }
 
     public MelodyDissonance getMelodyDissonanceForVoice(int voice){

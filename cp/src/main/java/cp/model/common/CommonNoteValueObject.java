@@ -1,5 +1,7 @@
 package cp.model.common;
 
+import cp.model.note.Scale;
+
 import java.util.Collection;
 
 public class CommonNoteValueObject {
@@ -30,5 +32,17 @@ public class CommonNoteValueObject {
 
     public void setDisjunctPitchClasses2(Collection<Integer> disjunctPitchClasses2) {
         this.disjunctPitchClasses2 = disjunctPitchClasses2;
+    }
+
+    public Scale getCommonScale() {
+        return new Scale(commonPitchClasses.stream().mapToInt(Integer::intValue).toArray());
+    }
+
+    public Scale getDisjunct1Scale() {
+        return new Scale(disjunctPitchClasses1.stream().mapToInt(Integer::intValue).toArray());
+    }
+
+    public Scale getDisjunct2Scale() {
+        return new Scale(disjunctPitchClasses2.stream().mapToInt(Integer::intValue).toArray());
     }
 }

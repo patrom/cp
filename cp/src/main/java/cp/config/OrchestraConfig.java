@@ -1,11 +1,7 @@
 package cp.config;
 
 import cp.midi.MelodyInstrument;
-import cp.out.instrument.Instrument;
-import cp.out.instrument.InstrumentGroup;
-import cp.out.instrument.woodwinds.Clarinet;
-import cp.out.instrument.woodwinds.Flute;
-import cp.out.instrument.woodwinds.Oboe;
+import cp.out.instrument.strings.*;
 import cp.out.orchestration.OrchestraMapping;
 import cp.out.orchestration.quality.*;
 import cp.out.play.InstrumentMapping;
@@ -55,7 +51,7 @@ public class OrchestraConfig {
     @PostConstruct
     public void init() {
 
-        List<Instrument> basicInstrumentsWoodwinds = goldenOrange.getBasicInstrumentsByGroup(InstrumentGroup.WOODWINDS);
+//        List<Instrument> basicInstrumentsWoodwinds = goldenOrange.getBasicInstrumentsByGroup(InstrumentGroup.WOODWINDS);
 //        List<Instrument> basicInstrumentsBrass = goldenOrange.getBasicInstrumentsByGroup(InstrumentGroup.BRASS);
 //        basicInstrumentsWoodwinds.addAll(basicInstrumentsBrass);
 //        List<Instrument> instruments = basicInstrumentsWoodwinds.stream().filter(instrument -> instrumentConfig.contains(instrument)).collect(Collectors.toList());
@@ -71,14 +67,14 @@ public class OrchestraConfig {
 //            basicInstrumentsWoodwinds.remove(instrument);
 //        }
 
-//        List<OrchestraMapping> orchestraMappings = basicCombinations.blueCorrespondingRange();
+//        orchestralMappings = basicCombinations.orangeCorrespondingRange();
         //voice!!!
-        orchestralMappings.add(new OrchestraMapping(3, new Flute(), pleasantGreen));
-        orchestralMappings.add( new OrchestraMapping(2, new Oboe(), goldenOrange));
-        orchestralMappings.add(new OrchestraMapping(2, new Clarinet(), pleasantGreen));
-        orchestralMappings.add(new OrchestraMapping(2, new Flute(), pleasantGreen));
-//        orchestralMappings.put(4, new OrchestraMapping(2, new Flute(), pleasantGreen));
-//        orchestralMappings.put(5, new OrchestraMapping(2, new Flute(), pleasantGreen));
+        orchestralMappings.add(new OrchestraMapping(2, new ViolinsI(), brightYellow));
+        orchestralMappings.add( new OrchestraMapping(2, new ViolinsII(), pleasantGreen));
+        orchestralMappings.add(new OrchestraMapping(2, new Viola(), pleasantGreen));
+        orchestralMappings.add(new OrchestraMapping(2, new Cello(), richBlue));
+        orchestralMappings.add(new OrchestraMapping(2, new DoubleBass(), lowRange));
+//        orchestralMappings.add(new OrchestraMapping(2, new Flute(), pleasantGreen));
     }
 
     public List<OrchestraMapping> getOrchestralMappings() {

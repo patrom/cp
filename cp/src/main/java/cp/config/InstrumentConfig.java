@@ -37,9 +37,9 @@ public class InstrumentConfig {
 
     @PostConstruct
     public void instrumentInit(){
-//        Piano piano = new Piano();
-//        instruments.put(0,new InstrumentMapping(piano, 1, 0));
-//        instruments.put(1,new InstrumentMapping(piano, 2, 1));
+        Piano piano = new Piano();
+        instruments.put(0,new InstrumentMapping(piano, 1, 0));
+        instruments.put(1,new InstrumentMapping(piano, 2, 1));
 //        instruments.put(2,new InstrumentMapping(piano, 3, 2));
 //        instruments.put(3,new InstrumentMapping(piano, 4, 3));
 //        instruments = getSATBChoir();
@@ -53,7 +53,7 @@ public class InstrumentConfig {
 //        instruments = getBrassTrio();
 //        instruments = getBrassQuartet();
 //        instruments = getRhythmQuartet();
-        instruments = getStrinqQuartetOrchestral();
+//        instruments = getStrinqQuartetOrchestral();
 //        instruments = getTesttOrchestral();
 //        instruments = getStrinqQuintetOrchestral();
 //        instruments = getBrassQuintet();
@@ -319,12 +319,12 @@ public class InstrumentConfig {
         orchestra.add(new InstrumentMapping(new Bassoon(), 9, 9));
         orchestra.add(new InstrumentMapping(new ContraBassoon(), 10, 10));
 
-        orchestra.add(new InstrumentMapping(new FrenchHorn(), 11, 11));
-        orchestra.add(new InstrumentMapping(new Trumpet(), 12, 12));
-        orchestra.add(new InstrumentMapping(new TrumpetMuted(), 13, 13));//muted
-        orchestra.add(new InstrumentMapping(new Trombone(), 14, 14));//muted
-        orchestra.add(new InstrumentMapping(new TromboneMuted(), 15, 15));//muted
-        orchestra.add(new InstrumentMapping(new Tuba(), 16, 16));//muted
+        orchestra.add(new InstrumentMapping(new FrenchHorn(), 1, 11));
+        orchestra.add(new InstrumentMapping(new Trumpet(), 2, 12));
+        orchestra.add(new InstrumentMapping(new TrumpetMuted(), 3, 13));//muted
+        orchestra.add(new InstrumentMapping(new Trombone(), 4, 14));//muted
+        orchestra.add(new InstrumentMapping(new TromboneMuted(), 5, 15));//muted
+        orchestra.add(new InstrumentMapping(new Tuba(), 6, 16));//muted
 
         int voice = orchestra.size() - 1;
         for (InstrumentMapping instrumentMapping : orchestra) {
@@ -357,11 +357,8 @@ public class InstrumentConfig {
 
     public InstrumentMapping getInstrumentMappingByBame(String name){
         Optional<InstrumentMapping> mapping = instruments.values().stream().filter(instrumentMapping -> instrumentMapping.getInstrument().getInstrumentName().equals(name)).findFirst();
-        if (mapping.isPresent()) {
-            return mapping.get();
-        }
+        return mapping.orElse(null);
 //        throw new IllegalStateException("InstrumentMapping not available for name: " + name);
-        return null;
     }
 
     public int getSize(){

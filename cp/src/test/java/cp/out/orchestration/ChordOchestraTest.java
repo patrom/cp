@@ -38,8 +38,8 @@ public class ChordOchestraTest {
 
     @Test
     public void generateChordOrchestra() throws InvalidMidiDataException, IOException {
-        int duration = DurationConstants.SIX_EIGHTS * 1;
-        chordOchestra.generateChordsOrchestra("4-28", duration, 10,  0);
+        int duration = DurationConstants.WHOLE;
+        chordOchestra.generateChordsOrchestra("5-33", duration, 10,  3);
 
         List<MelodyInstrument> melodyInstruments = orchestraConfig.getMelodyInstruments();
         for (MelodyInstrument melodyInstrument : melodyInstruments) {

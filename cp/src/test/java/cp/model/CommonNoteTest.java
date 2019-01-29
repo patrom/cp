@@ -26,6 +26,19 @@ public class CommonNoteTest {
         List<CommonNoteValueObject> commonNotes = commonNote.getCommonNotes("4-17", 2);
         for (CommonNoteValueObject commonNoteValueObject : commonNotes) {
             System.out.println("Common ");
+            commonNoteValueObject.getCommonPitchClasses().forEach(System.out::println);
+            System.out.println("Disjunct ");
+            commonNoteValueObject.getDisjunctPitchClasses1().forEach(System.out::println);
+            System.out.println("Disjunct ");
+            commonNoteValueObject.getDisjunctPitchClasses2().forEach(System.out::println);
+        }
+    }
+
+    @Test
+    public void getCommonNotes2() {
+        List<CommonNoteValueObject> commonNotes = commonNote.getCommonNotes("6-32", 3);
+        for (CommonNoteValueObject commonNoteValueObject : commonNotes) {
+            System.out.println("Common ");
             commonNoteValueObject.getCommonPitchClasses().forEach(integer -> System.out.println(integer));
             System.out.println("Disjunct ");
             commonNoteValueObject.getDisjunctPitchClasses1().forEach(integer -> System.out.println(integer));

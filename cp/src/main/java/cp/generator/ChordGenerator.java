@@ -104,11 +104,13 @@ public class ChordGenerator {
         int[] intervalVector;
         if (forteName.startsWith("2")) {
             type.initPrime2();
-            intervalVector = type.ivector;
+            Set set = type.prime2[intervalVectorBasket];
+            intervalVector = set.ivector;
         }
         else if (forteName.startsWith("3")) {
             type.initPrime3();
-            intervalVector = type.ivector;
+            Set set = type.prime3[intervalVectorBasket];
+            intervalVector = set.ivector;
         }
         else if (forteName.startsWith("4")) {
             type.initPrime4();
@@ -117,11 +119,13 @@ public class ChordGenerator {
         }
         else if (forteName.startsWith("5")) {
             type.initPrime5();
-            intervalVector = type.ivector;
+            Set set = type.prime5[intervalVectorBasket];
+            intervalVector = set.ivector;
         }
         else if (forteName.startsWith("6")) {
             type.initPrime6();
-            intervalVector = type.ivector;
+            Set set = type.prime6[intervalVectorBasket];
+            intervalVector = set.ivector;
         } else {
             throw new IllegalArgumentException("No set class found for forte name: " + forteName);
         }

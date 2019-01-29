@@ -116,10 +116,10 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 
 	private void compose() throws Exception {
 		List<CompositionGenre> composeInGenres = new ArrayList<>();
-		composeInGenres.add(melodyComposition::melody);
+//		composeInGenres.add(melodyComposition::melody);
 
 		//TWO VOICES
-//		composeInGenres.add(twoVoiceComposition::random);
+		composeInGenres.add(twoVoiceComposition::random);
 //		composeInGenres.add(twoVoiceComposition::beatEven);
 //		composeInGenres.add(twoVoiceComposition::canon);
 //		composeInGenres.add(twoVoiceComposition::fugueInverse);
@@ -185,10 +185,10 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //			    population.sort(Comparator.comparing(MusicSolution::getMelody).thenComparing(MusicSolution::getHarmony));
 			    population.sort(Comparator
 						.comparing(MusicSolution::getHarmony)
-						.thenComparing(MusicSolution::getMelody)
+						.thenComparing(MusicSolution::getMelodicHarmonic)
 //						.thenComparing(MusicSolution::getTransformation)
 						.thenComparing(MusicSolution::getResolution)
-			    		.thenComparing(MusicSolution::getMelodicHarmonic));
+			    		.thenComparing(MusicSolution::getMelody));
 
 			    
 			    Iterator<Solution> solutionIterator = population.iterator();
@@ -236,7 +236,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		// Algorithm parameters
 	    int populationSize = 30;
 	    algorithm.setInputParameter("populationSize", populationSize);
-	    algorithm.setInputParameter("maxEvaluations", populationSize * 200);
+	    algorithm.setInputParameter("maxEvaluations", populationSize * 2000);
 	    
 	    // Mutation and Crossover
 	    crossover.setParameter("probabilityCrossover", 1.0); 

@@ -11,6 +11,7 @@ public enum InstrumentName {
 	VIOLIN_I("Violin I"), VIOLIN_II("Violin II"), VIOLA("Viola (2)"), CELLO("Violoncello (2)"), CONTRABASS("Contrabass (2)"),
 	PIANO("Piano (2)"), CELESTA("Celesta"),
 	GLOCKENSPIEL("Glockenspiel (2)"),HARP("Harp"),TIMPANI("Timpani"),XYLOPHONE("Xylophone (2)"),MARIMBA("Marimba"),VIBRAPHONE("Vibraphone"),
+    CROTALES("Crotales"), TUBALAR_BELLS("Tubalar Bells"),
 	GUITAR("Guitar (2)"),
 	VIOLIN_SOLO("Violin"), VIOLA_SOLO("Viola"),CELLO_SOLO("Violoncello"),CONTRABASS_SOLO("Contrabass"),
 	SOPRANO("Soprano"), ALTO("Alto"), TENOR("Tenor"), BASS("Bass (2)");

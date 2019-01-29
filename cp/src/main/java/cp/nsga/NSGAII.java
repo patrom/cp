@@ -1,5 +1,6 @@
 package cp.nsga;
 
+import cp.config.MutationConfig;
 import cp.model.Motive;
 import cp.model.melody.CpMelody;
 import cp.nsga.operator.mutation.MutationOperator;
@@ -39,7 +40,9 @@ public class NSGAII extends Algorithm {
 	@Autowired
 	private Mutators mutators;
 	@Value("${composition.voices:12}")
-	protected int check12Tone;
+	private int check12Tone;
+    @Autowired
+	private MutationConfig mutationConfig;
 
 	/**
 	 * Constructor
@@ -228,7 +231,7 @@ public class NSGAII extends Algorithm {
 
 	private void mutateOffspring(Solution solution) {
         CpMelody melody = getMelodyBlock(solution);
-        if (melody != null) {
+        if (melody != null && mutationConfig.isVoiceMutable(melody.getVoice())) {
             List<MutationOperator> mutationOperators = null;
             if (check12Tone == 12) {
             Motive motive = ((MusicVariable) solution.getDecisionVariables()[0]).getMotive();

@@ -273,11 +273,12 @@ public class BeatGroupConfig {
         Map<Integer, List<RhythmCombination>> map = new HashMap<>();
         List<RhythmCombination> beatGroups2 = new ArrayList<>();
         beatGroups2.add(rhythmCombinations.twoNoteEven::pos13);
+//        beatGroups2.add(rhythmCombinations.oneNoteEven::pos1);
         map.put(2, beatGroups2);
 //        List<RhythmCombination> beatGroups1 = new ArrayList<>();
 //        beatGroups1.add(rhythmCombinations.oneNoteEven::pos3);
 //        map.put(1, beatGroups1);
-        return new BeatgroupMotive(DurationConstants.QUARTER,
+        return new BeatgroupMotive(DurationConstants.HALF,
                 map , Collections.singletonList(orderPitchClasses::updatePitchClasses));
     }
 

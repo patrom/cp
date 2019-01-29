@@ -3,7 +3,6 @@ package cp.out.orchestration.quality;
 import cp.out.instrument.brass.*;
 import cp.out.instrument.keyboard.Celesta;
 import cp.out.instrument.keyboard.Piano;
-import cp.out.instrument.percussion.determinate.Xylophone;
 import cp.out.instrument.plucked.Harp;
 import cp.out.instrument.strings.Cello;
 import cp.out.instrument.strings.Viola;
@@ -109,15 +108,15 @@ public class BasicCombinations {
         orchestralMappings.add(new OrchestraMapping(2, new Flute(), pleasantGreen));
         orchestralMappings.add(new OrchestraMapping(2, new Clarinet(), pleasantGreen));
         orchestralMappings.add(new OrchestraMapping(2, new ClarinetEFlat(), pleasantGreen));
-        orchestralMappings.add(new OrchestraMapping(2, new Viola(), pleasantGreen));
+//        orchestralMappings.add(new OrchestraMapping(2, new Viola(), pleasantGreen));
         orchestralMappings.add(new OrchestraMapping(2, new Bassoon(), pleasantGreen));
 
-        orchestralMappings.add(new OrchestraMapping(2, new BassClarinet(), pleasantGreen));
-        orchestralMappings.add(new OrchestraMapping(2, new Cello(), pleasantGreen));
-        orchestralMappings.add(new OrchestraMapping(2, new ContraBassoon(), pleasantGreen));
-
-        orchestralMappings.add(new OrchestraMapping(2, new ViolinsI(), pleasantGreen));
-        orchestralMappings.add(new OrchestraMapping(2, new Viola(), pleasantGreen));
+//        orchestralMappings.add(new OrchestraMapping(2, new BassClarinet(), pleasantGreen));
+//        orchestralMappings.add(new OrchestraMapping(2, new Cello(), pleasantGreen));
+//        orchestralMappings.add(new OrchestraMapping(2, new ContraBassoon(), pleasantGreen));
+//
+//        orchestralMappings.add(new OrchestraMapping(2, new ViolinsI(), pleasantGreen));
+//        orchestralMappings.add(new OrchestraMapping(2, new Viola(), pleasantGreen));
         return orchestralMappings;
     }
 
@@ -152,8 +151,8 @@ public class BasicCombinations {
 
     public List<OrchestraMapping> orangeCorrespondingRange() {
         List<OrchestraMapping> orchestralMappings = new ArrayList<>();
-        orchestralMappings.add(new OrchestraMapping(2, new Harp(), goldenOrange));
-        orchestralMappings.add(new OrchestraMapping(2, new Xylophone(), goldenOrange));
+//        orchestralMappings.add(new OrchestraMapping(2, new Harp(), goldenOrange));
+//        orchestralMappings.add(new OrchestraMapping(2, new Xylophone(), goldenOrange));
 
         orchestralMappings.add(new OrchestraMapping(2, new Oboe(), goldenOrange));
         orchestralMappings.add(new OrchestraMapping(2, new CorAnglais(), goldenOrange));

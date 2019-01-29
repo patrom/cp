@@ -41,13 +41,20 @@ public class ColorQualityConfig {
     @Autowired
     private LowRange lowRange;
 
+    @Autowired
+    private WoodWindHigh woodWindHigh;
+    @Autowired
+    private WoodWindMiddle woodWindMiddle;
+    @Autowired
+    private WoodWindsLow woodWindsLow;
+
     private Map<Integer, OrchestralQuality> orchestralQualities = new TreeMap<>();
 
     @PostConstruct
     public void init() {
         //voice!!!
-        orchestralQualities.put(0, highRange);
-        orchestralQualities.put(1, mellowPurple);
+        orchestralQualities.put(0, richBlue);
+        orchestralQualities.put(1, mediumRange);
         orchestralQualities.put(2, richBlue);
         orchestralQualities.put(3, pleasantGreen);
 //        orchestralQualities.put(4, goldenOrange);

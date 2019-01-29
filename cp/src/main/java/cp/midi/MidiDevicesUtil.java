@@ -24,9 +24,11 @@ import org.springframework.stereotype.Component;
 import javax.sound.midi.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -163,13 +165,12 @@ public class MidiDevicesUtil {
 
 	private void createTrackGeneralMidi(Sequence sequence, List<Note> notes, Instrument instrument, int tempo, int channel, boolean isKontakt, int first)
 			throws InvalidMidiDataException {
-		MidiTempo midiTempo = new MidiTempo();
-		MidiEvent midiTempoEvent = midiTempo.getTempoMidiEvent(tempo);
-        MetaMessage timeSignatureMessage = midiTempo.timeSignatureMessage((byte) numerator, (byte) denominator);
+		MidiEvent midiTempoEvent = MidiTempo.getTempoMidiEvent(tempo);
+        MetaMessage timeSignatureMessage = MidiTempo.timeSignatureMessage((byte) numerator, (byte) denominator);
 
         List<Note> notesNoRest = notes.stream().filter(note -> !note.isRest()).collect(Collectors.toList());
 		//Hunmanise notes
-        humanize.humanize(notesNoRest, instrument);
+//        humanize.humanize(notesNoRest, instrument);
 
 		Track trackNotes = sequence.createTrack();
 
@@ -203,7 +204,7 @@ public class MidiDevicesUtil {
 			for (Entry<Integer,List<Note>> entry : textureValue.getTextureNotesPerLine().entrySet()) {
 //				Track trackTexture = sequence.createTrack();
 				List<Note> textureNotes = entry.getValue();
-                humanize.humanize(textureNotes, instrument);
+//                humanize.humanize(textureNotes, instrument);
 				for (Note textureNote : textureNotes) {
 					createMidiEventsNotes(channel, trackNotes, textureNote);
 				}
@@ -411,6 +412,117 @@ public class MidiDevicesUtil {
 		MidiSystem.write(s, 1, f);
 	}
 
+
+    public void playMidiFile(File midiFile) throws InvalidMidiDataException, IOException, MidiUnavailableException {
+        MidiDevice.Info[] infos = MidiSystem.getMidiDeviceInfo();
+        Optional<MidiDevice.Info> midiDeviceLoopBe = Arrays.stream(infos).filter(info -> info.equals("LoopBe Internal MIDI")).findAny();
+        if (midiDeviceLoopBe.isPresent()) {
+            final MidiDevice device = MidiSystem.getMidiDevice(midiDeviceLoopBe.get());
+            device.open();
+            // Construct a Sequence object, and
+            // load it into my sequencer.
+            Sequence sequence = MidiSystem.getSequence(midiFile);
+            final Sequencer sequencer = MidiSystem.getSequencer();
+            sequencer.open();
+            sequencer.setSequence(sequence);
+            Receiver receiver = device.getReceiver();
+            Transmitter seqTransmitter = sequencer.getTransmitter();
+            seqTransmitter.setReceiver(receiver);
+            sequencer.start();
+        }
+    }
+
+//    public void playOnDevice(Sequence sequence, int tempo, MidiDevicePlayer kontakt) {
+//        LOGGER.info("tempo:" + tempo);
+//        MidiDevice.Info[] infos = MidiSystem.getMidiDeviceInfo();
+//        try {
+//            MidiDevice device = null;
+//            MidiDevice deviceMidiLoop = null;
+//            for (MidiDevice.Info info : infos) {
+//                if (info.getName().equals(kontakt.getName())) {
+//                    LOGGER.info(info.getName());
+//                    device = MidiSystem.getMidiDevice(info);
+//                    device.open();
+//                    break;//take only first device
+//                }
+//                if (info.getName().equals("loopMIDI Port 1")) {
+//                    LOGGER.info(info.getName());
+//                    deviceMidiLoop = MidiSystem.getMidiDevice(info);
+//                    deviceMidiLoop.open();
+//                    break;
+//                }
+//            }
+//            for (MidiDevice.Info info : infos) {
+//                if (info.getName().equals("loopMIDI Port 1")) {
+//                    LOGGER.info(info.getName());
+//                    deviceMidiLoop = MidiSystem.getMidiDevice(info);
+//                    deviceMidiLoop.open();
+//                    break;
+//                }
+//            }
+//
+//            final Sequencer sequencer = MidiSystem.getSequencer(false);
+//
+//            /*
+//             * There is a bug in the Sun jdk1.3/1.4. It prevents correct
+//             * termination of the VM. So we have to exit ourselves. To
+//             * accomplish this, we register a Listener to the Sequencer.
+//             * It is called when there are "meta" events. Meta event 47
+//             * is end of track.
+//             */
+//            sequencer.addMetaEventListener(new MetaEventListener() {
+//                public void meta(MetaMessage event) {//sequencer will close in case of looping files
+////							if (event.getType() == 47) {
+////								sequencer.close();
+////								if (device != null) {
+////									device.close();
+////								}
+////								System.exit(0);
+////							}
+//                }
+//            });
+//            sequencer.open();
+//
+//            sequencer.setSequence(sequence);
+//
+//            ShortMessage myMsg = new ShortMessage();
+//            // Start playing the note Middle C (60),
+//            // moderately loud (velocity = 93).
+//            myMsg.setMessage(ShortMessage.NOTE_ON, 0, 60, 93);
+//            long timeStamp = -1;
+//
+//
+//            Receiver receiver = device.getReceiver();
+//            receiver.send(myMsg, timeStamp);
+//
+////            Transmitter seqTransmitter = sequencer.getTransmitter();
+////            seqTransmitter.setReceiver(receiver);
+////
+////            Receiver receiverMidiLoop = deviceMidiLoop.getReceiver();
+////            Transmitter transmitterMidiLoop = sequencer.getTransmitter();
+////            transmitterMidiLoop.setReceiver(receiverMidiLoop);
+////
+////            if (tempo > 0) {
+////                sequencer.setTempoInBPM(tempo);
+////            }
+////            sequencer.start();
+//
+//
+////                    while (true) {
+////
+////                        // Exit the program when sequencer has stopped playing.
+////                        if (!sequencer.isRunning()) {
+////                            sequencer.close();
+////                            System.exit(1);
+////                        }
+////                    }
+//
+//        } catch (MidiUnavailableException e) {
+//            e.printStackTrace();
+//        } catch (InvalidMidiDataException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
 }

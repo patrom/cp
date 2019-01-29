@@ -56,6 +56,8 @@ public class Scale {
 			VARIATIONS_FOR_ORCHESTRA_OP31_HEXA1 = new Scale(new int[]{10,4,6,3,5,9}),
 			 VARIATIONS_FOR_ORCHESTRA_OP31_HEXA2 = new Scale(new int[]{2,1,7,8,11,0}),
 
+            SET_8_25 = new Scale(new int[]{0, 1, 2, 4, 6, 7, 8, 10}),
+
             MELODY = new Scale(new int[]{0, 2, 5, 4}),
 
 	TEST1 = new Scale(new int[]{0, 1,2}),
