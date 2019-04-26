@@ -17,10 +17,10 @@ import cp.out.orchestration.orchestra.ClassicalOrchestra;
 import cp.out.orchestration.orchestra.Orchestra;
 import cp.out.orchestration.quality.*;
 import cp.out.print.MusicXMLWriter;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLStreamException;
@@ -43,10 +42,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DefaultConfig.class)
 @ExtendWith(SpringExtension.class)
 public class OrchestrationGeneratorTest {
@@ -611,7 +609,7 @@ public class OrchestrationGeneratorTest {
 				new BassTrombone()
 				).collect(Collectors.toList());
 		Optional<Instrument> instrument = orchestrationGenerator.findBasicInstrumentWithQuality(instruments, mellowPurple);
-		assertEquals(instruments.get(2), instrument.get());
+        assertEquals(instruments.get(2), instrument.get());
 	}
 	
 	@Test
@@ -643,7 +641,7 @@ public class OrchestrationGeneratorTest {
 				new BassTrombone()
 				).collect(Collectors.toList());
 		Instrument instrument = orchestrationGenerator.findInstrumentInBasicQualityForPitch(40, instruments, glowingRed);
-		assertNull(instrument);
+        Assertions.assertNull(instrument);
 	}
 
 	@Test

@@ -7,15 +7,13 @@ import cp.midi.MidiDevicesUtil;
 import cp.model.note.Note;
 import cp.model.note.NoteBuilder;
 import cp.model.rhythm.DurationConstants;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
@@ -23,7 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DefaultConfig.class)
 @ExtendWith(SpringExtension.class)
 public class ChordOchestraTest {

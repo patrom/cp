@@ -78,7 +78,7 @@ public class CombinationConfig {
 
 		List<RhythmCombination> twoCombinations = new ArrayList<>();
 //		twoCombinations.add(twoNoteEven::pos12);
-//		twoCombinations.add(twoNoteEven::pos13);
+		twoCombinations.add(twoNoteEven::pos13);
 //		twoCombinations.add(twoNoteEven::pos14);
 //		twoCombinations.add(twoNoteEven::pos34);
 //		twoCombinations.add(twoNoteEven::pos23);
@@ -87,7 +87,7 @@ public class CombinationConfig {
 //        twoCombinations.add(twoNoteUneven::pos23);
 //		twoCombinations.add(twoNoteUneven::pos12);
 //		twoCombinations.add(twoNoteUneven::pos13);
-//		map.put(2, twoCombinations);
+		map.put(2, twoCombinations);
 
         List<RhythmCombination> threeCombinations = new ArrayList<>();
 		threeCombinations.add(threeNoteEven::pos123);

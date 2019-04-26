@@ -36,6 +36,11 @@ public class Chord {
 		pitchClassMultiSet.addAll(notes.stream().map(n -> n.getPitchClass()).collect(Collectors.toList()));
 	}
 
+    public Chord(List<Integer> pitchClasses, int bassNote) {
+        this.bassNote = bassNote;
+        pitchClassMultiSet.addAll(pitchClasses);
+    }
+
 	public ChordType getChordType() {
 //		if (chordType == null) {
 //			this.chordType = extractChordType(bassNote);
@@ -427,5 +432,9 @@ public class Chord {
 
     public int getRoot() {
         return root;
+    }
+
+    public boolean contains(int pitchClass) {
+	   return  pitchClassMultiSet.contains(pitchClass);
     }
 }

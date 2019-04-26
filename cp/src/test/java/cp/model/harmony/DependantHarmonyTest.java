@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DependantHarmonyTest")

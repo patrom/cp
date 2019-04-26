@@ -4,7 +4,6 @@ import cp.generator.MusicProperties;
 import cp.model.Motive;
 import cp.model.harmony.CpHarmony;
 import cp.out.instrument.Instrument;
-import org.junit.Before;
 
 import java.util.ArrayList;
 import java.util.List;

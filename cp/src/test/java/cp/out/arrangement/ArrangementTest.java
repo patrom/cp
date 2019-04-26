@@ -4,30 +4,29 @@ import cp.DefaultConfig;
 import cp.midi.HarmonyPosition;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(SpringRunner.class)
+
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DefaultConfig.class)
 @ExtendWith(SpringExtension.class)
-@Ignore
+@Disabled
 public class ArrangementTest extends JFrame{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ArrangementTest.class.getName());
@@ -153,7 +152,7 @@ public class ArrangementTest extends JFrame{
 		accompagnement.forEach(note -> LOGGER.info("pos: " + note.getPosition() + ", pitch: " + note.getPitch() + ", len: " + note.getLength()));
 		assertEquals(accompagnement.get(1).getPosition(), DurationConstants.QUARTER);
 		assertEquals(accompagnement.get(2).getPosition(), DurationConstants.WHOLE);
-		accompagnement.forEach(note -> assertTrue(note.getLength() == minimumLength));
+		accompagnement.forEach(note -> Assertions.assertTrue(note.getLength() == minimumLength));
 	}
 
 }

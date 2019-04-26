@@ -14,7 +14,6 @@ import cp.out.print.ScoreUtilities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,18 +22,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
-import static org.junit.Assert.assertEquals;
-@RunWith(SpringRunner.class)
+import static org.junit.jupiter.api.Assertions.assertEquals;
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DefaultConfig.class)
 @ExtendWith(SpringExtension.class)
-public class RhythmObjectiveTest extends JFrame {
+public class RhythmObjectiveTest {
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(RhythmObjectiveTest.class.getName());
 	

@@ -13,10 +13,8 @@ import cp.generator.pitchclass.TwelveTonePitchClasses;
 import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.common.CommonNote;
-import cp.model.common.CommonNoteValueObject;
 import cp.model.dissonance.*;
-import cp.model.dissonance.subset.MajorScale_7_35;
-import cp.model.dissonance.subset.SubSets_8_25;
+import cp.model.dissonance.subset.*;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
@@ -112,6 +110,14 @@ public abstract class Composition {
 	private MajorScale_7_35 majorScale_7_35;
     @Autowired
     private SubSets_8_25 subSets_8_25;
+    @Autowired
+    private SubSets_6_27 subSets_6_27;
+    @Autowired
+    private SubSets_6_7 subSets_6_7;
+    @Autowired
+    private SubSets_6_32 subSets_6_32;
+    @Autowired
+    private SubSetDissonance subSetDissonance;
 
 	@Autowired
 	protected TimeLine timeLine;
@@ -218,41 +224,42 @@ public abstract class Composition {
         //1. timeline for all voices
 //		timeLine.randomKeysAndDurations(timeLineKeys, durations);
 
-        List<List<TimeLineKey>> timeLineKeysList = new ArrayList<>();
-        List<CommonNoteValueObject> commonNotes = commonNote.getCommonNotes("6-32", 3);
-        for (CommonNoteValueObject commonNoteValueObject : commonNotes) {
-            System.out.println("Common ");
-            commonNoteValueObject.getCommonPitchClasses().forEach(integer -> System.out.println(integer));
-            System.out.println("Disjunct ");
-            commonNoteValueObject.getDisjunctPitchClasses1().forEach(integer -> System.out.println(integer));
-            System.out.println("Disjunct ");
-            commonNoteValueObject.getDisjunctPitchClasses2().forEach(integer -> System.out.println(integer));
-
-            //2. or add timeline key per voice
-            List<TimeLineKey> timeLineKeysForVoices = new ArrayList<>();
-            timeLineKeysForVoices.add(new TimeLineKey(0, keys.C, commonNoteValueObject.getDisjunct1Scale(), 0 ,0));//first disjunct notes
-//            timeLineKeysForVoices.add(new TimeLineKey(1, keys.C, commonNoteValueObject.getDisjunct1Scale(), 0 ,0));//first disjunct notes in different voices
-            timeLineKeysForVoices.add(new TimeLineKey(1, keys.C, commonNoteValueObject.getCommonScale(), 0 ,0));
-
-//        timeLineKeysForVoices.add(new TimeLineKey(3, keys.C,  Scale.OCTATCONIC_01, 0 ,0));//melody
-            timeLineKeysList.add(timeLineKeysForVoices);
-            List<TimeLineKey> timeLineKeysForVoices2 = new ArrayList<>();
-            timeLineKeysForVoices2.add(new TimeLineKey(0, keys.C, commonNoteValueObject.getDisjunct2Scale(), 0 ,0));//second disjunct notes in diff voices
-//            timeLineKeysForVoices2.add(new TimeLineKey(1, keys.C, commonNoteValueObject.getDisjunct2Scale(), 0 ,0));
-            timeLineKeysForVoices2.add(new TimeLineKey(1, keys.C, commonNoteValueObject.getCommonScale(), 0 ,0));
-//        timeLineKeysForVoices2.add(new TimeLineKey(3, keys.C,  Scale.OCTATCONIC_12, 0 ,0));//melody
-//        timeLineKeysForVoice0.add(new TimeLineKey(keys.C, Scale.OCTATCONIC_WHOLE, 0 ,0));
-            timeLineKeysList.add(timeLineKeysForVoices2);
-        }
-        timeLine.randomKeysAndDurationsForVoices(durations, timeLineKeysList);
+//        List<List<TimeLineKey>> timeLineKeysList = new ArrayList<>();
+//        List<CommonNoteValueObject> commonNotes = commonNote.getCommonNotes("6-32", 3);
+//        for (CommonNoteValueObject commonNoteValueObject : commonNotes) {
+//            System.out.println("Common ");
+//            commonNoteValueObject.getCommonPitchClasses().forEach(integer -> System.out.println(integer));
+//            System.out.println("Disjunct ");
+//            commonNoteValueObject.getDisjunctPitchClasses1().forEach(integer -> System.out.println(integer));
+//            System.out.println("Disjunct ");
+//            commonNoteValueObject.getDisjunctPitchClasses2().forEach(integer -> System.out.println(integer));
+//
+//            //2. or add timeline key per voice
+//            List<TimeLineKey> timeLineKeysForVoices = new ArrayList<>();
+//            timeLineKeysForVoices.add(new TimeLineKey(0, keys.C, commonNoteValueObject.getDisjunct1Scale(), 0 ,0));//first disjunct notes
+////            timeLineKeysForVoices.add(new TimeLineKey(1, keys.C, commonNoteValueObject.getDisjunct1Scale(), 0 ,0));//first disjunct notes in different voices
+//            timeLineKeysForVoices.add(new TimeLineKey(1, keys.C, commonNoteValueObject.getCommonScale(), 0 ,0));
+//
+////        timeLineKeysForVoices.add(new TimeLineKey(3, keys.C,  Scale.OCTATCONIC_01, 0 ,0));//melody
+//            timeLineKeysList.add(timeLineKeysForVoices);
+//            List<TimeLineKey> timeLineKeysForVoices2 = new ArrayList<>();
+//            timeLineKeysForVoices2.add(new TimeLineKey(0, keys.C, commonNoteValueObject.getDisjunct2Scale(), 0 ,0));//second disjunct notes in diff voices
+////            timeLineKeysForVoices2.add(new TimeLineKey(1, keys.C, commonNoteValueObject.getDisjunct2Scale(), 0 ,0));
+//            timeLineKeysForVoices2.add(new TimeLineKey(1, keys.C, commonNoteValueObject.getCommonScale(), 0 ,0));
+////        timeLineKeysForVoices2.add(new TimeLineKey(3, keys.C,  Scale.OCTATCONIC_12, 0 ,0));//melody
+////        timeLineKeysForVoice0.add(new TimeLineKey(keys.C, Scale.OCTATCONIC_WHOLE, 0 ,0));
+//            timeLineKeysList.add(timeLineKeysForVoices2);
+//        }
+//        timeLine.randomKeysAndDurationsForVoices(durations, timeLineKeysList);
 
         //2. or add timeline key per voice
-//        List<TimeLineKey> timeLineKeysForVoices = new ArrayList<>();
-//        timeLineKeysForVoices.add(new TimeLineKey(0, keys.C, Scale.SET_8_25, 0 ,0));
-//        timeLineKeysForVoices.add(new TimeLineKey(1, keys.C, Scale.SET_8_25, 0 ,0));
+        List<TimeLineKey> timeLineKeysForVoices = new ArrayList<>();
+        timeLineKeysForVoices.add(new TimeLineKey(0, keys.C, Scale.SET_6_32, 0 ,0));
+        timeLineKeysForVoices.add(new TimeLineKey(1, keys.C, Scale.SET_6_32, 0 ,0));
+        timeLineKeysForVoices.add(new TimeLineKey(2, keys.C, Scale.SET_6_32, 0 ,0));
 //        timeLineKeysForVoices.add(new TimeLineKey(2, keys.C, Scale.SET_8_25, 0 ,0));
 //        timeLineKeysForVoices.add(new TimeLineKey(3, keys.C, Scale.SET_8_25, 0 ,0));
-//        timeLine.randomKeysAndDurationsForVoices(durations, timeLineKeysForVoices);
+        timeLine.randomKeysAndDurationsForVoices(durations, timeLineKeysForVoices);
 
 
 //        List<TimeLineKey> timeLineKeysForVoices2 = new ArrayList<>();
@@ -376,7 +383,7 @@ public abstract class Composition {
 
 //		harmonicObjective.setDissonance(tonalDissonance::getDissonance);
 //		harmonicObjective.setDissonance(symmetryDissonance::getDissonance);
-		harmonicObjective.setDissonance(subSets_8_25::getDissonance);
+		harmonicObjective.setDissonance(subSets_6_32::getDissonance);
 //		harmonicObjective.setDissonance(additiveDissonance::getDissonance);
 		harmonicResolutionObjective.setDissonantResolution(dissonantResolutionImpl::isDissonant);
 

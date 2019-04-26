@@ -40,7 +40,7 @@ public class InstrumentConfig {
         Piano piano = new Piano();
         instruments.put(0,new InstrumentMapping(piano, 1, 0));
         instruments.put(1,new InstrumentMapping(piano, 2, 1));
-//        instruments.put(2,new InstrumentMapping(piano, 3, 2));
+        instruments.put(2,new InstrumentMapping(piano, 3, 2));
 //        instruments.put(3,new InstrumentMapping(piano, 4, 3));
 //        instruments = getSATBChoir();
 //        instruments = getSAChoir();

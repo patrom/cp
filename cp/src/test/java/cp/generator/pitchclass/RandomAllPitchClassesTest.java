@@ -12,21 +12,19 @@ import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
 import cp.out.print.Keys;
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
 @ExtendWith(SpringExtension.class)
 public class RandomAllPitchClassesTest {
@@ -40,7 +38,7 @@ public class RandomAllPitchClassesTest {
 
     private TimeLineKey timeLineKey;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         timeLineKey = new TimeLineKey(keys.D, Scale.MAJOR_CHORD, 0, DurationConstants.WHOLE);
     }

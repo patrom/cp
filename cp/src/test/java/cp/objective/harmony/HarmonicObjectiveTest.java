@@ -8,28 +8,25 @@ import cp.model.rhythm.DurationConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DefaultConfig.class)
 @ExtendWith(SpringExtension.class)
-public class HarmonicObjectiveTest extends JFrame {
+public class HarmonicObjectiveTest {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(HarmonicObjectiveTest.class);
 	
@@ -58,7 +55,7 @@ public class HarmonicObjectiveTest extends JFrame {
 		notes.add(note().pos(DurationConstants.WHOLE).pc(7).positionWeight(3.0).build());
 		harmonies.add(new CpHarmony(notes, 0));
 		double totalHarmonyWeight = harmonicObjective.getTotalHarmonyWeight(harmonies);
-		assertEquals(13, totalHarmonyWeight, 0);
+        assertEquals(13, totalHarmonyWeight, 0);
 	}
 
 	@Test

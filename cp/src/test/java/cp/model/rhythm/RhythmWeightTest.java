@@ -8,19 +8,17 @@ import cp.out.instrument.Technical;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DefaultConfig.class)
 @ExtendWith(SpringExtension.class)
 public class RhythmWeightTest {
@@ -42,7 +40,7 @@ public class RhythmWeightTest {
 		notes.add(note().pos(DurationConstants.WHOLE).pitch(60).build());
 		rhythmWeight.setNotes(notes);
 		rhythmWeight.updateNotesLength();
-		assertEquals(DurationConstants.EIGHT , notes.get(1).getLength());
+        assertEquals(DurationConstants.EIGHT , notes.get(1).getLength());
 	}
 
 	@Test

@@ -64,6 +64,9 @@ public class Texture {
                 case 100:
                     textureNotes.addAll(getDependantNotesBelow(note));
                     break;
+                case 101:
+                    textureNotes.addAll(getDependantNotesBelowCompositionPitchClasses(note));
+                    break;
                 default:
                     throw new IllegalArgumentException("Dependant harmony not set for type: " + dependantHarmony.getChordType());
 
@@ -94,6 +97,9 @@ public class Texture {
                     break;
                 case 100:
                     textureNotes.addAll(getDependantNotesAbove(note));
+                    break;
+                case 101:
+                    textureNotes.addAll(getDependantNotesAboveCompositionPitchClasses(note));
                     break;
                 default:
                     throw new IllegalArgumentException("Dependant harmony not set for type: " + dependantHarmony.getChordType());
@@ -388,6 +394,24 @@ public class Texture {
         DependantHarmony dependantHarmony = note.getDependantHarmony();
         if(dependantHarmony != null) {
             dependantHarmony.dependantAbove(note);
+            return dependantHarmony.getNotes();
+        }
+        return Collections.emptyList();
+    }
+
+    protected List<Note> getDependantNotesBelowCompositionPitchClasses(Note note){
+        DependantHarmony dependantHarmony = note.getDependantHarmony();
+        if(dependantHarmony != null) {
+            dependantHarmony.dependantBelowCompositionPitchClasses(note);
+            return dependantHarmony.getNotes();
+        }
+        return Collections.emptyList();
+    }
+
+    protected List<Note> getDependantNotesAboveCompositionPitchClasses(Note note){
+        DependantHarmony dependantHarmony = note.getDependantHarmony();
+        if(dependantHarmony != null) {
+            dependantHarmony.dependantAboveCompositionPitchClasses(note);
             return dependantHarmony.getNotes();
         }
         return Collections.emptyList();

@@ -17,15 +17,16 @@ public class MelodyMajorScale_7_35 implements MelodyHarmonicDissonance {
         int size = chord.getPitchClassSet().size();
         switch (size) {
             case 2:
-                return dyadic(chord);
+                return 0;
+//                return dyadic(chord);
             case 3:
                 return triChordal(chord);
-            case 4:
-                return tetrachordal(chord);
-            case 5:
-                return pentaChordal(chord);
-            case 6:
-                return hexaChordal(chord);
+//            case 4:
+//                return tetrachordal(chord);
+//            case 5:
+//                return pentaChordal(chord);
+//            case 6:
+//                return hexaChordal(chord);
         }
         return 0;
     }
@@ -59,15 +60,15 @@ public class MelodyMajorScale_7_35 implements MelodyHarmonicDissonance {
             case "3-6":
                 return 0.0;
             case "3-7":
-                return 0.0;
+                return 1.0;
             case "3-8":
                 return 0.0;
             case "3-9":
                 return 0.0;
             case "3-10":
-                return 1.0;
+                return 0.0;
             case "3-11":
-                return 1.0;
+                return 0.0;
         }
         return 0;
     }

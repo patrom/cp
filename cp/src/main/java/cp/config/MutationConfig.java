@@ -17,7 +17,7 @@ public class MutationConfig {
     public void initVoiceConfig() {
         mutationConfiguration.put(0, TRUE);
         mutationConfiguration.put(1, TRUE);
-        mutationConfiguration.put(2, Boolean.FALSE);
+        mutationConfiguration.put(2, TRUE);
         mutationConfiguration.put(3, TRUE);
         mutationConfiguration.put(4, TRUE);
         mutationConfiguration.put(5, TRUE);

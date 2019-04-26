@@ -12,25 +12,23 @@ import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.strings.CelloSolo;
-import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
 @ExtendWith(SpringExtension.class)
 public class MusicXMLWriterTest {
@@ -103,7 +101,7 @@ public class MusicXMLWriterTest {
 	@Test
 	public void testFindNoteTypeLength(){
 		int length = musicXMLWriter.findNoteTypeLength(12);
-		assertEquals(12, length);
+        assertEquals(12, length);
 		length = musicXMLWriter.findNoteTypeLength(14);
 		assertEquals(12, length);
 		length = musicXMLWriter.findNoteTypeLength(7);
@@ -111,7 +109,7 @@ public class MusicXMLWriterTest {
 	}
 	
 	@Test
-	@Ignore
+	@Disabled
 	public void testGenerateMusicXMLTripletBeaming() throws Exception {
 		List<Note> notes = new ArrayList<>();
 //		notes.add(note().len(4).rest().pos(0).beam(BeamType.BEGIN).build());
@@ -138,7 +136,7 @@ public class MusicXMLWriterTest {
 	}
 
 	@Test
-	@Ignore
+	@Disabled
 	public void testGenerateMusicXMLTripletTexture() throws Exception {
 		DependantHarmony dependantHarmony = new DependantHarmony();
 		dependantHarmony.setChordType(ChordType.MAJOR);

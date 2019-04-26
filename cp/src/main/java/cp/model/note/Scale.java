@@ -57,6 +57,13 @@ public class Scale {
 			 VARIATIONS_FOR_ORCHESTRA_OP31_HEXA2 = new Scale(new int[]{2,1,7,8,11,0}),
 
             SET_8_25 = new Scale(new int[]{0, 1, 2, 4, 6, 7, 8, 10}),
+            SET_5_23 = new Scale(new int[]{2, 4, 5, 7, 9}),
+            SET_6_32 = new Scale(new int[]{0, 2, 4, 5, 7, 9}),
+//            SET_6_27 = new Scale(new int[]{0, 1, 3, 4, 6, 9}),
+            SET_6_27 = new Scale(new int[]{0, 1, 3, 4, 6, 9}),
+            SET_6_27_part = new Scale(new int[]{3, 4}),
+
+            SET_6_7 = new Scale(new int[]{0, 1, 2, 6, 7, 8}),
 
             MELODY = new Scale(new int[]{0, 2, 5, 4}),
 
@@ -258,6 +265,10 @@ public class Scale {
             pitchClasses.add((scale[index] + key.getInterval()) % 12);
         }
         return pitchClasses;
+    }
+
+    public List<Integer> getPitchClassesAsList() {
+        return Arrays.stream(scale).boxed().collect(toList());
     }
 
 }

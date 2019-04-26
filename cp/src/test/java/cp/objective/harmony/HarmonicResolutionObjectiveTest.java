@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -55,7 +55,7 @@ public class HarmonicResolutionObjectiveTest {
 		harmonies.forEach(h -> h.toChord());
 		
 		double resolutionValue = harmonicResolutionObjective.getResolutionValue(harmonies);
-		assertEquals(1.0, resolutionValue, 0.0);
+        assertEquals(1.0, resolutionValue, 0.0);
 	}
 
 	@Test

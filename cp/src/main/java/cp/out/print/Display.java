@@ -55,12 +55,16 @@ public class Display {
         generateMusicXml(motive.getMelodyBlocks(), id);
         writeMidi(motive.getMelodyBlocks(), id);
         printTimeLine();
-        List<String> transformationNames = motive.getTransformations().stream().map(Enum::name).collect(Collectors.toList());
-        LOGGER.info("Transformations: " + transformationNames);
+//        LogTransformations(motive);
 
     }
 
-	private void writeMidi(List<MelodyBlock> melodyBlocks, String id) throws IOException, InvalidMidiDataException {
+    private void LogTransformations(Motive motive) {
+        List<String> transformationNames = motive.getTransformations().stream().map(Enum::name).collect(Collectors.toList());
+        LOGGER.info("Transformations: " + transformationNames);
+    }
+
+    private void writeMidi(List<MelodyBlock> melodyBlocks, String id) throws IOException, InvalidMidiDataException {
 		Sequence sequence = midiDevicesUtil.createSequence(melodyBlocks, musicProperties.getTempo());
 		Resource resource = new FileSystemResource("");
 		midiDevicesUtil.write(sequence, resource.getFile().getPath()+ "cp/src/main/resources/midi/" + id + ".mid");

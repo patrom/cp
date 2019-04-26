@@ -11,11 +11,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 @Component
 public class MelodicHarmonicObjective extends Objective {
@@ -40,12 +43,11 @@ public class MelodicHarmonicObjective extends Objective {
 
     protected double getMelodyDissonance(List<Note> notes, int voice) {
         MelodyHarmonicDissonance melodyDissonance = melodyConfig.getMelodyHarmonicDissonanceForVoice(voice);
-        List<Chord> chords = new ArrayList<>();
-        int chordSize = melodyDissonance.getChordSize();
-        for (int i = 2; i < chordSize; i++) {
-            List<Chord> triads = extractMelodicChords(notes, i + 1);
-            chords.addAll(triads);
+        if (melodyDissonance == null) {
+            return 1.0; // no config
         }
+//        List<Chord> chords = extractMelodicChords(notes, melodyDissonance.getChordSize());
+        List<Chord> chords = extractConsecutiveMelodicChords(notes, melodyDissonance.getChordSize());
         if (chords.isEmpty()) {
             return 0;
         } else {
@@ -55,14 +57,26 @@ public class MelodicHarmonicObjective extends Objective {
 
     protected List<Chord> extractMelodicChords(List<Note> notes, int size) {
         Stream<List<Note>> slidingWindow = sliding(notes, size);
-        return  slidingWindow.map(windowNotes -> new Chord(windowNotes)).collect(Collectors.toList());
+        return  slidingWindow.map(windowNotes -> new Chord(windowNotes)).collect(toList());
     }
 
-    public static <T> Stream<List<T>> sliding(List<T> list, int size) {
+    protected List<Chord> extractConsecutiveMelodicChords(List<Note> notes, int size) {
+        Collection<List<Note>> partition = partition(notes, size);
+        return partition.stream().map(Chord::new).collect(toList());
+    }
+
+    private <T> Stream<List<T>> sliding(List<T> list, int size) {
         if(size > list.size())
             return Stream.empty();
         return IntStream.range(0, list.size()-size+1)
                 .mapToObj(start -> list.subList(start, start+size));
+    }
+
+    private <T> Collection<List<T>> partition(List<T> list, int size) {
+        final AtomicInteger counter = new AtomicInteger(0);
+        return list.stream()
+                .collect(Collectors.groupingBy(it -> counter.getAndIncrement() / size))
+                .values();
     }
 
 }

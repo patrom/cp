@@ -3,6 +3,7 @@ package cp.out.instrument;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.out.instrument.register.InstrumentRegister;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -12,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InstrumentTest {
 	
@@ -37,14 +37,14 @@ public class InstrumentTest {
 	public void testUpdateMelodyInRange() {
 		instrument.setInstrumentRegister(new InstrumentRegister(50,80));
 		instrument.updateNotesInRange(notes);
-		assertEquals(50, notes.get(0).getPitch());
+        assertEquals(50, notes.get(0).getPitch());
 		assertEquals(60, notes.get(1).getPitch());
 	}
 
 	@Test
 	public void testRemoveMelodyNotIn() {
 		List<Note> inRangeNotes = instrument.removeMelodyNotInRange(notes);
-		assertTrue(inRangeNotes.size() == 3);
+        Assertions.assertTrue(inRangeNotes.size() == 3);
 	}
 
 	@Test

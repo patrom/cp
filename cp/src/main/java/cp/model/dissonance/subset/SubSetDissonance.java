@@ -3,7 +3,9 @@ package cp.model.dissonance.subset;
 import cp.model.dissonance.Dissonance;
 import cp.model.harmony.Chord;
 import cp.model.harmony.CpHarmony;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SubSetDissonance implements Dissonance {
 
     @Override
@@ -50,17 +52,17 @@ public class SubSetDissonance implements Dissonance {
             case "3-2":
                 return 0.0;
             case "3-3":
-                return 0.0;
+                return 1.0;
             case "3-4":
-                return 0.0;
+                return 1.0;
             case "3-5":
                 return 0.0;
             case "3-6":
-                return 0.0;
+                return 1.0;
             case "3-7":
-                return 0.0;
+                return 1.0;
             case "3-8":
-                return 0.0;
+                return 1.0;
             case "3-9":
                 return 0.0;
             case "3-10":
@@ -82,13 +84,13 @@ public class SubSetDissonance implements Dissonance {
             case "4-3":
                 return 0.0;
             case "4-4":
-                return 0.0;
+                return 1.0;
             case "4-5":
                 return 0.0;
             case "4-6":
                 return 0.0;
             case "4-7":
-                return 0.0;
+                return 1.0;
             case "4-8":
                 return 0.0;
             case "4-9":

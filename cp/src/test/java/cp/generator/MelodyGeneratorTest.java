@@ -24,11 +24,10 @@ import cp.model.rhythm.DurationConstants;
 import cp.out.print.Keys;
 import cp.out.print.ScoreUtilities;
 import cp.out.print.note.Key;
-import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +35,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -51,10 +48,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
 @ExtendWith(SpringExtension.class)
-public class MelodyGeneratorTest extends JFrame{
+public class MelodyGeneratorTest {
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(MelodyGeneratorTest.class);
 	
@@ -123,7 +120,7 @@ public class MelodyGeneratorTest extends JFrame{
 	}
 
 	@Test
-	@Ignore
+	@Disabled
 	public void testGenerateMelodyBlockConfig() {
 		when(composition.getStart()).thenReturn(0);
 		when(composition.getEnd()).thenReturn(DurationConstants.WHOLE);

@@ -53,6 +53,8 @@ public class BeatGroupConfig {
     private OrderRandomNotePitchClasses orderRandomNotePitchClasses;
     @Autowired
     private OrderNoteRepetitionPitchClasses orderNoteRepetitionPitchClasses;
+    @Autowired
+    private RandomAllPitchClasses randomAllPitchClasses;
 //    @Autowired
 //    private HarmonyPitchClasses harmonyPitchClasses;
 
@@ -70,7 +72,7 @@ public class BeatGroupConfig {
     @Scope(value = SCOPE_PROTOTYPE)
     public BeatGroup beatGroupTwo(){
         return new BeatGroupMelody(DurationConstants.HALF,
-                defaultEvenCombinations , Collections.singletonList(passingPitchClasses::updatePitchClasses));
+                defaultEvenCombinations , Collections.singletonList(orderPitchClasses::updatePitchClasses));
     }
 
     @Bean
@@ -84,7 +86,7 @@ public class BeatGroupConfig {
     @Scope(value = SCOPE_PROTOTYPE)
     public BeatGroup beatGroupFour(){
         return new BeatGroupMelody(DurationConstants.WHOLE,
-                defaultEvenCombinations , Collections.singletonList(passingPitchClasses::updatePitchClasses));
+                defaultEvenCombinations , Collections.singletonList(randomPitchClasses::randomPitchClasses));
     }
 
 
@@ -272,14 +274,14 @@ public class BeatGroupConfig {
     public BeatGroup beatGroupAccomp1(){
         Map<Integer, List<RhythmCombination>> map = new HashMap<>();
         List<RhythmCombination> beatGroups2 = new ArrayList<>();
-        beatGroups2.add(rhythmCombinations.twoNoteEven::pos13);
+        beatGroups2.add(rhythmCombinations.fourNoteEven::pos1234);
 //        beatGroups2.add(rhythmCombinations.oneNoteEven::pos1);
         map.put(2, beatGroups2);
 //        List<RhythmCombination> beatGroups1 = new ArrayList<>();
 //        beatGroups1.add(rhythmCombinations.oneNoteEven::pos3);
 //        map.put(1, beatGroups1);
         return new BeatgroupMotive(DurationConstants.HALF,
-                map , Collections.singletonList(orderPitchClasses::updatePitchClasses));
+                map , Collections.singletonList(randomAllPitchClasses::randomPitchClasses));
     }
 
     @Bean

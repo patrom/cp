@@ -5,14 +5,13 @@ import cp.combination.RhythmCombinations;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,10 +21,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static cp.model.note.NoteBuilder.note;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DefaultConfig.class)
 @ExtendWith(SpringExtension.class)
 public class TwelveToneBuilderTest {
@@ -176,7 +174,7 @@ public class TwelveToneBuilderTest {
 
         assertEquals(1,  dependentNotes.get(0).getDependantHarmony().getNotes().size());
         assertEquals(2,  dependentNotes.get(1).getDependantHarmony().getNotes().size());
-        assertNull(dependentNotes.get(2).getDependantHarmony());
+        Assertions.assertNull(dependentNotes.get(2).getDependantHarmony());
 
         System.out.println(dependentNotes.stream().filter(note -> !note.isRest()).count());
         for (Note note : dependentNotes) {

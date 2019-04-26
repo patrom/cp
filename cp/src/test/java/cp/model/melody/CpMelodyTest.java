@@ -10,25 +10,23 @@ import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
 import cp.out.print.Keys;
 import cp.out.print.note.Key;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
 @ExtendWith(SpringExtension.class)
 public class CpMelodyTest {
@@ -441,7 +439,7 @@ public class CpMelodyTest {
 		melody.updateRhythmNotes(rhythmNotes);
 		List<Note> melodyNotes = melody.getNotes();
 		assertEquals(melody.getStart(),melodyNotes.get(0).getPosition());
-		assertTrue(melodyNotes.get(0).isRest());
+		Assertions.assertTrue(melodyNotes.get(0).isRest());
 		assertEquals(DurationConstants.QUARTER+ DurationConstants.SIXTEENTH ,melodyNotes.get(1).getPosition());
 		assertEquals(4,melodyNotes.get(1).getPitchClass());
 		assertEquals(DurationConstants.QUARTER + DurationConstants.EIGHT,melodyNotes.get(2).getPosition());

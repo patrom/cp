@@ -8,18 +8,16 @@ import cp.out.instrument.strings.ViolinsI;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DefaultConfig.class)
 @ExtendWith(SpringExtension.class)
 public class VerticalRelationsTest {
@@ -36,7 +34,7 @@ public class VerticalRelationsTest {
 		InstrumentNoteMapping instrumentNoteMapping = verticalRelations.oneOrchestralQuality(new int[]{67, 64,60,57}, new ViolinsI(), null);
 		Map<Instrument, List<Note>> map = instrumentNoteMapping.getNotesForInstrument();
 		List<Note> notes = map.get(new ViolinsI());
-		assertEquals(notes.get(0).getPitch(), 67);
+        assertEquals(notes.get(0).getPitch(), 67);
 		assertEquals(notes.get(1).getPitch(), 64);
 		assertEquals(notes.get(2).getPitch(), 60);
 		assertEquals(notes.get(3).getPitch(), 57);

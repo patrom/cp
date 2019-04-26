@@ -1,12 +1,15 @@
 package cp.config;
 
 import cp.composition.Composition;
+import cp.model.harmony.Chord;
 import cp.model.harmony.ChordType;
 import cp.model.harmony.DependantHarmony;
 import cp.model.harmony.VoicingType;
 import cp.model.setclass.Set;
+import cp.model.setclass.SubSetCalculator;
 import cp.model.setclass.TnTnIType;
 import cp.util.RowMatrix;
+import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +27,8 @@ public class TextureConfig {
     private Map<Integer, List<DependantHarmony>> textureTypes = new HashMap<>();
     @Autowired
     private Composition composition;
+    @Autowired
+    private SubSetCalculator subSetCalculator;
 
     @PostConstruct
     public void init(){
@@ -82,12 +87,22 @@ public class TextureConfig {
 //        textureTypes.put(0, Collections.singletonList(createDependantHarmony(ChordType.CH2_KWINT_CHR)));
 
         List<DependantHarmony> intervals = new ArrayList<>();
-        intervals.add(createDependantHarmony(ChordType.CH2_KLEINE_TERTS_CHR));
-        intervals.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT_CHR));
-//        textureTypes.put(0, intervals);
-        intervals = new ArrayList<>();
-        intervals.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS_CHR));
-        intervals.add(createDependantHarmony(ChordType.CH2_KLEINE_SIXT_CHR));
+        intervals.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT));
+        intervals.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS));
+//        intervals.add(createDependantHarmony(ChordType.CH2_KLEINE_SIXT_CHR));
+//        intervals.add(createDependantHarmony(ChordType.MINOR_CHR));
+//        intervals.add(createDependantHarmony(ChordType.MINOR_1_CHR));
+//        intervals.add(createDependantHarmony(ChordType.MINOR_2_CHR));
+//        intervals.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT));
+//        intervals.add(createDependantHarmony(ChordType.NO_INTERVALS));
+//        intervals.add(createDependantHarmony(ChordType.CH2_KWINT));
+//        textureTypes.put(1, intervals);
+//        intervals = new ArrayList<>();
+//        intervals.add(createDependantHarmony(ChordType.CH2_OCTAVE));
+//        intervals.add(createDependantHarmony(ChordType.CH2_KWINT));
+//        intervals.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS));
+//        intervals.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT));
+//        intervals.add(createDependantHarmony(ChordType.NO_INTERVALS));
 //        textureTypes.put(1, intervaltypes);
 //        textureTypes.put(2, intervaltypes);
 //        textureTypes.put(2, chordTypes);
@@ -114,9 +129,9 @@ public class TextureConfig {
         TnTnIType tnTnIType = new TnTnIType();
         Set set3_1 = tnTnIType.getPrimeByName("3-5");
         List<DependantHarmony> setClassTypes = new ArrayList<>();
-        setClassTypes.add(createDependantHarmony(set3_1.tntnitype, VoicingType.CLOSE));
-        setClassTypes.add(createDependantHarmony(set3_1.tntnitype, VoicingType.DROP_2));
-        setClassTypes.add(createDependantHarmony(set3_1.tntnitype, VoicingType.DROP_3));
+//        setClassTypes.add(createDependantHarmony(set3_1.tntnitype, VoicingType.CLOSE));
+//        setClassTypes.add(createDependantHarmony(set3_1.tntnitype, VoicingType.DROP_2));
+//        setClassTypes.add(createDependantHarmony(set3_1.tntnitype, VoicingType.DROP_3));
 //        setClassTypes.add(createDependantHarmony(set3_1.tntnitype, VoicingType.DROP_2_4));
 
         List<DependantHarmony> allRowMatrixDrop2 = getAllRowMatrix(set3_1.tntnitype, VoicingType.CLOSE);
@@ -134,6 +149,7 @@ public class TextureConfig {
 
 
         Set set3_11 = tnTnIType.getPrimeByName("3-11");
+        Set set3_3 = tnTnIType.getPrimeByName("3-3");
         Set set_maj7 = tnTnIType.getPrimeByName("4-20");
         Set set_French6 = tnTnIType.getPrimeByName("4-25");
         Set set_min7 = tnTnIType.getPrimeByName("4-26");
@@ -145,24 +161,39 @@ public class TextureConfig {
 //        setClassTypesSet.add(createDependantHarmony(set.tntnitype, VoicingType.CLOSE));
 //        setClassTypesSet.add(createDependantHarmony(set.tntnitype, VoicingType.DROP_2));
 //        setClassTypesSet.add(createDependantHarmony(set.tntnitype, VoicingType.DROP_3));
-        setClassTypesSet.add(createDependantHarmony(set_maj7.tntnitype, VoicingType.CLOSE));
-        setClassTypesSet.add(createDependantHarmony(set_maj7.tntnitype, VoicingType.DROP_2));
-        setClassTypesSet.add(createDependantHarmony(set_French6.tntnitype, VoicingType.CLOSE));
-        setClassTypesSet.add(createDependantHarmony(set_French6.tntnitype, VoicingType.DROP_2));
+//        setClassTypesSet.add(createDependantHarmony(set_maj7.tntnitype, VoicingType.CLOSE));
+//        setClassTypesSet.add(createDependantHarmony(set_maj7.tntnitype, VoicingType.DROP_2));
+//        setClassTypesSet.add(createDependantHarmony(set_French6.tntnitype, VoicingType.CLOSE));
+//        setClassTypesSet.add(createDependantHarmony(set_French6.tntnitype, VoicingType.DROP_2));
 
-        setClassTypesSet.add(createDependantHarmony(set_min7.tntnitype, VoicingType.CLOSE));
-        setClassTypesSet.add(createDependantHarmony(set_min7.tntnitype, VoicingType.DROP_2));
+//        setClassTypesSet.add(createDependantHarmony(set_min7.tntnitype, VoicingType.CLOSE));
+//        setClassTypesSet.add(createDependantHarmony(set_min7.tntnitype, VoicingType.DROP_2));
 //        setClassTypesSet.add(createDependantHarmony(set.tntnitype, VoicingType.UP_3));
 
-        setClassTypesSet.add(createDependantHarmony(set_dom_halfdim.tntnitype, VoicingType.CLOSE));
-        setClassTypesSet.add(createDependantHarmony(set3_11.tntnitype, VoicingType.DROP_2));
-//        setClassTypesSet.add(createDependantHarmony(set3_11.tntnitype, VoicingType.UP_3));
+//        setClassTypesSet.add(createDependantHarmony(set_dom_halfdim.tntnitype, VoicingType.CLOSE));
+//        setClassTypesSet.add(createDependantHarmony(set3_11.tntnitype, VoicingType.DROP_2));
+//        setClassTypesSet.add(createDependantHarmony(set_dom_halfdim.tntnitype, VoicingType.UP_3));
+//        setClassTypesSet.add(createDependantHarmony(set_dom_halfdim.tntnitype, VoicingType.UP_2));
+//        setClassTypesSet.add(createDependantHarmony(set3_3.tntnitype, VoicingType.CLOSE));
 
-        setClassTypesSet.add(createDependantHarmony(set_dim.tntnitype, VoicingType.CLOSE));
-        setClassTypesSet.add(createDependantHarmony(set_dim.tntnitype, VoicingType.DROP_2));
+//        setClassTypesSet.add(createDependantHarmony(set_dim.tntnitype, VoicingType.CLOSE));
+//        setClassTypesSet.add(createDependantHarmony(set_dim.tntnitype, VoicingType.DROP_2));
 //        setClassTypesSet.add(createDependantHarmony(set_dim.tntnitype, VoicingType.UP_3));
 
-//        textureTypes.put(0, setClassTypesSet);
+        List<DependantHarmony> setClasses = new ArrayList<>();
+        List<Chord> subSets = new ArrayList<>();
+        subSets.addAll(subSetCalculator.getSubSets("6-32", "3-7"));
+        subSets.addAll(subSetCalculator.getSubSets("6-32", "3-9"));
+        subSets.addAll(subSetCalculator.getSubSets("6-32", "3-6"));
+        for (Chord chord : subSets) {
+            java.util.Set<Integer> pitchClassSet = chord.getPitchClassSet();
+            Integer[] pcs = pitchClassSet.toArray(new Integer[0]);
+            int[] pitchCls = ArrayUtils.toPrimitive(pcs);
+            setClasses.add(createDependantHarmonyComposition(pitchCls, VoicingType.CLOSE));
+            setClasses.add(createDependantHarmonyComposition(pitchCls, VoicingType.DROP_2));
+        }
+//        textureTypes.put(0, setClasses);
+        textureTypes.put(1, setClasses);
     }
 
 //    public List<DependantHarmony> rowMatrix(int[] setClass, VoicingType voicingType) {
@@ -222,6 +253,12 @@ public class TextureConfig {
     private DependantHarmony createDependantHarmony(int[] setClass, VoicingType voicingType){
         DependantHarmony dependantHarmony = new DependantHarmony(setClass, voicingType);
         dependantHarmony.setChordType(ChordType.SETCLASS);
+        return dependantHarmony;
+    }
+
+    private DependantHarmony createDependantHarmonyComposition(int[] setClass, VoicingType voicingType){
+        DependantHarmony dependantHarmony = new DependantHarmony(setClass, voicingType);
+        dependantHarmony.setChordType(ChordType.SETCLASS_COMPOSITION);
         return dependantHarmony;
     }
 

@@ -5,17 +5,17 @@ import cp.DefaultConfig;
 import cp.combination.even.FourNoteEven;
 import cp.composition.voice.MelodyVoice;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 
 /**
  * Created by prombouts on 19/04/2017.
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DefaultConfig.class)
 public class AccompGroupTest extends AbstractTest{
 

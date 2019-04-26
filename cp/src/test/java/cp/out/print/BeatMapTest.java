@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BeatMapTest {
 	
@@ -28,15 +28,15 @@ public class BeatMapTest {
 		notes.add(note().pc(2).pitch(62).len(DurationConstants.EIGHT).pos(DurationConstants.THREE_EIGHTS).build());
 		beatMap.createBeatMap(notes, DurationConstants.QUARTER);
 		List<Note> ties = beatMap.createTies();
-		assertEquals(3, ties.size());
+        assertEquals(3, ties.size());
 		Note tieNote = ties.get(0);
 		assertEquals(DurationConstants.QUARTER, tieNote.getDisplayLength());
 		assertEquals(0, tieNote.getPosition());
-		assertTrue(tieNote.isTieStart());
+        assertTrue(tieNote.isTieStart());
 		tieNote = ties.get(1);
 		assertEquals(DurationConstants.EIGHT, tieNote.getDisplayLength());
 		assertEquals(DurationConstants.QUARTER, tieNote.getPosition());
-		assertTrue(tieNote.isTieEnd());
+        assertTrue(tieNote.isTieEnd());
 	}
 
 	@Test

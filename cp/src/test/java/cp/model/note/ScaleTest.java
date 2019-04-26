@@ -7,26 +7,24 @@ import cp.model.TimeLineKey;
 import cp.out.print.Keys;
 import cp.util.RandomUtil;
 import org.apache.commons.lang.ArrayUtils;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
 @ExtendWith(SpringExtension.class)
 public class ScaleTest {
@@ -46,7 +44,7 @@ public class ScaleTest {
 	@Test
 	public void testTransposePitchClass() {
 		int transposed = scale.transposePitchClass(4, 2);
-		assertEquals(7, transposed);
+        assertEquals(7, transposed);
 	}
 
     @ParameterizedTest
@@ -111,7 +109,7 @@ public class ScaleTest {
 			transpositions[i] = transposed;
 		}
 		Arrays.sort(transpositions);
-		Assert.assertTrue(Arrays.equals(transpositions, scale.getPitchClasses()));
+		Assertions.assertTrue(Arrays.equals(transpositions, scale.getPitchClasses()));
 	}
 
 	@Test

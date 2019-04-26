@@ -8,6 +8,7 @@ import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.Technical;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,8 +17,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("HumanizerTest")
@@ -40,7 +43,7 @@ public class HumanizerTest {
         Note note = NoteBuilder.note().dyn(Dynamic.MF).build();
         int velocity = humanizer.velocity(note);
         System.out.println(velocity);
-        assertTrue("Error, timing is too high", -6 <= velocity);
+        assertTrue( -6 <= velocity);
         assertTrue("Error, timing is too low",  6  >= velocity);
     }
 
@@ -84,10 +87,10 @@ public class HumanizerTest {
     @Test
     public void isLongNote() {
         boolean longNote = humanizer.isLongNote(DurationConstants.QUARTER);
-        assertFalse(longNote);
+        Assertions.assertFalse(longNote);
         when(musicProperties.getTempo()).thenReturn(60);
         longNote = humanizer.isLongNote(DurationConstants.QUARTER);
-        assertTrue(longNote);
+        Assertions.assertTrue(longNote);
     }
 
 }

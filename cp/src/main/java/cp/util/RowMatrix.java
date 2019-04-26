@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -17,8 +18,8 @@ public class RowMatrix {
     public static void main(String[] args) {
 
 //        Integer[] s = {11,0, 6, 4, 10, 9, 1, 8, 3, 7, 5, 2};
-        Integer[] s = {0,2,7};
-        List<Integer> set = Arrays.asList(s);
+
+        List<Integer> set = IntStream.of(Scale.SET_6_27.getPitchClasses()).boxed().collect(Collectors.toList());
         Stream<Integer> firstHexaChord = IntStream.of(Scale.ALL_COMBINATORIAL_HEXAHCORD_C.getPitchClasses()).boxed();
         Stream<Integer> secondHexachord = IntStream.of(Scale.ALL_COMBINATORIAL_HEXAHCORD_C_COMPLEMENT.getPitchClasses()).boxed();
 
@@ -32,7 +33,7 @@ public class RowMatrix {
         RowMatrix rowMatrix = new RowMatrix(set.size(), set);
         rowMatrix.show();
 
-        for (int i = 0; i < s.length; i++) {
+        for (int i = 0; i < set.size(); i++) {
             int[] row = rowMatrix.getRow(i);
             Arrays.sort(row);
             System.out.println(Arrays.toString(row));

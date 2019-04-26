@@ -2,6 +2,7 @@ package cp.model.harmony;
 
 import cp.model.note.Note;
 import cp.util.RowMatrix;
+import org.apache.commons.lang.ArrayUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -115,6 +116,37 @@ public class DependantHarmony{
         }
     }
 
+    public void dependantBelowCompositionPitchClasses(Note note){
+        notes.clear();
+        updatePitchClassesCompositionPitchClasses(note);
+        sortDependantNotesCloseBelow(note);
+        switch (voicingType) {
+            case DROP_2:
+                drop2Voicing();
+                break;
+            case DROP_3:
+                drop3Voicing();
+                break;
+            case DROP_2_4:
+                drop2And4Voicing();
+                break;
+        }
+    }
+
+    public void dependantAboveCompositionPitchClasses(Note note){
+        notes.clear();
+        updatePitchClassesCompositionPitchClasses(note);
+        sortDependantNotesCloseAbove(note);
+        switch (voicingType) {
+            case UP_2:
+                up2Voicing();
+                break;
+            case UP_3:
+                up3Voicing();
+                break;
+        }
+    }
+
     protected void updatePitchClassesBelow(Note note){
         int[] pitchClasses = setClass;
         for (int i = 1; i < pitchClasses.length; i++) {
@@ -134,6 +166,17 @@ public class DependantHarmony{
             int newPc = (note.getPitchClass() + pitchClass + 12) % 12;
             clone.setPitchClass(newPc);
             notes.add(clone);
+        }
+    }
+
+    protected void updatePitchClassesCompositionPitchClasses(Note note){
+        if (ArrayUtils.contains(setClass, note.getPitchClass())) {
+            int[] pitchClasses = ArrayUtils.removeElement(setClass, note.getPitchClass());
+            for (int i = 0; i < pitchClasses.length; i++) {
+                Note clone = note.clone();
+                clone.setPitchClass(pitchClasses[i]);
+                notes.add(clone);
+            }
         }
     }
 
@@ -172,54 +215,64 @@ public class DependantHarmony{
     }
 
     protected void drop2Voicing(){
-        Note dropNote = notes.get(0);
-        notes.remove(0);
-        dropNote.transposeOctaveDown();
-        notes.add(dropNote);
+        if (!notes.isEmpty()) {
+            Note dropNote = notes.get(0);
+            notes.remove(0);
+            dropNote.transposeOctaveDown();
+            notes.add(dropNote);
+        }
     }
 
     protected void up2Voicing(){
-        Note upNote = notes.get(0);
-        notes.remove(0);
-        upNote.transposeOctaveUp();
-        notes.add(upNote);
+        if (!notes.isEmpty()) {
+            Note upNote = notes.get(0);
+            notes.remove(0);
+            upNote.transposeOctaveUp();
+            notes.add(upNote);
+        }
     }
 
     protected void drop3Voicing(){
         if ( notes.size() < 2) {
            throw new IllegalStateException("drop 3 voicing not possible");
         }
-        Note dropNote = notes.get(1);
-        notes.remove(1);
-        dropNote.transposeOctaveDown();
-        notes.add(dropNote);
+        if (!notes.isEmpty()) {
+            Note dropNote = notes.get(1);
+            notes.remove(1);
+            dropNote.transposeOctaveDown();
+            notes.add(dropNote);
+        }
     }
 
     protected void up3Voicing(){
         if ( notes.size() < 2) {
             throw new IllegalStateException("drop 3 voicing not possible");
         }
-        Note upNote = notes.get(1);
-        notes.remove(1);
-        upNote.transposeOctaveUp();
-        notes.add(upNote);
+        if (!notes.isEmpty()) {
+            Note upNote = notes.get(1);
+            notes.remove(1);
+            upNote.transposeOctaveUp();
+            notes.add(upNote);
+        }
     }
 
     protected void drop2And4Voicing(){
         if ( notes.size() < 3) {
             throw new IllegalStateException("drop 2 + 4 voicing not possible");
         }
-        Note drop2Note = notes.get(0);
-        Note drop4Note = notes.get(2);
+        if (!notes.isEmpty()) {
+            Note drop2Note = notes.get(0);
+            Note drop4Note = notes.get(2);
 
-        notes.remove(drop2Note);
-        notes.remove(drop4Note);
+            notes.remove(drop2Note);
+            notes.remove(drop4Note);
 
-        drop2Note.transposeOctaveDown();
-        drop4Note.transposeOctaveDown();
+            drop2Note.transposeOctaveDown();
+            drop4Note.transposeOctaveDown();
 
-        notes.add(drop2Note);
-        notes.add(drop4Note);
+            notes.add(drop2Note);
+            notes.add(drop4Note);
+        }
     }
 
     public List<DependantHarmony> getAllRowMatrixBelow(Note note){

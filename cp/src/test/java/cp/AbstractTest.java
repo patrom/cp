@@ -14,13 +14,12 @@ import org.springframework.stereotype.Component;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @Component
-public abstract class AbstractTest extends JFrame {
+public abstract class AbstractTest {
 
 	protected static final Logger LOGGER = LoggerFactory.getLogger(AbstractTest.class.getName());
 	

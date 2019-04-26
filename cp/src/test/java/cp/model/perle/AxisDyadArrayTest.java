@@ -1,5 +1,6 @@
 package cp.model.perle;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -7,7 +8,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AxisDyadArrayTest {
 	
@@ -177,7 +178,7 @@ public class AxisDyadArrayTest {
 
 	@Test
 	public void testGetName() {
-		assertEquals("p0p7/p2p9", axisDyadArray.getName());
+        assertEquals("p0p7/p2p9", axisDyadArray.getName());
 	}
 
 	@Test
@@ -207,7 +208,7 @@ public class AxisDyadArrayTest {
 
 	@Test
 	public void testGetSums() {
-		assertNull(axisDyadArray.getSums());
+		Assertions.assertNull(axisDyadArray.getSums());
 	}
 
 	@Test

@@ -6,21 +6,19 @@ import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
 import cp.variation.AbstractVariationTest;
 import cp.variation.pattern.NeigborVariationPattern;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-@RunWith(SpringRunner.class)
+import static org.junit.jupiter.api.Assertions.assertEquals;
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class})
 @ExtendWith(SpringExtension.class)
 public class SuspensionTest extends AbstractVariationTest{
@@ -55,7 +53,7 @@ public class SuspensionTest extends AbstractVariationTest{
 	@Test
 	public void testCreateVariationNotAllowedLength() {
 		List<Note> notes = testNotAllowedLength();
-		assertTrue(notes.size() == 1);
+		Assertions.assertTrue(notes.size() == 1);
 		assertEquals(64, notes.get(0).getPitch());
 	}
 

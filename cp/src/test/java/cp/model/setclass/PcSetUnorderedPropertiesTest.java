@@ -8,15 +8,13 @@ import cp.midi.MidiParser;
 import cp.midi.MidiParserTest;
 import cp.model.note.Note;
 import org.apache.commons.lang.ArrayUtils;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.sound.midi.InvalidMidiDataException;
 import java.io.IOException;
@@ -26,7 +24,7 @@ import java.util.Map;
 
 import static java.util.stream.Collectors.toSet;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DefaultConfig.class)
 @ExtendWith(SpringExtension.class)
 public class PcSetUnorderedPropertiesTest extends AbstractTest {
@@ -65,7 +63,7 @@ public class PcSetUnorderedPropertiesTest extends AbstractTest {
 		set[1] = 4;
 		set[2] = 7;
 		pcSetUnorderedProperties = new PcSetUnorderedProperties(set);
-		Assert.assertEquals("3-11", pcSetUnorderedProperties.getForteName());
+		Assertions.assertEquals("3-11", pcSetUnorderedProperties.getForteName());
 	}
 	
 	private PcSetUnorderedProperties toPcSetUnorderedProperties(int...notes ){

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static cp.model.note.NoteBuilder.note;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NoteTest {
 	
@@ -18,7 +18,7 @@ public class NoteTest {
 	@Test
 	public void testTranspose() {
 		note.transposePitch(2);
-		assertEquals(1, note.getPitchClass());
+        assertEquals(1, note.getPitchClass());
 		assertEquals(61, note.getPitch());
 		assertEquals(5, note.getOctave());
 	}

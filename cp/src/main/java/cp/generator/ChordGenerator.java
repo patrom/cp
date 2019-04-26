@@ -72,6 +72,9 @@ public class ChordGenerator {
         else if (forteName.startsWith("6")) {
             type.initPrime6();
             pcs = getSet(forteName, type.prime6);
+        } else if (forteName.startsWith("7")) {
+            type.initPrime7();
+            pcs = getSet(forteName, type.prime7);
         } else {
             throw new IllegalArgumentException("No set class found for forte name: " + forteName);
         }

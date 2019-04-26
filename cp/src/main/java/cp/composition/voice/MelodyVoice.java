@@ -40,12 +40,12 @@ public class MelodyVoice extends Voice {
 //                beatgroups.beatGroupMotiveTwo,
 //                beatgroups.beatGroupMotiveThree
 //                beatgroups.beatGroupMotiveFour
-                beatgroups.beatGroupThree
+//                beatgroups.beatGroupThree
 //                compositeBeatgroup
-//                beatgroups.beatGroupTwo);
+                beatgroups.beatGroupTwo,
 //                beatGroupMelody
 //                beatGroupThree
-//                beatgroups.beatGroupFour
+                beatgroups.beatGroupFour
 
         );
 //        allBeatgroups = Arrays.asList(beatgroups.beatGroupMotiveOne, beatgroups.beatGroupMotiveTwo);

@@ -14,9 +14,9 @@ public class HomophonicVoice extends Voice {
     @PostConstruct
     public void init(){
         allBeatgroups = Arrays.asList(
-                beatgroups.beatGroupHomophonicThree
-//                beatgroups.beatGroupHomophonicFour
-//                beatgroups.beatGroupMotiveTwo,
+//                beatgroups.beatGroupHomophonicThree
+                beatgroups.beatGroupHomophonicFour
+//                beatgroups.beatGroupMotiveTwo
 //                beatgroups.beatGroupMotiveThree,
 //                beatgroups.beatGroupMotiveFour
         );

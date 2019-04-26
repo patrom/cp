@@ -18,27 +18,25 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 /**
  * Created by prombouts on 26/05/2017.
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DefaultConfig.class)
 @ExtendWith(SpringExtension.class)
 public class TextureTest {
@@ -266,6 +264,34 @@ public class TextureTest {
             Note note = NoteBuilder.note().pc(pitchClass).pitch(60 + pitchClass).octave(5).dep(dependantHarmony).build();
             List<Note> dependantNotes = texture.getTextureForNoteAbove(note);
             System.out.print(note.getPitch() + ", ");
+            dependantNotes.forEach(depNote1 -> System.out.print(depNote1.getPitch() + ", "));
+            System.out.println();
+        }
+    }
+
+    @Test
+    public void getDependantNotesBelowCompositionPitchClasses() {
+        DependantHarmony dependantHarmony = new DependantHarmony(new int[]{1,2,4}, VoicingType.DROP_2);
+        Scale chromaticScale = Scale.CHROMATIC_SCALE;
+        int[] pitchClasses = chromaticScale.getPitchClasses();
+        for (int pitchClass : pitchClasses) {
+            Note note = NoteBuilder.note().pc(pitchClass).pitch(60 + pitchClass).octave(5).dep(dependantHarmony).build();
+            List<Note> dependantNotes = texture.getDependantNotesBelowCompositionPitchClasses(note);
+            System.out.print(note.getPitch() + ": ");
+            dependantNotes.forEach(depNote1 -> System.out.print(depNote1.getPitch() + ", "));
+            System.out.println();
+        }
+    }
+
+    @Test
+    public void getDependantNotesAboveCompositionPitchClasses() {
+        DependantHarmony dependantHarmony = new DependantHarmony(new int[]{1,2,4}, VoicingType.CLOSE);
+        Scale chromaticScale = Scale.CHROMATIC_SCALE;
+        int[] pitchClasses = chromaticScale.getPitchClasses();
+        for (int pitchClass : pitchClasses) {
+            Note note = NoteBuilder.note().pc(pitchClass).pitch(60 + pitchClass).octave(5).dep(dependantHarmony).build();
+            List<Note> dependantNotes = texture.getDependantNotesAboveCompositionPitchClasses(note);
+            System.out.print(note.getPitch() + ": ");
             dependantNotes.forEach(depNote1 -> System.out.print(depNote1.getPitch() + ", "));
             System.out.println();
         }

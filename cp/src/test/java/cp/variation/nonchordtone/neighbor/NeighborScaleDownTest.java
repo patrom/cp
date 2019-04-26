@@ -10,18 +10,17 @@ import cp.variation.pattern.NeigborVariationPattern;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
 import static cp.model.note.NoteBuilder.note;
-import static org.junit.Assert.assertEquals;
-@RunWith(SpringRunner.class)
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
 @ExtendWith(SpringExtension.class)
 public class NeighborScaleDownTest extends AbstractVariationTest {
@@ -48,7 +47,7 @@ public class NeighborScaleDownTest extends AbstractVariationTest {
 		setVariation();
 		Note firstNote = note().pc(2).pitch(62).pos(DurationConstants.QUARTER).len(DurationConstants.QUARTER).octave(5).build();
 		List<Note> notes = variation.createVariation(firstNote ,null);
-		assertEquals(firstNote.getPitch(), notes.get(0).getPitch());
+        assertEquals(firstNote.getPitch(), notes.get(0).getPitch());
 		assertEquals(firstNote.getPitch() - 2, notes.get(1).getPitch());
 		assertEquals(firstNote.getPitch(), notes.get(2).getPitch());
 		

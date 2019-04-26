@@ -22,7 +22,8 @@ public class RandomAllPitchClasses {
     public List<Note> randomPitchClasses(CpMelody melody){
         LOGGER.debug("RandomAllPitchClasses");
         melody.updateTimeLineKeysNotes();
-        return  melody.getNotesNoRest().stream().map(note -> {
+        pitchClasses = null; //clear state!
+        List<Note> notes = melody.getNotesNoRest().stream().map(note -> {
             TimeLineKey timeLineKey = note.getTimeLineKey();
             Scale scale = timeLineKey.getScale();
             if (pitchClasses == null || pitchClasses.length == 0) {
@@ -31,6 +32,7 @@ public class RandomAllPitchClasses {
             note.setPitchClass(timeLineKey.getPitchClassForKey(pickRandomPitchClass()));
             return note;
         }).collect(Collectors.toList());
+        return notes;
     }
 
     public int pickRandomPitchClass(){
