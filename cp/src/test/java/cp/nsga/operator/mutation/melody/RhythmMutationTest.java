@@ -14,6 +14,7 @@ import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
 import cp.out.print.Keys;
+import cp.rhythm.RandomBeatGroupRhythm;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -83,7 +84,7 @@ public class RhythmMutationTest {
         beatGroups5.add(rhythmCombinations.twoNoteEven::pos23);
         beatGroups5.add(rhythmCombinations.twoNoteEven::pos24);
         map.put(2, beatGroups5);
-        return new BeatGroupMelody(DurationConstants.QUARTER, DurationConstants.EIGHT,  map , Collections.singletonList(randomPitchClasses::randomPitchClasses));
+        return new BeatGroupMelody(DurationConstants.QUARTER, DurationConstants.EIGHT,  new RandomBeatGroupRhythm(map) , Collections.singletonList(randomPitchClasses::randomPitchClasses));
     }
 
 }

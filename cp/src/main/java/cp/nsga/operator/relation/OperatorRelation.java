@@ -63,9 +63,13 @@ public class OperatorRelation {
                     melodyBlock = melodyBlockSource.clone((int) ((end - offset)/factor ), target);
                     melodyBlock.augmentation(factor, timeLine);
                     break;
+                case AUGMENTATION_RETROGRADE:
+                    melodyBlock = melodyBlockSource.clone((int) ((end - offset)/factor ), target);
+                    melodyBlock.augmentation(factor, timeLine).retrograde();
+                    break;
                 case DIMINUTION:
                     melodyBlock = melodyBlockSource.clone(end - offset, target);
-                    melodyBlock.diminution(steps, timeLine);
+                    melodyBlock.diminution(factor, timeLine);
                 case RHYTHMIC:
                 default:
                     break;

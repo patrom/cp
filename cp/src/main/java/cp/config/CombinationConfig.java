@@ -90,12 +90,12 @@ public class CombinationConfig {
 		map.put(2, twoCombinations);
 
         List<RhythmCombination> threeCombinations = new ArrayList<>();
-		threeCombinations.add(threeNoteEven::pos123);
-		threeCombinations.add(threeNoteEven::pos134);
-		threeCombinations.add(threeNoteEven::pos124);
+//		threeCombinations.add(threeNoteEven::pos123);
+//		threeCombinations.add(threeNoteEven::pos134);
+//		threeCombinations.add(threeNoteEven::pos124);
 		threeCombinations.add(threeNoteEven::pos234);
 
-        threeCombinations.add(threeNoteUneven::pos123);
+//        threeCombinations.add(threeNoteUneven::pos123);
 
 //		threeCombinations.add(threeNoteSexTuplet::pos145);
 //		threeCombinations.add(threeNoteSexTuplet::pos136);
@@ -106,12 +106,12 @@ public class CombinationConfig {
         List<RhythmCombination> fourCombinations = new ArrayList<>();
 		fourCombinations.add(fourNoteEven::pos1234);
 
-		fourCombinations.add(fourNoteSexTuplet::pos1456);
-		fourCombinations.add(fourNoteSexTuplet::pos1234);
-        fourCombinations.add(fourNoteSexTuplet::pos1345);
-        fourCombinations.add(fourNoteSexTuplet::pos1346);
-        fourCombinations.add(fourNoteSexTuplet::pos1356);
-		map.put(4, fourCombinations);
+//		fourCombinations.add(fourNoteSexTuplet::pos1456);
+//		fourCombinations.add(fourNoteSexTuplet::pos1234);
+//        fourCombinations.add(fourNoteSexTuplet::pos1345);
+//        fourCombinations.add(fourNoteSexTuplet::pos1346);
+//        fourCombinations.add(fourNoteSexTuplet::pos1356);
+//		map.put(4, fourCombinations);
 
         List<RhythmCombination> fiveCombinations = new ArrayList<>();
 //		fiveCombinations.add(quintuplet::pos12345);

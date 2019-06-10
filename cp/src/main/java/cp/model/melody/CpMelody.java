@@ -20,7 +20,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.Comparator.reverseOrder;
 import static java.util.stream.Collectors.toList;
 
 public class CpMelody implements Comparable<CpMelody>{
@@ -566,24 +565,15 @@ public class CpMelody implements Comparable<CpMelody>{
         });
     }
 
-	public CpMelody R() {
-        int size = notes.size() - 1;
-        Note lastNote = notes.get(size);
-        int lastPosition = start + lastNote.getPosition();
-		List<Note> reversed = notes.stream().sorted(reverseOrder()).collect(toList());
+	public CpMelody Retrograde() {
 		Collections.reverse(contour);
-        List<Integer> reversedPositions = notes.stream().sorted(reverseOrder()).map(Note::getPosition).collect(toList());
-		this.notes = reversed;
-        Note firstNote = notes.get(0);
-        Integer firstPosition = firstNote.getPosition();
-		for (int i = 1; i < size; i++) {
-            Integer nextPosition = reversedPositions.get(i);
-            Note note = notes.get(i);
-            note.setPosition(start + (firstPosition - nextPosition));
-		}
-        firstNote.setPosition(start);
-        lastNote = notes.get(size);
-        lastNote.setPosition(start + lastPosition);
+        for (Note note : notes) {
+            if (note.getPosition() > start) {
+                note.setPosition(note.getPosition() - end);
+            } else if (note.getPosition() < start) {
+                note.setPosition(note.getPosition() + start);
+            }
+        }
 		return this;
 	}
 

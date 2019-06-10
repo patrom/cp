@@ -87,8 +87,8 @@ public class TextureConfig {
 //        textureTypes.put(0, Collections.singletonList(createDependantHarmony(ChordType.CH2_KWINT_CHR)));
 
         List<DependantHarmony> intervals = new ArrayList<>();
-        intervals.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT));
-        intervals.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS));
+//        intervals.add(createDependantHarmony(ChordType.CH2_KLEIN_SEPTIEM));
+        intervals.add(createDependantHarmony(ChordType.CH2_GROTE_SECONDE_CHR));
 //        intervals.add(createDependantHarmony(ChordType.CH2_KLEINE_SIXT_CHR));
 //        intervals.add(createDependantHarmony(ChordType.MINOR_CHR));
 //        intervals.add(createDependantHarmony(ChordType.MINOR_1_CHR));
@@ -96,7 +96,7 @@ public class TextureConfig {
 //        intervals.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT));
 //        intervals.add(createDependantHarmony(ChordType.NO_INTERVALS));
 //        intervals.add(createDependantHarmony(ChordType.CH2_KWINT));
-//        textureTypes.put(1, intervals);
+//        textureTypes.put(2, intervals);
 //        intervals = new ArrayList<>();
 //        intervals.add(createDependantHarmony(ChordType.CH2_OCTAVE));
 //        intervals.add(createDependantHarmony(ChordType.CH2_KWINT));
@@ -182,18 +182,18 @@ public class TextureConfig {
 
         List<DependantHarmony> setClasses = new ArrayList<>();
         List<Chord> subSets = new ArrayList<>();
-        subSets.addAll(subSetCalculator.getSubSets("6-32", "3-7"));
+        subSets.addAll(subSetCalculator.getSubSets("6-7", "3-8"));
         subSets.addAll(subSetCalculator.getSubSets("6-32", "3-9"));
-        subSets.addAll(subSetCalculator.getSubSets("6-32", "3-6"));
+//        subSets.addAll(subSetCalculator.getSubSets("6-32", "3-6"));
         for (Chord chord : subSets) {
             java.util.Set<Integer> pitchClassSet = chord.getPitchClassSet();
             Integer[] pcs = pitchClassSet.toArray(new Integer[0]);
             int[] pitchCls = ArrayUtils.toPrimitive(pcs);
+//            setClasses.add(createDependantHarmonyComposition(pitchCls, VoicingType.CLOSE));
             setClasses.add(createDependantHarmonyComposition(pitchCls, VoicingType.CLOSE));
-            setClasses.add(createDependantHarmonyComposition(pitchCls, VoicingType.DROP_2));
         }
 //        textureTypes.put(0, setClasses);
-        textureTypes.put(1, setClasses);
+//        textureTypes.put(1, setClasses);
     }
 
 //    public List<DependantHarmony> rowMatrix(int[] setClass, VoicingType voicingType) {

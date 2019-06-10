@@ -1,6 +1,5 @@
 package cp.composition.beat.harmony;
 
-import cp.combination.RhythmCombination;
 import cp.composition.beat.BeatGroup;
 import cp.composition.voice.NoteSizeValueObject;
 import cp.generator.pitchclass.PitchClassGenerator;
@@ -8,39 +7,30 @@ import cp.model.TimeLineKey;
 import cp.model.melody.Tonality;
 import cp.model.note.Note;
 import cp.model.note.Scale;
-import cp.util.RandomUtil;
+import cp.rhythm.BeatGroupRhythm;
+import cp.rhythm.RhythmCombinationVO;
 import cp.util.RowMatrix;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
-import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
 public class BeatgroupHarmony extends BeatGroup {
 
-    public BeatgroupHarmony(int length, Map<Integer, List<RhythmCombination>> rhythmCombinationMap, List<PitchClassGenerator> pitchClassGenerators) {
-        super(length, rhythmCombinationMap, pitchClassGenerators);
+    public BeatgroupHarmony(int length, BeatGroupRhythm beatGroupRhythm, List<PitchClassGenerator> pitchClassGenerators) {
+        super(length, beatGroupRhythm, pitchClassGenerators);
     }
 
     public List<Note> getRhythmNotesForBeatgroupType(int size){
-        List<RhythmCombination> rhythmCombinations = this.rhythmCombinationMap.get(size);
-        if(rhythmCombinations == null){
-            LOGGER.info("No (provided) combination found for size: " + size);
-            return emptyList();
-        }
-        return getNotes(rhythmCombinations);
+        RhythmCombinationVO rhythmCombinationVO = beatGroupRhythm.getRandomRhythmNotesForBeatgroupType(size);
+        return rhythmCombinationVO.getRhythmCombination().getNotes(this.length, this.pulse);
     }
 
     public NoteSizeValueObject getRandomRhythmNotesForBeatgroupType(){
-        Object[] keys = rhythmCombinationMap.keySet().toArray();
-        Integer key = (Integer) keys[new Random().nextInt(keys.length)];
-        List<RhythmCombination> rhythmCombinations = rhythmCombinationMap.get(key);
-        RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
-        return new NoteSizeValueObject(key, rhythmCombination.getNotes(this.length, this.pulse));
+        RhythmCombinationVO rhythmCombinationVO = beatGroupRhythm.getRandomRhythmNotesForBeatgroupType();
+        return new NoteSizeValueObject(rhythmCombinationVO.getSize(), rhythmCombinationVO.getRhythmCombination().getNotes(this.length, this.pulse));
     }
 
     @PostConstruct

@@ -11,6 +11,7 @@ import cp.model.melody.Tonality;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.out.print.Keys;
+import cp.rhythm.BeatGroupRhythm;
 import cp.util.RandomUtil;
 import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
@@ -21,7 +22,6 @@ import org.springframework.beans.factory.annotation.Value;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public abstract class BeatGroup {
 
@@ -31,23 +31,23 @@ public abstract class BeatGroup {
 
     protected int length;
     protected int pulse;
-    protected Map<Integer, List<RhythmCombination>> rhythmCombinationMap;
+    protected BeatGroupRhythm beatGroupRhythm;
     protected List<PitchClassGenerator> pitchClassGenerators = new ArrayList<>();
 
     public BeatGroup(int length) {
         this.length = length;
     }
 
-    public BeatGroup(int length, Map<Integer, List<RhythmCombination>> rhythmCombinationMap, List<PitchClassGenerator> pitchClassGenerators) {
+    public BeatGroup(int length, BeatGroupRhythm beatGroupRhythm, List<PitchClassGenerator> pitchClassGenerators) {
         this.length = length;
-        this.rhythmCombinationMap = rhythmCombinationMap;
+        this.beatGroupRhythm = beatGroupRhythm;
         this.pitchClassGenerators = pitchClassGenerators;
     }
 
-    public BeatGroup(int length, int pulse, Map<Integer, List<RhythmCombination>> rhythmCombinationMap, List<PitchClassGenerator> pitchClassGenerators) {
+    public BeatGroup(int length, int pulse, BeatGroupRhythm beatGroupRhythm, List<PitchClassGenerator> pitchClassGenerators) {
         this.length = length;
         this.pulse = pulse;
-        this.rhythmCombinationMap = rhythmCombinationMap;
+        this.beatGroupRhythm = beatGroupRhythm;
         this.pitchClassGenerators = pitchClassGenerators;
     }
 
@@ -169,10 +169,6 @@ public abstract class BeatGroup {
 
     public Scale getMotiveScale() {
         return motiveScale;
-    }
-
-    public void setRhythmCombinationMap(Map<Integer, List<RhythmCombination>> rhythmCombinationMap) {
-        this.rhythmCombinationMap = rhythmCombinationMap;
     }
 
     public void setPitchClassGenerators(List<PitchClassGenerator> pitchClassGenerators) {

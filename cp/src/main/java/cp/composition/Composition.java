@@ -190,7 +190,7 @@ public abstract class Composition {
 	@PostConstruct
 	public void init(){
 		composeInKey(keys.C);
-		inTempo(93);
+		inTempo(100);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
 		meterObjective.setComposition(this);
@@ -204,11 +204,11 @@ public abstract class Composition {
 //		instruments = ensemble.getStringQuartet();
 
 		setTimeconfig();
-		end = 4  * getTimeConfig().getMeasureDuration();
+		end = 8  * getTimeConfig().getMeasureDuration() + DurationConstants.QUARTER;
 		timeLine.setEnd(end);
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
-		timeLineKeys.add(new TimeLineKey(keys.C, Scale.MAJOR_SCALE, 0 ,0));
+		timeLineKeys.add(new TimeLineKey(keys.G, Scale.MAJOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.F, Scale.MELODIC_MINOR_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.C, Scale.DORIAN_SCALE, 0 ,0));
 //		timeLineKeys.add(new TimeLineKey(keys.C, Scale.HARMONIC_MINOR_SCALE, 0 ,0));
@@ -254,9 +254,11 @@ public abstract class Composition {
 
         //2. or add timeline key per voice
         List<TimeLineKey> timeLineKeysForVoices = new ArrayList<>();
-        timeLineKeysForVoices.add(new TimeLineKey(0, keys.C, Scale.SET_6_32, 0 ,0));
-        timeLineKeysForVoices.add(new TimeLineKey(1, keys.C, Scale.SET_6_32, 0 ,0));
-        timeLineKeysForVoices.add(new TimeLineKey(2, keys.C, Scale.SET_6_32, 0 ,0));
+        timeLineKeysForVoices.add(new TimeLineKey(0, keys.C, Scale.MAJOR_SCALE, 0 ,0));
+        timeLineKeysForVoices.add(new TimeLineKey(1, keys.C, Scale.MAJOR_SCALE, 0 ,0));
+        timeLineKeysForVoices.add(new TimeLineKey(2, keys.C, new Scale(new int[]{0, 4 , 9}), 0 ,0));
+        timeLineKeysForVoices.add(new TimeLineKey(3, keys.C, Scale.MAJOR_SCALE, 0 ,0));
+        timeLineKeysForVoices.add(new TimeLineKey(4, keys.C, Scale.MAJOR_SCALE, 0 ,0));
 //        timeLineKeysForVoices.add(new TimeLineKey(2, keys.C, Scale.SET_8_25, 0 ,0));
 //        timeLineKeysForVoices.add(new TimeLineKey(3, keys.C, Scale.SET_8_25, 0 ,0));
         timeLine.randomKeysAndDurationsForVoices(durations, timeLineKeysForVoices);
@@ -383,7 +385,7 @@ public abstract class Composition {
 
 //		harmonicObjective.setDissonance(tonalDissonance::getDissonance);
 //		harmonicObjective.setDissonance(symmetryDissonance::getDissonance);
-		harmonicObjective.setDissonance(subSets_6_32::getDissonance);
+		harmonicObjective.setDissonance(additiveDissonance::getDissonance);
 //		harmonicObjective.setDissonance(additiveDissonance::getDissonance);
 		harmonicResolutionObjective.setDissonantResolution(dissonantResolutionImpl::isDissonant);
 

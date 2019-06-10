@@ -9,6 +9,7 @@ import cp.composition.voice.NoteSizeValueObject;
 import cp.generator.pitchclass.RandomPitchClasses;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
+import cp.rhythm.RandomBeatGroupRhythm;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,13 +37,13 @@ public class CompositeBeatgroupTest {
         List<RhythmCombination> beatGroups3 = new ArrayList<>();
         beatGroups3.add(rhythmCombinations.twoNoteEven::pos13);
         map.put(2, beatGroups3);
-        BeatGroupMelody beatGroupMelody = new BeatGroupMelody(DurationConstants.HALF, DurationConstants.EIGHT, map, Collections.singletonList(randomPitchClasses::randomPitchClasses));
+        BeatGroupMelody beatGroupMelody = new BeatGroupMelody(DurationConstants.HALF, DurationConstants.EIGHT, new RandomBeatGroupRhythm(map), Collections.singletonList(randomPitchClasses::randomPitchClasses));
 
         map = new HashMap<>();
         List<RhythmCombination> beatGroups = new ArrayList<>();
         beatGroups.add(rhythmCombinations.twoNoteEven::pos14);
         map.put(2, beatGroups);
-        BeatGroupMelody beatGroupMelody2 = new BeatGroupMelody(DurationConstants.QUARTER, DurationConstants.EIGHT, map, Collections.singletonList(randomPitchClasses::randomPitchClasses));
+        BeatGroupMelody beatGroupMelody2 = new BeatGroupMelody(DurationConstants.QUARTER, DurationConstants.EIGHT, new RandomBeatGroupRhythm(map), Collections.singletonList(randomPitchClasses::randomPitchClasses));
 
         compositeBeatgroup = new CompositeBeatgroup(DurationConstants.HALF);
         compositeBeatgroup.addBeatGroups(beatGroupMelody, beatGroupMelody2);

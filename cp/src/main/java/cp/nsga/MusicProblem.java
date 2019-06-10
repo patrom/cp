@@ -30,7 +30,7 @@ public class MusicProblem extends Problem {
 	@Autowired
 	public MusicProblem(MusicProperties properties) throws ClassNotFoundException {
 		numberOfVariables_ = 1;
-		numberOfObjectives_ = 2;
+		numberOfObjectives_ = 3;
 		numberOfConstraints_ = 0;
 		problemName_ = "MusicProblem";
 
@@ -45,6 +45,8 @@ public class MusicProblem extends Problem {
 				new Value(properties.getHarmonyConsDissValue()), new Value(1.0));
 	}
 
+
+    //Waning: set correct index for objective -> otherwise override of value!!
 	@Override
 	public void evaluate(Solution solution) throws JMException {
 		Variable[] variables = solution.getDecisionVariables();
@@ -56,7 +58,7 @@ public class MusicProblem extends Problem {
 
 //		double melodyObjective = 1 - melodyMembershipFunction.membership(1 - objectives.getMelody());
 		double melodyObjective = 1 - objectives.getMelody();
-//		solution.setObjective(1, melodyObjective);// melody
+		solution.setObjective(1, melodyObjective);// melody
 
 		double rhythmObjective = 1 - objectives.getRhythm();
 //		solution.setObjective(2, rhythmObjective);
@@ -74,7 +76,7 @@ public class MusicProblem extends Problem {
 //		solution.setObjective(5, register);
 
         double melodicHarmonic = 1 - objectives.getMelodicHarmonic();
-        solution.setObjective(1, melodicHarmonic);
+        solution.setObjective(2, melodicHarmonic);
 //		if (objectives.getVoiceleading() > 1 && objectives.getVoiceleading() < 4) {
 //			solution.setObjective(1, 0);
 //		} else {
@@ -99,7 +101,7 @@ public class MusicProblem extends Problem {
 		musicSolution.setResolution(objectives.getResolution());
 		musicSolution.setRegister(register);
 		musicSolution.setVoiceLeading(objectives.getVoiceleading());
-		musicSolution.setMelodicHarmonic(melodicHarmonic);
+//		musicSolution.setMelodicHarmonic(melodicHarmonic);
         musicSolution.setTransformation(transformation);
 
 		// musicSolution.setConstraintLowestInterval(objectives[5]);

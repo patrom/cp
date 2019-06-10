@@ -25,7 +25,7 @@ public class TimbreConfig {
         timbreConfig.put(1, defaultTimbre);
         timbreConfig.put(2, defaultTimbre);
         timbreConfig.put(3, defaultTimbre);
-        timbreConfig.put(4, new Timbre(null, Technical.LEGATO, Dynamic.PP));
+        timbreConfig.put(4, defaultTimbre);
         timbreConfig.put(5, new Timbre(Articulation.DETACHED_LEGATO, Technical.LEGATO, Dynamic.MF));
     }
 

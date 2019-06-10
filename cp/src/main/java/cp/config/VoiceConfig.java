@@ -18,9 +18,9 @@ public class VoiceConfig {
     @Autowired
     private MelodyVoice melodyVoice;
     @Autowired
-    private MelodyVoiceTest melodyVoiceTest;
-    @Autowired
     private HomophonicVoice homophonicVoice;
+    @Autowired
+    private HomophonicUnevenVoice homophonicUnevenVoice;
     @Autowired
     private BassVoice bassVoice;
     @Autowired
@@ -60,9 +60,9 @@ public class VoiceConfig {
     @PostConstruct
     public void initVoiceConfig(){
         voiceConfiguration.put(0, homophonicVoice);
-        voiceConfiguration.put(1, melodyVoice);
-        voiceConfiguration.put(2, melodyVoice);
-        voiceConfiguration.put(3, melodyVoice);
+        voiceConfiguration.put(1, homophonicVoice);
+        voiceConfiguration.put(2, homophonicUnevenVoice);
+        voiceConfiguration.put(3, homophonicVoice);
         voiceConfiguration.put(4, homophonicVoice);
         voiceConfiguration.put(5, melodyVoice);
 

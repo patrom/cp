@@ -31,7 +31,7 @@ public class MelodyProviderConfig {
         melodyProviderConfigs.put(1, melodyManualProvider);
         melodyProviderConfigs.put(2, melodyManualProvider);
         melodyProviderConfigs.put(3, melodyManualProvider);
-        melodyProviderConfigs.put(4, melodyGeneratorProvider);
+        melodyProviderConfigs.put(4, melodyManualProvider);
         melodyProviderConfigs.put(5, melodyGeneratorProvider);
     }
 

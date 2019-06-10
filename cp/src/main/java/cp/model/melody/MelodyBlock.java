@@ -238,9 +238,9 @@ public class MelodyBlock {
 //			BeatGroup beatgroup = melodyBlock.getBeatGroup();
 //			BeatGroup clonedBeatgroup = beatgroup.clone(beatgroup.getLength() * factor);
 //			melodyBlock.setBeatGroup(clonedBeatgroup);
-			melodyBlock.getNotes().forEach(note -> {
+			melodyBlock.getNotes().stream().forEach(note -> {
 				int length = (int) (note.getLength() * factor);
-				if (length >= DurationConstants.SIXTEENTH_TRIPLET) {
+				if (length >= DurationConstants.SIXTEENTH) {
 					int newPosition = (int)(note.getPosition() * factor);
 					if (!note.isRest()) {
 						TimeLineKey timeLineKey = timeLine.getTimeLineKeyAtPosition(note.getPosition(), note.getVoice());
@@ -275,6 +275,20 @@ public class MelodyBlock {
 		}
 		return this;
 	}
+
+    public MelodyBlock retrograde(){
+        Collections.reverse(melodyBlocks);
+        int prevStart = 0;
+        for (int i = 0; i < melodyBlocks.size(); i++) {
+            CpMelody cpMelody = melodyBlocks.get(i);
+            int end = cpMelody.getEnd() - cpMelody.getStart() + prevStart;
+            cpMelody.setStart(prevStart);
+            cpMelody.setEnd(end);
+            cpMelody.Retrograde();
+            prevStart = end;
+        }
+        return this;
+    }
 	
 	public List<CpMelody> getMelodyBlocks() {
 		return melodyBlocks;

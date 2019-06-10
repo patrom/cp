@@ -395,7 +395,7 @@ public class CpMelodyTest {
 			contour.add(1);
 			contour.add(-1);
             melody.setContour(contour);
-			melody.R().T(2);
+			melody.Retrograde().T(2);
 			melody.getNotes().forEach(n -> System.out.println(n));
 			melody.getContour().forEach(n -> System.out.println(n));
 			System.out.println();
@@ -417,7 +417,7 @@ public class CpMelodyTest {
         contour.add(1);
         contour.add(-1);
         melody.setContour(contour);
-		melody.R();
+		melody.Retrograde();
 		melody.getNotes().forEach(n -> System.out.println(n));
 		melody.getContour().forEach(n -> System.out.println(n));
 		System.out.println();

@@ -200,6 +200,48 @@ public class FiveVoiceComposition extends Composition {
         return melodyBlocks;
     }
 
+    public List<MelodyBlock> partAugmentation() {
+        List<MelodyBlock> melodyBlocks = new ArrayList<>();
+
+        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0);
+//        melodyBlock.setOffset(getTimeConfig().getOffset());
+        melodyBlock.setMutable(false);
+        melodyBlocks.add(melodyBlock);
+
+        OperatorRelation operatorRelation = new OperatorRelation(Operator.AUGMENTATION);
+        operatorRelation.setSource(voice4);
+        operatorRelation.setTarget(voice0);
+        operatorRelation.setTimeLine(timeLine);
+        operatorRelation.setFactor(2.0);
+//        operatorRelation.setOffset(getTimeConfig().getOffset());
+        operatorConfig.addOperatorRelations(operatorRelation::execute);
+
+        MelodyBlock melodyBlock2 = melodyGenerator.generateMelodyBlockConfig(voice3);
+//        melodyBlock2.setOffset(getTimeConfig().getOffset());
+        melodyBlock2.setMutable(false);
+        melodyBlocks.add(melodyBlock2);
+
+        operatorRelation = new OperatorRelation(Operator.AUGMENTATION);
+        operatorRelation.setSource(voice1);
+        operatorRelation.setTarget(voice3);
+        operatorRelation.setTimeLine(timeLine);
+        operatorRelation.setFactor(2.0);
+//        operatorRelation.setOffset(getTimeConfig().getOffset());
+        operatorConfig.addOperatorRelations(operatorRelation::execute);
+
+        MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlockConfig(voice2);
+        melodyBlocks.add(melodyBlock3);
+
+        MelodyBlock melodyBlock4 = melodyGenerator.generateMelodyBlockConfig(voice1);
+        melodyBlocks.add(melodyBlock4);
+
+        MelodyBlock melodyBlock5 = melodyGenerator.generateMelodyBlockConfig(voice4);
+        melodyBlocks.add(melodyBlock5);
+
+        return melodyBlocks;
+    }
+
+
 
 }
 

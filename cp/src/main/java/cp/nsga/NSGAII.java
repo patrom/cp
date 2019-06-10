@@ -122,10 +122,10 @@ public class NSGAII extends Algorithm {
 					Solution[] offSpring = (Solution[]) crossoverOperator.execute(parents);
 					mutateOffspring(offSpring[0]);
 					mutateOffspring(offSpring[1]);
-//					for (Relation relation : operatorConfig.getRelations()) {
-//						relation.execute(offSpring[0]);
-//						relation.execute(offSpring[1]);
-//					}
+					for (Relation relation : operatorConfig.getRelations()) {
+						relation.execute(offSpring[0]);
+						relation.execute(offSpring[1]);
+					}
 					problem_.evaluate(offSpring[0]);
 					problem_.evaluateConstraints(offSpring[0]);
 					problem_.evaluate(offSpring[1]);

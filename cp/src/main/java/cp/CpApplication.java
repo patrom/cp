@@ -155,6 +155,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 
 		//FIVE VOICES
 //		composeInGenres.add(fiveVoiceComposition::allRandom);
+		composeInGenres.add(fiveVoiceComposition::partAugmentation);
 //		composeInGenres.add(fiveVoiceComposition::homophonicRhythm);
 //		fiveVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
 //		fiveVoiceComposition.setHarmonizeVoice(4);
@@ -184,8 +185,9 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 			    
 //			    population.sort(Comparator.comparing(MusicSolution::getMelody).thenComparing(MusicSolution::getHarmony));
 			    population.sort(Comparator
-						.comparing(MusicSolution::getMelodicHarmonic)
-						.thenComparing(MusicSolution::getHarmony));
+						.comparing(MusicSolution::getMelody)
+						.thenComparing(MusicSolution::getMelodicHarmonic)
+                        .thenComparing(MusicSolution::getHarmony));
 ////						.thenComparing(MusicSolution::getTransformation)
 //						.thenComparing(MusicSolution::getResolution)
 //			    		.thenComparing(MusicSolution::getMelody));
