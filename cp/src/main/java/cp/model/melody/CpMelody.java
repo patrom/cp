@@ -15,6 +15,7 @@ import cp.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +23,7 @@ import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
-public class CpMelody implements Comparable<CpMelody>{
+public class CpMelody implements Comparable<CpMelody> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CpMelody.class);
 	

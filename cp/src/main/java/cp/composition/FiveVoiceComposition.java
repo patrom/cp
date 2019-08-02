@@ -203,14 +203,14 @@ public class FiveVoiceComposition extends Composition {
     public List<MelodyBlock> partAugmentation() {
         List<MelodyBlock> melodyBlocks = new ArrayList<>();
 
-        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice0);
+        MelodyBlock melodyBlock = melodyGenerator.generateMelodyBlockConfig(voice1);
 //        melodyBlock.setOffset(getTimeConfig().getOffset());
         melodyBlock.setMutable(false);
         melodyBlocks.add(melodyBlock);
 
         OperatorRelation operatorRelation = new OperatorRelation(Operator.AUGMENTATION);
         operatorRelation.setSource(voice4);
-        operatorRelation.setTarget(voice0);
+        operatorRelation.setTarget(voice1);
         operatorRelation.setTimeLine(timeLine);
         operatorRelation.setFactor(2.0);
 //        operatorRelation.setOffset(getTimeConfig().getOffset());
@@ -232,7 +232,7 @@ public class FiveVoiceComposition extends Composition {
         MelodyBlock melodyBlock3 = melodyGenerator.generateMelodyBlockConfig(voice2);
         melodyBlocks.add(melodyBlock3);
 
-        MelodyBlock melodyBlock4 = melodyGenerator.generateMelodyBlockConfig(voice1);
+        MelodyBlock melodyBlock4 = melodyGenerator.generateMelodyBlockConfig(voice0);
         melodyBlocks.add(melodyBlock4);
 
         MelodyBlock melodyBlock5 = melodyGenerator.generateMelodyBlockConfig(voice4);

@@ -6,8 +6,12 @@
 
 package cp.model.setclass;
 
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 import javax.swing.*;
 
+@Component
 public class TnTnIType extends TnIType {
 
 	public final Set[] prime2 = new Set[6];
@@ -21,6 +25,18 @@ public class TnTnIType extends TnIType {
 
 	// public Set prime = new Set();
 	public Set prime;
+
+    @PostConstruct
+	public void init() {
+        initPrime2();
+        initPrime3();
+        initPrime4();
+        initPrime5();
+        initPrime6();
+        initPrime7();
+        initPrime8();
+        initPrime9();
+    }
 
 	// Constructors
 	public TnTnIType() {

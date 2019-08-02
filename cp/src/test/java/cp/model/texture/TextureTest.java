@@ -55,6 +55,9 @@ public class TextureTest {
     @Autowired
     private Keys keys;
 
+    @Autowired
+    private TnTnIType tnTnIType;
+
     @BeforeEach
     public void setUp(){
         TimeLineKey timeLineKey = new TimeLineKey(keys.E, Scale.MAJOR_SCALE, 0, 0);
@@ -196,7 +199,6 @@ public class TextureTest {
 
     @Test
     public void getAllRowMatrix() {
-        TnTnIType tnTnIType = new TnTnIType();
         Set set3_1 = tnTnIType.getPrimeByName("3-1");
         List<DependantHarmony> allRowMatrix = textureConfig.getAllRowMatrix(set3_1.tntnitype, VoicingType.CLOSE);
         for (DependantHarmony dependantHarmony : allRowMatrix) {
@@ -209,7 +211,6 @@ public class TextureTest {
 
     @Test
     public void getAllRowMatrixTetraChordalSet() {
-        TnTnIType tnTnIType = new TnTnIType();
         Set set4_27 = tnTnIType.getPrimeByName("4-27");
         List<DependantHarmony> allRowMatrix = textureConfig.getAllRowMatrix(set4_27.tntnitype, VoicingType.CLOSE);
         for (DependantHarmony dependantHarmony : allRowMatrix) {
@@ -222,7 +223,6 @@ public class TextureTest {
 
     @Test
     public void getAllRowMatrixAboveTetraChordalSet() {
-        TnTnIType tnTnIType = new TnTnIType();
         Set set4_27 = tnTnIType.getPrimeByName("4-27");
         List<DependantHarmony> allRowMatrix = textureConfig.getAllRowMatrix(set4_27.tntnitype, VoicingType.UP_2);
         for (DependantHarmony dependantHarmony : allRowMatrix) {

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,12 +23,13 @@ public class DependantHarmonyTest {
 
     private DependantHarmony dependantHarmony;
 
-    private TnTnIType tnTnIType ;
     private Set set ;
+
+    @Autowired
+    private TnTnIType tnTnIType;
 
     @BeforeEach
     public void setUp() {
-        tnTnIType = new TnTnIType();
         set = tnTnIType.getPrimeByName("3-1");
     }
 

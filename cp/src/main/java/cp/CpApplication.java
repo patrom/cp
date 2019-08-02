@@ -249,9 +249,9 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	}
 	
 	private static void clean(){
-		deleteFiles("cp/src/main/resources/midi");
-		deleteFiles("cp/src/main/resources/orch");
-		deleteFiles("cp/src/main/resources/xml");
+		deleteFiles("src/main/resources/midi");
+		deleteFiles("src/main/resources/orch");
+		deleteFiles("src/main/resources/xml");
 	}
 
 	private static void deleteFiles(String path){

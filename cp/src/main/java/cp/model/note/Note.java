@@ -10,7 +10,7 @@ import cp.out.instrument.Technical;
 import java.util.Objects;
 
 
-public class Note implements Comparable<Note>{
+public class Note implements Comparable<Note> {
 
 	/** The pitch value which indicates a rest. */
 	public static final int REST = Integer.MIN_VALUE;

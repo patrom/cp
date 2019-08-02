@@ -4,6 +4,7 @@ import cp.model.harmony.CpHarmony;
 import cp.model.note.Note;
 import cp.model.setclass.Set;
 import cp.model.setclass.TnTnIType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -18,27 +19,25 @@ import static java.util.stream.Collectors.toList;
 @Component
 public class ChordGenerator {
 
-	public CpHarmony generateChord(String forteName){
-		TnTnIType type = new TnTnIType();
+    @Autowired
+    private TnTnIType type;
+
+    public CpHarmony generateChord(String forteName){
+
 		int[] pcs;
 		if (forteName.startsWith("2")) {
-			type.initPrime2();
 			pcs = getSet(forteName, type.prime2);
 		}
 		else if (forteName.startsWith("3")) {
-			type.initPrime3();
 			pcs = getSet(forteName, type.prime3);
 		}
 		else if (forteName.startsWith("4")) {
-			type.initPrime4();
 			pcs = getSet(forteName, type.prime4);
 		}
 		else if (forteName.startsWith("5")) {
-			type.initPrime5();
 			pcs = getSet(forteName, type.prime5);
 		}
 		else if (forteName.startsWith("6")) {
-			type.initPrime6();
 			pcs = getSet(forteName, type.prime6);
 		} else {
 			throw new IllegalArgumentException("No set class found for forte name: " + forteName);
@@ -51,29 +50,22 @@ public class ChordGenerator {
 	}
 
     public int[] generatePitchClasses(String forteName){
-        TnTnIType type = new TnTnIType();
         int[] pcs;
         if (forteName.startsWith("2")) {
-            type.initPrime2();
             pcs = getSet(forteName, type.prime2);
         }
         else if (forteName.startsWith("3")) {
-            type.initPrime3();
             pcs = getSet(forteName, type.prime3);
         }
         else if (forteName.startsWith("4")) {
-            type.initPrime4();
             pcs = getSet(forteName, type.prime4);
         }
         else if (forteName.startsWith("5")) {
-            type.initPrime5();
             pcs = getSet(forteName, type.prime5);
         }
         else if (forteName.startsWith("6")) {
-            type.initPrime6();
             pcs = getSet(forteName, type.prime6);
         } else if (forteName.startsWith("7")) {
-            type.initPrime7();
             pcs = getSet(forteName, type.prime7);
         } else {
             throw new IllegalArgumentException("No set class found for forte name: " + forteName);
@@ -103,30 +95,24 @@ public class ChordGenerator {
 
     public int[] getIntervalVector(String forteName){
         Integer intervalVectorBasket = Integer.valueOf(forteName.substring(forteName.length() - 2)) - 1;
-        TnTnIType type = new TnTnIType();
         int[] intervalVector;
         if (forteName.startsWith("2")) {
-            type.initPrime2();
             Set set = type.prime2[intervalVectorBasket];
             intervalVector = set.ivector;
         }
         else if (forteName.startsWith("3")) {
-            type.initPrime3();
             Set set = type.prime3[intervalVectorBasket];
             intervalVector = set.ivector;
         }
         else if (forteName.startsWith("4")) {
-            type.initPrime4();
             Set set = type.prime4[intervalVectorBasket];
             intervalVector = set.ivector;
         }
         else if (forteName.startsWith("5")) {
-            type.initPrime5();
             Set set = type.prime5[intervalVectorBasket];
             intervalVector = set.ivector;
         }
         else if (forteName.startsWith("6")) {
-            type.initPrime6();
             Set set = type.prime6[intervalVectorBasket];
             intervalVector = set.ivector;
         } else {

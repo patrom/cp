@@ -3,7 +3,7 @@ package cp.model;
 import cp.model.note.Scale;
 import cp.out.print.note.Key;
 
-public class TimeLineKey implements Comparable<TimeLineKey>{
+public class TimeLineKey implements Comparable<TimeLineKey> {
 
     private Key key;
 	private int start = 0;

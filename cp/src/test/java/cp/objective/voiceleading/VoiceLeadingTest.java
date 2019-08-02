@@ -28,6 +28,9 @@ public class VoiceLeadingTest extends AbstractTest {
 
 	@Autowired
 	private ChordGenerator chordGenerator;
+
+    @Autowired
+    private TnTnIType type;
 	
 	@Test
 	public void testVoiceLeadingForteName() {
@@ -114,7 +117,6 @@ public class VoiceLeadingTest extends AbstractTest {
 	@Test
 	public void testAllTrichordalVoiceLeading(){
 		java.util.Set<VoiceLeadingSize> voiceLeadingSizes = new TreeSet<>();
-		TnTnIType type = new TnTnIType();
 		type.initPrime3();
 		Set[] set = type.prime3;
 		for (int i = 0; i < set.length; i++) {
@@ -149,7 +151,6 @@ public class VoiceLeadingTest extends AbstractTest {
 	@Test
 	public void testAllTetrachordalVoiceLeading(){
 		java.util.Set<VoiceLeadingSize> voiceLeadingSizes = new TreeSet<>();
-		TnTnIType type = new TnTnIType();
 		type.initPrime4();
 		Set[] set = type.prime4;
 		for (int i = 0; i < set.length; i++) {
@@ -176,12 +177,8 @@ public class VoiceLeadingTest extends AbstractTest {
 	@Test
 	public void testAllTetrachordalWithTrichordalVoiceLeading() {
 		java.util.Set<VoiceLeadingSize> voiceLeadingSizes = new TreeSet<>();
-		TnTnIType type3 = new TnTnIType();
-		type3.initPrime3();
-		Set[] set3 = type3.prime3;
-		TnTnIType type4 = new TnTnIType();
-		type4.initPrime4();
-		Set[] set4 = type4.prime4;
+		Set[] set3 = type.prime3;
+		Set[] set4 = type.prime4;
 		for (int i = 0; i < set3.length; i++) {
 			for (int j = 0; j < set4.length; j++) {
 				CpHarmony source = chordGenerator.generateChord(set3[i].name);
@@ -206,12 +203,8 @@ public class VoiceLeadingTest extends AbstractTest {
 	@Test
 	public void testAllPentachordalWithTrichordalVoiceLeading() {
 		java.util.Set<VoiceLeadingSize> voiceLeadingSizes = new TreeSet<>();
-		TnTnIType type3 = new TnTnIType();
-		type3.initPrime3();
-		Set[] set3 = type3.prime3;
-		TnTnIType type5 = new TnTnIType();
-		type5.initPrime5();
-		Set[] set5 = type5.prime5;
+		Set[] set3 = type.prime3;
+		Set[] set5 = type.prime5;
 		for (int i = 0; i < set3.length; i++) {
 			for (int j = 0; j < set5.length; j++) {
 				CpHarmony source = chordGenerator.generateChord(set3[i].name);
@@ -236,12 +229,8 @@ public class VoiceLeadingTest extends AbstractTest {
 	@Test
 	public void testAllPentachordalWithTetrachordalVoiceLeading() {
 		java.util.Set<VoiceLeadingSize> voiceLeadingSizes = new TreeSet<>();
-		TnTnIType type4 = new TnTnIType();
-		type4.initPrime4();
-		Set[] set4 = type4.prime4;
-		TnTnIType type5 = new TnTnIType();
-		type5.initPrime5();
-		Set[] set5 = type5.prime5;
+		Set[] set4 = type.prime4;
+		Set[] set5 = type.prime5;
 		for (int i = 0; i < set4.length; i++) {
 			for (int j = 0; j < set5.length; j++) {
 				CpHarmony source = chordGenerator.generateChord(set4[i].name);

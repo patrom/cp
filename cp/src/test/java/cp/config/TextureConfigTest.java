@@ -21,9 +21,11 @@ public class TextureConfigTest {
     @Autowired
     private TextureConfig textureConfig;
 
+    @Autowired
+    private TnTnIType tnTnIType;
+
     @Test
     public void getAllRowMatrix() {
-        TnTnIType tnTnIType = new TnTnIType();
         Set set3_1 = tnTnIType.getPrimeByName("3-1");
         List<DependantHarmony> allRowMatrixDrop2set3_4 = textureConfig.getAllRowMatrix(set3_1.tntnitype, VoicingType.CLOSE);
         for (DependantHarmony dependantHarmony : allRowMatrixDrop2set3_4) {

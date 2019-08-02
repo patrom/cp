@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @SpringBootTest(classes = DefaultConfig.class)
 @ExtendWith(SpringExtension.class)
 public class CreateOnHeapTest {
-    private static final int ITERATIONS = 10_000_000;
+    private static final int ITERATIONS = 1000000;
 
     @Test
     public void testOnHeapMap() {

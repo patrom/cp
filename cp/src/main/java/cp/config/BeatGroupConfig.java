@@ -95,7 +95,7 @@ public class BeatGroupConfig {
     @Scope(value = SCOPE_PROTOTYPE)
     public BeatGroup beatGroupHomophonicTwo(){
         return new BeatGroupMelody(DurationConstants.HALF,
-                homophonicEvenBeatGroupRhythm, Collections.singletonList(randomPitchClasses::randomPitchClasses));
+                homophonicEvenBeatGroupRhythm, Collections.singletonList(randomAllPitchClasses::randomPitchClasses));
     }
 
     @Bean
@@ -109,7 +109,7 @@ public class BeatGroupConfig {
     @Scope(value = SCOPE_PROTOTYPE)
     public BeatGroup beatGroupHomophonicFour(){
         return new BeatGroupMelody(DurationConstants.WHOLE,
-                homophonicEvenBeatGroupRhythm, Collections.singletonList(passingPitchClasses::updatePitchClasses));
+                homophonicEvenBeatGroupRhythm, Collections.singletonList(randomAllPitchClasses::randomPitchClasses));
     }
 
 

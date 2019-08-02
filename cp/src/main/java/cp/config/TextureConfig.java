@@ -29,6 +29,8 @@ public class TextureConfig {
     private Composition composition;
     @Autowired
     private SubSetCalculator subSetCalculator;
+    @Autowired
+    private TnTnIType tnTnIType;
 
     @PostConstruct
     public void init(){
@@ -126,7 +128,6 @@ public class TextureConfig {
 //        symmetryChords2.add(createDependantHarmony(ChordType.NO_INTERVALS));
 //        textureTypes.put(2, symmetryChords2);
 
-        TnTnIType tnTnIType = new TnTnIType();
         Set set3_1 = tnTnIType.getPrimeByName("3-5");
         List<DependantHarmony> setClassTypes = new ArrayList<>();
 //        setClassTypes.add(createDependantHarmony(set3_1.tntnitype, VoicingType.CLOSE));
