@@ -67,7 +67,7 @@ public class Display {
     private void writeMidi(List<MelodyBlock> melodyBlocks, String id) throws IOException, InvalidMidiDataException {
 		Sequence sequence = midiDevicesUtil.createSequence(melodyBlocks, musicProperties.getTempo());
 		Resource resource = new FileSystemResource("");
-		midiDevicesUtil.write(sequence, resource.getFile().getPath()+ "cp/src/main/resources/midi/" + id + ".mid");
+		midiDevicesUtil.write(sequence, resource.getFile().getPath()+ "src/main/resources/midi/" + id + ".mid");
 	}
 
 	private void printTimeLine() {
@@ -97,7 +97,7 @@ public class Display {
 	}
 
 	private void generateMusicXml(List<MelodyBlock> melodies, String id) throws Exception {
-		musicXMLWriter.generateMusicXMLForMelodies(melodies, new FileOutputStream(resource.getFile().getPath() + "cp/src/main/resources/xml/" + id + ".xml"));
+		musicXMLWriter.generateMusicXMLForMelodies(melodies, new FileOutputStream(resource.getFile().getPath() + "src/main/resources/xml/" + id + ".xml"));
 	}
 
 	private void viewScore(List<MelodyBlock> melodies, String id)

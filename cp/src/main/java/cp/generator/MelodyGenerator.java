@@ -6,6 +6,7 @@ import cp.composition.beat.BeatGroup;
 import cp.composition.voice.NoteSizeValueObject;
 import cp.composition.voice.Voice;
 import cp.config.*;
+import cp.config.map.CompositionMap;
 import cp.generator.pitchclass.PitchClassGenerator;
 import cp.generator.provider.MelodyProvider;
 import cp.model.TimeLine;
@@ -49,6 +50,29 @@ public class MelodyGenerator {
 	private MelodyProviderConfig melodyProviderConfig;
 	@Autowired
 	private TimbreConfig timbreConfig;
+    @Autowired
+	private CompostionMapConfig compostionMapConfig;
+
+	public MelodyBlock pickMelodies(int voice){
+        int start = composition.getStart();
+        int stop = composition.getEnd();
+        Instrument instrument = instrumentConfig.getInstrumentForVoice(voice);
+        MelodyBlock melodyBlock = new MelodyBlock(instrument.pickRandomOctaveFromRange(), voice);
+        int end = start;
+        CompositionMap compositionMap = compostionMapConfig.getCompositionMapForVoice(voice);
+        while (end < stop) {
+            CpMelody randomMelody = compositionMap.getRandomMelody();
+            randomMelody.setStart(start);
+            randomMelody.setEnd(start + randomMelody.getLength());
+            randomMelody.updateNotePositions(start);
+            randomMelody.setMutationType(MutationType.MELODY_MAP);
+            randomMelody.setVoice(voice);
+            melodyBlock.addMelodyBlock(randomMelody);
+            start = randomMelody.getEnd();
+            end = start;
+        }
+        return melodyBlock;
+    }
 
 	public MelodyBlock generateDependantMelodyBlock(final int voice, int octave, MelodyBlock dependingMelodyBlock){
 		int start = composition.getStart();

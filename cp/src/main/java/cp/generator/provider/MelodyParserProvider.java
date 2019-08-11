@@ -53,7 +53,7 @@ public class MelodyParserProvider extends AbstractProvidder implements MelodyPro
     }
 
     protected void parse() throws IOException, XMLStreamException {
-        final Resource resource = new FileSystemResource("cp/src/main/resources/parser");
+        final Resource resource = new FileSystemResource("src/main/resources/parser");
         File dir = resource.getFile();
         for (File xmlFile : dir.listFiles()) {
             XMLParser xmlParser = new XMLParser();

@@ -78,7 +78,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 	@Override
 	public void run(String... arg0) throws Exception {
 //		playMidiFilesOnKontaktFor();
-//		MusicXMLParser parser = new MusicXMLParser("cp/src/main/resources/rowMatrix.xml");
+//		MusicXMLParser parser = new MusicXMLParser("src/main/resources/rowMatrix.xml");
 //		parser.parseMusicXML();
 //		List<Note> notes = parser.getNotes();
 //		notes.forEach(n -> System.out.println(n));
@@ -86,7 +86,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 //		notesPerInstrument.forEach((k,v) -> System.out.println(k + ":" + v));
 //		parser.getNotesForVoice(2).forEach(n -> System.out.println(n));
 
-		final Resource resource = new FileSystemResource("cp/src/main/resources/xml");
+		final Resource resource = new FileSystemResource("src/main/resources/xml");
 		File dir = resource.getFile();
 		for (File xmlFile : dir.listFiles()) {
 			XMLParser xmlParser = new XMLParser();
@@ -137,7 +137,7 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
             playOnKontakt(melodyInstruments, sequence, xmlParser.getBpm());
             Resource outResource = new FileSystemResource("");
 
-            midiDevicesUtil.write(sequence, outResource.getFile().getPath()+ "cp/src/main/resources/orch/" + removeExtension(xmlFile.getName()) + "orch.mid");
+            midiDevicesUtil.write(sequence, outResource.getFile().getPath()+ "src/main/resources/orch/" + removeExtension(xmlFile.getName()) + "orch.mid");
 			Thread.sleep(20000);
 		}
 	}
@@ -152,8 +152,8 @@ public class PlayApplication extends JFrame implements CommandLineRunner{
 	}
 	
 	public void playMidiFilesOnKontaktFor() throws Exception {
-//		final Resource resource = new FileSystemResource("cp/src/main/resources/orch");
-		final Resource resource = new FileSystemResource("cp/src/main/resources/midi");
+//		final Resource resource = new FileSystemResource("src/main/resources/orch");
+		final Resource resource = new FileSystemResource("src/main/resources/midi");
 		File dir = resource.getFile();
 		for (File midiFile : dir.listFiles()) {
 			LOGGER.info(midiFile.getName());

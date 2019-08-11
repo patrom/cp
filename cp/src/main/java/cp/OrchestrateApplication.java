@@ -61,7 +61,7 @@ public class OrchestrateApplication extends JFrame implements CommandLineRunner 
 
     @Override
     public void run(String... arg0) throws Exception {
-        final Resource resource = new FileSystemResource("cp/src/main/resources/xml");
+        final Resource resource = new FileSystemResource("src/main/resources/xml");
         File dir = resource.getFile();
         for (File xmlFile : dir.listFiles()) {
             XMLParser xmlParser = new XMLParser();
@@ -78,7 +78,7 @@ public class OrchestrateApplication extends JFrame implements CommandLineRunner 
             String id = removeExtension(xmlFile.getName()) + "_orchestrated";
             //XML
             Resource resourceOrch = new FileSystemResource("");
-            String path = resourceOrch.getFile().getPath() + "cp/src/main/resources/orch/";
+            String path = resourceOrch.getFile().getPath() + "src/main/resources/orch/";
             musicXMLWriter.createXML(new FileOutputStream(path  + id + ".xml"), orchestra.getOrchestra());
             //midi
             Sequence sequence = midiDevicesUtil.createSequence(orchestra.getOrchestra(), xmlParser.getBpm());

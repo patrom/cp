@@ -18,8 +18,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -180,6 +182,13 @@ public class ScaleTest {
 //                ArrayUtils.contains(scale.getPitchClasses(), next),
 //                () -> String.format("The scale doesn't contain the pitchClass: %s", next)
 //        );
+    }
+
+    @Test
+    public void getPitchClassesInKey(){
+        scale = Scale.MAJOR_SCALE;
+        List<Integer> pitchClassesInKey = scale.getPitchClassesInKey(keys.A);
+        pitchClassesInKey.forEach(integer -> System.out.println(integer));
     }
 
 }

@@ -6,6 +6,7 @@ import cp.model.contour.Contour;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
+import cp.nsga.operator.mutation.MutationType;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.Technical;
@@ -326,6 +327,23 @@ public class MelodyBlock {
 		Collections.sort(melodyBlocks);
 	}
 
+	public void randomInsertMelody(CpMelody melody){
+        int randomIndex = RandomUtil.getRandomIndex(melodyBlocks);
+        CpMelody oldMelody = melodyBlocks.set(randomIndex, melody);
+        melody.setStart(oldMelody.getStart());
+        melody.setVoice(oldMelody.getVoice());
+        melody.updateNotePositions(oldMelody.getStart());
+        int start = 0;
+        for (CpMelody cpMelody : melodyBlocks) {
+            int oldStart = cpMelody.getStart();
+            cpMelody.setStart(start);
+            int startDiff = start - oldStart;
+            cpMelody.setEnd(start + cpMelody.getLength());
+            cpMelody.updateNotePositions(startDiff);
+            start = cpMelody.getEnd();
+        }
+    }
+
 	public void setNotes(List<Note> notes){
 //		melodyBlocks.clear();
 		CpMelody melody = melodyBlocks.get(0);
@@ -378,6 +396,10 @@ public class MelodyBlock {
         melodyBlocks.remove(oldMelody);
 		melodyBlocks.add(index, newMelody);
 	}
+
+    public int getLength() {
+        return melodyBlocks.stream().mapToInt(melody -> melody.getLength()).sum();
+    }
 
 	public boolean isMutable() {
 		return mutable;

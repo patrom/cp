@@ -8,6 +8,7 @@ import cp.model.Motive;
 import cp.model.TimeLine;
 import cp.model.harmony.CpHarmony;
 import cp.model.harmony.HarmonyExtractor;
+import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.rhythm.RhythmWeight;
@@ -17,6 +18,7 @@ import cp.out.instrument.Instrument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -67,7 +69,12 @@ public class FitnessEvaluationTemplate {
     private Texture texture;
 
 	public FitnessObjectiveValues evaluate(Motive motive) {
-		List<MelodyBlock> melodies = motive.getMelodyBlocks();
+        List<MelodyBlock> melodies = motive.getMelodyBlocks();
+//        int sum = melodies.stream().mapToInt(melodyBlock -> melodyBlock.getLength()).sum();
+//        if(sum < 2000){
+//            System.out.println("stop");
+//        }
+
 //        melodies.stream().flatMap(melodyBlock -> melodyBlock.getMelodyBlocks().stream()).forEach(cpMelody -> cpMelody.updateContourAscending());
 
 		List<MelodyBlock> melodiesToCalculate = melodies.stream().filter(m -> m.isCalculable() && !m.getMelodyBlockNotes().isEmpty()).collect(toList());

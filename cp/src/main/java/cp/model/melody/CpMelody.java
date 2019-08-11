@@ -38,13 +38,15 @@ public class CpMelody implements Comparable<CpMelody> {
 	private Tonality tonality = Tonality.TONAL;
 	private List<TimeLineKey> timeLineKeys;
 	private int notesSize;
-	private MutationType mutationType;
+	private MutationType mutationType = MutationType.ALL;
+	private int length;
 	
 	public CpMelody(List<Note> notes, int voice, int start, int end) {
 		this.voice = voice;
 		this.start = start;
 		this.end = end;
 		this.notes = notes;
+		this.length = end - start;
 		updateContour();
 	}
 
@@ -88,7 +90,7 @@ public class CpMelody implements Comparable<CpMelody> {
 		this.tonality = anotherMelody.getTonality();
 		this.notesSize = anotherMelody.getNotesSize();
 		this.mutationType = anotherMelody.getMutationType();
-
+        this.length = anotherMelody.getLength();
 	}
 
     public CpMelody clone() {
@@ -187,6 +189,12 @@ public class CpMelody implements Comparable<CpMelody> {
 		this.notes = melodyNotes;
 		updateContour();
 	}
+
+    public void updateNotePositions(int start) {
+        notes.forEach(n -> {
+            n.setPosition(n.getPosition() + start);
+        });
+    }
 
     public void updateRhythmNotes(List<Note> rhythmNotes) {
 		List<Note> melodyNotes = getNotesNoRest();
@@ -545,6 +553,14 @@ public class CpMelody implements Comparable<CpMelody> {
 
     public void setMutationType(MutationType mutationType) {
         this.mutationType = mutationType;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
     }
 
     @Override

@@ -77,6 +77,11 @@ public class Mutators {
     @Autowired
     public ContourMutation contourMutation;
 
+    @Value("${probabilityMelodyMap}")
+    private double probabilityMelodyMap;
+    @Autowired
+    public MelodyMapMutation melodyMapMutation;
+
     public List<MutationOperator> getMutationOperators(MutationType mutationType){
         switch (mutationType){
             case PITCH:
@@ -96,6 +101,8 @@ public class Mutators {
             case TWELVE_TONE:
 //                return twelveToneMutationOperators();
                 return twelveToneMutationOperators();
+            case MELODY_MAP:
+                return melodyMapOperators();
         }
         throw new IllegalArgumentException("Mutation type unknown: " + mutationType);
     }
@@ -104,6 +111,12 @@ public class Mutators {
         List<MutationOperator> mutationOperators = new ArrayList<>();
 //        mutationOperators.add(twelveToneRhythmMutation);
         mutationOperators.add(twelveToneRhythmMutationSplit);
+        return mutationOperators;
+    }
+
+    private List<MutationOperator> melodyMapOperators(){
+        List<MutationOperator> mutationOperators = new ArrayList<>();
+        mutationOperators.add(melodyMapMutation);
         return mutationOperators;
     }
 

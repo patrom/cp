@@ -35,7 +35,7 @@ public class MusicXMLParser {
 	private static MidiDevicesUtil midiDevicesUtil = new MidiDevicesUtil();
 	
 	 public static void main (String[]args) throws IOException, InvalidMidiDataException {
-         MusicXMLParser parser = new MusicXMLParser("cp/src/main/resources/rowMatrix.xml");
+         MusicXMLParser parser = new MusicXMLParser("src/main/resources/rowMatrix.xml");
          parser.parseMusicXML();
          List<Note> notes = parser.getNotes();
          notes.forEach(n -> System.out.println(n));

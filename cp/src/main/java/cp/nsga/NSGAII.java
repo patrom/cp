@@ -3,6 +3,7 @@ package cp.nsga;
 import cp.config.MutationConfig;
 import cp.model.Motive;
 import cp.model.melody.CpMelody;
+import cp.model.melody.MelodyBlock;
 import cp.nsga.operator.mutation.MutationOperator;
 import cp.nsga.operator.mutation.MutationType;
 import cp.nsga.operator.mutation.melody.Mutators;
@@ -43,6 +44,9 @@ public class NSGAII extends Algorithm {
 	private int check12Tone;
     @Autowired
 	private MutationConfig mutationConfig;
+
+    @Value("${melodyMap}")
+    private boolean isMelodyMapComposition;
 
 	/**
 	 * Constructor
@@ -230,20 +234,28 @@ public class NSGAII extends Algorithm {
 	}
 
 	private void mutateOffspring(Solution solution) {
-        CpMelody melody = getMelodyBlock(solution);
-        if (melody != null && mutationConfig.isVoiceMutable(melody.getVoice())) {
-            List<MutationOperator> mutationOperators = null;
-            if (check12Tone == 12) {
+        if (isMelodyMapComposition) {
             Motive motive = ((MusicVariable) solution.getDecisionVariables()[0]).getMotive();
-            List<MutationOperator> twelveToneMutationOperators = mutators.getMutationOperators(MutationType.TWELVE_TONE);
-            MutationOperator operator = RandomUtil.getRandomFromList(twelveToneMutationOperators);
-            operator.execute(motive);
-            mutationOperators = mutators.timbreMutationOperators();
-            } else {
-                mutationOperators = mutators.getMutationOperators(melody.getMutationType());
+            MelodyBlock melodyBlock = RandomUtil.getRandomFromList(motive.getMelodyBlocks());
+            List<MutationOperator> operators = mutators.getMutationOperators(MutationType.MELODY_MAP);
+            MutationOperator operator = RandomUtil.getRandomFromList(operators);
+            operator.execute(melodyBlock);
+        } else {
+            CpMelody melody = getMelodyBlock(solution);
+            if (melody != null && mutationConfig.isVoiceMutable(melody.getVoice())) {
+                List<MutationOperator> mutationOperators = null;
+                if (check12Tone == 12) {
+                    Motive motive = ((MusicVariable) solution.getDecisionVariables()[0]).getMotive();
+                    List<MutationOperator> twelveToneMutationOperators = mutators.getMutationOperators(MutationType.TWELVE_TONE);
+                    MutationOperator operator = RandomUtil.getRandomFromList(twelveToneMutationOperators);
+                    operator.execute(motive);
+                    mutationOperators = mutators.timbreMutationOperators();
+                } else {
+                    mutationOperators = mutators.getMutationOperators(melody.getMutationType());
+                }
+                MutationOperator operator = RandomUtil.getRandomFromList(mutationOperators);
+                operator.execute(melody);
             }
-            MutationOperator operator = RandomUtil.getRandomFromList(mutationOperators);
-            operator.execute(melody);
         }
     }
 

@@ -63,14 +63,14 @@ public class MelodyBlockTest {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).pitch(60).octave(5).build());
 		notes.add(note().pos(DurationConstants.QUARTER).pc(4).pitch(64).octave(5).build());
-		melody = new CpMelody(notes, 1, 0, DurationConstants.WHOLE + DurationConstants.QUARTER);
+		melody = new CpMelody(notes, 1, 0, DurationConstants.HALF);
 		melody.getContour().set(1, 3);
 		melodyBlock.addMelodyBlock(melody);
 		
 		notes = new ArrayList<>();
 		notes.add(note().pos(DurationConstants.HALF).pc(5).pitch(65).octave(5).build());
 		notes.add(note().pos(DurationConstants.SIX_EIGHTS).pc(7).pitch(67).octave(5).build());
-		melody = new CpMelody(notes, 1, 0, DurationConstants.WHOLE + DurationConstants.QUARTER);
+		melody = new CpMelody(notes, 1, 0, DurationConstants.HALF);
 		melody.getContour().set(0, 4);
 		melody.getContour().set(1, 5);
 		melodyBlock.addMelodyBlock(melody);
@@ -631,6 +631,19 @@ public class MelodyBlockTest {
         melodyBlock.getMelodyBlockNotes().forEach(note -> {
             System.out.println( "Pitch: " + note.getPitch() + ", pos: " + note.getPosition());
         });
+    }
+
+    @Test
+    public void insertMelody(){
+        melodyBlock.getMelodyBlockNotes().forEach(note -> System.out.println(note.getPosition()));
+        System.out.println();
+        List<Note> notes = new ArrayList<>();
+        notes.add(note().pos(0).pc(10).octave(5).build());
+        notes.add(note().pos(DurationConstants.EIGHT).pc(11).pitch(64).octave(5).build());
+        melody = new CpMelody(notes, 1, 0, DurationConstants.QUARTER);
+        melody.getContour().set(1, 3);
+        melodyBlock.randomInsertMelody(melody);
+        melodyBlock.getMelodyBlockNotes().forEach(note -> System.out.println(note.getPosition()));
     }
 
 }

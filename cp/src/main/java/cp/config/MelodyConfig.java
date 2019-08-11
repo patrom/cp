@@ -38,11 +38,11 @@ public class MelodyConfig {
     @PostConstruct
     public void init() {
         //voice!!!
-        meldodyConfigs.put(0, partMelodyDissonance);
-        meldodyConfigs.put(1, partMelodyDissonance);
-        meldodyConfigs.put(2, pentatonicMelodyDissonance);
-        meldodyConfigs.put(3, partMelodyDissonance);
-        meldodyConfigs.put(4, partMelodyDissonance);
+        meldodyConfigs.put(0, melodyDefaultDissonance);
+        meldodyConfigs.put(1, melodyDefaultDissonance);
+        meldodyConfigs.put(2, melodyDefaultDissonance);
+        meldodyConfigs.put(3, melodyDefaultDissonance);
+        meldodyConfigs.put(4, melodyDefaultDissonance);
         meldodyConfigs.put(5, pentatonicMelodyDissonance);
 
 //        MelodicHarmonicTriadDissonance melodicHarmonicTriadDissonance = new MelodicHarmonicTriadDissonance("2-6" );

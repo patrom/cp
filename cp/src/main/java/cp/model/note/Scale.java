@@ -271,4 +271,12 @@ public class Scale {
         return Arrays.stream(scale).boxed().collect(toList());
     }
 
+    public List<Integer> getPitchClassesInKey(Key key) {
+        return Arrays.stream(scale).boxed().map(pitchClass -> getPitchClassForKey(pitchClass, key)).collect(toList());
+    }
+
+    public int getPitchClassForKey(int pitchClass, Key key) {
+        return (pitchClass + key.getInterval()) % 12;
+    }
+
 }

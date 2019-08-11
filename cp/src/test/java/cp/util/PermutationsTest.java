@@ -3,13 +3,16 @@ package cp.util;
 import cp.DefaultConfig;
 import cp.VariationConfig;
 import cp.config.BeatGroupConfig;
+import cp.model.note.Scale;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
@@ -30,5 +33,31 @@ public class PermutationsTest {
         Permutations.of(0,4,7)
                 .map(s -> s.collect(Collectors.toList()))
                 .forEachOrdered(System.out::println);
+
+        System.out.println();
+        List<Integer> integers = new ArrayList<>();
+        integers.add(0);
+        integers.add(4);
+        integers.add(7);
+        Permutations.of(integers)
+                .map(s -> s.collect(Collectors.toList()))
+                .forEachOrdered(System.out::println);
+    }
+
+    @Test
+    public void testSubsetSize() {
+        int arr[] = Scale.MAJOR_SCALE.getPitchClasses();
+        int r = 3;
+        Permutations.printCombination(arr, r);
+    }
+
+    @Test
+    public void testSubsetSize2() {
+        List<Integer> superSet = Scale.MAJOR_SCALE.getPitchClassesAsList();
+        List<List<Integer>> subsets = Permutations.getSubsets(superSet, 6);
+        for (List<Integer> subset : subsets) {
+            subset.forEach(integer -> System.out.print(integer + " "));
+            System.out.println();
+        }
     }
 }

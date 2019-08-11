@@ -47,7 +47,7 @@ public class HarmonizeNotes {
 		try {
 			XMLParser xmlParser = new XMLParser();
 			xmlParser.setInstrumentConfig(instrumentConfig);
-			xmlParser.startParsing("cp/src/main/resources/harmonize/kyrie3.xml");
+			xmlParser.startParsing("src/main/resources/harmonize/kyrie3.xml");
 			ComplexElement partList = xmlParser.getScore().getPartList();
 			xmlParser.setInstrumentNames(partList);
 			ArrayList<ElementWrapper> body = xmlParser.getScore().getBody();
