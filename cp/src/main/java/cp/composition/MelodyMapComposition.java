@@ -38,22 +38,22 @@ public class MelodyMapComposition {
     @PostConstruct
     public void init(){
 
-        oneNote.addAll(singleMelodyGenerator.generateSingleNoteScale(Scale.MAJOR_SCALE, DurationConstants.HALF, keys.A));
-        oneNote.addAll(singleMelodyGenerator.generateSingleNoteScale(Scale.MAJOR_SCALE, DurationConstants.EIGHT, keys.A));
-
-        for (int i = 0; i < 5; i++) {
-            List<Note> notes = new ArrayList<>();
-            notes.add(note().pos(0).pc(i).len(DurationConstants.QUARTER).build());
-            notes.add(note().pos(DurationConstants.QUARTER).pc(i + 1).len(DurationConstants.QUARTER).build());
-            CpMelody melody = new CpMelody(notes, 0, 0, DurationConstants.HALF);
-            twoNotes.add(melody);
-        }
+        oneNote.addAll(singleMelodyGenerator.generateSingleNoteScale(Scale.MAJOR_SCALE, DurationConstants.HALF, keys.C));
+        oneNote.addAll(singleMelodyGenerator.generateSingleNoteScale(Scale.MAJOR_SCALE, DurationConstants.QUARTER, keys.C));
 
         List<RhythmCombination> rhythmCombinations = new ArrayList<>();
+//        rhythmCombinations.add(allRhythmCombinations.threeNoteEven::pos134);
+//        rhythmCombinations.add(allRhythmCombinations.threeNoteEven::pos234);
         rhythmCombinations.add(allRhythmCombinations.threeNoteEven::pos134);
-        rhythmCombinations.add(allRhythmCombinations.threeNoteEven::pos234);
-//        rhythmCombinations.add(allRhythmCombinations.twoNoteEven::pos13);
-        threeNotes.addAll(singleMelodyGenerator.generatePermutations(Scale.MAJOR_SCALE, keys.A, 3, rhythmCombinations, DurationConstants.QUARTER));
+        rhythmCombinations.add(allRhythmCombinations.threeNoteEven::pos124);
+
+        threeNotes.addAll(singleMelodyGenerator.generateTranspositionsForPitchesClasses(Scale.MAJOR_SCALE, rhythmCombinations, DurationConstants.HALF, 0,2,4));
+        threeNotes.addAll(singleMelodyGenerator.generateInversionsForPitchClasses(Scale.MAJOR_SCALE, rhythmCombinations, DurationConstants.HALF, 0,2,4));
+        threeNotes.addAll(singleMelodyGenerator.generateTranspositionsPitchClassesForSteps(Scale.MAJOR_SCALE.getPitchClasses(), rhythmCombinations, DurationConstants.HALF, 0,2,4));
+
+//        List<RhythmCombination> rhythmCombinations = new ArrayList<>();
+//        rhythmCombinations.add(allRhythmCombinations.threeNoteEven::pos134);
+//        List<CpMelody> melodies = singleMelodyGenerator.generateTranspositions(rhythmCombinations, DurationConstants.QUARTER, 0,4,5);
 
     }
 

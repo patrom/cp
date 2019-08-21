@@ -4,11 +4,14 @@ import cp.DefaultConfig;
 import cp.VariationConfig;
 import cp.config.BeatGroupConfig;
 import cp.model.note.Scale;
+import jm.audio.io.SampleOut;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.paukov.combinatorics3.Generator;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.security.cert.CollectionCertStoreParameters;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -56,6 +59,21 @@ public class PermutationsTest {
         List<Integer> superSet = Scale.MAJOR_SCALE.getPitchClassesAsList();
         List<List<Integer>> subsets = Permutations.getSubsets(superSet, 6);
         for (List<Integer> subset : subsets) {
+            subset.forEach(integer -> System.out.print(integer + " "));
+            System.out.println();
+        }
+    }
+
+    @Test
+    public void testPermutation(){
+        List<Integer> superSet = Scale.MAJOR_SCALE.getPitchClassesAsList();
+        List<List<Integer>> pitchClassesList = Generator.combination(superSet)
+                .simple(3)
+                .stream()
+                .map(combination -> Generator.permutation(combination)
+                        .simple().stream().collect(Collectors.toList())).flatMap(lists -> lists.stream()).collect(Collectors.toList());
+        System.out.println(pitchClassesList.size());
+        for (List<Integer> subset : pitchClassesList) {
             subset.forEach(integer -> System.out.print(integer + " "));
             System.out.println();
         }

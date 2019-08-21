@@ -37,6 +37,16 @@ public class TwoVoiceComposition extends Composition{
 		return melodyBlocks;
 	}
 
+    public List<MelodyBlock> compositionMap(){
+        List<MelodyBlock> melodyBlocks = new ArrayList<>();
+        MelodyBlock melodyBlock = melodyGenerator.pickMelodies(voice0);
+        melodyBlocks.add(melodyBlock);
+
+        MelodyBlock melodyBlock2 = melodyGenerator.pickMelodies(voice1);
+        melodyBlocks.add(melodyBlock2);
+        return melodyBlocks;
+    }
+
 	public List<MelodyBlock> beatEven(){
 		List<MelodyBlock> melodyBlocks = new ArrayList<>();
 

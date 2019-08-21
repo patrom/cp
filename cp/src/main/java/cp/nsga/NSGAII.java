@@ -45,8 +45,8 @@ public class NSGAII extends Algorithm {
     @Autowired
 	private MutationConfig mutationConfig;
 
-    @Value("${melodyMap}")
-    private boolean isMelodyMapComposition;
+    @Value("${mapComposition}")
+    private boolean isMapComposition;
 
 	/**
 	 * Constructor
@@ -234,7 +234,7 @@ public class NSGAII extends Algorithm {
 	}
 
 	private void mutateOffspring(Solution solution) {
-        if (isMelodyMapComposition) {
+        if (isMapComposition) {
             Motive motive = ((MusicVariable) solution.getDecisionVariables()[0]).getMotive();
             MelodyBlock melodyBlock = RandomUtil.getRandomFromList(motive.getMelodyBlocks());
             List<MutationOperator> operators = mutators.getMutationOperators(MutationType.MELODY_MAP);

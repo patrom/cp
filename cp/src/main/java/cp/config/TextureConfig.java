@@ -90,12 +90,12 @@ public class TextureConfig {
 
         List<DependantHarmony> intervals = new ArrayList<>();
 //        intervals.add(createDependantHarmony(ChordType.CH2_KLEIN_SEPTIEM));
-        intervals.add(createDependantHarmony(ChordType.CH2_GROTE_SECONDE_CHR));
+//        intervals.add(createDependantHarmony(ChordType.CH2_GROTE_SECONDE_CHR));
 //        intervals.add(createDependantHarmony(ChordType.CH2_KLEINE_SIXT_CHR));
 //        intervals.add(createDependantHarmony(ChordType.MINOR_CHR));
 //        intervals.add(createDependantHarmony(ChordType.MINOR_1_CHR));
 //        intervals.add(createDependantHarmony(ChordType.MINOR_2_CHR));
-//        intervals.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT));
+        intervals.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT));
 //        intervals.add(createDependantHarmony(ChordType.NO_INTERVALS));
 //        intervals.add(createDependantHarmony(ChordType.CH2_KWINT));
 //        textureTypes.put(2, intervals);
@@ -105,7 +105,7 @@ public class TextureConfig {
 //        intervals.add(createDependantHarmony(ChordType.CH2_GROTE_TERTS));
 //        intervals.add(createDependantHarmony(ChordType.CH2_GROTE_SIXT));
 //        intervals.add(createDependantHarmony(ChordType.NO_INTERVALS));
-//        textureTypes.put(1, intervaltypes);
+//        textureTypes.put(1, intervals);
 //        textureTypes.put(2, intervaltypes);
 //        textureTypes.put(2, chordTypes);
 //        textureTypes.addAll(intervaltypes);
@@ -184,7 +184,7 @@ public class TextureConfig {
         List<DependantHarmony> setClasses = new ArrayList<>();
         List<Chord> subSets = new ArrayList<>();
         subSets.addAll(subSetCalculator.getSubSets("6-7", "3-8"));
-        subSets.addAll(subSetCalculator.getSubSets("6-32", "3-9"));
+//        subSets.addAll(subSetCalculator.getSubSets("6-32", "3-9"));
 //        subSets.addAll(subSetCalculator.getSubSets("6-32", "3-6"));
         for (Chord chord : subSets) {
             java.util.Set<Integer> pitchClassSet = chord.getPitchClassSet();

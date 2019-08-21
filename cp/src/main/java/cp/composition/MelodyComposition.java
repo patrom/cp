@@ -36,7 +36,7 @@ public class MelodyComposition extends Composition {
         return melodyBlocks;
     }
 
-    public List<MelodyBlock> test(){
+    public List<MelodyBlock> compositionMap(){
         List<MelodyBlock> melodyBlocks = new ArrayList<>();
         MelodyBlock melodyBlock = melodyGenerator.pickMelodies(voice0);
         melodyBlocks.add(melodyBlock);

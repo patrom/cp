@@ -61,7 +61,7 @@ public class MelodyGenerator {
         int end = start;
         CompositionMap compositionMap = compostionMapConfig.getCompositionMapForVoice(voice);
         while (end < stop) {
-            CpMelody randomMelody = compositionMap.getRandomMelody();
+            CpMelody randomMelody = compositionMap.getRandomMelody(voice);
             randomMelody.setStart(start);
             randomMelody.setEnd(start + randomMelody.getLength());
             randomMelody.updateNotePositions(start);
