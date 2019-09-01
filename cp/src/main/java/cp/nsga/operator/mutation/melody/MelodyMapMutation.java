@@ -60,10 +60,7 @@ public class MelodyMapMutation implements MutationOperator<MelodyBlock> {
                 start = randomMelody.getEnd();
                 end = start;
             }
-//            List<Note> collect = melodyBlock.getMelodyBlockNotes().stream().filter(note -> note.getDependantHarmony() == null && note.getVoice() == 1).collect(Collectors.toList());
-//            if(!collect.isEmpty()){
-//                System.out.println();
-//            }
+            //TODO cut off lenght if too long!!!!
             LOGGER.debug("melody map" + melodyBlock.getVoice());
         }
     }

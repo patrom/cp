@@ -1,5 +1,6 @@
 package cp.composition;
 
+import cp.combination.DurationRhythmCombination;
 import cp.combination.RhythmCombination;
 import cp.combination.RhythmCombinations;
 import cp.generator.SingleMelodyGenerator;
@@ -38,14 +39,19 @@ public class MelodyMapComposition {
     @PostConstruct
     public void init(){
 
-        oneNote.addAll(singleMelodyGenerator.generateSingleNoteScale(Scale.MAJOR_SCALE, DurationConstants.HALF, keys.C));
-        oneNote.addAll(singleMelodyGenerator.generateSingleNoteScale(Scale.MAJOR_SCALE, DurationConstants.QUARTER, keys.C));
+        oneNote.addAll(singleMelodyGenerator.generateSingleNoteScale(Scale.CHROMATIC_SCALE, DurationConstants.HALF, keys.C));
+        oneNote.addAll(singleMelodyGenerator.generateSingleNoteScale(Scale.CHROMATIC_SCALE, DurationConstants.QUARTER, keys.C));
+        oneNote.add(singleMelodyGenerator.generateRest(DurationConstants.QUARTER));
 
         List<RhythmCombination> rhythmCombinations = new ArrayList<>();
 //        rhythmCombinations.add(allRhythmCombinations.threeNoteEven::pos134);
 //        rhythmCombinations.add(allRhythmCombinations.threeNoteEven::pos234);
         rhythmCombinations.add(allRhythmCombinations.threeNoteEven::pos134);
         rhythmCombinations.add(allRhythmCombinations.threeNoteEven::pos124);
+
+        DurationRhythmCombination durationRhythmCombination =
+                new DurationRhythmCombination(DurationConstants.QUARTER, DurationConstants.SIXTEENTH, DurationConstants.SIXTEENTH);
+        rhythmCombinations.add(durationRhythmCombination);
 
         threeNotes.addAll(singleMelodyGenerator.generateTranspositionsForPitchesClasses(Scale.MAJOR_SCALE, rhythmCombinations, DurationConstants.HALF, 0,2,4));
         threeNotes.addAll(singleMelodyGenerator.generateInversionsForPitchClasses(Scale.MAJOR_SCALE, rhythmCombinations, DurationConstants.HALF, 0,2,4));

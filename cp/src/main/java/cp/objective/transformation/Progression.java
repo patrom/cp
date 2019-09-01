@@ -182,7 +182,7 @@ public class Progression {
                     case 8:
                         return Transformation.L;
                     case 9:
-                        break;
+                        return Transformation.PRP;
                     case 10:
                         break;
                     case 11:
@@ -192,7 +192,7 @@ public class Progression {
                     case -2:
                         break;
                     case -3:
-                        break;
+                        return Transformation.PRP;
                     case -4:
                         return Transformation.L;
                     case -5:
@@ -278,7 +278,7 @@ public class Progression {
                     case 2:
                         break;
                     case 3:
-                        break;
+                        return Transformation.PRP;
                     case 4:
                         return Transformation.L;
                     case 5:
@@ -312,7 +312,7 @@ public class Progression {
                     case -8:
                         return Transformation.L;
                     case -9:
-                        break;
+                        return Transformation.PRP;
                     case -10:
                         break;
                     case -11:

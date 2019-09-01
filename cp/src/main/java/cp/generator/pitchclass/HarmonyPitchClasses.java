@@ -28,15 +28,13 @@ public class HarmonyPitchClasses {
         melody.updateTimeLineKeysNotes();
         if (!melodyNotes.isEmpty()) {
             Note firstNote = melodyNotes.get(0);
-            List<DependantHarmony> textureTypes = textureConfig.getTextureFor(firstNote.getVoice());
+            DependantHarmony dependantHarmony = textureConfig.getTextureFor(firstNote.getVoice(), firstNote.getPitchClass());
             BeatGroup beatGroup = melody.getBeatGroup();
             if (beatGroup.hasMelody()) {
                 setPitchClasses(melodyNotes, beatGroup);
-                if (textureTypes != null && !textureTypes.isEmpty()) {
                     for (Note note : melodyNotes) {
-                        note.setDependantHarmony(RandomUtil.getRandomFromList(textureTypes));
+                        note.setDependantHarmony(dependantHarmony);
                     }
-                }
             } else {
                 TimeLineKey timeLineKey = firstNote.getTimeLineKey();
                 int[] pitchClasses = timeLineKey.getScale().getPitchClasses();
@@ -44,9 +42,7 @@ public class HarmonyPitchClasses {
                 for (Note note : melodyNotes) {
                     timeLineKey = note.getTimeLineKey();
                     note.setPitchClass(timeLineKey.getPitchClassForKey(pitchClasses[i]));
-                    if (textureTypes != null && !textureTypes.isEmpty()) {
-                        note.setDependantHarmony(RandomUtil.getRandomFromList(textureTypes));
-                    }
+                        note.setDependantHarmony(dependantHarmony);
                     i = (i + 1) % pitchClasses.length;
                 }
             }

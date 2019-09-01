@@ -126,10 +126,9 @@ public class MelodyGenerator {
 //				cloneMelody.convertToTimelineKey(timeLine);
 //			}
 			if (textureConfig.hasTexture(voice)) {
-				List<DependantHarmony> textureTypes = textureConfig.getTextureFor(voice);
 				for (Note melodyNote : cloneMelody.getNotesNoRest()) {
 					if (!melodyNote.isRest()) {
-						DependantHarmony dependantHarmony = RandomUtil.getRandomFromList(textureTypes);
+                        DependantHarmony dependantHarmony = textureConfig.getTextureFor(voice, melodyNote.getPitchClass());
 						melodyNote.setDependantHarmony(dependantHarmony);
 					}
 				}
@@ -260,10 +259,9 @@ public class MelodyGenerator {
                 note.setDependantHarmony(dependantHarmony);
             }
         } else if (textureConfig.hasTexture(voice)) {
-            List<DependantHarmony> textureTypes = textureConfig.getTextureFor(voice);
             for (Note melodyNote : melodyNotesNoRests) {
 				if (!melodyNote.isRest()) {
-					DependantHarmony dependantHarmony = RandomUtil.getRandomFromList(textureTypes);
+                    DependantHarmony dependantHarmony = textureConfig.getTextureFor(voice, melodyNote.getPitchClass());
 					melodyNote.setDependantHarmony(dependantHarmony);
 				}
 			}

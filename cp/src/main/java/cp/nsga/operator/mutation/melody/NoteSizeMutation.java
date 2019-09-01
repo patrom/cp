@@ -65,10 +65,9 @@ public class NoteSizeMutation implements MutationOperator<CpMelody> {
                         n.setPosition(n.getPosition() + melody.getStart());
                     });
                     if (textureConfig.hasTexture(melody.getVoice())) {
-                        List<DependantHarmony> textureTypes = textureConfig.getTextureFor(melody.getVoice());
                         for (Note melodyNote : melodyNotes) {
                             if (!melodyNote.isRest()) {
-                                DependantHarmony dependantHarmony = RandomUtil.getRandomFromList(textureTypes);
+                                DependantHarmony dependantHarmony = textureConfig.getTextureFor(melodyNote.getVoice(), melodyNote.getPitchClass());
                                 melodyNote.setDependantHarmony(dependantHarmony);
                             }
                         }

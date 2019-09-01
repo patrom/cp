@@ -69,10 +69,9 @@ public class ProvidedSymmetryMutation implements MutationOperator<CpMelody> {
                     n.setPosition(n.getPosition() + melody.getStart());
                 });
                 if (textureConfig.hasTexture(voice)) {
-                    List<DependantHarmony> textureTypes = textureConfig.getTextureFor(voice);
                     for (Note melodyNote : melodyNotes) {
                         if (!melodyNote.isRest()) {
-                            DependantHarmony dependantHarmony = RandomUtil.getRandomFromList(textureTypes);
+                            DependantHarmony dependantHarmony = textureConfig.getTextureFor(voice, melodyNote.getPitchClass());
                             melodyNote.setDependantHarmony(dependantHarmony);
                         }
                     }

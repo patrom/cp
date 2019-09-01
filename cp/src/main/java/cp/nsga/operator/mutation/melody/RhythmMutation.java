@@ -53,10 +53,9 @@ public class RhythmMutation implements MutationOperator<CpMelody> {
                     n.setTechnical(timbreConfigForVoice.getTechnical());
                 });
                 if (textureConfig.hasTexture(v)) {
-                    List<DependantHarmony> textureTypes = textureConfig.getTextureFor(v);
                     for (Note melodyNote : rhythmNotes) {
                         if (!melodyNote.isRest()) {
-                            DependantHarmony dependantHarmony = RandomUtil.getRandomFromList(textureTypes);
+                            DependantHarmony dependantHarmony = textureConfig.getTextureFor(v, melodyNote.getPitchClass());
                             melodyNote.setDependantHarmony(dependantHarmony);
                         }
                     }

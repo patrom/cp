@@ -302,4 +302,12 @@ public class DependantHarmony{
         return setClassTypes;
     }
 
+    @Override
+    public String toString() {
+        return "DependantHarmony{" +
+//                "chordType=" + chordType +
+//                ", voicingType=" + voicingType +
+                ", setClass=" + Arrays.toString(setClass) +
+                '}';
+    }
 }

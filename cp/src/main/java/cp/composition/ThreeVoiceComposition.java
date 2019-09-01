@@ -166,4 +166,17 @@ public class ThreeVoiceComposition extends Composition{
 		return melodyBlocks;
 	}
 
+    public List<MelodyBlock> compositionMap(){
+        List<MelodyBlock> melodyBlocks = new ArrayList<>();
+        MelodyBlock melodyBlock = melodyGenerator.pickMelodies(voice0);
+        melodyBlocks.add(melodyBlock);
+
+        MelodyBlock melodyBlock2 = melodyGenerator.pickMelodies(voice1);
+        melodyBlocks.add(melodyBlock2);
+
+        MelodyBlock melodyBlock3 = melodyGenerator.pickMelodies(voice2);
+        melodyBlocks.add(melodyBlock3);
+        return melodyBlocks;
+    }
+
 }

@@ -2,6 +2,8 @@ package cp.config.map;
 
 import cp.composition.MelodyMapComposition;
 import cp.model.melody.CpMelody;
+import cp.model.note.Scale;
+import cp.model.rhythm.DurationConstants;
 import cp.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,7 +18,9 @@ public class HarmonyMap extends CompositionMap{
 
     @PostConstruct
     public void init(){
-        compositionMap.put(0, melodyMapComposition.getOneNote());
+        List<CpMelody> melodies = singleMelodyGenerator.generateSingleNoteScale(Scale.RELATED_3, DurationConstants.HALF, keys.C);
+        melodies.addAll(singleMelodyGenerator.generateSingleNoteScale(Scale.RELATED_3, DurationConstants.WHOLE, keys.C));
+        compositionMap.put(0, melodies);
 
         int mapSize = compositionMap.values()
                 .stream()

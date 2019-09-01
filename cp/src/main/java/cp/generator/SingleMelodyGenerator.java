@@ -15,10 +15,7 @@ import org.paukov.combinatorics3.Generator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -31,6 +28,12 @@ public class SingleMelodyGenerator {
     private Composition composition;
     @Autowired
     private Keys keys;
+
+    public CpMelody generateRest(int duration){
+        List<CpMelody> melodies = new ArrayList<>();
+        Note rest = note().rest().len(duration).build();
+        return new CpMelody(Collections.singletonList(rest), -1, 0, duration);
+    }
 
     public List<CpMelody> generateSingleNoteScale(Scale scale, int duration, Key key){
         List<CpMelody> melodies = new ArrayList<>();
@@ -231,16 +234,11 @@ public class SingleMelodyGenerator {
             Note note = notesNoRest.get(i);
             note.setPitchClass(pitchClasses.get(i));
         }
-        return new CpMelody(notes, -1, 0, duration);
+        int length = notes.stream().mapToInt(value -> value.getLength()).sum();
+        return new CpMelody(notes, -1, 0, length);
     }
 
     protected CpMelody getMelody(List<Integer> pitchClasses, int... durations) {
-//        int size = pitchClasses.size();
-//        while (size < durations.length){
-//            int randomIndex = RandomUtil.getRandomIndex(pitchClasses);
-//            pitchClasses.add(randomIndex, pitchClasses.get(randomIndex));
-//            size = size + 1;
-//        }
         List<Note> notes = new ArrayList<>();
         int total = 0;
         for (int i = 0; i < durations.length; i++) {

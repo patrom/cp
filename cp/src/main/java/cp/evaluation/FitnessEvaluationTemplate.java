@@ -70,13 +70,6 @@ public class FitnessEvaluationTemplate {
 
 	public FitnessObjectiveValues evaluate(Motive motive) {
         List<MelodyBlock> melodies = motive.getMelodyBlocks();
-//        int sum = melodies.stream().mapToInt(melodyBlock -> melodyBlock.getLength()).sum();
-//        if(sum < 2000){
-//            System.out.println("stop");
-//        }
-
-//        melodies.stream().flatMap(melodyBlock -> melodyBlock.getMelodyBlocks().stream()).forEach(cpMelody -> cpMelody.updateContourAscending());
-
 		List<MelodyBlock> melodiesToCalculate = melodies.stream().filter(m -> m.isCalculable() && !m.getMelodyBlockNotes().isEmpty()).collect(toList());
 		updatePitchesFromContour(melodies);
 		updateMelodyInRange(melodies);

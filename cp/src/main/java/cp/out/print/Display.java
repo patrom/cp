@@ -7,6 +7,7 @@ import cp.model.TimeLine;
 import cp.model.TimeLineKey;
 import cp.model.harmony.CpHarmony;
 import cp.model.melody.MelodyBlock;
+import cp.model.note.Note;
 import jm.music.data.Score;
 import jm.util.View;
 import org.slf4j.Logger;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Component
@@ -55,7 +57,7 @@ public class Display {
         generateMusicXml(motive.getMelodyBlocks(), id);
         writeMidi(motive.getMelodyBlocks(), id);
         printTimeLine();
-//        LogTransformations(motive);
+        LogTransformations(motive);
 
     }
 
@@ -102,8 +104,21 @@ public class Display {
 
 	private void viewScore(List<MelodyBlock> melodies, String id)
 			throws InvalidMidiDataException {
+
+        if(melodies.stream().flatMap(melodyBlock -> melodyBlock.getMelodyBlockNotes().stream()).anyMatch(note -> !note.hasTexture())){
+            System.out.println();
+        }
 		melodies.forEach(m -> LOGGER.info(m.getMelodyBlockContour() + ", "));
 		melodies.forEach(m -> LOGGER.info(m.getMelodyBlockNotesWithRests() + ", "));
+//        for (MelodyBlock melody : melodies) {
+//            List<Note> melodyBlockNotes = melody.getMelodyBlockNotes();
+//            for (Note melodyBlockNote : melodyBlockNotes) {
+//                System.out.print(melodyBlockNote.getPitchClass());
+//                System.out.print(", ");
+//                System.out.print(Arrays.toString(melodyBlockNote.getDependantHarmony().getSetClass()));
+//            }
+//        }
+
 		Score score = scoreUtilities.createScoreMelodies(melodies, musicProperties.getTempo());
 		score.setTitle(id);
 		View.notate(score);

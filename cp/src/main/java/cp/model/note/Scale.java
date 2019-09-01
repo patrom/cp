@@ -1,5 +1,6 @@
 package cp.model.note;
 
+import cp.model.harmony.Chord;
 import cp.out.print.note.Key;
 import cp.util.RandomUtil;
 import org.apache.commons.lang.ArrayUtils;
@@ -66,7 +67,7 @@ public class Scale {
             SET_6_7 = new Scale(new int[]{0, 1, 2, 6, 7, 8}),
 
             MELODY = new Scale(new int[]{0, 2, 5, 4}),
-
+            RELATED_3 = new Scale(new int[]{0, 3, 4, 8, 9}), //5-22
 	TEST1 = new Scale(new int[]{0, 1,2}),
 
 	TEST2 = new Scale(new int[]{4,5,6}),
@@ -277,6 +278,10 @@ public class Scale {
 
     public int getPitchClassForKey(int pitchClass, Key key) {
         return (pitchClass + key.getInterval()) % 12;
+    }
+
+    public String getForteName(){
+	    return new Chord(getPitchClassesAsList(), scale[0]).getForteName();
     }
 
 }
