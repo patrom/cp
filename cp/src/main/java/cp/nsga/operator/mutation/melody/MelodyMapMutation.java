@@ -49,18 +49,24 @@ public class MelodyMapMutation implements MutationOperator<MelodyBlock> {
             int stop = composition.getEnd();
             int start = melodyBlock.getLength();
             int end = melodyBlock.getLength();
-            while (end < stop) {
-                CpMelody randomMelody = compositionMap.getRandomMelody(melodyBlock.getVoice());
-                randomMelody.setStart(start);
-                randomMelody.setEnd(start + randomMelody.getLength());
-                randomMelody.updateNotePositions(start);
-                randomMelody.setMutationType(MutationType.MELODY_MAP);
-                randomMelody.setVoice(melodyBlock.getVoice());
-                melodyBlock.addMelodyBlock(randomMelody);
-                start = randomMelody.getEnd();
-                end = start;
+            if (end < stop) {
+                while (end < stop) {
+                    CpMelody randomMelody = compositionMap.getRandomMelody(melodyBlock.getVoice());
+                    randomMelody.setStart(start);
+                    randomMelody.setEnd(start + randomMelody.getLength());
+                    randomMelody.updateNotePositions(start);
+                    randomMelody.setMutationType(MutationType.MELODY_MAP);
+                    randomMelody.setVoice(melodyBlock.getVoice());
+                    melodyBlock.addMelodyBlock(randomMelody);
+                    start = randomMelody.getEnd();
+                    end = start;
+                }
+            } else {
+                while (stop < end) {
+                    melodyBlock.removeEnd();
+                    end = melodyBlock.getLength();
+                }
             }
-            //TODO cut off lenght if too long!!!!
             LOGGER.debug("melody map" + melodyBlock.getVoice());
         }
     }

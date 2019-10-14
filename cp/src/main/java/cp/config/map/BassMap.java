@@ -1,24 +1,19 @@
 package cp.config.map;
 
-import cp.composition.MelodyMapComposition;
 import cp.model.melody.CpMelody;
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
-import cp.util.RandomUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Component
-public class HarmonyMap extends CompositionMap{
+public class BassMap extends CompositionMap{
 
     @PostConstruct
     public void init(){
-        compositionMap.put(0, melodyMapComposition.getThreeNotes());
+        compositionMap.put(0, melodyMapComposition.getBass());
 
         int mapSize = compositionMap.values()
                 .stream()
@@ -26,6 +21,7 @@ public class HarmonyMap extends CompositionMap{
                 .sum();
         System.out.println("size map :" + mapSize);
     }
+
 
 }
 

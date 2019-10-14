@@ -37,8 +37,9 @@ public class TextureConfig {
 
         textureSelection = new TextureSelection();
         List<Chord> subSets = new ArrayList<>();
+//        subSets.addAll(subSetCalculator.getSubSets(Scale.MAJOR_SCALE.getForteName(), "3-11"));
         subSets.addAll(subSetCalculator.getSubSets(Scale.MAJOR_SCALE.getForteName(), "3-11"));
-        textureSelections.put(1, textureSelection.getSelection(subSets));
+        textureSelections.put(0, textureSelection.getChordTypes(ChordType.MINOR_CHR, ChordType.MINOR_1_CHR, ChordType.MINOR_2_CHR));
     }
 
 

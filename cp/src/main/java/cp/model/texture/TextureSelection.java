@@ -292,10 +292,10 @@ public class TextureSelection {
     private DependantHarmony createDependantHarmony(ChordType chordType){
         DependantHarmony dependantHarmony = new DependantHarmony();
         dependantHarmony.setChordType(chordType);
-        return  dependantHarmony;
+        return dependantHarmony;
     }
 
-    private DependantHarmony createDependantHarmony(int[] setClass, VoicingType voicingType){
+    public DependantHarmony createDependantHarmony(int[] setClass, VoicingType voicingType){
         DependantHarmony dependantHarmony = new DependantHarmony(setClass, voicingType);
         dependantHarmony.setChordType(ChordType.SETCLASS);
         return dependantHarmony;

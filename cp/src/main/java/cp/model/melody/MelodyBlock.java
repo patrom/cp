@@ -301,6 +301,10 @@ public class MelodyBlock {
 		this.melodyBlocks.add(melody);
 	}
 
+    public void removeEnd() {
+        melodyBlocks.remove(melodyBlocks.size() - 1);
+    }
+
 	public void updateMelodyBlock(MelodyBlock melodyBlock, int position){
 		int end = melodyBlock.getLastMelody().getEnd() + position;
 		int endBlock = this.getLastMelody().getEnd();

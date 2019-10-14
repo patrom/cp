@@ -2,12 +2,11 @@ package cp.generator;
 
 import cp.DefaultConfig;
 import cp.VariationConfig;
-import cp.combination.CompositeRhythmCombination;
-import cp.combination.DurationRhythmCombination;
+import cp.combination.rhythm.CompositeRhythmCombination;
+import cp.combination.rhythm.DurationRhythmCombination;
 import cp.combination.RhythmCombination;
 import cp.combination.RhythmCombinations;
 import cp.config.BeatGroupConfig;
-import cp.generator.pitchclass.combination.PitchClassCombinationRepetition;
 import cp.model.melody.CpMelody;
 import cp.model.note.Note;
 import cp.model.note.Scale;
@@ -60,20 +59,6 @@ class SingleMelodyGeneratorTest {
     }
 
     @Test
-    void generatePermutations() {
-        List<RhythmCombination> rhythmCombinations = new ArrayList<>();
-        rhythmCombinations.add(allRhythmCombinations.threeNoteEven::pos134);
-//        rhythmCombinations.add(allRhythmCombinations.threeNoteEven::pos124);
-//        List<CpMelody> melodies = singleMelodyGenerator.generatePermutations(Scale.MAJOR_SCALE, keys.C, 3, rhythmCombinations, DurationConstants.QUARTER);
-//        List<String> result = melodies.stream().map(melody -> melody.getNotes().stream()
-//                .mapToInt(Note::getPitchClass).mapToObj(String::valueOf)
-//                .collect(Collectors.joining(","))).collect(Collectors.toList());
-//        result.forEach(s -> System.out.println(s));
-//        System.out.println(result.size());
-//        assertThat(result, hasItems("0,2,4", "2,4,5", "4,5,7", "5,7,9", "7,9,11", "9,11,0" , "11,0,2"));
-    }
-
-    @Test
     void getPitchClassForKey() {
         int pitchClassForKey = singleMelodyGenerator.getPitchClassForKey(0, keys.A);
         assertEquals(9, pitchClassForKey);
@@ -83,27 +68,19 @@ class SingleMelodyGeneratorTest {
     void generateTranspositions() {
         List<RhythmCombination> rhythmCombinations = new ArrayList<>();
         rhythmCombinations.add(allRhythmCombinations.threeNoteEven::pos134);
-        int[] steps = Scale.MAJOR_SCALE.getPitchClasses();
-        List<CpMelody> melodies = singleMelodyGenerator.generateTranspositionsPitchClassesForSteps(steps, rhythmCombinations, DurationConstants.QUARTER, 4,5, 0);
+//        int[] steps = Scale.MAJOR_SCALE.getPitchClasses();
+        int[] steps = {1,4,5};
+        List<CpMelody> melodies = singleMelodyGenerator.generateTranspositionsPitchClassesForSteps(steps, rhythmCombinations,
+                DurationConstants.QUARTER, 4,5, 0);
         for (CpMelody melody : melodies) {
             melody.getNotes().forEach(note -> System.out.print(note.getPitchClass() + ", "));
             System.out.println();
         }
-    }
-
-    @Test
-    void generateTranspositionsAndInversionsForScale() {
-        List<RhythmCombination> rhythmCombinations = new ArrayList<>();
-        CompositeRhythmCombination compositeRhythmCombination = new CompositeRhythmCombination();
-        compositeRhythmCombination.addRhythmCombination(allRhythmCombinations.threeNoteEven::pos134);
-        compositeRhythmCombination.addRhythmCombination(allRhythmCombinations.oneNoteEven::pos1);
-        rhythmCombinations.add(compositeRhythmCombination);
-        List<CpMelody> melodies = singleMelodyGenerator.generateTranspositionsAndInversionsForScale(Scale.OCTATCONIC_01,
-                rhythmCombinations, DurationConstants.QUARTER, 4,1, 0, 3);
-        for (CpMelody melody : melodies) {
-            melody.getNotes().forEach(note -> System.out.print(note.getPitchClass() + ", "));
-            System.out.println();
-        }
+        List<String> result = melodies.stream().map(melody -> melody.getNotes().stream()
+                .mapToInt(Note::getPitchClass).mapToObj(String::valueOf)
+                .collect(Collectors.joining(","))).collect(Collectors.toList());
+        System.out.println(result.size());
+        assertThat(result, hasItems("5,6,1", "8,9,4", "9,10,5"));
     }
 
     @Test
@@ -119,6 +96,11 @@ class SingleMelodyGeneratorTest {
             melody.getNotes().forEach(note -> System.out.println(note.getPitchClass() + ", " + note.getPosition()));
             System.out.println();
         }
+        List<String> result = melodies.stream().map(melody -> melody.getNotes().stream()
+                .mapToInt(Note::getPitchClass).mapToObj(String::valueOf)
+                .collect(Collectors.joining(","))).collect(Collectors.toList());
+        System.out.println(result.size());
+        assertThat(result, hasItems("4,1,0,3", "6,3,1,4", "7,4,3,6"));
     }
 
     @Test
@@ -134,30 +116,11 @@ class SingleMelodyGeneratorTest {
             melody.getNotes().forEach(note -> System.out.print(note.getPitchClass() + ", "));
             System.out.println();
         }
-    }
-
-    @Test
-    public void getMelodyWithRepetition(){
-        List<RhythmCombination> rhythmCombinations = new ArrayList<>();
-        rhythmCombinations.add(allRhythmCombinations.sixNoteSexTuplet::pos123456);
-        List<Integer> pitchClasses = new ArrayList<>();
-        pitchClasses.add(3);
-        pitchClasses.add(1);
-        pitchClasses.add(11);
-        List<CpMelody> melodyWithRepetition = singleMelodyGenerator.getMelodyWithRepetition(pitchClasses, rhythmCombinations, DurationConstants.HALF);
-        melodyWithRepetition.forEach(melody -> melody.getNotes().forEach(note -> System.out.println(note.getPitchClass())));
-    }
-
-    @Test
-    void generatePermutationsWithRepetition() {
-        List<RhythmCombination> rhythmCombinations = new ArrayList<>();
-        rhythmCombinations.add(allRhythmCombinations.fourNoteSexTuplet::pos1356);
-        rhythmCombinations.add(allRhythmCombinations.fiveNoteSexTuplet::pos13456);
-        List<CpMelody> melodies = singleMelodyGenerator.generatePermutationsWithRepetition(Scale.MAJOR_SCALE, keys.C, 3, rhythmCombinations, DurationConstants.QUARTER);
         List<String> result = melodies.stream().map(melody -> melody.getNotes().stream()
                 .mapToInt(Note::getPitchClass).mapToObj(String::valueOf)
                 .collect(Collectors.joining(","))).collect(Collectors.toList());
-        result.forEach(s -> System.out.println(s));
+        System.out.println(result.size());
+        assertThat(result, hasItems("7,10,3,0"));
     }
 
     @Test
@@ -165,22 +128,9 @@ class SingleMelodyGeneratorTest {
         List<Integer> pitchClasses = new ArrayList<>();
         pitchClasses.add(4);
         pitchClasses.add(5);
-//        pitchClasses.add(0);
-        CpMelody cpMelody = singleMelodyGenerator.getMelody(pitchClasses, DurationConstants.SIXTEENTH, DurationConstants.EIGHT, DurationConstants.QUARTER, DurationConstants.EIGHT);
-        cpMelody.getNotes().forEach(note -> System.out.println(note.getPitchClass()));
-    }
-
-    @Test
-    void generateTranspositionsAndInversionsWithRhythm() {
-        List<Integer> pitchClasses = new ArrayList<>();
-        pitchClasses.add(4);
-        pitchClasses.add(5);
         pitchClasses.add(0);
-        List<CpMelody> melodies = singleMelodyGenerator.generateTranspositionsAndInversionsWithRhythm(pitchClasses, DurationConstants.SIXTEENTH, DurationConstants.EIGHT, DurationConstants.QUARTER, DurationConstants.EIGHT);
-        for (CpMelody melody : melodies) {
-            melody.getNotes().forEach(note -> System.out.print(note.getPitchClass() + ", "));
-            System.out.println();
-        }
+        CpMelody cpMelody = singleMelodyGenerator.getMelody(pitchClasses, DurationConstants.SIXTEENTH, DurationConstants.EIGHT, DurationConstants.QUARTER);
+        cpMelody.getNotes().forEach(note -> System.out.println(note.getPitchClass()));
     }
 
     @Test
@@ -206,6 +156,7 @@ class SingleMelodyGeneratorTest {
             melody.getNotes().forEach(note -> System.out.print(note.getPitchClass() + ", "));
             System.out.println();
         }
+
     }
 
     @Test
@@ -222,6 +173,11 @@ class SingleMelodyGeneratorTest {
             melody.getNotes().forEach(note -> System.out.print(note.getPitchClass() + ", "));
             System.out.println();
         }
+        List<String> result = melodies.stream().map(melody -> melody.getNotes().stream()
+                .mapToInt(Note::getPitchClass).mapToObj(String::valueOf)
+                .collect(Collectors.joining(","))).collect(Collectors.toList());
+        System.out.println(result.size());
+        assertThat(result, hasItems("5,0,4", "0,5,4", "4,5,0"));
     }
 
 
@@ -240,7 +196,7 @@ class SingleMelodyGeneratorTest {
         List<String> result = melodies.stream().map(melody -> melody.getNotes().stream()
                 .mapToInt(Note::getPitchClass).mapToObj(String::valueOf)
                 .collect(Collectors.joining(","))).collect(Collectors.toList());
-        assertThat(result, hasItems("0,2,4", "2,4,5", "4,5,7", "5,7,9", "7,9,11", "9,11,0" , "11,0,2"));
+        assertThat(result, hasItems("0,2,4", "2,4,5", "4,5,7", "5,7,9", "7,9,11", "9,11,0" , "11,0,2", "0,4,7", "4,7,0"));
     }
 
     @Test
@@ -278,7 +234,7 @@ class SingleMelodyGeneratorTest {
         List<String> result = melodies.stream().map(melody -> melody.getNotes().stream()
                 .mapToInt(Note::getPitchClass).mapToObj(String::valueOf)
                 .collect(Collectors.joining(","))).collect(Collectors.toList());
-//        assertThat(result, hasItems("0,0,4", "4,0,4", "4,0,0", "0,4,0"));
+        assertThat(result, hasItems("0,0,4,4", "4,0,4,0", "4,0,0,4", "0,4,0,0"));
     }
 
     @Test
@@ -299,7 +255,7 @@ class SingleMelodyGeneratorTest {
         List<String> result = melodies.stream().map(melody -> melody.getNotes().stream()
                 .mapToInt(Note::getPitchClass).mapToObj(String::valueOf)
                 .collect(Collectors.joining(","))).collect(Collectors.toList());
-//        assertThat(result, hasItems("0,0,4", "4,0,4", "4,0,0", "0,4,0"));
+        assertThat(result, hasItems("4,4,0,11", "4,0,0,11", "4,0,11,11"));
     }
 
 

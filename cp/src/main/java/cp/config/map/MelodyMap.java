@@ -25,7 +25,7 @@ public class MelodyMap extends CompositionMap{
     @PostConstruct
     public void init(){
         compositionMap.put(0, melodyMapComposition.getThreeNotes());
-        compositionMap.put(1, melodyMapComposition.getOneNote());
+//        compositionMap.put(1, melodyMapComposition.getOneNote());
 
         int mapSize = compositionMap.values()
                 .stream()

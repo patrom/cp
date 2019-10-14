@@ -120,7 +120,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 
 		//TWO VOICES
 //		composeInGenres.add(twoVoiceComposition::random);
-//		composeInGenres.add(twoVoiceComposition::compositionMap);
+		composeInGenres.add(twoVoiceComposition::compositionMap);
 //		composeInGenres.add(twoVoiceComposition::beatEven);
 //		composeInGenres.add(twoVoiceComposition::beatEven);
 //		composeInGenres.add(twoVoiceComposition::canon);
@@ -145,7 +145,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(threeVoiceComposition::harmonize);
 //		composeInGenres.add(threeVoiceComposition::threeOverXX);
 //		composeInGenres.add(threeVoiceComposition::allRandom);
-		composeInGenres.add(threeVoiceComposition::compositionMap);
+//		composeInGenres.add(threeVoiceComposition::compositionMap);
 //
 		//FOUR VOICES
 //		composeInGenres.add(fourVoiceComposition::canonA3);

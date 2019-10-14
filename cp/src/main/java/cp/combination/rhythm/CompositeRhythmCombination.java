@@ -1,5 +1,6 @@
-package cp.combination;
+package cp.combination.rhythm;
 
+import cp.combination.RhythmCombination;
 import cp.model.note.Note;
 
 import java.util.ArrayList;
