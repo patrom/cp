@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.swing.*;
@@ -35,8 +36,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
-@ExtendWith(SpringExtension.class)
-public class InnerMetricWeightTest extends JFrame {
+@TestPropertySource(properties = "composition.voices=4")
+public class InnerMetricWeightTest  {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(InnerMetricWeightTest.class.getName());
 	private int[] rhythmPattern = {0, EIGHT, EIGHT + SIXTEENTH ,
@@ -283,12 +284,12 @@ public class InnerMetricWeightTest extends JFrame {
 			notes.add(NoteBuilder.note().pos(rhythmPattern[i]).pitch(60).len(DurationConstants.EIGHT).build());
 		}
 		
-		Score score = new Score();
-		Phrase phrase = scoreUtilities.createPhrase(notes);	
-		Part part = new Part(phrase);
-		score.add(part);
-		View.notate(score);
-		Play.midi(score, true);
+//		Score score = new Score();
+//		Phrase phrase = scoreUtilities.createPhrase(notes);
+//		Part part = new Part(phrase);
+//		score.add(part);
+//		View.notate(score);
+//		Play.midi(score, true);
 	}
 	
 	@Test

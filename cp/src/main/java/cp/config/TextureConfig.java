@@ -1,17 +1,13 @@
 package cp.config;
 
-import cp.composition.Composition;
 import cp.model.harmony.Chord;
 import cp.model.harmony.ChordType;
 import cp.model.harmony.DependantHarmony;
 import cp.model.harmony.VoicingType;
 import cp.model.note.Scale;
-import cp.model.setclass.Set;
 import cp.model.setclass.SubSetCalculator;
-import cp.model.setclass.TnTnIType;
 import cp.model.texture.TextureSelection;
 import cp.util.RowMatrix;
-import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,8 +34,15 @@ public class TextureConfig {
         textureSelection = new TextureSelection();
         List<Chord> subSets = new ArrayList<>();
 //        subSets.addAll(subSetCalculator.getSubSets(Scale.MAJOR_SCALE.getForteName(), "3-11"));
-        subSets.addAll(subSetCalculator.getSubSets(Scale.MAJOR_SCALE.getForteName(), "3-11"));
-        textureSelections.put(0, textureSelection.getChordTypes(ChordType.MINOR_CHR, ChordType.MINOR_1_CHR, ChordType.MINOR_2_CHR));
+//        subSets.addAll(subSetCalculator.getSubSets(Scale.MAJOR_SCALE.getForteName(), "3-5"));
+//        textureSelection.addChordType(ChordType.MINOR_CHR, ChordType.MINOR_1_CHR, ChordType.MINOR_2_CHR);
+//        textureSelection.addChordType(ChordType.CH2_KWART_CHR, ChordType.CH2_KWINT_CHR, ChordType.CH2_GROOT_SEPTIEM_CHR, ChordType.CH2_TRITONE_CHR);
+        textureSelection.addChordType(ChordType.CH2_KWART_CHR);
+
+//        textureSelection.addSetclasses(VoicingType.DROP_2, Scale.SET_3_5.getPitchClasses());
+//        textureSelection.addSetclasses(VoicingType.UP_2, Scale.SET_3_4.getPitchClasses());
+//        textureSelection.addSetclasses(VoicingType.UP_2, Scale.SET_4_8.getPitchClasses());
+//        textureSelections.put(1, textureSelection);
     }
 
 

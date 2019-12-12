@@ -25,12 +25,29 @@ public class TextureSelection {
 
     private Map<Integer, List<DependantHarmony>> textureTypes = new HashMap<>();
 
-    public TextureSelection getChordTypes(ChordType... chordType){
+    public void addChordType(ChordType... chordType){
         List<DependantHarmony> dependantHarmonies = Arrays.stream(chordType).map(type -> createDependantHarmony(type)).collect(toList());
         for (int i = 0; i < 12; i++) {
-            textureTypes.put(i, dependantHarmonies);
+            addDependantHarmonies(dependantHarmonies, i);
         }
-        return this;
+    }
+
+    public void addSetclasses(VoicingType voicingType, int[]... setclasses){
+        List<DependantHarmony> dependantHarmonies = Arrays.stream(setclasses).map(type -> createDependantHarmony(type, voicingType)).collect(toList());
+        for (int i = 0; i < 12; i++) {
+            addDependantHarmonies(dependantHarmonies, i);
+        }
+    }
+
+    private void addDependantHarmonies(List<DependantHarmony> dependantHarmonies, int i) {
+        textureTypes.compute(i, (k, v) -> {
+            if (v == null) {
+                return new ArrayList<>(dependantHarmonies);
+            }else {
+                v.addAll(dependantHarmonies);
+                return v;
+            }
+        });
     }
 
     public TextureSelection getSelection(List<Chord> chords) {

@@ -19,11 +19,11 @@ public class OneNoteEven{
 	}
 	
 	public List<Note> pos2(int beat, int pulse) {
-		return posRest(beat/4, beat);
+		return posRest(30 * 4, beat);
 	}
 	
 	public List<Note> pos3(int beat, int pulse) {
-		return posRest(beat/2, beat);
+		return posRest(30 * 2, beat);
 	}
 	
 	public List<Note> pos4(int beat, int pulse) {

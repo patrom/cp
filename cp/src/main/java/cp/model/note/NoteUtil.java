@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static cp.model.note.NoteBuilder.note;
 
@@ -11,6 +12,12 @@ import static cp.model.note.NoteBuilder.note;
 public class NoteUtil {
 
     public List<Note> getNotesForPositions(int beat, List<Integer> positions, int size) {
+        Integer firstPosition = positions.get(0);
+        if (firstPosition != 0){ // positions should start from 0!
+            positions = positions.stream().map(integer -> {
+                return integer - firstPosition;
+            }).collect(Collectors.toList());
+        }
         List<Note> notes = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             if (positions.contains(i)) {

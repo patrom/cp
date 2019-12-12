@@ -15,7 +15,7 @@ public class FourNoteEven {
 
 	public List<Note> pos1234(int beat, int pulse) {
 		List<Note> notes = new ArrayList<>();
-		int beat4 = beat/4;
+		int beat4 = 30 * 4;
 		if (beat == DurationConstants.QUARTER) {
 			notes.add(note().pos(0).len(beat4).beam(BeamType.BEGIN_BEGIN).build());
 			notes.add(note().pos(beat4).len(beat4).beam(BeamType.CONTINUE_CONTINUE).build());

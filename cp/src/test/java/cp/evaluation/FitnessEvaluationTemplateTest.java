@@ -40,7 +40,6 @@ import static cp.model.note.NoteBuilder.note;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
 @TestPropertySource(locations="classpath:test.properties")
-@ExtendWith(SpringExtension.class)
 public class FitnessEvaluationTemplateTest{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(FitnessEvaluationTemplateTest.class);

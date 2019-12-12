@@ -2,7 +2,6 @@ package cp.model.texture;
 
 import cp.DefaultConfig;
 import cp.composition.Composition;
-import cp.model.TimeLineKey;
 import cp.model.harmony.Chord;
 import cp.model.harmony.ChordType;
 import cp.model.harmony.DependantHarmony;
@@ -14,19 +13,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.when;
-
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DefaultConfig.class)
-@ExtendWith(SpringExtension.class)
+@TestPropertySource(properties = "composition.voices=4")
 class TextureSelectionTest {
 
     private TextureSelection textureSelection;
@@ -45,8 +41,8 @@ class TextureSelectionTest {
 
     @Test
     void getChordTypes() {
-        Map<Integer, List<DependantHarmony>> textureTypes = textureSelection.getChordTypes(ChordType.CH2_GROTE_SIXT_CHR).getTextureTypes();
-        for (List<DependantHarmony> value : textureTypes.values()) {
+        textureSelection.addChordType(ChordType.CH2_GROTE_SIXT_CHR);
+        for (List<DependantHarmony> value : textureSelection.getTextureTypes().values()) {
             System.out.println(value);
         }
     }

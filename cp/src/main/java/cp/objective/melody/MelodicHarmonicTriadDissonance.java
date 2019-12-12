@@ -7,15 +7,15 @@ import java.util.Arrays;
 public class MelodicHarmonicTriadDissonance implements MelodyHarmonicDissonance {
 
     private String[] triads;
+    private int size;
 
     public MelodicHarmonicTriadDissonance(String... triads) {
         this.triads = triads;
+        this.size = Integer.parseInt(triads[0].substring(0,1));
     }
 
     @Override
     public double getMelodicValue(Chord chord) {
-        String forteName = chord.getForteName();
-
         if (Arrays.asList(triads).contains(chord.getForteName())) {
             return 1.0;
         }
@@ -24,6 +24,6 @@ public class MelodicHarmonicTriadDissonance implements MelodyHarmonicDissonance 
 
     @Override
     public int getChordSize() {
-        return 3;
+        return size;
     }
 }

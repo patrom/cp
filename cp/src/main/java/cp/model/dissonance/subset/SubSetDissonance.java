@@ -302,6 +302,8 @@ public class SubSetDissonance implements Dissonance {
                 return 0.0;
             case "6-39":
                 return 0.0;
+            case "6-40":
+                return 0.0;
             case "6-41":
                 return 0.0;
             case "6-42":

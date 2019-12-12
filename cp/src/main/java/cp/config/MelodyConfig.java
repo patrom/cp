@@ -46,12 +46,12 @@ public class MelodyConfig {
         meldodyConfigs.put(5, pentatonicMelodyDissonance);
 
 //        MelodicHarmonicTriadDissonance melodicHarmonicTriadDissonance = new MelodicHarmonicTriadDissonance("2-6" );
-        MelodicHarmonicTriadDissonance melodicHarmonicTriadDissonance = new MelodicHarmonicTriadDissonance("3-1, 3-2, 3-7, 3-5" );
-        meldodyHarmonicConfigs.put(0, melodicHarmonicTriadDissonance);
-        meldodyHarmonicConfigs.put(1, melodicHarmonicTriadDissonance);
-        meldodyHarmonicConfigs.put(2, melodicHarmonicTriadDissonance);
-        meldodyHarmonicConfigs.put(3, melodicHarmonicTriadDissonance);
-        meldodyHarmonicConfigs.put(4, melodicHarmonicTriadDissonance);
+        MelodicHarmonicTriadDissonance melodicHarmonicTriadDissonance = new MelodicHarmonicTriadDissonance("6-7" );
+//        meldodyHarmonicConfigs.put(0, melodicHarmonicTriadDissonance);
+//        meldodyHarmonicConfigs.put(1, melodicHarmonicTriadDissonance);
+//        meldodyHarmonicConfigs.put(2, melodicHarmonicTriadDissonance);
+//        meldodyHarmonicConfigs.put(3, melodicHarmonicTriadDissonance);
+//        meldodyHarmonicConfigs.put(4, melodicHarmonicTriadDissonance);
 //        meldodyHarmonicConfigs.put(3, melodySubSet_8_25);
 //        meldodyHarmonicConfigs.put(4, melodyMajorScale_7_35);
 //        meldodyHarmonicConfigs.put(5, melodyMajorScale_7_35);

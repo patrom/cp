@@ -27,6 +27,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -42,7 +43,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DefaultConfig.class)
-@ExtendWith(SpringExtension.class)
+@TestPropertySource(properties = "composition.voices=4")
 public class MidiDevicesUtilTest {
 
     @Autowired

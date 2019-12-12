@@ -1,6 +1,7 @@
 package cp;
 
 import cp.config.BeatGroupConfig;
+import cp.generator.MelodyGenerator;
 import cp.midi.MidiDevicePlayer;
 import cp.midi.MidiDevicesUtil;
 import cp.out.orchestration.orchestra.ClassicalOrchestra;
@@ -19,11 +20,13 @@ import javax.sound.midi.Sequence;
 import javax.swing.*;
 import java.io.File;
 
-@Import({DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
+@Import({BeatGroupConfig.class, DefaultConfig.class, VariationConfig.class})
 public class PlayMidiApplication extends JFrame implements CommandLineRunner {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PlayApplication.class.getName());
 
+    @Autowired
+    private MelodyGenerator melodyGenerator;
     @Autowired
     private MidiDevicesUtil midiDevicesUtil;
 
@@ -48,7 +51,7 @@ public class PlayMidiApplication extends JFrame implements CommandLineRunner {
             LOGGER.info(midiFile.getName());
             Sequence sequence = MidiSystem.getSequence(midiFile);
             midiDevicesUtil.playOnDevice(sequence, 0, MidiDevicePlayer.KONTAKT);
-            Thread.sleep(18000);
+            Thread.sleep(22000);
         }
     }
 

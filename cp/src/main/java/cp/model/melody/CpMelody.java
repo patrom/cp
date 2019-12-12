@@ -444,6 +444,15 @@ public class CpMelody implements Comparable<CpMelody> {
 		}
 	}
 
+    public void transposePitchClasses(int step){
+        if (!notes.isEmpty()) {
+            notes.stream().filter(n -> !n.isRest())
+                    .forEach(n -> {
+                        n.setPitchClass((n.getPitchClass() + step) % 12);
+                    });
+        }
+    }
+
 	public CpMelody T(int steps){
 		this.getNotesNoRest().forEach(note -> note.setPitchClass((note.getPitchClass() + steps) % 12));
 		return this;

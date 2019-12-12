@@ -101,7 +101,7 @@ public class MusicProblem extends Problem {
 		musicSolution.setResolution(objectives.getResolution());
 		musicSolution.setRegister(register);
 		musicSolution.setVoiceLeading(objectives.getVoiceleading());
-//		musicSolution.setMelodicHarmonic(melodicHarmonic);
+		musicSolution.setMelodicHarmonic(melodicHarmonic);
         musicSolution.setTransformation(transformation);
 
 		// musicSolution.setConstraintLowestInterval(objectives[5]);

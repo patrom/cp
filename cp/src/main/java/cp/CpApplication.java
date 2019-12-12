@@ -84,10 +84,6 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	@Autowired
 	private Orchestrator orchestrator;
 	@Autowired
-	private PleasantGreen pleasantGreen;
-	@Autowired
-	private BrilliantWhite brilliantWhite;
-	@Autowired
 	private HarmonizeNotes harmonizeNotes;
 	@Autowired
 	private HarmonyOrchestrator harmonyOrchestrator;
@@ -155,6 +151,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		fourVoiceComposition.setHarmonizeMelody(harmonizeNotes::getFileToHarmonize);
 //		fourVoiceComposition.setHarmonizeVoice(1);
 //		composeInGenres.add(fourVoiceComposition::harmonize);
+//        composeInGenres.add(fourVoiceComposition::compositionMap);
 
 		//FIVE VOICES
 //		composeInGenres.add(fiveVoiceComposition::allRandom);
@@ -188,10 +185,10 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 			    
 //			    population.sort(Comparator.comparing(MusicSolution::getMelody).thenComparing(MusicSolution::getHarmony));
 			    population.sort(Comparator
-						.comparing(MusicSolution::getTransformation)
+						.comparing(MusicSolution::getHarmony)
                         .thenComparing(MusicSolution::getMelody)
-						.thenComparing(MusicSolution::getMelodicHarmonic)
-                        .thenComparing(MusicSolution::getHarmony));
+						.thenComparing(MusicSolution::getResolution));
+//                        .thenComparing(MusicSolution::getResolution));
 ////						.thenComparing(MusicSolution::getTransformation)
 //						.thenComparing(MusicSolution::getResolution)
 //			    		.thenComparing(MusicSolution::getMelody));

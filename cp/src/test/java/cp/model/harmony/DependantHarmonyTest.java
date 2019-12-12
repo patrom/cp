@@ -1,5 +1,6 @@
 package cp.model.harmony;
 
+import cp.DefaultConfig;
 import cp.model.note.Note;
 import cp.model.setclass.Set;
 import cp.model.setclass.TnTnIType;
@@ -9,6 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,8 +21,9 @@ import java.util.List;
 import static cp.model.note.NoteBuilder.note;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith(MockitoExtension.class)
-@DisplayName("DependantHarmonyTest")
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(classes = DefaultConfig.class)
+@TestPropertySource(properties = "composition.voices=4")
 public class DependantHarmonyTest {
 
     private DependantHarmony dependantHarmony;

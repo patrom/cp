@@ -80,7 +80,8 @@ public class Mutators {
     @Value("${probabilityMelodyMap}")
     private double probabilityMelodyMap;
     @Autowired
-    public MelodyMapMutation melodyMapMutation;
+    public MelodyMapRandomMutation melodyMapRandomMutation;
+
 
     public List<MutationOperator> getMutationOperators(MutationType mutationType){
         switch (mutationType){
@@ -116,7 +117,9 @@ public class Mutators {
 
     private List<MutationOperator> melodyMapOperators(){
         List<MutationOperator> mutationOperators = new ArrayList<>();
-        mutationOperators.add(melodyMapMutation);
+        if (probabilityMelodyMap > 0) {
+            mutationOperators.add(melodyMapRandomMutation);
+        }
         return mutationOperators;
     }
 

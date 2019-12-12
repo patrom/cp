@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Collections;
@@ -38,7 +39,7 @@ import static org.mockito.Mockito.when;
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DefaultConfig.class)
-@ExtendWith(SpringExtension.class)
+@TestPropertySource(properties = "composition.voices=4")
 public class TextureTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TextureTest.class.getName());

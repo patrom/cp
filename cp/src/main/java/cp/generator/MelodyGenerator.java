@@ -61,14 +61,14 @@ public class MelodyGenerator {
         int end = start;
         CompositionMap compositionMap = compostionMapConfig.getCompositionMapForVoice(voice);
         while (end < stop) {
-            CpMelody randomMelody = compositionMap.getRandomMelody(voice);
-            randomMelody.setStart(start);
-            randomMelody.setEnd(start + randomMelody.getLength());
-            randomMelody.updateNotePositions(start);
-            randomMelody.setMutationType(MutationType.MELODY_MAP);
-            randomMelody.setVoice(voice);
-            melodyBlock.addMelodyBlock(randomMelody);
-            start = randomMelody.getEnd();
+            CpMelody melody = compositionMap.getMelody(voice);
+            melody.setStart(start);
+            melody.setEnd(start + melody.getLength());
+            melody.updateNotePositions(start);
+            melody.setMutationType(MutationType.MELODY_MAP);
+            melody.setVoice(voice);
+            melodyBlock.addMelodyBlock(melody);
+            start = melody.getEnd();
             end = start;
         }
         return melodyBlock;

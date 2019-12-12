@@ -55,8 +55,8 @@ public class ColorQualityConfig {
         //voice!!!
         orchestralQualities.put(0, mellowPurple);
         orchestralQualities.put(1, richBlue);
-        orchestralQualities.put(2, high);
-        orchestralQualities.put(3, mediumRange);
+        orchestralQualities.put(2, richBlue);
+        orchestralQualities.put(3, high);
         orchestralQualities.put(4, mediumRange);
 //        orchestralQualities.put(5, goldenOrange);
     }

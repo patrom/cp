@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -23,7 +24,7 @@ import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DefaultConfig.class)
-@ExtendWith(SpringExtension.class)
+@TestPropertySource(properties = "composition.voices=4")
 public class ChordOchestraTest {
 
     @Autowired

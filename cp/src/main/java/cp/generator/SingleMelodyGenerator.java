@@ -2,22 +2,23 @@ package cp.generator;
 
 import cp.combination.RhythmCombination;
 import cp.composition.Composition;
-import cp.generator.pitchclass.combination.PitchClassCombination;
+import cp.composition.MelodicValue;
+import cp.composition.MelodicValueMelody;
+import cp.composition.MelodicValueRhythmCombination;
+import cp.model.harmony.Chord;
 import cp.model.melody.CpMelody;
 import cp.model.note.Note;
 import cp.model.note.NoteBuilder;
 import cp.model.note.Scale;
+import cp.model.rhythm.DurationConstants;
 import cp.out.print.Keys;
 import cp.out.print.note.Key;
-import cp.util.Permutations;
-import cp.util.RandomUtil;
 import org.paukov.combinatorics3.Generator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static cp.model.note.NoteBuilder.note;
 
@@ -28,6 +29,8 @@ public class SingleMelodyGenerator {
     private Composition composition;
     @Autowired
     private Keys keys;
+
+    private int pulse = DurationConstants.EIGHT;
 
     public CpMelody generateRest(int duration){
         List<CpMelody> melodies = new ArrayList<>();
@@ -44,12 +47,27 @@ public class SingleMelodyGenerator {
         return melodies;
     }
 
-    public List<CpMelody> generateSingleNoteScale(Scale scale, int duration){
+    public MelodicValue generateSingleNoteScale(Scale scale, int duration){
         List<CpMelody> melodies = new ArrayList<>();
         for (int pitchClass : scale.getPitchClasses()) {
             melodies.add(generateSingleNote(pitchClass, duration));
         }
-        return melodies;
+        MelodicValueMelody melodicValue = new MelodicValueMelody();
+        melodicValue.setMelodies(melodies);
+        return melodicValue;
+    }
+
+    public MelodicValue generateMelodicValue(List<Note> notes, List<Integer> pitchClasses, int duration){
+        int size = pitchClasses.size();
+        int i = 0;
+        for (Note note : notes) {
+            note.setPitchClass(pitchClasses.get(i % size));
+            i++;
+        }
+        CpMelody cpMelody = new CpMelody(notes, -1, 0, duration);
+        MelodicValueMelody melodicValue = new MelodicValueMelody();
+        melodicValue.setMelodies(Collections.singletonList(cpMelody));
+        return melodicValue;
     }
 
     public CpMelody generateSingleNote(int pitchClass, int duration){
@@ -59,26 +77,27 @@ public class SingleMelodyGenerator {
     }
 
     /**
-     * All transposities van de pitchclasses voor opgegeven stappen (pitchclasses)
+     * Alle transposities van de pitchclasses voor opgegeven stappen (pitchclasses)
      */
-    public List<CpMelody> generateTranspositionsPitchClassesForSteps(int[] steps, List<RhythmCombination> rhythmCombinations, int duration , Integer... pitchClasses ){
-        Integer[] pcs = pitchClasses;
+    public MelodicValue generateTranspositionsPitchClassesForSteps(int[] steps, List<RhythmCombination> rhythmCombinations, int duration , Integer... pitchClasses ){
         List<Integer> transpositions = new ArrayList<>();
         List<CpMelody> transpositionMelodies = new ArrayList<>();
         for (int step : steps) {
             transpositions.clear();
-            for (Integer pc : pcs) {
+            for (Integer pc : pitchClasses) {
                 transpositions.add((pc + step) % 12);
             }
             for (RhythmCombination rhythmCombination : rhythmCombinations) {
                 transpositionMelodies.add(getMelody(transpositions, rhythmCombination, duration));
             }
         }
-        return transpositionMelodies;
+        MelodicValueMelody melodicValue = new MelodicValueMelody();
+        melodicValue.setMelodies(transpositionMelodies);
+        return melodicValue;
     }
 
     /**
-     * All transposities van de pitchclasses in de scale
+     * Alle transposities van de pitchclasses in de scale
      * (De pitchclasses moeten voorkomen in de scale)
      */
     public List<CpMelody> generateTranspositionsForPitchesClasses(Scale scale, List<RhythmCombination> rhythmCombinations, int duration , int... pitchClasses ){
@@ -149,15 +168,16 @@ public class SingleMelodyGenerator {
         return transpositionMelodies;
     }
 
-    protected CpMelody getMelody(List<Integer> pitchClasses, RhythmCombination rhythmCombination, int duration) {
+    public CpMelody getMelody(List<Integer> pitchClasses, RhythmCombination rhythmCombination, int duration) {
         int size = pitchClasses.size();
-        List<Note> notes = rhythmCombination.getNotes(duration, 0);
+        List<Note> notes = rhythmCombination.getNotes(duration, pulse);
         List<Note> notesNoRest = notes.stream().filter(note -> !note.isRest()).collect(Collectors.toList());
         for (int i = 0; i < size; i++) {
             Note note = notesNoRest.get(i);
             note.setPitchClass(pitchClasses.get(i));
         }
-        int length = notes.stream().mapToInt(value -> value.getLength()).sum();
+        Note lastNote = notes.get(notes.size() - 1);
+        int length = lastNote.getPosition() + lastNote.getLength();
         return new CpMelody(notes, -1, 0, length);
     }
 
@@ -170,6 +190,23 @@ public class SingleMelodyGenerator {
             total = total + duration;
         }
         return new CpMelody(notes, -1, 0, total);
+    }
+
+    public MelodicValue getMelodies(List<RhythmCombination> rhythmCombinations, int pulse, int times, int... pitchClasses) {
+        List<CpMelody> melodies = new ArrayList<>();
+        int duration = pulse * times;
+        for (RhythmCombination rhythmCombination : rhythmCombinations) {
+            List<Note> notes = rhythmCombination.getNotes(duration, pulse);
+            for (int i = 0; i < notes.size(); i++) {
+                int pitchClass = pitchClasses[i % pitchClasses.length];
+                Note note = notes.get(i);
+                note.setPitchClass(pitchClass);
+            }
+            melodies.add(new CpMelody(notes, -1, 0, duration));
+        }
+        MelodicValueMelody melodicValue = new MelodicValueMelody();
+        melodicValue.setMelodies(melodies);
+        return melodicValue;
     }
 
     private RhythmCombination getRhythmCombination(int... durations) {
@@ -231,6 +268,17 @@ public class SingleMelodyGenerator {
         return melodies;
     }
 
+    /**
+     * Alle permutaties van de pitchclasses
+     *
+     * vb: pitchclasses 4,5,0
+     * 4, 5, 0,
+     * 4, 0, 5,
+     * 0, 4, 5,
+     * 0, 5, 4,
+     * 5, 0, 4,
+     * 5, 4, 0
+     */
     public List<List<Integer>> generatePermutationsOrderedNoRepetition(List<Integer> pitchClasses){
         List<CpMelody> melodies = new ArrayList<>();
         return Generator.permutation(pitchClasses)
@@ -264,7 +312,63 @@ public class SingleMelodyGenerator {
     }
 
     /**
-     * Alle combinaties met opgeven grootte met herhalingen
+     * Alle permutaties van pitchclasses voor forteName
+     *
+     * vb. alle permutaties van setclass 3-5 voor setclass 6-7
+     *
+     * @param rhythmCombinations de ritmes van de permutaties
+     * @param forteName forteName
+     * @param duration de lengte van de permutaties
+     */
+    public List<CpMelody> generateKpermutationOrderedNoRepetition(List<Integer> pitchClasses, List<RhythmCombination> rhythmCombinations, String forteName, int duration){
+        List<CpMelody> melodies = new ArrayList<>();
+        List<List<Integer>> subsets = Generator.combination(pitchClasses)
+                .simple(Integer.parseInt(forteName.substring(0,1)))
+                .stream()
+                .map(combination -> Generator.permutation(combination)
+                        .simple().stream().collect(Collectors.toList())).flatMap(Collection::stream).collect(Collectors.toList());
+        for (List<Integer> subset : subsets) {
+            Chord chord = new Chord(subset, 0);
+            if(chord.getForteName().equals(forteName)){
+                for (RhythmCombination rhythmCombination : rhythmCombinations) {
+                    melodies.add(getMelody(subset, rhythmCombination, duration));
+                }
+            }
+        }
+        return transposeMelodies(melodies);
+    }
+
+    /**
+     * Alle permutaties van pitchclasses voor forteName
+     *
+     * vb. alle permutaties van setclass 3-5 voor setclass 6-7
+     *
+     * @param forteName forteName
+     */
+    public MelodicValue generateKpermutationOrderedNoRepetition(List<Integer> pitchClasses, String forteName){
+        List<List<Integer>> subsets = Generator.combination(pitchClasses)
+                .simple(Integer.parseInt(forteName.substring(0,1)))
+                .stream()
+                .map(combination -> Generator.permutation(combination)
+                        .simple().stream().collect(Collectors.toList())).flatMap(Collection::stream).collect(Collectors.toList());
+        List<List<Integer>> subsetsForteName = new ArrayList<>();
+        for (List<Integer> subset : subsets) {
+            Chord chord = new Chord(subset, 0);
+            if(chord.getForteName().equals(forteName)){
+                subsetsForteName.add(subset);
+            }
+        }
+
+        if (subsetsForteName.isEmpty()) {
+            throw new IllegalStateException("Geen subsets gevonden");
+        }
+        MelodicValueRhythmCombination melodicValue = new MelodicValueRhythmCombination();
+        melodicValue.setPermutationsPitchClasses(transposePitchClasses(subsetsForteName));
+        return melodicValue;
+    }
+
+    /**
+     * Alle combinaties met opgegeven grootte met herhalingen
      *
      * vb size 3 in C major scale
      * 0, 0, 0,
@@ -310,7 +414,7 @@ public class SingleMelodyGenerator {
      * @param duration
      * @return
      */
-    public List<CpMelody> generateKcombinationOrderedWithRepetition(List<Integer> pitchClasses, List<RhythmCombination> rhythmCombinations, int size, int duration){
+    public MelodicValue generateKcombinationOrderedWithRepetition(List<Integer> pitchClasses, List<RhythmCombination> rhythmCombinations, int size, int duration){
         List<CpMelody> melodies = new ArrayList<>();
         List<List<Integer>> subsets = Generator.combination(pitchClasses)
                 .multi(size)
@@ -322,7 +426,61 @@ public class SingleMelodyGenerator {
                 melodies.add(getMelody(subset, rhythmCombination, duration));
             }
         }
-        return melodies;
+        MelodicValueMelody melodicValue = new MelodicValueMelody();
+        melodicValue.setMelodies(melodies);
+        return melodicValue;
     }
 
+    /**
+     * Bevat alle pitchclasses met eventueel herhalingen en volgorde blijft behouden
+     *
+     * vb: pitchclasses 4,0,11 met grootte 4
+     * 4, 4, 0, 11,
+     * 4, 0, 0, 11,
+     * 4, 0, 11, 11
+     *
+     * @param size
+     * @return
+     */
+    public MelodicValue generateKcombinationOrderedWithRepetition(List<Integer> pitchClasses, int size){
+        List<List<Integer>> pcs = Generator.combination(pitchClasses)
+                .multi(size)
+                .stream()
+                .filter(integers -> integers.containsAll(pitchClasses))
+                .collect(Collectors.toList());
+        List<List<Integer>> transposePitchClasses = transposePitchClasses(pcs);
+        MelodicValueRhythmCombination melodicValue = new MelodicValueRhythmCombination();
+        melodicValue.setPermutationsPitchClasses(transposePitchClasses(transposePitchClasses));
+        return melodicValue;
+    }
+
+    private List<List<Integer>> transposePitchClasses(List<List<Integer>> pcs) {
+        List<List<Integer>> allPcs = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            for (List<Integer> pc : pcs) {
+                List<Integer> transposedPcs = new ArrayList<>();
+                for (Integer integer : pc) {
+                    transposedPcs.add((integer + i) % 12);
+                }
+                allPcs.add(transposedPcs);
+            }
+        }
+        return allPcs;
+    }
+
+    public List<CpMelody> transposeMelodies(List<CpMelody> melodies){
+        List<CpMelody> clonedMelodies = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            for (CpMelody melody : melodies) {
+                CpMelody clone = melody.clone();
+                clone.transposePitchClasses(i);
+                clonedMelodies.add(clone);
+            }
+        }
+       return clonedMelodies;
+    }
+
+    public int getPulse() {
+        return pulse;
+    }
 }

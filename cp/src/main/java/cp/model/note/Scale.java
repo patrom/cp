@@ -58,6 +58,7 @@ public class Scale {
 			 VARIATIONS_FOR_ORCHESTRA_OP31_HEXA2 = new Scale(new int[]{2,1,7,8,11,0}),
 
             SET_8_25 = new Scale(new int[]{0, 1, 2, 4, 6, 7, 8, 10}),
+            SET_8_17 = new Scale(new int[]{0, 1, 3, 4, 5, 6, 8, 9}),
             SET_5_23 = new Scale(new int[]{2, 4, 5, 7, 9}),
             SET_6_32 = new Scale(new int[]{0, 2, 4, 5, 7, 9}),
 //            SET_6_27 = new Scale(new int[]{0, 1, 3, 4, 6, 9}),
@@ -65,6 +66,11 @@ public class Scale {
             SET_6_27_part = new Scale(new int[]{3, 4}),
 
             SET_6_7 = new Scale(new int[]{0, 1, 2, 6, 7, 8}),
+            SET_4_8 = new Scale(new int[]{0, 1, 5, 6}),
+            SET_3_5 = new Scale(new int[]{0, 1, 6}),
+            SET_3_5_inversion = new Scale(new int[]{0, 11, 6}),
+            SET_3_4 = new Scale(new int[]{0, 1, 5}),
+            SET_3_4_inversion = new Scale(new int[]{0, 11, 7}),
 
             MELODY = new Scale(new int[]{0, 2, 5, 4}),
             RELATED_3 = new Scale(new int[]{0, 3, 4, 8, 9}), //5-22

@@ -4,13 +4,10 @@ import cp.composition.Composition;
 import cp.config.CompostionMapConfig;
 import cp.config.TextureConfig;
 import cp.config.map.CompositionMap;
-import cp.model.harmony.DependantHarmony;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
-import cp.model.note.Note;
 import cp.nsga.operator.mutation.MutationOperator;
 import cp.nsga.operator.mutation.MutationType;
-import cp.util.RandomUtil;
 import jmetal.util.PseudoRandom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,13 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
+@Component(value="melodyMapRandomMutation")
+public class MelodyMapRandomMutation implements MutationOperator<MelodyBlock> {
 
-@Component(value="melodyMapMutation")
-public class MelodyMapMutation implements MutationOperator<MelodyBlock> {
-
-    private static Logger LOGGER = LoggerFactory.getLogger(OneNoteMutation.class.getName());
+    private static Logger LOGGER = LoggerFactory.getLogger(MelodyMapRandomMutation.class.getName());
 
     private double probabilityMelodyMap;
     @Autowired
@@ -35,7 +29,7 @@ public class MelodyMapMutation implements MutationOperator<MelodyBlock> {
     private TextureConfig textureConfig;
 
     @Autowired
-    public MelodyMapMutation(@Value("${probabilityMelodyMap}") double probabilityMelodyMap) {
+    public MelodyMapRandomMutation(@Value("${probabilityMelodyMap}") double probabilityMelodyMap) {
         this.probabilityMelodyMap = probabilityMelodyMap;
     }
 
@@ -43,7 +37,7 @@ public class MelodyMapMutation implements MutationOperator<MelodyBlock> {
     public void doMutation(double probability, MelodyBlock melodyBlock) {
         if (PseudoRandom.randDouble() < probability) {
             CompositionMap compositionMap = compostionMapConfig.getCompositionMapForVoice(melodyBlock.getVoice());
-            melodyBlock.randomInsertMelody(compositionMap.getRandomMelody(melodyBlock.getVoice()));
+            melodyBlock.randomInsertMelody(compositionMap.getMelody(melodyBlock.getVoice()));
 
             //keep length of composition
             int stop = composition.getEnd();
@@ -51,14 +45,14 @@ public class MelodyMapMutation implements MutationOperator<MelodyBlock> {
             int end = melodyBlock.getLength();
             if (end < stop) {
                 while (end < stop) {
-                    CpMelody randomMelody = compositionMap.getRandomMelody(melodyBlock.getVoice());
-                    randomMelody.setStart(start);
-                    randomMelody.setEnd(start + randomMelody.getLength());
-                    randomMelody.updateNotePositions(start);
-                    randomMelody.setMutationType(MutationType.MELODY_MAP);
-                    randomMelody.setVoice(melodyBlock.getVoice());
-                    melodyBlock.addMelodyBlock(randomMelody);
-                    start = randomMelody.getEnd();
+                    CpMelody melody = compositionMap.getMelody(melodyBlock.getVoice());
+                    melody.setStart(start);
+                    melody.setEnd(start + melody.getLength());
+                    melody.updateNotePositions(start);
+                    melody.setMutationType(MutationType.MELODY_MAP);
+                    melody.setVoice(melodyBlock.getVoice());
+                    melodyBlock.addMelodyBlock(melody);
+                    start = melody.getEnd();
                     end = start;
                 }
             } else {
@@ -67,7 +61,7 @@ public class MelodyMapMutation implements MutationOperator<MelodyBlock> {
                     end = melodyBlock.getLength();
                 }
             }
-            LOGGER.debug("melody map" + melodyBlock.getVoice());
+            LOGGER.debug("melody map random melody map" + melodyBlock.getVoice());
         }
     }
 

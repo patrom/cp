@@ -1,5 +1,6 @@
 package cp.nsga.operator.mutation.melody;
 
+import cp.DefaultConfig;
 import cp.config.VoiceConfig;
 import cp.generator.pitchclass.PassingPitchClasses;
 import cp.model.TimeLine;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -29,9 +31,8 @@ import static org.mockito.Mockito.when;
  * Created by prombouts on 21/05/2017.
  */
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
-@ExtendWith(SpringExtension.class)
-//@TestPropertySource(locations="classpath:test.properties")
+@SpringBootTest(classes = DefaultConfig.class)
+@TestPropertySource(properties = "composition.voices=4")
 public class AllNoteMutationTest {
 
     @Autowired

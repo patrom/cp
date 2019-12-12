@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collector;
 
 import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.toList;
@@ -310,4 +311,5 @@ public class DependantHarmony{
                 ", setClass=" + Arrays.toString(setClass) +
                 '}';
     }
+
 }

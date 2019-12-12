@@ -11,6 +11,7 @@ import cp.out.play.InstrumentMapping;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.sound.midi.MidiUnavailableException;
@@ -24,7 +25,7 @@ import static cp.model.note.NoteBuilder.note;
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DefaultConfig.class)
-@ExtendWith(SpringExtension.class)
+@TestPropertySource(properties = "composition.voices=4")
 public class PlayApplicationTest extends AbstractTest {
 
     @Test

@@ -206,7 +206,7 @@ public class BeatGroupConfig {
         Map<Integer, List<RhythmCombination>> map = new HashMap<>();
         List<RhythmCombination> beatGroups5 = new ArrayList<>();
 //        rhythmCombinations.balancedPattern.setSize(30);
-        beatGroups5.add(rhythmCombinations.balancedPattern::pos5);
+        beatGroups5.add(rhythmCombinations.balancedPattern::pos5N30);
 //        beatGroups5.add(rhythmCombinations.balancedPattern::pos5_0X000);
 //        beatGroups5.add(rhythmCombinations.balancedPattern::pos5_00X00);
         map.put(5, beatGroups5);
@@ -218,7 +218,7 @@ public class BeatGroupConfig {
     public BeatGroup beatGroupBalance30_3gon(){
         Map<Integer, List<RhythmCombination>> map = new HashMap<>();
         List<RhythmCombination> beatGroups3 = new ArrayList<>();
-        beatGroups3.add(rhythmCombinations.balancedPattern::pos3);//random
+        beatGroups3.add(rhythmCombinations.balancedPattern::pos3N30);//random
         map.put(3, beatGroups3);
         return new BeatGroupMelody(DurationConstants.SIXTEENTH * 30, DurationConstants.SIXTEENTH,
                 beatGroupBalance30_3gonRhythm() ,
@@ -229,7 +229,7 @@ public class BeatGroupConfig {
     public BeatGroupRhythm beatGroupBalance30_3gonRhythm(){
         Map<Integer, List<RhythmCombination>> map = new HashMap<>();
         List<RhythmCombination> beatGroups3 = new ArrayList<>();
-        beatGroups3.add(rhythmCombinations.balancedPattern::pos3);//random
+        beatGroups3.add(rhythmCombinations.balancedPattern::pos3N30);//random
         map.put(3, beatGroups3);
         return new RandomBeatGroupRhythm(map);
     }
@@ -246,7 +246,7 @@ public class BeatGroupConfig {
     public BeatGroupRhythm beatGroupBalance30_6in30gonRhythm(){
         Map<Integer, List<RhythmCombination>> map = new HashMap<>();
         List<RhythmCombination> beatGroups = new ArrayList<>();
-        beatGroups.add(rhythmCombinations.balancedPattern::pos6in30);//random
+        beatGroups.add(rhythmCombinations.balancedPattern::pos6N30);//random
         map.put(6, beatGroups);
         return new RandomBeatGroupRhythm(map);
     }
@@ -256,21 +256,21 @@ public class BeatGroupConfig {
     public BeatGroup beatGroupBalance30(){
         Map<Integer, List<RhythmCombination>> map = new HashMap<>();
         List<RhythmCombination> beatGroups6 = new ArrayList<>();
-        beatGroups6.add(rhythmCombinations.balancedPattern::pos6in30);//random
+        beatGroups6.add(rhythmCombinations.balancedPattern::pos6N30);//random
         map.put(6, beatGroups6);
 
         List<RhythmCombination> beatGroups7 = new ArrayList<>();
         beatGroups7.add(rhythmCombinations.balancedPattern::pos7ain30);
-        beatGroups7.add(rhythmCombinations.balancedPattern::pos7bin30);
+        beatGroups7.add(rhythmCombinations.balancedPattern::pos7bN30);
         map.put(7, beatGroups7);
 
         List<RhythmCombination> beatGroups8 = new ArrayList<>();
-        beatGroups8.add(rhythmCombinations.balancedPattern::pos8ain30);
-        beatGroups8.add(rhythmCombinations.balancedPattern::pos8bin30);
+        beatGroups8.add(rhythmCombinations.balancedPattern::pos8aN30);
+        beatGroups8.add(rhythmCombinations.balancedPattern::pos8bN30);
         map.put(8, beatGroups8);
 
         List<RhythmCombination> beatGroups9 = new ArrayList<>();
-        beatGroups9.add(rhythmCombinations.balancedPattern::pos9in30);//random
+        beatGroups9.add(rhythmCombinations.balancedPattern::pos9N30);//random
         map.put(9, beatGroups9);
         return new BeatGroupMelody(DurationConstants.SIXTEENTH * 30, DurationConstants.SIXTEENTH,
                 beatGroupBalance30Rhythm() ,
@@ -281,21 +281,21 @@ public class BeatGroupConfig {
     public BeatGroupRhythm beatGroupBalance30Rhythm(){
         Map<Integer, List<RhythmCombination>> map = new HashMap<>();
         List<RhythmCombination> beatGroups6 = new ArrayList<>();
-        beatGroups6.add(rhythmCombinations.balancedPattern::pos6in30);//random
+        beatGroups6.add(rhythmCombinations.balancedPattern::pos6N30);//random
         map.put(6, beatGroups6);
 
         List<RhythmCombination> beatGroups7 = new ArrayList<>();
         beatGroups7.add(rhythmCombinations.balancedPattern::pos7ain30);
-        beatGroups7.add(rhythmCombinations.balancedPattern::pos7bin30);
+        beatGroups7.add(rhythmCombinations.balancedPattern::pos7bN30);
         map.put(7, beatGroups7);
 
         List<RhythmCombination> beatGroups8 = new ArrayList<>();
-        beatGroups8.add(rhythmCombinations.balancedPattern::pos8ain30);
-        beatGroups8.add(rhythmCombinations.balancedPattern::pos8bin30);
+        beatGroups8.add(rhythmCombinations.balancedPattern::pos8aN30);
+        beatGroups8.add(rhythmCombinations.balancedPattern::pos8bN30);
         map.put(8, beatGroups8);
 
         List<RhythmCombination> beatGroups9 = new ArrayList<>();
-        beatGroups9.add(rhythmCombinations.balancedPattern::pos9in30);//random
+        beatGroups9.add(rhythmCombinations.balancedPattern::pos9N30);//random
         map.put(9, beatGroups9);
         return new RandomBeatGroupRhythm(map);
     }

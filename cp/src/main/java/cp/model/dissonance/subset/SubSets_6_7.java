@@ -33,9 +33,9 @@ public class SubSets_6_7 implements Dissonance {
             case "2-4":
                 return 0.0;
             case "2-5":
-                return 0.0;
+                return 0.2;
             case "2-6":
-                return 0.0;
+                return 0.2;
         }
         return 0;
     }
@@ -45,11 +45,11 @@ public class SubSets_6_7 implements Dissonance {
             case "3-1":
                 return 0.0;
             case "3-4":
-                return 0.9;
+                return 0.8;
             case "3-5":
                 return 1.0;
             case "3-8":
-                return 1.0;
+                return 0.0;
             case "3-9":
                 return 0.0;
         }
@@ -63,13 +63,13 @@ public class SubSets_6_7 implements Dissonance {
             case "4-6":
                 return 0.0;
             case "4-8":
-                return 0.0;
+                return 1.0;
             case "4-9":
                 return 0.0;
             case "4-16":
-                return 1.0;
+                return 0.0;
             case "4-25"://dom7b5
-                return 1.0;
+                return 0.0;
         }
         return 0;
     }
@@ -79,7 +79,7 @@ public class SubSets_6_7 implements Dissonance {
             case "5-7":
                 return 0.0;
             case "5-15":
-                return 0.9;
+                return 0.0;
         }
         return 0;
     }
