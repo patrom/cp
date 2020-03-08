@@ -38,4 +38,8 @@ public class ExhaustiveMelodySelector implements MelodySelector {
         return cpMelody;
     }
 
+    @Override
+    public CpMelody getMelodyWithMultipleNotes(int voice, List<MelodicValue> melodicValues) {
+        return null;
+    }
 }

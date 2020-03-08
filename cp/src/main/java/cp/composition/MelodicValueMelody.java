@@ -13,8 +13,10 @@ import static java.util.stream.Collectors.toList;
 
 public class MelodicValueMelody implements MelodicValue{
 
-    private  List<CpMelody> melodies = new ArrayList<>();
-    private  List<CpMelody> exhaustiveMelodies = new ArrayList<>();
+    private List<CpMelody> melodies = new ArrayList<>();
+    private List<CpMelody> exhaustiveMelodies = new ArrayList<>();
+    private List<CpMelody> melodiesWithMultipleNotes = new ArrayList<>();
+    private ContourType contourType;
 
     public MelodicValueMelody() {
     }
@@ -22,6 +24,7 @@ public class MelodicValueMelody implements MelodicValue{
     public MelodicValueMelody(MelodicValueMelody melodicValue) {
         this.melodies = melodicValue.getMelodies();
         exhaustiveMelodies = new ArrayList<>(melodies);
+        melodiesWithMultipleNotes = melodies.stream().filter(cpMelody -> cpMelody.getNotes().size() > 1).collect(Collectors.toList());
     }
 
     public MelodicValueMelody(List<CpMelody> melodies) {
@@ -34,7 +37,19 @@ public class MelodicValueMelody implements MelodicValue{
     }
 
     public CpMelody pickRandomMelody(){
-        return RandomUtil.getRandomFromList(melodies);
+        CpMelody melody = RandomUtil.getRandomFromList(melodies);
+        if (ContourType.ASC == contourType){
+            melody.updateContourAscending();
+        }
+        if (ContourType.DESC == contourType){
+            melody.updateContourDescending();
+        }
+        return melody;
+    }
+
+    @Override
+    public CpMelody pickRandomMelodyWithMultipleNotes(){
+        return RandomUtil.getRandomFromList(melodiesWithMultipleNotes);
     }
 
     public CpMelody pickExhaustiveMelody(){
@@ -49,6 +64,7 @@ public class MelodicValueMelody implements MelodicValue{
     public void setMelodies(List<CpMelody> melodies) {
         this.melodies = melodies;
         exhaustiveMelodies = new ArrayList<>(melodies);
+        melodiesWithMultipleNotes = melodies.stream().filter(cpMelody -> cpMelody.getNotes().size() > 1).collect(Collectors.toList());
     }
 
     public void addMelodies(List<CpMelody> melodies){
@@ -61,5 +77,9 @@ public class MelodicValueMelody implements MelodicValue{
 
     public List<CpMelody> getMelodies() {
         return melodies;
+    }
+
+    public void setContourType(ContourType contourType) {
+        this.contourType = contourType;
     }
 }

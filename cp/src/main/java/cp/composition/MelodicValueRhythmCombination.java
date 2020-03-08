@@ -4,15 +4,20 @@ import cp.combination.RhythmCombination;
 import cp.model.melody.CpMelody;
 import cp.model.note.Note;
 import cp.util.RandomUtil;
+import org.paukov.combinatorics3.Generator;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 public class MelodicValueRhythmCombination implements MelodicValue{
 
     private List<List<Integer>> permutationsPitchClasses = new ArrayList<>();
     private List<RhythmCombination> rhythmCombinations = new ArrayList<>();
+    private ContourType contourType;
     private int duration;
     private int pulse;
 
@@ -38,7 +43,19 @@ public class MelodicValueRhythmCombination implements MelodicValue{
     public CpMelody pickRandomMelody(){
         List<Integer> permutation = RandomUtil.getRandomFromList(permutationsPitchClasses);
         RhythmCombination rhythmCombination = RandomUtil.getRandomFromList(rhythmCombinations);
-        return getMelody(permutation, rhythmCombination, duration);
+        CpMelody melody = getMelody(permutation, rhythmCombination, duration);
+        if (ContourType.ASC == contourType){
+            melody.updateContourAscending();
+        }
+        if (ContourType.DESC == contourType){
+            melody.updateContourDescending();
+        }
+        return melody;
+    }
+
+    @Override
+    public CpMelody pickRandomMelodyWithMultipleNotes() {
+        return pickRandomMelody();
     }
 
     public CpMelody pickExhaustiveMelody(){
@@ -62,13 +79,62 @@ public class MelodicValueRhythmCombination implements MelodicValue{
     protected CpMelody getMelody(List<Integer> pitchClasses, RhythmCombination rhythmCombination, int duration) {
         int size = pitchClasses.size();
         List<Note> notes = rhythmCombination.getNotes(duration, pulse);
-        List<Note> notesNoRest = notes.stream().filter(note -> !note.isRest()).collect(Collectors.toList());
-        for (int i = 0; i < size; i++) {
+        List<Note> notesNoRest = notes.stream().filter(note -> !note.isRest()).collect(toList());
+        for (int i = 0; i < notesNoRest.size(); i++) {
             Note note = notesNoRest.get(i);
-            note.setPitchClass(pitchClasses.get(i));
+            Integer pitchClass = pitchClasses.get(i);
+            if (pitchClass == -1){
+                note.setPitch(Note.REST);
+            }
+            note.setPitchClass(pitchClass);
         }
         int length = notes.stream().mapToInt(value -> value.getLength()).sum();
         return new CpMelody(notes, -1, 0, length);
+    }
+
+    protected List<CpMelody> getMelodyKcombination(List<Integer> pitchClasses, RhythmCombination rhythmCombination, int duration) {
+        List<CpMelody> melodies = new ArrayList<>();
+        int size = pitchClasses.size();
+        List<Note> notes = rhythmCombination.getNotes(duration, pulse);
+        List<Note> notesNoRest = notes.stream().filter(note -> !note.isRest()).collect(toList());
+        if (size == notesNoRest.size()) {
+            CpMelody melody = getMelodyForPitchClasses(notes, notesNoRest, pitchClasses);
+            melodies.add(melody);
+        } else if (notesNoRest.size() < size) {
+            List<List<Integer>> subsets = Generator.combination(pitchClasses)
+                    .simple(notesNoRest.size()).stream().collect(toList());
+            for (List<Integer> subset : subsets) {
+                notes = rhythmCombination.getNotes(duration, pulse);//clone notes
+                notesNoRest = notes.stream().filter(note -> !note.isRest()).collect(toList());
+                CpMelody melody = getMelodyForPitchClasses(notes, notesNoRest, subset);
+                melodies.add(melody);
+            }
+        } else if (notesNoRest.size() > size) {
+            List<List<Integer>> subsets = Generator.combination(pitchClasses)
+                    .multi(notesNoRest.size()).stream()
+                    .filter(integers -> integers.containsAll(pitchClasses))
+                    .collect(toList());
+            for (List<Integer> subset : subsets) {
+                notes = rhythmCombination.getNotes(duration, pulse);
+                notesNoRest = notes.stream().filter(note -> !note.isRest()).collect(toList());
+                CpMelody melody = getMelodyForPitchClasses(notes, notesNoRest, subset);
+                melodies.add(melody);
+            }
+        }
+        return melodies;
+    }
+
+    private CpMelody getMelodyForPitchClasses(List<Note> notes, List<Note> notesNoRest, List<Integer> pitchClasses){
+        for (int i = 0; i < notesNoRest.size(); i++) {
+            Note note = notesNoRest.get(i);
+            Integer pitchClass = pitchClasses.get(i);
+            if (pitchClass == -1){
+                note.setPitch(Note.REST);
+            }
+            note.setPitchClass(pitchClass);
+        }
+        int length = notes.stream().mapToInt(value -> value.getLength()).sum();
+       return new CpMelody(notes, -1, 0, length);
     }
 
     public void setPermutationsPitchClasses(List<List<Integer>> permutationsPitchClasses) {
@@ -77,6 +143,10 @@ public class MelodicValueRhythmCombination implements MelodicValue{
 
     public void setRhythmCombinations(List<RhythmCombination> rhythmCombinations) {
         this.rhythmCombinations = rhythmCombinations;
+    }
+
+    public void setContourType(ContourType contourType) {
+        this.contourType = contourType;
     }
 
     public void setDuration(int duration) {

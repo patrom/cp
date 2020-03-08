@@ -51,7 +51,7 @@ public class CombiNoteEven {
     }
 
     public List<Note> pos23pos12(int beat, int pulse) {
-        return combi(rhythmCombinations.twoNoteEven::pos23, rhythmCombinations.twoNoteEven::pos12, 30 * 2, pulse);
+        return combi(rhythmCombinations.twoNoteEven::pos23, rhythmCombinations.twoNoteEven::pos12, beat/2, pulse);
     }
 
     public List<Note> quintupletpos2345pos1(int beat, int pulse) {

@@ -17,14 +17,20 @@ public class BassMap extends CompositionMap{
 
     @PostConstruct
     public void init(){
-        List<RhythmCombination> rhythmCombinations4 = new ArrayList<>();
-        RandomRhythmCombination randomRhythmCombination =
-                new RandomRhythmCombination(DurationConstants.THREE_QUARTERS, DurationConstants.QUARTER, DurationConstants.QUARTER, DurationConstants.THREE_QUARTERS);
-        rhythmCombinations4.add(randomRhythmCombination);
-        List<Integer> rests = new ArrayList<>();
-        rests.add(DurationConstants.EIGHT);
-        RandomRhythmCombination randomRhythmWithRestCombination = new RandomRhythmCombination(DurationConstants.QUARTER, DurationConstants.HALF, DurationConstants.QUARTER, DurationConstants.HALF);
-        rhythmCombinations4.add(randomRhythmWithRestCombination);
+        melodicValues.add(singleRhythmGenerator.generateBalancedPattern(allRhythmCombinations.balancedPattern::pos8aN30,
+                 DurationConstants.EIGHT, "6-Z3"));
+        melodicValues.add(singleRhythmGenerator.generateBalancedPattern(allRhythmCombinations.balancedPattern::pos9N30,
+                DurationConstants.EIGHT, "6-Z3"));
+        melodicValues.add(singleRhythmGenerator.generateBalancedPattern(allRhythmCombinations.balancedPattern::pos8bN30,
+                DurationConstants.EIGHT, "6-Z3"));
+//        List<RhythmCombination> rhythmCombinations4 = new ArrayList<>();
+//        RandomRhythmCombination randomRhythmCombination =
+//                new RandomRhythmCombination(DurationConstants.THREE_QUARTERS, DurationConstants.QUARTER, DurationConstants.QUARTER, DurationConstants.THREE_QUARTERS);
+//        rhythmCombinations4.add(randomRhythmCombination);
+//        List<Integer> rests = new ArrayList<>();
+//        rests.add(DurationConstants.EIGHT);
+//        RandomRhythmCombination randomRhythmWithRestCombination = new RandomRhythmCombination(DurationConstants.QUARTER, DurationConstants.HALF, DurationConstants.QUARTER, DurationConstants.HALF);
+//        rhythmCombinations4.add(randomRhythmWithRestCombination);
 //        rhythmCombinations4.add(allRhythmCombinations.fourNoteSexTuplet::pos1346);
 //        rhythmCombinations4.add(allRhythmCombinations.fourNoteSexTuplet::pos1356);
 

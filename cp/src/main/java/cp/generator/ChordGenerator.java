@@ -23,7 +23,6 @@ public class ChordGenerator {
     private TnTnIType type;
 
     public CpHarmony generateChord(String forteName){
-
 		int[] pcs;
 		if (forteName.startsWith("2")) {
 			pcs = getSet(forteName, type.prime2);
@@ -84,7 +83,7 @@ public class ChordGenerator {
         return stream(setClass).boxed().map(integer -> note().pitch(integer).len(duration).build()).collect(toList());
     }
 
-	private int[] getSet(String forteName, Set[] set) {
+	public int[] getSet(String forteName, Set[] set) {
 		for (int i = 0; i < set.length; i++) {
 			if(set[i].name.equals(forteName)){
 				return set[i].tntnitype;

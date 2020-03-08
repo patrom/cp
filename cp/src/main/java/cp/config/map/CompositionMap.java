@@ -2,12 +2,14 @@ package cp.config.map;
 
 import cp.combination.RhythmCombination;
 import cp.combination.RhythmCombinations;
+import cp.composition.ContourType;
 import cp.composition.MelodicValue;
 import cp.composition.MelodicValueRhythmCombination;
 import cp.composition.MelodyMapComposition;
 import cp.config.TextureConfig;
 import cp.generator.MelodySelector;
 import cp.generator.SingleMelodyGenerator;
+import cp.generator.SingleRhythmGenerator;
 import cp.model.harmony.DependantHarmony;
 import cp.model.melody.CpMelody;
 import cp.model.note.Note;
@@ -28,6 +30,8 @@ public abstract class CompositionMap {
     @Autowired
     protected SingleMelodyGenerator singleMelodyGenerator;
     @Autowired
+    protected SingleRhythmGenerator singleRhythmGenerator;
+    @Autowired
     protected Keys keys;
     @Autowired
     protected MelodyMapComposition melodyMapComposition;
@@ -40,6 +44,19 @@ public abstract class CompositionMap {
     protected MelodySelector melodySelector;
 
     public CpMelody getMelody(int voice){
+        CpMelody cpMelody = melodySelector.getMelody(voice, melodicValues).clone();
+//        CpMelody cpMelody = RandomUtil.getRandomFromList(melodicValues).pickRandomMelody().clone();
+//        cpMelody.setVoice(voice);
+//        if (textureConfig.hasTexture(voice)) {
+//            for (Note melodyNote : cpMelody.getNotesNoRest()) {
+//                DependantHarmony dependantHarmony = textureConfig.getTextureFor(voice, melodyNote.getPitchClass());
+//                melodyNote.setDependantHarmony(dependantHarmony);
+//            }
+//        }
+        return cpMelody;
+    }
+
+    public CpMelody getMelodyWithMultipleNotes(int voice){
         CpMelody cpMelody = melodySelector.getMelody(voice, melodicValues).clone();
 //        CpMelody cpMelody = RandomUtil.getRandomFromList(melodicValues).pickRandomMelody().clone();
 //        cpMelody.setVoice(voice);
@@ -74,7 +91,25 @@ public abstract class CompositionMap {
         MelodicValueRhythmCombination melodicValue = (MelodicValueRhythmCombination) melodyMapComposition.getCompositionMap(keyMap);
         melodicValue.setRhythmCombinations(rhythmCombinations);
         melodicValue.setDuration(duration);
-        melodicValue.setPulse(singleMelodyGenerator.getPulse());
+        melodicValue.setPulse(singleMelodyGenerator.getPulse());//balanced patterns
+        melodicValues.add(melodicValue);
+    }
+
+    public void addMelodicValueAscendingContour(int keyMap, List<RhythmCombination> rhythmCombinations, int duration){
+        MelodicValueRhythmCombination melodicValue = (MelodicValueRhythmCombination) melodyMapComposition.getCompositionMap(keyMap);
+        melodicValue.setRhythmCombinations(rhythmCombinations);
+        melodicValue.setDuration(duration);
+        melodicValue.setPulse(singleMelodyGenerator.getPulse());//balanced patterns
+        melodicValue.setContourType(ContourType.ASC);
+        melodicValues.add(melodicValue);
+    }
+
+    public void addMelodicValueDescendingContour(int keyMap, List<RhythmCombination> rhythmCombinations, int duration){
+        MelodicValueRhythmCombination melodicValue = (MelodicValueRhythmCombination) melodyMapComposition.getCompositionMap(keyMap);
+        melodicValue.setRhythmCombinations(rhythmCombinations);
+        melodicValue.setDuration(duration);
+        melodicValue.setPulse(singleMelodyGenerator.getPulse());//balanced patterns
+        melodicValue.setContourType(ContourType.DESC);
         melodicValues.add(melodicValue);
     }
 

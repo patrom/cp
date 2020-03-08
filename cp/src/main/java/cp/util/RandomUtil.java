@@ -32,13 +32,10 @@ public class RandomUtil {
 		throw new IllegalStateException("no value found in set");
 	}
 
-	public static <T> List<T> getRandomListFromList(List<T> list) {
-		int from = getRandomNumberInRange(0, list.size() - 1);
-		int to = getRandomNumberInRange(1, list.size());
-		if (from < to){
-			return list.subList(from, to);
-		}
-		return Collections.emptyList();
+	public static <T> List<T> getRandomSublistFromList(List<T> list) {
+		int from = getRandomNumberInRange(0, list.size() - 1) ;
+		int to = getRandomNumberInRange(from, list.size() - 1) + 1;
+		return list.subList(from, to);
 	}
 	
 	public static <T> int getRandomIndex(List<T> list) {
@@ -48,6 +45,10 @@ public class RandomUtil {
 	public static int getRandomFromIntArray(int[] array){
 		return array[random(array.length)];
 	}
+
+    public static Integer getRandomFromIntegers(Integer ... integers){
+        return integers[random(integers.length)];
+    }
 	
 	public static <T> T getRandomFromArray(T[] array){
 		return array[random(array.length)];
@@ -104,11 +105,11 @@ public class RandomUtil {
 		notes.add(note().pitch(62).pc(2).pos(6).len(DurationConstants.EIGHT).build());
 		notes.add(note().pitch(64).pc(4).pos(DurationConstants.QUARTER).len(DurationConstants.EIGHT).build());
 		notes.add(note().pitch(65).pc(5).pos(DurationConstants.THREE_EIGHTS).len(DurationConstants.EIGHT).build());
-		List<Note> sublist = getRandomListFromList(notes);
+		List<Note> sublist = getRandomSublistFromList(notes);
 		sublist.forEach(n -> System.out.println(n));
-		sublist.forEach(n -> n.setPitch(n.getPitch() + 10));
-        sublist.forEach(n -> System.out.println(n));
-		notes.forEach(n -> System.out.println( "test" + n));
+//		sublist.forEach(n -> n.setPitch(n.getPitch() + 10));
+//        sublist.forEach(n -> System.out.println(n));
+//		notes.forEach(n -> System.out.println( "test" + n));
 	}
 	
 }

@@ -11,7 +11,11 @@ public interface MelodicValue {
 
     CpMelody pickRandomMelody();
 
+    CpMelody pickRandomMelodyWithMultipleNotes();
+
     CpMelody pickExhaustiveMelody();
+
+    void setContourType(ContourType contourType);
 
     MelodicValue clone();
 }

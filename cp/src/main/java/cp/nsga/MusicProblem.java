@@ -26,11 +26,12 @@ public class MusicProblem extends Problem {
 
 	private final MembershipFunction melodyMembershipFunction;
 	private final MembershipFunction harmonyMembershipFunction;
-	
+	private final MembershipFunction rhythmMembershipFunction;
+
 	@Autowired
 	public MusicProblem(MusicProperties properties) throws ClassNotFoundException {
 		numberOfVariables_ = 1;
-		numberOfObjectives_ = 4;
+		numberOfObjectives_ = 3;
 		numberOfConstraints_ = 0;
 		problemName_ = "MusicProblem";
 
@@ -38,11 +39,17 @@ public class MusicProblem extends Problem {
 		lowerLimit_ = new double[numberOfVariables_];
 		
 		this.melodyMembershipFunction = new MembershipFunctionTriangular(
-				new Value(0.0), new Value(properties.getMelodyConsDissValue()),
+				new Value(0.0),
+                new Value(properties.getMelodyConsDissValue()),
 				new Value(1.0));
 		this.harmonyMembershipFunction = new MembershipFunctionTriangular(
 				new Value(0.0),
-				new Value(properties.getHarmonyConsDissValue()), new Value(1.0));
+				new Value(properties.getHarmonyConsDissValue()),
+                new Value(1.0));
+        this.rhythmMembershipFunction = new MembershipFunctionTriangular(
+                new Value(0.0),
+                new Value(0.20),
+                new Value(1.0));
 	}
 
 
@@ -60,8 +67,8 @@ public class MusicProblem extends Problem {
 		double melodyObjective = 1 - objectives.getMelody();
 		solution.setObjective(1, melodyObjective);// melody
 
-		double rhythmObjective = 1 - objectives.getRhythm();
-//		solution.setObjective(2, rhythmObjective);
+        double rhythmObjective = 1 - harmonyMembershipFunction.membership(1 - objectives.getRhythm());
+		solution.setObjective(2, rhythmObjective);
 
 		double meterObjective = 1 - objectives.getMeter();
 //		solution.setObjective(3, meterObjective);
@@ -76,14 +83,14 @@ public class MusicProblem extends Problem {
 //		solution.setObjective(5, register);
 
         double melodicHarmonic = 1 - objectives.getMelodicHarmonic();
-        solution.setObjective(2, melodicHarmonic);
+//        solution.setObjective(2, melodicHarmonic);
 //		if (objectives.getVoiceleading() > 1 && objectives.getVoiceleading() < 4) {
 //			solution.setObjective(1, 0);
 //		} else {
 //			solution.setObjective(6, objectives.getVoiceleading());
 //		}
         double transformation = 1 - objectives.getTransformation();
-        solution.setObjective(3, transformation);
+//        solution.setObjective(3, transformation);
 
         // //constraints
 		// objectives[5] = lowestIntervalRegisterValue;

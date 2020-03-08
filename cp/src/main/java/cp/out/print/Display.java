@@ -36,6 +36,8 @@ public class Display {
 	private ScoreUtilities scoreUtilities;
 	@Autowired
 	private MusicXMLWriter musicXMLWriter;
+    @Autowired
+	private MusicXMLWriterDorico musicXMLWriterDorico;
 	@Autowired
 	private MidiDevicesUtil midiDevicesUtil;
 	@Autowired
@@ -99,7 +101,8 @@ public class Display {
 	}
 
 	private void generateMusicXml(List<MelodyBlock> melodies, String id) throws Exception {
-		musicXMLWriter.generateMusicXMLForMelodies(melodies, new FileOutputStream(resource.getFile().getPath() + "src/main/resources/xml/" + id + ".xml"));
+//		musicXMLWriter.generateMusicXMLForMelodies(melodies, new FileOutputStream(resource.getFile().getPath() + "src/main/resources/xml/" + id + ".xml"));
+        musicXMLWriterDorico.generateMusicXMLForMelodies(melodies, new FileOutputStream(resource.getFile().getPath() + "src/main/resources/xml/" + id + ".xml"));
 	}
 
 	private void viewScore(List<MelodyBlock> melodies, String id)

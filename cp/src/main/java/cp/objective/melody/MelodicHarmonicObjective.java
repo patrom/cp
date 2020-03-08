@@ -9,8 +9,10 @@ import cp.objective.Objective;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -28,15 +30,22 @@ public class MelodicHarmonicObjective extends Objective {
     @Autowired
     private MelodyConfig melodyConfig;
 
+    @Value("${skip.objective.melodicharmonic}")
+    private List<Integer> skipVoices = new ArrayList<>();
+
     @Override
     public double evaluate(Motive motive) {
         List<MelodyBlock> melodies = motive.getMelodyBlocks();
         double total = 0;
-        for(MelodyBlock melody: melodies){
-            double melodyAverage = getMelodyDissonance(melody.getMelodyBlockNotes(), melody.getVoice());
-            total = total + melodyAverage;
+        int melodyCount = 0;
+        for(MelodyBlock melodyBlock: melodies){
+            if (!skipVoices.contains(melodyBlock.getVoice())){
+                double melodyAverage = getMelodyDissonance(melodyBlock.getMelodyBlockNotes(), melodyBlock.getVoice());
+                total = total + melodyAverage;
+                melodyCount++;
+            }
         }
-        double avg = total / melodies.size();
+        double avg = total /melodyCount;
 //        LOGGER.info("melodic harmonic " + avg);
         return avg;
     }

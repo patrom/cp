@@ -9,26 +9,31 @@ import cp.combination.uneven.*;
 import cp.config.InstrumentConfig;
 import cp.model.humanize.Humanize;
 import cp.model.note.Note;
+import cp.out.instrument.Instrument;
+import cp.out.instrument.InstrumentGroup;
 import cp.out.instrument.Technical;
 import cp.out.orchestration.notetemplate.TwoNoteTemplate;
 import cp.out.orchestration.orchestra.Orchestra;
 import cp.out.orchestration.orchestra.StringOrchestra;
+import cp.out.orchestration.orchestra.ViennaOrchestra;
 import cp.out.orchestration.quality.BrilliantWhite;
+import cp.out.orchestration.quality.GlowingRed;
+import cp.out.orchestration.quality.OrchestralQuality;
 import cp.out.orchestration.quality.PleasantGreen;
+import org.paukov.combinatorics3.Generator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class Orchestrator {
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(Orchestrator.class);
 
-	
 	@Autowired
 	private OneNoteEven oneNoteEven;
 	@Autowired
@@ -60,12 +65,43 @@ public class Orchestrator {
 	
 	@Autowired
 	private PleasantGreen pleasantGreen;
+    @Autowired
+    private GlowingRed glowingRed;
 	@Autowired
 	private BrilliantWhite brilliantWhite;
 	@Autowired
 	private Humanize humanize;
 
-	public Orchestra orchestrate( Map<Integer, List<Note>> notesPerVoice) {
+    public Orchestra orchestrateMelody(List<Note> notes, int length, List<Instrument> instruments, int instrumentSize){
+        Orchestra orchestra = new ViennaOrchestra();
+        int totalLength = 0;
+        for (int i = 2; i <= instrumentSize; i++) {
+            List<List<Instrument>> instrumentCombinations = Generator.combination(instruments)
+                    .simple(i)
+                    .stream()
+                    .collect(Collectors.toList());
+            for (List<Instrument> combinations : instrumentCombinations) {
+                List<Note> clonedNotes = cloneNotes(notes, totalLength);
+                for (Instrument instrument : combinations) {
+                    orchestra.updateInstrumentInRange(instrument, clonedNotes);
+                }
+                totalLength = totalLength + length;
+            }
+        }
+
+        orchestra.insertRests();
+        return orchestra;
+    }
+
+    private List<Note> cloneNotes(List<Note> notes, int totalLength) {
+        return notes.stream().map(note -> {
+                        Note clone = note.clone();
+                        clone.setPosition(note.getPosition() + totalLength);
+                        return clone;
+                    }).collect(Collectors.toList());
+    }
+
+    public Orchestra orchestrate(Map<Integer, List<Note>> notesPerVoice) {
 		//configuration instruments
 		StringOrchestra orchestra = new StringOrchestra();
 //		orchestra.setHumanize(humanize);
@@ -74,7 +110,7 @@ public class Orchestrator {
 		orchestra.setViolinsI(new MelodyOrchestrationBuilder()
 				.setVoice(1)//order in score!!!
 //				.setArticulation(Articulation.MARCATO  )
-				.setTechnical(Technical.CON_SORDINO  )
+				.setTechnical(Technical.CON_SORDINO)
 //				.setDynamic(Dynamic.F)
 //				.setOrchestralQuality(pleasantGreen)
 				.setOrchestralTechnique(null));
@@ -82,7 +118,7 @@ public class Orchestrator {
 		orchestra.setViolinsII(new MelodyOrchestrationBuilder()
 				.setVoice(2)
 //				.setArticulation(Articulation.DETACHED_LEGATO   )
-				.setTechnical(technical  )
+				.setTechnical(technical )
 //				.setDynamic(Dynamic.F)
 //				.setOrchestralQuality(pleasantGreen)
 				.setOrchestralTechnique(null));
@@ -106,7 +142,7 @@ public class Orchestrator {
 //		orchestra.setBasses(new MelodyOrchestrationBuilder()
 //				.setVoice(4)
 ////				.setArticulation(Articulation.STACCATO)
-//				.setTechnical(Technical.PIZZ  )
+//				.setTechnical(Technical.PIZZ)
 //				.setDynamic(null)
 ////				.setOrchestralQuality(pleasantGreen)
 //				.setOrchestralTechnique(null));

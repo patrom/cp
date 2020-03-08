@@ -36,8 +36,8 @@ public class TextureConfig {
 //        subSets.addAll(subSetCalculator.getSubSets(Scale.MAJOR_SCALE.getForteName(), "3-11"));
 //        subSets.addAll(subSetCalculator.getSubSets(Scale.MAJOR_SCALE.getForteName(), "3-5"));
 //        textureSelection.addChordType(ChordType.MINOR_CHR, ChordType.MINOR_1_CHR, ChordType.MINOR_2_CHR);
-//        textureSelection.addChordType(ChordType.CH2_KWART_CHR, ChordType.CH2_KWINT_CHR, ChordType.CH2_GROOT_SEPTIEM_CHR, ChordType.CH2_TRITONE_CHR);
-        textureSelection.addChordType(ChordType.CH2_KWART_CHR);
+        textureSelection.addChordType(ChordType.CH2_TRITONE_CHR, ChordType.NO_INTERVALS);
+//        textureSelection.addChordType(ChordType.CH2_KWINT_CHR);
 
 //        textureSelection.addSetclasses(VoicingType.DROP_2, Scale.SET_3_5.getPitchClasses());
 //        textureSelection.addSetclasses(VoicingType.UP_2, Scale.SET_3_4.getPitchClasses());

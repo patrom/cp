@@ -15,11 +15,11 @@ import cp.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -117,11 +117,13 @@ public class CpMelody implements Comparable<CpMelody> {
     public void updateContourAscending() {
         this.contour.clear();
         notes.stream().filter(n -> !n.isRest()).forEach(note -> contour.add(1));
+        contour.set(contour.size() - 1, -1);
     }
 
     public void updateContourDescending() {
         this.contour.clear();
         notes.stream().filter(n -> !n.isRest()).forEach(note -> contour.add(-1));
+        contour.set(contour.size() - 1, 1);
     }
 
 	public void updateRandomNote(TimeLine timeline) {
@@ -236,7 +238,7 @@ public class CpMelody implements Comparable<CpMelody> {
 //			Note note = RandomUtil.getRandomFromList(notesNoRest);
 //			note.setDynamic(dynamic);
 //			note.setDynamicLevel(dynamic.getLevel());
-            List<Note> sublist = RandomUtil.getRandomListFromList(notesNoRest);
+            List<Note> sublist = RandomUtil.getRandomSublistFromList(notesNoRest);
 
             for (Note note : sublist) {
                 note.setDynamic(dynamic);
@@ -260,7 +262,7 @@ public class CpMelody implements Comparable<CpMelody> {
 //			Note note = RandomUtil.getRandomFromList(notesNoRest);
 //			note.setTechnical(technical);
 
-            List<Note> sublist = RandomUtil.getRandomListFromList(notesNoRest);
+            List<Note> sublist = RandomUtil.getRandomSublistFromList(notesNoRest);
             for (Note note : sublist) {
                 note.setTechnical(technical);
             }
@@ -661,6 +663,119 @@ public class CpMelody implements Comparable<CpMelody> {
             this.notes.stream()
                     .filter(note -> note.getPosition() >= timeLineKey.getStart() && note.getPosition() < timeLineKey.getEnd())
                     .forEach(note -> note.setTimeLineKey(timeLineKey));
+        }
+    }
+
+    public void insertNoteRandom(Note insertNote){
+        int randomIndex = RandomUtil.getRandomIndex(notes);
+        insertNote.setVoice(this.voice);
+        notes.add(randomIndex, insertNote);
+        contour.add(randomIndex, RandomUtil.randomAscendingOrDescending());
+        end = end + insertNote.getLength();
+        length = length + insertNote.getLength();
+        updatePositions();
+    }
+
+    public void insertNoteRandom(){
+        int randomIndex = RandomUtil.getRandomIndex(notes);
+        Note insertNote = notes.get(randomIndex).clone();
+        insertNote.setPosition(0);
+        randomIndex = RandomUtil.getRandomIndex(notes);
+        notes.add(randomIndex, insertNote);
+        contour.add(randomIndex, RandomUtil.randomAscendingOrDescending());
+        end = end + insertNote.getLength();
+        length = length + insertNote.getLength();
+        updatePositions();
+    }
+
+    public void insertNotesRandom(){
+        List<Note> sublist = RandomUtil.getRandomSublistFromList(notes);
+        List<Note> clonedSublist = sublist.stream().map(note -> {
+            Note clone = note.clone();
+            clone.setPosition(0);
+            return clone;
+        }).collect(toList());
+        int randomIndex = RandomUtil.getRandomIndex(notes);
+        randomIndex = RandomUtil.getRandomIndex(notes);
+        notes.addAll(randomIndex, clonedSublist);
+        List<Integer> contourSublist = clonedSublist.stream().map(note -> RandomUtil.randomAscendingOrDescending()).collect(toList());
+        contour.addAll(randomIndex, contourSublist);
+        int length = clonedSublist.stream().mapToInt(note -> note.getLength()).sum();
+        end = end + length;
+        this.length = this.length + length;
+        updatePositions();
+    }
+
+    public void insertNotesOrdered(){
+        List<Note> sublist = RandomUtil.getRandomSublistFromList(notes);
+        List<Note> clonedSublist = sublist.stream().map(note -> {
+            Note clone = note.clone();
+            clone.setPosition(0);
+            return clone;
+        }).collect(toList());
+        int startIndex = notes.indexOf(sublist.get(0));
+        int randomIndex = RandomUtil.getRandomNumberInRange(startIndex, notes.size());
+        notes.addAll(randomIndex, clonedSublist);
+        List<Integer> contourSublist = clonedSublist.stream().map(note -> RandomUtil.randomAscendingOrDescending()).collect(toList());
+        contour.addAll(randomIndex, contourSublist);
+        int length = clonedSublist.stream().mapToInt(note -> note.getLength()).sum();
+        end = end + length;
+        this.length = this.length + length;
+        updatePositions();
+    }
+
+    public void removeNoteRandom(){
+        int randomIndex = RandomUtil.getRandomIndex(notes);
+        Note removedNote = notes.remove(randomIndex);
+        contour.remove(randomIndex);
+        end = end - removedNote.getLength();
+        length = length - removedNote.getLength();
+        updatePositions();
+    }
+
+    public void updateNoteLengthRandom(int noteLength){
+        int randomIndex = RandomUtil.getRandomIndex(notes);
+        Note note = notes.get(randomIndex);
+        end = end + noteLength - note.getLength();
+        length = length + noteLength - note.getLength();
+
+        note.setLength(noteLength);
+        note.setDisplayLength(noteLength);
+        updatePositions();
+    }
+
+    public void updateLastNoteLength(int noteLength){
+        Note note = notes.get(notes.size() - 1);
+        end = end + noteLength - note.getLength();
+        length = length + noteLength - note.getLength();
+
+        note.setLength(noteLength);
+        note.setDisplayLength(noteLength);
+        updatePositions();
+    }
+
+    private void updatePositions() {
+        int size = notes.size() - 1;
+        for (int i = 0; i < size; i++) {
+            Note note = notes.get(i);
+            Note nextNote = notes.get(i + 1);
+            nextNote.setPosition(note.getPosition() + note.getLength());
+        }
+    }
+
+    public void updatePitchesFromContour(int startOctave){
+        int size = notes.size() - 1;
+        Note firstNote = notes.get(0);
+        firstNote.setPitch((startOctave * 12) + firstNote.getPitchClass());
+        firstNote.setOctave(startOctave);
+        for (int i = 0; i < size; i++) {
+            Note note = notes.get(i);
+            Note nextNote = notes.get(i + 1);
+            int difference = nextNote.getPitchClass() - note.getPitchClass();
+            int direction = contour.get(i);
+            int interval = Util.calculateInterval(direction, difference);
+            nextNote.setPitch(note.getPitch() + interval);
+            nextNote.setOctave(nextNote.getPitch()/12);
         }
     }
 }

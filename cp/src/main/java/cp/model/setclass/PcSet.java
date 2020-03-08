@@ -5,6 +5,8 @@
 // All rights reserved.
 package cp.model.setclass;
 
+import java.util.Arrays;
+
 public class PcSet extends Set {
 
 	// Constructors

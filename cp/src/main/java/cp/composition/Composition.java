@@ -119,6 +119,8 @@ public abstract class Composition {
     @Autowired
     private SubSets_6_32 subSets_6_32;
     @Autowired
+    private SubSets_6_30 subSets_6_30;
+    @Autowired
     private SubSetDissonance subSetDissonance;
 
 	@Autowired
@@ -192,7 +194,7 @@ public abstract class Composition {
 	@PostConstruct
 	public void init(){
 		composeInKey(keys.C);
-		inTempo(90);
+		inTempo(109);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
 		meterObjective.setComposition(this);
@@ -206,7 +208,7 @@ public abstract class Composition {
 //		instruments = ensemble.getStringQuartet();
 
 		setTimeconfig();
-		end = 12  * getTimeConfig().getMeasureDuration() + DurationConstants.QUARTER;
+		end = 8  * getTimeConfig().getMeasureDuration() + DurationConstants.QUARTER;
 		timeLine.setEnd(end);
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
@@ -388,7 +390,7 @@ public abstract class Composition {
 //		harmonicObjective.setDissonance(tonalDissonance::getDissonance);
 //		harmonicObjective.setDissonance(symmetryDissonance::getDissonance);
 //		harmonicObjective.setDissonance(additiveDissonance::getDissonance);
-		harmonicObjective.setDissonance(subSets_8_17::getDissonance);
+		harmonicObjective.setDissonance(additiveDissonance::getDissonance);
 		harmonicResolutionObjective.setDissonantResolution(dissonantResolutionImpl::isDissonant);
 
 	}

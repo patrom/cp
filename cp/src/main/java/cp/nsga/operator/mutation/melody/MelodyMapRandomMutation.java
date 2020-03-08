@@ -1,7 +1,7 @@
 package cp.nsga.operator.mutation.melody;
 
 import cp.composition.Composition;
-import cp.config.CompostionMapConfig;
+import cp.config.CompositionMapConfig;
 import cp.config.TextureConfig;
 import cp.config.map.CompositionMap;
 import cp.model.melody.CpMelody;
@@ -22,7 +22,7 @@ public class MelodyMapRandomMutation implements MutationOperator<MelodyBlock> {
 
     private double probabilityMelodyMap;
     @Autowired
-    private CompostionMapConfig compostionMapConfig;
+    private CompositionMapConfig compositionMapConfig;
     @Autowired
     private Composition composition;
     @Autowired
@@ -36,7 +36,7 @@ public class MelodyMapRandomMutation implements MutationOperator<MelodyBlock> {
     //one pitch
     public void doMutation(double probability, MelodyBlock melodyBlock) {
         if (PseudoRandom.randDouble() < probability) {
-            CompositionMap compositionMap = compostionMapConfig.getCompositionMapForVoice(melodyBlock.getVoice());
+            CompositionMap compositionMap = compositionMapConfig.getCompositionMapForVoice(melodyBlock.getVoice());
             melodyBlock.randomInsertMelody(compositionMap.getMelody(melodyBlock.getVoice()));
 
             //keep length of composition

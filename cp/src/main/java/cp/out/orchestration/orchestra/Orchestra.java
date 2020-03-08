@@ -1,9 +1,11 @@
 package cp.out.orchestration.orchestra;
 
 import cp.model.note.Note;
+import cp.model.note.NoteBuilder;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentUpdate;
 import cp.out.orchestration.MelodyOrchestration;
+import cp.out.orchestration.MelodyOrchestrationBuilder;
 import cp.out.play.InstrumentMapping;
 import cp.util.RandomUtil;
 
@@ -21,27 +23,37 @@ public class Orchestra {
 	protected final Map<InstrumentMapping, List<Note>> map = new TreeMap<>();//TODO create score order (voice) layout
 	protected InstrumentMapping piccolo;
 	protected InstrumentMapping flute;
+	protected InstrumentMapping flute2;
 	protected InstrumentMapping altoFlute;
 	protected InstrumentMapping oboe;
+	protected InstrumentMapping oboe2;
 	protected InstrumentMapping corAnglais;
 	protected InstrumentMapping clarinetEflat;
 	protected InstrumentMapping clarinet;
+	protected InstrumentMapping clarinet2;
 	protected InstrumentMapping bassClarinet;
 	protected InstrumentMapping bassoon;
+	protected InstrumentMapping bassoon2;
 	protected InstrumentMapping contrabassoon;
 	
 	protected InstrumentMapping horn;
+	protected InstrumentMapping horn2;
+	protected InstrumentMapping horn3;
+	protected InstrumentMapping horn4;
 	protected InstrumentMapping trumpet;
+	protected InstrumentMapping trumpet2;
 	protected InstrumentMapping trombone;
+	protected InstrumentMapping trombone2;
 	protected InstrumentMapping bassTrombone;
 	protected InstrumentMapping tuba;
-	
+
+    protected InstrumentMapping timpani;
+
 	protected InstrumentMapping glockenspiel;
 	protected InstrumentMapping celesta;
 	protected InstrumentMapping xylophone;
 	protected InstrumentMapping harp;
 	protected InstrumentMapping piano;
-	protected InstrumentMapping timpani;
 	
 	protected InstrumentMapping violin1;
 	protected InstrumentMapping violin2;
@@ -421,7 +433,7 @@ public class Orchestra {
 				}
 			});
 		}else{
-//			throw new IllegalStateException("Doesn't contain the instrument:" + instrument.getInstrumentName());
+			throw new IllegalStateException("Doesn't contain the instrument:" + instrument.getInstrumentName());
 		}
 	}
 	
@@ -459,4 +471,91 @@ public class Orchestra {
 	public Map<Integer, List<Note>> getNotesPerVoice() {
 		return notesPerVoice;
 	}
+
+    public void execute(){
+        for (MelodyOrchestration melodyOrchestration : melodyOrchestrations) {
+            List<Note> notes = notesPerVoice.get(melodyOrchestration.getVoice());
+            if(melodyOrchestration.getOrchestralQuality() != null){
+                notes = melodyOrchestration.getInstrument().updateInQualityRange(notes);
+            }
+            if(melodyOrchestration.getOrchestralTechnique() != null){
+                switch (melodyOrchestration.getOrchestralTechnique()){
+                    case UNISONO:
+                        break;
+                    case OCTAVE_UP:
+                        notes.forEach(Note::transposeOctaveUp);
+                        break;
+                    case OCTAVE_DOWN:
+                        notes.forEach(Note::transposeOctaveDown);
+                        break;
+                    case OCTAVE_DOUBLE_UP:
+                        notes.forEach(note -> note.transposeOctave(2));
+                        break;
+                    case OCTAVE_DOUBLE_DOWN:
+                        notes.forEach(note -> note.transposeOctave(-2));
+                        break;
+                }
+            }
+            notes.forEach(note -> {
+                if (melodyOrchestration.getArticulation() != null) {
+                    note.setArticulation(melodyOrchestration.getArticulation());
+                }
+                if (melodyOrchestration.getTechnical() != null) {
+                    note.setTechnical(melodyOrchestration.getTechnical());
+                }
+                if (melodyOrchestration.getDynamic() != null) {
+                    note.setDynamic(melodyOrchestration.getDynamic());
+                }
+            });
+            InstrumentMapping mapping = map.keySet().stream().filter(instrumentMapping -> instrumentMapping.getInstrument().equals(melodyOrchestration.getInstrument()))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException("No instrument found in map"));
+            map.get(mapping).addAll(notes);
+        }
+    }
+
+    public void updateInstrumentInRange(Instrument instrument, List<Note> notes) {
+        Optional<InstrumentMapping> optionalInstrument = map.keySet().stream().filter(i -> i.getInstrument().getInstrumentName().equals(instrument.getInstrumentName())).findFirst();
+        if (optionalInstrument.isPresent()) {
+            instrument.updateNotesInRange(notes);
+            map.compute(optionalInstrument.get(), (k, v) -> {
+                if (v == null) {
+                    return new ArrayList<>(notes);
+                } else {
+                    v.addAll(notes);
+                    return v;
+                }
+            });
+        }else{
+            throw new IllegalStateException("Doesn't contain the instrument:" + instrument.getInstrumentName());
+        }
+    }
+
+    public void setMelodyOrchestrations(MelodyOrchestrationBuilder melodyOrchestrationBuilder, Instrument instrument){
+        melodyOrchestrations.add(melodyOrchestrationBuilder.setInstrument(instrument).createMelodyOrchestration());
+    }
+
+    public void insertRests(){
+        for (Map.Entry<InstrumentMapping, List<Note>> entry : map.entrySet()) {
+            List<Note> notesPerInstrument = entry.getValue();
+            if (!notesPerInstrument.isEmpty()){
+                List<Note> rests = new ArrayList<>();
+                int notesSize = notesPerInstrument.size() - 1;
+                for (int i = 0; i < notesSize; i++) {
+                    Note firstNote = notesPerInstrument.get(i);
+                    Note nextNote = notesPerInstrument.get(i + 1);
+                    int firstNoteEnd = firstNote.getPosition() + firstNote.getLength();
+                    if (i == 0 && 0 < firstNote.getPosition()){
+                        rests.add(NoteBuilder.note().voice(firstNote.getVoice()).rest().pos(0).len(firstNote.getPosition()).build());
+                    }
+                    if (firstNoteEnd < nextNote.getPosition()){
+                        rests.add(NoteBuilder.note().voice(firstNote.getVoice()).rest().pos(firstNoteEnd).len(nextNote.getPosition() - firstNoteEnd).build());
+                    }
+                }
+                notesPerInstrument.addAll(rests);
+                Collections.sort(notesPerInstrument);
+            }
+        }
+    }
+
 }

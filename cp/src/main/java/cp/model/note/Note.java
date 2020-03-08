@@ -274,6 +274,10 @@ public class Note implements Comparable<Note> {
 		+ positionWeight + ", a=" + articulation +  ", d= " + dynamic.name() + ", t= " + technical + "]";
 	}
 
+    public String toStringDebug() {
+        return "[p=" + ((pitch == Integer.MIN_VALUE) ? "Rest":pitch) + " pc=" + pitchClass + ", v=" + voice + ", pos=" + position + ", l=" + length + "]";
+    }
+
 	public double getPositionWeight() {
 		return positionWeight;
 	}

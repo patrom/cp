@@ -19,6 +19,7 @@ import cp.out.instrument.woodwinds.*;
 import cp.out.orchestration.quality.OrchestralQuality;
 import cp.out.play.InstrumentMapping;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -348,10 +349,12 @@ public class InstrumentConfig {
         if (instrumentMapping == null){
             throw new IllegalStateException("InstrumentConfig not available for voice: " + voice);
         }
+
         OrchestralQuality orchestralQuality = colorQualityConfig.getOchestralQualityForVoice(voice);
         if(orchestralQuality != null){
             return orchestralQuality.getBasicInstrument(instrumentMapping.getInstrument().getInstrumentName());
         }
+
         return instrumentMapping.getInstrument();
     }
 

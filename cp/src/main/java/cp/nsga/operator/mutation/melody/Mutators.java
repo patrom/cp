@@ -3,6 +3,8 @@ package cp.nsga.operator.mutation.melody;
 import cp.nsga.operator.mutation.MutationOperator;
 import cp.nsga.operator.mutation.MutationType;
 import cp.nsga.operator.mutation.contour.ContourMutation;
+import cp.nsga.operator.mutation.manipulation.MelodyInsertNoteMutation;
+import cp.nsga.operator.mutation.manipulation.MelodyNoteLengthMutation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -81,6 +83,12 @@ public class Mutators {
     private double probabilityMelodyMap;
     @Autowired
     public MelodyMapRandomMutation melodyMapRandomMutation;
+    @Value("${probabilityMelodyManipulation}")
+    private double probabilityMelodyManipulation;
+    @Autowired
+    public MelodyNoteLengthMutation melodyNoteLengthMutation;
+    @Autowired
+    public MelodyInsertNoteMutation melodyInsertNoteMutation;
 
 
     public List<MutationOperator> getMutationOperators(MutationType mutationType){
@@ -119,6 +127,10 @@ public class Mutators {
         List<MutationOperator> mutationOperators = new ArrayList<>();
         if (probabilityMelodyMap > 0) {
             mutationOperators.add(melodyMapRandomMutation);
+        }
+        if (probabilityMelodyManipulation > 0) {
+            mutationOperators.add(melodyNoteLengthMutation);
+            mutationOperators.add(melodyInsertNoteMutation);
         }
         return mutationOperators;
     }

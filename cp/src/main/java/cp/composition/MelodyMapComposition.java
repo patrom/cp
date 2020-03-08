@@ -2,8 +2,10 @@ package cp.composition;
 
 import cp.combination.RhythmCombination;
 import cp.combination.RhythmCombinations;
+import cp.combination.rhythm.DurationRhythmCombination;
 import cp.generator.ChordGenerator;
 import cp.generator.SingleMelodyGenerator;
+import cp.generator.SingleRhythmGenerator;
 import cp.model.melody.CpMelody;
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
@@ -24,6 +26,8 @@ public class MelodyMapComposition {
 
     @Autowired
     private SingleMelodyGenerator singleMelodyGenerator;
+    @Autowired
+    private SingleRhythmGenerator singleRhythmGenerator;
     @Autowired
     private Keys keys;
     @Autowired
@@ -126,7 +130,7 @@ public class MelodyMapComposition {
 
         compositionMap.put(0, getRest(DurationConstants.EIGHT, DurationConstants.QUARTER));
         List<RhythmCombination> rhythmCombinations = new ArrayList<>();
-        rhythmCombinations.add(allRhythmCombinations.balancedPattern::pos5N30);
+        rhythmCombinations.add(allRhythmCombinations.threeNoteUneven::pos123);
 //        rhythmCombinations.add(allRhythmCombinations.balancedPattern::pos5_0X000N30);
 //        rhythmCombinations.add(allRhythmCombinations.balancedPattern::pos5_00X00N30);
 //        compositionMap.put(0, singleMelodyGenerator.getMelodies(rhythmCombinations, DurationConstants.EIGHT, 30, 1));
@@ -141,17 +145,43 @@ public class MelodyMapComposition {
 //        compositionMap.put(4, singleMelodyGenerator.generateTranspositionsPitchClassesForSteps(steps, rhythmCombinations,
 //                DurationConstants.QUARTER, 7,5,4,2,0));
 
-        compositionMap.put(2, singleMelodyGenerator.generateKpermutationOrderedNoRepetition(Scale.SET_5_23.getPitchClassesAsList(), "5-23"));
+//        compositionMap.put(1, singleRhythmGenerator.generateOstinato(rhythmCombinations, DurationConstants.THREE_EIGHTS, ContourType.DESC, 0,4,11));
+//        compositionMap.put(1, singleRhythmGenerator.generatePitches(rhythmCombinations, DurationConstants.THREE_EIGHTS,  60,63,55));
+//        compositionMap.put(1, singleRhythmGenerator.generatePitches(rhythmCombinations, DurationConstants.THREE_EIGHTS, ContourType.ASC, 0, 0,2,8));
+//        compositionMap.put(1, singleRhythmGenerator.generateKpermutationOrderedNoRepetitionASC(rhythmCombinations, DurationConstants.THREE_EIGHTS,
+//                Scale.SET_3_11.getPitchClassesAsList(),"3-11"));
 
-        List<RhythmCombination> rhythmCombinations2 = new ArrayList<>();
-        rhythmCombinations2.add(allRhythmCombinations.threeNoteUneven::pos123);
-        compositionMap.put(1, singleMelodyGenerator.generateKcombinationOrderedWithRepetition(Arrays.asList(0,4), rhythmCombinations2, 3, DurationConstants.THREE_EIGHTS));
+//        compositionMap.put(1, singleRhythmGenerator.generateTranspositionsPitchClassesForStepsAsc(Scale.SET_3_11.getPitchClasses(),rhythmCombinations,
+//                DurationConstants.THREE_EIGHTS, 0, 4 ,7));
+
+//        compositionMap.put(2, singleMelodyGenerator.generateKpermutationOrderedNoRepetition(Scale.SET_6_30.getPitchClassesAsList(), "3-1"));
+        List<Integer> pitchClasses = singleMelodyGenerator.getPitchClasses("4-25");
+        compositionMap.put(2, singleMelodyGenerator.generateKpermutationOrderedNoRepetition(pitchClasses, "4-25"));
+//        compositionMap.put(3, singleMelodyGenerator.generateKpermutationOrderedNoRepetition(Scale.CHROMATIC_SCALE.getPitchClassesAsList(), "5-5"));
+
+
+
+//        DurationRhythmCombination durationRhythmCombination = new DurationRhythmCombination(DurationConstants.QUARTER,DurationConstants.THREE_EIGHTS,DurationConstants.EIGHT,DurationConstants.QUARTER, DurationConstants.THREE_EIGHTS,DurationConstants.EIGHT,DurationConstants.QUARTER );
+//        rhythmCombinations2.add(durationRhythmCombination);
+//        rhythmCombinations2.add(allRhythmCombinations.sixNoteSexTuplet::pos123456);
+//        compositionMap.put(1, singleMelodyGenerator.generateKcombinationOrderedWithRepetitionAndRest(Arrays.asList(0, 3, 6, 9), rhythmCombinations2, 6, DurationConstants.HALF));
+
+//        compositionMap.put(2, singleMelodyGenerator.generateKcombinationOrderedWithRepetitionAndRest(Arrays.asList(1, 7, 1, 7), rhythmCombinations2, 6, DurationConstants.HALF));
+
+//        compositionMap.put(1, singleMelodyGenerator.generateKpermutationOrderedWithRepetition(Arrays.asList(0, 4, 2,1), rhythmCombinations2, 4, DurationConstants.HALF));
+//        compositionMap.put(1, singleMelodyGenerator.generateKcombinationOrderedWithRepetition(Arrays.asList(0, 4, 2, 5), rhythmCombinations2, 4, DurationConstants.HALF));
+//
+//        compositionMap.put(1, singleRhythmGenerator.generateTranspositionsPitchClassesForStepsDesc(Scale.SET_6_30.getPitchClasses(), rhythmCombinations,  DurationConstants.THREE_SIXTEENTH, 0, 1, 3));
+//        List<RhythmCombination> rhythmCombinations2 = new ArrayList<>();
+//        rhythmCombinations2.add(allRhythmCombinations.sixNoteSexTuplet::pos123456);
+//        compositionMap.put(3, singleRhythmGenerator.generateTranspositionsPitchClassesForStepsDesc(Scale.SET_6_30.getPitchClasses(), rhythmCombinations2,  DurationConstants.THREE_SIXTEENTH * 2, 0, 1, 3, 6, 7, 9));
+
+//        compositionMap.put(3, singleRhythmGenerator.generateOstinato(rhythmCombinations, DurationConstants.THREE_EIGHTS, ContourType.DESC, 0,4,11));
+//        compositionMap.put(3, singleRhythmGenerator.generateOstinato(rhythmCombinations, DurationConstants.THREE_EIGHTS, ContourType.DESC, 0,4,11));
+//        compositionMap.put(3, singleRhythmGenerator.generatePitches(rhythmCombinations, DurationConstants.THREE_EIGHTS,  60,64,80));
     }
 
-    public List<Integer> getPitchClasses(String fortename){
-        int[] setClass = chordGenerator.generatePitchClasses(fortename);
-       return Arrays.stream(setClass).boxed().collect(Collectors.toList());
-    }
+
 
     public List<MelodicValue> getCompositionMap(int... keys) {
         List<MelodicValue> allMelodicValues = new ArrayList<>();

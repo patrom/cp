@@ -99,13 +99,13 @@ class SingleMelodyGeneratorTest {
                 new DurationRhythmCombination(DurationConstants.QUARTER, DurationConstants.SIXTEENTH, DurationConstants.EIGHT, DurationConstants.HALF);
         rhythmCombinations.add(durationRhythmCombination);
         rhythmCombinations.add(allRhythmCombinations.fourNoteEven::pos1234);
-        List<CpMelody> melodies = singleMelodyGenerator.generateTranspositionsForPitchesClasses(Scale.OCTATCONIC_01,
+        MelodicValueMelody melodicValue = (MelodicValueMelody) singleMelodyGenerator.generateTranspositionsForPitchesClasses(Scale.OCTATCONIC_01,
                 rhythmCombinations, DurationConstants.QUARTER, 4, 1, 0, 3);
-        for (CpMelody melody : melodies) {
+        for (CpMelody melody : melodicValue.getMelodies()) {
             melody.getNotes().forEach(note -> System.out.println(note.getPitchClass() + ", " + note.getPosition()));
             System.out.println();
         }
-        List<String> result = melodies.stream().map(melody -> melody.getNotes().stream()
+        List<String> result = melodicValue.getMelodies().stream().map(melody -> melody.getNotes().stream()
                 .mapToInt(Note::getPitchClass).mapToObj(String::valueOf)
                 .collect(Collectors.joining(","))).collect(Collectors.toList());
         System.out.println(result.size());
@@ -229,14 +229,14 @@ class SingleMelodyGeneratorTest {
         List<Integer> pitchClasses = Scale.MAJOR_SCALE.getPitchClassesInKey(keys.C);
         List<RhythmCombination> rhythmCombinations = new ArrayList<>();
         rhythmCombinations.add(allRhythmCombinations.threeNoteEven::pos134);
-        List<CpMelody> melodies = singleMelodyGenerator.generateKpermutationOrderedWithRepetition(pitchClasses, rhythmCombinations, 3,
+        MelodicValueMelody melodicValue = (MelodicValueMelody) singleMelodyGenerator.generateKpermutationOrderedWithRepetition(pitchClasses, rhythmCombinations, 3,
                 DurationConstants.QUARTER);
-        for (CpMelody melody : melodies) {
+        for (CpMelody melody : melodicValue.getMelodies()) {
             melody.getNotes().forEach(note -> System.out.print(note.getPitchClass() + ", "));
             System.out.println();
         }
 //        Assertions.assertEquals(210, melodies.size());
-        List<String> result = melodies.stream().map(melody -> melody.getNotes().stream()
+        List<String> result = melodicValue.getMelodies().stream().map(melody -> melody.getNotes().stream()
                 .mapToInt(Note::getPitchClass).mapToObj(String::valueOf)
                 .collect(Collectors.joining(","))).collect(Collectors.toList());
         assertThat(result, hasItems("0,2,2", "2,4,4", "4,5,5", "5,7,7", "7,7,5", "9,11,0" , "11,0,2"));
@@ -249,14 +249,14 @@ class SingleMelodyGeneratorTest {
         pitchClasses.add(0);
         List<RhythmCombination> rhythmCombinations = new ArrayList<>();
         rhythmCombinations.add(allRhythmCombinations.fourNoteEven::pos1234);
-        List<CpMelody> melodies = singleMelodyGenerator.generateKpermutationOrderedWithRepetition(pitchClasses, rhythmCombinations, 4,
+        MelodicValueMelody melodicValue = (MelodicValueMelody) singleMelodyGenerator.generateKpermutationOrderedWithRepetition(pitchClasses, rhythmCombinations, 4,
                 DurationConstants.QUARTER);
-        for (CpMelody melody : melodies) {
+        for (CpMelody melody : melodicValue.getMelodies()) {
             melody.getNotes().forEach(note -> System.out.print(note.getPitchClass() + ", "));
             System.out.println();
         }
 //        Assertions.assertEquals(210, melodies.size());
-        List<String> result = melodies.stream().map(melody -> melody.getNotes().stream()
+        List<String> result = melodicValue.getMelodies().stream().map(melody -> melody.getNotes().stream()
                 .mapToInt(Note::getPitchClass).mapToObj(String::valueOf)
                 .collect(Collectors.joining(","))).collect(Collectors.toList());
         assertThat(result, hasItems("0,0,4,4", "4,0,4,0", "4,0,0,4", "0,4,0,0"));
@@ -268,14 +268,14 @@ class SingleMelodyGeneratorTest {
         List<Integer> pitchClasses = Scale.SET_3_5.getPitchClassesAsList();
         List<RhythmCombination> rhythmCombinations = new ArrayList<>();
         rhythmCombinations.add(allRhythmCombinations.fourNoteEven::pos1234);
-        List<CpMelody> melodies = singleMelodyGenerator.generateKpermutationOrderedWithRepetition(pitchClasses, rhythmCombinations, 4,
+        MelodicValueMelody melodicValue = (MelodicValueMelody) singleMelodyGenerator.generateKpermutationOrderedWithRepetition(pitchClasses, rhythmCombinations, 4,
                 DurationConstants.QUARTER);
-        for (CpMelody melody : melodies) {
+        for (CpMelody melody : melodicValue.getMelodies()) {
             melody.getNotes().forEach(note -> System.out.print(note.getPitchClass() + ", "));
             System.out.println();
         }
 //        Assertions.assertEquals(210, melodies.size());
-        List<String> result = melodies.stream().map(melody -> melody.getNotes().stream()
+        List<String> result = melodicValue.getMelodies().stream().map(melody -> melody.getNotes().stream()
                 .mapToInt(Note::getPitchClass).mapToObj(String::valueOf)
                 .collect(Collectors.joining(","))).collect(Collectors.toList());
         assertThat(result, hasItems("0,1,6,0", "0,6,1,1"));
@@ -287,14 +287,14 @@ class SingleMelodyGeneratorTest {
         List<Integer> pitchClasses =  Arrays.asList(0,4);
         List<RhythmCombination> rhythmCombinations = new ArrayList<>();
         rhythmCombinations.add(allRhythmCombinations.fourNoteEven::pos1234);
-        List<CpMelody> melodies = singleMelodyGenerator.generateKpermutationOrderedWithRepetition(pitchClasses, rhythmCombinations, 4,
+        MelodicValueMelody melodicValue = (MelodicValueMelody) singleMelodyGenerator.generateKpermutationOrderedWithRepetition(pitchClasses, rhythmCombinations, 4,
                 DurationConstants.QUARTER);
-        for (CpMelody melody : melodies) {
+        for (CpMelody melody : melodicValue.getMelodies()) {
             melody.getNotes().forEach(note -> System.out.print(note.getPitchClass() + ", "));
             System.out.println();
         }
 //        Assertions.assertEquals(210, melodies.size());
-        List<String> result = melodies.stream().map(melody -> melody.getNotes().stream()
+        List<String> result = melodicValue.getMelodies().stream().map(melody -> melody.getNotes().stream()
                 .mapToInt(Note::getPitchClass).mapToObj(String::valueOf)
                 .collect(Collectors.joining(","))).collect(Collectors.toList());
         assertThat(result, hasItems("0,4,4,0", "0,4,0,4"));
@@ -360,14 +360,27 @@ class SingleMelodyGeneratorTest {
     }
 
     @Test
-    public void generateKpermutationOrderedNoRepetition3(){
-        List<Integer> pitchClasses = Scale.SET_6_7.getPitchClassesInKey(keys.C);
-        MelodicValueRhythmCombination melodicValue = (MelodicValueRhythmCombination) singleMelodyGenerator.generateKpermutationOrderedNoRepetition(pitchClasses, "3-5");
-        for (List<Integer> pcs : melodicValue.getPermutationsPitchClasses()) {
-            pcs.forEach(pc -> System.out.print(pc + ", "));
+    public void generateKcombinationOrderedWithRepetition4(){
+        List<RhythmCombination> rhythmCombinations = new ArrayList<>();
+        rhythmCombinations.add(allRhythmCombinations.fourNoteEven::pos1234);
+        MelodicValueMelody melodicValue = (MelodicValueMelody)  singleMelodyGenerator.generateKcombinationOrderedWithRepetition(Arrays.asList(0, 4, -1), rhythmCombinations, 4, DurationConstants.HALF);
+        for (CpMelody melody : melodicValue.getMelodies()) {
+            melody.getNotes().forEach(pc -> System.out.println(pc + ", "));
             System.out.println();
         }
     }
+
+    @Test
+    public void generateKcombinationOrderedWithRepetitionAndRest(){
+        List<RhythmCombination> rhythmCombinations = new ArrayList<>();
+        rhythmCombinations.add(allRhythmCombinations.fourNoteEven::pos1234);
+        MelodicValueMelody melodicValue = (MelodicValueMelody)  singleMelodyGenerator.generateKcombinationOrderedWithRepetitionAndRest(Arrays.asList(0, 4, 5), rhythmCombinations, 4, DurationConstants.HALF);
+        for (CpMelody melody : melodicValue.getMelodies()) {
+            melody.getNotes().forEach(pc -> System.out.println(pc + ", "));
+            System.out.println();
+        }
+    }
+
 
     @Test
     public void generateMelodicValue(){
@@ -387,6 +400,17 @@ class SingleMelodyGeneratorTest {
         MelodicValueMelody melodicValue = (MelodicValueMelody) singleMelodyGenerator.getMelodies(rhythmCombinations, DurationConstants.EIGHT, 30, 1);
         for (CpMelody melody : melodicValue.getMelodies()) {
             melody.getNotes().forEach(pc -> System.out.println(pc + ", "));
+            System.out.println();
+        }
+    }
+
+    @Test
+    public void generateKpermutationOrderedNoRepetition4(){
+        List<Integer> pitchClasses = singleMelodyGenerator.getPitchClasses("4-25");
+        MelodicValueRhythmCombination melodicValue = (MelodicValueRhythmCombination) singleMelodyGenerator.generateKpermutationOrderedNoRepetition(pitchClasses, "4-25");
+
+        for (List<Integer> permutationsPitchClass : melodicValue.getPermutationsPitchClasses()) {
+            permutationsPitchClass.forEach(pc -> System.out.println(pc + ", "));
             System.out.println();
         }
     }

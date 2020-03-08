@@ -8,9 +8,10 @@ public enum MidiDevicePlayer {
 	
 	MidiDevicePlayer(){
 		String OS = System.getProperty("os.name").toLowerCase();
-		if (OS.indexOf("win") >= 0) {
+		if (OS.contains("win")) {
 			this.name = "LoopBe Internal MIDI";
-		} else if(OS.indexOf("mac") >= 0){
+//			this.name = "Vienna Instruments MIDI";
+		} else if(OS.contains("mac")){
 			this.name = "Kontakt 5 Virtual Input";
 		}
 	}

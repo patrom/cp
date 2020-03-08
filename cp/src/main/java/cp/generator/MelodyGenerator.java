@@ -51,7 +51,7 @@ public class MelodyGenerator {
 	@Autowired
 	private TimbreConfig timbreConfig;
     @Autowired
-	private CompostionMapConfig compostionMapConfig;
+	private CompositionMapConfig compositionMapConfig;
 
 	public MelodyBlock pickMelodies(int voice){
         int start = composition.getStart();
@@ -59,7 +59,7 @@ public class MelodyGenerator {
         Instrument instrument = instrumentConfig.getInstrumentForVoice(voice);
         MelodyBlock melodyBlock = new MelodyBlock(instrument.pickRandomOctaveFromRange(), voice);
         int end = start;
-        CompositionMap compositionMap = compostionMapConfig.getCompositionMapForVoice(voice);
+        CompositionMap compositionMap = compositionMapConfig.getCompositionMapForVoice(voice);
         while (end < stop) {
             CpMelody melody = compositionMap.getMelody(voice);
             melody.setStart(start);

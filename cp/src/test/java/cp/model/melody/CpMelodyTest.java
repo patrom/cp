@@ -626,5 +626,126 @@ public class CpMelodyTest {
         assertEquals(D, updatedNotes.get(3).getTimeLineKey().getKey());
     }
 
+    @Test
+    public void insertNote(){
+        List<Note> notes = new ArrayList<>();
+        notes.add(note().pos(0).pc(0).voice(0).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.QUARTER).pc(4).voice(0).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.HALF).pc(5).voice(0).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pc(7).voice(0).len(DurationConstants.QUARTER).build());
+        melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+
+        Note insertNote = note().pos(0).pc(11).voice(0).len(DurationConstants.EIGHT).build();
+        melody.insertNoteRandom(insertNote);
+        melody.getNotes().forEach(n -> System.out.println(n));
+        System.out.println("end: " + melody.getEnd());
+        assertEquals(melody.getEnd() , 540);
+    }
+
+    @Test
+    public void insertRest(){
+        List<Note> notes = new ArrayList<>();
+        notes.add(note().pos(0).pc(0).voice(0).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.QUARTER).pc(4).voice(0).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.HALF).pc(5).voice(0).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pc(7).voice(0).len(DurationConstants.QUARTER).build());
+        melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+
+        Note insertNote = note().pos(0).rest().voice(1).len(DurationConstants.EIGHT).build();
+        melody.insertNoteRandom(insertNote);
+        melody.getNotes().forEach(n -> System.out.println(n));
+        System.out.println("end: " + melody.getEnd());
+        assertEquals(melody.getEnd() , 540);
+    }
+
+    @Test
+    public void insertNoteFromMelody(){
+        List<Note> notes = new ArrayList<>();
+        notes.add(note().pos(0).pc(0).voice(0).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.QUARTER).pc(4).voice(0).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.HALF).pc(5).voice(0).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pc(7).voice(0).len(DurationConstants.QUARTER).build());
+        melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+
+        melody.insertNoteRandom();
+        melody.getNotes().forEach(n -> System.out.println(n));
+        System.out.println("end: " + melody.getEnd());
+        assertEquals(melody.getEnd() , 600);
+    }
+
+    @Test
+    public void removeNoteRandom(){
+        List<Note> notes = new ArrayList<>();
+        notes.add(note().pos(0).pc(0).voice(0).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.QUARTER).pc(4).voice(0).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.HALF).pc(5).voice(0).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pc(7).voice(0).len(DurationConstants.QUARTER).build());
+        melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+
+        melody.removeNoteRandom();
+        melody.getNotes().forEach(n -> System.out.println(n));
+        System.out.println("end: " + melody.getEnd());
+        assertEquals(melody.getEnd() , 360);
+    }
+
+    @Test
+    public void updateNoteLengthRandom(){
+        List<Note> notes = new ArrayList<>();
+        notes.add(note().pos(0).pc(0).voice(0).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.QUARTER).pc(4).voice(0).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.HALF).pc(5).voice(0).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pc(7).voice(0).len(DurationConstants.QUARTER).build());
+        melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+
+        Note insertNote = note().pos(0).pc(11).voice(0).len(DurationConstants.EIGHT).build();
+        melody.updateNoteLengthRandom(DurationConstants.HALF);
+        melody.getNotes().forEach(n -> System.out.println(n));
+        System.out.println("end: " + melody.getEnd());
+        assertEquals(melody.getEnd() , 600);
+    }
+
+    @Test
+    public void updateLastNoteLength(){
+        List<Note> notes = new ArrayList<>();
+        notes.add(note().pos(0).pc(0).voice(0).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.QUARTER).pc(4).voice(0).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.HALF).pc(5).voice(0).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pc(7).voice(0).len(DurationConstants.QUARTER).build());
+        melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+
+        Note insertNote = note().pos(0).pc(11).voice(0).len(DurationConstants.EIGHT).build();
+        melody.updateLastNoteLength(DurationConstants.HALF);
+        melody.getNotes().forEach(n -> System.out.println(n));
+        System.out.println("end: " + melody.getEnd());
+        assertEquals(melody.getEnd() , 600);
+    }
+
+    @Test
+    public void insertNotesFromMelody(){
+        List<Note> notes = new ArrayList<>();
+        notes.add(note().pos(0).pc(0).voice(0).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.QUARTER).pc(4).voice(0).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.HALF).pc(5).voice(0).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pc(7).voice(0).len(DurationConstants.QUARTER).build());
+        melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+
+        melody.insertNotesRandom();
+        melody.getNotes().forEach(n -> System.out.println(n));
+        System.out.println("end: " + melody.getEnd());
+    }
+
+    @Test
+    public void insertNotesOrderedFromMelody(){
+        List<Note> notes = new ArrayList<>();
+        notes.add(note().pos(0).pc(0).voice(0).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.QUARTER).pc(4).voice(0).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.HALF).pc(5).voice(0).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pc(7).voice(0).len(DurationConstants.QUARTER).build());
+        melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE);
+
+        melody.insertNotesOrdered();
+        melody.getNotes().forEach(n -> System.out.println(n));
+        System.out.println("end: " + melody.getEnd());
+    }
 
 }

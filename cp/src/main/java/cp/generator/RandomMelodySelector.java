@@ -30,4 +30,16 @@ public class RandomMelodySelector implements MelodySelector {
         return cpMelody;
     }
 
+    @Override
+    public CpMelody getMelodyWithMultipleNotes(int voice, List<MelodicValue> melodicValues) {
+        CpMelody cpMelody = RandomUtil.getRandomFromList(melodicValues).pickRandomMelodyWithMultipleNotes().clone();
+        cpMelody.setVoice(voice);
+        if (textureConfig.hasTexture(voice)) {
+            for (Note melodyNote : cpMelody.getNotesNoRest()) {
+                DependantHarmony dependantHarmony = textureConfig.getTextureFor(voice, melodyNote.getPitchClass());
+                melodyNote.setDependantHarmony(dependantHarmony);
+            }
+        }
+        return cpMelody;
+    }
 }

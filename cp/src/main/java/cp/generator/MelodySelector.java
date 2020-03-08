@@ -9,4 +9,6 @@ public interface MelodySelector {
 
     CpMelody getMelody(int voice, List<MelodicValue> melodicValues);
 
+    CpMelody getMelodyWithMultipleNotes(int voice, List<MelodicValue> melodicValues);
+
 }

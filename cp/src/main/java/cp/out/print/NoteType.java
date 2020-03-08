@@ -6,8 +6,8 @@ public enum NoteType {
 
 	sixteenth("16th", false, false, DurationConstants.SIXTEENTH), eighth("eighth", false, false, DurationConstants.EIGHT), quarter("quarter", false, false, DurationConstants.QUARTER), half("half", false, false, DurationConstants.HALF), whole("whole", false, false, DurationConstants.WHOLE),
 	eighthDot("eighth", true, false, DurationConstants.THREE_SIXTEENTH), quarterDot("quarter", true, false, DurationConstants.THREE_EIGHTS), halfDot("half", true, false, DurationConstants.SIX_EIGHTS), 
-	sixteenthTriplet("16th", false, true, DurationConstants.SIXTEENTH_TRIPLET), eighthTriplet("eighth", false, true, DurationConstants.EIGHT_TRIPLET),quarterTriplet("quarter", false, true, DurationConstants.QUARTER_TRIPLET), halfTriplet("half", false, true, DurationConstants.HALF_TRIPLET);
-	
+	sixteenthTriplet("16th", false, true, DurationConstants.SIXTEENTH_TRIPLET), eighthTriplet("eighth", false, true, DurationConstants.EIGHT_TRIPLET),quarterTriplet("quarter", false, true, DurationConstants.QUARTER_TRIPLET), halfTriplet("half", false, true, DurationConstants.HALF_TRIPLET),
+    breve("breve", false, false, DurationConstants.WHOLE);
 	private final String name;
 	private final boolean dot;
 	private final boolean triplet;
@@ -53,7 +53,7 @@ public enum NoteType {
 		} else if (320 <= length && length <= 360) {
 			return NoteType.halfTriplet;
 		}
-		return sixteenth;
+		return breve;
 //		throw new IllegalArgumentException("MusicXML note type not defined for length: " + length);
 	}
 
