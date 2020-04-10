@@ -2,8 +2,10 @@ package cp.generator;
 
 import cp.model.harmony.CpHarmony;
 import cp.model.note.Note;
+import cp.model.setclass.PcSet;
 import cp.model.setclass.Set;
 import cp.model.setclass.TnTnIType;
+import org.apache.commons.math3.analysis.function.Abs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,17 +28,13 @@ public class ChordGenerator {
 		int[] pcs;
 		if (forteName.startsWith("2")) {
 			pcs = getSet(forteName, type.prime2);
-		}
-		else if (forteName.startsWith("3")) {
+		} else if (forteName.startsWith("3")) {
 			pcs = getSet(forteName, type.prime3);
-		}
-		else if (forteName.startsWith("4")) {
+		} else if (forteName.startsWith("4")) {
 			pcs = getSet(forteName, type.prime4);
-		}
-		else if (forteName.startsWith("5")) {
+		} else if (forteName.startsWith("5")) {
 			pcs = getSet(forteName, type.prime5);
-		}
-		else if (forteName.startsWith("6")) {
+		} else if (forteName.startsWith("6")) {
 			pcs = getSet(forteName, type.prime6);
 		} else {
 			throw new IllegalArgumentException("No set class found for forte name: " + forteName);
@@ -52,25 +50,30 @@ public class ChordGenerator {
         int[] pcs;
         if (forteName.startsWith("2")) {
             pcs = getSet(forteName, type.prime2);
-        }
-        else if (forteName.startsWith("3")) {
+        } else if (forteName.startsWith("3")) {
             pcs = getSet(forteName, type.prime3);
-        }
-        else if (forteName.startsWith("4")) {
+        } else if (forteName.startsWith("4")) {
             pcs = getSet(forteName, type.prime4);
-        }
-        else if (forteName.startsWith("5")) {
+        } else if (forteName.startsWith("5")) {
             pcs = getSet(forteName, type.prime5);
-        }
-        else if (forteName.startsWith("6")) {
+        } else if (forteName.startsWith("6")) {
             pcs = getSet(forteName, type.prime6);
         } else if (forteName.startsWith("7")) {
             pcs = getSet(forteName, type.prime7);
+        } else if (forteName.startsWith("8")) {
+            pcs = getSet(forteName, type.prime8);
+        } else if (forteName.startsWith("9")) {
+            pcs = getSet(forteName, type.prime9);
         } else {
             throw new IllegalArgumentException("No set class found for forte name: " + forteName);
         }
-
         return pcs;
+    }
+
+    public int[] generateInversionPitchclasses(String forteName){
+        int[] pitchClasses = generatePitchClasses(forteName);
+        PcSet pcSet = new PcSet();
+        return pcSet.invertPcSet(pitchClasses);
     }
 
     public List<Integer> generatePcs(String forteName) {
@@ -93,25 +96,22 @@ public class ChordGenerator {
 	}
 
     public int[] getIntervalVector(String forteName){
-        Integer intervalVectorBasket = Integer.valueOf(forteName.substring(forteName.length() - 2)) - 1;
+        String substring = forteName.substring(forteName.length() - 2);
+        Integer intervalVectorBasket = Math.abs(Integer.valueOf(substring.startsWith("Z")?substring.substring(1,2):substring)) - 1;
         int[] intervalVector;
         if (forteName.startsWith("2")) {
             Set set = type.prime2[intervalVectorBasket];
             intervalVector = set.ivector;
-        }
-        else if (forteName.startsWith("3")) {
+        } else if (forteName.startsWith("3")) {
             Set set = type.prime3[intervalVectorBasket];
             intervalVector = set.ivector;
-        }
-        else if (forteName.startsWith("4")) {
+        } else if (forteName.startsWith("4")) {
             Set set = type.prime4[intervalVectorBasket];
             intervalVector = set.ivector;
-        }
-        else if (forteName.startsWith("5")) {
+        } else if (forteName.startsWith("5")) {
             Set set = type.prime5[intervalVectorBasket];
             intervalVector = set.ivector;
-        }
-        else if (forteName.startsWith("6")) {
+        } else if (forteName.startsWith("6")) {
             Set set = type.prime6[intervalVectorBasket];
             intervalVector = set.ivector;
         } else {

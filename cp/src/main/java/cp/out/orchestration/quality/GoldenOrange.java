@@ -1,6 +1,7 @@
 package cp.out.orchestration.quality;
 
 import cp.out.instrument.Instrument;
+import cp.out.instrument.Technical;
 import cp.out.instrument.brass.*;
 import cp.out.instrument.percussion.determinate.Xylophone;
 import cp.out.instrument.plucked.Harp;
@@ -11,6 +12,7 @@ import cp.out.instrument.strings.ViolinsII;
 import cp.out.instrument.woodwinds.AltoFlute;
 import cp.out.instrument.woodwinds.CorAnglais;
 import cp.out.instrument.woodwinds.Oboe;
+import cp.out.instrument.woodwinds.Oboe2;
 import cp.out.orchestration.InstrumentName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,14 +33,13 @@ public class GoldenOrange extends OrchestralQuality{
 		instruments = Stream.of(
 				new AltoFlute(new InstrumentRegister(80, 91)),
 				new CorAnglais(new InstrumentRegister(67, 84)),
-				new Oboe(new InstrumentRegister(67, 80)),
-				new FrenchHorn(new InstrumentRegister(68, 79)),
-				new Trumpet(new InstrumentRegister(70, 78)),
-				new TrumpetMuted(new InstrumentRegister(58, 70)),
-				new Trombone(new InstrumentRegister(64, 77)),
-				new TromboneMuted(new InstrumentRegister(48, 64)),
+				new Oboe2(new InstrumentRegister(67, 80)),
+				new Trumpet1(new InstrumentRegister(70, 78)),
+				new Trumpet2(new InstrumentRegister(58, 70), Technical.CON_SORDINO),//muted
+				new Trombone1(new InstrumentRegister(64, 77)),
+				new Trombone2(new InstrumentRegister(48, 64), Technical.CON_SORDINO),
 				new BassTrombone(new InstrumentRegister(55, 69)),
-				new BassTromboneMuted(new InstrumentRegister(41, 55)),
+//				new BassTrombone(new InstrumentRegister(41, 55), Technical.CON_SORDINO),
 				new ViolinsI(new InstrumentRegister(74, 84)),
 				new ViolinsII(new InstrumentRegister(74, 84)),
 				new ViolinSolo(new InstrumentRegister(74, 84)),

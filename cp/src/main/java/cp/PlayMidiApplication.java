@@ -51,7 +51,7 @@ public class PlayMidiApplication extends JFrame implements CommandLineRunner {
             LOGGER.info(midiFile.getName());
             Sequence sequence = MidiSystem.getSequence(midiFile);
             midiDevicesUtil.playOnDevice(sequence, 0, MidiDevicePlayer.KONTAKT);
-            Thread.sleep(22000);
+            Thread.sleep(15000);
         }
     }
 

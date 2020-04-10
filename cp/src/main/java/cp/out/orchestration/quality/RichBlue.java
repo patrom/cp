@@ -1,7 +1,8 @@
 package cp.out.orchestration.quality;
 
 import cp.out.instrument.Instrument;
-import cp.out.instrument.brass.FrenchHornMuted;
+import cp.out.instrument.Technical;
+import cp.out.instrument.brass.FrenchHorn2;
 import cp.out.instrument.keyboard.Celesta;
 import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.percussion.determinate.Glockenspiel;
@@ -9,9 +10,7 @@ import cp.out.instrument.percussion.determinate.Timpani;
 import cp.out.instrument.percussion.determinate.Vibraphone;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.*;
-import cp.out.instrument.woodwinds.BassClarinet;
-import cp.out.instrument.woodwinds.Clarinet;
-import cp.out.instrument.woodwinds.Flute;
+import cp.out.instrument.woodwinds.*;
 import cp.out.orchestration.InstrumentName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,11 +29,12 @@ public class RichBlue extends OrchestralQuality{
 		quality = "richBlue";
 		type = "basic";
 		instruments = Stream.of(
-				new Flute(new InstrumentRegister(59, 71)),
-				new Clarinet(new InstrumentRegister(50, 65)),
+				new Flute1(new InstrumentRegister(59, 71)),
+				new Clarinet2(new InstrumentRegister(50, 65)),
+                new Bassoon2(new InstrumentRegister(58, 72)),
 				new BassClarinet(new InstrumentRegister(34, 53)),
 				new ViolinsI(new InstrumentRegister(62, 74)),
-                new FrenchHornMuted(new InstrumentRegister(53, 73)),
+                new FrenchHorn2(new InstrumentRegister(53, 73), Technical.CON_SORDINO),
 				new ViolinsII(new InstrumentRegister(62, 74)),
 				new ViolinSolo(new InstrumentRegister(62, 74)),
 				new Viola(new InstrumentRegister(55, 67)),

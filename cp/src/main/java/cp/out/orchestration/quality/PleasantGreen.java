@@ -28,11 +28,11 @@ public class PleasantGreen extends OrchestralQuality{
 		quality = "pleasantGreen";
 		type = "basic";
 		instruments = Stream.of(
-				new Flute(new InstrumentRegister(71, 79)),
+				new Flute2(new InstrumentRegister(71, 79)),
 				new ClarinetEFlat(new InstrumentRegister(55, 71)),
-				new Clarinet(new InstrumentRegister(67, 77)),
+				new Clarinet1(new InstrumentRegister(67, 77)),
 				new BassClarinet(new InstrumentRegister(55, 82)),
-				new Bassoon(new InstrumentRegister(34, 72)),
+				new Bassoon2(new InstrumentRegister(34, 57)),
 				new ViolinsI(new InstrumentRegister(69, 81)),
 				new ViolinsII(new InstrumentRegister(69, 81)),
 				new ViolinSolo(new InstrumentRegister(69, 81)),

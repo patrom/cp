@@ -85,4 +85,7 @@ public class InstrumentMapping implements Comparable<InstrumentMapping>{
         return duplicateNotes;
     }
 
+    public void setInstrument(Instrument instrument) {
+        this.instrument = instrument;
+    }
 }

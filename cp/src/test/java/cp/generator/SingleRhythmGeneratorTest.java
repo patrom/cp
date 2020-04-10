@@ -10,6 +10,8 @@ import cp.config.BeatGroupConfig;
 import cp.model.melody.CpMelody;
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
+import cp.model.setclass.Set;
+import cp.model.setclass.TnTnIType;
 import cp.out.print.Keys;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,10 +20,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.sound.midi.Soundbank;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
@@ -37,11 +41,14 @@ class SingleRhythmGeneratorTest {
     private Keys keys;
     @Autowired
     private RhythmCombinations allRhythmCombinations;
+    @Autowired
+    private TnTnIType type;
 
     @Test
     void generateOstinato() {
         List<RhythmCombination> rhythmCombinations = new ArrayList<>();
         rhythmCombinations.add(allRhythmCombinations.threeNoteUneven::pos123);
+        rhythmCombinations.add(allRhythmCombinations.fourNoteEven::pos1234);
         MelodicValueMelody melodicValue = (MelodicValueMelody) singleRhythmGenerator.generateOstinato(rhythmCombinations, DurationConstants.THREE_EIGHTS, ContourType.ASC, 1,2);
         for (CpMelody melody : melodicValue.getMelodies()) {
             melody.getNotes().forEach(pc -> System.out.println(pc + ", "));
@@ -79,7 +86,7 @@ class SingleRhythmGeneratorTest {
     void generateTranspositionsPitchClassesForStepsAsc() {
         List<RhythmCombination> rhythmCombinations = new ArrayList<>();
         rhythmCombinations.add(allRhythmCombinations.twoNoteEven::pos13);
-        int[] steps = Scale.CHROMATIC_SCALE.getPitchClasses();
+        int[] steps = Scale.MAJOR_SCALE.getPitchClasses();
         MelodicValueMelody melodicValue = (MelodicValueMelody) singleRhythmGenerator.generateTranspositionsPitchClassesForStepsAsc(steps, rhythmCombinations, DurationConstants.EIGHT,
                 0, 2);
         for (CpMelody melody : melodicValue.getMelodies()) {
@@ -88,13 +95,22 @@ class SingleRhythmGeneratorTest {
         }
     }
 
-
     @Test
     void generateBalancedPattern() {
-        MelodicValueMelody melodicValue = (MelodicValueMelody) singleRhythmGenerator.generateBalancedPattern(allRhythmCombinations.balancedPattern::pos9N30,
-                DurationConstants.SIXTEENTH, "3-1");
+        MelodicValueMelody melodicValue = (MelodicValueMelody) singleRhythmGenerator.generateBalancedPattern(allRhythmCombinations.balancedPattern::pos5N30,
+                DurationConstants.SIXTEENTH, "5-1");
         for (CpMelody melody : melodicValue.getMelodies()) {
             melody.getNotes().forEach(pc -> System.out.println(pc + ", "));
+            System.out.println();
+        }
+    }
+
+    @Test
+    public void getSubsets(){
+        List<Integer> pitchClasses = Arrays.stream(type.prime6[42].tntnitype).boxed().collect(toList());
+        List<List<Integer>> subsets = singleRhythmGenerator.getSubsets(pitchClasses, "3-4");
+        for (List<Integer> subset : subsets) {
+            subset.forEach(integer -> System.out.print(integer + ", "));
             System.out.println();
         }
     }

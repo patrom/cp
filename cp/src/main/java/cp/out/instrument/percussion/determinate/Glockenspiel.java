@@ -13,7 +13,7 @@ public class Glockenspiel extends Instrument {
 	}
 
 	private void init() {
-		instrumentGroup = InstrumentGroup.PERCUSSION;
+		instrumentGroup = InstrumentGroup.MALLETS;
 		order = 0;
 		setLowest(77);
 		setHighest(108);

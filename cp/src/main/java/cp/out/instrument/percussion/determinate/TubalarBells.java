@@ -12,7 +12,7 @@ public class TubalarBells extends Instrument {
     }
 
     private void init() {
-        instrumentGroup = InstrumentGroup.PERCUSSION;
+        instrumentGroup = InstrumentGroup.MALLETS;
         order = 0;
         setLowest(48);
         setHighest(80);

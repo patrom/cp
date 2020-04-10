@@ -3,6 +3,7 @@ package cp.out.orchestration.quality;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.brass.FrenchHorn;
 import cp.out.instrument.brass.Trombone;
+import cp.out.instrument.brass.Trombone1;
 import cp.out.instrument.brass.Trumpet;
 import cp.out.instrument.keyboard.Celesta;
 import cp.out.instrument.keyboard.Piano;
@@ -47,7 +48,7 @@ public class MediumRange extends OrchestralQuality {
                 new Celesta(new InstrumentRegister(60, 84)),
                 new Harp(range),
                 new Piano(range),
-                new Trombone(range),
+                new Trombone1(range),
                 new FrenchHorn(range),
                 new Trumpet(new InstrumentRegister(58, 72)),
 

@@ -203,7 +203,10 @@ public class MusicXMLWriter {
         xmlStreamWriter.writeStartElement("direction");
         xmlStreamWriter.writeCharacters("\n");
 
-        createNoteDirectionTypeTechnicalElement(note);
+        if(instrument.getTechnical() != null){
+            createNoteDirectionTypeTechnicalElement(instrument.getTechnical());
+        }
+        createNoteDirectionTypeTechnicalElement(note.getTechnical());
         createElementWithValue("voice", String.valueOf(note.getVoice()));
 //        createElementWithValue("staff", String.valueOf(getStaff(instrument, note)));
         createElementWithValue("staff", "1");
@@ -233,11 +236,11 @@ public class MusicXMLWriter {
 		xmlStreamWriter.writeCharacters("\n");
 	}
 
-    private void createNoteDirectionTypeTechnicalElement(Note note) throws XMLStreamException {
+    private void createNoteDirectionTypeTechnicalElement(Technical technical) throws XMLStreamException {
         xmlStreamWriter.writeStartElement("direction-type");
         xmlStreamWriter.writeCharacters("\n");
 
-        createWordsElement(note.getTechnical());
+        createWordsElement(technical);
 
         xmlStreamWriter.writeEndElement();
         xmlStreamWriter.writeCharacters("\n");

@@ -31,9 +31,38 @@ class PitchClassGeneratorTest {
     private RhythmCombinations allRhythmCombinations;
 
     @Test
-    void generateKcombinationOrderedWithRepetition() {
+    public void getRandomPitchClassesForForteName() {
+        MelodicValueRhythmCombination melodicValue = (MelodicValueRhythmCombination) pitchClassGenerator.getRandomPitchClassesForForteName( "6-Z4", 2);
+        List<List<Integer>> permutationsPitchClasses = melodicValue.getPermutationsPitchClasses();
+        for (List<Integer> permutationsPitchClass : permutationsPitchClasses) {
+            permutationsPitchClass.forEach(integer -> System.out.println(integer));
+            System.out.println();
+        }
+    }
 
-        MelodicValueRhythmCombination melodicValue = (MelodicValueRhythmCombination) pitchClassGenerator.generateKcombinationOrderedWithRepetition( "3-5", 0, 0,6,1);
+    @Test
+    public void getRandomPitchClassesForForteNameInSuperSetClass(){
+        MelodicValueRhythmCombination melodicValue = (MelodicValueRhythmCombination) pitchClassGenerator.getSetClassesForForteNameInSuperSetClass( "6-Z6", "3-5", 0);
+        List<List<Integer>> permutationsPitchClasses = melodicValue.getPermutationsPitchClasses();
+        for (List<Integer> permutationsPitchClass : permutationsPitchClasses) {
+            permutationsPitchClass.forEach(integer -> System.out.println(integer));
+            System.out.println();
+        }
+    }
+
+    @Test
+    public void getSetClassesAndRetrogradeForForteNameInSuperSetClass(){
+        MelodicValueRhythmCombination melodicValue = (MelodicValueRhythmCombination) pitchClassGenerator.getSetClassesAndRetrogradeForForteNameInSuperSetClass( "7-35", "4-11", 11);
+        List<List<Integer>> permutationsPitchClasses = melodicValue.getPermutationsPitchClasses();
+        for (List<Integer> permutationsPitchClass : permutationsPitchClasses) {
+            permutationsPitchClass.forEach(integer -> System.out.println(integer));
+            System.out.println();
+        }
+    }
+
+    @Test
+    void generateKcombinationOrderedWithRepetition() {
+        MelodicValueRhythmCombination melodicValue = (MelodicValueRhythmCombination) pitchClassGenerator.generateKcombinationOrderedWithRepetition( "3-5", 0, 0,6,0,1);
         List<List<Integer>> permutationsPitchClasses = melodicValue.getPermutationsPitchClasses();
         for (List<Integer> permutationsPitchClass : permutationsPitchClasses) {
             permutationsPitchClass.forEach(integer -> System.out.println(integer));
@@ -43,12 +72,12 @@ class PitchClassGeneratorTest {
 
     @Test
     void allPermutationsForSetClassInSuperSetClass() {
-        MelodicValueRhythmCombination melodicValue = (MelodicValueRhythmCombination) pitchClassGenerator.allPermutationsForSetClassInSuperSetClass("6-27", "3-5", 1);
+        MelodicValueRhythmCombination melodicValue = (MelodicValueRhythmCombination) pitchClassGenerator.allPermutationsForSetClassInSuperSetClass("5-28", "5-28", 1);
         List<List<Integer>> permutationsPitchClasses = melodicValue.getPermutationsPitchClasses();
-        System.out.println("Sise :" + permutationsPitchClasses.size());
+        System.out.println("Size :" + permutationsPitchClasses.size());
 //        Assertions.assertEquals(12, permutationsPitchClasses.size());
         for (List<Integer> permutationsPitchClass : permutationsPitchClasses) {
-            permutationsPitchClass.forEach(integer -> System.out.println(integer));
+            permutationsPitchClass.forEach(integer -> System.out.print(integer + ", "));
             System.out.println();
         }
     }

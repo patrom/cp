@@ -208,7 +208,7 @@ public abstract class Composition {
 //		instruments = ensemble.getStringQuartet();
 
 		setTimeconfig();
-		end = 8  * getTimeConfig().getMeasureDuration() + DurationConstants.QUARTER;
+		end = 4  * getTimeConfig().getMeasureDuration() + DurationConstants.QUARTER;
 		timeLine.setEnd(end);
 		//time line
 		List<TimeLineKey> timeLineKeys = new ArrayList<>();
@@ -390,7 +390,7 @@ public abstract class Composition {
 //		harmonicObjective.setDissonance(tonalDissonance::getDissonance);
 //		harmonicObjective.setDissonance(symmetryDissonance::getDissonance);
 //		harmonicObjective.setDissonance(additiveDissonance::getDissonance);
-		harmonicObjective.setDissonance(additiveDissonance::getDissonance);
+		harmonicObjective.setDissonance(tonalDissonance::getDissonance);
 		harmonicResolutionObjective.setDissonantResolution(dissonantResolutionImpl::isDissonant);
 
 	}

@@ -48,8 +48,14 @@ public class HarmonyMap extends CompositionMap{
     @PostConstruct
     public void initRhythm() {
 
-        melodicValues.add(singleRhythmGenerator.generateBalancedPattern(allRhythmCombinations.balancedPattern::pos5N30,
-                DurationConstants.SIXTEENTH, "4-3"));
+//        melodicValues.add(singleRhythmGenerator.generateBalancedPattern(allRhythmCombinations.balancedPattern::pos5N30,
+//                DurationConstants.SIXTEENTH, "4-3"));
+
+        List<RhythmCombination> rhythmCombinations = new ArrayList<>();
+        rhythmCombinations.add(allRhythmCombinations.threeNoteEven::pos123);
+//        addMelodicValue(0, rhythmCombinations, DurationConstants.WHOLE);
+//        addMelodicValue(1, rhythmCombinations, DurationConstants.HALF);
+
 //        List<RhythmCombination> rhythmCombinations = new ArrayList<>();
 //        rhythmCombinations.add(allRhythmCombinations.balancedPattern::pos5N30);
 //        melodicValues.add(melodyMapComposition.getCompositionMap(2));

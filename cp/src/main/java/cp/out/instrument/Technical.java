@@ -19,7 +19,8 @@ public enum Technical {
     FLUTTER_TONGUE("flutter tongue"),
     VIBRATO("vibrato"),
     SENZA_VIBRATO ("senza vibrato"),
-    TREMELO("tremelo");
+    TREMELO("tremelo"),
+    MUTE("mute");
 
     private String technical;
 

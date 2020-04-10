@@ -126,7 +126,7 @@ public class SingleRhythmGenerator extends Generator {
         return melodicValue;
     }
 
-    private List<List<Integer>> getSubsets(List<Integer> pitchClasses, String forteName) {
+    public List<List<Integer>> getSubsets(List<Integer> pitchClasses, String forteName) {
         List<List<Integer>> subsets = org.paukov.combinatorics3.Generator.combination(pitchClasses)
                 .simple(Integer.parseInt(forteName.substring(0,1)))
                 .stream()

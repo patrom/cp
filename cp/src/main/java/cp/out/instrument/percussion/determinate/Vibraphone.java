@@ -16,7 +16,7 @@ public class Vibraphone extends Instrument {
     }
 
     private void init() {
-        instrumentGroup = InstrumentGroup.PERCUSSION;
+        instrumentGroup = InstrumentGroup.MALLETS;
         order = 0;
         setLowest(53);
         setHighest(89);

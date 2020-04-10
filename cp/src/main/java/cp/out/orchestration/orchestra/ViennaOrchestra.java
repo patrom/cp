@@ -5,6 +5,7 @@ import cp.out.instrument.keyboard.Celesta;
 import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.percussion.determinate.Glockenspiel;
 import cp.out.instrument.percussion.determinate.Timpani;
+import cp.out.instrument.percussion.determinate.Vibraphone;
 import cp.out.instrument.percussion.determinate.Xylophone;
 import cp.out.instrument.plucked.Harp;
 import cp.out.instrument.strings.*;
@@ -17,18 +18,18 @@ public class ViennaOrchestra extends Orchestra {
 
     public ViennaOrchestra() {
         piccolo = new InstrumentMapping(new Piccolo(), 2, 1);
-        flute = new InstrumentMapping(new Flute(), 2, 2);
-        flute2 = new InstrumentMapping(new Flute(), 2, 39);
+        flute = new InstrumentMapping(new Flute1(), 2, 2);
+        flute2 = new InstrumentMapping(new Flute2(), 2, 39);
         altoFlute = new InstrumentMapping(new AltoFlute(), 2, 34);
-        oboe = new InstrumentMapping(new Oboe(), 2, 3);
-        oboe2 = new InstrumentMapping(new Oboe(), 2, 40);
+        oboe = new InstrumentMapping(new Oboe1(), 2, 3);
+        oboe2 = new InstrumentMapping(new Oboe2(), 2, 40);
         corAnglais = new InstrumentMapping(new CorAnglais(), 2, 4);
         clarinetEflat = new InstrumentMapping(new ClarinetEFlat(), 2, 5);
-        clarinet = new InstrumentMapping(new Clarinet(), 2, 6);
-        clarinet2 = new InstrumentMapping(new Clarinet(), 2, 41);
+        clarinet = new InstrumentMapping(new Clarinet1(), 2, 6);
+        clarinet2 = new InstrumentMapping(new Clarinet2(), 2, 41);
         bassClarinet = new InstrumentMapping(new BassClarinet(), 2, 33);
-        bassoon = new InstrumentMapping(new Bassoon(), 2, 7);
-        bassoon2 = new InstrumentMapping(new Bassoon(), 2, 42);
+        bassoon = new InstrumentMapping(new Bassoon1(), 2, 7);
+        bassoon2 = new InstrumentMapping(new Bassoon2(), 2, 42);
         contrabassoon = new InstrumentMapping(new ContraBassoon(), 2, 8);
         map.put(piccolo, new ArrayList<>());
         map.put(flute, new ArrayList<>());
@@ -45,12 +46,12 @@ public class ViennaOrchestra extends Orchestra {
         map.put(bassoon2, new ArrayList<>());
         map.put(contrabassoon, new ArrayList<>());
 
-        horn = new InstrumentMapping(new FrenchHorn(), 2, 9);
-        horn2 = new InstrumentMapping(new FrenchHorn(), 2, 10);
-        trumpet = new InstrumentMapping(new Trumpet(), 2, 12);
-        trumpet2 = new InstrumentMapping(new Trumpet(), 2, 13);
-        trombone = new InstrumentMapping(new Trombone(), 2, 14);
-        trombone2 = new InstrumentMapping(new Trombone(), 2, 44);
+        horn = new InstrumentMapping(new FrenchHorn1(), 2, 9);
+        horn2 = new InstrumentMapping(new FrenchHorn2(), 2, 10);
+        trumpet = new InstrumentMapping(new Trumpet1(), 2, 12);
+        trumpet2 = new InstrumentMapping(new Trumpet2(), 2, 13);
+        trombone = new InstrumentMapping(new Trombone1(), 2, 14);
+        trombone2 = new InstrumentMapping(new Trombone2(), 2, 44);
         bassTrombone = new InstrumentMapping(new BassTrombone(), 2, 15);
         tuba = new InstrumentMapping(new Tuba(), 2, 16);
         map.put(horn, new ArrayList<>());
@@ -67,12 +68,14 @@ public class ViennaOrchestra extends Orchestra {
         glockenspiel = new InstrumentMapping(new Glockenspiel(), 2, 22);
         celesta =  new InstrumentMapping(new Celesta(), 2, 24);
         xylophone =  new InstrumentMapping(new Xylophone(), 2, 23);
+        vibraphone =  new InstrumentMapping(new Vibraphone(), 2, 48);
         piano =  new InstrumentMapping(new Piano(), 2, 25);
         harp =  new InstrumentMapping(new Harp(), 2, 26);
 
         map.put(glockenspiel, new ArrayList<>());
         map.put(celesta, new ArrayList<>());
         map.put(xylophone, new ArrayList<>());
+        map.put(vibraphone, new ArrayList<>());
         map.put(piano, new ArrayList<>());
         map.put(harp, new ArrayList<>());
         map.put(timpani, new ArrayList<>());

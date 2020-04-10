@@ -4,6 +4,8 @@ import cp.DefaultConfig;
 import cp.VariationConfig;
 import cp.config.BeatGroupConfig;
 import cp.model.TimeLineKey;
+import cp.model.setclass.PcSet;
+import cp.model.setclass.TnTnIType;
 import cp.out.print.Keys;
 import cp.util.RandomUtil;
 import org.apache.commons.lang.ArrayUtils;
@@ -38,6 +40,8 @@ public class ScaleTest {
     private Scale scale;
 	@Autowired
 	private Keys keys;
+    @Autowired
+	private TnTnIType tnTnIType;
 	
 	@BeforeEach
 	public void setUp() {
@@ -190,6 +194,16 @@ public class ScaleTest {
         scale = Scale.MAJOR_SCALE;
         List<Integer> pitchClassesInKey = scale.getPitchClassesInKey(keys.A);
         pitchClassesInKey.forEach(integer -> System.out.println(integer));
+    }
+
+    @Test
+    public void getInversion(){
+        PcSet pcSet = new PcSet();
+        int[] tntnitype = tnTnIType.prime5[27].tntnitype;
+        Arrays.stream(tntnitype).forEach(value -> System.out.print(value + ","));
+        System.out.println();
+        int[] ints = pcSet.invertPcSet(tntnitype);
+        Arrays.stream(ints).forEach(value -> System.out.print(value+ ","));
     }
 
 }

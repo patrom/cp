@@ -17,12 +17,19 @@ public class BassMap extends CompositionMap{
 
     @PostConstruct
     public void init(){
-        melodicValues.add(singleRhythmGenerator.generateBalancedPattern(allRhythmCombinations.balancedPattern::pos8aN30,
-                 DurationConstants.EIGHT, "6-Z3"));
-        melodicValues.add(singleRhythmGenerator.generateBalancedPattern(allRhythmCombinations.balancedPattern::pos9N30,
-                DurationConstants.EIGHT, "6-Z3"));
-        melodicValues.add(singleRhythmGenerator.generateBalancedPattern(allRhythmCombinations.balancedPattern::pos8bN30,
-                DurationConstants.EIGHT, "6-Z3"));
+
+//        List<RhythmCombination> rhythmCombinations = new ArrayList<>();
+//        rhythmCombinations.add(allRhythmCombinations.threeNoteEven::pos123);
+//        addMelodicValue(0, rhythmCombinations, DurationConstants.WHOLE);
+//        addMelodicValue(1, rhythmCombinations, DurationConstants.HALF);
+
+//        melodicValues.add(singleRhythmGenerator.generateBalancedPattern(allRhythmCombinations.balancedPattern::pos8aN30,
+//                 DurationConstants.EIGHT, "6-Z3"));
+//        melodicValues.add(singleRhythmGenerator.generateBalancedPattern(allRhythmCombinations.balancedPattern::pos9N30,
+//                DurationConstants.EIGHT, "6-Z3"));
+//        melodicValues.add(singleRhythmGenerator.generateBalancedPattern(allRhythmCombinations.balancedPattern::pos8bN30,
+//                DurationConstants.EIGHT, "6-Z3"));
+
 //        List<RhythmCombination> rhythmCombinations4 = new ArrayList<>();
 //        RandomRhythmCombination randomRhythmCombination =
 //                new RandomRhythmCombination(DurationConstants.THREE_QUARTERS, DurationConstants.QUARTER, DurationConstants.QUARTER, DurationConstants.THREE_QUARTERS);

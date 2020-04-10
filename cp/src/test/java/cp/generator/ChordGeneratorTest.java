@@ -135,6 +135,38 @@ class ChordGeneratorTest {
         }
     }
 
+    @Test
+    void generatechordalSetClassIntervalVector() {
+        Set[] primeSet = type.prime5;
+        printCommonSets(primeSet);
+    }
+
+    private void printCommonSets(Set[] primeSet) {
+        for (int i = 0; i < primeSet.length; i++) {
+            int[] ivector = primeSet[i].ivector;
+            for (int j = 0; j < ivector.length; j++) {
+                int commonNotes = ivector[j];
+                if (commonNotes > 1){
+                    Set set = primeSet[i];
+                    int[] pcs = set.tntnitype;
+
+                    System.out.println(set.name + ": ");
+                    print(pcs);
+                    System.out.println("common: " + commonNotes);
+                    int tranposition = j + 1;
+                    System.out.print("plus: " + tranposition);
+                    int[] transposedPcs = transpose(pcs, tranposition);
+                    print(transposedPcs);
+
+                    int tranpositionDown = (12 - tranposition);
+                    System.out.print("min: " + tranpositionDown);
+                    int[] tranpositionDownPcs = transpose(pcs, tranpositionDown);
+                    print(tranpositionDownPcs);
+                }
+            }
+        }
+    }
+
     private void print(int[] invertedPcs) {
         System.out.print(Arrays.toString(invertedPcs));
         int sum = Arrays.stream(invertedPcs).sum() % 12;
@@ -150,6 +182,15 @@ class ChordGeneratorTest {
             invertedPcs[j] = inverted;
         }
         return invertedPcs;
+    }
+
+    private int[] transpose(int[] pcs, int tranposition) {
+        int [] transposed = new int[pcs.length];
+        for (int j = 0; j < pcs.length; j++) {
+            int pc = pcs[j];
+            transposed[j] = (pc + tranposition) % 12;;
+        }
+        return transposed;
     }
 
     @Test

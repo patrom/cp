@@ -26,7 +26,7 @@ public class CompositionMapConfig {
     @PostConstruct
     public void init() {
         compositionMap.put(0, melodyMap);
-        compositionMap.put(1, rhythmMap);
+        compositionMap.put(1, melodyMap);
         compositionMap.put(2, melodyMap);
         compositionMap.put(3, bassMap);
         compositionMap.put(4, melodyMap);

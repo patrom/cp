@@ -81,11 +81,49 @@ public class Orchestrator {
                     .stream()
                     .collect(Collectors.toList());
             for (List<Instrument> combinations : instrumentCombinations) {
-                List<Note> clonedNotes = cloneNotes(notes, totalLength);
                 for (Instrument instrument : combinations) {
+                    List<Note> clonedNotes = cloneNotes(notes, totalLength);
                     orchestra.updateInstrumentInRange(instrument, clonedNotes);
                 }
                 totalLength = totalLength + length;
+            }
+        }
+
+        orchestra.insertRests();
+        return orchestra;
+    }
+
+    public Orchestra orchestrateMelodyCloseCombinations(List<Note> notes, int length, List<Instrument> instrumentsQuality1, int instrumentSize1,
+                                                        List<Instrument> instrumentsQuality2, int instrumentSize2){
+        Orchestra orchestra = new ViennaOrchestra();
+        List<List<Instrument>> instrumentCombinations = new ArrayList<>();
+        int totalLength = 0;
+        for (int i = 1; i <= instrumentSize1; i++) {
+            List<List<Instrument>> instrumentCombinationsQuality1 = Generator.combination(instrumentsQuality1)
+                    .simple(i)
+                    .stream()
+                    .collect(Collectors.toList());
+            List<List<Instrument>> instrumentCombinationsQuality2 = new ArrayList<>();
+            for (int j = 1; j <= instrumentSize2; j++) {
+                instrumentCombinationsQuality2 = Generator.combination(instrumentsQuality2)
+                        .simple(j)
+                        .stream()
+                        .collect(Collectors.toList());
+            }
+            for (int j = 0; j < instrumentCombinationsQuality1.size(); j++) {
+                List<Instrument> instruments1 = instrumentCombinationsQuality1.get(j);
+                for (int k = 0; k < instrumentCombinationsQuality2.size(); k++) {
+                    List<Instrument> instruments2 = instrumentCombinationsQuality2.get(k);
+                    List<Instrument> instrumentsCombinations = new ArrayList<>();
+                    instrumentsCombinations.addAll(instruments1);
+                    instrumentsCombinations.addAll(instruments2);
+                    List<Instrument> distinctInstruments = instrumentsCombinations.stream().distinct().collect(Collectors.toList());
+                    for (Instrument instrument : distinctInstruments) {
+                        List<Note> clonedNotes = cloneNotes(notes, totalLength);
+                        orchestra.updateInstrumentInRange(instrument, clonedNotes);
+                    }
+                    totalLength = totalLength + length;
+                }
             }
         }
 

@@ -24,6 +24,7 @@ public class Instrument {
 	private InstrumentRegister instrumentRegister = new InstrumentRegister();
 	protected int order;
 	protected InstrumentGroup instrumentGroup;
+	protected Technical technical;
 
 	public Instrument() {
 	}
@@ -251,4 +252,11 @@ public class Instrument {
 		this.instrumentGroup = instrumentGroup;
 	}
 
+    public Technical getTechnical() {
+        return technical;
+    }
+
+    public void setTechnical(Technical technical) {
+        this.technical = technical;
+    }
 }

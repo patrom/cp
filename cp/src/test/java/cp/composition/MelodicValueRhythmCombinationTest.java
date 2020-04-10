@@ -32,13 +32,13 @@ class MelodicValueRhythmCombinationTest {
 
     @Test
     void getMelodyKcombination() {
-        List<Integer> pitchClasses = Scale.SET_3_5.getPitchClassesAsList();
+        List<Integer> pitchClasses = Scale.SET_4_8.getPitchClassesAsList();
         List<CpMelody> melodies = melodicValueRhythmCombination.getMelodyKcombination(pitchClasses, rhythmCombinations.threeNoteEven::pos234, DurationConstants.QUARTER);
         List<Note> notes = melodies.get(0).getNotes();
         notes.forEach(note -> System.out.println(note.toStringDebug()));
 
         System.out.println();
-        melodies = melodicValueRhythmCombination.getMelodyKcombination(pitchClasses, rhythmCombinations.twoNoteEven::pos12, DurationConstants.QUARTER);
+        melodies = melodicValueRhythmCombination.getMelodyKcombination(pitchClasses, rhythmCombinations.threeNoteEven::pos123, DurationConstants.QUARTER);
         for (CpMelody melody : melodies) {
             melody.getNotes().forEach(note -> System.out.println(note.toStringDebug()));
             System.out.println();

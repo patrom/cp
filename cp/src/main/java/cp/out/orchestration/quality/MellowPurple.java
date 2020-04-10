@@ -2,6 +2,7 @@ package cp.out.orchestration.quality;
 
 import cp.out.instrument.Instrument;
 import cp.out.instrument.brass.FrenchHorn;
+import cp.out.instrument.brass.FrenchHorn1;
 import cp.out.instrument.brass.Tuba;
 import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.percussion.determinate.Vibraphone;
@@ -22,7 +23,8 @@ public class MellowPurple extends OrchestralQuality{
 		quality = "mellowPurple";
 		type = "basic";
 		instruments = Stream.of(
-				new FrenchHorn(new InstrumentRegister(41, 55)),
+				new FrenchHorn1(new InstrumentRegister(41, 55)),
+                new Tuba(new InstrumentRegister(34, 54)),
 				new ViolinsI(new InstrumentRegister(55, 67)),
 				new ViolinsII(new InstrumentRegister(55, 67)),
 				new ViolinSolo(new InstrumentRegister(55, 67)),
@@ -34,8 +36,7 @@ public class MellowPurple extends OrchestralQuality{
 				new DoublebassSolo(new InstrumentRegister(24, 50)),
 				new Harp(new InstrumentRegister(23, 41)),
 				new Piano(new InstrumentRegister(28, 55)),
-				new Vibraphone(new InstrumentRegister(53, 72)),
-				new Tuba(new InstrumentRegister(34, 54))
+				new Vibraphone(new InstrumentRegister(53, 72))
 				).collect(toList());
 	}
 	

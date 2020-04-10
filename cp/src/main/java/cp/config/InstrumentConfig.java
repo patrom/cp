@@ -1,6 +1,7 @@
 package cp.config;
 
 import cp.out.instrument.Instrument;
+import cp.out.instrument.Technical;
 import cp.out.instrument.brass.*;
 import cp.out.instrument.keyboard.Celesta;
 import cp.out.instrument.keyboard.Piano;
@@ -321,10 +322,10 @@ public class InstrumentConfig {
         orchestra.add(new InstrumentMapping(new ContraBassoon(), 10, 10));
 
         orchestra.add(new InstrumentMapping(new FrenchHorn(), 1, 11));
-        orchestra.add(new InstrumentMapping(new Trumpet(), 2, 12));
-        orchestra.add(new InstrumentMapping(new TrumpetMuted(), 3, 13));//muted
-        orchestra.add(new InstrumentMapping(new Trombone(), 4, 14));//muted
-        orchestra.add(new InstrumentMapping(new TromboneMuted(), 5, 15));//muted
+        orchestra.add(new InstrumentMapping(new Trumpet1(), 2, 12));
+        orchestra.add(new InstrumentMapping(new Trumpet2(), 3, 13));//muted
+        orchestra.add(new InstrumentMapping(new Trombone1(), 4, 14));//muted
+        orchestra.add(new InstrumentMapping(new Trombone2(), 5, 15));//muted
         orchestra.add(new InstrumentMapping(new Tuba(), 6, 16));//muted
 
         int voice = orchestra.size() - 1;

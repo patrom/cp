@@ -3,6 +3,7 @@ package cp.out.instrument.brass;
 import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
+import cp.out.instrument.Technical;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.orchestration.InstrumentName;
 
@@ -12,6 +13,12 @@ public class Trumpet extends Instrument {
 		init();
 		setInstrumentRegister(instrumentRegister);
 	}
+
+    public Trumpet(InstrumentRegister instrumentRegister, Technical technical) {
+        init();
+        setInstrumentRegister(instrumentRegister);
+        super.technical = technical;
+    }
 
 	private void init() {
 		instrumentGroup = InstrumentGroup.BRASS;

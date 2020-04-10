@@ -1,10 +1,7 @@
 package cp.out.orchestration.quality;
 
 import cp.out.instrument.Instrument;
-import cp.out.instrument.brass.BassTrombone;
-import cp.out.instrument.brass.FrenchHorn;
-import cp.out.instrument.brass.Trombone;
-import cp.out.instrument.brass.Trumpet;
+import cp.out.instrument.brass.*;
 import cp.out.instrument.plucked.Harp;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.DoubleBass;
@@ -30,9 +27,9 @@ public class WarmBrown extends OrchestralQuality{
 		type = "basic";
 		instruments = Stream.of(
 				new AltoFlute(new InstrumentRegister(55, 71)),
-				new FrenchHorn(new InstrumentRegister(55, 68)),
-				new Trumpet(new InstrumentRegister(58, 64)),
-				new Trombone(new InstrumentRegister(48, 53)),
+				new FrenchHorn1(new InstrumentRegister(55, 68)),
+				new Trumpet1(new InstrumentRegister(58, 64)),
+				new Trombone1(new InstrumentRegister(48, 53)),
 				new BassTrombone(new InstrumentRegister(34, 51)),
 				new DoubleBass(new InstrumentRegister(39, 45)),
 				new DoublebassSolo(new InstrumentRegister(39, 45)),

@@ -8,6 +8,7 @@ import cp.composition.MelodicValueRhythmCombination;
 import cp.composition.MelodyMapComposition;
 import cp.config.TextureConfig;
 import cp.generator.MelodySelector;
+import cp.generator.PitchClassGenerator;
 import cp.generator.SingleMelodyGenerator;
 import cp.generator.SingleRhythmGenerator;
 import cp.model.harmony.DependantHarmony;
@@ -31,6 +32,8 @@ public abstract class CompositionMap {
     protected SingleMelodyGenerator singleMelodyGenerator;
     @Autowired
     protected SingleRhythmGenerator singleRhythmGenerator;
+    @Autowired
+    protected PitchClassGenerator pitchClassGenerator;
     @Autowired
     protected Keys keys;
     @Autowired

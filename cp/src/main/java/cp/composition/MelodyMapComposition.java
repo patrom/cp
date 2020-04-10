@@ -4,6 +4,7 @@ import cp.combination.RhythmCombination;
 import cp.combination.RhythmCombinations;
 import cp.combination.rhythm.DurationRhythmCombination;
 import cp.generator.ChordGenerator;
+import cp.generator.PitchClassGenerator;
 import cp.generator.SingleMelodyGenerator;
 import cp.generator.SingleRhythmGenerator;
 import cp.model.melody.CpMelody;
@@ -28,6 +29,8 @@ public class MelodyMapComposition {
     private SingleMelodyGenerator singleMelodyGenerator;
     @Autowired
     private SingleRhythmGenerator singleRhythmGenerator;
+    @Autowired
+    private PitchClassGenerator pitchClassGenerator;
     @Autowired
     private Keys keys;
     @Autowired
@@ -128,9 +131,9 @@ public class MelodyMapComposition {
     @PostConstruct
     public void initRhythm() {
 
-        compositionMap.put(0, getRest(DurationConstants.EIGHT, DurationConstants.QUARTER));
-        List<RhythmCombination> rhythmCombinations = new ArrayList<>();
-        rhythmCombinations.add(allRhythmCombinations.threeNoteUneven::pos123);
+//        compositionMap.put(0, getRest(DurationConstants.EIGHT, DurationConstants.QUARTER));
+//        List<RhythmCombination> rhythmCombinations = new ArrayList<>();
+//        rhythmCombinations.add(allRhythmCombinations.threeNoteUneven::pos123);
 //        rhythmCombinations.add(allRhythmCombinations.balancedPattern::pos5_0X000N30);
 //        rhythmCombinations.add(allRhythmCombinations.balancedPattern::pos5_00X00N30);
 //        compositionMap.put(0, singleMelodyGenerator.getMelodies(rhythmCombinations, DurationConstants.EIGHT, 30, 1));
@@ -138,7 +141,7 @@ public class MelodyMapComposition {
 //        compositionMap.put(1, singleMelodyGenerator.generateSingleNoteScale(Scale.MAJOR_SCALE, DurationConstants.QUARTER));
 //        compositionMap.put(2, singleMelodyGenerator.generateSingleNoteScale(Scale.MAJOR_SCALE, DurationConstants.EIGHT));
 
-        int[] steps = Scale.MAJOR_SCALE.getPitchClasses();
+//        int[] steps = Scale.MAJOR_SCALE.getPitchClasses();
 ////        int[] steps = {1,4,5};
 //        compositionMap.put(3, singleMelodyGenerator.generateTranspositionsPitchClassesForSteps(steps, rhythmCombinations,
 //                DurationConstants.QUARTER, 0,2,4,5,7));
@@ -155,11 +158,14 @@ public class MelodyMapComposition {
 //                DurationConstants.THREE_EIGHTS, 0, 4 ,7));
 
 //        compositionMap.put(2, singleMelodyGenerator.generateKpermutationOrderedNoRepetition(Scale.SET_6_30.getPitchClassesAsList(), "3-1"));
-        List<Integer> pitchClasses = singleMelodyGenerator.getPitchClasses("4-25");
-        compositionMap.put(2, singleMelodyGenerator.generateKpermutationOrderedNoRepetition(pitchClasses, "4-25"));
+//        List<Integer> pitchClasses = singleMelodyGenerator.getPitchClasses("4-25");
+//        compositionMap.put(2, singleMelodyGenerator.generateKpermutationOrderedNoRepetition(pitchClasses, "4-25"));
 //        compositionMap.put(3, singleMelodyGenerator.generateKpermutationOrderedNoRepetition(Scale.CHROMATIC_SCALE.getPitchClassesAsList(), "5-5"));
+        MelodicValueRhythmCombination melodicValue = (MelodicValueRhythmCombination) pitchClassGenerator.allPermutationsForSetClassInSuperSetClass("5-28", "5-28", 1);
 
-
+//        MelodicValue melodicValue = pitchClassGenerator.getSetClassesForForteNameInSuperSetClass("7-35", "3-4",1);
+        compositionMap.put(0, melodicValue);
+        compositionMap.put(1, melodicValue);
 
 //        DurationRhythmCombination durationRhythmCombination = new DurationRhythmCombination(DurationConstants.QUARTER,DurationConstants.THREE_EIGHTS,DurationConstants.EIGHT,DurationConstants.QUARTER, DurationConstants.THREE_EIGHTS,DurationConstants.EIGHT,DurationConstants.QUARTER );
 //        rhythmCombinations2.add(durationRhythmCombination);

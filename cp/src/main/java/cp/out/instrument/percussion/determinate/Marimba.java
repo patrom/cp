@@ -16,7 +16,7 @@ public class Marimba extends Instrument {
     }
 
     private void init() {
-        instrumentGroup = InstrumentGroup.PERCUSSION;
+        instrumentGroup = InstrumentGroup.MALLETS;
         order = 0;
         setLowest(36);
         setHighest(96);

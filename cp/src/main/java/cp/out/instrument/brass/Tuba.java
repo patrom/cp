@@ -3,6 +3,7 @@ package cp.out.instrument.brass;
 import cp.midi.GeneralMidi;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
+import cp.out.instrument.Technical;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.orchestration.InstrumentName;
 
@@ -29,6 +30,12 @@ public class Tuba extends Instrument {
 		setVirtualName("Tuba Bb");
 		setClef("F");
 	}
+
+    public Tuba(InstrumentRegister instrumentRegister, Technical technical) {
+        init();
+        setInstrumentRegister(instrumentRegister);
+        super.technical = technical;
+    }
 }
 
 

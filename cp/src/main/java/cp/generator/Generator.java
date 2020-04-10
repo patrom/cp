@@ -97,6 +97,11 @@ public abstract class Generator {
         return Arrays.stream(setClass).boxed().collect(Collectors.toList());
     }
 
+    public List<Integer> getInversionPitchClasses(String fortename){
+        int[] setClass = chordGenerator.generateInversionPitchclasses(fortename);
+        return Arrays.stream(setClass).boxed().collect(Collectors.toList());
+    }
+
     public int getPulse() {
         return pulse;
     }

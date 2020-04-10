@@ -40,8 +40,8 @@ public class BasicCombinations {
         List<OrchestraMapping> orchestralMappings = new ArrayList<>();
         orchestralMappings.add(new OrchestraMapping(2, new Piccolo(), brilliantWhite));
         orchestralMappings.add(new OrchestraMapping(2, new Clarinet(), brilliantWhite));
-        orchestralMappings.add(new OrchestraMapping(2, new Trumpet(), brilliantWhite));
-        orchestralMappings.add(new OrchestraMapping(2, new TrumpetMuted(), brilliantWhite));
+        orchestralMappings.add(new OrchestraMapping(2, new Trumpet1(), brilliantWhite));
+        orchestralMappings.add(new OrchestraMapping(2, new Trumpet2(), brilliantWhite));
         orchestralMappings.add(new OrchestraMapping(2, new Viola(), brilliantWhite));
         return orchestralMappings;
     }
@@ -71,8 +71,8 @@ public class BasicCombinations {
         orchestralMappings.add(new OrchestraMapping(2, new Piccolo(), brightYellow));
         orchestralMappings.add(new OrchestraMapping(2, new ClarinetEFlat(), brightYellow));
         orchestralMappings.add(new OrchestraMapping(2, new Viola(), brightYellow));
-        orchestralMappings.add(new OrchestraMapping(2, new TrumpetMuted(), brightYellow));
-        orchestralMappings.add(new OrchestraMapping(2, new TromboneMuted(), brightYellow));
+        orchestralMappings.add(new OrchestraMapping(2, new Trumpet2(), brightYellow));
+        orchestralMappings.add(new OrchestraMapping(2, new Trombone2(), brightYellow));
         return orchestralMappings;
     }
 
@@ -83,8 +83,8 @@ public class BasicCombinations {
         orchestralMappings.add(new OrchestraMapping(2, new ViolinsI(), brightYellow));
 
         orchestralMappings.add(new OrchestraMapping(2, new Viola(), brightYellow));
-        orchestralMappings.add(new OrchestraMapping(2, new TrumpetMuted(), brightYellow));
-        orchestralMappings.add(new OrchestraMapping(2, new TromboneMuted(), brightYellow));
+        orchestralMappings.add(new OrchestraMapping(2, new Trumpet2(), brightYellow));
+        orchestralMappings.add(new OrchestraMapping(2, new Trombone2(), brightYellow));
 
         orchestralMappings.add(new OrchestraMapping(2, new Celesta(), brightYellow));
         orchestralMappings.add(new OrchestraMapping(2, new Piano(), brightYellow));
@@ -173,12 +173,12 @@ public class BasicCombinations {
         orchestralMappings.add(new OrchestraMapping(2, new Trombone(), goldenOrange));
 
         orchestralMappings.add(new OrchestraMapping(2, new Trombone(), goldenOrange));
-        orchestralMappings.add(new OrchestraMapping(2, new TrumpetMuted(), goldenOrange));
+        orchestralMappings.add(new OrchestraMapping(2, new Trumpet2(), goldenOrange));
         orchestralMappings.add(new OrchestraMapping(2, new Oboe(), goldenOrange));
         orchestralMappings.add(new OrchestraMapping(2, new CorAnglais(), goldenOrange));
 
-        orchestralMappings.add(new OrchestraMapping(2, new TrumpetMuted(), goldenOrange));
-        orchestralMappings.add(new OrchestraMapping(2, new TromboneMuted(), goldenOrange));
+        orchestralMappings.add(new OrchestraMapping(2, new Trumpet2(), goldenOrange));
+        orchestralMappings.add(new OrchestraMapping(2, new Trombone2(), goldenOrange));
         orchestralMappings.add(new OrchestraMapping(2, new Trumpet(), goldenOrange));
         orchestralMappings.add(new OrchestraMapping(2, new Trombone(), goldenOrange));
         return orchestralMappings;

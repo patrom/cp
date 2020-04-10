@@ -1,14 +1,17 @@
 package cp.out.orchestration.quality;
 
 import cp.out.instrument.Instrument;
+import cp.out.instrument.Technical;
 import cp.out.instrument.brass.Trumpet;
-import cp.out.instrument.brass.TrumpetMuted;
+import cp.out.instrument.brass.Trumpet1;
+import cp.out.instrument.brass.Trumpet2;
 import cp.out.instrument.keyboard.Celesta;
 import cp.out.instrument.keyboard.Piano;
 import cp.out.instrument.percussion.determinate.Glockenspiel;
 import cp.out.instrument.register.InstrumentRegister;
 import cp.out.instrument.strings.*;
 import cp.out.instrument.woodwinds.Clarinet;
+import cp.out.instrument.woodwinds.Clarinet1;
 import cp.out.instrument.woodwinds.Piccolo;
 import cp.out.orchestration.InstrumentName;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +33,9 @@ public class BrilliantWhite extends OrchestralQuality{
 		type = "basic";
 		instruments = Stream.of(
 				new Piccolo(new InstrumentRegister(83, 108)),
-				new Clarinet(new InstrumentRegister(82, 92)),
-				new Trumpet(new InstrumentRegister(82, 92)),
-				new TrumpetMuted(new InstrumentRegister(78, 92)),
+				new Clarinet1(new InstrumentRegister(82, 92)),
+				new Trumpet1(new InstrumentRegister(82, 92)),
+				new Trumpet2(new InstrumentRegister(78, 92), Technical.CON_SORDINO),
 //				new Piano(new InstrumentRegister(96, 108)),
 				new ViolinsI(new InstrumentRegister(89, 100)),
 				new ViolinsII(new InstrumentRegister(89, 100)),

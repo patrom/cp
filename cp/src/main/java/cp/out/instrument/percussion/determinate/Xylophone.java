@@ -13,7 +13,7 @@ public class Xylophone  extends Instrument {
 	}
 
 	private void init() {
-		instrumentGroup = InstrumentGroup.PERCUSSION;
+		instrumentGroup = InstrumentGroup.MALLETS;
 		order = 0;
 		setLowest(65);
 		setHighest(108);

@@ -1,16 +1,15 @@
 package cp.out.orchestration;
 
 import cp.DefaultConfig;
-import cp.model.melody.CpMelody;
-import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
-import cp.model.note.NoteBuilder;
 import cp.model.rhythm.DurationConstants;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
 import cp.out.orchestration.orchestra.Orchestra;
+import cp.out.orchestration.quality.GoldenOrange;
 import cp.out.orchestration.quality.OrchestralQuality;
 import cp.out.orchestration.quality.PleasantGreen;
+import cp.out.orchestration.quality.RichBlue;
 import cp.out.play.InstrumentMapping;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,10 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static cp.model.note.NoteBuilder.note;
 
@@ -35,8 +31,12 @@ public class OrchestratorTest {
 	private Orchestrator ochestrator;
     @Autowired
 	private PleasantGreen pleasantGreen;
+    @Autowired
+    private GoldenOrange goldenOrange;
+    @Autowired
+    private RichBlue richBlue;
 
-	@Test
+    @Test
 	public void testOrchestrate() {
 //		List<MelodyBlock> melodyBlocks = new ArrayList<>();
 //		List<Note> notes = new ArrayList<>();
@@ -52,18 +52,18 @@ public class OrchestratorTest {
 	}
 
     @Test
-    public void testOrchestrateMeldoy() {
+    public void testOrchestrateMelody() {
 		List<Note> notes = new ArrayList<>();
 		notes.add(note().pos(0).pc(0).pitch(60).octave(5).len(DurationConstants.QUARTER).build());
 		notes.add(note().pos(DurationConstants.QUARTER).pc(2).pitch(62).octave(5).len(DurationConstants.QUARTER).build());
 		notes.add(note().pos(DurationConstants.HALF).pc(4).pitch(64).octave(5).len(DurationConstants.HALF).build());
 		notes.add(note().pos(DurationConstants.WHOLE).pc(4).pitch(64).octave(5).len(DurationConstants.HALF).build());
 
-        OrchestralQuality orchestralQuality = pleasantGreen;
+        OrchestralQuality orchestralQuality = goldenOrange;
 //        List<Instrument> instruments = orchestralQuality.getBasicInstruments();
 //        List<Instrument> instruments = orchestralQuality.getBasicInstrumentsByGroup(InstrumentGroup.WOODWINDS);
-        List<Instrument> instruments = orchestralQuality.getBasicInstrumentsByGroup(Arrays.asList(InstrumentGroup.WOODWINDS, InstrumentGroup.ORCHESTRAL_STRINGS));
-        Orchestra orchestra = ochestrator.orchestrateMelody(notes, DurationConstants.WHOLE * 2, instruments, instruments.size());
+        List<Instrument> instruments = orchestralQuality.getBasicInstrumentsByGroup(Arrays.asList(InstrumentGroup.BRASS));
+        Orchestra orchestra = ochestrator.orchestrateMelody(notes, DurationConstants.WHOLE * 2, instruments, 2);
         Map<InstrumentMapping, List<Note>> orchestraMap = orchestra.getOrchestra();
         for (Map.Entry<InstrumentMapping, List<Note>> entry : orchestraMap.entrySet()) {
             Instrument instrument = entry.getKey().getInstrument();
@@ -71,6 +71,32 @@ public class OrchestratorTest {
             entry.getValue().forEach(note -> System.out.println(note));
             System.out.println(
             );
+        }
+    }
+
+    @Test
+    public void testOrchestrateMeldoyCloseCombinations() {
+        List<Note> notes = new ArrayList<>();
+        notes.add(note().pos(0).pc(0).pitch(60).octave(5).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.QUARTER).pc(2).pitch(62).octave(5).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.HALF).pc(4).pitch(64).octave(5).len(DurationConstants.HALF).build());
+        notes.add(note().pos(DurationConstants.WHOLE).pc(4).pitch(64).octave(5).len(DurationConstants.HALF).build());
+
+        OrchestralQuality orchestralQuality = pleasantGreen;
+        OrchestralQuality orchestralQuality2 = richBlue;
+//        List<Instrument> instruments = orchestralQuality.getBasicInstruments();
+//        List<Instrument> instruments = orchestralQuality.getBasicInstrumentsByGroup(InstrumentGroup.WOODWINDS);
+        List<Instrument> instruments = orchestralQuality.getBasicInstrumentsByGroup(Arrays.asList(InstrumentGroup.ORCHESTRAL_STRINGS));
+        List<Instrument> instruments2 = orchestralQuality2.getBasicInstrumentsByGroup(Arrays.asList(InstrumentGroup.ORCHESTRAL_STRINGS));
+//        List<Instrument> instruments2 = Collections.singletonList(orchestralQuality.getBasicInstrument(InstrumentName.FLUTE.getName()));
+        Orchestra orchestra = ochestrator.orchestrateMelodyCloseCombinations(notes, DurationConstants.WHOLE * 2,
+                instruments, 2, instruments2, 2);
+        Map<InstrumentMapping, List<Note>> orchestraMap = orchestra.getOrchestra();
+        for (Map.Entry<InstrumentMapping, List<Note>> entry : orchestraMap.entrySet()) {
+            Instrument instrument = entry.getKey().getInstrument();
+            System.out.println(instrument.getInstrumentName());
+            entry.getValue().forEach(note -> System.out.println(note));
+            System.out.println();
         }
     }
 

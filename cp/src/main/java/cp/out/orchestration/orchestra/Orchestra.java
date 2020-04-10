@@ -52,6 +52,7 @@ public class Orchestra {
 	protected InstrumentMapping glockenspiel;
 	protected InstrumentMapping celesta;
 	protected InstrumentMapping xylophone;
+	protected InstrumentMapping vibraphone;
 	protected InstrumentMapping harp;
 	protected InstrumentMapping piano;
 	
@@ -517,8 +518,10 @@ public class Orchestra {
     public void updateInstrumentInRange(Instrument instrument, List<Note> notes) {
         Optional<InstrumentMapping> optionalInstrument = map.keySet().stream().filter(i -> i.getInstrument().getInstrumentName().equals(instrument.getInstrumentName())).findFirst();
         if (optionalInstrument.isPresent()) {
+            InstrumentMapping instrumentMapping = optionalInstrument.get();
+            instrumentMapping.setInstrument(instrument);
             instrument.updateNotesInRange(notes);
-            map.compute(optionalInstrument.get(), (k, v) -> {
+            map.compute(instrumentMapping, (k, v) -> {
                 if (v == null) {
                     return new ArrayList<>(notes);
                 } else {

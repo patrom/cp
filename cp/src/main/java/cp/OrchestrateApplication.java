@@ -3,22 +3,18 @@ package cp;
 import cp.composition.MelodyMapComposition;
 import cp.config.BeatGroupConfig;
 import cp.config.InstrumentConfig;
-import cp.midi.MidiDevicePlayer;
 import cp.midi.MidiDevicesUtil;
 import cp.midi.MidiParser;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
-import cp.musicxml.XMLParser;
-import cp.musicxml.parsed.ComplexElement;
-import cp.musicxml.parsed.ElementWrapper;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.InstrumentGroup;
+import cp.out.orchestration.InstrumentName;
 import cp.out.orchestration.Orchestrator;
 import cp.out.orchestration.orchestra.ClassicalOrchestra;
 import cp.out.orchestration.orchestra.Orchestra;
 import cp.out.orchestration.quality.*;
 import cp.out.print.MusicXMLWriter;
-import cp.out.print.MusicXMLWriterDorico;
 import cp.out.print.ScoreUtilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,14 +26,12 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
-import javax.sound.midi.Sequence;
 import javax.swing.*;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import static cp.model.note.NoteBuilder.note;
 
@@ -128,14 +122,21 @@ public class OrchestrateApplication extends JFrame implements CommandLineRunner 
         notes.add(note().pos(0).pc(0).pitch(60).octave(5).len(DurationConstants.QUARTER).build());
         notes.add(note().pos(DurationConstants.QUARTER).pc(2).pitch(62).octave(5).len(DurationConstants.QUARTER).build());
         notes.add(note().pos(DurationConstants.HALF).pc(4).pitch(64).octave(5).len(DurationConstants.HALF).build());
-        notes.add(note().pos(DurationConstants.WHOLE).pc(4).pitch(64).octave(5).len(DurationConstants.HALF).build());
+        notes.add(note().pos(DurationConstants.WHOLE).pc(7).pitch(55).octave(4).len(DurationConstants.HALF).build());
 //        File dir = resource.getFile();
-        OrchestralQuality orchestralQuality = pleasantGreen;
+        OrchestralQuality orchestralQuality = richBlue;
+        OrchestralQuality orchestralQuality2 = richBlue;
 //        List<Instrument> instruments = orchestralQuality.getBasicInstruments();
 //        List<Instrument> instruments = orchestralQuality.getBasicInstrumentsByGroup(InstrumentGroup.WOODWINDS);
-        List<Instrument> instruments = orchestralQuality.getBasicInstrumentsByGroup(Arrays.asList(InstrumentGroup.WOODWINDS, InstrumentGroup.ORCHESTRAL_STRINGS));
-            Orchestra orchestra = orchestrator.orchestrateMelody(notes, DurationConstants.WHOLE * 2, instruments, instruments.size());
+        List<Instrument> instruments = orchestralQuality.getBasicInstrumentsByGroup(Arrays.asList(InstrumentGroup.ORCHESTRAL_STRINGS,
+                InstrumentGroup.WOODWINDS, InstrumentGroup.BRASS, InstrumentGroup.MALLETS, InstrumentGroup.PLUCKED, InstrumentGroup.PERCUSSION));
+            Orchestra orchestra = orchestrator.orchestrateMelody(notes, DurationConstants.WHOLE * 2, instruments, 5);
 
+
+//        List<Instrument> instruments = orchestralQuality.getBasicInstrumentsByGroup(Arrays.asList(InstrumentGroup.WOODWINDS, InstrumentGroup.ORCHESTRAL_STRINGS));
+//        List<Instrument> instruments2 = orchestralQuality2.getBasicInstrumentsByGroup(Arrays.asList(InstrumentGroup.WOODWINDS, InstrumentGroup.ORCHESTRAL_STRINGS, InstrumentGroup.MALLETS));
+//        Orchestra orchestra = orchestrator.orchestrateMelodyCloseCombinations(notes, DurationConstants.WHOLE * 2,
+//                instruments, 2, instruments2, 2);
 //            String id = removeExtension(xmlFile.getName()) + "_orchestrated";
             //XML
             Resource resourceOrch = new FileSystemResource("");
