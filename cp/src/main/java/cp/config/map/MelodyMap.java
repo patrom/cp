@@ -72,15 +72,15 @@ public class MelodyMap extends CompositionMap{
 
     @PostConstruct
     public void initRhythm() {
-        List<RhythmCombination> rhythmCombinations = new ArrayList<>();
-//        rhythmCombinations.add(allRhythmCombinations.threeNoteEven::pos123);
-
-        CompositeRhythmCombination compositeRhythmCombination = new CompositeRhythmCombination();
-        compositeRhythmCombination.addRhythmCombination(allRhythmCombinations.threeNoteEven::pos134);
-        compositeRhythmCombination.addRhythmCombination(allRhythmCombinations.fourNoteEven::pos1234);
-        rhythmCombinations.add(compositeRhythmCombination);
-        addMelodicValue(0, rhythmCombinations, DurationConstants.WHOLE);
-        addMelodicValue(1, rhythmCombinations, DurationConstants.WHOLE);
+//        List<RhythmCombination> rhythmCombinations = new ArrayList<>();
+////        rhythmCombinations.add(allRhythmCombinations.threeNoteEven::pos123);
+//
+//        CompositeRhythmCombination compositeRhythmCombination = new CompositeRhythmCombination();
+//        compositeRhythmCombination.addRhythmCombination(allRhythmCombinations.threeNoteEven::pos134);
+//        compositeRhythmCombination.addRhythmCombination(allRhythmCombinations.fourNoteEven::pos1234);
+//        rhythmCombinations.add(compositeRhythmCombination);
+//        addMelodicValue(0, rhythmCombinations, DurationConstants.WHOLE);
+        addMelodicValue(0, 5, DurationConstants.EIGHT * 5);
 //        addMelodicValue(1, rhythmCombinations, DurationConstants.HALF);
 
 //        melodicValues.add(singleRhythmGenerator.generateOstinato(rhythmCombinations, DurationConstants.THREE_EIGHTS, ContourType.ASC, 1,7));

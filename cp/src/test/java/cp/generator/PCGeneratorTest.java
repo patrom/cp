@@ -25,26 +25,32 @@ class PCGeneratorTest {
     private PCGenerator pcGenerator;
 
     @Test
-    void getPitchClasses() {
+    public void getPitchClasses() {
         List<Integer> pitchClasses = pcGenerator.getPitchClasses("3-2", 2);
         assertIterableEquals(Stream.of(2,3,5).collect(Collectors.toList()), pitchClasses);
     }
 
     @Test
-    void getInversionPitchClasses() {
+    public void getInversionPitchClasses() {
         List<Integer> pitchClasses = pcGenerator.getInversionPitchClasses("3-2", 2);
         assertIterableEquals(Stream.of(5,4,2).collect(Collectors.toList()), pitchClasses);
     }
 
     @Test
-    void getShuffledPitchClasses() {
+    public void getShuffledPitchClasses() {
         List<Integer> pitchClasses = pcGenerator.getShuffledPitchClasses("3-2", 2);
         pitchClasses.forEach(integer -> System.out.print(integer + ", "));
     }
 
     @Test
-    void getRepetitionPitchClasses() {
+    public void getRepetitionPitchClasses() {
         List<Integer> pitchClasses = pcGenerator.getRandomRepetitionPitchClasses("3-2", 2, 2);
+        pitchClasses.forEach(integer -> System.out.print(integer + ", "));
+    }
+
+    @Test
+    public void getOrderedRepetitionPitchClasses() {
+        List<Integer> pitchClasses = pcGenerator.getOrderedRepetitionPitchClasses("4-2", 0, 2);
         pitchClasses.forEach(integer -> System.out.print(integer + ", "));
     }
 }

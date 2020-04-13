@@ -194,7 +194,7 @@ public abstract class Composition {
 	@PostConstruct
 	public void init(){
 		composeInKey(keys.C);
-		inTempo(109);
+		inTempo(80);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
 		meterObjective.setComposition(this);

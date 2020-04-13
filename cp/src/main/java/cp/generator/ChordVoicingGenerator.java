@@ -107,4 +107,76 @@ public class ChordVoicingGenerator {
         return getNotes(pitchBass, forteName, intervals);
     }
 
+    public List<Note> generateMaxSpreadVoicingsLowerThanOctave2(String forteName, int pitchBass){
+        int[] intervalVector = chordGenerator.getIntervalVector(forteName);
+        Collection<Integer> intervalsVector = new ArrayList<>();
+        int interval = intervalVector[0];
+        if(interval != 0){
+            if (interval == 1) {
+                intervalsVector.add(11);
+            } else{
+                intervalsVector.add(11);
+                intervalsVector.add(1);
+            }
+        }
+
+        interval = intervalVector[1];
+        if(interval != 0){
+            if (interval == 1) {
+                intervalsVector.add(10);
+            } else{
+                intervalsVector.add(10);
+                intervalsVector.add(2);
+            }
+        }
+
+        interval = intervalVector[2];
+        if(interval != 0){
+            if (interval == 1) {
+                intervalsVector.add(9);
+            } else{
+                intervalsVector.add(9);
+                intervalsVector.add(3);
+            }
+        }
+
+        interval = intervalVector[3];
+        if(interval != 0){
+            if(interval != 0){
+                if (interval == 1) {
+                    intervalsVector.add(8);
+                } else{
+                    intervalsVector.add(8);
+                    intervalsVector.add(4);
+                }
+            }
+        }
+
+        interval = intervalVector[4];
+        if(interval != 0){
+            if(interval != 0){
+                if (interval == 1) {
+                    intervalsVector.add(7);
+                } else{
+                    intervalsVector.add(7);
+                    intervalsVector.add(5);
+                }
+            }
+        }
+
+        interval = intervalVector[5];
+        if(interval != 0){
+            for (int i = 0; i < interval; i++) {
+                intervalsVector.add(6);
+            }
+        }
+
+        List<List<Integer>> intervals = Generator.combination(intervalsVector)
+                .simple(Integer.parseInt(forteName.substring(0,1)) -1)
+                .stream()
+                .map(combination -> Generator.permutation(combination)
+                        .simple().stream().collect(Collectors.toList())).flatMap(Collection::stream).collect(Collectors.toList());
+        return getNotes(pitchBass, forteName, intervals);
+    }
+
 }

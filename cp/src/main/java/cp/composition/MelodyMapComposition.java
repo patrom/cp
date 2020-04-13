@@ -165,7 +165,7 @@ public class MelodyMapComposition {
 
 //        MelodicValue melodicValue = pitchClassGenerator.getSetClassesForForteNameInSuperSetClass("7-35", "3-4",1);
         compositionMap.put(0, melodicValue);
-        compositionMap.put(1, melodicValue);
+//        compositionMap.put(1, melodicValue);
 
 //        DurationRhythmCombination durationRhythmCombination = new DurationRhythmCombination(DurationConstants.QUARTER,DurationConstants.THREE_EIGHTS,DurationConstants.EIGHT,DurationConstants.QUARTER, DurationConstants.THREE_EIGHTS,DurationConstants.EIGHT,DurationConstants.QUARTER );
 //        rhythmCombinations2.add(durationRhythmCombination);

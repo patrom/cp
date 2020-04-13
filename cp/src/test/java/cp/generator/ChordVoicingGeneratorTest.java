@@ -58,7 +58,7 @@ class ChordVoicingGeneratorTest {
 
     @Test
     public void generateMaxSpreadVoicingsLowerThanOctave() throws IOException, XMLStreamException, InvalidMidiDataException{
-        Set[] prime = type.prime4;
+        Set[] prime = type.prime5;
         for (Set set : prime) {
             System.out.println(set.name);
             List<Note> notes = chordVoicingGenerator.generateMaxSpreadVoicingsLowerThanOctave(set.name, 48);
@@ -69,6 +69,22 @@ class ChordVoicingGeneratorTest {
             Sequence sequence = midiDevicesUtil.createSequence(orchestra.getOrchestra(), 60);
             Resource resource = new FileSystemResource("");
             midiDevicesUtil.write(sequence, resource.getFile().getPath()+ "src/main/resources/orch/" + set.name + ".mid");
+        }
+    }
+
+    @Test
+    public void generateMaxSpreadVoicingsLowerThanOctave2() throws IOException, XMLStreamException, InvalidMidiDataException{
+        Set[] prime = type.prime3;
+        for (Set set : prime) {
+            System.out.println(set.name);
+            List<Note> notes = chordVoicingGenerator.generateMaxSpreadVoicingsLowerThanOctave2(set.name, 48);
+            notes.forEach(note -> System.out.println(note.toStringDebug()));
+
+            Orchestra orchestra = new ViennaOrchestra();
+            orchestra.setPiano(notes);
+            Sequence sequence = midiDevicesUtil.createSequence(orchestra.getOrchestra(), 60);
+            Resource resource = new FileSystemResource("");
+            midiDevicesUtil.write(sequence, resource.getFile().getPath()+ "src/main/resources/orch/m" + set.name + ".mid");
         }
     }
 

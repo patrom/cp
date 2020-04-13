@@ -60,4 +60,32 @@ public class PCGenerator {
         }
         return pitchClasses;
     }
+
+    public List<Integer> getOrderedRepetitionPitchClasses(String forteName, int transpose, int repetitionFactor) {
+        List<Integer> pitchClasses = getPitchClasses(forteName, transpose);
+        int size = pitchClasses.size() - 1;
+        for (int i = 0; i < repetitionFactor; i++) {
+            List<Integer> pitchClassesWithoutLast = pitchClasses.subList(0, size);
+            Integer pitchClass = RandomUtil.getRandomFromList(pitchClassesWithoutLast);
+            int index = pitchClassesWithoutLast.indexOf(pitchClass);
+            int randomInt = RandomUtil.randomInt(index + 1 , pitchClasses. size());
+            pitchClasses.add(randomInt, pitchClass);
+            size = size + 1;
+        }
+        return pitchClasses;
+    }
+
+    public List<Integer> getOrderedRepetitionInversionPitchClasses(String forteName, int transpose, int repetitionFactor) {
+        List<Integer> pitchClasses = getInversionPitchClasses(forteName, transpose);
+        int size = pitchClasses.size() - 1;
+        for (int i = 0; i < repetitionFactor; i++) {
+            List<Integer> pitchClassesWithoutLast = pitchClasses.subList(0, size);
+            Integer pitchClass = RandomUtil.getRandomFromList(pitchClassesWithoutLast);
+            int index = pitchClassesWithoutLast.indexOf(pitchClass);
+            int randomInt = RandomUtil.randomInt(index + 1 , pitchClasses. size());
+            pitchClasses.add(randomInt, pitchClass);
+            size = size + 1;
+        }
+        return pitchClasses;
+    }
 }

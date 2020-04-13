@@ -2,10 +2,7 @@ package cp.config.map;
 
 import cp.combination.RhythmCombination;
 import cp.combination.RhythmCombinations;
-import cp.composition.ContourType;
-import cp.composition.MelodicValue;
-import cp.composition.MelodicValueRhythmCombination;
-import cp.composition.MelodyMapComposition;
+import cp.composition.*;
 import cp.config.TextureConfig;
 import cp.generator.MelodySelector;
 import cp.generator.PitchClassGenerator;
@@ -38,6 +35,8 @@ public abstract class CompositionMap {
     protected Keys keys;
     @Autowired
     protected MelodyMapComposition melodyMapComposition;
+    @Autowired
+    protected RhythmMapComposition rhythmMapComposition;
     @Autowired
     protected TextureConfig textureConfig;
     @Autowired
@@ -88,6 +87,14 @@ public abstract class CompositionMap {
             }
         }
         return cpMelody;
+    }
+
+    public void addMelodicValue(int melodyKey, int rhythmKey, int duration){
+        MelodicValueRhythmCombination melodicValue = (MelodicValueRhythmCombination) melodyMapComposition.getCompositionMap(melodyKey);
+        melodicValue.setRhythmCombinations(rhythmMapComposition.getrhythmMap(rhythmKey));
+        melodicValue.setDuration(duration);
+        melodicValue.setPulse(singleMelodyGenerator.getPulse());//balanced patterns
+        melodicValues.add(melodicValue);
     }
 
     public void addMelodicValue(int keyMap, List<RhythmCombination> rhythmCombinations, int duration){
