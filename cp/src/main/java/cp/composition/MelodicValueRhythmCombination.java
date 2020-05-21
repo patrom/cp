@@ -20,6 +20,7 @@ public class MelodicValueRhythmCombination implements MelodicValue{
     private ContourType contourType;
     private int duration;
     private int pulse;
+    private int melodicNumber;
 
     public MelodicValueRhythmCombination() {
     }
@@ -118,6 +119,9 @@ public class MelodicValueRhythmCombination implements MelodicValue{
             for (List<Integer> subset : subsets) {
                 notes = rhythmCombination.getNotes(duration, pulse);
                 notesNoRest = notes.stream().filter(note -> !note.isRest()).collect(toList());
+                if(notesNoRest.size() != subset.size() ){
+                    System.out.println();
+                }
                 CpMelody melody = getMelodyForPitchClasses(notes, notesNoRest, subset);
                 melodies.add(melody);
             }
@@ -168,6 +172,16 @@ public class MelodicValueRhythmCombination implements MelodicValue{
 
     public void setPulse(int pulse) {
         this.pulse = pulse;
+    }
+
+    @Override
+    public int getMelodicNumber() {
+        return melodicNumber;
+    }
+
+    @Override
+    public void setMelodicNumber(int melodicNumber) {
+        this.melodicNumber = melodicNumber;
     }
 }
 

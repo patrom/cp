@@ -40,6 +40,7 @@ public class CpMelody implements Comparable<CpMelody> {
 	private int notesSize;
 	private MutationType mutationType = MutationType.ALL;
 	private int length;
+	private int melodyNumber;
 	
 	public CpMelody(List<Note> notes, int voice, int start, int end) {
 		this.voice = voice;
@@ -91,6 +92,7 @@ public class CpMelody implements Comparable<CpMelody> {
 		this.notesSize = anotherMelody.getNotesSize();
 		this.mutationType = anotherMelody.getMutationType();
         this.length = anotherMelody.getLength();
+        this.melodyNumber = anotherMelody.getMelodyNumber();
 	}
 
     public CpMelody clone() {
@@ -777,5 +779,13 @@ public class CpMelody implements Comparable<CpMelody> {
             nextNote.setPitch(note.getPitch() + interval);
             nextNote.setOctave(nextNote.getPitch()/12);
         }
+    }
+
+    public int getMelodyNumber() {
+        return melodyNumber;
+    }
+
+    public void setMelodyNumber(int melodyNumber) {
+        this.melodyNumber = melodyNumber;
     }
 }

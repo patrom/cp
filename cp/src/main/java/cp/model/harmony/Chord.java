@@ -419,6 +419,7 @@ public class Chord {
 		builder.append(getbassNote());
         builder.append(", root: ");
         builder.append(getRoot());
+        builder.append(", pcs: " + pitchClassMultiSet.elementSet());
 		return builder.toString();
 	}
 
@@ -436,5 +437,18 @@ public class Chord {
 
     public boolean contains(int pitchClass) {
 	   return  pitchClassMultiSet.contains(pitchClass);
+    }
+
+    public boolean containsTriad(){
+        String forteName = getForteName();
+        return forteName.equals("4-14")
+                || forteName.equals("4-17")
+                || forteName.equals("4-18")
+                || forteName.equals("4-19")
+                || forteName.equals("4-20")
+                || forteName.equals("4-22")
+                || forteName.equals("4-26")
+                || forteName.equals("4-27")
+                || forteName.equals("4-Z29");
     }
 }

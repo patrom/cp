@@ -18,4 +18,8 @@ public interface MelodicValue {
     void setContourType(ContourType contourType);
 
     MelodicValue clone();
+
+    int getMelodicNumber();
+
+    void setMelodicNumber(int melodicNumber);
 }

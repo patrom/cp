@@ -463,4 +463,8 @@ public class MelodyBlock {
 		this.melodyBlocks = melodyBlocks;
 	}
 
+	public List<Integer> getMelodicNumbers(){
+        return melodyBlocks.stream().map(melody -> melody.getMelodyNumber()).collect(toList());
+    }
+
 }

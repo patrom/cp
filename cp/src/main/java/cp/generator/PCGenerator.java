@@ -17,16 +17,12 @@ public class PCGenerator {
 
     public List<Integer> getPitchClasses(String fortename, int transpose){
         int[] setClass = chordGenerator.generatePitchClasses(fortename);
-        return Arrays.stream(setClass).boxed().map(integer -> {
-            return (integer + transpose) % 12;
-        }).collect(Collectors.toList());
+        return Arrays.stream(setClass).map(integer -> (integer + transpose) % 12).boxed().collect(Collectors.toList());
     }
 
     public List<Integer> getInversionPitchClasses(String fortename, int transpose){
         int[] setClass = chordGenerator.generateInversionPitchclasses(fortename);
-        return Arrays.stream(setClass).boxed().map(integer -> {
-            return (integer + transpose) % 12;
-        }).collect(Collectors.toList());
+        return Arrays.stream(setClass).map(integer -> (integer + transpose) % 12).boxed().collect(Collectors.toList());
     }
 
     public List<Integer> getShuffledPitchClasses(String forteName, int transpose) {
@@ -41,7 +37,7 @@ public class PCGenerator {
         return pitchClasses;
     }
 
-    public List<Integer> getRandomRepetitionPitchClasses(String forteName, int transpose, int repetitionFactor) {
+    public List<Integer> getRandomRepetitionPitchClasses(String forteName, int repetitionFactor, int transpose) {
         List<Integer> pitchClasses = getPitchClasses(forteName, transpose);
         for (int i = 0; i < repetitionFactor; i++) {
             Integer pitchClass = RandomUtil.getRandomFromList(pitchClasses);
@@ -51,7 +47,7 @@ public class PCGenerator {
         return pitchClasses;
     }
 
-    public List<Integer> getRandomRepetitionInversionPitchClasses(String forteName, int transpose, int repetitionFactor) {
+    public List<Integer> getRandomRepetitionInversionPitchClasses(String forteName, int repetitionFactor, int transpose) {
         List<Integer> pitchClasses = getInversionPitchClasses(forteName, transpose);
         for (int i = 0; i < repetitionFactor; i++) {
             Integer pitchClass = RandomUtil.getRandomFromList(pitchClasses);
@@ -61,7 +57,7 @@ public class PCGenerator {
         return pitchClasses;
     }
 
-    public List<Integer> getOrderedRepetitionPitchClasses(String forteName, int transpose, int repetitionFactor) {
+    public List<Integer> getOrderedRepetitionPitchClasses(String forteName, int repetitionFactor, int transpose) {
         List<Integer> pitchClasses = getPitchClasses(forteName, transpose);
         int size = pitchClasses.size() - 1;
         for (int i = 0; i < repetitionFactor; i++) {
@@ -75,7 +71,7 @@ public class PCGenerator {
         return pitchClasses;
     }
 
-    public List<Integer> getOrderedRepetitionInversionPitchClasses(String forteName, int transpose, int repetitionFactor) {
+    public List<Integer> getOrderedRepetitionInversionPitchClasses(String forteName, int repetitionFactor, int transpose) {
         List<Integer> pitchClasses = getInversionPitchClasses(forteName, transpose);
         int size = pitchClasses.size() - 1;
         for (int i = 0; i < repetitionFactor; i++) {

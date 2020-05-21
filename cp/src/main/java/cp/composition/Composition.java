@@ -194,11 +194,11 @@ public abstract class Composition {
 	@PostConstruct
 	public void init(){
 		composeInKey(keys.C);
-		inTempo(80);
+		inTempo(55);
 		musicProperties.setNumerator(numerator);
 		musicProperties.setDenominator(denominator);
 		meterObjective.setComposition(this);
-		
+
 //		instruments = Choral.getSATB();
 //		instruments = ensemble.getFluteClarinetBassoonGreen();
 //		instruments = ensemble.getStrings(mellowPurple);
@@ -390,7 +390,8 @@ public abstract class Composition {
 //		harmonicObjective.setDissonance(tonalDissonance::getDissonance);
 //		harmonicObjective.setDissonance(symmetryDissonance::getDissonance);
 //		harmonicObjective.setDissonance(additiveDissonance::getDissonance);
-		harmonicObjective.setDissonance(tonalDissonance::getDissonance);
+//		harmonicObjective.setDissonance(tonalDissonance::getDissonance);
+		harmonicObjective.setDissonance(tonalSetClassDissonance::getDissonance);
 		harmonicResolutionObjective.setDissonantResolution(dissonantResolutionImpl::isDissonant);
 
 	}

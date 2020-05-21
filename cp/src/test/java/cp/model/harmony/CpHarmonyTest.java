@@ -140,6 +140,18 @@ public class CpHarmonyTest {
 		assertTrue(contains2NoteAnchor);
 	}
 
+    @Test
+    public void containsb9() {
+        List<Note> notes = new ArrayList<>();
+        notes.add(note().pos(0).pc(1).pitch(73).octave(5).build());
+        notes.add(note().pos(0).pc(0).pitch(60).octave(4).build());
+        notes.add(note().pos(0).pc(4).pitch(64).octave(5).build());
+        notes.add(note().pos(0).pc(7).pitch(67).octave(5).build());
+        cpHarmony = new CpHarmony(notes, 0);
+        boolean contains2NoteAnchor = this.cpHarmony.containsMinorSecondOrb9();
+        assertTrue(contains2NoteAnchor);
+    }
+
 	@Test
 	public void containsNoMinorSecond() {
 	    List<Integer> pitches = Stream.of(60,64,66).collect(toList());

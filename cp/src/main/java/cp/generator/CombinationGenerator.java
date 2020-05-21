@@ -13,21 +13,17 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-public class PitchClassGenerator extends cp.generator.Generator {
+public class CombinationGenerator extends cp.generator.Generator {
 
     /**
      * Random pitchclasses voor setclass
      *
      * vb. alle pitchclasses voor setclass 3-5
      */
-    public MelodicValue getRandomPitchClassesForForteName(String forteName, Integer transpose) {
-        List<Integer> pitchClasses = getPitchClasses(forteName);
-        List<Integer> transposedSet = pitchClasses.stream().map(integer -> {
-            return (integer + transpose) % 12;
-        }).collect(Collectors.toList());
-        Collections.shuffle(transposedSet);
+    public MelodicValue getShuffledPitchClasses(List<Integer> pitchClasses) {
+        Collections.shuffle(pitchClasses);
         MelodicValueRhythmCombination melodicValue = new MelodicValueRhythmCombination();
-        melodicValue.setPermutationsPitchClasses(Collections.singletonList(transposedSet));
+        melodicValue.setPermutationsPitchClasses(Collections.singletonList(pitchClasses));
         return melodicValue;
     }
 
@@ -36,9 +32,8 @@ public class PitchClassGenerator extends cp.generator.Generator {
      *
      * vb. alle setclasses 3-5 in setclass 6-7
      */
-    public MelodicValue getSetClassesForForteNameInSuperSetClass(String forteNameSuperSetClass, String forteName, Integer transpose){
-        List<Integer> pitchClasses = getPitchClasses(forteNameSuperSetClass);
-        List<List<Integer>> subsets = Generator.combination(pitchClasses)
+    public MelodicValue getSetClassesForForteNameInSuperSetClass(List<Integer> superSetClassPitchClasses, String forteName){
+        List<List<Integer>> subsets = Generator.combination(superSetClassPitchClasses)
                 .simple(Integer.parseInt(forteName.substring(0,1)))
                 .stream()
                 .collect(Collectors.toList());
@@ -46,10 +41,7 @@ public class PitchClassGenerator extends cp.generator.Generator {
         for (List<Integer> subset : subsets) {
             Chord chord = new Chord(subset, 0);
             if(chord.getForteName().equals(forteName)){
-                List<Integer> transposedSubset = subset.stream().map(integer -> {
-                    return (integer + transpose) % 12;
-                }).collect(Collectors.toList());
-                subsetsForteName.add(transposedSubset);
+                subsetsForteName.add(subset);
             }
         }
 
@@ -133,9 +125,8 @@ public class PitchClassGenerator extends cp.generator.Generator {
      *
      * @param forteName forteName
      */
-    public MelodicValue allPermutationsForSetClassInSuperSetClass(String forteNameSuperSetClass, String forteName, Integer transpose){
-        List<Integer> pitchClasses = getInversionPitchClasses(forteNameSuperSetClass);
-        List<List<Integer>> subsets = Generator.combination(pitchClasses)
+    public MelodicValue allPermutationsForSetClassInSuperSetClass(List<Integer> superSetPitchClasses, String forteName){
+        List<List<Integer>> subsets = Generator.combination(superSetPitchClasses)
                 .simple(Integer.parseInt(forteName.substring(0,1)))
                 .stream()
                 .map(combination -> Generator.permutation(combination)
@@ -144,10 +135,7 @@ public class PitchClassGenerator extends cp.generator.Generator {
         for (List<Integer> subset : subsets) {
             Chord chord = new Chord(subset, 0);
             if(chord.getForteName().equals(forteName)){
-                List<Integer> transposedSubset = subset.stream().map(integer -> {
-                    return (integer + transpose) % 12;
-                }).collect(Collectors.toList());
-                subsetsForteName.add(transposedSubset);
+                subsetsForteName.add(subset);
             }
         }
 

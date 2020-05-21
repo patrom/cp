@@ -45,7 +45,7 @@ class MelodicValueRhythmCombinationTest {
         }
 
         System.out.println();
-        melodies = melodicValueRhythmCombination.getMelodyKcombination(pitchClasses, rhythmCombinations.fourNoteEven::pos1234, DurationConstants.QUARTER);
+        melodies = melodicValueRhythmCombination.getMelodyKcombination(pitchClasses, rhythmCombinations.sixNoteSexTuplet::pos123456, DurationConstants.QUARTER);
         for (CpMelody melody : melodies) {
             melody.getNotes().forEach(note -> System.out.println(note.toStringDebug()));
             System.out.println();

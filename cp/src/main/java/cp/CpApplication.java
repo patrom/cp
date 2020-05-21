@@ -112,7 +112,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 
 	private void compose() throws Exception {
 		List<CompositionGenre> composeInGenres = new ArrayList<>();
-		composeInGenres.add(melodyComposition::compositionMap);
+//		composeInGenres.add(melodyComposition::compositionMap);
 
 		//TWO VOICES
 //		composeInGenres.add(twoVoiceComposition::random);
@@ -141,7 +141,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(threeVoiceComposition::harmonize);
 //		composeInGenres.add(threeVoiceComposition::threeOverXX);
 //		composeInGenres.add(threeVoiceComposition::allRandom);
-//		composeInGenres.add(threeVoiceComposition::compositionMap);
+		composeInGenres.add(threeVoiceComposition::compositionMap);
 //
 		//FOUR VOICES
 //		composeInGenres.add(fourVoiceComposition::canonA3);
@@ -185,9 +185,9 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 			    
 //			    population.sort(Comparator.comparing(MusicSolution::getMelody).thenComparing(MusicSolution::getHarmony));
 			    population.sort(Comparator
-						.comparing(MusicSolution::getHarmony)
-                        .thenComparing(MusicSolution::getRhythm)
-						.thenComparing(MusicSolution::getMelody));
+						.comparing(MusicSolution::getTransformation)
+                        .thenComparing(MusicSolution::getHarmony)
+						.thenComparing(MusicSolution::getResolution));
 //                        .thenComparing(MusicSolution::getResolution));
 ////						.thenComparing(MusicSolution::getTransformation)
 //						.thenComparing(MusicSolution::getResolution)
@@ -239,7 +239,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 		// Algorithm parameters
 	    int populationSize = 30;
 	    algorithm.setInputParameter("populationSize", populationSize);
-	    algorithm.setInputParameter("maxEvaluations", populationSize * 200);
+	    algorithm.setInputParameter("maxEvaluations", populationSize * 2000);
 	    
 	    // Mutation and Crossover
 	    crossover.setParameter("probabilityCrossover", 1.0); 

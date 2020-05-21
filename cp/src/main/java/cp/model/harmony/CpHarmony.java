@@ -269,6 +269,22 @@ public class CpHarmony implements Comparable<CpHarmony>{
 		return false;
 	}
 
+    public boolean containsMinorSecondOrb9(){
+        List<Integer> pitches = notes.stream().map(note -> note.getPitch()).sorted().collect(toList());
+        int size = pitches.size() - 1;
+        for (int i = 0; i < size; i++) {
+            for (int j = i + 1; j < pitches.size(); j++) {
+                int pitch = pitches.get(i);
+                int nextPitch = pitches.get(j);
+                Interval interval = Interval.getEnumInterval(nextPitch - pitch);//check 1 and b9
+                if(interval.getInterval() == 1){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     protected boolean containsConsecutiveSeconds(List<Integer> pitches){
         int size = pitches.size() - 2;
         for (int i = 0; i < size; i++) {

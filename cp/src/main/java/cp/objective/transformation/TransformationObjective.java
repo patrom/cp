@@ -5,6 +5,7 @@ import cp.model.harmony.Chord;
 import cp.model.harmony.CpHarmony;
 import cp.model.harmony.HarmonyExtractor;
 import cp.model.note.Note;
+import cp.model.rhythm.DurationConstants;
 import cp.objective.Objective;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,19 +27,20 @@ public class TransformationObjective extends Objective {
     @Autowired
     private HarmonyExtractor harmonyExtractor;
     @Autowired
-//    @Qualifier(value = "functionalTransformation")
-    @Qualifier(value = "neoRiemannTransformation")
+    @Qualifier(value = "functionalTransformation")
+//    @Qualifier(value = "neoRiemannTransformation")
 //    @Qualifier(value = "voiceLeadingZoneTransformation")
     private TransformationDissonance transformationDissonance;
 
     @Override
     public double evaluate(Motive motive) {
-        List<Note> harmonyNotes = motive.getMelodyBlocks().stream().filter(m -> m.getVoice() == 0 ||  m.getVoice() == 1 )
+        List<Note> harmonyNotes = motive.getMelodyBlocks().stream().filter(m -> m.getVoice() != 2)
                 .flatMap(m -> m.getMelodyBlockNotes().stream()).collect(toList());
         List<CpHarmony> transformationHarmonies = harmonyExtractor.extractHarmony(harmonyNotes);
-//        List<CpHarmony> transformationHarmonies = motive.getHarmonies();
+//        Double averageHarmonicWeight = motive.getHarmonies().stream().mapToDouble(value -> value.getHarmonyWeight()).average().getAsDouble();
+//        List<CpHarmony> transformationHarmonies = motive.getHarmonies()
 //                .stream()
-//                .filter(cpHarmony -> cpHarmony.getNotes().get(0).getLength() > DurationConstants.EIGHT)
+//                .filter(cpHarmony -> cpHarmony.getHarmonyWeight() > averageHarmonicWeight)
 //                .collect(Collectors.toList());
         List<Transformation> transformations = new ArrayList<>();
         int size = transformationHarmonies.size() - 1;

@@ -5,7 +5,7 @@ import cp.combination.RhythmCombinations;
 import cp.composition.*;
 import cp.config.TextureConfig;
 import cp.generator.MelodySelector;
-import cp.generator.PitchClassGenerator;
+import cp.generator.CombinationGenerator;
 import cp.generator.SingleMelodyGenerator;
 import cp.generator.SingleRhythmGenerator;
 import cp.model.harmony.DependantHarmony;
@@ -30,7 +30,7 @@ public abstract class CompositionMap {
     @Autowired
     protected SingleRhythmGenerator singleRhythmGenerator;
     @Autowired
-    protected PitchClassGenerator pitchClassGenerator;
+    protected CombinationGenerator combinationGenerator;
     @Autowired
     protected Keys keys;
     @Autowired

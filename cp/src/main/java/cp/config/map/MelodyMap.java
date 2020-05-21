@@ -80,7 +80,22 @@ public class MelodyMap extends CompositionMap{
 //        compositeRhythmCombination.addRhythmCombination(allRhythmCombinations.fourNoteEven::pos1234);
 //        rhythmCombinations.add(compositeRhythmCombination);
 //        addMelodicValue(0, rhythmCombinations, DurationConstants.WHOLE);
-        addMelodicValue(0, 5, DurationConstants.EIGHT * 5);
+//        addMelodicValue(0, 3, DurationConstants.WHOLE);
+//        addMelodicValue(1, 3, DurationConstants.WHOLE);
+//        addMelodicValue(0, 4, DurationConstants.WHOLE);
+//        addMelodicValue(1, 4, DurationConstants.WHOLE);
+
+        addMelodicValue(5, 3, DurationConstants.QUARTER);
+        addMelodicValue(6, 3, DurationConstants.QUARTER);
+        addMelodicValue(5, 3, DurationConstants.HALF);
+        addMelodicValue(6, 3, DurationConstants.HALF);
+//        addMelodicValue(1, 4, DurationConstants.HALF);
+//        addMelodicValue(0, 4, DurationConstants.HALF);
+        melodicValues.add(melodyMapComposition.getCompositionMap(3));
+//        addMelodicValue(0, 2, DurationConstants.WHOLE);
+//        addMelodicValue(1, 2, DurationConstants.WHOLE);
+//        melodicValues.add(melodyMapComposition.getCompositionMap(3));
+//        melodicValues.add(melodyMapComposition.getCompositionMap(2));
 //        addMelodicValue(1, rhythmCombinations, DurationConstants.HALF);
 
 //        melodicValues.add(singleRhythmGenerator.generateOstinato(rhythmCombinations, DurationConstants.THREE_EIGHTS, ContourType.ASC, 1,7));

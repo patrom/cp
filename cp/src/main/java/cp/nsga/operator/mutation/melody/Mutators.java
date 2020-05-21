@@ -86,10 +86,13 @@ public class Mutators {
     @Value("${probabilityMelodyManipulation}")
     private double probabilityMelodyManipulation;
     @Autowired
-    public MelodyNoteLengthMutation melodyNoteLengthMutation;
+    private MelodyNoteLengthMutation melodyNoteLengthMutation;
     @Autowired
-    public MelodyInsertNoteMutation melodyInsertNoteMutation;
-
+    private MelodyInsertNoteMutation melodyInsertNoteMutation;
+    @Value("${probabilityOneNoteScale}")
+    private double probabilityOneNoteScale;
+    @Autowired
+    private OneNoteScaleMutation oneNoteScaleMutation;
 
     public List<MutationOperator> getMutationOperators(MutationType mutationType){
         switch (mutationType){
@@ -131,6 +134,9 @@ public class Mutators {
         if (probabilityMelodyManipulation > 0) {
             mutationOperators.add(melodyNoteLengthMutation);
             mutationOperators.add(melodyInsertNoteMutation);
+        }
+        if (probabilityOneNoteScale > 0) {
+            mutationOperators.add(oneNoteScaleMutation);
         }
         return mutationOperators;
     }

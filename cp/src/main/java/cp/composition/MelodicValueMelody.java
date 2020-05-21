@@ -17,6 +17,7 @@ public class MelodicValueMelody implements MelodicValue{
     private List<CpMelody> exhaustiveMelodies = new ArrayList<>();
     private List<CpMelody> melodiesWithMultipleNotes = new ArrayList<>();
     private ContourType contourType;
+    private int melodicNumber;
 
     public MelodicValueMelody() {
     }
@@ -81,5 +82,15 @@ public class MelodicValueMelody implements MelodicValue{
 
     public void setContourType(ContourType contourType) {
         this.contourType = contourType;
+    }
+
+    @Override
+    public int getMelodicNumber() {
+        return melodicNumber;
+    }
+
+    @Override
+    public void setMelodicNumber(int melodicNumber) {
+        this.melodicNumber = melodicNumber;
     }
 }

@@ -18,8 +18,10 @@ public class RandomMelodySelector implements MelodySelector {
     protected TextureConfig textureConfig;
 
     @Override
-    public CpMelody getMelody(int voice,  List<MelodicValue> melodicValues) {
-        CpMelody cpMelody = RandomUtil.getRandomFromList(melodicValues).pickRandomMelody().clone();
+    public CpMelody getMelody(int voice, List<MelodicValue> melodicValues) {
+        MelodicValue melodicValue = RandomUtil.getRandomFromList(melodicValues);
+        CpMelody cpMelody = melodicValue.pickRandomMelody().clone();
+        cpMelody.setMelodyNumber(melodicValue.getMelodicNumber());
         cpMelody.setVoice(voice);
         if (textureConfig.hasTexture(voice)) {
             for (Note melodyNote : cpMelody.getNotesNoRest()) {
@@ -32,7 +34,9 @@ public class RandomMelodySelector implements MelodySelector {
 
     @Override
     public CpMelody getMelodyWithMultipleNotes(int voice, List<MelodicValue> melodicValues) {
-        CpMelody cpMelody = RandomUtil.getRandomFromList(melodicValues).pickRandomMelodyWithMultipleNotes().clone();
+        MelodicValue melodicValue = RandomUtil.getRandomFromList(melodicValues);
+        CpMelody cpMelody = melodicValue.pickRandomMelodyWithMultipleNotes().clone();
+        cpMelody.setMelodyNumber(melodicValue.getMelodicNumber());
         cpMelody.setVoice(voice);
         if (textureConfig.hasTexture(voice)) {
             for (Note melodyNote : cpMelody.getNotesNoRest()) {

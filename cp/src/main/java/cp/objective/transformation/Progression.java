@@ -2,20 +2,33 @@ package cp.objective.transformation;
 
 import cp.model.harmony.Chord;
 import cp.model.harmony.ChordType;
+import org.paukov.combinatorics3.Generator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Progression {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Progression.class);
 
     public static Transformation getTransformation(Chord chord, Chord nextChord) {
-        ChordType chordType = chord.getChordType();
-        ChordType nextChordType = nextChord.getChordType();
-        if (chordType.getSize() == 3 && nextChord.getSize() == 3) {
+        if (chord.getSize() == 3 && nextChord.getSize() == 3) {
             return triadic(chord, nextChord);
-        } else  if (chordType.getSize() == 4 && nextChord.getSize() == 4) {
+        } else if (chord.getSize() == 4 && nextChord.getSize() == 4) {
             return cube(chord, nextChord);
+        } else if (chord.getSize() == 3 && nextChord.getSize() == 4) {
+            if (nextChord.containsTriad()) {
+                Chord triad = getTriad(nextChord.getPitchClassSet());
+                return triadic(chord, triad);
+            }
+        } else if (chord.getSize() == 4 && nextChord.getSize() == 3) {
+            if (chord.containsTriad()) {
+                Chord triad = getTriad(chord.getPitchClassSet());
+                return triadic(triad, nextChord);
+            }
         }
         return Transformation.UNDEFINED;
     }
@@ -321,5 +334,19 @@ public class Progression {
             }
         }
         return Transformation.UNDEFINED;
+    }
+
+    private static Chord getTriad(Set<Integer> pitchClasses){
+        List<List<Integer>> subsets = Generator.combination(pitchClasses)
+                .simple(3)
+                .stream()
+                .collect(Collectors.toList());
+        for (List<Integer> subset : subsets) {
+            Chord chord = new Chord(subset, subset.get(0));
+            if(chord.getForteName().equals("3-11")){
+                return chord;
+            }
+        }
+        throw new IllegalStateException("Should contains triad");
     }
 }

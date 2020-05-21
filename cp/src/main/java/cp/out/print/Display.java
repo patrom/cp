@@ -111,6 +111,9 @@ public class Display {
         if(melodies.stream().flatMap(melodyBlock -> melodyBlock.getMelodyBlockNotes().stream()).anyMatch(note -> !note.hasTexture())){
             System.out.println();
         }
+        LOGGER.info("getMelodicNumbers: ");
+        melodies.forEach(m -> LOGGER.info(m.getMelodicNumbers() + ", "));
+        LOGGER.info("contour: ");
 		melodies.forEach(m -> LOGGER.info(m.getMelodyBlockContour() + ", "));
 		melodies.forEach(m -> LOGGER.info(m.getMelodyBlockNotesWithRests() + ", "));
 //        for (MelodyBlock melody : melodies) {

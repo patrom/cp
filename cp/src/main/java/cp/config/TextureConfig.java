@@ -31,18 +31,18 @@ public class TextureConfig {
         TextureSelection textureSelection = new TextureSelection();
 //        textureSelections.put(0, textureSelection.getChordTypes(ChordType.CH2_KLEINE_TERTS_CHR, ChordType.CH2_GROTE_TERTS_CHR));
 
-        textureSelection = new TextureSelection();
         List<Chord> subSets = new ArrayList<>();
 //        subSets.addAll(subSetCalculator.getSubSets(Scale.MAJOR_SCALE.getForteName(), "3-11"));
 //        subSets.addAll(subSetCalculator.getSubSets(Scale.MAJOR_SCALE.getForteName(), "3-5"));
-//        textureSelection.addChordType(ChordType.MINOR_CHR, ChordType.MINOR_1_CHR, ChordType.MINOR_2_CHR);
-        textureSelection.addChordType(ChordType.CH2_TRITONE_CHR, ChordType.NO_INTERVALS);
+        textureSelection.addChordType(ChordType.MAJOR_CHR, ChordType.MAJOR_1_CHR, ChordType.MAJOR_2_CHR,
+                ChordType.MINOR_CHR, ChordType.MINOR_1_CHR, ChordType.MINOR_2_CHR);
+//        textureSelection.addChordType(ChordType.CH2_TRITONE_CHR, ChordType.NO_INTERVALS);
 //        textureSelection.addChordType(ChordType.CH2_KWINT_CHR);
 
 //        textureSelection.addSetclasses(VoicingType.DROP_2, Scale.SET_3_5.getPitchClasses());
 //        textureSelection.addSetclasses(VoicingType.UP_2, Scale.SET_3_4.getPitchClasses());
 //        textureSelection.addSetclasses(VoicingType.UP_2, Scale.SET_4_8.getPitchClasses());
-//        textureSelections.put(1, textureSelection);
+        textureSelections.put(1, textureSelection);
     }
 
 
