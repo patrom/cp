@@ -144,4 +144,33 @@ public enum ChordType {
 	public int getInterval() {
 		return interval;
 	}
+
+	public static ChordType getChordType(int interval){
+		switch (interval){
+			case 1:
+				return CH2_KLEINE_SECONDE_CHR;
+			case 2:
+				return CH2_GROTE_SECONDE_CHR;
+			case 3:
+				return CH2_KLEINE_TERTS_CHR;
+			case 4:
+				return CH2_GROTE_TERTS_CHR;
+			case 5:
+				return CH2_KWART_CHR;
+			case 6:
+				return CH2_TRITONE_CHR;
+			case 7:
+				return CH2_KWINT_CHR;
+			case 8:
+				return CH2_KLEINE_SIXT_CHR;
+			case 9:
+				return CH2_GROTE_SIXT_CHR;
+			case 10:
+				return CH2_KLEIN_SEPTIEM_CHR;
+			case 11:
+				return CH2_GROOT_SEPTIEM_CHR;
+			default:
+				throw new IllegalArgumentException("Chord type not found for interval: " + interval);
+		}
+	}
 }

@@ -1,23 +1,16 @@
 package cp.model.texture;
 
-import cp.composition.Composition;
 import cp.model.harmony.Chord;
 import cp.model.harmony.ChordType;
 import cp.model.harmony.DependantHarmony;
 import cp.model.harmony.VoicingType;
-import cp.model.note.Note;
 import cp.model.note.Scale;
-import cp.model.setclass.Set;
-import cp.model.setclass.SubSetCalculator;
-import cp.model.setclass.TnTnIType;
 import cp.util.RandomUtil;
 import cp.util.RowMatrix;
 import org.apache.commons.lang.ArrayUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.PostConstruct;
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -29,6 +22,22 @@ public class TextureSelection {
         List<DependantHarmony> dependantHarmonies = Arrays.stream(chordType).map(type -> createDependantHarmony(type)).collect(toList());
         for (int i = 0; i < 12; i++) {
             addDependantHarmonies(dependantHarmonies, i);
+        }
+    }
+
+    public void addIntervals(Scale scale, ChordType... chordTypes){
+        int[] pitchClasses = scale.getPitchClasses();
+        for (int j = 0; j < pitchClasses.length; j++) {
+            int pc = pitchClasses[j];
+            for (int i = 0; i < chordTypes.length; i++) {
+                ChordType chordType = chordTypes[i];
+                int interval = (chordType.getInterval() + pc) % 12;
+                boolean containsInterval = IntStream.of(pitchClasses).anyMatch(x -> x == interval);
+                if (containsInterval){
+                    DependantHarmony dependantHarmony = createDependantHarmony(chordType);
+                    addDependantHarmony(dependantHarmony, pc);
+                }
+            }
         }
     }
 
@@ -45,6 +54,19 @@ public class TextureSelection {
                 return new ArrayList<>(dependantHarmonies);
             }else {
                 v.addAll(dependantHarmonies);
+                return v;
+            }
+        });
+    }
+
+    private void addDependantHarmony(DependantHarmony dependantHarmony, int i) {
+        textureTypes.compute(i, (k, v) -> {
+            if (v == null) {
+                List<DependantHarmony> dependantHarmonies = new ArrayList<>();
+                dependantHarmonies.add(dependantHarmony);
+                return dependantHarmonies;
+            }else {
+                v.add(dependantHarmony);
                 return v;
             }
         });

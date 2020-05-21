@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static cp.model.note.Scale.MAJOR_SCALE;
+
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DefaultConfig.class)
 @TestPropertySource(properties = "composition.voices=4")
@@ -50,11 +52,25 @@ class TextureSelectionTest {
     @Test
     void getSelection() {
         List<Chord> subSets = new ArrayList<>();
-        subSets.addAll(subSetCalculator.getSubSets(Scale.MAJOR_SCALE.getForteName(), "3-11"));
+        subSets.addAll(subSetCalculator.getSubSets(MAJOR_SCALE.getForteName(), "3-11"));
         Map<Integer, List<DependantHarmony>> textureTypes = textureSelection.getSelection(subSets).getTextureTypes();
         for (Map.Entry<Integer, List<DependantHarmony>> integerListEntry : textureTypes.entrySet()) {
             System.out.println(integerListEntry.getKey());
             System.out.println(integerListEntry.getValue());
+        }
+    }
+
+    @Test
+    public void addIntervals(){
+        textureSelection.addIntervals(Scale.MAJOR_SCALE, ChordType.CH2_GROTE_SIXT_CHR, ChordType.CH2_KLEINE_SIXT_CHR,
+                ChordType.CH2_KLEINE_TERTS_CHR, ChordType.CH2_GROTE_TERTS_CHR);
+        Map<Integer, List<DependantHarmony>> textureTypes = textureSelection.getTextureTypes();
+        for (Map.Entry<Integer, List<DependantHarmony>> integerListEntry : textureTypes.entrySet()) {
+            System.out.println(integerListEntry.getKey());
+            List<DependantHarmony> value = integerListEntry.getValue();
+            for (DependantHarmony dependantHarmony : value) {
+                System.out.println(dependantHarmony.getChordType());
+            }
         }
     }
 }

@@ -38,7 +38,8 @@ public class TextureConfig {
                 ChordType.MINOR_CHR, ChordType.MINOR_1_CHR, ChordType.MINOR_2_CHR);
 //        textureSelection.addChordType(ChordType.CH2_TRITONE_CHR, ChordType.NO_INTERVALS);
 //        textureSelection.addChordType(ChordType.CH2_KWINT_CHR);
-
+        textureSelection.addIntervals(Scale.MAJOR_SCALE, ChordType.CH2_GROTE_SIXT_CHR, ChordType.CH2_KLEINE_SIXT_CHR,
+                ChordType.CH2_KLEINE_TERTS_CHR, ChordType.CH2_GROTE_TERTS_CHR);
 //        textureSelection.addSetclasses(VoicingType.DROP_2, Scale.SET_3_5.getPitchClasses());
 //        textureSelection.addSetclasses(VoicingType.UP_2, Scale.SET_3_4.getPitchClasses());
 //        textureSelection.addSetclasses(VoicingType.UP_2, Scale.SET_4_8.getPitchClasses());
