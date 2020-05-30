@@ -41,6 +41,24 @@ public class TextureSelection {
         }
     }
 
+    public void addOctatonicAlternatingIntervals(){
+        int[] pitchClasses = Scale.OCTATCONIC_01.getPitchClasses();
+        for (int i = 0; i < pitchClasses.length; i = i + 2) {
+            int pc = pitchClasses[i];
+            DependantHarmony dependantHarmony = createDependantHarmony(ChordType.CH2_KLEINE_TERTS_CHR);
+            addDependantHarmony(dependantHarmony, pc);
+            dependantHarmony = createDependantHarmony(ChordType.CH2_KLEINE_SIXT_CHR);
+            addDependantHarmony(dependantHarmony, pc);
+        }
+        for (int i = 1; i < pitchClasses.length; i=i+2) {
+            int pc = pitchClasses[i];
+            DependantHarmony dependantHarmony = createDependantHarmony(ChordType.CH2_GROTE_TERTS_CHR);
+            addDependantHarmony(dependantHarmony, pc);
+            dependantHarmony = createDependantHarmony(ChordType.CH2_GROTE_SIXT_CHR);
+            addDependantHarmony(dependantHarmony, pc);
+        }
+    }
+
     public void addSetclasses(VoicingType voicingType, int[]... setclasses){
         List<DependantHarmony> dependantHarmonies = Arrays.stream(setclasses).map(type -> createDependantHarmony(type, voicingType)).collect(toList());
         for (int i = 0; i < 12; i++) {

@@ -73,4 +73,17 @@ class TextureSelectionTest {
             }
         }
     }
+
+    @Test
+    public void addOctatonicAlternatingIntervals(){
+        textureSelection.addOctatonicAlternatingIntervals();
+        Map<Integer, List<DependantHarmony>> textureTypes = textureSelection.getTextureTypes();
+        for (Map.Entry<Integer, List<DependantHarmony>> integerListEntry : textureTypes.entrySet()) {
+            System.out.println(integerListEntry.getKey());
+            List<DependantHarmony> value = integerListEntry.getValue();
+            for (DependantHarmony dependantHarmony : value) {
+                System.out.println(dependantHarmony.getChordType());
+            }
+        }
+    }
 }
