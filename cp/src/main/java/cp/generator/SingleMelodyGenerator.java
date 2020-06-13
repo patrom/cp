@@ -55,6 +55,16 @@ public class SingleMelodyGenerator extends cp.generator.Generator {
         return melodicValue;
     }
 
+    public MelodicValue generateSingleNoteScale(List<Integer> pitchClasses, int duration){
+        List<CpMelody> melodies = new ArrayList<>();
+        for (int pitchClass : pitchClasses) {
+            melodies.add(generateSingleNote(pitchClass, duration));
+        }
+        MelodicValueMelody melodicValue = new MelodicValueMelody();
+        melodicValue.setMelodies(melodies);
+        return melodicValue;
+    }
+
     public MelodicValue generateMelodicValue(List<Note> notes, List<Integer> pitchClasses, int duration){
         int size = pitchClasses.size();
         int i = 0;

@@ -2,6 +2,7 @@ package cp.model.texture;
 
 import cp.DefaultConfig;
 import cp.composition.Composition;
+import cp.generator.PCGenerator;
 import cp.model.harmony.Chord;
 import cp.model.harmony.ChordType;
 import cp.model.harmony.DependantHarmony;
@@ -35,6 +36,8 @@ class TextureSelectionTest {
     private SubSetCalculator subSetCalculator;
     @Autowired
     private TnTnIType tnTnIType;
+    @Autowired
+    private PCGenerator pcGenerator;
 
     @BeforeEach
     public void setUp(){
@@ -86,4 +89,20 @@ class TextureSelectionTest {
             }
         }
     }
+
+    @Test
+    public void addIntervals2(){
+        textureSelection.addIntervals(pcGenerator.getPitchClasses("7-Z37", 0),
+                ChordType.CH2_GROTE_SIXT_CHR, ChordType.CH2_KLEINE_SIXT_CHR);
+        Map<Integer, List<DependantHarmony>> textureTypes = textureSelection.getTextureTypes();
+        for (Map.Entry<Integer, List<DependantHarmony>> integerListEntry : textureTypes.entrySet()) {
+            System.out.println(integerListEntry.getKey());
+            List<DependantHarmony> value = integerListEntry.getValue();
+            for (DependantHarmony dependantHarmony : value) {
+                System.out.println(dependantHarmony.getChordType());
+            }
+        }
+    }
+
+
 }

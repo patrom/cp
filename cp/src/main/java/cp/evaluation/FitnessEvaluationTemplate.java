@@ -188,8 +188,8 @@ public class FitnessEvaluationTemplate {
 		double register = registerObjective.evaluate(motive);
 		LOGGER.debug("register = " + register);
 
-        double transformation = transformationObjective.evaluate(motive);
-        LOGGER.debug("transformation = " + transformation);
+//        double transformation = transformationObjective.evaluate(motive);
+//        LOGGER.debug("transformation = " + transformation);
 
         FitnessObjectiveValues fitnessObjectives = new FitnessObjectiveValues();
 		fitnessObjectives.setHarmony(harmony);
@@ -201,7 +201,7 @@ public class FitnessEvaluationTemplate {
 		fitnessObjectives.setMeter(meter);
 		fitnessObjectives.setRegister(register);
 		fitnessObjectives.setResolution(harmonyResolution);
-		fitnessObjectives.setTransformation(transformation);
+//		fitnessObjectives.setTransformation(transformation);
 
 		//constraints
 //		objectives[5] = lowestIntervalRegisterValue;

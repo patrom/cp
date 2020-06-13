@@ -53,6 +53,34 @@ class CombinationGeneratorTest {
         printMelodicValue(melodicValue);
     }
 
+    @Test
+    public void getRandomPitchClassesForForteNameInSuperSetClass2(){
+        List<Integer> pitchClasses = pcGenerator.getPitchClasses("7-Z37", 0);
+        printPitchclasses(pitchClasses);
+//        List<Integer> pitchClasses = pcGenerator.getInversionPitchClasses("6-Z6");
+        MelodicValueRhythmCombination melodicValue = (MelodicValueRhythmCombination) combinationGenerator.getSetClassesForForteNameInSuperSetClass(pitchClasses, "4-3");
+        printMelodicValue(melodicValue);
+        System.out.println("----");
+        pitchClasses = pcGenerator.getInversionPitchClasses("7-Z37", 0);
+        printPitchclasses(pitchClasses);
+        melodicValue = (MelodicValueRhythmCombination) combinationGenerator.getSetClassesForForteNameInSuperSetClass( pitchClasses, "4-17");
+        printMelodicValue(melodicValue);
+    }
+
+    @Test
+    public void getRandomPitchClassesForForteNameInSuperSetClassOctatonic(){
+        List<Integer> pitchClasses = pcGenerator.getPitchClasses("8-28", 0);
+        printPitchclasses(pitchClasses);
+//        List<Integer> pitchClasses = pcGenerator.getInversionPitchClasses("6-Z6");
+        MelodicValueRhythmCombination melodicValue = (MelodicValueRhythmCombination) combinationGenerator.getSetClassesForForteNameInSuperSetClass(pitchClasses, "3-2");
+        printMelodicValue(melodicValue);
+        System.out.println("----");
+        pitchClasses = pcGenerator.getInversionPitchClasses("8-28", 0);
+        printPitchclasses(pitchClasses);
+        melodicValue = (MelodicValueRhythmCombination) combinationGenerator.getSetClassesForForteNameInSuperSetClass( pitchClasses, "3-2");
+        printMelodicValue(melodicValue);
+    }
+
     private void printPitchclasses(List<Integer> pitchClasses) {
         pitchClasses.forEach(integer -> System.out.print(integer + ","));
         System.out.println();
@@ -80,7 +108,7 @@ class CombinationGeneratorTest {
 
     @Test
     void allPermutationsForSetClassInSuperSetClass() {
-        List<Integer> pitchClasses = pcGenerator.getPitchClasses("8-23", 9);
+        List<Integer> pitchClasses = pcGenerator.getPitchClasses("7-35", 11);//C major
         MelodicValueRhythmCombination melodicValue = (MelodicValueRhythmCombination) combinationGenerator.allPermutationsForSetClassInSuperSetClass(pitchClasses, "3-11");
         List<List<Integer>> permutationsPitchClasses = melodicValue.getPermutationsPitchClasses();
         System.out.println("Size :" + permutationsPitchClasses.size());

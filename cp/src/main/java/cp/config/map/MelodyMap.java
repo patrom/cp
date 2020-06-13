@@ -85,10 +85,13 @@ public class MelodyMap extends CompositionMap{
 //        addMelodicValue(0, 4, DurationConstants.WHOLE);
 //        addMelodicValue(1, 4, DurationConstants.WHOLE);
 
-        addMelodicValue(5, 3, DurationConstants.QUARTER);
-        addMelodicValue(6, 3, DurationConstants.QUARTER);
-        addMelodicValue(5, 3, DurationConstants.HALF);
-        addMelodicValue(6, 3, DurationConstants.HALF);
+        addMelodicValue(0, 3, DurationConstants.THREE_QUARTERS);
+        addMelodicValue(1, 3, DurationConstants.THREE_QUARTERS);
+//        addMelodicValue(0, 3, DurationConstants.THREE_QUARTERS);
+//        addMelodicValue(1, 3, DurationConstants.THREE_QUARTERS);
+//        addMelodicValue(1, 3, DurationConstants.THREE_QUARTERS);
+//        addMelodicValue(3, 3, DurationConstants.THREE_QUARTERS);
+//        addMelodicValue(3, 3, DurationConstants.THREE_QUARTERS);
 //        addMelodicValue(1, 4, DurationConstants.HALF);
 //        addMelodicValue(0, 4, DurationConstants.HALF);
         melodicValues.add(melodyMapComposition.getCompositionMap(3));

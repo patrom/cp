@@ -17,7 +17,7 @@ public class BassMap extends CompositionMap{
 
     @PostConstruct
     public void init(){
-
+        melodicValues.add(melodyMapComposition.getCompositionMap(4));
 //        List<RhythmCombination> rhythmCombinations = new ArrayList<>();
 //        rhythmCombinations.add(allRhythmCombinations.threeNoteEven::pos123);
 //        addMelodicValue(0, rhythmCombinations, DurationConstants.WHOLE);

@@ -64,28 +64,28 @@ public class RhythmMapComposition {
     private void initRhythm3() {
         List<RhythmCombination> threeCombinations = new ArrayList<>();
 //		threeCombinations.add(allRhythms.threeNoteEven::pos123);
-		threeCombinations.add(allRhythms.threeNoteEven::pos134);
-		threeCombinations.add(allRhythms.threeNoteEven::pos124);
+//		threeCombinations.add(allRhythms.threeNoteEven::pos134);
+//		threeCombinations.add(allRhythms.threeNoteEven::pos124);
 //        threeCombinations.add(allRhythms.threeNoteEven::pos234);
 
-//        threeCombinations.add(allRhythms.threeNoteUneven::pos123);
+        threeCombinations.add(allRhythms.threeNoteUneven::pos123);
 
-//		threeCombinations.add(threeNoteSexTuplet::pos145);
-//		threeCombinations.add(threeNoteSexTuplet::pos136);
-//		threeCombinations.add(threeNoteSexTuplet::pos156);
-//		threeCombinations.add(threeNoteSexTuplet::pos123);
+		threeCombinations.add(allRhythms.threeNoteSexTuplet::pos145);
+//		threeCombinations.add(allRhythms.threeNoteSexTuplet::pos136);
+		threeCombinations.add(allRhythms.threeNoteSexTuplet::pos156);
+//		threeCombinations.add(allRhythms.threeNoteSexTuplet::pos123);
         rhythmCombinationsMap.put(3, threeCombinations);
     }
 
     private void initRhythm4() {
         List<RhythmCombination> fourCombinations = new ArrayList<>();
-        fourCombinations.add(allRhythms.fourNoteEven::pos1234);
+//        fourCombinations.add(allRhythms.fourNoteEven::pos1234);
 
-//		fourCombinations.add(allRhythms.fourNoteSexTuplet::pos1456);
-//		fourCombinations.add(allRhythms.fourNoteSexTuplet::pos1234);
-//        fourCombinations.add(allRhythms.fourNoteSexTuplet::pos1345);
-//        fourCombinations.add(allRhythms.fourNoteSexTuplet::pos1346);
-//        fourCombinations.add(allRhythms.fourNoteSexTuplet::pos1356);
+		fourCombinations.add(allRhythms.fourNoteSexTuplet::pos1456);
+		fourCombinations.add(allRhythms.fourNoteSexTuplet::pos1234);
+        fourCombinations.add(allRhythms.fourNoteSexTuplet::pos1345);
+        fourCombinations.add(allRhythms.fourNoteSexTuplet::pos1346);
+        fourCombinations.add(allRhythms.fourNoteSexTuplet::pos1356);
 
         rhythmCombinationsMap.put(4, fourCombinations);
     }

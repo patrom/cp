@@ -31,8 +31,22 @@ public class TextureSelection {
             int pc = pitchClasses[j];
             for (int i = 0; i < chordTypes.length; i++) {
                 ChordType chordType = chordTypes[i];
-                int interval = (chordType.getInterval() + pc) % 12;
+                int interval = (12 + pc - chordType.getInterval()) % 12;
                 boolean containsInterval = IntStream.of(pitchClasses).anyMatch(x -> x == interval);
+                if (containsInterval){
+                    DependantHarmony dependantHarmony = createDependantHarmony(chordType);
+                    addDependantHarmony(dependantHarmony, pc);
+                }
+            }
+        }
+    }
+
+    public void addIntervals(List<Integer> pitchClasses, ChordType... chordTypes){
+        for (Integer pc : pitchClasses) {
+            for (int i = 0; i < chordTypes.length; i++) {
+                ChordType chordType = chordTypes[i];
+                int interval = (12 + pc - chordType.getInterval()) % 12;
+                boolean containsInterval = pitchClasses.stream().anyMatch(x -> x == interval);
                 if (containsInterval){
                     DependantHarmony dependantHarmony = createDependantHarmony(chordType);
                     addDependantHarmony(dependantHarmony, pc);
@@ -47,15 +61,15 @@ public class TextureSelection {
             int pc = pitchClasses[i];
             DependantHarmony dependantHarmony = createDependantHarmony(ChordType.CH2_KLEINE_TERTS_CHR);
             addDependantHarmony(dependantHarmony, pc);
-            dependantHarmony = createDependantHarmony(ChordType.CH2_KLEINE_SIXT_CHR);
-            addDependantHarmony(dependantHarmony, pc);
+//            dependantHarmony = createDependantHarmony(ChordType.CH2_KLEINE_SIXT_CHR);
+//            addDependantHarmony(dependantHarmony, pc);
         }
         for (int i = 1; i < pitchClasses.length; i=i+2) {
             int pc = pitchClasses[i];
             DependantHarmony dependantHarmony = createDependantHarmony(ChordType.CH2_GROTE_TERTS_CHR);
             addDependantHarmony(dependantHarmony, pc);
-            dependantHarmony = createDependantHarmony(ChordType.CH2_GROTE_SIXT_CHR);
-            addDependantHarmony(dependantHarmony, pc);
+//            dependantHarmony = createDependantHarmony(ChordType.CH2_GROTE_SIXT_CHR);
+//            addDependantHarmony(dependantHarmony, pc);
         }
     }
 

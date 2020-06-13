@@ -40,6 +40,12 @@ class PCGeneratorTest {
     }
 
     @Test
+    public void getPitchClasses3() {
+        List<Integer> pitchClasses = pcGenerator.getPitchClasses("7-Z37", 0);
+        pitchClasses.forEach(integer -> System.out.print(integer + ", "));
+    }
+
+    @Test
     public void getInversionPitchClasses() {
         List<Integer> pitchClasses = pcGenerator.getInversionPitchClasses("3-2", 0);
         assertIterableEquals(Stream.of(3,2,0).collect(Collectors.toList()), pitchClasses);

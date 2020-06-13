@@ -1,6 +1,7 @@
 package cp.util;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -124,4 +125,5 @@ public class Util {
 	public static int convertToKeyOfC(int pitchClass, int key) {
 		return (12 + pitchClass - key) % 12;
 	}
+
 }

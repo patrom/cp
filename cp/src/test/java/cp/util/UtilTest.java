@@ -12,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Arrays;
+
 /**
  * Created by prombouts on 26/04/2017.
  */
@@ -29,5 +31,11 @@ public class UtilTest {
         for (int pc : scale.getPitchClasses()) {
             System.out.println(Util.convertToKeyOfC(pc, E.getInterval() ));
         }
+    }
+
+    @Test
+    public void rotate(){
+        int[] pitchClasses = Scale.MAJOR_SCALE.getPitchClasses();
+        System.out.println(Arrays.toString(Util.rotateArray(pitchClasses,2)));
     }
 }

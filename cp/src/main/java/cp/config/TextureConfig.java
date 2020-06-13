@@ -1,5 +1,6 @@
 package cp.config;
 
+import cp.generator.PCGenerator;
 import cp.model.harmony.Chord;
 import cp.model.harmony.ChordType;
 import cp.model.harmony.DependantHarmony;
@@ -25,6 +26,8 @@ public class TextureConfig {
     private Map<Integer, TextureSelection> textureSelections = new HashMap<>();
     @Autowired
     private SubSetCalculator subSetCalculator;
+    @Autowired
+    private PCGenerator pcGenerator;
 
     @PostConstruct
     public void init() {
@@ -34,16 +37,19 @@ public class TextureConfig {
         List<Chord> subSets = new ArrayList<>();
 //        subSets.addAll(subSetCalculator.getSubSets(Scale.MAJOR_SCALE.getForteName(), "3-11"));
 //        subSets.addAll(subSetCalculator.getSubSets(Scale.MAJOR_SCALE.getForteName(), "3-5"));
-        textureSelection.addChordType(ChordType.MAJOR_CHR, ChordType.MAJOR_1_CHR, ChordType.MAJOR_2_CHR,
-                ChordType.MINOR_CHR, ChordType.MINOR_1_CHR, ChordType.MINOR_2_CHR);
+//        textureSelection.addChordType(ChordType.MAJOR_CHR, ChordType.MAJOR_1_CHR, ChordType.MAJOR_2_CHR,
+//                ChordType.MINOR_CHR, ChordType.MINOR_1_CHR, ChordType.MINOR_2_CHR);
 //        textureSelection.addChordType(ChordType.CH2_TRITONE_CHR, ChordType.NO_INTERVALS);
 //        textureSelection.addChordType(ChordType.CH2_KWINT_CHR);
-        textureSelection.addIntervals(Scale.MAJOR_SCALE, ChordType.CH2_GROTE_SIXT_CHR, ChordType.CH2_KLEINE_SIXT_CHR,
-                ChordType.CH2_KLEINE_TERTS_CHR, ChordType.CH2_GROTE_TERTS_CHR);
+//        textureSelection.addIntervals(pcGenerator.getPitchClasses("7-Z37", 0),
+//                ChordType.CH2_GROTE_SIXT_CHR, ChordType.CH2_KLEINE_SIXT_CHR,
+//                ChordType.CH2_KLEINE_TERTS_CHR, ChordType.CH2_GROTE_TERTS_CHR);
+        textureSelection.addOctatonicAlternatingIntervals();
 //        textureSelection.addSetclasses(VoicingType.DROP_2, Scale.SET_3_5.getPitchClasses());
 //        textureSelection.addSetclasses(VoicingType.UP_2, Scale.SET_3_4.getPitchClasses());
 //        textureSelection.addSetclasses(VoicingType.UP_2, Scale.SET_4_8.getPitchClasses());
         textureSelections.put(1, textureSelection);
+//        textureSelections.put(2, textureSelection);
     }
 
 
