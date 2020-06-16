@@ -1,7 +1,9 @@
 package cp.util;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 public class RotationalArray {
 
@@ -38,12 +40,20 @@ public class RotationalArray {
         return row;
     }
 
+    public List<Integer> getRotationRow(int n){
+        return Arrays.stream(getRow(n)).boxed().collect(toList());
+    }
+
     public int[] getColumn(int n){
         int[] column = new int[rotationalArray.length];
         for (int i = 0; i < rotationalArray[0].length; i++) {
             column[i] = rotationalArray[i][n];
         }
         return column;
+    }
+
+    public List<Integer> getRotationColumn(int n){
+        return Arrays.stream(getColumn(n)).boxed().collect(toList());
     }
 
 }
