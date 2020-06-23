@@ -11,8 +11,6 @@ import cp.nsga.MusicSolutionType;
 import cp.nsga.MusicVariable;
 import cp.out.orchestration.HarmonyOrchestrator;
 import cp.out.orchestration.Orchestrator;
-import cp.out.orchestration.quality.BrilliantWhite;
-import cp.out.orchestration.quality.PleasantGreen;
 import cp.out.print.Display;
 import jmetal.core.Algorithm;
 import jmetal.core.Operator;
@@ -116,7 +114,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 
 		//TWO VOICES
 //		composeInGenres.add(twoVoiceComposition::random);
-//		composeInGenres.add(twoVoiceComposition::compositionMap);
+		composeInGenres.add(twoVoiceComposition::compositionMap);
 //		composeInGenres.add(twoVoiceComposition::beatEven);
 //		composeInGenres.add(twoVoiceComposition::beatEven);
 //		composeInGenres.add(twoVoiceComposition::canon);
@@ -141,7 +139,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(threeVoiceComposition::harmonize);
 //		composeInGenres.add(threeVoiceComposition::threeOverXX);
 //		composeInGenres.add(threeVoiceComposition::allRandom);
-		composeInGenres.add(threeVoiceComposition::compositionMap);
+// 		composeInGenres.add(threeVoiceComposition::compositionMap);
 //
 		//FOUR VOICES
 //		composeInGenres.add(fourVoiceComposition::canonA3);
@@ -186,8 +184,8 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //			    population.sort(Comparator.comparing(MusicSolution::getMelody).thenComparing(MusicSolution::getHarmony));
 			    population.sort(Comparator
 //						.comparing(MusicSolution::getTransformation)
-                        .comparing(MusicSolution::getHarmony)
-                        .thenComparing(MusicSolution::getMelody)
+                        .comparing(MusicSolution::getMelody)
+                        .thenComparing(MusicSolution::getHarmony)
 						.thenComparing(MusicSolution::getResolution));
 //                        .thenComparing(MusicSolution::getResolution));
 ////						.thenComparing(MusicSolution::getTransformation)

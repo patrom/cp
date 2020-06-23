@@ -165,12 +165,12 @@ public class MelodyMapComposition {
 //        MelodicValueRhythmCombination melodicValue = (MelodicValueRhythmCombination) combinationGenerator.allPermutationsForSetClassInSuperSetClass(pitchClasses, "3-2", 9);
 //        List<Integer> pitchClasses = pcGenerator.getPitchClasses("8-23", 4);
 //        List<Integer> pitchClasses = pcGenerator.getPitchClasses("8-28", 0);
-        List<Integer> pitchClasses = pcGenerator.getPitchClasses("6-32", 4);
+        List<Integer> pitchClasses = pcGenerator.getPitchClasses("5-34", 4);
 //        List<Integer> pitchClasses = pcGenerator.getInversionPitchClasses("6-Z6");
-        MelodicValue melodicValue = (MelodicValueRhythmCombination) combinationGenerator.getSetClassesForForteNameInSuperSetClass(pitchClasses, "2-5");
+        MelodicValue melodicValue = (MelodicValueRhythmCombination) combinationGenerator.getSetClassesForForteNameInSuperSetClass(pitchClasses, "3-6");
         compositionMap.put(0, melodicValue);
-        pitchClasses = pcGenerator.getInversionPitchClasses("6-32", 4);
-        melodicValue = (MelodicValueRhythmCombination) combinationGenerator.getSetClassesForForteNameInSuperSetClass( pitchClasses, "2-5");
+        pitchClasses = pcGenerator.getInversionPitchClasses("5-34", 4);
+        melodicValue = (MelodicValueRhythmCombination) combinationGenerator.getSetClassesForForteNameInSuperSetClass( pitchClasses, "3-6");
         compositionMap.put(1, melodicValue);
 //        pitchClasses = pcGenerator.getInversionPitchClasses("8-23", 2);
 //        melodicValue = (MelodicValueRhythmCombination) combinationGenerator.getSetClassesForForteNameInSuperSetClass( pitchClasses, "3-2");

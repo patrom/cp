@@ -7,7 +7,6 @@ import cp.composition.MelodicValueRhythmCombination;
 import cp.config.BeatGroupConfig;
 import cp.model.harmony.Chord;
 import cp.out.print.Keys;
-import org.apache.commons.collections4.IterableGet;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {DefaultConfig.class, VariationConfig.class, BeatGroupConfig.class})
@@ -81,6 +79,20 @@ class CombinationGeneratorTest {
         printMelodicValue(melodicValue);
     }
 
+    @Test
+    public void getRandomPitchClassesForForteNameInSuperSetClass4(){
+        List<Integer> pitchClasses = pcGenerator.getPitchClasses("5-34", 0);
+        printPitchclasses(pitchClasses);
+//        List<Integer> pitchClasses = pcGenerator.getInversionPitchClasses("6-Z6");
+        MelodicValueRhythmCombination melodicValue = (MelodicValueRhythmCombination) combinationGenerator.getSetClassesForForteNameInSuperSetClass(pitchClasses, "3-6");
+        printMelodicValue(melodicValue);
+        System.out.println("----");
+        pitchClasses = pcGenerator.getInversionPitchClasses("5-34", 9);
+        printPitchclasses(pitchClasses);
+        melodicValue = (MelodicValueRhythmCombination) combinationGenerator.getSetClassesForForteNameInSuperSetClass( pitchClasses, "3-6");
+        printMelodicValue(melodicValue);
+    }
+
     private void printPitchclasses(List<Integer> pitchClasses) {
         pitchClasses.forEach(integer -> System.out.print(integer + ","));
         System.out.println();
@@ -116,6 +128,21 @@ class CombinationGeneratorTest {
         for (List<Integer> permutationsPitchClass : permutationsPitchClasses) {
             Chord chord = new Chord(permutationsPitchClass, permutationsPitchClass.get(0));
             System.out.println(chord.getChordType());
+            permutationsPitchClass.forEach(integer -> System.out.print(integer + ", "));
+            System.out.println();
+        }
+    }
+
+    @Test
+    void allPermutationsForSetClassInSuperSetClass2() {
+        List<Integer> pitchClasses = pcGenerator.getPitchClasses("5-34", 0);
+        MelodicValueRhythmCombination melodicValue = (MelodicValueRhythmCombination) combinationGenerator.allPermutationsForSetClassInSuperSetClass(pitchClasses, "3-6");
+        List<List<Integer>> permutationsPitchClasses = melodicValue.getPermutationsPitchClasses();
+        System.out.println("Size :" + permutationsPitchClasses.size());
+//        Assertions.assertEquals(12, permutationsPitchClasses.size());
+        for (List<Integer> permutationsPitchClass : permutationsPitchClasses) {
+  //          Chord chord = new Chord(permutationsPitchClass, permutationsPitchClass.get(0));
+  //          System.out.println(chord.getChordType());
             permutationsPitchClass.forEach(integer -> System.out.print(integer + ", "));
             System.out.println();
         }
