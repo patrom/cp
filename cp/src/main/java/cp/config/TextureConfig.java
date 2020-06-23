@@ -48,7 +48,7 @@ public class TextureConfig {
 //        textureSelection.addSetclasses(VoicingType.DROP_2, Scale.SET_3_5.getPitchClasses());
 //        textureSelection.addSetclasses(VoicingType.UP_2, Scale.SET_3_4.getPitchClasses());
 //        textureSelection.addSetclasses(VoicingType.UP_2, Scale.SET_4_8.getPitchClasses());
-        textureSelections.put(1, textureSelection);
+//        textureSelections.put(1, textureSelection);
 //        textureSelections.put(2, textureSelection);
     }
 

@@ -11,6 +11,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DefaultConfig.class)
@@ -22,14 +23,18 @@ public class CommonNoteTest {
 
     @Test
     public void getCommonNotes() {
-        List<CommonNoteValueObject> commonNotes = commonNote.getCommonNotes("5-Z37", 2);
+        List<CommonNoteValueObject> commonNotes = commonNote.getCommonNotes("5-34", 2);
         for (CommonNoteValueObject commonNoteValueObject : commonNotes) {
             System.out.println("Common ");
-            commonNoteValueObject.getCommonPitchClasses().forEach(System.out::println);
+            String collect = commonNoteValueObject.getCommonPitchClasses().stream().map(Object::toString).collect(Collectors.joining(","));
+            System.out.println(collect);
             System.out.println("Disjunct ");
-            commonNoteValueObject.getDisjunctPitchClasses1().forEach(System.out::println);
+            collect = commonNoteValueObject.getDisjunctPitchClasses1().stream().map(Object::toString).collect(Collectors.joining(","));
+            System.out.println(collect);
             System.out.println("Disjunct ");
-            commonNoteValueObject.getDisjunctPitchClasses2().forEach(System.out::println);
+            collect = commonNoteValueObject.getDisjunctPitchClasses2().stream().map(Object::toString).collect(Collectors.joining(","));
+            System.out.println(collect);
+            System.out.println("--------------");
         }
     }
 
@@ -38,11 +43,15 @@ public class CommonNoteTest {
         List<CommonNoteValueObject> commonNotes = commonNote.getCommonNotes("6-Z28", 3);
         for (CommonNoteValueObject commonNoteValueObject : commonNotes) {
             System.out.println("Common ");
-            commonNoteValueObject.getCommonPitchClasses().forEach(integer -> System.out.println(integer));
+            String collect = commonNoteValueObject.getCommonPitchClasses().stream().map(Object::toString).collect(Collectors.joining(","));
+            System.out.println(collect);
             System.out.println("Disjunct ");
-            commonNoteValueObject.getDisjunctPitchClasses1().forEach(integer -> System.out.println(integer));
+            collect = commonNoteValueObject.getDisjunctPitchClasses1().stream().map(Object::toString).collect(Collectors.joining(","));
+            System.out.println(collect);
             System.out.println("Disjunct ");
-            commonNoteValueObject.getDisjunctPitchClasses2().forEach(integer -> System.out.println(integer));
+            collect = commonNoteValueObject.getDisjunctPitchClasses2().stream().map(Object::toString).collect(Collectors.joining(","));
+            System.out.println(collect);
+            System.out.println("--------------");
         }
     }
 

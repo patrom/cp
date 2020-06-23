@@ -28,9 +28,10 @@ class RotationalArrayTest {
     void rotationalArray() {
 //        int[] pitchClasses = Scale.MAJOR_SCALE.getPitchClasses();
        // int[] pitchClasses = {0,4,8};
-        Set[] prime3 = type.prime3;
-        for (int k = 0; k < prime3.length; k++) {
-            Set set = prime3[k];
+//        Set[] prime = type.prime3;
+        Set[] prime = type.prime3;
+        for (int k = 0; k < prime.length; k++) {
+            Set set = prime[k];
             int[] pitchClasses = set.tntnitype;
             System.out.println("-------------------------------------------------");
             System.out.println(set.name + ": ");
@@ -44,7 +45,7 @@ class RotationalArrayTest {
                 System.out.println(chord.getForteName());
             }
 
-            for (int i = 0; i < pitchClasses.length; i++) {
+            for (int i = 1; i < pitchClasses.length; i++) {
                 System.out.println("Columns: ");
                 System.out.println(Arrays.toString(rotationalArray.getColumn(i)));
                 Chord chord = new Chord(rotationalArray.getRotationColumn(i), 0);
