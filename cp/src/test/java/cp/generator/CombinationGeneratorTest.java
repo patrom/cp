@@ -147,4 +147,24 @@ class CombinationGeneratorTest {
             System.out.println();
         }
     }
+
+    @Test
+    void allPassingTonePermutationsInSetClass() {
+        List<Integer> pitchClasses = pcGenerator.getPitchClasses("5-34", 0);
+        MelodicValueRhythmCombination melodicValue = (MelodicValueRhythmCombination) combinationGenerator.allPermutationsForSetClassInSuperSetClass(pitchClasses, "2-2");
+        List<List<Integer>> permutationsPitchClasses = melodicValue.getPermutationsPitchClasses();
+        System.out.println("Size :" + permutationsPitchClasses.size());
+        for (List<Integer> permutationsPitchClass : permutationsPitchClasses) {
+            permutationsPitchClass.forEach(integer -> System.out.print(integer + ", "));
+            System.out.println();
+        }
+    }
+
+    @Test
+    public void allPermutations(){
+        List<Integer> pitchClasses = pcGenerator.getPitchClasses("2-3", 9);
+        printPitchclasses(pitchClasses);
+        MelodicValueRhythmCombination melodicValue = (MelodicValueRhythmCombination) combinationGenerator.allPermutations(pitchClasses);
+        printMelodicValue(melodicValue);
+    }
 }

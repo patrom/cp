@@ -23,7 +23,7 @@ public class RhythmMap extends CompositionMap{
         List<RhythmCombination> rhythmCombinations = new ArrayList<>();
 //        rhythmCombinations.add(allRhythmCombinations.balancedPattern::pos6N30);
 //        rhythmCombinations.add(allRhythmCombinations.threeNoteEven::pos134);
-
+//            addMelodicValue(5, 2, DurationConstants.QUARTER);
 //        MelodicValue melodicValue = melodyMapComposition.getCompositionMap(2);
 //        addMelodicValue(2,rhythmCombinations, DurationConstants.QUARTER);
 //        melodicValues.add(melodicValue);

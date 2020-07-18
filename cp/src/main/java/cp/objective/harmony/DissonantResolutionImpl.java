@@ -16,8 +16,7 @@ public class DissonantResolutionImpl {
 		switch (size) {
 			case 1:
 			case 2:
-//				return isIntervalDissonant(chord);
-				return true;
+				return harmonicObjective.getDissonance().getDissonance(harmony) == 0;
 			case 3:
 				return harmonicObjective.getDissonance().getDissonance(harmony) == 0;
 //				return isTriadDissonant(chord);

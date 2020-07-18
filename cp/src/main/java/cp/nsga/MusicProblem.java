@@ -31,7 +31,7 @@ public class MusicProblem extends Problem {
 	@Autowired
 	public MusicProblem(MusicProperties properties) throws ClassNotFoundException {
 		numberOfVariables_ = 1;
-		numberOfObjectives_ = 3;
+		numberOfObjectives_ = 4;
 		numberOfConstraints_ = 0;
 		problemName_ = "MusicProblem";
 
@@ -76,7 +76,7 @@ public class MusicProblem extends Problem {
 //		double tonality = 1 - objectives.getTonality();
 //		solution.setObjective(6, tonality);
 
-//		solution.setObjective(4, objectives.getResolution());
+		solution.setObjective(3, objectives.getResolution());
 
 		double register = objectives.getRegister();
 

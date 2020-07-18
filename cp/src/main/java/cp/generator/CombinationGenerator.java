@@ -148,4 +148,19 @@ public class CombinationGenerator extends cp.generator.Generator {
         return melodicValue;
     }
 
+    /**
+     * Alle permutaties van pitchClasses
+     *
+     * @param pitchClasses pitchClasses
+     */
+    public MelodicValue allPermutations(List<Integer> pitchClasses){
+        List<List<Integer>> subsets = Generator.permutation(pitchClasses).simple().stream().collect(Collectors.toList());
+        if (subsets.isEmpty()) {
+            throw new IllegalStateException("Geen subsets gevonden");
+        }
+        MelodicValueRhythmCombination melodicValue = new MelodicValueRhythmCombination();
+        melodicValue.setPermutationsPitchClasses(subsets);
+        return melodicValue;
+    }
+
 }

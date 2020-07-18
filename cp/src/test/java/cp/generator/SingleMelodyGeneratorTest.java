@@ -415,4 +415,13 @@ class SingleMelodyGeneratorTest {
         }
     }
 
+    @Test
+    public void generateSingleNoteForteName(){
+        MelodicValueMelody melodicValue = (MelodicValueMelody) singleMelodyGenerator.generateSingleNoteForteName("4-4", DurationConstants.QUARTER, 0);
+        for (CpMelody melody : melodicValue.getMelodies()) {
+            melody.getNotes().forEach(pc -> System.out.println(pc + ", "));
+            System.out.println();
+        }
+    }
+
 }

@@ -29,6 +29,8 @@ public class SingleMelodyGenerator extends cp.generator.Generator {
     private Composition composition;
     @Autowired
     private Keys keys;
+    @Autowired
+    private PCGenerator pcGenerator;
 
     public CpMelody generateRest(int duration){
         List<CpMelody> melodies = new ArrayList<>();
@@ -48,6 +50,17 @@ public class SingleMelodyGenerator extends cp.generator.Generator {
     public MelodicValue generateSingleNoteScale(Scale scale, int duration){
         List<CpMelody> melodies = new ArrayList<>();
         for (int pitchClass : scale.getPitchClasses()) {
+            melodies.add(generateSingleNote(pitchClass, duration));
+        }
+        MelodicValueMelody melodicValue = new MelodicValueMelody();
+        melodicValue.setMelodies(melodies);
+        return melodicValue;
+    }
+
+    public MelodicValue generateSingleNoteForteName(String forteName, int duration, int transpose){
+        List<CpMelody> melodies = new ArrayList<>();
+        List<Integer> pitchClasses = pcGenerator.getPitchClasses(forteName, transpose);
+        for (int pitchClass : pitchClasses) {
             melodies.add(generateSingleNote(pitchClass, duration));
         }
         MelodicValueMelody melodicValue = new MelodicValueMelody();

@@ -32,7 +32,7 @@ public class RhythmMapComposition {
         initRhythm6();
     }
 
-    public List<RhythmCombination> getrhythmMap(int key) {
+    public List<RhythmCombination> getRhythmMap(int key) {
         return rhythmCombinationsMap.get(key);
     }
 
@@ -63,16 +63,16 @@ public class RhythmMapComposition {
 
     private void initRhythm3() {
         List<RhythmCombination> threeCombinations = new ArrayList<>();
-//		threeCombinations.add(allRhythms.threeNoteEven::pos123);
-//		threeCombinations.add(allRhythms.threeNoteEven::pos134);
-//		threeCombinations.add(allRhythms.threeNoteEven::pos124);
-//        threeCombinations.add(allRhythms.threeNoteEven::pos234);
+		threeCombinations.add(allRhythms.threeNoteEven::pos123);
+		threeCombinations.add(allRhythms.threeNoteEven::pos134);
+		threeCombinations.add(allRhythms.threeNoteEven::pos124);
+        threeCombinations.add(allRhythms.threeNoteEven::pos234);
 
-        threeCombinations.add(allRhythms.threeNoteUneven::pos123);
+//        threeCombinations.add(allRhythms.threeNoteUneven::pos123);
 
-		threeCombinations.add(allRhythms.threeNoteSexTuplet::pos145);
+//		threeCombinations.add(allRhythms.threeNoteSexTuplet::pos145);
 //		threeCombinations.add(allRhythms.threeNoteSexTuplet::pos136);
-		threeCombinations.add(allRhythms.threeNoteSexTuplet::pos156);
+//		threeCombinations.add(allRhythms.threeNoteSexTuplet::pos156);
 //		threeCombinations.add(allRhythms.threeNoteSexTuplet::pos123);
         rhythmCombinationsMap.put(3, threeCombinations);
     }

@@ -114,7 +114,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 
 		//TWO VOICES
 //		composeInGenres.add(twoVoiceComposition::random);
-		composeInGenres.add(twoVoiceComposition::compositionMap);
+//		composeInGenres.add(twoVoiceComposition::compositionMap);
 //		composeInGenres.add(twoVoiceComposition::beatEven);
 //		composeInGenres.add(twoVoiceComposition::beatEven);
 //		composeInGenres.add(twoVoiceComposition::canon);
@@ -139,7 +139,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(threeVoiceComposition::harmonize);
 //		composeInGenres.add(threeVoiceComposition::threeOverXX);
 //		composeInGenres.add(threeVoiceComposition::allRandom);
-// 		composeInGenres.add(threeVoiceComposition::compositionMap);
+ 		composeInGenres.add(threeVoiceComposition::compositionMap);
 //
 		//FOUR VOICES
 //		composeInGenres.add(fourVoiceComposition::canonA3);
@@ -183,10 +183,9 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 			    
 //			    population.sort(Comparator.comparing(MusicSolution::getMelody).thenComparing(MusicSolution::getHarmony));
 			    population.sort(Comparator
-//						.comparing(MusicSolution::getTransformation)
-                        .comparing(MusicSolution::getMelody)
-                        .thenComparing(MusicSolution::getHarmony)
-						.thenComparing(MusicSolution::getResolution));
+						.comparing(MusicSolution::getResolution)
+                        .thenComparing(MusicSolution::getMelody)
+                        .thenComparing(MusicSolution::getHarmony));
 //                        .thenComparing(MusicSolution::getResolution));
 ////						.thenComparing(MusicSolution::getTransformation)
 //						.thenComparing(MusicSolution::getResolution)

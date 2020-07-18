@@ -32,8 +32,8 @@ public class HarmonyMap extends CompositionMap{
 //        RandomRhythmWithRestCombination randomRhythmWithRestCombination = new RandomRhythmWithRestCombination(rests, DurationConstants.QUARTER, DurationConstants.EIGHT, DurationConstants.HALF);
 //        rhythmCombinations.add(randomRhythmWithRestCombination);
 
-//        addMelodicValue(1, rhythmCombinations, DurationConstants.WHOLE);
-//        addMelodicValue(1, rhythmCombinations, DurationConstants.WHOLE * 2);
+
+//        addMelodicValue(1, 2, DurationConstants.WHOLE * 2);
 
 //        addMelodicValue(4, rhythmCombinations, DurationConstants.WHOLE);
 //        addMelodicValue(4, rhythmCombinations, DurationConstants.WHOLE * 2);
@@ -54,11 +54,12 @@ public class HarmonyMap extends CompositionMap{
 //        List<RhythmCombination> rhythmCombinations = new ArrayList<>();
 //        rhythmCombinations.add(allRhythmCombinations.threeNoteEven::pos123);
 //        melodicValues.add(melodyMapComposition.getCompositionMap(4));
-
-        addMelodicValue(0, 3, DurationConstants.THREE_QUARTERS);
-        addMelodicValue(0, 3, DurationConstants.HALF * 3);
-        addMelodicValue(1, 3, DurationConstants.THREE_QUARTERS);
-        addMelodicValue(1, 3, DurationConstants.HALF * 3);
+        addMelodicValue(1, 2, DurationConstants.QUARTER);
+        addMelodicValue(1, 2, DurationConstants.HALF);
+//        addMelodicValue(0, 3, DurationConstants.THREE_QUARTERS);
+//        addMelodicValue(0, 3, DurationConstants.HALF * 3);
+//        addMelodicValue(1, 3, DurationConstants.THREE_QUARTERS);
+//        addMelodicValue(1, 3, DurationConstants.HALF * 3);
 //        addMelodicValue(1, 2, DurationConstants.HALF);
 //        addMelodicValue(5, 3, DurationConstants.WHOLE);
 //        addMelodicValue(6, 3, DurationConstants.WHOLE);

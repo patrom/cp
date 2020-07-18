@@ -86,13 +86,13 @@ public class TonalSetClassDissonance implements Dissonance {
 //            case "2-1":
 //                return 0.8;
 //            case "2-2":
-//                return 0.5;
-//            case "2-3":
-//                return 0.8;
-//            case "2-4":
-//                return 0.8;
-//            case "2-5":
-//                return 1.0;
+//                return 0.9;
+            case "2-3":
+                return 0.8;
+            case "2-4":
+                return 0.8;
+            case "2-5":
+                return 0.7;
 //            case "2-6":
 //                return 0.9;
         }
