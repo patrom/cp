@@ -1,14 +1,11 @@
 package cp.config.map;
 
 import cp.combination.RhythmCombination;
-import cp.combination.rhythm.RandomRhythmCombination;
-import cp.combination.rhythm.RandomRhythmWithRestCombination;
 import cp.model.rhythm.DurationConstants;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -54,8 +51,8 @@ public class HarmonyMap extends CompositionMap{
 //        List<RhythmCombination> rhythmCombinations = new ArrayList<>();
 //        rhythmCombinations.add(allRhythmCombinations.threeNoteEven::pos123);
 //        melodicValues.add(melodyMapComposition.getCompositionMap(4));
-        addMelodicValue(1, 2, DurationConstants.QUARTER);
-        addMelodicValue(1, 2, DurationConstants.HALF);
+        addMelodicValue(0, DurationConstants.WHOLE);
+        addMelodicValue(0, DurationConstants.WHOLE);
 //        addMelodicValue(0, 3, DurationConstants.THREE_QUARTERS);
 //        addMelodicValue(0, 3, DurationConstants.HALF * 3);
 //        addMelodicValue(1, 3, DurationConstants.THREE_QUARTERS);

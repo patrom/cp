@@ -1,6 +1,5 @@
 package cp.config;
 
-import cp.composition.MelodyMapComposition;
 import cp.config.map.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,7 +25,7 @@ public class CompositionMapConfig {
     @PostConstruct
     public void init() {
         compositionMap.put(0, harmonyMap);
-        compositionMap.put(1, melodyMap);
+        compositionMap.put(1, harmonyMap);
         compositionMap.put(2, melodyMap);
         compositionMap.put(3, melodyMap);
         compositionMap.put(4, melodyMap);

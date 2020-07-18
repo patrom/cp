@@ -92,7 +92,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	private static final AtomicInteger COUNTER = new AtomicInteger();
 	
 	public static void main(final String[] args)  {
-		clean();
+//		clean();
 		SpringApplication app = new SpringApplication(CpApplication.class);
 	    app.setBannerMode(Mode.OFF);
 	    app.run(args);
@@ -114,7 +114,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 
 		//TWO VOICES
 //		composeInGenres.add(twoVoiceComposition::random);
-//		composeInGenres.add(twoVoiceComposition::compositionMap);
+		composeInGenres.add(twoVoiceComposition::compositionMap);
 //		composeInGenres.add(twoVoiceComposition::beatEven);
 //		composeInGenres.add(twoVoiceComposition::beatEven);
 //		composeInGenres.add(twoVoiceComposition::canon);
@@ -139,7 +139,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(threeVoiceComposition::harmonize);
 //		composeInGenres.add(threeVoiceComposition::threeOverXX);
 //		composeInGenres.add(threeVoiceComposition::allRandom);
- 		composeInGenres.add(threeVoiceComposition::compositionMap);
+// 		composeInGenres.add(threeVoiceComposition::compositionMap);
 //
 		//FOUR VOICES
 //		composeInGenres.add(fourVoiceComposition::canonA3);

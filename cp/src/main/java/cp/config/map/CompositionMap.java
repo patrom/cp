@@ -89,9 +89,9 @@ public abstract class CompositionMap {
         return cpMelody;
     }
 
-    public void addMelodicValue(int melodyKey, int rhythmKey, int duration){
+    public void addMelodicValue(int melodyKey, int duration){
         MelodicValueRhythmCombination melodicValue = (MelodicValueRhythmCombination) melodyMapComposition.getCompositionMap(melodyKey);
-        melodicValue.setRhythmCombinations(rhythmMapComposition.getRhythmMap(rhythmKey));
+        melodicValue.setRhythmCombinations(rhythmMapComposition.getRhythmMap(duration));
         melodicValue.setDuration(duration);
         melodicValue.setPulse(singleMelodyGenerator.getPulse());//balanced patterns
         melodicValues.add(melodicValue);

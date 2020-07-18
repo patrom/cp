@@ -253,5 +253,56 @@ public class VoiceLeadingTest extends AbstractTest {
 		}
 	}
 
+	@Test
+	public void testAllPentachordalVoiceLeading(){
+		java.util.Set<VoiceLeadingSize> voiceLeadingSizes = new TreeSet<>();
+		type.initPrime5();
+		Set[] set = type.prime5;
+		for (int i = 0; i < set.length; i++) {
+			for (int j = 0; j < set.length; j++) {
+				CpHarmony source = chordGenerator.generateChord(set[i].name);
+				CpHarmony target = chordGenerator.generateChord(set[j].name);
+				for (int pcLoop = 0; pcLoop < 11; pcLoop++) {
+					target.transpose(1);
+					VoiceLeadingSize voiceLeadingSize = getVoiceLeading(source, target);
+					if (voiceLeadingSize.getSize() <= 3) {
+						voiceLeadingSize.setSourceForteName(set[i].name);
+						voiceLeadingSize.setTargetForteName(set[j].name);
+						voiceLeadingSizes.add(voiceLeadingSize);
+					}
+				}
+			}
+		}
+
+		for (VoiceLeadingSize voiceLeadingSize : voiceLeadingSizes) {
+			print(voiceLeadingSize);
+		}
+	}
+
+	@Test
+	public void testAllHexachordalVoiceLeading(){
+		java.util.Set<VoiceLeadingSize> voiceLeadingSizes = new TreeSet<>();
+		type.initPrime6();
+		Set[] set = type.prime6;
+		for (int i = 0; i < set.length; i++) {
+			for (int j = 0; j < set.length; j++) {
+				CpHarmony source = chordGenerator.generateChord(set[i].name);
+				CpHarmony target = chordGenerator.generateChord(set[j].name);
+				for (int pcLoop = 0; pcLoop < 11; pcLoop++) {
+					target.transpose(1);
+					VoiceLeadingSize voiceLeadingSize = getVoiceLeading(source, target);
+					if (voiceLeadingSize.getSize() <= 3) {
+						voiceLeadingSize.setSourceForteName(set[i].name);
+						voiceLeadingSize.setTargetForteName(set[j].name);
+						voiceLeadingSizes.add(voiceLeadingSize);
+					}
+				}
+			}
+		}
+
+		for (VoiceLeadingSize voiceLeadingSize : voiceLeadingSizes) {
+			print(voiceLeadingSize);
+		}
+	}
 
 }

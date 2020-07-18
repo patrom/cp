@@ -48,7 +48,9 @@ class TextureSelectionTest {
     void getChordTypes() {
         textureSelection.addChordType(ChordType.CH2_GROTE_SIXT_CHR);
         for (List<DependantHarmony> value : textureSelection.getTextureTypes().values()) {
-            System.out.println(value);
+            for (DependantHarmony dependantHarmony : value) {
+                System.out.println(dependantHarmony.getChordType());
+            }
         }
     }
 
@@ -104,5 +106,17 @@ class TextureSelectionTest {
         }
     }
 
+    @Test
+    public void addChordTypes(){
+        textureSelection.addChordType(ChordType.MAJOR_1, ChordType.MINOR_1);
+        Map<Integer, List<DependantHarmony>> textureTypes = textureSelection.getTextureTypes();
+        for (Map.Entry<Integer, List<DependantHarmony>> integerListEntry : textureTypes.entrySet()) {
+            System.out.println(integerListEntry.getKey());
+            List<DependantHarmony> value = integerListEntry.getValue();
+            for (DependantHarmony dependantHarmony : value) {
+                System.out.println(dependantHarmony.getChordType());
+            }
+        }
+    }
 
 }

@@ -1,19 +1,12 @@
 package cp.config.map;
 
 import cp.combination.RhythmCombination;
-import cp.combination.rhythm.CompositeRhythmCombination;
-import cp.combination.rhythm.RandomRhythmCombination;
-import cp.combination.rhythm.RandomRhythmWithRestCombination;
-import cp.composition.ContourType;
-import cp.composition.MelodicValue;
-import cp.composition.MelodicValueMelody;
-import cp.composition.MelodicValueRhythmCombination;
-import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class MelodyMap extends CompositionMap{
@@ -84,11 +77,11 @@ public class MelodyMap extends CompositionMap{
 //        addMelodicValue(0, 4, DurationConstants.WHOLE);
 //        addMelodicValue(1, 4, DurationConstants.WHOLE);
 
-        addMelodicValue(0, 2, DurationConstants.QUARTER);
+        addMelodicValue(0, DurationConstants.QUARTER);
         List<RhythmCombination> rhythmCombinations = new ArrayList<>();
         rhythmCombinations.add(allRhythmCombinations.twoNoteUneven::pos13);
-        addMelodicValue(0, rhythmCombinations, DurationConstants.THREE_EIGHTS);
-        addMelodicValue(0, 2, DurationConstants.HALF);
+        addMelodicValue(0, DurationConstants.THREE_EIGHTS);
+        addMelodicValue(0, DurationConstants.HALF);
 //        addMelodicValue(0, 3, DurationConstants.THREE_QUARTERS);
 //        addMelodicValue(1, 3, DurationConstants.THREE_QUARTERS);
 //        addMelodicValue(1, 3, DurationConstants.THREE_QUARTERS);

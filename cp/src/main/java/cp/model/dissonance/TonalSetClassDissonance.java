@@ -20,19 +20,22 @@ public class TonalSetClassDissonance implements Dissonance {
            return 0;
         }
         int size = harmony.getChord().getPitchClassSet().size();
+        LOGGER.info("size " + size);
         switch (size){
             case 2:
-                return dyadic(harmony.getChord());
-//                return 0;
+//                return dyadic(harmony.getChord());
+               return 0;
             case 3:
-                return trichordal(harmony.getChord());
+                return 0;
+//                return trichordal(harmony.getChord());
             case 4:
-                return tetrachordal(harmony.getChord());
+                return 0;
+//                return tetrachordal(harmony.getChord());
             case 5:
                 return pentaChordal(harmony.getChord());
             case 6:
-//                LOGGER.info("6 chord");
-                return 0;
+                LOGGER.info("hexa");
+                return hexaChordal(harmony.getChord());
         }
         return 0;
     }
@@ -129,7 +132,13 @@ public class TonalSetClassDissonance implements Dissonance {
         return 0;
     }
 
-
+    private double hexaChordal(Chord chord) {
+        switch (chord.getForteName()) {
+           case "6-20":
+                return 0.99;
+        }
+        return 0;
+    }
 
 
 }
