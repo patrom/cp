@@ -104,7 +104,7 @@ public class TextureSelection {
         });
     }
 
-    public TextureSelection getSelection(List<Chord> chords) {
+    public TextureSelection getSelection(List<Chord> chords, VoicingType... voicingTypes) {
         for (Chord chord : chords) {
             java.util.Set<Integer> pitchClassSet = chord.getPitchClassSet();
             Integer[] pcs = pitchClassSet.toArray(new Integer[0]);
@@ -116,7 +116,7 @@ public class TextureSelection {
                     transposedPcs[k] = (pitchClasses[k] - difference) % 12;
                 }
                 List<DependantHarmony> setClasses = new ArrayList<>();
-                setClasses.add(createDependantHarmonyComposition(transposedPcs, VoicingType.CLOSE));
+                setClasses.add(createDependantHarmonyComposition(transposedPcs, voicingTypes));
                 //            setClasses.add(createDependantHarmonyComposition(transposedPcs, VoicingType.DROP_2));
                 textureTypes.compute(i, (k, v) -> {
                             if (v == null) {
@@ -372,7 +372,8 @@ public class TextureSelection {
         return dependantHarmony;
     }
 
-    private DependantHarmony createDependantHarmonyComposition(int[] setClass, VoicingType voicingType){
+    private DependantHarmony createDependantHarmonyComposition(int[] setClass,  VoicingType... voicingTypes){
+        VoicingType voicingType = RandomUtil.getRandomFromArray(voicingTypes);
         DependantHarmony dependantHarmony = new DependantHarmony(setClass, voicingType);
         dependantHarmony.setChordType(ChordType.SETCLASS_COMPOSITION);
         return dependantHarmony;

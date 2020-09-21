@@ -20,21 +20,18 @@ public class TonalSetClassDissonance implements Dissonance {
            return 0;
         }
         int size = harmony.getChord().getPitchClassSet().size();
-        LOGGER.info("size " + size);
         switch (size){
             case 2:
+                return 0;
 //                return dyadic(harmony.getChord());
-               return 0;
             case 3:
                 return 0;
 //                return trichordal(harmony.getChord());
             case 4:
-                return 0;
-//                return tetrachordal(harmony.getChord());
+                return tetrachordal(harmony.getChord());
             case 5:
                 return pentaChordal(harmony.getChord());
             case 6:
-                LOGGER.info("hexa");
                 return hexaChordal(harmony.getChord());
         }
         return 0;
@@ -42,14 +39,20 @@ public class TonalSetClassDissonance implements Dissonance {
 
     private double pentaChordal(Chord chord) {
         switch (chord.getForteName()) {
-//            case "5-23":
-//                return 0.99;
-//            case "5-27":
-//                return 0.8;
-//            case "5-34":
-//                return 0.99;
-//            case "5-35":
-//                return 0.99;
+            case "5-23":
+                return 1.0;
+            case "5-27":
+                return 1.0;
+            case "5-28":
+                return 1.0;
+            case "5-29":
+                return 1.0;
+            case "5-32":
+                return 1.0;
+            case "5-34":
+                return 1.0;
+            case "5-35":
+                return 1.0;
         }
         return 0;
     }
@@ -58,19 +61,19 @@ public class TonalSetClassDissonance implements Dissonance {
         switch (chord.getForteName()) {
 //            case "4-3":
 //                return 1.0;
-//            case "4-7":
-//                return 1.0;
-//            case "4-17":
-//                return 1.0;
+            case "4-8":
+                return 1.0;
+            case "4-16":
+                return 1.0;
 
 //            case "4-14"://m add9 - major add 11
 //                return 0.99;
 //            case "4-20"://major7
 //                return 1.0;
-//            case "4-22"://add9
-//                return 1.0;
-//            case "4-23"://sus9
-//                return 0.99;
+            case "4-22"://add9
+                return 1.0;
+            case "4-23"://sus9
+                return 1.0;
             case "4-25"://dom7b5
                 return 1.0;
             case "4-26"://m7
@@ -90,14 +93,14 @@ public class TonalSetClassDissonance implements Dissonance {
 //                return 0.8;
 //            case "2-2":
 //                return 0.9;
-            case "2-3":
-                return 0.8;
-            case "2-4":
-                return 0.8;
+//            case "2-3":
+//                return 0.8;
+//            case "2-4":
+//                return 1.0;
             case "2-5":
-                return 0.7;
-//            case "2-6":
-//                return 0.9;
+                return 0.9;
+            case "2-6":
+                return 0.9;
         }
         return 0;
     }
@@ -112,20 +115,20 @@ public class TonalSetClassDissonance implements Dissonance {
 //                return 0.95;
 //            case "3-4":
 //                return 0.98;
-//            case "3-5":
-//                return 1.0;
+            case "3-5":
+                return 1.0;
 //            case "3-6":
 //                return 0.97;
-            case "3-7":
-                return 0.98;
-            case "3-8":
-                return 0.8;
+//            case "3-7":
+//                return 0.98;
+//            case "3-8":
+//                return 0.8;
             case "3-9":
-                return 0.98;
-            case "3-10":
-                return 0.9;
-            case "3-11":
-                return 0.98;
+                return 1.0;
+//            case "3-10":
+//                return 0.9;
+//            case "3-11":
+//                return 0.98;
 //            case "3-12":
 //                return 0.9;
         }
@@ -134,8 +137,10 @@ public class TonalSetClassDissonance implements Dissonance {
 
     private double hexaChordal(Chord chord) {
         switch (chord.getForteName()) {
-           case "6-20":
-                return 0.99;
+           case "6-Z28":
+                return 1.0;
+            case "6-Z49":
+                return 1.0;
         }
         return 0;
     }

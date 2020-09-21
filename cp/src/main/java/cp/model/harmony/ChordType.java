@@ -120,7 +120,6 @@ public enum ChordType {
 	DOM_CHR_1(3),
 	DOM_CHR_2(3);
 
-
 	public enum Inversion {
 		ROOT, INVERSION1, INVERSION2, OTHER
 	}

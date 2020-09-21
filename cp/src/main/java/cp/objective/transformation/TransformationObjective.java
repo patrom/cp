@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import javax.swing.tree.TreeNode;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -27,14 +28,14 @@ public class TransformationObjective extends Objective {
     @Autowired
     private HarmonyExtractor harmonyExtractor;
     @Autowired
-    @Qualifier(value = "functionalTransformation")
-//    @Qualifier(value = "neoRiemannTransformation")
+//    @Qualifier(value = "functionalTransformation")
+    @Qualifier(value = "neoRiemannTransformation")
 //    @Qualifier(value = "voiceLeadingZoneTransformation")
     private TransformationDissonance transformationDissonance;
 
     @Override
     public double evaluate(Motive motive) {
-        List<Note> harmonyNotes = motive.getMelodyBlocks().stream().filter(m -> m.getVoice() != 2)
+        List<Note> harmonyNotes = motive.getMelodyBlocks().stream().filter(m -> m.getVoice() <= 1)
                 .flatMap(m -> m.getMelodyBlockNotes().stream()).collect(toList());
         List<CpHarmony> transformationHarmonies = harmonyExtractor.extractHarmony(harmonyNotes);
 //        Double averageHarmonicWeight = motive.getHarmonies().stream().mapToDouble(value -> value.getHarmonyWeight()).average().getAsDouble();

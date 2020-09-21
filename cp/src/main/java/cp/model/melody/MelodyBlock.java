@@ -6,7 +6,6 @@ import cp.model.contour.Contour;
 import cp.model.note.Dynamic;
 import cp.model.note.Note;
 import cp.model.rhythm.DurationConstants;
-import cp.nsga.operator.mutation.MutationType;
 import cp.out.instrument.Articulation;
 import cp.out.instrument.Instrument;
 import cp.out.instrument.Technical;
@@ -336,14 +335,14 @@ public class MelodyBlock {
         CpMelody oldMelody = melodyBlocks.set(randomIndex, melody);
         melody.setStart(oldMelody.getStart());
         melody.setVoice(oldMelody.getVoice());
-        melody.updateNotePositions(oldMelody.getStart());
+        melody.updateNotePositions(oldMelody.getStart(), oldMelody.getVoice());
         int start = 0;
         for (CpMelody cpMelody : melodyBlocks) {
             int oldStart = cpMelody.getStart();
             cpMelody.setStart(start);
             int startDiff = start - oldStart;
             cpMelody.setEnd(start + cpMelody.getLength());
-            cpMelody.updateNotePositions(startDiff);
+            cpMelody.updateNotePositions(startDiff, oldMelody.getVoice());
             start = cpMelody.getEnd();
         }
     }

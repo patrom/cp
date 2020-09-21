@@ -48,7 +48,7 @@ public class MelodyMapRandomMutation implements MutationOperator<MelodyBlock> {
                     CpMelody melody = compositionMap.getMelody(melodyBlock.getVoice());
                     melody.setStart(start);
                     melody.setEnd(start + melody.getLength());
-                    melody.updateNotePositions(start);
+                    melody.updateNotePositions(start, melodyBlock.getVoice());
                     melody.setMutationType(MutationType.MELODY_MAP);
                     melody.setVoice(melodyBlock.getVoice());
                     melodyBlock.addMelodyBlock(melody);

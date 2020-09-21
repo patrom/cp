@@ -31,7 +31,7 @@ public class MusicProblem extends Problem {
 	@Autowired
 	public MusicProblem(MusicProperties properties) throws ClassNotFoundException {
 		numberOfVariables_ = 1;
-		numberOfObjectives_ = 4;
+		numberOfObjectives_ = 3;
 		numberOfConstraints_ = 0;
 		problemName_ = "MusicProblem";
 
@@ -68,7 +68,7 @@ public class MusicProblem extends Problem {
 		solution.setObjective(1, melodyObjective);// melody
 
         double rhythmObjective = 1 - harmonyMembershipFunction.membership(1 - objectives.getRhythm());
-		solution.setObjective(2, rhythmObjective);
+//		solution.setObjective(2, rhythmObjective);
 
 		double meterObjective = 1 - objectives.getMeter();
 //		solution.setObjective(3, meterObjective);
@@ -76,21 +76,19 @@ public class MusicProblem extends Problem {
 //		double tonality = 1 - objectives.getTonality();
 //		solution.setObjective(6, tonality);
 
-		solution.setObjective(3, objectives.getResolution());
+//		solution.setObjective(3, objectives.getResolution());
 
 		double register = objectives.getRegister();
 
 //		solution.setObjective(5, register);
 
         double melodicHarmonic = 1 - objectives.getMelodicHarmonic();
-//        solution.setObjective(2, melodicHarmonic);
+        solution.setObjective(2, melodicHarmonic);
 //		if (objectives.getVoiceleading() > 1 && objectives.getVoiceleading() < 4) {
 //			solution.setObjective(1, 0);
-//		} else {
-//			solution.setObjective(6, objectives.getVoiceleading());
 //		}
         double transformation = 1 - objectives.getTransformation();
-//        solution.setObjective(3, transformation);
+//        solution.setObjective(2, transformation);
 
         // //constraints
 		// objectives[5] = lowestIntervalRegisterValue;

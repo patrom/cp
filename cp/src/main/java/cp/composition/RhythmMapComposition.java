@@ -18,7 +18,9 @@ import java.util.Map;
 @ConditionalOnProperty(name = "mapComposition", havingValue = "true")
 public class RhythmMapComposition {
 
-    protected Map<Integer, List<RhythmCombination>> rhythmCombinationsMap = new HashMap<>();
+    private Map<Integer, List<RhythmCombination>> rhythmCombinationsMap1 = new HashMap<>();
+    private Map<Integer, List<RhythmCombination>> rhythmCombinationsMap2 = new HashMap<>();
+    private Map<Integer, List<RhythmCombination>> rhythmCombinationsMap3 = new HashMap<>();
 
     @Autowired
     private RhythmCombinations allRhythms;
@@ -33,15 +35,26 @@ public class RhythmMapComposition {
         initRhythmWhole();
     }
 
-    public List<RhythmCombination> getRhythmMap(int key) {
-        return rhythmCombinationsMap.get(key);
+    public List<RhythmCombination> getRhythmMap(int key, int size) {
+        switch (size){
+            case 1:
+                return rhythmCombinationsMap1.get(key);
+            case 2:
+                return rhythmCombinationsMap2.get(key);
+            case 3:
+                return rhythmCombinationsMap3.get(key);
+        }
+        throw new IllegalArgumentException("Size for rhythm map unknown");
     }
 
     private void initRhythmEight() {
         List<RhythmCombination> rhythmCombinations = new ArrayList<>();
         rhythmCombinations.add(allRhythms.oneNoteEven::pos1);
-        rhythmCombinations.add(allRhythms.oneNoteEven::pos2);
-        rhythmCombinationsMap.put(DurationConstants.EIGHT, rhythmCombinations);
+//        rhythmCombinations.add(allRhythms.oneNoteEven::pos2);
+        rhythmCombinationsMap1.put(DurationConstants.WHOLE, rhythmCombinations);
+        rhythmCombinationsMap1.put(DurationConstants.THREE_QUARTERS, rhythmCombinations);
+        rhythmCombinationsMap1.put(DurationConstants.HALF, rhythmCombinations);
+        rhythmCombinationsMap1.put(DurationConstants.QUARTER, rhythmCombinations);
     }
 
     private void initRhythmQuarter() {
@@ -56,7 +69,7 @@ public class RhythmMapComposition {
 //        twoCombinations.add(twoNoteUneven::pos23);
 //		twoCombinations.add(twoNoteUneven::pos12);
 //		twoCombinations.add(twoNoteUneven::pos13);
-        rhythmCombinationsMap.put(DurationConstants.QUARTER, twoCombinations);
+        rhythmCombinationsMap2.put(DurationConstants.QUARTER, twoCombinations);
     }
 
     private void initRhythmThreeEights() {
@@ -69,21 +82,25 @@ public class RhythmMapComposition {
 //		threeCombinations.add(allRhythms.threeNoteSexTuplet::pos136);
 //		threeCombinations.add(allRhythms.threeNoteSexTuplet::pos156);
 //		threeCombinations.add(allRhythms.threeNoteSexTuplet::pos123);
-        rhythmCombinationsMap.put(DurationConstants.THREE_EIGHTS, threeCombinations);
+        rhythmCombinationsMap2.put(DurationConstants.THREE_EIGHTS, threeCombinations);
     }
 
     private void initRhythmHalf() {
-        List<RhythmCombination> fourCombinations = new ArrayList<>();
-//        fourCombinations.add(allRhythms.fourNoteEven::pos1234);
-        fourCombinations.add(allRhythms.twoNoteEven::pos13);
-        fourCombinations.add(allRhythms.twoNoteEven::pos14);
-//		fourCombinations.add(allRhythms.fourNoteSexTuplet::pos1456);
-//		fourCombinations.add(allRhythms.fourNoteSexTuplet::pos1234);
-//        fourCombinations.add(allRhythms.fourNoteSexTuplet::pos1345);
-//        fourCombinations.add(allRhythms.fourNoteSexTuplet::pos1346);
-//        fourCombinations.add(allRhythms.fourNoteSexTuplet::pos1356);
+        List<RhythmCombination> rhythmCombinations = new ArrayList<>();
+//        rhythmCombinations.add(allRhythms.fourNoteEven::pos1234);
+        rhythmCombinations.add(allRhythms.twoNoteEven::pos13);
+        rhythmCombinations.add(allRhythms.twoNoteEven::pos14);
+//		rhythmCombinations.add(allRhythms.fourNoteSexTuplet::pos1456);
+//		rhythmCombinations.add(allRhythms.fourNoteSexTuplet::pos1234);
+//        rhythmCombinations.add(allRhythms.fourNoteSexTuplet::pos1345);
+//        rhythmCombinations.add(allRhythms.fourNoteSexTuplet::pos1346);
+//        rhythmCombinations.add(allRhythms.fourNoteSexTuplet::pos1356);
 
-        rhythmCombinationsMap.put(DurationConstants.HALF, fourCombinations);
+        rhythmCombinationsMap2.put(DurationConstants.HALF, rhythmCombinations);
+
+        rhythmCombinations = new ArrayList<>();
+        rhythmCombinations.add(allRhythms.threeNoteUneven::pos123);
+        rhythmCombinationsMap3.put(DurationConstants.HALF, rhythmCombinations);
     }
 
     private void initRhythmThreeQuarters() {
@@ -104,13 +121,17 @@ public class RhythmMapComposition {
 
         rhythmCombinations.add(allRhythms.twoNoteUneven::pos23);
         rhythmCombinations.add(allRhythms.twoNoteUneven::pos13);
-        rhythmCombinationsMap.put(DurationConstants.THREE_QUARTERS, rhythmCombinations);
+        rhythmCombinationsMap2.put(DurationConstants.THREE_QUARTERS, rhythmCombinations);
     }
 
     private void initRhythmWhole() {
 		List<RhythmCombination> rhythmCombinations = new ArrayList<>();
         rhythmCombinations.add(allRhythms.twoNoteEven::pos13);
         rhythmCombinations.add(allRhythms.twoNoteEven::pos14);
-        rhythmCombinationsMap.put(DurationConstants.WHOLE, rhythmCombinations);
+        rhythmCombinationsMap2.put(DurationConstants.WHOLE, rhythmCombinations);
+
+        rhythmCombinations = new ArrayList<>();
+        rhythmCombinations.add(allRhythms.threeNoteUneven::pos123);
+        rhythmCombinationsMap3.put(DurationConstants.WHOLE, rhythmCombinations);
     }
 }

@@ -7,4 +7,6 @@ public interface MelodyHarmonicDissonance {
     double getMelodicValue(Chord chord);
 
     int getChordSize();
+
+    int getStartingOverlap();
 }

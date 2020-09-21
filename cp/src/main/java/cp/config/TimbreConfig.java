@@ -18,14 +18,15 @@ public class TimbreConfig {
     @PostConstruct
     public void init() {
         Timbre defaultTimbre = new Timbre(null, Technical.LEGATO, Dynamic.MF);
+        Timbre pp = new Timbre(null, Technical.LEGATO, Dynamic.PP);
 //        defaultTimbre.setDynamics(Stream.of(Dynamic.P, Dynamic.MF, Dynamic.F).collect(toList()););
 
         //voice!!!
-        timbreConfig.put(0, defaultTimbre);
-        timbreConfig.put(1, defaultTimbre);
-        timbreConfig.put(2, defaultTimbre);
-        timbreConfig.put(3, defaultTimbre);
-        timbreConfig.put(4, defaultTimbre);
+        timbreConfig.put(0, pp);
+        timbreConfig.put(1, pp);
+        timbreConfig.put(2, pp);
+        timbreConfig.put(3, pp);
+        timbreConfig.put(4, pp);
         timbreConfig.put(5, new Timbre(Articulation.DETACHED_LEGATO, Technical.LEGATO, Dynamic.MF));
     }
 

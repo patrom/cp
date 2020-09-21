@@ -6,7 +6,6 @@ import cp.combination.rhythm.CompositeRhythmCombination;
 import cp.combination.rhythm.DurationRhythmCombination;
 import cp.combination.RhythmCombination;
 import cp.combination.RhythmCombinations;
-import cp.composition.MelodicValue;
 import cp.composition.MelodicValueMelody;
 import cp.composition.MelodicValueRhythmCombination;
 import cp.config.BeatGroupConfig;
@@ -21,7 +20,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.paukov.combinatorics3.Generator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -417,9 +415,18 @@ class SingleMelodyGeneratorTest {
 
     @Test
     public void generateSingleNoteForteName(){
-        MelodicValueMelody melodicValue = (MelodicValueMelody) singleMelodyGenerator.generateSingleNoteForteName("4-4", DurationConstants.QUARTER, 0);
+        MelodicValueMelody melodicValue = (MelodicValueMelody) singleMelodyGenerator.generateSingleNotesForteName("4-4", DurationConstants.QUARTER, 0);
         for (CpMelody melody : melodicValue.getMelodies()) {
             melody.getNotes().forEach(pc -> System.out.println(pc + ", "));
+            System.out.println();
+        }
+    }
+
+    @Test
+    public void generateSingleNoteForteName2(){
+        MelodicValueRhythmCombination melodicValue = (MelodicValueRhythmCombination) singleMelodyGenerator.generateSingleNotesForteName("4-4", 0);
+        for (List<Integer> integers : melodicValue.getPermutationsPitchClasses()) {
+            integers.forEach(pc -> System.out.print(pc + ", "));
             System.out.println();
         }
     }

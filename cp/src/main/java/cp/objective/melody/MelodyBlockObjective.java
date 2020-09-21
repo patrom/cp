@@ -62,6 +62,9 @@ public class MelodyBlockObjective implements BlockObjective {
     }
 
     public double evaluateMelody(List<Note> notes, int maxDistance, MelodyDissonance melodyDissonance) {
+        if (melodyDissonance == null){
+            return 0.0;
+        }
         if (notes.size() <= 1) {
             return Double.MIN_VALUE;
         }

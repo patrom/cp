@@ -13,6 +13,11 @@ public class MelodyMajorScale_7_35 implements MelodyHarmonicDissonance {
     }
 
     @Override
+    public int getStartingOverlap() {
+        return getChordSize();
+    }
+
+    @Override
     public double getMelodicValue(Chord chord) {
         int size = chord.getPitchClassSet().size();
         switch (size) {

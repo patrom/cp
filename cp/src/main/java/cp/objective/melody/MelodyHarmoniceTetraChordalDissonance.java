@@ -32,4 +32,9 @@ public class MelodyHarmoniceTetraChordalDissonance implements MelodyHarmonicDiss
     public int getChordSize() {
         return 4;
     }
+
+    @Override
+    public int getStartingOverlap() {
+        return getChordSize();
+    }
 }

@@ -57,7 +57,7 @@ public class SingleMelodyGenerator extends cp.generator.Generator {
         return melodicValue;
     }
 
-    public MelodicValue generateSingleNoteForteName(String forteName, int duration, int transpose){
+    public MelodicValue generateSingleNotesForteName(String forteName, int duration, int transpose){
         List<CpMelody> melodies = new ArrayList<>();
         List<Integer> pitchClasses = pcGenerator.getPitchClasses(forteName, transpose);
         for (int pitchClass : pitchClasses) {
@@ -65,6 +65,17 @@ public class SingleMelodyGenerator extends cp.generator.Generator {
         }
         MelodicValueMelody melodicValue = new MelodicValueMelody();
         melodicValue.setMelodies(melodies);
+        return melodicValue;
+    }
+
+    public MelodicValue generateSingleNotesForteName(String forteName, int transpose){
+        List<List<Integer>> permutationPitchClasses = new ArrayList<>();
+        List<Integer> pitchClasses = pcGenerator.getPitchClasses(forteName, transpose);
+        for (int pitchClass : pitchClasses) {
+            permutationPitchClasses.add(Collections.singletonList(pitchClass));
+        }
+        MelodicValueRhythmCombination melodicValue = new MelodicValueRhythmCombination();
+        melodicValue.setPermutationsPitchClasses(permutationPitchClasses);
         return melodicValue;
     }
 

@@ -2,7 +2,10 @@ package cp.objective.melody;
 
 import cp.DefaultConfig;
 import cp.config.MelodyConfig;
+import cp.model.Motive;
 import cp.model.harmony.Chord;
+import cp.model.melody.CpMelody;
+import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.model.note.Scale;
 import cp.model.rhythm.DurationConstants;
@@ -26,7 +29,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DefaultConfig.class)
-@TestPropertySource(properties = "composition.voices=4")
+@TestPropertySource(locations="classpath:test.properties")
 public class MelodicHarmonicObjectiveTest {
 
     @Autowired
@@ -55,7 +58,7 @@ public class MelodicHarmonicObjectiveTest {
         notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.HALF).pc(11).len(DurationConstants.EIGHT).build());
         notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.HALF + DurationConstants.EIGHT).pc(2).len(DurationConstants.EIGHT).build());
         notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.HALF + DurationConstants.QUARTER).pc(11).len(DurationConstants.QUARTER).build());
-        List<Chord> chords = melodicHarmonicObjective.extractMelodicChords(notes, 3);
+        List<Chord> chords = melodicHarmonicObjective.extractMelodicChords(notes, 3,3);
         chords.forEach(chord -> System.out.println(chord.getForteName()));
     }
 
@@ -74,7 +77,7 @@ public class MelodicHarmonicObjectiveTest {
         notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.HALF).pc(11).len(DurationConstants.EIGHT).build());
         notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.HALF + DurationConstants.EIGHT).pc(2).len(DurationConstants.EIGHT).build());
         notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.HALF + DurationConstants.QUARTER).pc(11).len(DurationConstants.QUARTER).build());
-        List<Chord> chords = melodicHarmonicObjective.extractMelodicChords(notes, 4);
+        List<Chord> chords = melodicHarmonicObjective.extractMelodicChords(notes, 4,4);
         chords.forEach(chord -> System.out.println(chord.getForteName()));
     }
 
@@ -148,6 +151,26 @@ public class MelodicHarmonicObjectiveTest {
     }
 
     @Test
+    public void extractMelodicChords() {
+        List<Note> notes = new ArrayList<>();
+        notes.add(note().pos(0).rest().len(HALF + EIGHT).len(HALF + EIGHT).build());
+        notes.add(note().pos(HALF + EIGHT).pc(4).len(DurationConstants.EIGHT).build());
+        notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).pc(7).len(DurationConstants.SIXTEENTH).build());
+        notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.SIXTEENTH).pc(7).len(DurationConstants.SIXTEENTH).build());
+        notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT).pc(11).len(DurationConstants.SIXTEENTH).build());
+        notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT + DurationConstants.SIXTEENTH).pc(2).len(DurationConstants.SIXTEENTH).build());
+
+        notes.add(note().pos(DurationConstants.WHOLE).pc(2).len(3).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pc(10).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.HALF).pc(6).len(DurationConstants.EIGHT).build());
+        notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.HALF + DurationConstants.EIGHT).pc(2).len(DurationConstants.EIGHT).build());
+        notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.HALF + DurationConstants.QUARTER).pc(11).len(DurationConstants.QUARTER).build());
+        List<Chord> chords = melodicHarmonicObjective.extractMelodicChords(notes, 4,4);
+        chords.forEach(chord -> System.out.println(chord.getForteName()));
+    }
+
+
+    @Test
     public void extractConsecutiveTetra() {
         List<Note> notes = new ArrayList<>();
         notes.add(note().pos(0).rest().len(HALF + EIGHT).len(HALF + EIGHT).build());
@@ -164,6 +187,44 @@ public class MelodicHarmonicObjectiveTest {
         notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.HALF + DurationConstants.QUARTER).pc(6).len(DurationConstants.QUARTER).build());
         List<Chord> chords = melodicHarmonicObjective.extractConsecutiveMelodicChords(notes, 4);
         chords.forEach(chord -> System.out.println(chord.getForteName()));
+    }
+
+
+    @Test
+    public void evaluateHexaChord() {
+        when(melodyConfig.getMelodyHarmonicDissonanceForVoice(Mockito.anyInt())).thenReturn(new MelodicHarmonicSetClassDissonance(8, 8,"6-7"));
+
+        List<MelodyBlock> melodyBlocks = new ArrayList<>();
+
+        MelodyBlock melodyBlock = new MelodyBlock(5,0);
+        List<Note> notes = new ArrayList<>();
+        notes.add(note().pos(0).rest().len(HALF + EIGHT).len(HALF + EIGHT).build());
+        notes.add(note().pos(HALF + EIGHT).pc(1).len(DurationConstants.EIGHT).build());
+        notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER).pc(7).len(DurationConstants.SIXTEENTH).build());
+        notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.SIXTEENTH).pc(8).len(DurationConstants.SIXTEENTH).build());
+        notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT).pc(6).len(DurationConstants.SIXTEENTH).build());
+        notes.add(note().pos(DurationConstants.HALF + DurationConstants.QUARTER + DurationConstants.EIGHT + DurationConstants.SIXTEENTH).pc(7).len(DurationConstants.SIXTEENTH).build());
+        CpMelody melody = new CpMelody(notes, 0, 0, DurationConstants.WHOLE * 2);
+        melodyBlock.addMelodyBlock(melody);
+        melodyBlock.dependsOn(0);
+        melodyBlocks.add(melodyBlock);
+
+        melodyBlock = new MelodyBlock(5,1);
+        notes = new ArrayList<>();
+        notes.add(note().pos(DurationConstants.WHOLE).pc(0).len(3).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.QUARTER).pc(6).len(DurationConstants.QUARTER).build());
+        notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.HALF).pc(2).len(DurationConstants.EIGHT).build());
+        notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.HALF + DurationConstants.EIGHT).pc(1).len(DurationConstants.EIGHT).build());
+        notes.add(note().pos(DurationConstants.WHOLE + DurationConstants.HALF + DurationConstants.QUARTER).pc(0).len(DurationConstants.QUARTER).build());
+        melody = new CpMelody(notes, 1, 0, DurationConstants.WHOLE * 2);
+        melodyBlock.addMelodyBlock(melody);
+        melodyBlock.dependsOn(0);
+        melodyBlocks.add(melodyBlock);
+
+        Motive motive = new Motive(melodyBlocks);
+        double dissonance = melodicHarmonicObjective.evaluate(motive);
+        System.out.println(dissonance);
+
     }
 
 }

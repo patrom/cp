@@ -6,16 +6,9 @@ import cp.config.TextureConfig;
 import cp.config.map.CompositionMap;
 import cp.model.melody.CpMelody;
 import cp.model.melody.MelodyBlock;
-import cp.model.note.NoteBuilder;
-import cp.model.rhythm.DurationConstants;
 import cp.nsga.operator.mutation.MutationOperator;
 import cp.nsga.operator.mutation.MutationType;
-import jmetal.util.PseudoRandom;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class ManipulationMutation<T> implements MutationOperator<MelodyBlock> {
 
@@ -35,7 +28,7 @@ public abstract class ManipulationMutation<T> implements MutationOperator<Melody
                 CpMelody melody = compositionMap.getMelody(melodyBlock.getVoice());
                 melody.setStart(start);
                 melody.setEnd(start + melody.getLength());
-                melody.updateNotePositions(start);
+                melody.updateNotePositions(start, melodyBlock.getVoice());
                 melody.setMutationType(MutationType.MELODY_MAP);
                 melody.setVoice(melodyBlock.getVoice());
                 melodyBlock.addMelodyBlock(melody);

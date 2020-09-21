@@ -110,9 +110,9 @@ public class VoiceLeadingTest extends AbstractTest {
 	}
 
 	private void print(VoiceLeadingSize minimalVoiceLeadingSize) {
-		LOGGER.info(minimalVoiceLeadingSize.getSourceForteName() + ',' + minimalVoiceLeadingSize.getTargetForteName() + ": size:" + minimalVoiceLeadingSize.getSize()  );
-		LOGGER.info(minimalVoiceLeadingSize.getVlSource().toString());
-		LOGGER.info(minimalVoiceLeadingSize.getVlTarget().toString());
+        System.out.println(minimalVoiceLeadingSize.getSourceForteName() + ',' + minimalVoiceLeadingSize.getTargetForteName() + ": size:" + minimalVoiceLeadingSize.getSize()  );
+        System.out.println(minimalVoiceLeadingSize.getVlSource().toString());
+        System.out.println(minimalVoiceLeadingSize.getVlTarget().toString());
 	}
 	
 	@Test
@@ -291,7 +291,7 @@ public class VoiceLeadingTest extends AbstractTest {
 				for (int pcLoop = 0; pcLoop < 11; pcLoop++) {
 					target.transpose(1);
 					VoiceLeadingSize voiceLeadingSize = getVoiceLeading(source, target);
-					if (voiceLeadingSize.getSize() <= 3) {
+					if (voiceLeadingSize.getSize() >= 2 && voiceLeadingSize.getSize() <= 3) {
 						voiceLeadingSize.setSourceForteName(set[i].name);
 						voiceLeadingSize.setTargetForteName(set[j].name);
 						voiceLeadingSizes.add(voiceLeadingSize);

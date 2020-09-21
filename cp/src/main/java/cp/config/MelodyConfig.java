@@ -27,6 +27,9 @@ public class MelodyConfig {
     @Autowired
     private ChordalMelodyDissonance chordalMelodyDissonance;
     @Autowired
+    private ContourMelodyDissonance contourMelodyDissonance;
+
+    @Autowired
     private MelodyHarmoniceTriChordalDissonance melodyHarmoniceTriChordalDissonance;
     @Autowired
     private MelodyHarmoniceTetraChordalDissonance melodyHarmoniceTetraChordalDissonance;
@@ -38,17 +41,17 @@ public class MelodyConfig {
     @PostConstruct
     public void init() {
         //voice!!!
-        meldodyConfigs.put(0, partMelodyDissonance);
-        meldodyConfigs.put(1, partMelodyDissonance);
-        meldodyConfigs.put(2, melodyDefaultDissonance);
-        meldodyConfigs.put(3, melodyDefaultDissonance);
-        meldodyConfigs.put(4, melodyDefaultDissonance);
-        meldodyConfigs.put(5, pentatonicMelodyDissonance);
+//        meldodyConfigs.put(0, contourMelodyDissonance);
+//        meldodyConfigs.put(1, melodyDefaultDissonance);
+//        meldodyConfigs.put(2, melodyDefaultDissonance);
+//        meldodyConfigs.put(3, contourMelodyDissonance);
+//        meldodyConfigs.put(4, melodyDefaultDissonance);
+        meldodyConfigs.put(5, contourMelodyDissonance);
 
 //        MelodicHarmonicTriadDissonance melodicHarmonicTriadDissonance = new MelodicHarmonicTriadDissonance("2-6" );
-        MelodicHarmonicSetClassDissonance melodicHarmonicSetClassDissonance = new MelodicHarmonicSetClassDissonance(6, "6-7");
-//        meldodyHarmonicConfigs.put(0, melodicHarmonicSetClassDissonance);
-//        meldodyHarmonicConfigs.put(1, melodicHarmonicSetClassDissonance);
+        MelodicHarmonicSetClassDissonance melodicHarmonicSetClassDissonance = new MelodicHarmonicSetClassDissonance(7, 6,"6-7");
+        meldodyHarmonicConfigs.put(0, melodicHarmonicSetClassDissonance);//voice depends on 'group.objective.melodicharmonic'
+//        meldodyHarmonicConfigs.put(3, melodicHarmonicSetClassDissonance);
 //        meldodyHarmonicConfigs.put(2, melodicHarmonicSetClassDissonance);
 //        meldodyHarmonicConfigs.put(3, melodicHarmonicSetClassDissonance);
 //        meldodyHarmonicConfigs.put(4, melodicHarmonicSetClassDissonance);

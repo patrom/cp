@@ -47,4 +47,26 @@ public class SixVoiceComposition extends Composition{
 
         return melodyBlocks;
     }
+
+    public List<MelodyBlock> compositionMap(){
+        List<MelodyBlock> melodyBlocks = new ArrayList<>();
+        MelodyBlock melodyBlock = melodyGenerator.pickMelodies(voice0);
+        melodyBlocks.add(melodyBlock);
+
+        MelodyBlock melodyBlock2 = melodyGenerator.pickMelodies(voice1);
+        melodyBlocks.add(melodyBlock2);
+
+        MelodyBlock melodyBlock3 = melodyGenerator.pickMelodies(voice2);
+        melodyBlocks.add(melodyBlock3);
+
+        MelodyBlock melodyBlock4 = melodyGenerator.pickMelodies(voice3);
+        melodyBlocks.add(melodyBlock4);
+
+        MelodyBlock melodyBlock5 = melodyGenerator.pickMelodies(voice4);
+        melodyBlocks.add(melodyBlock5);
+
+        MelodyBlock melodyBlock6 = melodyGenerator.pickMelodies(voice5);
+        melodyBlocks.add(melodyBlock6);
+        return melodyBlocks;
+    }
 }

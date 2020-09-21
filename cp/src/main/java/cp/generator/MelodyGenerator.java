@@ -64,7 +64,7 @@ public class MelodyGenerator {
             CpMelody melody = compositionMap.getMelody(voice);
             melody.setStart(start);
             melody.setEnd(start + melody.getLength());
-            melody.updateNotePositions(start);
+            melody.updateNotePositions(start, voice);
             melody.setMutationType(MutationType.MELODY_MAP);
             melody.setVoice(voice);
             melodyBlock.addMelodyBlock(melody);

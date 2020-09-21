@@ -84,7 +84,7 @@ class ChordVoicingGeneratorTest {
             orchestra.setPiano(notes);
             Sequence sequence = midiDevicesUtil.createSequence(orchestra.getOrchestra(), 60);
             Resource resource = new FileSystemResource("");
-            midiDevicesUtil.write(sequence, resource.getFile().getPath()+ "src/main/resources/orch/m" + set.name + ".mid");
+            midiDevicesUtil.write(sequence, resource.getFile().getPath()+ "src/main/resources/orch/" + set.name + ".mid");
         }
     }
 

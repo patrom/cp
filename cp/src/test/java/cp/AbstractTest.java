@@ -5,15 +5,19 @@ import cp.generator.MusicProperties;
 import cp.midi.MelodyInstrument;
 import cp.midi.MidiDevicePlayer;
 import cp.midi.MidiDevicesUtil;
+import cp.model.melody.MelodyBlock;
 import cp.model.note.Note;
 import cp.out.play.InstrumentMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -53,5 +57,11 @@ public abstract class AbstractTest {
 			e.printStackTrace();
 		}
 	}
+
+    protected void writeMidi(List<MelodyBlock> melodyBlocks, String id) throws IOException, InvalidMidiDataException {
+        Sequence sequence = midiDevicesUtil.createSequence(melodyBlocks, 100);
+        Resource resource = new FileSystemResource("");
+        midiDevicesUtil.write(sequence, resource.getFile().getPath()+ "src/main/resources/midi/" + id + ".mid");
+    }
 
 }

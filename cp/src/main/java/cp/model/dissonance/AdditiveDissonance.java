@@ -14,14 +14,17 @@ public class AdditiveDissonance implements Dissonance {
 
     @Override
     public double getDissonance(CpHarmony harmony) {
+        if (harmony.containsMinorSecondOrb9()) {
+            return 0;
+        }
         int size = harmony.getChord().getPitchClassSet().size();
         switch (size){
-            case 2:
-                return dyadic(harmony.getChord());
-//                return 0;
-            case 3:
-            case 4:
-            case 5:
+//            case 2:
+//                return dyadic(harmony.getChord());
+////                return 0;
+//            case 3:
+//            case 4:
+//            case 5:
             case 6:
                 return trichordal(harmony);
         }

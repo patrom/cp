@@ -121,7 +121,7 @@ public class MidiDevicesUtil {
 		int i = 0;
 		for (Entry<InstrumentMapping, List<Note>> entry: map.entrySet()) {
 			InstrumentMapping instrumentMapping = entry.getKey();
-			createTrackGeneralMidi(sequence, entry.getValue(), instrumentMapping.getInstrument(), tempo, instrumentMapping.getChannel(), false, i);
+			createTrackGeneralMidi(sequence, entry.getValue(), instrumentMapping.getInstrument(), tempo, instrumentMapping.getChannel(), i);
 			i++;
 		}
 		return sequence;
@@ -133,7 +133,7 @@ public class MidiDevicesUtil {
         int i = 0;
 		for (MelodyInstrument melodyInstrument : melodies) {
 			InstrumentMapping instrumentMapping = melodyInstrument.getInstrumentMapping();
-			createTrackGeneralMidi(sequence, melodyInstrument.getNotes(), instrumentMapping.getInstrument(), tempo, instrumentMapping.getChannel(), isKontakt, i);
+			createTrackGeneralMidi(sequence, melodyInstrument.getNotes(), instrumentMapping.getInstrument(), tempo, instrumentMapping.getChannel(), i);
 			i++;
 		}
 		return sequence;
@@ -145,7 +145,7 @@ public class MidiDevicesUtil {
         int i = 0;
 		for (MelodyBlock melody : melodies) {
 			InstrumentMapping instrumentMapping = instrumentConfig.getInstrumentMappingForVoice(melody.getVoice());
-			createTrackGeneralMidi(sequence, melody.getMelodyBlockNotesWithRests(), instrumentMapping.getInstrument(), tempo, instrumentMapping.getChannel(), false, i);
+			createTrackGeneralMidi(sequence, melody.getMelodyBlockNotesWithRests(), instrumentMapping.getInstrument(), tempo, instrumentMapping.getChannel(), i);
 			i++;
 		}
 		return sequence;
@@ -163,7 +163,7 @@ public class MidiDevicesUtil {
 //		return events;
 //	}
 
-	private void createTrackGeneralMidi(Sequence sequence, List<Note> notes, Instrument instrument, int tempo, int channel, boolean isKontakt, int first)
+	private void createTrackGeneralMidi(Sequence sequence, List<Note> notes, Instrument instrument, int tempo, int channel, int first)
 			throws InvalidMidiDataException {
 		MidiEvent midiTempoEvent = MidiTempo.getTempoMidiEvent(tempo);
         MetaMessage timeSignatureMessage = MidiTempo.timeSignatureMessage((byte) numerator, (byte) denominator);

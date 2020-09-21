@@ -41,4 +41,9 @@ public class MelodyHarmoniceTriChordalDissonance implements MelodyHarmonicDisson
     public int getChordSize() {
         return 3;
     }
+
+    @Override
+    public int getStartingOverlap() {
+        return getChordSize();
+    }
 }

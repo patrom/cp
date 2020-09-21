@@ -13,6 +13,11 @@ public class MelodySubSet_8_25 implements MelodyHarmonicDissonance {
     }
 
     @Override
+    public int getStartingOverlap() {
+        return getChordSize();
+    }
+
+    @Override
     public double getMelodicValue(Chord chord) {
         int size = chord.getPitchClassSet().size();
         switch (size){

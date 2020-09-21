@@ -135,7 +135,7 @@ public class FitnessEvaluationTemplate {
             if (!contourVoices.contains(updatebleMelody.getVoice())){
                 Instrument instrument = instrumentConfig.getInstrumentForVoice(updatebleMelody.getVoice());
                 instrument.updateNotesInRange(updatebleMelody.getMelodyBlockNotes());
-                //			removeTextureNotesOutOfRange(updatebleMelody, instrument);
+                removeTextureNotesOutOfRange(updatebleMelody, instrument);
             }
 		}
 	}
@@ -167,8 +167,8 @@ public class FitnessEvaluationTemplate {
 		double harmonyResolution = harmonicResolutionObjective.evaluate(motive);
 		LOGGER.debug("harmonyResolution: " + harmonyResolution);
 		
-//		double voiceLeading = voiceLeadingObjective.evaluate(motive);
-//		LOGGER.debug("voiceLeadingSize: " + voiceLeading);
+		double voiceLeading = voiceLeadingObjective.evaluate(motive);
+		LOGGER.debug("voiceLeadingSize: " + voiceLeading);
 		
 		double melodic = melodicObjective.evaluate(motive);
 		LOGGER.debug("melodic = " + melodic);
@@ -195,7 +195,7 @@ public class FitnessEvaluationTemplate {
 		fitnessObjectives.setHarmony(harmony);
 		fitnessObjectives.setMelody(melodic);
 		fitnessObjectives.setMelodicHarmonic(melodicHarmonic);
-//		fitnessObjectives.setVoiceleading(voiceLeading);
+		fitnessObjectives.setVoiceleading(voiceLeading);
 //		fitnessObjectives.setTonality(tonality);
 		fitnessObjectives.setRhythm(rhythm);
 		fitnessObjectives.setMeter(meter);

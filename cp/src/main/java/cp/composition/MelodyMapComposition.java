@@ -166,15 +166,20 @@ public class MelodyMapComposition {
 //        List<Integer> pitchClasses = pcGenerator.getPitchClasses("8-23", 4);
 //        List<Integer> pitchClasses = pcGenerator.getPitchClasses("8-28", 0);
 //        List<Integer> pitchClasses = pcGenerator.getPitchClasses("5-34", 0);
-        List<Integer> pitchClasses = pcGenerator.getPitchClasses("5-34", 0);
+//        List<Integer> pitchClasses = pcGenerator.getPitchClasses("6-7", 0);
+        List<Integer> pitchClasses = Scale.CHROMATIC_SCALE.getPitchClassesAsList();
 //        List<Integer> pitchClasses = pcGenerator.getInversionPitchClasses("6-Z6");
 //        MelodicValue melodicValue = (MelodicValueRhythmCombination) combinationGenerator.getSetClassesForForteNameInSuperSetClass(pitchClasses, "2-2");
         MelodicValue melodicValue = (MelodicValueRhythmCombination) combinationGenerator.allPermutationsForSetClassInSuperSetClass(pitchClasses, "2-2");
         compositionMap.put(0, melodicValue);
+
+        melodicValue = (MelodicValueRhythmCombination) combinationGenerator.allPermutationsForSetClassInSuperSetClass(pitchClasses, "3-1");
+        compositionMap.put(7, melodicValue);
         //Common notes
-        pitchClasses = pcGenerator.getPitchClasses("2-3", 9);
-        melodicValue = (MelodicValueRhythmCombination) combinationGenerator.allPermutations(pitchClasses);
-        compositionMap.put(1, melodicValue);
+//        pitchClasses = pcGenerator.getPitchClasses("2-3", 9);
+//        melodicValue = (MelodicValueRhythmCombination) combinationGenerator.allPermutations(pitchClasses);
+        compositionMap.put(1, singleMelodyGenerator.generateSingleNotesForteName("6-7", 0));
+//        compositionMap.put(1, melodicValue);
 //        pitchClasses = pcGenerator.getInversionPitchClasses("3-6", 3);
 //        melodicValue = (MelodicValueRhythmCombination) combinationGenerator.getSetClassesForForteNameInSuperSetClass( pitchClasses, "3-6");
 //        melodicValue = (MelodicValueRhythmCombination) combinationGenerator.allPermutations(pitchClasses);
@@ -195,11 +200,13 @@ public class MelodyMapComposition {
 
         //rests
         compositionMap.put(2, getRest(DurationConstants.QUARTER));
-        compositionMap.put(3, getRest(DurationConstants.EIGHT));
+        compositionMap.put(3, getRest(DurationConstants.HALF));
         //single notes
-        compositionMap.put(4, singleMelodyGenerator.generateSingleNoteForteName("5-34", DurationConstants.QUARTER, 0));
-        compositionMap.put(5, singleMelodyGenerator.generateSingleNoteForteName("5-34", DurationConstants.THREE_EIGHTS, 0));
-        compositionMap.put(6, singleMelodyGenerator.generateSingleNoteForteName("5-34", DurationConstants.HALF, 0));
+//        compositionMap.put(5, singleMelodyGenerator.generateSingleNoteForteName("6-7", DurationConstants.THREE_EIGHTS, 0));
+//        compositionMap.put(6, singleMelodyGenerator.generateSingleNoteForteName("6-7", DurationConstants.HALF, 0));
+        compositionMap.put(4, singleMelodyGenerator.generateSingleNoteScale(Scale.CHROMATIC_SCALE, DurationConstants.HALF));
+        compositionMap.put(5, singleMelodyGenerator.generateSingleNoteScale(Scale.CHROMATIC_SCALE, DurationConstants.THREE_QUARTERS));
+        compositionMap.put(6, singleMelodyGenerator.generateSingleNoteScale(Scale.CHROMATIC_SCALE, DurationConstants.WHOLE));
 
 //        pitchClasses = pcGenerator.getPitchClasses("8-23", 4);
 //        melodicValue = (MelodicValueRhythmCombination) combinationGenerator.getSetClassesForForteNameInSuperSetClass(pitchClasses, "3-2");

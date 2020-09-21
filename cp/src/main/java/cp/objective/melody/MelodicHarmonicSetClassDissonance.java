@@ -8,10 +8,12 @@ public class MelodicHarmonicSetClassDissonance implements MelodyHarmonicDissonan
 
     private String[] setClasses;
     private int size;
+    private int startingOverlap;
 
-    public MelodicHarmonicSetClassDissonance(int windowSize, String... setClasses) {
+    public MelodicHarmonicSetClassDissonance(int windowSize, int startingOverlap, String... setClasses) {
         this.setClasses = setClasses;
         this.size = windowSize;
+        this.startingOverlap = startingOverlap;
     }
 
     @Override
@@ -25,5 +27,10 @@ public class MelodicHarmonicSetClassDissonance implements MelodyHarmonicDissonan
     @Override
     public int getChordSize() {
         return size;
+    }
+
+    @Override
+    public int getStartingOverlap() {
+        return startingOverlap;
     }
 }

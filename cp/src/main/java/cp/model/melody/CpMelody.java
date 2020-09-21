@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -194,9 +193,10 @@ public class CpMelody implements Comparable<CpMelody> {
 		updateContour();
 	}
 
-    public void updateNotePositions(int start) {
+    public void updateNotePositions(int start, int voice) {
         notes.forEach(n -> {
             n.setPosition(n.getPosition() + start);
+            n.setVoice(voice);
         });
     }
 

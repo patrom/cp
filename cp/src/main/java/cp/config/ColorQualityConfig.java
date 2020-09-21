@@ -40,7 +40,8 @@ public class ColorQualityConfig {
     private MediumRange mediumRange;
     @Autowired
     private LowRange lowRange;
-
+    @Autowired
+    private Low low;
     @Autowired
     private WoodWindHigh woodWindHigh;
     @Autowired
@@ -56,9 +57,9 @@ public class ColorQualityConfig {
         orchestralQualities.put(0, richBlue);
         orchestralQualities.put(1, richBlue);
         orchestralQualities.put(2, richBlue);
-        orchestralQualities.put(3, pleasantGreen);
-//        orchestralQualities.put(4, mediumRange);
-//        orchestralQualities.put(5, goldenOrange);
+        orchestralQualities.put(3, richBlue);
+        orchestralQualities.put(4, richBlue);
+        orchestralQualities.put(5, highRange);
     }
 
     public OrchestralQuality getOchestralQualityForVoice(int voice){

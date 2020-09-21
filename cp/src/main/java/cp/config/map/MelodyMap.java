@@ -77,11 +77,16 @@ public class MelodyMap extends CompositionMap{
 //        addMelodicValue(0, 4, DurationConstants.WHOLE);
 //        addMelodicValue(1, 4, DurationConstants.WHOLE);
 
-        addMelodicValue(0, DurationConstants.QUARTER);
-        List<RhythmCombination> rhythmCombinations = new ArrayList<>();
-        rhythmCombinations.add(allRhythmCombinations.twoNoteUneven::pos13);
-        addMelodicValue(0, DurationConstants.THREE_EIGHTS);
-        addMelodicValue(0, DurationConstants.HALF);
+//        addMelodicValue(1, DurationConstants.WHOLE, 1);
+        addMelodicValue(1, DurationConstants.THREE_QUARTERS, 1);
+        addMelodicValue(1, DurationConstants.HALF, 1);
+
+//        addMelodicValue(0, DurationConstants.WHOLE, 2);
+        addMelodicValue(0, DurationConstants.THREE_QUARTERS, 2);
+        addMelodicValue(0, DurationConstants.HALF, 2);
+
+//        addMelodicValue(7, DurationConstants.HALF, 3);
+//        addMelodicValue(7, DurationConstants.WHOLE, 3);
 //        addMelodicValue(0, 3, DurationConstants.THREE_QUARTERS);
 //        addMelodicValue(1, 3, DurationConstants.THREE_QUARTERS);
 //        addMelodicValue(1, 3, DurationConstants.THREE_QUARTERS);
@@ -91,9 +96,9 @@ public class MelodyMap extends CompositionMap{
 //        addMelodicValue(0, 4, DurationConstants.HALF);
 //        melodicValues.add(melodyMapComposition.getCompositionMap(2));
 //        melodicValues.add(melodyMapComposition.getCompositionMap(3));
-        melodicValues.add(melodyMapComposition.getCompositionMap(4));
+//        melodicValues.add(melodyMapComposition.getCompositionMap(4));
 //        melodicValues.add(melodyMapComposition.getCompositionMap(5));
-        melodicValues.add(melodyMapComposition.getCompositionMap(6));
+//        melodicValues.add(melodyMapComposition.getCompositionMap(6));
 //        addMelodicValue(0, 2, DurationConstants.WHOLE);
 //        addMelodicValue(1, 2, DurationConstants.WHOLE);
 //        melodicValues.add(melodyMapComposition.getCompositionMap(3));

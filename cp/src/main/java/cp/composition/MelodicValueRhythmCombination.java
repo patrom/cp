@@ -119,9 +119,6 @@ public class MelodicValueRhythmCombination implements MelodicValue{
             for (List<Integer> subset : subsets) {
                 notes = rhythmCombination.getNotes(duration, pulse);
                 notesNoRest = notes.stream().filter(note -> !note.isRest()).collect(toList());
-                if(notesNoRest.size() != subset.size() ){
-                    System.out.println();
-                }
                 CpMelody melody = getMelodyForPitchClasses(notes, notesNoRest, subset);
                 melodies.add(melody);
             }

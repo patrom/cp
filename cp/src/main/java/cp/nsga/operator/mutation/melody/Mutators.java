@@ -138,6 +138,9 @@ public class Mutators {
         if (probabilityOneNoteScale > 0) {
             mutationOperators.add(oneNoteScaleMutation);
         }
+        if (probabilityTexture > 0) {
+            mutationOperators.add(textureMutation);
+        }
         return mutationOperators;
     }
 

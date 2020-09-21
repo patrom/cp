@@ -6,6 +6,7 @@ import cp.generator.PCGenerator;
 import cp.model.harmony.Chord;
 import cp.model.harmony.ChordType;
 import cp.model.harmony.DependantHarmony;
+import cp.model.harmony.VoicingType;
 import cp.model.note.Scale;
 import cp.model.setclass.SubSetCalculator;
 import cp.model.setclass.TnTnIType;
@@ -58,7 +59,7 @@ class TextureSelectionTest {
     void getSelection() {
         List<Chord> subSets = new ArrayList<>();
         subSets.addAll(subSetCalculator.getSubSets(MAJOR_SCALE.getForteName(), "3-11"));
-        Map<Integer, List<DependantHarmony>> textureTypes = textureSelection.getSelection(subSets).getTextureTypes();
+        Map<Integer, List<DependantHarmony>> textureTypes = textureSelection.getSelection(subSets, VoicingType.CLOSE).getTextureTypes();
         for (Map.Entry<Integer, List<DependantHarmony>> integerListEntry : textureTypes.entrySet()) {
             System.out.println(integerListEntry.getKey());
             System.out.println(integerListEntry.getValue());

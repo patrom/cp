@@ -92,7 +92,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 	private static final AtomicInteger COUNTER = new AtomicInteger();
 	
 	public static void main(final String[] args)  {
-//		clean();
+		clean();
 		SpringApplication app = new SpringApplication(CpApplication.class);
 	    app.setBannerMode(Mode.OFF);
 	    app.run(args);
@@ -114,7 +114,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 
 		//TWO VOICES
 //		composeInGenres.add(twoVoiceComposition::random);
-		composeInGenres.add(twoVoiceComposition::compositionMap);
+//		composeInGenres.add(twoVoiceComposition::compositionMap);
 //		composeInGenres.add(twoVoiceComposition::beatEven);
 //		composeInGenres.add(twoVoiceComposition::beatEven);
 //		composeInGenres.add(twoVoiceComposition::canon);
@@ -140,7 +140,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		composeInGenres.add(threeVoiceComposition::threeOverXX);
 //		composeInGenres.add(threeVoiceComposition::allRandom);
 // 		composeInGenres.add(threeVoiceComposition::compositionMap);
-//
+
 		//FOUR VOICES
 //		composeInGenres.add(fourVoiceComposition::canonA3);
 //		composeInGenres.add(fourVoiceComposition::canonA4);
@@ -159,9 +159,11 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 //		fiveVoiceComposition.setHarmonizeVoice(4);
 //		composeInGenres.add(fiveVoiceComposition::harmonize);
 //		composeInGenres.add(fiveVoiceComposition::doubleCanon);
+//        composeInGenres.add(fiveVoiceComposition::compositionMap);
 
 		//SIX VOICE
 //		composeInGenres.add(sixVoiceComposition::allRandom);
+        composeInGenres.add(sixVoiceComposition::compositionMap);
 
 		//12 tone
 //		composeInGenres.add(twelveToneComposition::composeMerge);
@@ -183,7 +185,7 @@ public class CpApplication extends JFrame implements CommandLineRunner{
 			    
 //			    population.sort(Comparator.comparing(MusicSolution::getMelody).thenComparing(MusicSolution::getHarmony));
 			    population.sort(Comparator
-						.comparing(MusicSolution::getResolution)
+						.comparing(MusicSolution::getMelodicHarmonic)
                         .thenComparing(MusicSolution::getMelody)
                         .thenComparing(MusicSolution::getHarmony));
 //                        .thenComparing(MusicSolution::getResolution));

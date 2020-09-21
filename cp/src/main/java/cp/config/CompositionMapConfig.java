@@ -26,9 +26,10 @@ public class CompositionMapConfig {
     public void init() {
         compositionMap.put(0, harmonyMap);
         compositionMap.put(1, harmonyMap);
-        compositionMap.put(2, melodyMap);
-        compositionMap.put(3, melodyMap);
-        compositionMap.put(4, melodyMap);
+        compositionMap.put(2, harmonyMap);
+        compositionMap.put(3, harmonyMap);
+        compositionMap.put(4, harmonyMap);
+        compositionMap.put(5, melodyMap);
     }
 
     public CompositionMap getCompositionMapForVoice(int voice){

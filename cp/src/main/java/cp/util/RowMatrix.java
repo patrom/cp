@@ -17,11 +17,11 @@ public class RowMatrix {
 
     public static void main(String[] args) {
 
-//        Integer[] s = {11,0, 6, 4, 10, 9, 1, 8, 3, 7, 5, 2};
+        List<Integer> set = Arrays.asList(7,0, 1, 4, 11, 2, 8, 3, 10, 6, 9, 5);
 
-        List<Integer> set = IntStream.of(Scale.SET_6_27.getPitchClasses()).boxed().collect(Collectors.toList());
-        Stream<Integer> firstHexaChord = IntStream.of(Scale.ALL_COMBINATORIAL_HEXAHCORD_C.getPitchClasses()).boxed();
-        Stream<Integer> secondHexachord = IntStream.of(Scale.ALL_COMBINATORIAL_HEXAHCORD_C_COMPLEMENT.getPitchClasses()).boxed();
+//        List<Integer> set = IntStream.of(Scale.SET_6_27.getPitchClasses()).boxed().collect(Collectors.toList());
+//        Stream<Integer> firstHexaChord = IntStream.of(Scale.ALL_COMBINATORIAL_HEXAHCORD_C.getPitchClasses()).boxed();
+//        Stream<Integer> secondHexachord = IntStream.of(Scale.ALL_COMBINATORIAL_HEXAHCORD_C_COMPLEMENT.getPitchClasses()).boxed();
 
 //        List<Integer> set = Stream.concat(firstHexaChord, secondHexachord).collect(Collectors.toList());
 //		Collections.shuffle(set);
